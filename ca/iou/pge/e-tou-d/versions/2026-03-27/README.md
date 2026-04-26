@@ -51,11 +51,6 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-### Known downstream issue (not a data issue)
+### End-to-end resolution check
 
-`../clj-urpx` — the price-server library — currently mis-resolves TOU period on weekends and on holidays-falling-on-weekdays for E-TOU-D. Two `urpx.price/day-matches?` bugs tracked together in **clj-urpx URPX-oc2**:
-
-1. **dayType vocabulary mismatch** — clj-urpx evaluates `urpx:weekday`/`urpx:weekend`/`urpx:holiday`, but the URPX ontology defines `urpx:weekdayDays`/`urpx:weekendDays` (no `urpx:holiday`). Brackets using the canonical values fall through to clj-urpx's permissive default-true branch.
-2. **`includeHolidays`/`includeNonHolidays` not honored** — clj-urpx ignores these properties entirely.
-
-Local follow-up tracked in **URPXT-l8t**; will close once the clj-urpx fixes ship.
+clj-urpx (`../clj-urpx`) loads, coerces, and resolves prices correctly when supplied with a PG&E 2026 holiday predicate. Spot-checked: weekday-non-holiday peak hours → Peak; weekend → Off-Peak; holiday-on-weekday peak hours (Memorial Day Mon, Christmas Fri) → Off-Peak.
