@@ -1,8 +1,8 @@
 # urpx-tariffs
 
-A corpus of California utility electric tariffs converted to [URPX](https://github.com/urpx-org/urpx) JSON-LD.
+A corpus of utility electric tariffs converted to [URPX](https://github.com/urpx-org/urpx) JSON-LD.
 
-This repo is a sibling of the URPX ontology repo and uses URPX to express each tariff in a machine-readable, validatable form. The goal is comprehensive coverage of California utilities — investor-owned (IOU), publicly-owned (POU), cooperative (coop), and community choice aggregator (CCA).
+This repo is a sibling of the URPX ontology repo and uses URPX to express each tariff in a machine-readable, validatable form. **Current scope: California** — comprehensive coverage of California utilities across all classes (investor-owned, publicly-owned, cooperative, community choice aggregator). The directory hierarchy is jurisdiction-first (`ca/...`) so additional states can be added without restructuring.
 
 ## Layout
 
