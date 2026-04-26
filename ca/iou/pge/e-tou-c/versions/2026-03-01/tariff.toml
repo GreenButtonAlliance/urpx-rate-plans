@@ -9,7 +9,8 @@ url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E
 sha256        = "f96a3ea9fcae1bf489207d99be17a6f566c07f57f203332424541338a2330828"
 retrieved_on  = "2026-04-26"
 media_type    = "application/pdf"
-filing_type   = "unknown"
+filing_type   = "advice-letter"
+filing_id     = "PGE-AL-7846-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
@@ -22,10 +23,11 @@ extracted_on  = "2026-04-26"
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = false
-validator      = "clj-urpx"
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-26"
 
 # Review ----------------------------------------------------------------------
 [review]
 status        = "draft"
-notes         = "Worked-example stub committed alongside repo skeleton (URPX-7xi). JSON-LD conversion pending — tracked under URPX-4gn."
+notes         = "URPXT-i7t initial conversion. RatePlan + Vintaged-PCIA RatePlanModifier in single @graph. Baseline-credit + CIA RatePlanModifier deferred to URPXT-o1i (blocked on urpx-org/urpx#11 — full territory/code matrix needs ~200 entities without parameterized tier bounds)."
