@@ -1,0 +1,34 @@
+# Identity --------------------------------------------------------------------
+utility        = "pge"
+schedule       = "e-tou-d"
+effective_date = "2026-03-27"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-D.pdf"
+sha256        = "c469fdb57f6936cd89d0151876f4bab336ae146f1da145c3786de392c885712f"
+retrieved_on  = "2026-04-26"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "PGE-AL-7869-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "cpuc"
+docket        = "D.26-03-013"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "mineru"
+extracted_on  = "2026-04-26"
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-26"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-mdk initial conversion. RatePlan + Vintaged-PCIA modifier in single @graph. No baseline credit/CIA (this schedule has none). No climate credit on rate sheet. Holiday-on-weekday TOU correctness expressed via urpx:includeHolidays / urpx:includeNonHolidays booleans on TimeBracket — data is faithful to the tariff. Downstream price-server (clj-urpx) currently mis-resolves weekend/holiday hours due to two clj-urpx bugs tracked in clj-urpx URPX-oc2; local follow-up URPXT-l8t."
