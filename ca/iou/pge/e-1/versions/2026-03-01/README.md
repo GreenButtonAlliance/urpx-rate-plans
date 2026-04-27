@@ -53,3 +53,5 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         rate-plan_pge_e-1_2026-03-01.jsonld
 # Conforms: True
 ```
+
+clj-urpx (`../clj-urpx` ≥ 0.3.0) loads, coerces, and resolves prices correctly. The 6 CIA tier-Prices are all surfaced under the `Conservation Incentive Adjustment` ledger so the caller can pick the active one based on cumulative billing-period usage.
