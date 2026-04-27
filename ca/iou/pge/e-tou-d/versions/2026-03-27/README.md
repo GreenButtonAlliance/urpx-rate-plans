@@ -29,8 +29,6 @@ The `@graph` contains four top-level resources:
 | Vintage PCIA modifier | yes | yes (same values) |
 | Bundled energy rates | season + period | same shape, different values |
 
-Holidays defined per the tariff: New Year's Day, Presidents Day, Memorial Day, Independence Day, Labor Day, Veterans Day, Thanksgiving Day, Christmas Day.
-
 ### Holiday-on-weekday handling
 
 The "5-8 p.m. peak applies on weekdays except holidays" requirement is expressed via the optional booleans `urpx:includeHolidays` and `urpx:includeNonHolidays` on `urpx:TimeBracket`:
@@ -39,7 +37,20 @@ The "5-8 p.m. peak applies on weekdays except holidays" requirement is expressed
 - **Off-peak weekday holiday peak-hours** bracket: `dayType: urpx:weekdayDays`, `includeHolidays: true`, `includeNonHolidays: false` (covers e.g. Independence Day Monday 5–8 p.m.)
 - Other off-peak brackets (weekday non-peak hours, weekend) — `dayType` alone suffices.
 
-A consuming application must supply a holiday-date predicate to evaluate these correctly. The data is fidelity-correct against the published tariff.
+The eight named PG&E holidays are embedded in the data as a `urpx:HolidayCalendar` (`pge:holidays-e-tou-d`) under `PlanElements`, each `urpx:Holiday` carrying a `holidayName` and a human-readable `holidayRule` (e.g. "Third Monday in February"):
+
+| Holiday | Rule |
+|---|---|
+| New Year's Day | January 1 (legally observed) |
+| President's Day | Third Monday in February |
+| Memorial Day | Last Monday in May |
+| Independence Day | July 4 (legally observed) |
+| Labor Day | First Monday in September |
+| Veterans Day | November 11 (legally observed) |
+| Thanksgiving Day | Fourth Thursday in November |
+| Christmas Day | December 25 (legally observed) |
+
+A consuming application that recognizes these rule strings (or maps them to dates) can evaluate the bracket-level `includeHolidays` / `includeNonHolidays` correctly without external configuration. clj-urpx ≤ 0.3.0 still requires a runtime `:holiday?` predicate (it doesn't yet read the embedded calendar) — surfacing this calendar from the data is a follow-up clj-urpx enhancement.
 
 ## Validation
 
@@ -54,3 +65,5 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 ### End-to-end resolution check
 
 clj-urpx (`../clj-urpx`) loads, coerces, and resolves prices correctly when supplied with a PG&E 2026 holiday predicate. Spot-checked: weekday-non-holiday peak hours → Peak; weekend → Off-Peak; holiday-on-weekday peak hours (Memorial Day Mon, Christmas Fri) → Off-Peak.
+
+(clj-urpx does not yet derive its holiday set from the embedded `HolidayCalendar`; once it does, the `:holiday?` opt becomes optional.)
