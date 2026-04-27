@@ -242,6 +242,8 @@ Offered as input to the team's roadmap, ranked by how often these came up in our
 
 Hits every CA IOU residential schedule with a baseline structure. Without it, every such filing carries a one-cell-modeled disclaimer. Resolving this single issue unblocks the deferred work in two of our four PG&E filings (E-TOU-C baseline modifier and E-1 full matrix expansion).
 
+**Note on `PriceSetAlternatives`**: URPX already has a vocabulary (`urpx:PriceSetAlternatives` / `urpx:ProfileAlternative` / `urpx:AlternativeDimension`) that organizes alternative price sets keyed on customer-profile dimensions like territory and code. We investigated whether it could replace the need for #11. It provides a clean discoverable shape for the matrix but does not reduce the per-cell entity count — 40 cells still produce ~200 entities, just better-organized. The leverage move is still parameterizing the bound itself based on customer attributes (#11), but adopting `PriceSetAlternatives` as the organizing structure for the eventual full enumeration would be an improvement over scattered ServiceTier definitions in the meantime.
+
 ### 6.2 Rolling-window aggregation + percent-of-baseline UoM in Conditions
 
 Surfaced by EV2 but applies to many EV-charging programs, demand-response thresholds, and any tariff with a usage-history-based eligibility constraint. The gap blocks meaningful round-trip from URPX → OpenADR 3 events for these constraints. See §4.2 for the concrete tariff text and the suggested enhancement; happy to file a GitHub issue at the URPX team's request.
@@ -264,13 +266,15 @@ See §4.7. A short note in the docs would prevent every modeler from deriving th
 
 ### 6.7 Test case suggestion: showcase `urpx:includeHolidays` / `urpx:includeNonHolidays`
 
-See §3.4. Adding a test case (e.g. PG&E E-TOU-D, or a synthetic example) that exercises these properties would highlight one of URPX's most expressive features and help future modelers find it on a first read. Happy to contribute one if useful.
+See §3.4. The URPX tutorial demonstrates these properties (in the TOU section), so the feature is documented. What's missing is a presence in the [`test-cases/`](https://github.com/urpx-org/urpx/tree/main/test-cases) corpus, which is what consumers tend to grep first when looking for "how URPX is used in practice." Adding a test case (e.g. PG&E E-TOU-D, or a synthetic example) there would catch readers like ourselves who reached for fixtures before reading the tutorial. Happy to contribute one if useful.
 
 ---
 
 ## 7. Closing
 
 URPX held up well under genuine use. The vocabulary covered roughly 80% of what we encountered out of the box, and the remaining gaps (matrix tier bounds, rolling-window aggregation) are well-scoped and supported by concrete tariffs. Of the two upstream URPX gaps we surfaced during these conversions, one (the rolling-window / percent-of-baseline vocabulary) is genuinely new and was surfaced by EV2's annual usage cap; the other (a "weekday-non-holiday" gap) we mistakenly thought existed but was already covered by `urpx:includeHolidays` / `urpx:includeNonHolidays` — a useful illustration of how careful the URPX team has been in covering common cases.
+
+A second pass through the URPX tutorial after writing this report turned up two more features we had missed and could profitably adopt: `urpx:HolidayCalendar` / `urpx:Holiday` for embedding the named PG&E holidays directly in our E-TOU-D filing (rather than relying on the consumer to supply a runtime predicate), and `urpx:PriceSetAlternatives` as an organizing structure for the eventual baseline-territory matrix expansion. We've added these to our local follow-up backlog. The pattern — URPX covers more than the existing fixture corpus suggests, and reading the tutorial pays dividends — is consistent with the false-alarm we filed earlier in the same window (the "weekday-non-holiday" gap mentioned above).
 
 What we'd do next, if scope expands:
 
