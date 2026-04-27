@@ -1,0 +1,34 @@
+# Identity --------------------------------------------------------------------
+utility        = "pge"
+schedule       = "ev2"
+effective_date = "2026-03-27"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_EV2 (Sch).pdf"
+sha256        = "598730212267d5be22d7583f02257b00c767978993466a51a59c3dc7db1a7dcd"
+retrieved_on  = "2026-04-27"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "PGE-AL-7869-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "cpuc"
+docket        = "D.26-03-013"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "mineru"
+extracted_on  = "2026-04-27"
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-27"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-kc5 initial conversion. Residential TOU for plug-in EV customers. Three TOU periods (Peak / Part-Peak / Off-Peak) every day including weekends and holidays. No baseline credit, no CIA, no climate credit, no baseline matrix. RatePlan + Vintaged-PCIA modifier in single @graph. Customer-facing name is 'EV2-A' per PG&E (per Sheet 1 'Bills issued under Schedule EV2 will be identified as EV2A')."
