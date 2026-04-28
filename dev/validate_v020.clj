@@ -1,0 +1,59 @@
+(ns validate-v020
+  "End-to-end validation of the four PG&E v0.2.0 filings using clj-urpx.
+
+   Pyshacl already confirms each JSON-LD file is SHACL-conformant. This
+   script exercises the consumer path: load → coerce (Malli) → validate →
+   resolve a representative price for a known instant. Catches semantic
+   bugs that SHACL alone cannot see (e.g. PriceDefinition.referencesLedger
+   wired to the wrong Ledger)."
+  (:require [urpx.core :as core]
+            [urpx.coerce :as coerce]
+            [urpx.price :as price]
+            [urpx.schema :as schema])
+  (:import [java.time ZoneId ZonedDateTime]))
+
+(def filings
+  [["E-1"     "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]
+   ["E-TOU-C" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld"]
+   ["E-TOU-D" "ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]
+   ["EV2"     "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]])
+
+(def la (ZoneId/of "America/Los_Angeles"))
+;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
+;; for E-TOU-C (4-9pm all days), E-TOU-D (5-8pm weekdays non-holiday), EV2
+;; (4-9pm all days). E-1 has no TOU schedule.
+(def probe-instant (ZonedDateTime/of 2026 7 15 17 0 0 0 la))
+
+(defn pad [s n] (let [s (str s)] (str s (apply str (repeat (max 0 (- n (count s))) " ")))))
+
+(defn validate-one [[name path]]
+  (print (pad name 9) "")
+  (flush)
+  (try
+    (let [raw (core/load-rate-plan path)
+          plan (coerce/coerce-rate-plan raw)]
+      (if (coerce/validate schema/RatePlan plan)
+        (do
+          (print "load+coerce ✓ ")
+          (flush)
+          (try
+            (let [resolved (price/resolve-prices plan probe-instant)
+                  ledger-count (count (:urpx.resolved/ledgers resolved))
+                  marginal (price/marginal-unit-rate resolved)]
+              (print (format "resolve ✓  (%d ledgers, marginal=%s)"
+                             ledger-count marginal)))
+            (catch Exception e
+              (print (format "resolve ✗  %s" (.getMessage e)))))
+          (println))
+        (do
+          (println "validate ✗")
+          (let [explanation (coerce/explain schema/RatePlan plan)]
+            (println "    explain:" (pr-str explanation))))))
+    (catch Exception e
+      (println "load+coerce ✗  " (.getMessage e)))))
+
+(defn -main [& _]
+  (println "Probe instant:" probe-instant)
+  (println)
+  (doseq [filing filings] (validate-one filing))
+  (System/exit 0))
