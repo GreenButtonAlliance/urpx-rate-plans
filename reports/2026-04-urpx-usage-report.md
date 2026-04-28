@@ -111,7 +111,7 @@ The closed-shape SHACL design caught us early and pointed us straight at the rig
 
 We used this pattern for three quite-different cases:
 
-- **Income-tier base services charge** (3 conditional Prices): two prices use single inclusion constraints (CARE, FERA); the "everyone else" Tier 3 uses two exclusion constraints (NOT-CARE AND NOT-FERA). The N-1-exclusion expression for the default tier is awkward but it works. (See §4.4.)
+- **Income-tier base services charge** (3 conditional Prices): two prices use single inclusion constraints (CARE, FERA); the "everyone else" Tier 3 uses two exclusion constraints (NOT-CARE AND NOT-FERA). This N-1-exclusion pattern motivates urpx-org/urpx#9 (a default-tier or NOT-IN-set operator). (See §4.4.)
 - **Vintage PCIA** (18 conditional Prices, one per departure-vintage gYear): each Price has one inclusion constraint with `constraintProperty` = a utility-namespaced datatype property and `constraintValue` = `xsd:gYear`. Verbose but uniform — easy to template.
 - **EV2 annual usage cap** (one Condition with comparison operator): see §4.2.
 
