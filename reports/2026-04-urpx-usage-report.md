@@ -8,7 +8,7 @@
 - [urpx-org/urpx](https://github.com/urpx-org/urpx) — the URPX ontology, SHACL shapes, and test cases
 - [grid-coordination/clj-urpx](https://github.com/grid-coordination/clj-urpx) — the Clojure consumer library used to parse + resolve URPX rate plans
 
-> **2026-04-28 update — URPX v0.2.0 migration.** The four filings have been migrated to URPX v0.2.0-candidate and validate clean (`pyshacl Conforms: True`) on branch `migrate/urpx-v0.2.0`. The report below captures the v0.1.x-era experience as written; sections describing patterns that v0.2.0 changed are flagged inline. Migration details and remaining work are tracked in URPXT-cs2.
+> **2026-04-28 update — URPX v0.2.0 migration.** The four filings have been migrated to URPX v0.2.0-candidate and validate clean (`pyshacl Conforms: True`) on branch `migrate/urpx-v0.2.0`. The report below captures the v0.1.x-era experience as written; sections describing patterns that v0.2.0 changed are flagged inline. Migration details and remaining work are tracked in [#1](https://github.com/grid-coordination/urpx-tariffs/issues/1).
 
 ---
 
@@ -165,7 +165,7 @@ This is the single biggest leverage point we found. **Recommendation**: prioriti
 
 ### 4.2 Rolling-window aggregation + percent-of-baseline UoM in Conditions
 
-> **v0.2.0 update — partial closure.** v0.2.0 attached `urpx:intervalAlignment` (with values like `urpx:rollingAligned`) and `urpx:intervalDuration` to `MetricSpecification`. EV2's cap rule now references a `MetricInput` (`pge:mi-energy-annual-rolling`) whose MetricSpecification carries `intervalDuration: P1Y` + `intervalAlignment: urpx:rollingAligned`. The percent-of-baseline UoM is still missing — the right-side `800` represents *800% of baseline* informally; full formalization remains a follow-up. Tracked locally as URPXT-g2y.
+> **v0.2.0 update — partial closure.** v0.2.0 attached `urpx:intervalAlignment` (with values like `urpx:rollingAligned`) and `urpx:intervalDuration` to `MetricSpecification`. EV2's cap rule now references a `MetricInput` (`pge:mi-energy-annual-rolling`) whose MetricSpecification carries `intervalDuration: P1Y` + `intervalAlignment: urpx:rollingAligned`. The percent-of-baseline UoM is still missing — the right-side `800` represents *800% of baseline* informally; full formalization remains a follow-up. Tracked at [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4).
 
 
 **Tariff text** (PG&E EV2, Sheet 1):

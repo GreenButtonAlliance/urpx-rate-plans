@@ -25,7 +25,7 @@ The `@graph` contains:
 
 ### What's deferred
 
-- **Baseline credit + Conservation Incentive Adjustment** matrix (10 territories × 2 codes × 2 seasons) — tracked in beads issue **URPXT-o1i**, blocked on upstream [urpx-org/urpx#11](https://github.com/urpx-org/urpx/issues/11) (parameterized matrix-valued tier bounds). One-cell pattern is demonstrated in `../urpx/test-cases/pge-e-tou-c-baseline-tier-2026-03-01/`.
+- **Baseline credit + Conservation Incentive Adjustment** matrix (10 territories × 2 codes × 2 seasons) — tracked in [#2](https://github.com/grid-coordination/urpx-tariffs/issues/2), blocked on upstream [urpx-org/urpx#11](https://github.com/urpx-org/urpx/issues/11) (parameterized matrix-valued tier bounds). One-cell pattern is demonstrated in `../urpx/test-cases/pge-e-tou-c-baseline-tier-2026-03-01/`.
 - **Sheet 4 base-charge unbundling** (Distribution / Public Purpose / Nuclear / NSGC components per income tier) — only the totals are modeled. The 4-component breakdown could be added if downstream consumers need it.
 - **Tier 2's affordable-housing qualification path** — only the FERA branch is modeled; tracked upstream as [urpx-org/urpx#10](https://github.com/urpx-org/urpx/issues/10).
 
@@ -40,4 +40,4 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See URPXT-cs2 for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.
+This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See [#1](https://github.com/grid-coordination/urpx-tariffs/issues/1) for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.

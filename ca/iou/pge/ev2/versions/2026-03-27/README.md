@@ -38,7 +38,7 @@ Customer-facing name is **EV2-A** (per Sheet 1: "Bills issued under Schedule EV2
 
 EV2 is structurally the simplest of the PG&E residential conversions in this repo:
 
-- **No baseline credit, no Conservation Incentive Adjustment, no baseline territory matrix** — therefore no upstream URPX-#11 deferral.
+- **No baseline credit, no Conservation Incentive Adjustment, no baseline territory matrix** — therefore no upstream urpx-org/urpx#11 deferral.
 - **No California Climate Credit** on the rate sheet.
 - **All-days TOU** — no weekday-vs-weekend distinction needed; the peak window applies every day including weekends and holidays.
 - **Income-tier base services charge** — same three-tier pattern as E-1 / E-TOU-C / E-TOU-D, same values.
@@ -49,10 +49,10 @@ Sheet 1 specifies an annual usage cap: customers cannot exceed 800% of their ann
 
 Modeled as `pge:er-annual-usage-cap` (a third `urpx:EligibilityRule` on the RatePlanVersion alongside `pge:er-residential` and `pge:er-qualifying-equipment`; multiple rules imply AND). Its `urpx:ConditionExpression` is rooted at a `urpx:ComparisonNode` (`urpx:lessThanOrEqualOperator`):
 
-- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling` — a new `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned` (URPX v0.2.0 vocabulary, partial closure of URPXT-g2y).
+- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling` — a new `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned` (URPX v0.2.0 vocabulary, partial closure of [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4)).
 - `urpx:rightOperand`: `urpx:DatatypeOperandNode` with `urpx:integerValue: 800`.
 
-The right-side `800` represents *800% of baseline*, not 800 kWh — URPX has no percent-of-baseline UoM yet. The rule's `urpx:description` carries the prose. Locally tracked as **URPXT-g2y** for the follow-up that tightens this filing once URPX adds the percent-of-baseline UoM.
+The right-side `800` represents *800% of baseline*, not 800 kWh — URPX has no percent-of-baseline UoM yet. The rule's `urpx:description` carries the prose. Tracked at [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4) for the follow-up that tightens this filing once URPX adds the percent-of-baseline UoM.
 
 ## Validation
 
@@ -65,4 +65,4 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See URPXT-cs2 for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.
+This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See [#1](https://github.com/grid-coordination/urpx-tariffs/issues/1) for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.

@@ -157,5 +157,5 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 
 - **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `ca/iou/pge/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
 - **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `ca/iou/pge/a-1/`). The class-level split is by utility class, not by customer class.
-- **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Adoption deferred per URPXT-4uf, blocked on urpx-org/urpx#16.
+- **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Adoption deferred per [#3](https://github.com/grid-coordination/urpx-tariffs/issues/3), blocked on [urpx-org/urpx#16](https://github.com/urpx-org/urpx/issues/16).
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.
