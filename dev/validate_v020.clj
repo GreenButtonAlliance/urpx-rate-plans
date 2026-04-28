@@ -15,10 +15,11 @@
   (:import [java.time ZoneId ZonedDateTime]))
 
 (def filings
-  [["E-1"     "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]
-   ["E-TOU-C" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld"]
-   ["E-TOU-D" "ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]
-   ["EV2"     "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]])
+  [["E-1"           "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]
+   ["E-TOU-C 03-01" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld"]
+   ["E-TOU-C 03-27" "ca/iou/pge/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld"]
+   ["E-TOU-D"       "ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]
+   ["EV2"           "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
@@ -28,8 +29,10 @@
 
 (defn pad [s n] (let [s (str s)] (str s (apply str (repeat (max 0 (- n (count s))) " ")))))
 
-(defn validate-one [[name path]]
-  (print (pad name 9) "")
+(defn- name-width [filings] (apply max (map (comp count first) filings)))
+
+(defn validate-one [width [name path]]
+  (print (pad name width) "")
   (flush)
   (try
     (let [raw (core/load-rate-plan path)
@@ -57,5 +60,6 @@
 (defn -main [& _]
   (println "Probe instant:" probe-instant)
   (println)
-  (doseq [filing filings] (validate-one filing))
+  (let [w (inc (name-width filings))]
+    (doseq [filing filings] (validate-one w filing)))
   (System/exit 0))

@@ -1,0 +1,34 @@
+# Identity --------------------------------------------------------------------
+utility        = "pge"
+schedule       = "e-tou-c"
+effective_date = "2026-03-27"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf"
+sha256        = "009732f62b898e905156b823a147e74c6bfaf7b39fbe41398021d72ce78e81ce"
+retrieved_on  = "2026-04-28"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "PGE-AL-7869-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "cpuc"
+docket        = "D.26-03-013"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual-diff"
+extracted_on  = "2026-04-28"
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-28"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Sheet 2 reissued under AL 7869-E (D.26-03-013) effective 2026-03-27, cancelling sheet 61125-E (the 2026-03-01 sheet 2). The composite tariff PDF mixes sheets at different revisions: Sheet 1 stays at 7846-E / 2026-03-01 (61124-E), Sheet 2 advances to 7869-E / 2026-03-27 (61249-E), Sheets 3-10 stay at 7846-E. Substantive change: California Climate Credit ($-36.18 per household, semi-annual April / October) is REMOVED — the rest of the rates are identical to 2026-03-01. Vintage PCIA tables (sheets 3-10) are unchanged, so the vintage-PCIA RatePlanModifierVersion stays at its 2026-03-01 effective date (AL 7846-E provenance preserved). DERIVED FROM ../2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld by removing the climate-credit ledger / PriceDefinition / Price / household-count MetricInput, advancing the base RatePlanVersion's effective date, swapping TariffPublication AL 7846-E → 7869-E, and adopting urpx:RateCase pge:rc-d-26-03-013."
