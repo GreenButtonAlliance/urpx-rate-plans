@@ -2,10 +2,9 @@
 
 ## Files
 
+- `pge_ev2_2026-03-27.pdf` — source PDF (sha256 in `tariff.toml`)
 - `tariff.toml` — provenance, source URL + sha256, regulator, validation status
 - `rate-plan_pge_ev2_2026-03-27.jsonld` — URPX serialization (single self-contained file with `@graph`)
-
-The source PDF is **not** committed. Retrieve from the URL in `tariff.toml` and verify against the recorded sha256.
 
 ## What's in the JSON-LD
 

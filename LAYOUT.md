@@ -123,18 +123,38 @@ These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpa
 
 ## 6. Source PDF referencing
 
-PDFs are **not committed**. The URPX `urpx:hasDataSourceReference` block in each JSON-LD points at the canonical published URL:
+Each filing's source PDF is **committed alongside the JSON-LD** at:
+
+```
+ca/<class>/<utility>/<schedule>/versions/<date>/<utility>_<schedule>_<date>.pdf
+```
+
+Examples:
+```
+ca/iou/pge/e-tou-c/versions/2026-03-01/pge_e-tou-c_2026-03-01.pdf
+ca/iou/pge/e-tou-d/versions/2026-03-27/pge_e-tou-d_2026-03-27.pdf
+```
+
+The URPX `urpx:hasDataSourceReference` block in each JSON-LD retains the canonical published URL via `urpx:accessURL` and the publisher's filename via `urpx:fileName`:
 
 ```json
 "urpx:hasDataSourceReference": {
   "@type": "urpx:DataSourceReference",
-  "urpx:url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf",
   "urpx:fileName": "ELEC_SCHEDS_E-TOU-C.pdf",
-  "urpx:mediaType": "application/pdf"
+  "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf",
+  ...
 }
 ```
 
-The `tariff.toml` carries the sha256 and the date the document was retrieved, so a future consumer can re-fetch and verify byte-identity.
+`tariff.toml` carries the sha256 of the bytes-as-extracted, allowing the committed local PDF to be self-checked.
+
+### Why PDFs ARE committed (reversal of an earlier decision)
+
+The earlier convention was *"PDFs are not committed; future consumers can re-fetch and verify byte-identity"*. That convention was reversed on 2026-04-28 after a real demonstration of why URLs alone are not durable provenance: PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place at the canonical URL between our 2026-04-26 retrieval and a 2026-04-28 re-fetch — same URL, different bytes. The original was recoverable only because dcj had a private archive copy. URDB and similar tariff databases are full of broken links and silently-mutated documents for the same reason; URPX's *raison d'être* is auditable provenance, which requires the actual bytes the data was extracted from to live alongside the structured representation.
+
+### Edge case: corrections to the same effective date
+
+If a regulator issues a correction with a new sheet number for the same effective date, extend the filename to include the CPUC leaf identifier (e.g. `pge_e-tou-d_2026-03-27_61254-E.pdf`). Not a problem we have today.
 
 ## 7. Extraction intermediates
 
