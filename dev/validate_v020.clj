@@ -1,11 +1,13 @@
 (ns validate-v020
   "End-to-end validation of the four PG&E v0.2.0 filings using clj-urpx.
 
-   Pyshacl already confirms each JSON-LD file is SHACL-conformant. This
-   script exercises the consumer path: load → coerce (Malli) → validate →
+   Pyshacl confirms each JSON-LD file is SHACL-conformant. This script
+   exercises the consumer path: load → coerce (Malli) → validate →
    resolve a representative price for a known instant. Catches semantic
-   bugs that SHACL alone cannot see (e.g. PriceDefinition.referencesLedger
-   wired to the wrong Ledger)."
+   bugs that SHACL alone cannot see — for example, that
+   PriceDefinition.referencesLedger is wired to the right Ledger, that
+   per-customer credits are excluded from a $/kWh marginal sum, and that
+   PriceDefinition.hasApplicabilityRule.month gates resolution by month."
   (:require [urpx.core :as core]
             [urpx.coerce :as coerce]
             [urpx.price :as price]
