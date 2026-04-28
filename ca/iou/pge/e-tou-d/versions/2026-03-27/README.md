@@ -9,12 +9,13 @@ The source PDF is **not** committed. Retrieve from the URL in `tariff.toml` and 
 
 ## What's in the JSON-LD
 
-The `@graph` contains four top-level resources:
+The `@graph` contains:
 
-1. `pge:program-care` — `urpx:ProgramEnrollment` for CARE
-2. `pge:program-fera` — `urpx:ProgramEnrollment` for FERA
-3. `pge:e-tou-d` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates and base services charge
-4. `pge:e-tou-d-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked to (3) via `urpx:applicableToRatePlan`
+1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
+2. `pge:rc-d-26-03-013` — `urpx:RateCase` for CPUC Decision D.26-03-013
+3. `pge:al-7869-e` — `urpx:TariffPublication` for PG&E Advice Letter 7869-E
+4. `pge:e-tou-d` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates and base services charge
+5. `pge:e-tou-d-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked to (4) via `urpx:applicableToRatePlan`
 
 ### How E-TOU-D differs from E-TOU-C
 
@@ -55,15 +56,16 @@ A consuming application that recognizes these rule strings (or maps them to date
 ## Validation
 
 ```
+# Run from the urpx-tariffs project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \
-        rate-plan_pge_e-tou-d_2026-03-27.jsonld
+        ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld
 # Conforms: True
 ```
 
+This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See URPXT-cs2 for the full migration record.
+
 ### End-to-end resolution check
 
-clj-urpx (`../clj-urpx`) loads, coerces, and resolves prices correctly when supplied with a PG&E 2026 holiday predicate. Spot-checked: weekday-non-holiday peak hours → Peak; weekend → Off-Peak; holiday-on-weekday peak hours (Memorial Day Mon, Christmas Fri) → Off-Peak.
-
-(clj-urpx does not yet derive its holiday set from the embedded `HolidayCalendar`; once it does, the `:holiday?` opt becomes optional.)
+clj-urpx end-to-end resolution previously passed against URPX v0.1.x. Re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.

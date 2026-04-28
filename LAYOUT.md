@@ -32,7 +32,7 @@ Rationale:
 - RDF graph merge handles the overlap cleanly: every file describes the same `urpx:RatePlan` IRI with consistent properties — merging multiple files yields a single RatePlan with all its versions linked.
 - The duplicated RatePlan-level boilerplate (~15 lines) is small and lint-checkable.
 
-A linter (TBD) will verify that `urpx:initialEffectiveDate`, `urpx:ratePlanIdentifier`, `urpx:name`, and the RatePlan `@id` are identical across all filings of a given schedule.
+A linter (TBD) will verify that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqueIdentifier`, `urpx:name`, and the RatePlan `@id` are identical across all filings of a given schedule.
 
 ## 3. Directory hierarchy
 
@@ -157,5 +157,5 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 
 - **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `ca/iou/pge/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
 - **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `ca/iou/pge/a-1/`). The class-level split is by utility class, not by customer class.
-- **Lineage tracking** (this version supersedes that one) is captured by `urpx:priorRatePlanVersion` inside the JSON-LD, not by directory layout.
+- **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Adoption deferred per URPXT-4uf, blocked on urpx-org/urpx#16.
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.

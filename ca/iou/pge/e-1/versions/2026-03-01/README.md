@@ -9,10 +9,10 @@ The source PDF is **not** committed. Retrieve from the URL in `tariff.toml` and 
 
 ## What's in the JSON-LD
 
-The `@graph` contains four top-level resources:
+The `@graph` contains:
 
-1. `pge:program-care` — `urpx:ProgramEnrollment` for CARE
-2. `pge:program-fera` — `urpx:ProgramEnrollment` for FERA
+1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
+2. `pge:al-7846-e` — `urpx:TariffPublication` for PG&E Advice Letter 7846-E
 3. `pge:e-1` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates, conservation incentive adjustment by tier, and base services charge
 4. `pge:e-1-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) for the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked via `urpx:applicableToRatePlan`
 
@@ -47,11 +47,12 @@ The tariff publishes additional baseline allowances for all-electric heating cus
 ## Validation
 
 ```
+# Run from the urpx-tariffs project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \
-        rate-plan_pge_e-1_2026-03-01.jsonld
+        ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld
 # Conforms: True
 ```
 
-clj-urpx (`../clj-urpx` ≥ 0.3.0) loads, coerces, and resolves prices correctly. The 6 CIA tier-Prices are all surfaced under the `Conservation Incentive Adjustment` ledger so the caller can pick the active one based on cumulative billing-period usage.
+This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See URPXT-cs2 for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.

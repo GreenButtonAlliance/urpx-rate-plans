@@ -9,12 +9,13 @@ The source PDF is **not** committed. Retrieve from the URL in `tariff.toml` and 
 
 ## What's in the JSON-LD
 
-The `@graph` contains four top-level resources:
+The `@graph` contains:
 
-1. `pge:program-care` — `urpx:ProgramEnrollment` for CARE
-2. `pge:program-fera` — `urpx:ProgramEnrollment` for FERA
-3. `pge:ev2` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates and base services charge
-4. `pge:ev2-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked to (3) via `urpx:applicableToRatePlan`
+1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
+2. `pge:rc-d-26-03-013` — `urpx:RateCase` for CPUC Decision D.26-03-013
+3. `pge:al-7869-e` — `urpx:TariffPublication` for PG&E Advice Letter 7869-E
+4. `pge:ev2` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates and base services charge
+5. `pge:ev2-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked to (4) via `urpx:applicableToRatePlan`
 
 ### Structure
 
@@ -46,23 +47,22 @@ EV2 is structurally the simplest of the PG&E residential conversions in this rep
 
 Sheet 1 specifies an annual usage cap: customers cannot exceed 800% of their annual baseline allowance over the rolling 12-month window. Violators are defaulted to E-TOU-D and barred from any EV rate schedule for 12 months.
 
-This is modeled as a second `urpx:EligibilityRule` (`pge:er-annual-usage-cap`) on the RatePlanVersion (multiple rules imply AND), with a single `urpx:Condition` carrying:
+Modeled as `pge:er-annual-usage-cap` (a third `urpx:EligibilityRule` on the RatePlanVersion alongside `pge:er-residential` and `pge:er-qualifying-equipment`; multiple rules imply AND). Its `urpx:ConditionExpression` is rooted at a `urpx:ComparisonNode` (`urpx:lessThanOrEqualOperator`):
 
-- `conditionType: "annualUsageCapAsPercentOfBaseline"` (informal)
-- `operator: urpx:lessThanOrEqualOperator`
-- `conditionValue: "800"`
-- `hasMetricSpecification: pge:ms-energy` (kWh)
+- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling` — a new `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned` (URPX v0.2.0 vocabulary, partial closure of URPXT-g2y).
+- `urpx:rightOperand`: `urpx:DatatypeOperandNode` with `urpx:integerValue: 800`.
 
-The `conditionType` string is informal because URPX does not yet provide first-class vocabulary for rolling-window aggregation or percent-of-baseline as a unit of measure. Tracked upstream as `../urpx` **URPX-d9e**; locally as **URPXT-g2y** for the follow-up that tightens this filing once the upstream vocabulary lands. SHACL conforms today; a downstream consumer (e.g. clj-price-server) can read the conditionType + operator + value + description and surface the constraint to a VEN-client over OpenADR 3, which can then act on it given its cumulative usage state.
+The right-side `800` represents *800% of baseline*, not 800 kWh — URPX has no percent-of-baseline UoM yet. The rule's `urpx:description` carries the prose. Locally tracked as **URPXT-g2y** for the follow-up that tightens this filing once URPX adds the percent-of-baseline UoM.
 
 ## Validation
 
 ```
+# Run from the urpx-tariffs project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \
-        rate-plan_pge_ev2_2026-03-27.jsonld
+        ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld
 # Conforms: True
 ```
 
-clj-urpx (`../clj-urpx` ≥ 0.3.0) loads, coerces, and resolves prices correctly across all three TOU periods × both seasons. Timezone (`America/Los_Angeles`) is read from `urpx:timezoneIdentifier` on the RatePlan.
+This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See URPXT-cs2 for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.
