@@ -1,10 +1,12 @@
 # Repository Layout
 
-This document defines the conventions for organizing tariff data in this repo. It is the source of truth for directory structure, file naming, manifest schema, and the temporal model.
+This document defines the conventions for organizing **tariff documents** (the regulatory PDFs) and the **URPX rate-plan serializations** extracted from them. It is the source of truth for directory structure, file naming, manifest schema, and the temporal model.
+
+> **Terminology** (per [URPX CONTRIBUTING.md](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use)): a *tariff* is the regulatory document; a *rate plan* is the parameter package; a *rate* is a single price value. This repo holds both — a tariff PDF and the URPX rate-plan JSON-LD extracted from it — under each filing directory.
 
 ## 1. The temporal model: RatePlan vs RatePlanVersion
 
-URPX models a tariff using two related concepts:
+URPX models a rate plan using two related concepts:
 
 - **`urpx:RatePlan`** — the stable, conceptual schedule. Holds a persistent identifier (e.g. "E-TOU-C"), the schedule's display name, the publishing utility, and the date it was first introduced. This resource rarely changes.
 - **`urpx:RatePlanVersion`** — an immutable snapshot of one regulatory filing. Holds the rate values, time-of-use windows, riders, eligibility rules, and effective date. A new filing creates a new RatePlanVersion.
