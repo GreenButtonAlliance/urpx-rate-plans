@@ -5,11 +5,16 @@ effective_date = "2026-01-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.cityofpaloalto.org/files/assets/public/v/1/utilities/rates/electric-utility-rates/e-1-tou-residential-electric-time-of-use-rate-schedule.pdf"
+landing_page  = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+url           = "https://www.paloalto.gov/files/assets/public/v/1/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-tou-effective-2026-01-01.pdf"
 sha256        = "e125390489d15bd55e1535263e49718597d01b0efb9d1f47e7c0891d0ccd9a71"
-retrieved_on  = "2026-04-28"
+retrieved_on  = "2026-03-03"
 media_type    = "application/pdf"
 filing_type   = "tariff-schedule"
+# Note: paloalto.gov returns HTTP 403 to automated requests for asset URLs.
+# Re-fetch via a real browser from the landing_page above. The committed PDF's
+# sha256 above is the bytes DCJ retrieved on 2026-03-03 when authoring the
+# original urpx-org/urpx PR #7 contribution.
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
