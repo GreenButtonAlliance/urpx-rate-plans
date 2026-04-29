@@ -25,7 +25,7 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 ## Status
 
-Active work on the `migrate/urpx-v0.2.0` branch. Ten filings landed under URPX v0.2.0-candidate, all validating clean via both `pyshacl` (SHACL conformance) and `clj-urpx` (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`):
+Ten filings shipped, all serialized against URPX v0.2.0-candidate and validating clean via both `pyshacl` (SHACL conformance) and `clj-urpx` (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`):
 
 | Utility | Class | Schedules covered |
 |---|---|---|
