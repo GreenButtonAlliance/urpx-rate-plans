@@ -50,7 +50,7 @@ Authored by the URPX team (Flux Tailor — Una Smith-Simon et al.) and present i
 
 ## URL-mutation note
 
-The canonical PG&E URL `https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ELEC.pdf` now serves a different PDF (sha256 `09b55962...`, 577 KB) than the one committed here (sha256 `56f39462...`, 431 KB; retrieved 2026-01-05). The committed PDF is the original the URPX team extracted from when they authored the v0.1.x fixture. PG&E has issued a newer revision since. Ingesting the updated PDF as a sibling filing is a separate piece of work (parallel to URPXT-4m1 / grid-coordination/urpx-tariffs#5 for E-TOU-C).
+The canonical PG&E URL `https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ELEC.pdf` now serves a different PDF (sha256 `09b55962...`, 577 KB) than the one committed here (sha256 `56f39462...`, 431 KB; retrieved 2026-01-05). The committed PDF is the original the URPX team extracted from when they authored the v0.1.x fixture. PG&E reissued E-ELEC under AL 7869-E / D.26-03-013 effective 2026-03-27 (the same advice letter that did E-TOU-C / E-TOU-D / EV2). The 2026-03-27 reissue is now modeled as a sibling filing at `../2026-03-27/`; this 2026-01-01 filing is preserved for historical price resolution (e.g. for instants prior to 2026-03-27).
 
 ## Validation
 
