@@ -2,7 +2,7 @@
 
 A corpus of utility electric **tariff documents** (the regulatory PDFs) and **URPX rate-plan serializations** (the structured JSON-LD extracted from them).
 
-This repo is a sibling of the [URPX ontology repo](https://github.com/urpx-org/urpx) and uses URPX to express each tariff's rate plan in a machine-readable, validatable form. Each filing directory holds the source tariff PDF, a `tariff.toml` provenance manifest, and one `urpx:RatePlan` JSON-LD file.
+This repo is a corpus of utility tariffs serialized using the [URPX ontology](https://github.com/urpx-org/urpx) — each tariff's rate plan is expressed in URPX's machine-readable, validatable form. Each filing directory holds the source tariff PDF, a `tariff.toml` provenance manifest, and one `urpx:RatePlan` JSON-LD file.
 
 > **Terminology (per [URPX](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use))**: a *tariff* is the regulatory document (e.g. a tariff book); a *rate plan* is the parameter package (prices, TOU schedules, tiers, eligibility); a *rate* is a single price value. The repo name is shorthand — the structured artifact under each filing is a rate plan.
 
