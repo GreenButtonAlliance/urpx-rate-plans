@@ -1,3 +1,15 @@
+<!-- markdownlint-disable -->
+> ## ⚠ Active development is on the `migrate/urpx-v0.2.0` branch
+>
+> The README and corpus on `main` predate the URPX v0.2.0-candidate
+> migration. The current state lives on
+> **[`migrate/urpx-v0.2.0`](https://github.com/grid-coordination/urpx-tariffs/tree/migrate/urpx-v0.2.0)**:
+> 10 filings (PG&E + CPAU residential schedules) serialized against
+> URPX v0.2.0-candidate, with provenance manifests, JSON Schema, and
+> committed source PDFs. `main` will be updated when URPX v0.2.0 is
+> released.
+<!-- markdownlint-enable -->
+
 # urpx-tariffs
 
 A corpus of utility electric tariffs converted to [URPX](https://github.com/urpx-org/urpx) JSON-LD.
