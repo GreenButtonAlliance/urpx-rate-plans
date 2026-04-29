@@ -11,10 +11,11 @@ sha256        = "e125390489d15bd55e1535263e49718597d01b0efb9d1f47e7c0891d0ccd9a7
 retrieved_on  = "2026-03-03"
 media_type    = "application/pdf"
 filing_type   = "tariff-schedule"
-# Note: paloalto.gov returns HTTP 403 to automated requests for asset URLs.
-# Re-fetch via a real browser from the landing_page above. The committed PDF's
-# sha256 above is the bytes DCJ retrieved on 2026-03-03 when authoring the
-# original urpx-org/urpx PR #7 contribution.
+# Note: paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via a real browser, OR via curl_cffi with
+# Chrome impersonation: requests.Session(impersonate="chrome120"). Verified
+# 2026-04-28 — current canonical PDF is byte-identical to the committed
+# copy here (sha256 above matches a curl_cffi re-fetch from canonical URL).
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
