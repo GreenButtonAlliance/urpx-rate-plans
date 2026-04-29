@@ -46,4 +46,4 @@ In summary:
 - **Committed source tariff PDFs** — `LicenseRef-PublicRecord`. Public regulatory documents (CPUC tariff filings, municipal-utility rate schedules adopted by city ordinance) are factual records of governmental processes and not subject to copyright. Copyright text attributes the issuing utility for provenance only, not as an assertion of ownership.
 - **`ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld`** — same `CDLA-Permissive-2.0`, with copyright held jointly by `Flux Tailor LLC` (originator of the upstream v0.1.x test-case fixture in `urpx-org/urpx`) and Clark Communications Corporation (the v0.2.0 migration in this repo).
 
-The CDLA-Permissive-2.0 choice harmonizes with the license of the upstream `urpx-org/urpx` datasets.
+CDLA-Permissive-2.0 is the same license URPX uses for its test-case dataset content (`urpx-org/urpx/test-cases/`) — so files can flow between the two repos without license conversion.
