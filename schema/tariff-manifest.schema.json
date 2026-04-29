@@ -1,11 +1,34 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://urpx.org/tariffs/schema/tariff-manifest.schema.json",
+  "$id": "urn:grid-coordination:urpx-tariffs:schema:tariff-manifest:v1",
   "title": "URPX Tariff Filing Manifest",
-  "description": "Per-filing manifest accompanying each URPX rate-plan JSON-LD in the tariffs corpus. Captures provenance, extraction, validation, and review metadata that does not belong inside the URPX serialization itself.",
+  "description": "Per-filing manifest accompanying each URPX rate-plan JSON-LD in the tariffs corpus. Captures provenance, extraction, validation, and review metadata that does not belong inside the URPX serialization itself. The [source] block accepts two shapes: (a) single-source — flat fields directly under [source] (the common case, where one PDF is the source of the entire filing); (b) multi-source — an optional landing_page string plus one or more named sub-tables under [source.<name>], each carrying the same per-document fields. Multi-source is for self-contained @graph filings that reference multiple source documents (e.g. a base RatePlan plus several modifier RatePlanModifierVersions, each with its own published PDF).",
   "type": "object",
   "required": ["utility", "schedule", "effective_date", "source"],
   "additionalProperties": false,
+  "$defs": {
+    "sourceDocument": {
+      "type": "object",
+      "required": ["url", "sha256", "retrieved_on"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string", "format": "uri", "description": "Canonical URL of the source document." },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "retrieved_on": { "type": "string", "format": "date" },
+        "media_type": { "type": "string", "default": "application/pdf" },
+        "filing_type": {
+          "type": "string",
+          "enum": ["advice-letter", "application", "resolution", "ordinance", "rate-case-decision", "tariff-schedule", "unknown"]
+        },
+        "filing_id": { "type": "string", "description": "Filing reference number if known (e.g. 'PGE-AL-7234-E')." },
+        "landing_page": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional discovery URL — the utility's tariff-listing or landing page where this document is published. Captures provenance of how the URL was discovered, in addition to the direct URL. Useful when the document URL is opaque/versioned but the landing page is durable."
+        }
+      }
+    }
+  },
   "properties": {
     "utility": {
       "type": "string",
@@ -24,20 +47,25 @@
     },
 
     "source": {
-      "type": "object",
-      "required": ["url", "sha256", "retrieved_on"],
-      "additionalProperties": false,
-      "properties": {
-        "url": { "type": "string", "format": "uri", "description": "Canonical URL of the source document." },
-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
-        "retrieved_on": { "type": "string", "format": "date" },
-        "media_type": { "type": "string", "default": "application/pdf" },
-        "filing_type": {
-          "type": "string",
-          "enum": ["advice-letter", "application", "resolution", "ordinance", "rate-case-decision", "unknown"]
-        },
-        "filing_id": { "type": "string", "description": "Filing reference number if known (e.g. 'PGE-AL-7234-E')." }
-      }
+      "description": "Either a single sourceDocument (single-source filing) or an object with optional landing_page plus one or more named sourceDocument sub-tables (multi-source filing).",
+      "oneOf": [
+        { "$ref": "#/$defs/sourceDocument" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "landing_page": {
+              "type": "string",
+              "format": "uri",
+              "description": "Optional canonical landing page where the utility lists its tariffs (useful when the source PDFs themselves come from per-document URLs but the discovery point is a single page)."
+            }
+          },
+          "patternProperties": {
+            "^(?!landing_page$)[a-z][a-z0-9_]*$": { "$ref": "#/$defs/sourceDocument" }
+          }
+        }
+      ]
     },
 
     "regulator": {

@@ -1,0 +1,29 @@
+# PG&E utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §10.
+
+utility           = "pge"
+
+# Where PG&E publishes tariffs (use as scrape entry points).
+tariff_index_urls = [
+  # The customer-facing rate-plans landing page — links out to per-schedule
+  # pages and ultimately to the underlying tariff PDFs.
+  "https://www.pge.com/en/account/rate-plans/rate-plans/learn-about-rate-plans.html",
+
+  # The tariffs assets directory — composite per-schedule PDFs live here at
+  # stable filenames like ELEC_SCHEDS_E-TOU-C.pdf. The PDF at a given URL
+  # gets reissued in place when an advice letter takes effect (see the
+  # E-TOU-C 03-01→03-27 and E-ELEC 01-01→03-27 URL-mutation incidents).
+  # A scraper monitoring this directory needs to compare sha256s, not just URLs.
+  "https://www.pge.com/tariffs/assets/pdf/tariffbook/",
+]
+
+scrape_notes = """
+PG&E's tariffbook directory hosts composite-PDFs per schedule (e.g.
+ELEC_SCHEDS_E-TOU-C.pdf). When an advice letter takes effect, the PDF at the
+canonical URL is rewritten in place — same filename, new bytes. Detect updates
+by comparing sha256 of fetched bytes against the sha256 in each filing's
+tariff.toml. Composite PDFs may also mix sheets at different revisions (e.g.
+2026-03-27 reissues advanced Sheet 2 only; Sheet 1 + Sheets 3-onward stayed at
+the prior advice letter — both publications declared in @graph). pge.com does
+NOT block standard urllib/requests, so vanilla retrieval works.
+"""

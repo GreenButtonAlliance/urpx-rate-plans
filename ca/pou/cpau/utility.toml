@@ -1,0 +1,36 @@
+# City of Palo Alto Utilities (CPAU) utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §10.
+
+utility           = "cpau"
+
+# Where CPAU publishes tariffs.
+tariff_index_urls = [
+  # Residential rates landing page — lists active and inactive residential
+  # schedules with download links to each tariff sheet PDF.
+  "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates",
+
+  # Commercial / business rates landing page — covers E-2 through E-7 and
+  # related green-power schedules (not yet modeled in this corpus; see
+  # URPXT-clw).
+  "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates",
+]
+
+scrape_notes = """
+paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS-fingerprint
+check). Use curl_cffi with Chrome impersonation:
+
+  from curl_cffi import requests
+  s = requests.Session(impersonate="chrome120")
+  s.get(url)
+
+Tariff PDFs live at paths like
+/files/assets/public/v/<vN>/utilities/rates-schedules-for-utilities/...
+where <vN> is a version segment that changes when CPAU re-uploads.
+A scraper should look for href patterns under /files/assets/public/.../*.pdf
+on the index pages above; the version segment in the path is the discovery
+signal that something has changed.
+
+Rate-plan effective dates are explicitly stamped on each PDF and the page text
+("Effective: YYYY-MM-DD" or "Inactive as of MM/DD/YYYY"). Inactive schedules
+are still listed and may still apply to historical instants.
+"""

@@ -53,8 +53,10 @@ A linter (TBD) will verify that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqu
 Example:
 
 ```
-ca/iou/pge/e-tou-c/versions/2026-03-01/
+ca/iou/pge/utility.toml                            # per-utility discovery manifest (§5)
+ca/iou/pge/e-tou-c/versions/2026-03-01/            # per-filing directory (§4, §6, §7)
 ca/iou/pge/e-tou-c/versions/2025-09-01/
+ca/pou/cpau/utility.toml
 ca/pou/cpau/e-1/versions/2025-07-01/
 ```
 
@@ -67,12 +69,16 @@ ca/pou/cpau/e-1/versions/2025-07-01/
 
 ## 4. Per-filing manifest: `tariff.toml`
 
-Each `versions/<date>/` directory contains a `tariff.toml` capturing provenance and processing metadata that does not belong inside the URPX JSON-LD.
+Each `versions/<date>/` directory contains a `tariff.toml` capturing provenance and processing metadata that does not belong inside the URPX JSON-LD. The schema is at `schema/tariff-manifest.schema.json`.
+
+### Single-source filing (the common case)
+
+When a filing's `@graph` is extracted from a single source PDF:
 
 ```toml
 # Identity --------------------------------------------------------------------
-utility       = "pge"
-schedule      = "e-tou-c"
+utility        = "pge"
+schedule       = "e-tou-c"
 effective_date = "2026-03-01"
 
 # Source ----------------------------------------------------------------------
@@ -81,12 +87,16 @@ url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E
 sha256        = "9c2f6b3e..."
 retrieved_on  = "2026-04-26"
 media_type    = "application/pdf"
-filing_type   = "advice-letter"          # advice-letter | application | resolution | unknown
+# filing_type values: advice-letter | application | resolution | ordinance |
+#                     rate-case-decision | tariff-schedule | unknown
+filing_type   = "advice-letter"
 filing_id     = "PGE-AL-7234-E"          # if known
+landing_page  = "..."                    # optional; the utility's discovery
+                                         # surface where this PDF is published
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "cpuc"                   # cpuc | city-council | board | none
+authority     = "cpuc"                   # cpuc | ferc | city-council | board | none | unknown
 docket        = "A.24-12-345"            # if known
 
 # Extraction ------------------------------------------------------------------
@@ -110,9 +120,59 @@ reviewed_on   = ""
 notes         = ""                       # short free text
 ```
 
-Fields marked optional may be omitted (TOML simply elides them). `source.url` and `source.sha256` are required so the original PDF is always retrievable and verifiable. The schema is mirrored in `schema/tariff-manifest.schema.json` for tooling.
+`source.url`, `source.sha256`, and `source.retrieved_on` are required so the original PDF is always retrievable and verifiable. Optional fields may be omitted (TOML elides them).
 
-## 5. IRI naming conventions
+### Multi-source filing
+
+Some filings package a base RatePlan and one or more `RatePlanModifier`s into a single self-contained `@graph` — each modifier traces back to its own published PDF with its own URL, sha256, and retrieval date. In that case `[source]` is a parent table with an optional `landing_page` plus one named sub-table per source document:
+
+```toml
+[source]
+landing_page  = "https://www.paloalto.gov/.../Residential-Rates"
+
+  [source.base]
+  url          = "https://www.paloalto.gov/.../e-1-effective-2025-07-01.pdf"
+  sha256       = "9c8ad3bd..."
+  retrieved_on = "2026-04-28"
+  media_type   = "application/pdf"
+  filing_type  = "tariff-schedule"
+
+  [source.modifier_e_eec_1]
+  url          = "https://www.paloalto.gov/.../e-eec-1-effective-2025-09-01.pdf"
+  sha256       = "b2876440..."
+  retrieved_on = "2026-04-28"
+  media_type   = "application/pdf"
+  filing_type  = "tariff-schedule"
+
+  # ... one [source.<name>] block per source document
+```
+
+Sub-table names are free-form (`base`, `modifier_e_eec_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `ca/pou/cpau/e-1/versions/2025-09-01/tariff.toml` for a working example.
+
+## 5. Per-utility discovery manifest: `utility.toml`
+
+Each `ca/<class>/<utility>/` directory contains a `utility.toml` pointing at where the utility publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
+
+```toml
+utility           = "pge"
+
+tariff_index_urls = [
+  "https://www.pge.com/en/account/rate-plans/rate-plans/learn-about-rate-plans.html",
+  "https://www.pge.com/tariffs/assets/pdf/tariffbook/",
+]
+
+scrape_notes = """
+Free text. Document scrape strategy hints: known TLS-fingerprint blocks
+(curl_cffi required), URL patterns per schedule, AL-listing locations,
+paywalls, etc.
+"""
+```
+
+Required fields are `utility` and `tariff_index_urls` (one or more discovery URLs). `scrape_notes` is optional but recommended — capture what a future scraper will need to know that isn't obvious from the URLs alone.
+
+The schema is intentionally minimal. Richer fields (per-schedule URL templates, AL-listing endpoints, structured scrape recipes) can be added once a real scraper is built and tells us what it needs.
+
+## 6. IRI naming conventions
 
 | Resource | IRI shape | Example |
 | --- | --- | --- |
@@ -123,7 +183,7 @@ Fields marked optional may be omitted (TOML simply elides them). `source.url` an
 
 These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpau-e-1`, `urpx:cpau-e-1-2025-07-01`). Lowercase, hyphenated, no spaces.
 
-## 6. Source PDF referencing
+## 7. Source PDF referencing
 
 Each filing's source PDF is **committed alongside the JSON-LD** at:
 
@@ -158,13 +218,13 @@ The earlier convention was *"PDFs are not committed; future consumers can re-fet
 
 If a regulator issues a correction with a new sheet number for the same effective date, extend the filename to include the CPUC leaf identifier (e.g. `pge_e-tou-d_2026-03-27_61254-E.pdf`). Not a problem we have today.
 
-## 7. Extraction intermediates
+## 8. Extraction intermediates
 
 Per-filing extraction byproducts (MinerU markdown, OCR layouts, intermediate JSON) live at `versions/<date>/extracted/` and are excluded from git via the top-level `.gitignore`. They are useful locally for debugging the conversion but bloat the repo and are reproducible from the source PDF.
 
 If a particular extraction needs to be preserved (e.g. as evidence of how a tricky table was parsed), commit a single `extracted/notes.md` describing the issue, not the raw output.
 
-## 8. Workflow: adding a new filing
+## 9. Workflow: adding a new filing
 
 1. Identify a new tariff PDF (utility website, CPUC e-filing, regulator portal).
 2. Create the directory: `ca/<class>/<utility>/<schedule>/versions/<effective-date>/`.
@@ -175,7 +235,7 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 7. Lint cross-filing consistency (RatePlan-level fields match prior filings of this schedule).
 8. Commit. Optionally open a PR if review is required.
 
-## 9. Future considerations
+## 10. Future considerations
 
 - **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `ca/iou/pge/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
 - **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `ca/iou/pge/a-1/`). The class-level split is by utility class, not by customer class.
