@@ -124,7 +124,7 @@ We used this pattern for three quite-different cases:
 
 ### 3.4 `urpx:includeHolidays` / `urpx:includeNonHolidays`: exactly the right shape for E-TOU-D
 
-This was the most pleasant find of the project. PG&E E-TOU-D's peak window is "5–8 p.m. Monday through Friday, NOT including holidays" — exactly the kind of conjunction that's clumsy to express in many tariff DSLs. URPX expresses it as two boolean properties on `TimeBracket`, and the modeling falls out:
+This was the most pleasant find of the project. PG&E E-TOU-D's peak window is "5–8 p.m. Monday through Friday, NOT including holidays" — exactly the kind of conjunction that takes multiple coordinated constraints to express in many tariff DSLs. URPX expresses it as two boolean properties on `TimeBracket`, and the modeling falls out:
 
 ```jsonld
 { "@type": "urpx:TimeBracket", "@id": "pge:time-bracket-summer-peak",
