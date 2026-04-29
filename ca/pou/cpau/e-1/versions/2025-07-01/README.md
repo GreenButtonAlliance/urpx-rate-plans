@@ -10,7 +10,12 @@ City of Palo Alto Utilities (CPAU) Schedule E-1, Residential Electric Service. T
 
 ## What's in the JSON-LD
 
-The file holds a single top-level `urpx:RatePlan` (`cpau:e-1`) with a nested `urpx:RatePlanVersion` (`cpau:e-1-2025-07-01`).
+The file is an `@graph` bundle holding two top-level entities:
+
+1. `cpau:e-1` — the `urpx:RatePlan` (with nested `urpx:RatePlanVersion` `cpau:e-1-2025-07-01`)
+2. `cpau:e-hra` — `urpx:RatePlanModifier` (Electric Hydro Rate Adjuster) — applicable to E-1; effective 2023-01-01 (already in effect at E-1's filing date)
+
+Single self-contained `@graph` per the price-server consumption pattern — each filing is a complete program for downstream resolution.
 
 ### Structure
 
@@ -49,6 +54,8 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 
 End-to-end via clj-urpx: `clojure -M:validate` (load + coerce + resolve, all clean).
 
-## Modifiers (deferred)
+## Modifiers status
 
-CPAU has three rate-plan modifiers that apply to E-1 — `cpau:e-eec-1` (Export Electricity Compensation), `cpau:e-hra` (Habitat Restoration Act?), and `cpau:e-nse-1` (Net Surplus Energy?). They are not yet incorporated into this filing — the modifier-packaging architecture is pending decision (cross-RatePlan applicability for E-HRA / E-NSE-1 + the urpx-org/urpx#16 SHACL-stub problem for modifier-only filings). Tracked at [grid-coordination/urpx-tariffs#9](https://github.com/grid-coordination/urpx-tariffs/issues/9).
+- **E-HRA (Electric Hydro Rate Adjuster)** — incorporated into the `@graph` of this filing (effective 2023-01-01, applicable at E-1's filing date).
+- **E-EEC-1 (Export Electricity Compensation)** — *not* incorporated. E-EEC-1 became effective 2025-09-01, AFTER E-1's 2025-07-01 filing. Incorporating it would require a new E-1 filing dated ≥ 2025-09-01. Deferred — see [grid-coordination/urpx-tariffs#9](https://github.com/grid-coordination/urpx-tariffs/issues/9).
+- **E-NSE-1** — *not* incorporated. Same temporal reason as E-EEC-1 (effective 2025-09-01). Same deferral.

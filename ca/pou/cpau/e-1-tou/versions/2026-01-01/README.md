@@ -10,7 +10,13 @@ City of Palo Alto Utilities (CPAU) Schedule E-1 TOU, Residential Time-Of-Use Ele
 
 ## What's in the JSON-LD
 
-The file holds a single top-level `urpx:RatePlan` (`cpau:e-1-tou`) with a nested `urpx:RatePlanVersion` (`cpau:e-1-tou-2026-01-01`).
+The file is an `@graph` bundle holding three top-level entities:
+
+1. `cpau:e-1-tou` — the `urpx:RatePlan` (with nested `urpx:RatePlanVersion` `cpau:e-1-tou-2026-01-01`)
+2. `cpau:e-hra` — `urpx:RatePlanModifier` (Electric Hydro Rate Adjuster); effective 2023-01-01
+3. `cpau:e-nse-1` — `urpx:RatePlanModifier` (Net Surplus Energy); effective 2025-09-01
+
+Single self-contained `@graph` per the price-server consumption pattern. Modifier RPMVs in this @graph are byte-equivalent to those in the E-1 filing's @graph for E-HRA — RDF graph merge across the two filings unifies cleanly.
 
 ### Structure
 
@@ -45,6 +51,7 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 
 End-to-end via clj-urpx: `clojure -M:validate` (load + coerce + resolve, all clean).
 
-## Modifiers (deferred)
+## Modifiers status
 
-Two CPAU rate-plan modifiers apply to E-1 TOU as well as E-1 (`cpau:e-hra`, `cpau:e-nse-1`). Not yet incorporated. See [grid-coordination/urpx-tariffs#9](https://github.com/grid-coordination/urpx-tariffs/issues/9).
+- **E-HRA** and **E-NSE-1** — both **incorporated** into the `@graph` of this filing (both effective by 2026-01-01).
+- **E-EEC-1** — does NOT apply to E-1 TOU per its `applicableToRatePlan` (E-1 only).
