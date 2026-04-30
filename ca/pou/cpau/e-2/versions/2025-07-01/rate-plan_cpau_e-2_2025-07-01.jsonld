@@ -1,0 +1,565 @@
+{
+  "@context": {
+    "urpx": "https://schema.urpx.org/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "cpau": "https://example.com/cpau/",
+    "org": "https://example.com/organizations/"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:RatePlan",
+      "@id": "cpau:e-2",
+      "urpx:name": "Residential Master-Metered and Small Non-Residential Electric Service",
+      "urpx:ratePlanUniqueIdentifier": "CPAU-E-2",
+      "urpx:initialEffectiveDate": "2025-07-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanVersion": {
+        "@type": "urpx:RatePlanVersion",
+        "@id": "cpau:e-2-2025-07-01",
+        "urpx:version": "1.0",
+        "urpx:effectiveDateTime": "2025-07-01T00:00:00",
+        "urpx:description": "CPAU Schedule E-2 (Residential Master-Metered and Small Non-Residential Electric Service), effective 2025-07-01. Two-period seasonal rate (Summer May–Oct, Winter Nov–Apr) with three-component unbundled energy pricing (commodity / distribution / public benefits) plus a flat $6.22/month customer charge.",
+        "urpx:customerChoice": {
+          "@id": "urpx:mandatoryChoice"
+        },
+        "urpx:isDefault": true,
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "@id": "cpau:e2-dsr",
+          "urpx:name": "CPAU Schedule E-2 (effective 2025-07-01)",
+          "urpx:fileName": "e-2-effective-2025-07-01.pdf",
+          "urpx:url": "https://www.paloalto.gov/files/assets/public/v/5/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-2-effective-2025-07-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
+          "urpx:dateRetrieved": "2026-04-29"
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:er-e2-eligibility",
+            "urpx:name": "Non-residential non-demand or master-metered multi-family",
+            "urpx:description": "Applies to (a) non-residential customers receiving non-demand-metered Electric Service, OR (b) customers with accounts at master-metered multi-family facilities receiving non-demand-metered Electric Service. Per Section A of the published Schedule E-2 (sheet E-2-1, effective 2025-07-01).",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:cx-e2-eligibility",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:bn-e2-eligibility-or",
+                "urpx:operator": {
+                  "@id": "urpx:orOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:BooleanOperationNode",
+                    "@id": "cpau:bn-e2-non-residential",
+                    "urpx:operator": {
+                      "@id": "urpx:andOperator"
+                    },
+                    "urpx:operandNodes": [
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:cn-e2-non-residential-kind",
+                        "urpx:operator": {
+                          "@id": "urpx:equalsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:conditionProperty": {
+                            "@id": "urpx:hasCustomerKind"
+                          }
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:referencesValue": {
+                            "@id": "urpx:nonResidentialKind"
+                          }
+                        }
+                      },
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:cn-e2-non-residential-metering",
+                        "urpx:operator": {
+                          "@id": "urpx:equalsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "metering"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "Non-Demand metered"
+                        }
+                      }
+                    ],
+                    "urpx:logicExpression": "hasCustomerKind = nonResidentialKind AND metering = 'Non-Demand metered'"
+                  },
+                  {
+                    "@type": "urpx:BooleanOperationNode",
+                    "@id": "cpau:bn-e2-master-metered-mf",
+                    "urpx:operator": {
+                      "@id": "urpx:andOperator"
+                    },
+                    "urpx:operandNodes": [
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:cn-e2-master-metered-residential-kind",
+                        "urpx:operator": {
+                          "@id": "urpx:equalsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:conditionProperty": {
+                            "@id": "urpx:hasCustomerKind"
+                          }
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:referencesValue": {
+                            "@id": "urpx:residentialKind"
+                          }
+                        }
+                      },
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:cn-e2-master-metered-dwelling",
+                        "urpx:operator": {
+                          "@id": "urpx:equalsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "dwellingType"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "Master-metered multi-family"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:cn-e2-master-metered-metering",
+                        "urpx:operator": {
+                          "@id": "urpx:equalsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "metering"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "Non-Demand metered"
+                        }
+                      }
+                    ],
+                    "urpx:logicExpression": "hasCustomerKind = residentialKind AND dwellingType = 'Master-metered multi-family' AND metering = 'Non-Demand metered'"
+                  }
+                ],
+                "urpx:logicExpression": "(non-residential branch) OR (master-metered multi-family branch)"
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "@id": "cpau:e2-plan-elements",
+          "urpx:hasSeasons": [
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e2-season-summer",
+              "urpx:seasonName": "Summer",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--05",
+                "--06",
+                "--07",
+                "--08",
+                "--09",
+                "--10"
+              ]
+            },
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e2-season-winter",
+              "urpx:seasonName": "Winter",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--11",
+                "--12",
+                "--01",
+                "--02",
+                "--03",
+                "--04"
+              ]
+            }
+          ],
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e2-mi-energy",
+              "urpx:name": "Energy consumed (kWh)",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e2-ms-energy",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e2-mi-meter-count",
+              "urpx:name": "Meter count",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "@id": "cpau:e2-billing-model",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e2-ledger-commodity",
+                "urpx:name": "Commodity (energy supply)",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e2-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e2-ledger-distribution",
+                "urpx:name": "Distribution",
+                "urpx:ledgerType": {
+                  "@id": "urpx:distributionLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e2-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e2-ledger-public-benefits",
+                "urpx:name": "Public Benefits",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e2-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e2-ledger-service",
+                "urpx:name": "Customer (service) charge",
+                "urpx:ledgerType": {
+                  "@id": "urpx:profileMetricLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e2-mi-meter-count"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-commodity-summer",
+                "urpx:name": "Commodity Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e2-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-commodity"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-distribution-summer",
+                "urpx:name": "Distribution Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e2-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-distribution"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-public-benefits-summer",
+                "urpx:name": "Public Benefits Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e2-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-public-benefits"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-commodity-winter",
+                "urpx:name": "Commodity Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e2-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-commodity"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-distribution-winter",
+                "urpx:name": "Distribution Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e2-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-distribution"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-public-benefits-winter",
+                "urpx:name": "Public Benefits Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e2-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-public-benefits"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e2-pd-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:serviceMetered"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:serviceCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e2-cm-monthly",
+                  "urpx:intervalDuration": "P1M"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e2-ledger-service"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "@id": "cpau:e2-prices",
+          "urpx:hasPriceSet": [
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:e2-price-set",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-commodity-summer",
+                  "urpx:name": "Commodity Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-commodity-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.15075"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-distribution-summer",
+                  "urpx:name": "Distribution Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-distribution-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.10806"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-public-benefits-summer",
+                  "urpx:name": "Public Benefits Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-public-benefits-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-commodity-winter",
+                  "urpx:name": "Commodity Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-commodity-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.09334"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-distribution-winter",
+                  "urpx:name": "Distribution Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-distribution-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.07352"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-public-benefits-winter",
+                  "urpx:name": "Public Benefits Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-public-benefits-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e2-price-customer-charge",
+                  "urpx:name": "Customer Charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e2-pd-customer-charge"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "6.22"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

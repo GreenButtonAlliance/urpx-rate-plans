@@ -24,7 +24,8 @@
    ["PGE E-ELEC 03-27" "ca/iou/pge/e-elec/versions/2026-03-27/rate-plan_pge_e-elec_2026-03-27.jsonld"]
    ["CPAU E-1 07-01" "ca/pou/cpau/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld"]
    ["CPAU E-1 09-01" "ca/pou/cpau/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld"]
-   ["CPAU E-1-TOU"   "ca/pou/cpau/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld"]])
+   ["CPAU E-1-TOU"   "ca/pou/cpau/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld"]
+   ["CPAU E-2"       "ca/pou/cpau/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
