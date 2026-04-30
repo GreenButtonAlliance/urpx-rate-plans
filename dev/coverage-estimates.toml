@@ -191,7 +191,32 @@ total_residential = 1410191
 bundled_residential = 1410191
 source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
 source_notes = "EIA-861 2024. Largest POU in the U.S."
+tariff_index_url = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
 as_of = "2024"
+
+# LADWP residential schedules per ladwp.com residential-rates page:
+#   R-1A    — Standard Residential Rate (tiered, Zone 1/Zone 2 × High/Low Season)
+#   R-1B    — Time-of-Use Residential (High Peak / Low Peak / Base; voluntary opt-in)
+#   A-1     — Large TOU Residential (single-family >=30 kW with on-site transformer);
+#             specialty/edge case
+#   EZ-Save — Electric Lifeline subsidy program; income-qualified RatePlanModifier
+#   NEM     — Net Energy Metering Service Rider; modifier for solar customers
+#   REO     — Renewable Energy Option Service Rider; voluntary green-power program
+
+[utility.ladwp.tariffs.r-1a]
+share_of_residential = 0.95
+estimate_quality = "rough"
+notes = "Standard Residential — the default LADWP residential schedule. No CPUC TOU mass migration applies (LADWP is municipally-governed); R-1A is the default unless customer opts into R-1B. Refine from LADWP enrollment reports."
+
+[utility.ladwp.tariffs.r-1b]
+share_of_residential = 0.04
+estimate_quality = "rough"
+notes = "TOU Residential — voluntary opt-in. Estimated low single-digit percent enrollment typical of unmandated POU TOU rates."
+
+[utility.ladwp.tariffs.a-1]
+share_of_residential = 0.005
+estimate_quality = "rough"
+notes = "Large TOU Residential — specialty rate for single-family customers with dedicated on-site transformer reaching >=30 kW. Very small enrollment."
 
 [utility.smud]
 name = "Sacramento Municipal Utility District"
