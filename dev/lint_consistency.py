@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""
+Cross-filing RatePlan-level consistency linter (URPXT-3tn).
+
+LAYOUT.md §2 promises: a linter that verifies that urpx:initialEffectiveDate,
+urpx:ratePlanUniqueIdentifier, urpx:name, and the RatePlan @id are
+byte-identical across all filings of a given schedule. This is that
+linter.
+
+Walks the corpus, groups rate-plan_*.jsonld files by schedule directory
+(ca/<class>/<utility>/<schedule>/versions/*/rate-plan_*.jsonld), extracts
+the urpx:RatePlan node from each filing's @graph, and reports any
+RatePlan-level field that differs across versions of the same schedule.
+
+Exit code:
+  0  — all schedules consistent
+  1  — drift detected on at least one schedule
+
+Usage:
+  python3 dev/lint_consistency.py
+  python3 dev/lint_consistency.py --json    # machine-readable
+  python3 dev/lint_consistency.py --fix     # NOT IMPLEMENTED — drift
+                                            # resolution is a human call
+
+Modifier-only filings (rate-plan-modifier_*.jsonld) are skipped — their
+top-level entity is urpx:RatePlanModifier, not RatePlan, so they have
+their own equivalent consistency questions but a different scope.
+A separate linter for cross-filing RatePlanModifier consistency could
+be added if drift becomes a concern there.
+"""
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+# Fields whose values must be byte-identical across all RatePlanVersions
+# of the same RatePlan IRI (per LAYOUT.md §2):
+RATE_PLAN_LEVEL_FIELDS = [
+    "@id",
+    "urpx:ratePlanUniqueIdentifier",
+    "urpx:name",
+    "urpx:initialEffectiveDate",
+    "urpx:timezoneIdentifier",
+]
+
+
+def find_rate_plan(doc):
+    """Walk the doc's @graph and return the top-level urpx:RatePlan node."""
+    graph = doc.get("@graph") or []
+    for node in graph:
+        if isinstance(node, dict) and node.get("@type") == "urpx:RatePlan":
+            return node
+    return None
+
+
+def normalize(value):
+    """Make a value comparable across files. JSON-LD dict refs become a
+    sentinel-tagged tuple; everything else passes through."""
+    if isinstance(value, dict):
+        if list(value.keys()) == ["@id"]:
+            return ("@id", value["@id"])
+        return tuple(sorted((k, normalize(v)) for k, v in value.items()))
+    if isinstance(value, list):
+        return tuple(normalize(x) for x in value)
+    return value
+
+
+def collect_filings():
+    """Return {schedule_dir: [(path, rateplan_node), ...]}."""
+    out = defaultdict(list)
+    for jsonld in ROOT.glob("ca/*/*/*/versions/*/rate-plan_*.jsonld"):
+        try:
+            doc = json.loads(jsonld.read_text())
+        except Exception as e:
+            print(f"  ✗ {jsonld.relative_to(ROOT)}: parse error ({e})", file=sys.stderr)
+            continue
+        rp = find_rate_plan(doc)
+        if rp is None:
+            print(f"  ✗ {jsonld.relative_to(ROOT)}: no urpx:RatePlan node", file=sys.stderr)
+            continue
+        # Group key: ca/<class>/<utility>/<schedule>/  (trim "versions/<date>/...")
+        rel = jsonld.relative_to(ROOT)
+        schedule_dir = rel.parents[2]   # versions/<date>/<file>.jsonld → up 2 = schedule dir
+        out[str(schedule_dir)].append((rel, rp))
+    return out
+
+
+def lint(filings_by_schedule):
+    """Return list of (schedule_dir, field, {value: [paths]}) for every
+    drift detected. Empty list = consistent."""
+    drift = []
+    for schedule, items in sorted(filings_by_schedule.items()):
+        if len(items) < 2:
+            continue
+        for field in RATE_PLAN_LEVEL_FIELDS:
+            values = defaultdict(list)
+            for path, rp in items:
+                v = normalize(rp.get(field))
+                values[v].append(str(path))
+            if len(values) > 1:
+                drift.append((schedule, field, dict(values)))
+    return drift
+
+
+def main():
+    json_mode = "--json" in sys.argv
+    fix_mode = "--fix" in sys.argv
+    if fix_mode:
+        print("--fix is not implemented; drift resolution is a human call.", file=sys.stderr)
+        return 2
+
+    filings = collect_filings()
+
+    if json_mode:
+        out = {
+            "schedules_checked": sorted(filings.keys()),
+            "drift": [
+                {"schedule": s, "field": f, "values": {str(k): v for k, v in vs.items()}}
+                for s, f, vs in lint(filings)
+            ],
+        }
+        json.dump(out, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 1 if out["drift"] else 0
+
+    # Human-readable mode
+    print(f"Schedules checked: {len(filings)}")
+    multi = {s: items for s, items in filings.items() if len(items) >= 2}
+    print(f"  with multiple versions: {len(multi)}")
+    for s, items in sorted(multi.items()):
+        versions = sorted(p.parent.name for p, _ in items)
+        print(f"    {s}: {versions}")
+    print()
+
+    drift = lint(filings)
+    if not drift:
+        print("✓ No RatePlan-level drift detected — corpus is consistent.")
+        return 0
+
+    print(f"✗ Drift detected on {len(drift)} field(s):")
+    for schedule, field, values in drift:
+        print(f"\n  Schedule: {schedule}")
+        print(f"  Field:    {field}")
+        for v, paths in values.items():
+            print(f"    value: {v!r}")
+            for p in paths:
+                print(f"      ← {p}")
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

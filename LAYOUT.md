@@ -34,7 +34,7 @@ Rationale:
 - RDF graph merge handles the overlap cleanly: every file describes the same `urpx:RatePlan` IRI with consistent properties — merging multiple files yields a single RatePlan with all its versions linked.
 - The duplicated RatePlan-level boilerplate (~15 lines) is small and lint-checkable.
 
-A linter (TBD) will verify that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqueIdentifier`, `urpx:name`, and the RatePlan `@id` are identical across all filings of a given schedule.
+The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_consistency.py) verifies that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqueIdentifier`, `urpx:name`, `urpx:timezoneIdentifier`, and the RatePlan `@id` are byte-identical across all filings of a given schedule. Run from the repo root: `python3 dev/lint_consistency.py` (or `--json` for machine-readable output).
 
 ## 3. Directory hierarchy
 
