@@ -1,0 +1,100 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "dr"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=8"
+sha256        = "3601e1df3b328f41dd1c344eb5e3ebcbf7d2717fc9a85cc8132bf2d2cd534d38"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "D.25-09-006 / Advice Letter 4791-E + 4791-E-A supplement"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Source pattern shared with TOU-DR1 — see ca/iou/sdge/utility.toml for
+the SDG&E tariff-portal URL convention (tariffsprd.sdge.com viewer +
+Azure Front Door direct-PDF endpoint with X-Azure-FDID header).
+
+Filing details (5-page PDF):
+  Sheet 1 (RATES — standard + DR-LI/CARE) — AL 4791-E-A, Sheet 64653-E
+  Sheet 2 (RATES — MB) — AL 4791-E-A, Sheet 64654-E
+  Sheets 3-5 (Special Conditions, Baseline allocation table) — AL 4791-E,
+    Sheets 64338-E / 64339-E / 64340-E
+
+Same source PDF series as TOU-DR1 (AL 4791-E + 4791-E-A supplement).
+
+## Modeling structure
+
+Schedule DR is non-TOU but tier-varying:
+  - 2 ServiceTiers: Tier 1 (≤130% of CPUC baseline allocation) and
+    Tier 2 (above 130%). Threshold per Special Condition 3 varies
+    by Climate Zone × Season × Basic/All-Electric:
+
+      Baseline Allowance For Climatic Zones (kWh/day)
+                Coastal  Inland  Mountain  Desert
+      Basic Allowance:
+        Summer   9.0     10.4     13.6      15.9
+        Winter   9.2      9.6     12.9      10.9
+      All-Electric:
+        Summer   6.0      8.7     15.2      17.0
+        Winter   8.8     12.2     22.1      17.1
+
+  - Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
+    - UDC: Tier 2 = $0.34061/kWh (matches TOU-DR1's flat UDC); Tier 1
+      effectively $0.23169/kWh = Tier 2 - $0.10892 (the Baseline
+      Adjustment Credit). Modeled as 8 flat UDC sub-component
+      PriceDefinitions (Trans, Distr, PPP, ND, CTC, LGC, RS, TRAC) +
+      a tier-1-only Baseline Adjustment Credit PriceDefinition.
+    - DWR-BC + WF-NBC: 0.00000 + 0.00591 = $0.00591/kWh flat.
+    - EECC (Generation): FLAT $0.18274/kWh — no TOU, no season, no
+      tier variation. Bundled customers only; CCA customers pay PCIA
+      per Special Condition 11 (PCIA modeling deferred).
+  - Base Services Charge: $0.79343/day for standard customers.
+
+UDC sub-component values are identical to TOU-DR1 (same tariff year,
+same overall delivery cost structure):
+  Trans 0.10067, Distr 0.15719, PPP 0.01515, ND 0.00000,
+  CTC -0.00007, LGC 0.00000, RS 0.00005, TRAC 0.06762
+
+Baseline Adjustment Credit modeled as a separate Price tagged with
+serviceTierNumber=1 (PG&E-E-1-style pattern). Tier 2 has no credit
+Price entry (default 0).
+
+## Modeling deferrals
+
+Same as TOU-DR1:
+  - PCIA (Power Charge Indifference Adjustment) for CCA customers.
+  - Franchise Fee Differential 5.78% within City of San Diego.
+  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers (Sheet 1
+    Tier 1/Tier 2 rates published for each variant; modeled as
+    standalone modifiers in URPXT-65v secondary epic).
+  - The ServiceTier upper bound of 1.3 here is a placeholder
+    representing 130% of customer-specific baseline allocation —
+    the actual customer-facing threshold depends on the Climate Zone
+    × Season × Basic/All-Electric matrix in Special Condition 3.
+    Refining ServiceTier bounds to a per-customer-applicable value
+    is a downstream consumer responsibility (the corpus exposes the
+    tier structure; consumers resolve customer-specific allocations).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Second SDG&E schedule. Pattern reference: ca/iou/sce/d/versions/2025-11-15/ for non-TOU tier structure (also uses urpx:hasServiceTiers + serviceTierNumber on the tier-varying credit Price). 13 PriceDefinitions: 1 EECC (flat) + 8 UDC sub-components (flat, identical values to TOU-DR1) + DWR-BC + WF-NBC + 1 Baseline Adjustment Credit (tier-1 only) + 1 BSC. 13 Prices total. Unique to SDG&E DR vs SCE Schedule D: SCE encoded the tier structure in CIA (Conservation Incentive Adjustment); SDG&E DR encodes it in a separate Baseline Adjustment Credit tied to the same UDC ledger. Both achieve the same economic effect."
