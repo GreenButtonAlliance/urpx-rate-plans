@@ -1,0 +1,1802 @@
+{
+  "@context": {
+    "urpx": "https://schema.urpx.org/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:decimalValue": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:integerValue": {
+      "@type": "xsd:integer"
+    },
+    "cpau": "https://example.com/cpau/",
+    "org": "https://example.com/organizations/"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:RatePlan",
+      "@id": "cpau:e-7-tou",
+      "urpx:name": "Large Non-Residential Electric Time of Use Service",
+      "urpx:ratePlanUniqueIdentifier": "CPAU-E-7-TOU",
+      "urpx:initialEffectiveDate": "2025-07-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanVersion": {
+        "@type": "urpx:RatePlanVersion",
+        "@id": "cpau:e-7-tou-2025-07-01",
+        "urpx:version": "1.0",
+        "urpx:effectiveDateTime": "2025-07-01T00:00:00",
+        "urpx:description": "CPAU Schedule E-7 TOU (Large Non-Residential Electric Time of Use Service), effective 2025-07-01. Voluntary opt-in rate for demand-metered customers with maximum demand at least 1000 kW per site, sustained 3+ consecutive months in the most recent 12-month period. Two seasons; three TOU periods for energy (Peak / Mid-Peak / Off-Peak); two demand windows (Peak Demand within the energy peak window, plus Max Demand at any time). Holiday-aware (US federal holidays observed by CA utilities). Section D.3 site-aggregation feature (multiple Accounts on contiguous parcels with a common billing address) is noted but not modeled — URPX has no native vocabulary for site-level account aggregation. Modeled in v1: eligibility, seasons, TOU windows, energy + demand pricing, monthly customer charge. NOT modeled in v1 (deferred): Section D.6 Primary Voltage Discount (2.8% for >2 kV service), Section D.7 Standby Charge (non-utility on-site generation), Section D.5 12-month minimum commitment.",
+        "urpx:customerChoice": {
+          "@id": "urpx:voluntaryChoice"
+        },
+        "urpx:isDefault": false,
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "@id": "cpau:e7tou-dsr",
+          "urpx:name": "CPAU Schedule E-7 TOU (effective 2025-07-01)",
+          "urpx:fileName": "e-7-tou-effective-2025-07-01.pdf",
+          "urpx:url": "https://www.paloalto.gov/files/assets/public/v/5/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-7-tou-effective-2025-07-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
+          "urpx:dateRetrieved": "2026-04-30"
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:e7tou-er-eligibility",
+            "urpx:name": "Demand-metered, max demand at least 1000 kW sustained 3+ months",
+            "urpx:description": "Voluntary opt-in rate for large non-residential customers receiving Demand metered Electric Service whose maximum monthly demand is at least 1000 kW per site, sustained at that level for at least three consecutive months in the most recent 12-month period. Section A of the published Schedule E-7 TOU.",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:e7tou-cx-eligibility",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:e7tou-bn-eligibility-and",
+                "urpx:operator": {
+                  "@id": "urpx:andOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e7tou-cn-demand-metered",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "metering"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Demand metered"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e7tou-cn-demand-min-1000",
+                    "urpx:operator": {
+                      "@id": "urpx:greaterThanOrEqualOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "monthlyMaxDemand_kW"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:decimalValue": "1000"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e7tou-cn-sustained-3mo",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "demandSustainedConsecutiveMonths"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "3"
+                    }
+                  }
+                ],
+                "urpx:logicExpression": "metering = 'Demand metered' AND monthlyMaxDemand_kW >= 1000 AND demandSustainedConsecutiveMonths = 3"
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "@id": "cpau:e7tou-plan-elements",
+          "urpx:hasSeasons": [
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e7tou-season-summer",
+              "urpx:seasonName": "Summer",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--05",
+                "--06",
+                "--07",
+                "--08",
+                "--09",
+                "--10"
+              ]
+            },
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e7tou-season-winter",
+              "urpx:seasonName": "Winter",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--11",
+                "--12",
+                "--01",
+                "--02",
+                "--03",
+                "--04"
+              ]
+            }
+          ],
+          "urpx:hasHolidayCalendar": {
+            "@type": "urpx:HolidayCalendar",
+            "@id": "cpau:e7tou-holidays",
+            "urpx:hasHoliday": [
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-new-years",
+                "urpx:holidayName": "New Year's Day",
+                "urpx:holidayRule": "January 1 (legally observed)"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-presidents",
+                "urpx:holidayName": "Presidents' Day",
+                "urpx:holidayRule": "Third Monday in February"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-memorial",
+                "urpx:holidayName": "Memorial Day",
+                "urpx:holidayRule": "Last Monday in May"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-independence",
+                "urpx:holidayName": "Independence Day",
+                "urpx:holidayRule": "July 4 (legally observed)"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-labor",
+                "urpx:holidayName": "Labor Day",
+                "urpx:holidayRule": "First Monday in September"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-veterans",
+                "urpx:holidayName": "Veterans Day",
+                "urpx:holidayRule": "November 11 (legally observed)"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-thanksgiving",
+                "urpx:holidayName": "Thanksgiving Day",
+                "urpx:holidayRule": "Fourth Thursday in November"
+              },
+              {
+                "@type": "urpx:Holiday",
+                "@id": "cpau:e7tou-holiday-christmas",
+                "urpx:holidayName": "Christmas Day",
+                "urpx:holidayRule": "December 25 (legally observed)"
+              }
+            ]
+          },
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e7tou-mi-energy",
+              "urpx:name": "Energy consumed (kWh)",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e7tou-ms-energy",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e7tou-mi-demand",
+              "urpx:name": "Demand (kW, 15-minute interval)",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e7tou-ms-demand",
+                "urpx:measurementKind": {
+                  "@id": "urpx:demand"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kW"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                },
+                "urpx:intervalDuration": "PT15M",
+                "urpx:intervalType": {
+                  "@id": "urpx:fifteenMinuteInterval"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e7tou-mi-meter-count",
+              "urpx:name": "Meter count",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "@id": "cpau:e7tou-billing-model",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e7tou-ledger-energy-commodity",
+                "urpx:name": "Energy — Commodity",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e7tou-ledger-energy-distribution",
+                "urpx:name": "Energy — Distribution",
+                "urpx:ledgerType": {
+                  "@id": "urpx:distributionLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e7tou-ledger-energy-public-benefits",
+                "urpx:name": "Energy — Public Benefits",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e7tou-ledger-demand-commodity",
+                "urpx:name": "Demand — Commodity",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e7tou-ledger-demand-distribution",
+                "urpx:name": "Demand — Distribution",
+                "urpx:ledgerType": {
+                  "@id": "urpx:distributionLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e7tou-ledger-service",
+                "urpx:name": "Customer (service) charge",
+                "urpx:ledgerType": {
+                  "@id": "urpx:profileMetricLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-meter-count"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-commodity-summer-peak",
+                "urpx:name": "Energy Commodity Summer Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-distribution-summer-peak",
+                "urpx:name": "Energy Distribution Summer Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-public-benefits-summer-peak",
+                "urpx:name": "Energy Public Benefits Summer Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-commodity-summer-mid-peak",
+                "urpx:name": "Energy Commodity Summer Mid Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-distribution-summer-mid-peak",
+                "urpx:name": "Energy Distribution Summer Mid Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-public-benefits-summer-mid-peak",
+                "urpx:name": "Energy Public Benefits Summer Mid Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-commodity-summer-off-peak",
+                "urpx:name": "Energy Commodity Summer Off Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 3,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-distribution-summer-off-peak",
+                "urpx:name": "Energy Distribution Summer Off Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 3,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-public-benefits-summer-off-peak",
+                "urpx:name": "Energy Public Benefits Summer Off Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 3,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-commodity-winter-peak",
+                "urpx:name": "Energy Commodity Winter Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 4,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-distribution-winter-peak",
+                "urpx:name": "Energy Distribution Winter Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 4,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-public-benefits-winter-peak",
+                "urpx:name": "Energy Public Benefits Winter Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 4,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-commodity-winter-mid-peak",
+                "urpx:name": "Energy Commodity Winter Mid Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 5,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-distribution-winter-mid-peak",
+                "urpx:name": "Energy Distribution Winter Mid Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 5,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-public-benefits-winter-mid-peak",
+                "urpx:name": "Energy Public Benefits Winter Mid Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 5,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-commodity-winter-off-peak",
+                "urpx:name": "Energy Commodity Winter Off Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 6,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-distribution-winter-off-peak",
+                "urpx:name": "Energy Distribution Winter Off Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 6,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-energy-public-benefits-winter-off-peak",
+                "urpx:name": "Energy Public Benefits Winter Off Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 6,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-commodity-summer-peak",
+                "urpx:name": "Demand Commodity Summer Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-commodity-summer-peak-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during the peak window only, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-distribution-summer-peak",
+                "urpx:name": "Demand Distribution Summer Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-distribution-summer-peak-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during the peak window only, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-commodity-summer-max",
+                "urpx:name": "Demand Commodity Summer Max",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-commodity-summer-max-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during any time of the billing period, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-distribution-summer-max",
+                "urpx:name": "Demand Distribution Summer Max",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-summer"
+                },
+                "urpx:touPeriodNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-distribution-summer-max-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during any time of the billing period, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-commodity-winter-peak",
+                "urpx:name": "Demand Commodity Winter Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 3,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-commodity-winter-peak-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during the peak window only, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-distribution-winter-peak",
+                "urpx:name": "Demand Distribution Winter Peak",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 3,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-distribution-winter-peak-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during the peak window only, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-commodity-winter-max",
+                "urpx:name": "Demand Commodity Winter Max",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 4,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-commodity-winter-max-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during any time of the billing period, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-demand-distribution-winter-max",
+                "urpx:name": "Demand Distribution Winter Max",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e7tou-season-winter"
+                },
+                "urpx:touPeriodNumber": 4,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-demand-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-demand-distribution-winter-max-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval during any time of the billing period, aggregated as the maximum over the monthly billing period."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e7tou-pd-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:serviceMetered"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:serviceCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e7tou-pd-customer-charge-cm",
+                  "urpx:intervalDuration": "P1M"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e7tou-ledger-service"
+                }
+              }
+            ],
+            "urpx:hasTOUSchedule": [
+              {
+                "@type": "urpx:TOUSchedule",
+                "@id": "cpau:e7tou-energy-tou-schedule",
+                "urpx:name": "E-4 TOU Energy schedule",
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-energy"
+                },
+                "urpx:hasCalendar": {
+                  "@id": "cpau:e7tou-holidays"
+                },
+                "urpx:hasTOUTier": [
+                  {
+                    "@type": "urpx:TOUTier",
+                    "@id": "cpau:e7tou-energy-tou-tier-1",
+                    "urpx:touTierNumber": 1,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-energy-period-summer-peak",
+                        "urpx:name": "Summer Peak",
+                        "urpx:touPeriodNumber": 1,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-tb-summer-peak",
+                            "urpx:startTime": "16:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-energy-period-summer-mid-peak",
+                        "urpx:name": "Summer Mid-Peak",
+                        "urpx:touPeriodNumber": 2,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-tb-summer-mid-peak-afternoon",
+                            "urpx:startTime": "14:00:00",
+                            "urpx:endTime": "16:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-tb-summer-mid-peak-evening",
+                            "urpx:startTime": "21:00:00",
+                            "urpx:endTime": "23:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-energy-period-summer-off-peak",
+                        "urpx:name": "Summer Off-Peak",
+                        "urpx:touPeriodNumber": 3,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-summer-off-peak-tb-weekday-1",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "14:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-summer-off-peak-tb-weekday-2",
+                            "urpx:startTime": "23:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-summer-off-peak-tb-weekday-holiday",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": true,
+                            "urpx:includeNonHolidays": false
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-summer-off-peak-tb-weekend",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekendDays"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-energy-period-winter-peak",
+                        "urpx:name": "Winter Peak",
+                        "urpx:touPeriodNumber": 4,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-tb-winter-peak",
+                            "urpx:startTime": "16:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-energy-period-winter-mid-peak",
+                        "urpx:name": "Winter Mid-Peak",
+                        "urpx:touPeriodNumber": 5,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-tb-winter-mid-peak",
+                            "urpx:startTime": "09:00:00",
+                            "urpx:endTime": "14:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-energy-period-winter-off-peak",
+                        "urpx:name": "Winter Off-Peak",
+                        "urpx:touPeriodNumber": 6,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-winter-off-peak-tb-weekday-1",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "09:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-winter-off-peak-tb-weekday-2",
+                            "urpx:startTime": "14:00:00",
+                            "urpx:endTime": "16:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-winter-off-peak-tb-weekday-3",
+                            "urpx:startTime": "21:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-winter-off-peak-tb-weekday-holiday",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": true,
+                            "urpx:includeNonHolidays": false
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-energy-winter-off-peak-tb-weekend",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekendDays"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUSchedule",
+                "@id": "cpau:e7tou-demand-tou-schedule",
+                "urpx:name": "E-4 TOU Demand schedule",
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e7tou-mi-demand"
+                },
+                "urpx:hasCalendar": {
+                  "@id": "cpau:e7tou-holidays"
+                },
+                "urpx:hasTOUTier": [
+                  {
+                    "@type": "urpx:TOUTier",
+                    "@id": "cpau:e7tou-demand-tou-tier-1",
+                    "urpx:touTierNumber": 1,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-demand-period-summer-peak",
+                        "urpx:name": "Summer Demand Peak",
+                        "urpx:touPeriodNumber": 1,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-demand-tb-summer-peak",
+                            "urpx:startTime": "16:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-demand-period-summer-max",
+                        "urpx:name": "Summer Max Demand",
+                        "urpx:touPeriodNumber": 2,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-demand-tb-summer-max",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            },
+                            "urpx:includeHolidays": true,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-demand-period-winter-peak",
+                        "urpx:name": "Winter Demand Peak",
+                        "urpx:touPeriodNumber": 3,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-demand-tb-winter-peak",
+                            "urpx:startTime": "16:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:weekdayDays"
+                            },
+                            "urpx:includeHolidays": false,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "cpau:e7tou-demand-period-winter-max",
+                        "urpx:name": "Winter Max Demand",
+                        "urpx:touPeriodNumber": 4,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "cpau:e7tou-demand-tb-winter-max",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "cpau:e7tou-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            },
+                            "urpx:includeHolidays": true,
+                            "urpx:includeNonHolidays": true
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "@id": "cpau:e7tou-prices",
+          "urpx:hasPriceSet": [
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:e7tou-price-set",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-commodity-summer-peak",
+                  "urpx:name": "Energy Commodity Summer Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-commodity-summer-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.18199"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-distribution-summer-peak",
+                  "urpx:name": "Energy Distribution Summer Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-distribution-summer-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00402"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-public-benefits-summer-peak",
+                  "urpx:name": "Energy Public Benefits Summer Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-public-benefits-summer-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-commodity-summer-mid-peak",
+                  "urpx:name": "Energy Commodity Summer Mid Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-commodity-summer-mid-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.14999"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-distribution-summer-mid-peak",
+                  "urpx:name": "Energy Distribution Summer Mid Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-distribution-summer-mid-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00402"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-public-benefits-summer-mid-peak",
+                  "urpx:name": "Energy Public Benefits Summer Mid Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-public-benefits-summer-mid-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-commodity-summer-off-peak",
+                  "urpx:name": "Energy Commodity Summer Off Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-commodity-summer-off-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.11276"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-distribution-summer-off-peak",
+                  "urpx:name": "Energy Distribution Summer Off Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-distribution-summer-off-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00402"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-public-benefits-summer-off-peak",
+                  "urpx:name": "Energy Public Benefits Summer Off Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-public-benefits-summer-off-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-commodity-winter-peak",
+                  "urpx:name": "Energy Commodity Winter Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-commodity-winter-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.12225"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-distribution-winter-peak",
+                  "urpx:name": "Energy Distribution Winter Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-distribution-winter-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00393"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-public-benefits-winter-peak",
+                  "urpx:name": "Energy Public Benefits Winter Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-public-benefits-winter-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-commodity-winter-mid-peak",
+                  "urpx:name": "Energy Commodity Winter Mid Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-commodity-winter-mid-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.09648"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-distribution-winter-mid-peak",
+                  "urpx:name": "Energy Distribution Winter Mid Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-distribution-winter-mid-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00393"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-public-benefits-winter-mid-peak",
+                  "urpx:name": "Energy Public Benefits Winter Mid Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-public-benefits-winter-mid-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-commodity-winter-off-peak",
+                  "urpx:name": "Energy Commodity Winter Off Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-commodity-winter-off-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.06660"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-distribution-winter-off-peak",
+                  "urpx:name": "Energy Distribution Winter Off Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-distribution-winter-off-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00393"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-energy-public-benefits-winter-off-peak",
+                  "urpx:name": "Energy Public Benefits Winter Off Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-energy-public-benefits-winter-off-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-commodity-summer-peak",
+                  "urpx:name": "Demand Commodity Summer Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-commodity-summer-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "11.39"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-distribution-summer-peak",
+                  "urpx:name": "Demand Distribution Summer Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-distribution-summer-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "16.33"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-commodity-summer-max",
+                  "urpx:name": "Demand Commodity Summer Max",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-commodity-summer-max"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "1.46"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-distribution-summer-max",
+                  "urpx:name": "Demand Distribution Summer Max",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-distribution-summer-max"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "16.33"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-commodity-winter-peak",
+                  "urpx:name": "Demand Commodity Winter Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-commodity-winter-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "1.46"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-distribution-winter-peak",
+                  "urpx:name": "Demand Distribution Winter Peak",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-distribution-winter-peak"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "14.42"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-commodity-winter-max",
+                  "urpx:name": "Demand Commodity Winter Max",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-commodity-winter-max"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "1.46"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-demand-distribution-winter-max",
+                  "urpx:name": "Demand Distribution Winter Max",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-demand-distribution-winter-max"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "14.42"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e7tou-price-customer-charge",
+                  "urpx:name": "Customer Charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e7tou-pd-customer-charge"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "578.08"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
