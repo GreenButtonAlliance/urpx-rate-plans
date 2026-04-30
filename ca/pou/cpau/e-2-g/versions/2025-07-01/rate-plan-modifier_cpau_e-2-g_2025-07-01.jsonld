@@ -31,145 +31,149 @@
       "@type": "xsd:date"
     },
     "cpau": "https://example.com/cpau/",
-    "org": "https://example.com/organizations/"
+    "org": "https://example.com/organizations/",
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
   },
-  "@graph": [
-    {
-      "@type": "urpx:RatePlanModifier",
-      "@id": "cpau:e-2-g",
-      "urpx:name": "Palo Alto Green Program (E-2 base)",
-      "urpx:modifierUniqueIdentifier": "CPAU-E-2-G",
-      "urpx:initialEffectiveDate": "2025-07-01",
-      "urpx:timezoneIdentifier": "America/Los_Angeles",
-      "urpx:hasRatePlanModifierVersion": {
-        "@type": "urpx:RatePlanModifierVersion",
-        "@id": "cpau:e-2-g-2025-07-01",
-        "urpx:version": "2025-07-01",
-        "urpx:modifierVersionNumber": "2025-07-01",
-        "urpx:effectiveDateTime": "2025-07-01T00:00:00",
-        "urpx:changeReason": {
-          "@id": "urpx:initial"
+  "@type": "urpx:URPXDocument",
+  "@id": "cpau:doc-e-2-g-2025-07-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "cpau:e-2-g",
+    "urpx:name": "Palo Alto Green Program (E-2 base)",
+    "urpx:modifierUniqueIdentifier": "CPAU-E-2-G",
+    "urpx:initialEffectiveDate": "2025-07-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "cpau:e-2-g-2025-07-01",
+      "urpx:version": "2025-07-01",
+      "urpx:modifierVersionNumber": "2025-07-01",
+      "urpx:effectiveDateTime": "2025-07-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:initial"
+      },
+      "urpx:description": "Palo Alto Green Program modifier on Schedule E-2 (Residential Master-Metered and Small Non-Residential Electric Service). Applies to E-2 customers participating in the Palo Alto Green Program under the 100% Renewable Option, adding a $0.0075/kWh Palo Alto Green Charge to all energy consumption. Eligibility per Section A of the published Schedule E-2-G: customers who qualify for E-2 Service AND who choose to participate in the Palo Alto Green Program. The 1000 kWh Block Purchase Option ($7.50/block) is also published in the same rate filing but is not modeled here — different metric shape (per-block discrete purchase vs continuous per-kWh consumption); tracked as a follow-up.",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-cpau",
+        "urpx:legalName": "City of Palo Alto Utilities",
+        "urpx:eiaId": "3203",
+        "urpx:organizationType": {
+          "@id": "urpx:municipalOrganization"
+        }
+      },
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "cpau:e2g-dsr",
+        "urpx:name": "CPAU Schedule E-2-G (effective 2025-07-01)",
+        "urpx:fileName": "e-2-g-effective-2025-07-01.pdf",
+        "urpx:url": "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-2-g-effective-2025-07-01.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
         },
-        "urpx:description": "Palo Alto Green Program modifier on Schedule E-2 (Residential Master-Metered and Small Non-Residential Electric Service). Applies to E-2 customers participating in the Palo Alto Green Program under the 100% Renewable Option, adding a $0.0075/kWh Palo Alto Green Charge to all energy consumption. Eligibility per Section A of the published Schedule E-2-G: customers who qualify for E-2 Service AND who choose to participate in the Palo Alto Green Program. The 1000 kWh Block Purchase Option ($7.50/block) is also published in the same rate filing but is not modeled here — different metric shape (per-block discrete purchase vs continuous per-kWh consumption); tracked as a follow-up.",
-        "urpx:priceCurrency": "USD",
-        "urpx:commodity": {
-          "@id": "urpx:electricity"
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:serviceRole": {
-          "@id": "urpx:bundledServiceRole"
-        },
-        "urpx:publishedBy": {
-          "@type": "urpx:Organization",
-          "@id": "org:utility-cpau",
-          "urpx:legalName": "City of Palo Alto Utilities",
-          "urpx:eiaId": "3203",
-          "urpx:organizationType": {
-            "@id": "urpx:municipalOrganization"
-          }
-        },
-        "urpx:hasDataSourceReference": {
-          "@type": "urpx:DataSourceReference",
-          "@id": "cpau:e2g-dsr",
-          "urpx:name": "CPAU Schedule E-2-G (effective 2025-07-01)",
-          "urpx:fileName": "e-2-g-effective-2025-07-01.pdf",
-          "urpx:url": "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-2-g-effective-2025-07-01.pdf",
-          "urpx:mediaType": {
-            "@id": "urpx:applicationPdf"
-          },
-          "urpx:dataSourceType": {
-            "@id": "urpx:utilityWebsiteSource"
-          },
-          "urpx:dateRetrieved": "2026-04-30"
-        },
-        "urpx:hasPlanElements": {
-          "@type": "urpx:PlanElements",
-          "@id": "cpau:e2g-plan-elements",
-          "urpx:hasMetricInput": [
-            {
-              "@type": "urpx:MetricInput",
-              "@id": "cpau:e2g-mi-energy",
-              "urpx:name": "Energy consumed (kWh)",
-              "urpx:metricInputType": {
-                "@id": "urpx:profileMetricInput"
+        "urpx:dateRetrieved": "2026-04-30"
+      },
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "cpau:e2g-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e2g-mi-energy",
+            "urpx:name": "Energy consumed (kWh)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "cpau:e2g-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
               },
-              "urpx:hasMetricSpecification": {
-                "@type": "urpx:MetricSpecification",
-                "@id": "cpau:e2g-ms-energy",
-                "urpx:measurementKind": {
-                  "@id": "urpx:energy"
-                },
-                "urpx:unitOfMeasure": {
-                  "@id": "urpx:kWh"
-                },
-                "urpx:flowDirection": {
-                  "@id": "urpx:forward"
-                }
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:forward"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "cpau:e2g-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e2g-ledger-green-charge",
+              "urpx:name": "Palo Alto Green Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e2g-mi-energy"
               }
             }
           ],
-          "urpx:hasBillingModel": {
-            "@type": "urpx:BillingModel",
-            "@id": "cpau:e2g-billing-model",
-            "urpx:hasLedger": [
-              {
-                "@type": "urpx:Ledger",
-                "@id": "cpau:e2g-ledger-green-charge",
-                "urpx:name": "Palo Alto Green Charge",
-                "urpx:ledgerType": {
-                  "@id": "urpx:bundledLedger"
-                },
-                "urpx:referencesMetricInput": {
-                  "@id": "cpau:e2g-mi-energy"
-                }
-              }
-            ],
-            "urpx:hasPriceDefinition": [
-              {
-                "@type": "urpx:PriceDefinition",
-                "@id": "cpau:e2g-pd-green-charge",
-                "urpx:name": "Palo Alto Green Charge (100% Renewable Option)",
-                "urpx:chargeType": {
-                  "@id": "urpx:renewableFunding"
-                },
-                "urpx:chargeCategory": {
-                  "@id": "urpx:environmental"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:supplyPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "cpau:e2g-ledger-green-charge"
-                },
-                "urpx:referencesMetricInput": {
-                  "@id": "cpau:e2g-mi-energy"
-                }
-              }
-            ]
-          }
-        },
-        "urpx:hasPrices": {
-          "@type": "urpx:Prices",
-          "@id": "cpau:e2g-prices",
-          "urpx:hasPriceSet": [
+          "urpx:hasPriceDefinition": [
             {
-              "@type": "urpx:PriceSet",
-              "@id": "cpau:e2g-price-set",
-              "urpx:hasPrice": [
-                {
-                  "@type": "urpx:Price",
-                  "@id": "cpau:e2g-price-green-charge",
-                  "urpx:name": "Palo Alto Green Charge",
-                  "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:e2g-pd-green-charge"
-                  },
-                  "urpx:startDate": "2025-07-01",
-                  "urpx:unitPrice": "0.0075"
-                }
-              ]
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e2g-pd-green-charge",
+              "urpx:name": "Palo Alto Green Charge (100% Renewable Option)",
+              "urpx:chargeType": {
+                "@id": "urpx:renewableFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e2g-ledger-green-charge"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e2g-mi-energy"
+              }
             }
           ]
         }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "cpau:e2g-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "cpau:e2g-price-set",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e2g-price-green-charge",
+                "urpx:name": "Palo Alto Green Charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e2g-pd-green-charge"
+                },
+                "urpx:startDate": "2025-07-01",
+                "urpx:unitPrice": "0.0075"
+              }
+            ]
+          }
+        ]
       }
     }
-  ]
+  }
 }

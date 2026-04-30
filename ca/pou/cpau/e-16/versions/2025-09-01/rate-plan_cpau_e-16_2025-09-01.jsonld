@@ -34,165 +34,169 @@
       "@type": "xsd:date"
     },
     "cpau": "https://example.com/cpau/",
-    "org": "https://example.com/organizations/"
+    "org": "https://example.com/organizations/",
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
   },
-  "@graph": [
-    {
-      "@type": "urpx:RatePlan",
-      "@id": "cpau:e-16",
-      "urpx:name": "Unmetered Electric Service",
-      "urpx:ratePlanUniqueIdentifier": "CPAU-E-16",
-      "urpx:initialEffectiveDate": "2025-09-01",
-      "urpx:timezoneIdentifier": "America/Los_Angeles",
-      "urpx:hasRatePlanVersion": {
-        "@type": "urpx:RatePlanVersion",
-        "@id": "cpau:e-16-2025-09-01",
-        "urpx:version": "1.0",
-        "urpx:effectiveDateTime": "2025-09-01T00:00:00",
-        "urpx:description": "CPAU Schedule E-16 (Unmetered Electric Service), effective 2025-09-01. PARTIAL MODELING. Customer charge $10.96/month (Section C.1) is modeled structurally. The Section C.2 energy charge — published as 'using Electric Rate Schedule E-2 plus all applicable riders' — is a cross-schedule reference for which we couldn't figure out a structural URPX pattern. Energy charge described in prose only; consumers needing a full E-16 bill must combine this filing with cpau:e-2 and applicable riders. Section D estimation method (kWh estimated from Total Wattage × annual operating hours / 1000 / 12) is a calculation rule documented in prose. Section E miscellaneous rates (license fees for conduit usage, utility pole attachments, communication equipment mounting) are not modeled in v1 — annual rates rather than monthly, indexed to CPI per Section F; deferred to a follow-up. Customer charge is also the minimum monthly charge per Section C.3.",
-        "urpx:customerChoice": {
-          "@id": "urpx:mandatoryChoice"
+  "@type": "urpx:URPXDocument",
+  "@id": "cpau:doc-e-16-2025-09-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "cpau:e-16",
+    "urpx:name": "Unmetered Electric Service",
+    "urpx:ratePlanUniqueIdentifier": "CPAU-E-16",
+    "urpx:initialEffectiveDate": "2025-09-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "cpau:e-16-2025-09-01",
+      "urpx:version": "1.0",
+      "urpx:effectiveDateTime": "2025-09-01T00:00:00",
+      "urpx:description": "CPAU Schedule E-16 (Unmetered Electric Service), effective 2025-09-01. PARTIAL MODELING. Customer charge $10.96/month (Section C.1) is modeled structurally. The Section C.2 energy charge — published as 'using Electric Rate Schedule E-2 plus all applicable riders' — is a cross-schedule reference for which we couldn't figure out a structural URPX pattern. Energy charge described in prose only; consumers needing a full E-16 bill must combine this filing with cpau:e-2 and applicable riders. Section D estimation method (kWh estimated from Total Wattage × annual operating hours / 1000 / 12) is a calculation rule documented in prose. Section E miscellaneous rates (license fees for conduit usage, utility pole attachments, communication equipment mounting) are not modeled in v1 — annual rates rather than monthly, indexed to CPI per Section F; deferred to a follow-up. Customer charge is also the minimum monthly charge per Section C.3.",
+      "urpx:customerChoice": {
+        "@id": "urpx:mandatoryChoice"
+      },
+      "urpx:isDefault": true,
+      "urpx:changeReason": {
+        "@id": "urpx:initial"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-cpau",
+        "urpx:legalName": "City of Palo Alto Utilities",
+        "urpx:eiaId": "3203",
+        "urpx:organizationType": {
+          "@id": "urpx:municipalOrganization"
+        }
+      },
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "cpau:e16-dsr",
+        "urpx:name": "CPAU Schedule E-16 (effective 2025-09-01)",
+        "urpx:fileName": "e-16-effective-2025-09-01.pdf",
+        "urpx:url": "https://www.paloalto.gov/files/assets/public/v/2/utilities/rates-schedules-for-utilities/city-facility-utility-rates/e-16-effective-2025-09-01.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
         },
-        "urpx:isDefault": true,
-        "urpx:changeReason": {
-          "@id": "urpx:initial"
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:serviceRole": {
-          "@id": "urpx:bundledServiceRole"
-        },
-        "urpx:publishedBy": {
-          "@type": "urpx:Organization",
-          "@id": "org:utility-cpau",
-          "urpx:legalName": "City of Palo Alto Utilities",
-          "urpx:eiaId": "3203",
-          "urpx:organizationType": {
-            "@id": "urpx:municipalOrganization"
-          }
-        },
-        "urpx:hasDataSourceReference": {
-          "@type": "urpx:DataSourceReference",
-          "@id": "cpau:e16-dsr",
-          "urpx:name": "CPAU Schedule E-16 (effective 2025-09-01)",
-          "urpx:fileName": "e-16-effective-2025-09-01.pdf",
-          "urpx:url": "https://www.paloalto.gov/files/assets/public/v/2/utilities/rates-schedules-for-utilities/city-facility-utility-rates/e-16-effective-2025-09-01.pdf",
-          "urpx:mediaType": {
-            "@id": "urpx:applicationPdf"
-          },
-          "urpx:dataSourceType": {
-            "@id": "urpx:utilityWebsiteSource"
-          },
-          "urpx:dateRetrieved": "2026-04-30"
-        },
-        "urpx:hasEligibilityRule": [
-          {
-            "@type": "urpx:EligibilityRule",
-            "@id": "cpau:e16-er-eligibility",
-            "urpx:name": "Unmetered electric service customer",
-            "urpx:description": "Applies to customers contracting with the City of Palo Alto Utilities for UNMETERED electric service for billboards, unmetered telephone services, telephone booths, railroad signals, cathodic protection units, traffic cameras, wireless antennas and related equipment, community antenna television and video systems, cable TV power supplies, automatic irrigation systems, and other miscellaneous Electric Utility fees to public agencies and private entities. Per Section A of the published Schedule E-16.",
-            "urpx:hasConditionExpression": {
-              "@type": "urpx:ConditionExpression",
-              "@id": "cpau:e16-cx-eligibility",
-              "urpx:rootNode": {
-                "@type": "urpx:ComparisonNode",
-                "@id": "cpau:e16-cn-unmetered",
-                "urpx:operator": {
-                  "@id": "urpx:equalsOperator"
-                },
-                "urpx:leftOperand": {
-                  "@type": "urpx:CustomOperandNode",
-                  "urpx:customConditionProperty": "metering"
-                },
-                "urpx:rightOperand": {
-                  "@type": "urpx:CustomOperandNode",
-                  "urpx:stringValue": "Unmetered"
-                }
+        "urpx:dateRetrieved": "2026-04-30"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "cpau:e16-er-eligibility",
+          "urpx:name": "Unmetered electric service customer",
+          "urpx:description": "Applies to customers contracting with the City of Palo Alto Utilities for UNMETERED electric service for billboards, unmetered telephone services, telephone booths, railroad signals, cathodic protection units, traffic cameras, wireless antennas and related equipment, community antenna television and video systems, cable TV power supplies, automatic irrigation systems, and other miscellaneous Electric Utility fees to public agencies and private entities. Per Section A of the published Schedule E-16.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "cpau:e16-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "cpau:e16-cn-unmetered",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "metering"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "Unmetered"
               }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "cpau:e16-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e16-mi-meter-count",
+            "urpx:name": "Service-account count (one per contracted unmetered service)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
             }
           }
         ],
-        "urpx:hasPlanElements": {
-          "@type": "urpx:PlanElements",
-          "@id": "cpau:e16-plan-elements",
-          "urpx:hasMetricInput": [
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "cpau:e16-billing-model",
+          "urpx:hasLedger": [
             {
-              "@type": "urpx:MetricInput",
-              "@id": "cpau:e16-mi-meter-count",
-              "urpx:name": "Service-account count (one per contracted unmetered service)",
-              "urpx:metricInputType": {
-                "@id": "urpx:profileMetricInput"
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e16-ledger-service",
+              "urpx:name": "Customer (service) charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:profileMetricLedger"
               },
-              "urpx:profileMetricProperty": {
-                "@id": "urpx:meterCount"
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e16-mi-meter-count"
               }
             }
           ],
-          "urpx:hasBillingModel": {
-            "@type": "urpx:BillingModel",
-            "@id": "cpau:e16-billing-model",
-            "urpx:hasLedger": [
-              {
-                "@type": "urpx:Ledger",
-                "@id": "cpau:e16-ledger-service",
-                "urpx:name": "Customer (service) charge",
-                "urpx:ledgerType": {
-                  "@id": "urpx:profileMetricLedger"
-                },
-                "urpx:referencesMetricInput": {
-                  "@id": "cpau:e16-mi-meter-count"
-                }
-              }
-            ],
-            "urpx:hasPriceDefinition": [
-              {
-                "@type": "urpx:PriceDefinition",
-                "@id": "cpau:e16-pd-customer-charge",
-                "urpx:name": "Customer Charge",
-                "urpx:description": "Per Section C.1 of the published Schedule E-16. Set using the annual SEIU salary schedule. Also serves as the minimum monthly charge per Section C.3.",
-                "urpx:chargeType": {
-                  "@id": "urpx:minimumBill"
-                },
-                "urpx:chargeCategory": {
-                  "@id": "urpx:serviceCharge"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:baseQuantity": "1",
-                "urpx:hasCalculationMethod": {
-                  "@type": "urpx:CalculationMethod",
-                  "@id": "cpau:e16-pd-customer-charge-cm",
-                  "urpx:intervalDuration": "P1M"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "cpau:e16-ledger-service"
-                }
-              }
-            ]
-          }
-        },
-        "urpx:hasPrices": {
-          "@type": "urpx:Prices",
-          "@id": "cpau:e16-prices",
-          "urpx:hasPriceSet": [
+          "urpx:hasPriceDefinition": [
             {
-              "@type": "urpx:PriceSet",
-              "@id": "cpau:e16-price-set",
-              "urpx:hasPrice": [
-                {
-                  "@type": "urpx:Price",
-                  "@id": "cpau:e16-price-customer-charge",
-                  "urpx:name": "Customer Charge",
-                  "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:e16-pd-customer-charge"
-                  },
-                  "urpx:startDate": "2025-09-01",
-                  "urpx:unitPrice": "10.96"
-                }
-              ]
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e16-pd-customer-charge",
+              "urpx:name": "Customer Charge",
+              "urpx:description": "Per Section C.1 of the published Schedule E-16. Set using the annual SEIU salary schedule. Also serves as the minimum monthly charge per Section C.3.",
+              "urpx:chargeType": {
+                "@id": "urpx:minimumBill"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "cpau:e16-pd-customer-charge-cm",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e16-ledger-service"
+              }
             }
           ]
         }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "cpau:e16-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "cpau:e16-price-set",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e16-price-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e16-pd-customer-charge"
+                },
+                "urpx:startDate": "2025-09-01",
+                "urpx:unitPrice": "10.96"
+              }
+            ]
+          }
+        ]
       }
     }
-  ]
+  }
 }

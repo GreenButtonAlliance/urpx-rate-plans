@@ -47,9 +47,16 @@ RATE_PLAN_LEVEL_FIELDS = [
 
 
 def find_rate_plan(doc):
-    """Walk the doc's @graph and return the top-level urpx:RatePlan node."""
-    graph = doc.get("@graph") or []
-    for node in graph:
+    """Return the top-level urpx:RatePlan node, navigating either shape:
+    - URPXDocument-wrapped (v0.2.0): doc[@type]=urpx:URPXDocument with
+      doc[urpx:hasRatePlan]={...the RatePlan...}
+    - Legacy @graph: doc[@graph] contains a urpx:RatePlan entry"""
+    if doc.get("@type") == "urpx:URPXDocument":
+        rp = doc.get("urpx:hasRatePlan")
+        if isinstance(rp, dict) and rp.get("@type") == "urpx:RatePlan":
+            return rp
+        return None
+    for node in doc.get("@graph") or []:
         if isinstance(node, dict) and node.get("@type") == "urpx:RatePlan":
             return node
     return None
