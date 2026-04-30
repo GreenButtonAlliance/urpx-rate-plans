@@ -1,0 +1,740 @@
+{
+  "@context": {
+    "urpx": "https://schema.urpx.org/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:decimalValue": {
+      "@type": "xsd:decimal"
+    },
+    "cpau": "https://example.com/cpau/",
+    "org": "https://example.com/organizations/"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:RatePlan",
+      "@id": "cpau:e-4",
+      "urpx:name": "Medium Non-Residential Electric Service",
+      "urpx:ratePlanUniqueIdentifier": "CPAU-E-4",
+      "urpx:initialEffectiveDate": "2025-07-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanVersion": {
+        "@type": "urpx:RatePlanVersion",
+        "@id": "cpau:e-4-2025-07-01",
+        "urpx:version": "1.0",
+        "urpx:effectiveDateTime": "2025-07-01T00:00:00",
+        "urpx:description": "CPAU Schedule E-4 (Medium Non-Residential Electric Service), effective 2025-07-01. Demand-metered Secondary service for customers with maximum demand below 1000 kW. Two-period seasonal rate (Summer May–Oct, Winter Nov–Apr); no TOU within periods. Three-component unbundled energy ($/kWh: commodity / distribution / public-benefits) plus a two-component demand charge ($/kW: commodity / distribution) plus a flat $126.24/month customer charge. Demand is measured as the max kW in any 15-minute interval over the billing month (urpx:CalculationMethod with aggregationMethod=urpx:maximum). NOT modeled in v1: Section D.5 Primary Voltage Discount, Section D.6 Standby Charge, Section D.3 TES carve-out (noon-6pm weekday demand window for Thermal Energy Storage customers).",
+        "urpx:customerChoice": {
+          "@id": "urpx:mandatoryChoice"
+        },
+        "urpx:isDefault": true,
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "@id": "cpau:e4-dsr",
+          "urpx:name": "CPAU Schedule E-4 (effective 2025-07-01)",
+          "urpx:fileName": "e-4-effective-2025-07-01.pdf",
+          "urpx:url": "https://www.paloalto.gov/files/assets/public/v/5/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-4-effective-2025-07-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
+          "urpx:dateRetrieved": "2026-04-30"
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:e4-er-eligibility",
+            "urpx:name": "Demand-metered Secondary, max demand below 1000 kW",
+            "urpx:description": "Applies to customers receiving Demand metered Secondary Electric Service whose maximum monthly demand is below 1000 kW. May include master-metered multi-family facilities or other facilities requiring demand-metered service, as determined by the City. Per Section A of the published Schedule E-4 (sheet E-4-1, effective 2025-07-01).",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:e4-cx-eligibility",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:e4-bn-eligibility-and",
+                "urpx:operator": {
+                  "@id": "urpx:andOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e4-cn-demand-metered",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "metering"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Demand metered Secondary"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e4-cn-demand-below-1000",
+                    "urpx:operator": {
+                      "@id": "urpx:lessThanOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "monthlyMaxDemand_kW"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:decimalValue": "1000"
+                    }
+                  }
+                ],
+                "urpx:logicExpression": "metering = 'Demand metered Secondary' AND monthlyMaxDemand_kW < 1000"
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "@id": "cpau:e4-plan-elements",
+          "urpx:hasSeasons": [
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e4-season-summer",
+              "urpx:seasonName": "Summer",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--05",
+                "--06",
+                "--07",
+                "--08",
+                "--09",
+                "--10"
+              ]
+            },
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e4-season-winter",
+              "urpx:seasonName": "Winter",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--11",
+                "--12",
+                "--01",
+                "--02",
+                "--03",
+                "--04"
+              ]
+            }
+          ],
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e4-mi-energy",
+              "urpx:name": "Energy consumed (kWh)",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e4-ms-energy",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e4-mi-demand",
+              "urpx:name": "Demand (kW, 15-minute interval)",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e4-ms-demand",
+                "urpx:measurementKind": {
+                  "@id": "urpx:demand"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kW"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                },
+                "urpx:intervalDuration": "PT15M",
+                "urpx:intervalType": {
+                  "@id": "urpx:fifteenMinuteInterval"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e4-mi-meter-count",
+              "urpx:name": "Meter count",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "@id": "cpau:e4-billing-model",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e4-ledger-energy-commodity",
+                "urpx:name": "Energy — Commodity",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e4-ledger-energy-distribution",
+                "urpx:name": "Energy — Distribution",
+                "urpx:ledgerType": {
+                  "@id": "urpx:distributionLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e4-ledger-energy-public-benefits",
+                "urpx:name": "Energy — Public Benefits",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e4-ledger-demand-commodity",
+                "urpx:name": "Demand — Commodity",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-demand"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e4-ledger-demand-distribution",
+                "urpx:name": "Demand — Distribution",
+                "urpx:ledgerType": {
+                  "@id": "urpx:distributionLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-demand"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e4-ledger-service",
+                "urpx:name": "Customer (service) charge",
+                "urpx:ledgerType": {
+                  "@id": "urpx:profileMetricLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-meter-count"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-energy-commodity-summer",
+                "urpx:name": "Energy Commodity Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-energy-distribution-summer",
+                "urpx:name": "Energy Distribution Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-energy-public-benefits-summer",
+                "urpx:name": "Energy Public Benefits Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-energy-commodity-winter",
+                "urpx:name": "Energy Commodity Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-energy-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-energy-distribution-winter",
+                "urpx:name": "Energy Distribution Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-energy-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-energy-public-benefits-winter",
+                "urpx:name": "Energy Public Benefits Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-energy-public-benefits"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-demand-commodity-summer",
+                "urpx:name": "Demand Commodity Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-demand-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e4-pd-demand-commodity-summer-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval at any time during the monthly billing period. Per Section D.3 of the PDF, the City may use a 5-minute interval at its discretion for customers with intermittent or fluctuating loads; the default 15-minute interval is modeled here."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-demand-distribution-summer",
+                "urpx:name": "Demand Distribution Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-demand-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e4-pd-demand-distribution-summer-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval at any time during the monthly billing period. Per Section D.3 of the PDF, the City may use a 5-minute interval at its discretion for customers with intermittent or fluctuating loads; the default 15-minute interval is modeled here."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-demand-commodity-winter",
+                "urpx:name": "Demand Commodity Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-demand-commodity"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e4-pd-demand-commodity-winter-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval at any time during the monthly billing period. Per Section D.3 of the PDF, the City may use a 5-minute interval at its discretion for customers with intermittent or fluctuating loads; the default 15-minute interval is modeled here."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-demand-distribution-winter",
+                "urpx:name": "Demand Distribution Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:demandDirect"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e4-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-demand-distribution"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e4-mi-demand"
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e4-pd-demand-distribution-winter-cm",
+                  "urpx:aggregationMethod": {
+                    "@id": "urpx:maximum"
+                  },
+                  "urpx:intervalDuration": "P1M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:monthlyInterval"
+                  },
+                  "urpx:description": "Maximum demand (kW) measured in any 15-minute interval at any time during the monthly billing period. Per Section D.3 of the PDF, the City may use a 5-minute interval at its discretion for customers with intermittent or fluctuating loads; the default 15-minute interval is modeled here."
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e4-pd-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:serviceMetered"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:serviceCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e4-pd-customer-charge-cm",
+                  "urpx:intervalDuration": "P1M"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e4-ledger-service"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "@id": "cpau:e4-prices",
+          "urpx:hasPriceSet": [
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:e4-price-set",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-energy-commodity-summer",
+                  "urpx:name": "Energy Commodity Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-energy-commodity-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.12441"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-energy-distribution-summer",
+                  "urpx:name": "Energy Distribution Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-energy-distribution-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.02797"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-energy-public-benefits-summer",
+                  "urpx:name": "Energy Public Benefits Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-energy-public-benefits-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-energy-commodity-winter",
+                  "urpx:name": "Energy Commodity Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-energy-commodity-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.08028"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-energy-distribution-winter",
+                  "urpx:name": "Energy Distribution Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-energy-distribution-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.02797"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-energy-public-benefits-winter",
+                  "urpx:name": "Energy Public Benefits Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-energy-public-benefits-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "0.00604"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-demand-commodity-summer",
+                  "urpx:name": "Demand Commodity Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-demand-commodity-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "11.09"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-demand-distribution-summer",
+                  "urpx:name": "Demand Distribution Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-demand-distribution-summer"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "38.08"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-demand-commodity-winter",
+                  "urpx:name": "Demand Commodity Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-demand-commodity-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "2.60"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-demand-distribution-winter",
+                  "urpx:name": "Demand Distribution Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-demand-distribution-winter"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "23.49"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e4-price-customer-charge",
+                  "urpx:name": "Customer Charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e4-pd-customer-charge"
+                  },
+                  "urpx:startDate": "2025-07-01",
+                  "urpx:unitPrice": "126.24"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
