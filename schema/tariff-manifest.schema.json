@@ -27,6 +27,21 @@
           "description": "Optional discovery URL — the utility's tariff-listing or landing page where this document is published. Captures provenance of how the URL was discovered, in addition to the direct URL. Useful when the document URL is opaque/versioned but the landing page is durable."
         }
       }
+    },
+    "regulatorRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "type": "string",
+          "description": "Generic regulator-class identifier. The state context is already carried by the directory path (e.g. ca/iou/...), and the regulator's full name (California Public Utilities Commission, etc.) can live in description prose if needed. 'puc' covers state-PUC-equivalents broadly (Public Utilities Commission, Public Service Commission, Department of Public Utilities, Corporation Commission, etc.) without committing to one state's specific name.",
+          "enum": ["puc", "ferc", "city-council", "board", "none", "unknown"]
+        },
+        "docket": {
+          "type": "string",
+          "description": "Filing/docket/ordinance/resolution identifier as published by the regulator (e.g. CPUC 'A.24-09-015'; a city-council ordinance number; etc.)."
+        }
+      }
     }
   },
   "properties": {
@@ -69,15 +84,18 @@
     },
 
     "regulator": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "authority": {
-          "type": "string",
-          "enum": ["cpuc", "ferc", "city-council", "board", "none", "unknown"]
-        },
-        "docket": { "type": "string" }
-      }
+      "description": "Either a single regulatorRecord (single-regulator case — applies to the whole filing) or an object with one or more named regulatorRecord sub-tables paralleling [source.<name>] (multi-source filing case where each source document was filed separately with the regulator under its own docket).",
+      "oneOf": [
+        { "$ref": "#/$defs/regulatorRecord" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*$": { "$ref": "#/$defs/regulatorRecord" }
+          }
+        }
+      ]
     },
 
     "extraction": {

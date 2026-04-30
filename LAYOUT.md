@@ -96,7 +96,7 @@ landing_page  = "..."                    # optional; the utility's discovery
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "cpuc"                   # cpuc | ferc | city-council | board | none | unknown
+authority     = "puc"                    # puc | ferc | city-council | board | none | unknown
 docket        = "A.24-12-345"            # if known
 
 # Extraction ------------------------------------------------------------------
@@ -148,6 +148,23 @@ landing_page  = "https://www.paloalto.gov/.../Residential-Rates"
 ```
 
 Sub-table names are free-form (`base`, `modifier_e_eec_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `ca/pou/cpau/e-1/versions/2025-09-01/tariff.toml` for a working example.
+
+### Per-document regulator metadata in multi-source filings
+
+When a multi-source filing's source documents were *each filed separately* with the regulator under their own dockets/ordinances, `[regulator]` accepts named sub-tables paralleling `[source.<name>]`:
+
+```toml
+[regulator]
+  [regulator.base]
+  authority = "city-council"
+  docket    = "Ordinance No. 5378"
+
+  [regulator.modifier_e_eec_1]
+  authority = "city-council"
+  docket    = "Resolution 9.876"
+```
+
+Use this only when the per-document regulatory metadata genuinely differs across the source documents. If they all share one `authority + docket`, the flat single-`[regulator]` form is sufficient. The `authority` enum values (`puc`, `ferc`, `city-council`, `board`, `none`, `unknown`) are deliberately generic — the state context is already in the directory path (`ca/iou/...`), and the regulator's full name (e.g. "California Public Utilities Commission") can live in description prose if needed.
 
 ## 5. Per-utility discovery manifest: `utility.toml`
 
