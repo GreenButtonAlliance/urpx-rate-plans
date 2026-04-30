@@ -1,0 +1,94 @@
+# SCE utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §10.
+
+utility           = "sce"
+
+# Where SCE publishes tariffs and rate-plan information.
+tariff_index_urls = [
+  # Customer-facing residential rate-plan landing — links out to per-rate
+  # information pages (TOU plans, tiered, EV) but not directly to tariff PDFs.
+  "https://www.sce.com/save-money/rates-financing/residential-rate-plans",
+
+  # SCE's regulatory tariff-books portal. Current year is gated behind a
+  # SharePoint folder (see scrape_notes); historical years 2014-2025 each
+  # have their own landing page under /regulatory/tariff-books/historical-rates/.
+  "https://www.sce.com/regulatory/regulatory-information/tariff-books",
+
+  # Per-year historical rate-schedule index pages, e.g.:
+  #   /regulatory/tariff-books/historical-rates/historical-rate-schedules-for-2025
+  # Each year's page links to a SharePoint folder with the year's tariff PDFs.
+  "https://www.sce.com/regulatory/tariff-books/historical-rates",
+
+  # Annual rate-options summary PDF. Republished yearly (filename includes
+  # the year). Useful for an authoritative overview of which schedules are
+  # current vs grandfathered/closed.
+  "https://www.sce.com/sites/default/files/custom-files/PDF_Files/2025_Summary_of_Available_Residential_and_Nonresidential_Rates.pdf",
+]
+
+scrape_notes = """
+SCE's tariff-publication pattern differs from PG&E's tariffbook directory.
+Per-schedule PDFs are NOT served at predictable stable URLs on sce.com.
+Instead:
+
+- The historical-rates portal lists per-year landing pages (2014-2025).
+- Each year's landing page links to a Microsoft SharePoint folder hosted at
+  edisonintl.sharepoint.com. The SharePoint folders contain the per-schedule
+  tariff PDFs (Schedule D, Schedule TOU-D, etc.).
+- SharePoint folder URLs use opaque tokens and are not stable across years
+  (a new folder is published each tariff cycle).
+- Some legacy/fact-sheet PDFs are served from sce.com/sites/default/files/
+  (e.g. the annual rate-options summary, TOU-D-PRIME fact sheet).
+
+Practical scraping approach:
+1. Fetch the historical-rates page for the target year to find the
+   SharePoint folder URL.
+2. Use SharePoint's REST/Graph API or browser automation (e.g. spel) to
+   enumerate PDFs in the folder.
+3. Cache discovered PDF URLs in each filing's tariff.toml [source.url];
+   recompute sha256 on subsequent fetches.
+
+For ad-hoc lookups, contact tariffs.manager@sce.com (per SCE's regulatory
+page) — there is no public direct-download API as of 2026.
+
+Alternative source: OEDI USURDB (https://apps.openei.org/USURDB/) has
+SCE rates parsed but is community-curated, not authoritative — useful for
+cross-checking values, not as the source-of-record for filings here.
+
+Mixed per-sheet effective dates within a single PDF:
+
+SCE publishes each schedule as a *consolidated tariff-book extract* — a
+single PDF whose individual sheets carry per-sheet effective dates that
+drift out of sync as advice letters take effect on different sheets at
+different times. Example: ELECTRIC_SCHEDULES_TOU-D_2025.pdf contains
+sheets effective Jan 1, Mar 1, Jun 1, Oct 1, and Nov 15 of 2025 because
+each sheet was last touched by a different advice letter. PG&E's tariff
+PDFs do not exhibit this — each PG&E PDF generally carries one effective
+date for the whole document.
+
+Convention for this corpus: treat the SCE PDF as a single filing dated
+to the *most recent per-sheet effective date* in the document — the date
+on which the rate plan in its currently-serialized form became effective.
+Earlier-dated sheets are unchanged since their last revision; the PDF
+as a whole is a snapshot of what's in force right now. Record the
+per-sheet effective dates in tariff.toml [extraction.notes] for
+traceability.
+
+Two alternatives were considered and rejected for the common case:
+
+  (1) Multiple urpx:RatePlanVersion entries in an @graph, one per
+      sheet-effective-date. Faithful to advice-letter granularity but
+      heavy — implies parallel rate publications when the per-sheet
+      structure is really just bookkeeping for sheet replacements.
+      Reserve this pattern for cases like PG&E's 2026-03-27 partial
+      reissue, where ONE advice letter explicitly publishes multiple
+      per-sheet effective dates simultaneously.
+
+  (2) Carving the PDF into multiple per-effective-date filings
+      (versions/2025-01-01/, versions/2025-03-01/, ...). Most granular
+      but very high effort, and many sheet revisions are typographical
+      or non-rate updates.
+
+Either alternative remains available if a specific SCE filing's
+structure demands it — but the default for SCE consolidated tariff-book
+PDFs is single-filing-dated-to-most-recent.
+"""

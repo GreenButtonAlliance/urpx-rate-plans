@@ -1,0 +1,359 @@
+# California residential customer-count estimates per utility and tariff.
+#
+# Used by dev/coverage.py to compute corpus coverage: what fraction of CA
+# residential utility customers have their rate modeled in this repo.
+#
+# Two distinct metrics matter for IOUs (where Community Choice Aggregators
+# split delivery from generation):
+#   total_residential     — all residential customers on the utility's grid,
+#                           including CCA-served customers (the utility's
+#                           tariff still governs delivery)
+#   bundled_residential   — customers buying both energy and delivery from
+#                           the IOU; excludes CCA-served (matches EIA-861's
+#                           "bundled retail" table)
+# For POUs the two are identical.
+#
+# Coverage uses total_residential because the IOU tariff governs the full
+# bill structure (delivery rates apply to CCA customers; generation rates
+# apply to bundled customers). The price-server consuming this corpus needs
+# to answer "what is *this* customer's current price?" — and the answer
+# depends on the IOU tariff regardless of CCA enrollment.
+#
+# Per-tariff [utility.<u>.tariffs.<t>] entries record the estimated number
+# of residential customers on that specific schedule. Shares within a
+# utility should sum approximately to total_residential. Where exact
+# enrollment numbers aren't published, the entry uses share_of_residential
+# (fraction in [0, 1]) instead, and coverage.py will multiply by the
+# utility's total. Mark `estimate_quality = "rough" | "firm"` to signal
+# how much to trust the figure.
+
+[meta]
+schema_version = 1
+last_updated = "2026-04-29"
+notes = """
+First-pass estimates seeded from EIA Form 861 2024 ('table_6.pdf' linked
+in source_url fields below) and approximate CPUC general-order knowledge.
+Refine over time. The price-server target is residential users; commercial
+schedules are not counted toward residential coverage but may be tracked
+separately for future commercial coverage work.
+"""
+
+# ---------------------------------------------------------------------------
+# IOUs — CPUC-regulated investor-owned utilities. Tariff governs delivery
+# for all customers; generation only for bundled (non-CCA) customers.
+# ---------------------------------------------------------------------------
+
+[utility.pge]
+name = "Pacific Gas and Electric Company"
+class = "iou"
+total_residential = 5500000
+bundled_residential = 1856780
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024 bundled count = 1,856,780; total residential ~5.5M includes CCA-served (MCE, EBCE, SVCE, SJCE, etc.) which buy generation from CCA but delivery from PG&E."
+as_of = "2024"
+
+[utility.pge.tariffs.e-1]
+share_of_residential = 0.15
+estimate_quality = "rough"
+notes = "Legacy tiered rate. Default until 2021 E-TOU-C migration; remaining enrollment is mostly customers who opted out or were excluded. Declining."
+
+[utility.pge.tariffs.e-tou-c]
+share_of_residential = 0.78
+estimate_quality = "rough"
+notes = "Default residential TOU rate since the 2021 mass-migration (CPUC D.18-04-024). Captures vast majority of PG&E residential."
+
+[utility.pge.tariffs.e-tou-d]
+share_of_residential = 0.02
+estimate_quality = "rough"
+notes = "Opt-in TOU with no baseline credit; smaller enrollment."
+
+[utility.pge.tariffs.ev2]
+share_of_residential = 0.04
+estimate_quality = "rough"
+notes = "EV2-A whole-house EV rate. Growing with EV adoption."
+
+[utility.pge.tariffs.e-elec]
+share_of_residential = 0.01
+estimate_quality = "rough"
+notes = "Opt-in all-electric rate (heat pump + induction + EV). Small but growing."
+
+# ---
+
+[utility.sce]
+name = "Southern California Edison"
+class = "iou"
+total_residential = 5000000
+bundled_residential = 3219520
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024 bundled = 3,219,520; total residential ~5.0M includes CCA-served (CPA, OC Power Authority, SBCE, etc.). SCE serves 15M people."
+tariff_book_url = "https://www.sce.com/sites/default/files/custom-files/PDF_Files/2025_Summary_of_Available_Residential_and_Nonresidential_Rates.pdf"
+as_of = "2024"
+
+# Residential schedules per SCE's August 2025 rate-options summary:
+#   D                — Domestic tiered (legacy; opt-out destination)
+#   TOU-D-4-9PM      — Time-of-Use Domestic, on-peak 4-9pm (CPUC mass-migration default)
+#   TOU-D-5-8PM      — Time-of-Use Domestic, on-peak 5-8pm (alternate default by climate zone)
+#   TOU-D-PRIME      — Preferred TOU for high-usage customers with EV/storage/heat-pump;
+#                      MANDATORY for new solar customers under NBT
+#   TOU-D-4-9PM-CPP  — 4-9pm option with Critical Peak Pricing
+#   TOU-D-5-8PM-CPP  — 5-8pm option with CPP
+#   TOU-D-PRIME-CPP  — PRIME with CPP
+#   D-SDP            — Domestic Summer Discount Plan (load control)
+#   DM, DMS-1/2/3    — Multifamily / submetered residential
+#   ESC-OO           — SmartConnect opt-out (variant on D, not a distinct rate)
+
+[utility.sce.tariffs.tou-d-4-9pm]
+share_of_residential = 0.50
+estimate_quality = "rough"
+notes = "Likely the larger of the two CPUC-mass-migration TOU defaults (October 2020 transition). Population-weighted, more SCE territory falls in the 4-9pm climate zone. Refine from CPUC enrollment reports."
+
+[utility.sce.tariffs.tou-d-5-8pm]
+share_of_residential = 0.20
+estimate_quality = "rough"
+notes = "The other CPUC-mass-migration TOU default; assigned in inland climate zones. Refine from CPUC enrollment reports."
+
+[utility.sce.tariffs.d]
+share_of_residential = 0.20
+estimate_quality = "rough"
+notes = "Legacy tiered Schedule D. Captures customers who opted out of TOU during the 2020-2022 mass migration. Declining over time."
+
+[utility.sce.tariffs.tou-d-prime]
+share_of_residential = 0.05
+estimate_quality = "rough"
+notes = "Mandatory for new solar customers under Net Billing Tariff (NBT) since 2023. Growing rapidly with solar adoption."
+
+[utility.sce.tariffs.dms]
+share_of_residential = 0.04
+estimate_quality = "rough"
+notes = "Multifamily submetered (DM, DMS-1, DMS-2, DMS-3). One landlord-billed meter, multiple tenants. Small but distinct customer base."
+
+[utility.sce.tariffs.tou-d-cpp]
+share_of_residential = 0.01
+estimate_quality = "rough"
+notes = "CPP variants of TOU-D-4-9PM, TOU-D-5-8PM, and TOU-D-PRIME (combined). Small enrollment due to opt-in nature."
+
+# ---
+
+[utility.sdge]
+name = "San Diego Gas & Electric"
+class = "iou"
+total_residential = 1400000
+bundled_residential = 307982
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024 bundled = 307,982; total residential ~1.4M includes CCA-served (SDCP/CleanEnergyAlliance covers most). SDG&E serves 3.7M people."
+as_of = "2024"
+
+# Major SDG&E residential schedules:
+#   DR      — basic domestic
+#   TOU-DR1 — default TOU
+#   TOU-DR2 — TOU alternate
+#   EV-TOU-5 — EV rate
+# Per-tariff splits not yet researched.
+
+# ---
+
+[utility.liberty]
+name = "Liberty Utilities (Tahoe Region)"
+class = "iou"
+total_residential = 43902
+bundled_residential = 43902
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024."
+as_of = "2024"
+
+[utility.pacificorp]
+name = "PacifiCorp (CA service area)"
+class = "iou"
+total_residential = 36273
+bundled_residential = 36273
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024 — California service territory only (mostly Modoc / Siskiyou counties)."
+as_of = "2024"
+
+[utility.bear-valley]
+name = "Bear Valley Electric Service"
+class = "iou"
+total_residential = 23327
+bundled_residential = 23327
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024."
+as_of = "2024"
+
+# ---------------------------------------------------------------------------
+# POUs — Publicly-owned utilities (municipal + irrigation district).
+# Not CPUC-regulated. No CCA distinction; bundled = total.
+# ---------------------------------------------------------------------------
+
+[utility.ladwp]
+name = "Los Angeles Department of Water and Power"
+class = "pou"
+total_residential = 1410191
+bundled_residential = 1410191
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024. Largest POU in the U.S."
+as_of = "2024"
+
+[utility.smud]
+name = "Sacramento Municipal Utility District"
+class = "pou"
+total_residential = 592557
+bundled_residential = 592557
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024."
+as_of = "2024"
+
+[utility.iid]
+name = "Imperial Irrigation District"
+class = "pou"
+total_residential = 142078
+bundled_residential = 142078
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "EIA-861 2024."
+as_of = "2024"
+
+[utility.anaheim]
+name = "City of Anaheim Public Utilities"
+class = "pou"
+total_residential = 105839
+bundled_residential = 105839
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.modesto]
+name = "Modesto Irrigation District"
+class = "pou"
+total_residential = 103650
+bundled_residential = 103650
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.riverside]
+name = "City of Riverside Public Utilities"
+class = "pou"
+total_residential = 100450
+bundled_residential = 100450
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.turlock]
+name = "Turlock Irrigation District"
+class = "pou"
+total_residential = 80575
+bundled_residential = 80575
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.glendale]
+name = "City of Glendale Water and Power"
+class = "pou"
+total_residential = 77563
+bundled_residential = 77563
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.roseville]
+name = "Roseville Electric"
+class = "pou"
+total_residential = 63052
+bundled_residential = 63052
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.pasadena]
+name = "Pasadena Water and Power"
+class = "pou"
+total_residential = 58551
+bundled_residential = 58551
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.santaclara]
+name = "Silicon Valley Power (City of Santa Clara)"
+class = "pou"
+total_residential = 50949
+bundled_residential = 50949
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.burbank]
+name = "Burbank Water and Power"
+class = "pou"
+total_residential = 46157
+bundled_residential = 46157
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.redding]
+name = "Redding Electric Utility"
+class = "pou"
+total_residential = 38170
+bundled_residential = 38170
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.alameda]
+name = "Alameda Municipal Power"
+class = "pou"
+total_residential = 33174
+bundled_residential = 33174
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.cpau]
+name = "City of Palo Alto Utilities"
+class = "pou"
+total_residential = 26249
+bundled_residential = 26249
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.cpau.tariffs.e-1]
+share_of_residential = 0.97
+estimate_quality = "rough"
+notes = "Default residential rate. Vast majority of CPAU residential customers."
+
+[utility.cpau.tariffs.e-1-tou]
+share_of_residential = 0.03
+estimate_quality = "rough"
+notes = "Opt-in residential TOU. Small enrollment."
+
+[utility.lodi]
+name = "City of Lodi Electric Utility"
+class = "pou"
+total_residential = 23751
+bundled_residential = 23751
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.colton]
+name = "City of Colton Electric Department"
+class = "pou"
+total_residential = 17472
+bundled_residential = 17472
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.azusa]
+name = "Azusa Light & Water"
+class = "pou"
+total_residential = 15599
+bundled_residential = 15599
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.merced]
+name = "Merced Irrigation District"
+class = "pou"
+total_residential = 11366
+bundled_residential = 11366
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+as_of = "2024"
+
+[utility.sf]
+name = "City and County of San Francisco (Hetch Hetchy)"
+class = "pou"
+total_residential = 2618
+bundled_residential = 2618
+source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
+source_notes = "Tiny — Hetch Hetchy serves municipal accounts mostly; ~2.6K residential. Not a meaningful coverage target."
+as_of = "2024"
