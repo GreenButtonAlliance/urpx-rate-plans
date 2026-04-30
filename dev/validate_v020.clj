@@ -43,7 +43,8 @@
    [:rate-plan "SCE TOU-D-4-9PM" "ca/iou/sce/tou-d-4-9pm/versions/2025-11-15/rate-plan_sce_tou-d-4-9pm_2025-11-15.jsonld"]
    [:rate-plan "SCE TOU-D-5-8PM" "ca/iou/sce/tou-d-5-8pm/versions/2025-11-15/rate-plan_sce_tou-d-5-8pm_2025-11-15.jsonld"]
    [:rate-plan "SCE Schedule D"  "ca/iou/sce/d/versions/2025-11-15/rate-plan_sce_d_2025-11-15.jsonld"]
-   [:rate-plan "SCE TOU-D-PRIME" "ca/iou/sce/tou-d-prime/versions/2025-11-15/rate-plan_sce_tou-d-prime_2025-11-15.jsonld"]])
+   [:rate-plan "SCE TOU-D-PRIME" "ca/iou/sce/tou-d-prime/versions/2025-11-15/rate-plan_sce_tou-d-prime_2025-11-15.jsonld"]
+   [:rate-plan "LADWP R-1A"     "ca/pou/ladwp/r-1a/versions/2026-04-01/rate-plan_ladwp_r-1a_2026-04-01.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows

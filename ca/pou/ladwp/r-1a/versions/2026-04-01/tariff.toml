@@ -1,0 +1,97 @@
+# Identity --------------------------------------------------------------------
+utility        = "ladwp"
+schedule       = "r-1a"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf"
+sha256        = "1280dd0769f0912922d718fe64843545e6af4be7456fa76fb2bf99bf5bd8f625"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+landing_page  = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "city-council"
+docket        = "Final Incremental Electric Rate Ordinance (4-15-16) + Electric Rates Ordinance"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+LADWP electric rates are governed by City of Los Angeles ordinances —
+not CPUC. Two ordinances combine to define the published rates: the
+base "Electric Rates Ordinance" and the "Final Incremental Electric
+Rate Ordinance" (last amended April 15, 2016). The customer-facing
+"Electric Rate Summary" PDF synthesizes both ordinances; we treat it
+as the source-of-record per the user-defined "single snapshot per
+filing" convention. The summary PDF has not been republished since
+2019-07-01 — rate evolution since then is captured via quarterly
+adjustment factor refreshes (see below), not by re-issuing the summary.
+
+Per-tariff effective dates within the source PDF:
+  Page 1 (Schedule R-1(A) Standard) — effective 2019-07-01
+
+ADJUSTMENT FACTORS (quarterly pass-through):
+The customer-facing all-in $/kWh = energy charge (modeled here from
+the 2019-07-01 summary) + sum of seven adjustment factors, refreshed
+quarterly by LADWP and published as a table on:
+
+  https://www.ladwp.com/account/customer-service/electric-rates/residential-adjustment-billing-factors
+
+Factor values for the Apr-Jun 2026 period (retrieved 2026-04-30,
+captured inline in the JSON-LD):
+
+  Factor                                                Apr-Jun 2026
+  ECA — Energy Cost Adjustment                          0.05690
+  ESA — Electric Subsidy Adjustment                     0.00147
+  RCA — Reliability Cost Adjustment                     0.00300
+  IRCA — Incremental Reliability Cost Adjustment        0.05505
+  VEA — Variable Energy Adjustment                      0.00503
+  CRPSEA — Capped Renewable Portfolio Std. Energy Adj.  0.01779
+  VRPSEA — Variable Renewable Portfolio Std. Energy Adj. 0.03296
+  ───────────────────────────────────────────────────────────────
+  Sum of pass-through factors                           0.17220
+
+For comparison, the prior period (2026 Q1, Jan-Mar 2026):
+  ECA 0.05690, ESA 0.00147, RCA 0.00300, IRCA 0.05505, VEA 0.00781,
+  CRPSEA 0.01889, VRPSEA 0.03317; sum 0.17629. Difference primarily
+  in VEA (-0.00278) and CRPSEA (-0.00110). IRCA + RCA + ESA + ECA
+  unchanged from prior period.
+
+Each future quarterly refresh (Jul 1, 2026; Oct 1, 2026; ...) will
+create a new RatePlanVersion with the updated factor values and a
+new versions/<date>/ directory.
+
+Modeling deferrals (filed as separate beads issues):
+  - URPXT-qh2 (epic): A-1 large TOU residential, EZ-Save Lifeline,
+    NEM Service Rider, REO Service Rider — secondary LADWP residentials.
+  - The 2019-07-01 summary references "VEA / CRPSEA / VRPSEA / IRCA"
+    rows in its "Elements Only in Incremental Ordinance" section
+    without values — confirms these are quarterly-computed pass-throughs.
+    Source-of-truth for the current values is the LADWP HTML page,
+    not a separately-published PDF; capturing the HTML page as
+    structured data + sha256 is deferred (no current convention for
+    HTML sources in this corpus).
+
+Zone assignment (Zone 1 coastal vs Zone 2 inland) is per service
+address, determined by LADWP at account creation. Modeled as a
+customer-profile attribute (downstream of the rate plan) rather
+than a tariff-level filter — the rate plan exposes both zones'
+tier breakpoints and the consumer (price-server) selects based on
+customer zone.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "First LADWP filing in the corpus. Pattern reference: PG&E E-1 (also tiered, urpx:hasServiceTiers + serviceTierNumber on per-tier Price entries). 11 PriceDefinitions (1 high-season energy, 1 low-season energy, 1 power access charge, 7 quarterly adjustment factors, 1 minimum charge). 26 Prices total: 12 energy charge prices (2 seasons × 6 zone-tier combinations; values duplicate across zones since rates don't vary by zone, only breakpoints do) + 6 power access charge prices (per zone × tier; values duplicate $2.30/$7.90/$22.70 across zones) + 7 quarterly adjustment factor prices + 1 minimum charge. ServiceTiers: 6 — Z1T1, Z1T2, Z1T3, Z2T1, Z2T2, Z2T3 with zone-specific kWh breakpoints (Z1: 350/1050; Z2: 500/1500). Season encoded in PriceDefinition.hasApplicabilityRule.month rather than in tier identity (deviates from PG&E E-1 pattern, which uses 6 season-specific tiers). The Tier 3 collapse to Tier 2 rate in low season is encoded via duplicate $0.13001 values for tiers 3 and 6 in pd-energy-low-season."
