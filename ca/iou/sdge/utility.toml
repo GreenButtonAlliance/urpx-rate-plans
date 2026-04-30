@@ -1,0 +1,124 @@
+# San Diego Gas & Electric Company (SDG&E) utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §10.
+
+utility           = "sdge"
+
+# Where SDG&E publishes electric tariffs.
+tariff_index_urls = [
+  # Customer-facing total-electric-rates page — collapsible per-schedule
+  # rate tables rendered inline as HTML. Useful for quick rate lookups but
+  # NOT the source-of-record (no Advice Letter / Decision metadata).
+  "https://www.sdge.com/total-electric-rates",
+
+  # Customer-facing pricing-plans landing — overview of TOU-DR1, TOU-DR2,
+  # DR, EV-TOU-5, EV-TOU, TOU-DR-P, EV-TOU-5-P, DR-SES.
+  "https://www.sdge.com/residential/pricing-plans",
+
+  # Regulatory tariffs index — Advice Letters, Current and Effective Tariffs,
+  # FERC Tariff, Historical Tariffs, etc.
+  "https://www.sdge.com/rates-and-regulations",
+
+  # Current and Effective Tariffs — main entry point to the residential rate
+  # ordinances. Links out to per-schedule pages in tariffsprd.sdge.com.
+  "https://www.sdge.com/node/886",
+
+  # Residential rates index in SDG&E's regulatory tariff portal — lists every
+  # current residential schedule with a per-schedule "view tariff" link
+  # (parameterized by tarfKey).
+  "https://tariffsprd.sdge.com/sdge/tariffs/?utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS&tarfRateGroup=Residential%20Rates",
+]
+
+scrape_notes = """
+SDG&E is a CPUC IOU like PG&E and SCE — Advice Letter / Resolution filing
+mechanism. tariff.toml [regulator] uses authority = "puc" (per the SCE
+filings precedent).
+
+## Tariff source-of-record pattern
+
+SDG&E's regulatory tariff portal lives at tariffsprd.sdge.com and is a
+Next.js SPA. Per-schedule entry points use the form:
+
+  https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=<N>
+
+where <N> is a small integer per schedule (the "tarfKey"). Known
+residential-schedule keys (verified 2026-04-30 via the index page at
+.../sdge/tariffs/?utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS&tarfRateGroup=Residential%20Rates):
+
+  Schedule    tarfKey
+  ─────────   ───────
+  DR              8
+  TOU-DR        775
+  DR-SES        540
+  E-CARE        383
+  E-MEDICAL    1170
+  DM             11
+  DS/DT/DT-RV  1159
+  EV-TOU         17
+  EV-TOU-2       18
+  EV-TOU-5      930
+  DE             20
+  FERA          330
+  E-SMOP        711
+  TOU-DR1       898
+  TOU-DR2       899
+  TOU-ELEC     1065
+
+The /view/tariff/ URL renders an HTML PDF-viewer page that asynchronously
+fetches the underlying PDF from an Azure Front Door API. To grab the raw
+PDF directly, use:
+
+  https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=<N>
+
+with the required header:
+
+  X-Azure-FDID: bd4def74-b0e9-45ec-aa3e-5dac6c8aa90e
+
+Returns application/pdf directly; works with curl + standard User-Agent.
+
+This indirection was reverse-engineered from the SDG&E tariff-viewer JS
+bundle (page chunk Page-befb4df8b2b36954.js, function 6242). Both URL
+and X-Azure-FDID are stable across schedules — they identify the
+shared Sempra "scg-uofa" tariff microservice.
+
+## Filing recordkeeping
+
+Each rate schedule PDF carries:
+  - Schedule designator (e.g., TOU-DR1)
+  - Sheet number (e.g., Sheet 1, 2, 3, ...)
+  - Cal. P.U.C. Sheet No. (e.g., 64382-E) — the canonical filing identifier
+  - Advice Letter number (e.g., 4791-E)
+  - Decision number (e.g., D.25-09-006) where applicable
+  - Effective date — the date the filed sheets become customer-facing rates
+
+Sheets within a schedule may have different Advice Letter numbers (e.g.,
+TOU-DR1 has Sheet 1 from AL 4791-E and Sheet 2 from AL 4791-E-A — a
+supplement filed three weeks later). Per the SCE convention documented
+in ca/iou/sce/utility.toml, each filing is dated to the most recent
+per-sheet effective date.
+
+## Convention for this corpus
+
+  - Each modeled SDG&E rate schedule lives at
+    ca/iou/sdge/<schedule>/versions/<effective-date>/
+    with the regulatory PDF committed alongside the JSON-LD.
+  - tariff.toml [source.url] uses the customer-facing tariffsprd.sdge.com
+    URL (with tarfKey query param) — the URL a human would visit.
+  - tariff.toml [extraction.notes] documents the Azure FDoor direct-PDF
+    URL used to fetch the bytes for archival.
+  - CARE / Medical Baseline / FERA / DRAH variants are NOT modeled as
+    separate RatePlans even though SDG&E publishes them as separate
+    rate columns within each schedule's PDF. They are modeled as
+    urpx:RatePlanModifiers (deferred to URPXT-65v secondary epic) per
+    cross-utility-consistency convention shared with SCE/PG&E.
+
+## Heavy CCA penetration
+
+SDG&E has substantial Community Choice Aggregator presence (~1.1M of
+~1.4M residential customers are CCA-served by SDCP / Clean Energy
+Alliance). The published "Total Rate" combines UDC (delivery — applies
+to all customers) + EECC (commodity — bundled customers only) + DWR-BC
++ WF-NBC. CCA customers pay UDC + DWR-BC + WF-NBC + their CCA's
+generation rate (modeled separately if/when needed). Per Special
+Condition 16, CCA customers pay PCIA — modeling deferred similar to
+PG&E's vintage-PCIA RatePlanModifier pattern.
+"""
