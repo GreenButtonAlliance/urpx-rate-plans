@@ -1,0 +1,474 @@
+{
+  "@context": {
+    "urpx": "https://schema.urpx.org/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "cpau": "https://example.com/cpau/",
+    "org": "https://example.com/organizations/"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:RatePlan",
+      "@id": "cpau:e-3",
+      "urpx:name": "Customer-Owned Generation Retail Rate",
+      "urpx:ratePlanUniqueIdentifier": "CPAU-E-3",
+      "urpx:initialEffectiveDate": "2007-07-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanVersion": {
+        "@type": "urpx:RatePlanVersion",
+        "@id": "cpau:e-3-2007-07-01",
+        "urpx:version": "1.0",
+        "urpx:effectiveDateTime": "2007-07-01T00:00:00",
+        "urpx:description": "CPAU Schedule E-3 (Customer-Owned Generation), effective 2007-07-01 — buyback rates the utility pays for power produced by customer-owned generation facilities that are NOT NEM-eligible. Long-stable schedule (no published reissues since 2007). V1 models the WITHOUT-interval-meter case only (Section C.1): 2 seasons; flat per-kWh energy buyback (applies to both Firm and Non-Firm power); plus a Firm-only $4.32/kW/month capacity credit. Reverse-flow direction throughout — first reverse-flow filing in the urpx-tariffs corpus (the existing CPAU E-EEC-1 / E-NSE-1 modifiers are also reverse-flow but ride inside CPAU E-1 2025-09-01's @graph). DEFERRED to follow-up: Section C.2 with-interval-meter TOU buyback (3 TOU periods Summer + 2 TOU periods Winter, with TOU windows that DIFFER from CPAU E-4 TOU / E-7 TOU); Section C.3 market-based buyback rate for facilities > 1 MW (range pricing, $2-10/kW, $0.03-0.20/kWh).",
+        "urpx:customerChoice": {
+          "@id": "urpx:voluntaryChoice"
+        },
+        "urpx:isDefault": false,
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "@id": "cpau:e3-dsr",
+          "urpx:name": "CPAU Schedule E-3 (effective 2007-07-01)",
+          "urpx:fileName": "e-3-rate-effective-2007-07-01.pdf",
+          "urpx:url": "https://www.paloalto.gov/files/assets/public/v/1/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-3-rate-effective-2007-07-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
+          "urpx:dateRetrieved": "2026-04-30"
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:e3-er-eligibility",
+            "urpx:name": "Customer-owned generation, not NEM-eligible, without interval meter",
+            "urpx:description": "Applies to customer-owned power generating facilities that are NOT eligible for net metering (per Section A) and that are NOT equipped with an interval meter (Section C.1 case). Customers with interval meters take Section C.2 buyback rates which are not modeled in v1 (see deferred follow-up). Customers with rated capacity > 1 MW may request the market-based buyback rate per Section C.3 (also deferred).",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:e3-cx-eligibility",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:e3-bn-eligibility-and",
+                "urpx:operator": {
+                  "@id": "urpx:andOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e3-cn-customer-owned-generation",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "facilityType"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Customer-owned generation"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e3-cn-not-nem-eligible",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "nemEligible"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:booleanValue": false
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:e3-cn-no-interval-meter",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "hasIntervalMeter"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:booleanValue": false
+                    }
+                  }
+                ],
+                "urpx:logicExpression": "facilityType = 'Customer-owned generation' AND nemEligible = false AND hasIntervalMeter = false"
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "@id": "cpau:e3-plan-elements",
+          "urpx:hasSeasons": [
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e3-season-summer",
+              "urpx:seasonName": "Summer",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--05",
+                "--06",
+                "--07",
+                "--08",
+                "--09",
+                "--10"
+              ]
+            },
+            {
+              "@type": "urpx:Season",
+              "@id": "cpau:e3-season-winter",
+              "urpx:seasonName": "Winter",
+              "urpx:yearlyRecurrence": true,
+              "urpx:month": [
+                "--11",
+                "--12",
+                "--01",
+                "--02",
+                "--03",
+                "--04"
+              ]
+            }
+          ],
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e3-mi-energy-export",
+              "urpx:name": "Customer-generated energy delivered to utility (kWh, reverse flow)",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e3-ms-energy-export",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:reverse"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:e3-mi-firm-capacity",
+              "urpx:name": "Customer firm-power contracted capacity (kW, reverse flow)",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:e3-ms-firm-capacity",
+                "urpx:measurementKind": {
+                  "@id": "urpx:demand"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kW"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:reverse"
+                }
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "@id": "cpau:e3-billing-model",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e3-ledger-energy-buyback",
+                "urpx:name": "Customer-owned-generation energy buyback",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e3-mi-energy-export"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:e3-ledger-firm-capacity-credit",
+                "urpx:name": "Firm-power capacity credit",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e3-mi-firm-capacity"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e3-pd-energy-summer",
+                "urpx:name": "Energy Buyback Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditEnergy"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:discount"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e3-season-summer"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e3-ledger-energy-buyback"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e3-mi-energy-export"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e3-pd-energy-winter",
+                "urpx:name": "Energy Buyback Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditEnergy"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:discount"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e3-season-winter"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e3-ledger-energy-buyback"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e3-mi-energy-export"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e3-pd-firm-capacity-summer",
+                "urpx:name": "Firm Capacity Credit Summer",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditGeneration"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:discount"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e3-season-summer"
+                },
+                "urpx:hasApplicabilityGroup": {
+                  "@type": "urpx:ApplicabilityGroup",
+                  "@id": "cpau:e3-ag-firm-power-summer",
+                  "urpx:name": "Firm power customers only",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "cpau:e3-cx-firm-power-summer",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-cn-firm-power-summer",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "powerType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Firm"
+                      }
+                    }
+                  }
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e3-pd-firm-capacity-summer-cm",
+                  "urpx:intervalDuration": "P1M"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e3-ledger-firm-capacity-credit"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e3-mi-firm-capacity"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:e3-pd-firm-capacity-winter",
+                "urpx:name": "Firm Capacity Credit Winter",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditGeneration"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:discount"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:appliesInSeason": {
+                  "@id": "cpau:e3-season-winter"
+                },
+                "urpx:hasApplicabilityGroup": {
+                  "@type": "urpx:ApplicabilityGroup",
+                  "@id": "cpau:e3-ag-firm-power-winter",
+                  "urpx:name": "Firm power customers only",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "cpau:e3-cx-firm-power-winter",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-cn-firm-power-winter",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "powerType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Firm"
+                      }
+                    }
+                  }
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "cpau:e3-pd-firm-capacity-winter-cm",
+                  "urpx:intervalDuration": "P1M"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:e3-ledger-firm-capacity-credit"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e3-mi-firm-capacity"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "@id": "cpau:e3-prices",
+          "urpx:hasPriceSet": [
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:e3-price-set",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e3-price-energy-summer",
+                  "urpx:name": "Energy Buyback Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e3-pd-energy-summer"
+                  },
+                  "urpx:startDate": "2007-07-01",
+                  "urpx:unitPrice": "0.07902"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e3-price-energy-winter",
+                  "urpx:name": "Energy Buyback Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e3-pd-energy-winter"
+                  },
+                  "urpx:startDate": "2007-07-01",
+                  "urpx:unitPrice": "0.07831"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e3-price-firm-capacity-summer",
+                  "urpx:name": "Firm Capacity Credit Summer",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e3-pd-firm-capacity-summer"
+                  },
+                  "urpx:startDate": "2007-07-01",
+                  "urpx:unitPrice": "4.32"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:e3-price-firm-capacity-winter",
+                  "urpx:name": "Firm Capacity Credit Winter",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:e3-pd-firm-capacity-winter"
+                  },
+                  "urpx:startDate": "2007-07-01",
+                  "urpx:unitPrice": "4.32"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
