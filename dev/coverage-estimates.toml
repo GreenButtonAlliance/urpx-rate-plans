@@ -269,8 +269,40 @@ class = "pou"
 total_residential = 592557
 bundled_residential = 592557
 source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
-source_notes = "EIA-861 2024."
+source_notes = "EIA-861 2024. Serves Sacramento and surrounding Sacramento County. Notable customer base for CA energy-policy purposes — many CEC and CPUC staffers live in SMUD territory."
+tariff_index_url = "https://www.smud.org/Rate-Information/Residential-rates"
 as_of = "2024"
+
+# SMUD residential pricing plans per smud.org/Rate-Information/Residential-rates page:
+#   Time-of-Day (5-8 p.m.) Rate — default; weekday peak 5-8pm
+#   Fixed Rate                  — flat all-day, season-varying; ~4% higher than TOD on average
+#   Time-of-Day (Low Use) Rate  — for small panels (<=125 A) and <270 kWh/month; $17 SIFC
+#   Critical Peak Pricing       — voluntary CPP overlay on TOD; up to a few summer events/year
+# Plus residential overlay programs:
+#   Energy Assistance Program Rate (EAPR) — income-qualified discount, RatePlanModifier
+#   Medical Equipment Discount Rate       — RatePlanModifier
+#   EV Rate Discount                       — RatePlanModifier
+#   Solar and Storage Rate option          — RatePlanModifier
+
+[utility.smud.tariffs.tod-5-8pm]
+share_of_residential = 0.85
+estimate_quality = "rough"
+notes = "SMUD's default residential pricing plan. 5-8pm peak window (unusual vs CPUC standard 4-9pm; SMUD's design predates and is independent of the CPUC TOU mass migration). Refine from SMUD enrollment reports."
+
+[utility.smud.tariffs.fixed]
+share_of_residential = 0.10
+estimate_quality = "rough"
+notes = "Voluntary opt-out from TOD-5-8pm. Flat all-day rate, season-varying; ~4% higher than TOD on average per SMUD customer-facing page."
+
+[utility.smud.tariffs.tod-low-use]
+share_of_residential = 0.02
+estimate_quality = "rough"
+notes = "TOD variant for small panels (<=125 A AND <270 kWh/month). Small enrollment due to dual eligibility constraints. $17 System Infrastructure Fixed Charge."
+
+[utility.smud.tariffs.cpp]
+share_of_residential = 0.02
+estimate_quality = "rough"
+notes = "Critical Peak Pricing overlay on TOD. Voluntary opt-in. Small enrollment typical of unmandated CPP programs."
 
 [utility.iid]
 name = "Imperial Irrigation District"
