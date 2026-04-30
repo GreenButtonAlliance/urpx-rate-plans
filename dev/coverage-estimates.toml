@@ -141,14 +141,59 @@ total_residential = 1400000
 bundled_residential = 307982
 source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
 source_notes = "EIA-861 2024 bundled = 307,982; total residential ~1.4M includes CCA-served (SDCP/CleanEnergyAlliance covers most). SDG&E serves 3.7M people."
+tariff_index_url = "https://www.sdge.com/total-electric-rates"
 as_of = "2024"
 
-# Major SDG&E residential schedules:
-#   DR      — basic domestic
-#   TOU-DR1 — default TOU
-#   TOU-DR2 — TOU alternate
-#   EV-TOU-5 — EV rate
-# Per-tariff splits not yet researched.
+# SDG&E residential schedules per sdge.com/total-electric-rates page:
+# (Modern active schedules — closed/eliminated schedules omitted)
+#   TOU-DR1   — Time-of-Use Default (3 periods, on-peak 4-9pm); CPUC mass-migration default
+#   DR        — Standard Residential non-TOU (legacy opt-out destination)
+#   TOU-DR2   — TOU Alternate (2 periods, on-peak 4-9pm)
+#   EV-TOU-5  — Solar/EV/heat-pump TOU; mandatory for new solar customers under NBT
+#   TOU-ELEC  — Electric-home TOU (heat pump / EV / electric appliances)
+#   TOU-DR-P  — TOU with Critical Peak Pricing event surcharges
+#   TOU-DR    — Older TOU domestic (predecessor to TOU-DR1/DR2)
+#   EV-TOU-2  — Older EV TOU (predecessor to EV-TOU-5)
+#   DR-SES    — Separately metered EV/storage residential
+#   DR-LCT    — Limited-Cost Tariff (rare)
+#   DM, DS, DT, DT-RV — Closed legacy multifamily/special schedules
+# Plus -CARE / -MB / -LI variants of most schedules (CPUC income/medical overlays);
+# in this corpus those are modeled as RatePlanModifiers, not as separate RatePlans.
+
+[utility.sdge.tariffs.tou-dr1]
+share_of_residential = 0.50
+estimate_quality = "rough"
+notes = "Likely the largest schedule — CPUC mass-migration default for SDG&E residential. Refine from CPUC enrollment reports."
+
+[utility.sdge.tariffs.dr]
+share_of_residential = 0.20
+estimate_quality = "rough"
+notes = "Legacy non-TOU domestic. Captures customers who opted out of TOU during the 2020-2022 CPUC mass migration. Declining over time."
+
+[utility.sdge.tariffs.tou-dr2]
+share_of_residential = 0.10
+estimate_quality = "rough"
+notes = "Alternate TOU default — 2-period structure (peak / off-peak only, no super-off-peak). Smaller enrollment than TOU-DR1."
+
+[utility.sdge.tariffs.ev-tou-5]
+share_of_residential = 0.10
+estimate_quality = "rough"
+notes = "Mandatory for new solar customers under Net Billing Tariff (NBT) since 2023. Growing rapidly with solar/EV adoption."
+
+[utility.sdge.tariffs.tou-elec]
+share_of_residential = 0.05
+estimate_quality = "rough"
+notes = "Electric-home TOU for customers with heat pumps / EVs / electric appliances. Smaller enrollment."
+
+[utility.sdge.tariffs.tou-dr-p]
+share_of_residential = 0.03
+estimate_quality = "rough"
+notes = "TOU with Critical Peak Pricing event days (up to 18/year). Voluntary opt-in."
+
+[utility.sdge.tariffs.ev-tou-2]
+share_of_residential = 0.03
+estimate_quality = "rough"
+notes = "Older EV TOU schedule, predecessor to EV-TOU-5. Closed to new enrollment but existing customers remain."
 
 # ---
 
