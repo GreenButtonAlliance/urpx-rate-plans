@@ -36,7 +36,10 @@
    [:rate-plan "CPAU E-3"       "ca/pou/cpau/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld"]
    [:rate-plan-modifier "CPAU E-2-G" "ca/pou/cpau/e-2-g/versions/2025-07-01/rate-plan-modifier_cpau_e-2-g_2025-07-01.jsonld"]
    [:rate-plan-modifier "CPAU E-4-G" "ca/pou/cpau/e-4-g/versions/2025-07-01/rate-plan-modifier_cpau_e-4-g_2025-07-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-7-G" "ca/pou/cpau/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld"]])
+   [:rate-plan-modifier "CPAU E-7-G" "ca/pou/cpau/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld"]
+   [:rate-plan-modifier "CPAU E-HRA"   "ca/pou/cpau/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld"]
+   [:rate-plan-modifier "CPAU E-EEC-1" "ca/pou/cpau/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld"]
+   [:rate-plan-modifier "CPAU E-NSE-1" "ca/pou/cpau/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
