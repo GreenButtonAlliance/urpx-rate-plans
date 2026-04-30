@@ -15,21 +15,25 @@
   (:import [java.time ZoneId ZonedDateTime]))
 
 (def filings
-  [["PGE E-1"       "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]
-   ["PGE E-TOU-C 03-01" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld"]
-   ["PGE E-TOU-C 03-27" "ca/iou/pge/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld"]
-   ["PGE E-TOU-D"   "ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]
-   ["PGE EV2"       "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]
-   ["PGE E-ELEC 01-01" "ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld"]
-   ["PGE E-ELEC 03-27" "ca/iou/pge/e-elec/versions/2026-03-27/rate-plan_pge_e-elec_2026-03-27.jsonld"]
-   ["CPAU E-1 07-01" "ca/pou/cpau/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld"]
-   ["CPAU E-1 09-01" "ca/pou/cpau/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld"]
-   ["CPAU E-1-TOU"   "ca/pou/cpau/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld"]
-   ["CPAU E-2"       "ca/pou/cpau/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld"]
-   ["CPAU E-4 TOU"   "ca/pou/cpau/e-4-tou/versions/2025-07-01/rate-plan_cpau_e-4-tou_2025-07-01.jsonld"]
-   ["CPAU E-4"       "ca/pou/cpau/e-4/versions/2025-07-01/rate-plan_cpau_e-4_2025-07-01.jsonld"]
-   ["CPAU E-7"       "ca/pou/cpau/e-7/versions/2025-07-01/rate-plan_cpau_e-7_2025-07-01.jsonld"]
-   ["CPAU E-7 TOU"   "ca/pou/cpau/e-7-tou/versions/2025-07-01/rate-plan_cpau_e-7-tou_2025-07-01.jsonld"]])
+  ;; [kind name path]. kind ∈ #{:rate-plan :rate-plan-modifier}.
+  [[:rate-plan "PGE E-1"       "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]
+   [:rate-plan "PGE E-TOU-C 03-01" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld"]
+   [:rate-plan "PGE E-TOU-C 03-27" "ca/iou/pge/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld"]
+   [:rate-plan "PGE E-TOU-D"   "ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]
+   [:rate-plan "PGE EV2"       "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]
+   [:rate-plan "PGE E-ELEC 01-01" "ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld"]
+   [:rate-plan "PGE E-ELEC 03-27" "ca/iou/pge/e-elec/versions/2026-03-27/rate-plan_pge_e-elec_2026-03-27.jsonld"]
+   [:rate-plan "CPAU E-1 07-01" "ca/pou/cpau/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld"]
+   [:rate-plan "CPAU E-1 09-01" "ca/pou/cpau/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld"]
+   [:rate-plan "CPAU E-1-TOU"   "ca/pou/cpau/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld"]
+   [:rate-plan "CPAU E-2"       "ca/pou/cpau/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld"]
+   [:rate-plan "CPAU E-4 TOU"   "ca/pou/cpau/e-4-tou/versions/2025-07-01/rate-plan_cpau_e-4-tou_2025-07-01.jsonld"]
+   [:rate-plan "CPAU E-4"       "ca/pou/cpau/e-4/versions/2025-07-01/rate-plan_cpau_e-4_2025-07-01.jsonld"]
+   [:rate-plan "CPAU E-7"       "ca/pou/cpau/e-7/versions/2025-07-01/rate-plan_cpau_e-7_2025-07-01.jsonld"]
+   [:rate-plan "CPAU E-7 TOU"   "ca/pou/cpau/e-7-tou/versions/2025-07-01/rate-plan_cpau_e-7-tou_2025-07-01.jsonld"]
+   [:rate-plan-modifier "CPAU E-2-G" "ca/pou/cpau/e-2-g/versions/2025-07-01/rate-plan-modifier_cpau_e-2-g_2025-07-01.jsonld"]
+   [:rate-plan-modifier "CPAU E-4-G" "ca/pou/cpau/e-4-g/versions/2025-07-01/rate-plan-modifier_cpau_e-4-g_2025-07-01.jsonld"]
+   [:rate-plan-modifier "CPAU E-7-G" "ca/pou/cpau/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
@@ -40,31 +44,48 @@
 
 (defn pad [s n] (let [s (str s)] (str s (apply str (repeat (max 0 (- n (count s))) " ")))))
 
-(defn- name-width [filings] (apply max (map (comp count first) filings)))
+(defn- name-width [filings] (apply max (map (comp count second) filings)))
 
-(defn validate-one [width [name path]]
+(defn- validate-rate-plan [path]
+  (let [raw (core/load-rate-plan path)
+        plan (coerce/coerce-rate-plan raw)]
+    (if (coerce/validate schema/RatePlan plan)
+      (do
+        (print "load+coerce ✓ ")
+        (flush)
+        (try
+          (let [resolved (price/resolve-prices plan probe-instant)
+                ledger-count (count (:urpx.resolved/ledgers resolved))
+                marginal (price/marginal-unit-rate resolved)]
+            (print (format "resolve ✓  (%d ledgers, marginal=%s)"
+                           ledger-count marginal)))
+          (catch Exception e
+            (print (format "resolve ✗  %s" (.getMessage e)))))
+        (println))
+      (do
+        (println "validate ✗")
+        (let [explanation (coerce/explain schema/RatePlan plan)]
+          (println "    explain:" (pr-str explanation)))))))
+
+(defn- validate-rate-plan-modifier [path]
+  (let [raw (core/load-rate-plan-modifier path)
+        modifier (coerce/coerce-rate-plan-modifier raw)]
+    (if (coerce/validate schema/RatePlanModifier modifier)
+      ;; resolve-prices not yet implemented for standalone modifiers — composer
+      ;; with base RatePlan deferred until urpx-org/urpx#23 resolves.
+      (println "load+coerce ✓  (resolve N/A — modifier requires base composition)")
+      (do
+        (println "validate ✗")
+        (let [explanation (coerce/explain schema/RatePlanModifier modifier)]
+          (println "    explain:" (pr-str explanation)))))))
+
+(defn validate-one [width [kind name path]]
   (print (pad name width) "")
   (flush)
   (try
-    (let [raw (core/load-rate-plan path)
-          plan (coerce/coerce-rate-plan raw)]
-      (if (coerce/validate schema/RatePlan plan)
-        (do
-          (print "load+coerce ✓ ")
-          (flush)
-          (try
-            (let [resolved (price/resolve-prices plan probe-instant)
-                  ledger-count (count (:urpx.resolved/ledgers resolved))
-                  marginal (price/marginal-unit-rate resolved)]
-              (print (format "resolve ✓  (%d ledgers, marginal=%s)"
-                             ledger-count marginal)))
-            (catch Exception e
-              (print (format "resolve ✗  %s" (.getMessage e)))))
-          (println))
-        (do
-          (println "validate ✗")
-          (let [explanation (coerce/explain schema/RatePlan plan)]
-            (println "    explain:" (pr-str explanation))))))
+    (case kind
+      :rate-plan          (validate-rate-plan path)
+      :rate-plan-modifier (validate-rate-plan-modifier path))
     (catch Exception e
       (println "load+coerce ✗  " (.getMessage e)))))
 
