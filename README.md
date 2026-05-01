@@ -38,23 +38,43 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 44 filings landed (32 base RatePlans + 12 RatePlanModifiers), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` (SHACL conformance) and `clj-urpx` (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
 
-**Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is fully modeled. Run `python dev/coverage.py` for the live breakdown.
+**Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
+
+**SHACL-validating ≠ bill-calculation-complete.** All 44 filings pass pyshacl + clj-urpx, but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each filing's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
 
 ### Fidelity by filing
 
 | Fidelity | Filings | Notes |
 |---|---:|---|
-| **100% complete** | 40 | All 32 base RatePlans + 8 RatePlanModifiers (CPAU E-2-G / E-4-G / E-7-G / E-HRA / E-EEC-1 / E-NSE-1; SMUD SSR; SMUD PEV Credit). Concrete unit prices, eligibility predicates structured as `ConditionExpression` trees, full SHACL conformance. |
-| **Placeholder** | 2 | LADWP NEM and SMUD NEM1 — both compensate exported energy at the customer's *applicable base-rate energy charge*, a "computed at upstream context" semantic that has no URPX v0.2.0 primitive. The modifiers carry a placeholder `Price` (`unitPrice="0"`) for SHACL conformance with the actual compensation rule documented in the description prose. Tracked at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
-| **WIP-pending-question-resolution** | 2 | SCE CARE and SCE FERA — line-item exemptions modeled with concrete unit prices, but the headline 32.5% (CARE) / 18% (FERA) percentage-of-bill discount is captured in prose only. URPX has no percentage-of-bill primitive yet. Same upstream issue: [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
+| **Models the published rate-of-record** | 40 | Validates clean against pyshacl + clj-urpx; the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials, baseline-allocation matrix expansion across territory codes) — all tied to one of the open URPX vocabulary questions listed below. |
+| **Substantial economic effect deferred to prose** | 2 | SCE CARE and SCE FERA — line-item exemptions (WFC, FRC, BSC adjustments) modeled with concrete unit prices, but the headline 32.5% (CARE) / 18% (FERA) percentage-of-bill discount is captured in description prose only. Tracked at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
+| **Placeholder Price (key value not expressible)** | 2 | LADWP NEM and SMUD NEM1 — both compensate exported energy at the customer's *applicable base-rate energy charge*, a "computed at upstream context" semantic that has no URPX v0.2.0 primitive. The modifiers carry a placeholder `Price` (`unitPrice="0"`) for SHACL conformance, with the actual compensation rule documented in the description prose. Same upstream issue: [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
 
 **Customer reach by fidelity bucket** (estimates per `dev/coverage-estimates.toml`; modifier counts overlap with their already-modeled base RatePlans):
 
 | Bucket | Estimated customer reach |
 |---|---|
-| 100% complete (base rates) | ~13.5M of ~15M tracked CA residential customers (~90%) |
-| Placeholder (modifier overlay) | ~140K LADWP NEM solar + tens of K SMUD NEM1 grandfathered solar (~1% of CA residential, all on top of fully-modeled base rates) |
-| WIP-pending (modifier overlay) | ~1.5M SCE CARE + ~250K SCE FERA (~12% of CA residential, all on top of fully-modeled base rates; line-item exemptions correct, headline percentage discount missing) |
+| Models the published rate-of-record (base rates) | ~13.5M of ~15M tracked CA residential customers (~90%) |
+| Substantial economic effect deferred to prose (modifier overlay) | ~1.5M SCE CARE + ~250K SCE FERA (~12% of CA residential, all on top of structurally-modeled base rates; line-item exemptions correct, headline percentage discount missing) |
+| Placeholder Price (modifier overlay) | ~140K LADWP NEM solar + tens of K SMUD NEM1 grandfathered solar (~1% of CA residential, all on top of structurally-modeled base rates) |
+
+### Open URPX vocabulary questions
+
+Modeling work on this corpus surfaced 13 questions filed against the upstream URPX repo. Each filing's `tariff.toml` cites the issues that affect it; this is the corpus-wide index:
+
+- [**urpx#11**](https://github.com/urpx-org/urpx/issues/11) — parameterized matrix-valued tier bounds (baseline-allowance pattern). Affects every baseline-tier residential rate (PG&E E-1's territory matrix, SCE Schedule D, all CPAU tiered rates).
+- [**urpx#23**](https://github.com/urpx-org/urpx/issues/23) — standalone modifier `applicableToRatePlan` when base RatePlan is in a separate file. Affects all 12 RatePlanModifier filings.
+- [**urpx#24**](https://github.com/urpx-org/urpx/issues/24) — percentage-of-bill discount + computed-from-upstream-context semantics. Affects SCE CARE/FERA (percentage discount) and LADWP NEM / SMUD NEM1 (compute at customer's base rate).
+- [**urpx#22**](https://github.com/urpx-org/urpx/issues/22) — voluntary rate plan minimum-tenure requirement. Affects SDG&E TOU-ELEC, DR-SES, EV-TOU-5 (12-month stays).
+- [**urpx#25**](https://github.com/urpx-org/urpx/issues/25) — on-site-generation exemptions and conditional demand credits in a Standby Charge. Affects SMUD NEM1/SSR standby-charge waivers.
+- [**urpx#21**](https://github.com/urpx-org/urpx/issues/21) — rate-plan eligibility aggregation across accounts at one site.
+- [**urpx#10**](https://github.com/urpx-org/urpx/issues/10) — assistance-program category vocabulary. Cross-utility relevant for CARE/FERA/MED/EAPR overlays.
+- [**urpx#26**](https://github.com/urpx-org/urpx/issues/26) — packaging standalone `@graph` siblings (e.g. ProgramEnrollment defs) in a `URPXDocument`-wrapped filing.
+- [**urpx#9**](https://github.com/urpx-org/urpx/issues/9) — fallback / "default-tier" Price semantics.
+- [**urpx#16**](https://github.com/urpx-org/urpx/issues/16) — SHACL constraint on `urpx:supersedes` is too strict for cross-filing lineage references.
+- [**urpx#17**](https://github.com/urpx-org/urpx/issues/17) — add `urpx:gYearValue` to `DatatypeOperandNode`.
+- [**urpx#18**](https://github.com/urpx-org/urpx/issues/18) — percent-of-baseline / ratio-of-reference modeling for usage-cap conditions.
+- [**urpx#13**](https://github.com/urpx-org/urpx/issues/13) (closed) — TimeBracket holiday handling documentation clarification.
 
 ### Utilities covered
 
