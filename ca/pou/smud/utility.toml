@@ -36,13 +36,29 @@ The customer-facing rates pages don't expose direct PDF links; the
 canonical URLs were discovered via Google site:smud.org filetype:pdf
 search.
 
-Known residential rate-schedule PDFs:
+Known residential rate-schedule PDFs (two co-existing URL conventions):
 
   Schedule                                   URL filename
   ────────────────────────────────────────   ──────────────────
+  Residential (Fixed)                        1-R.ashx
   Residential Time-of-Day (R-TOD)            1-R-TOD.ashx
+  Net Energy Metering (NEM1)                 01_NEM1.ashx
+  Solar and Storage Rate (SSR)               01_SSR.ashx
+  Hydro Generation Adjustment (HGA)          01_HGA.ashx
+  Energy Assistance Program Rate (EAPR)      01_EAPR.ashx
+  Medical Equipment Discount (MED)           01_MED.ashx
+  Non-Local Government Tariff (NLGT)         01_NLGT.ashx
+  Reserve Bond Charge (RBC)                  01_RBC.ashx
+  Preliminary Statement Prices               00_Preliminary-Statement_Prices.ashx
   Commercial & Industrial TOD                CI-TOD1.ashx, CI-TOD4.ashx (et al)
   Residential Rate Guide (consumer summary)  Residential-Rates/Residential-Rate-Guide.ashx
+
+URL prefix convention: SMUD's older residential rate schedules (R, R-TOD)
+use `1-NAME.ashx`; newer rate schedules and rate-program overlays use
+`01_NAME.ashx` (zero-padded, underscore separator). Both prefix styles
+co-exist on the active Residential Rates page (verified 2026-04-30) —
+neither prefix indicates obsolescence. When discovering a new SMUD
+schedule's URL, probe BOTH `1-<NAME>.ashx` and `01_<NAME>.ashx` styles.
 
 The R-TOD schedule PDF covers THREE rate categories under one umbrella:
   RT02 — Time-of-Day (5-8 p.m.) Rate (default residential)
@@ -82,10 +98,12 @@ each version (the same bytes serve all three filings).
     System Infrastructure Fixed Charge ($/meter/month) + Electricity
     Usage Charge ($/kWh, possibly TOU- or season-varying).
   - SMUD has its own customer-generation rate schedules (NEM1, SSR) —
-    independent of CPUC NEM/NBT framework. Customers with eligible
-    NEM1/SSR generation installed on/after Jan 1, 2018 are mandatorily
-    enrolled in R-TOD. Modeling those NEM/SSR overlays is deferred to
-    URPXT-b5j (secondary epic).
+    independent of CPUC NEM/NBT framework. Both are RatePlanModifier
+    overlays on the customer's base rate (NEM1 closed to new residential
+    after 2022-03-01; SSR active for new). NEM1 successor section places
+    customers approved on/after 2018-01-01 on R-TOD; SSR Sheet 2.IV.A.6
+    requires residential SSR customers to be on R-TOD. Modeling tracked
+    in the URPXT-rqq electrification epic.
 
 ## SMUD board governance
 
