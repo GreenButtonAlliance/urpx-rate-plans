@@ -75,7 +75,7 @@ Modeling work on this corpus surfaced 13 issues plus 1 discussion filed against 
 - [**urpx#17**](https://github.com/urpx-org/urpx/issues/17) — add `urpx:gYearValue` to `DatatypeOperandNode`.
 - [**urpx#18**](https://github.com/urpx-org/urpx/issues/18) — percent-of-baseline / ratio-of-reference modeling for usage-cap conditions.
 - [**urpx#13**](https://github.com/urpx-org/urpx/issues/13) (closed) — TimeBracket holiday handling documentation clarification.
-- [**urpx-org/urpx discussion #28**](https://github.com/urpx-org/urpx/discussions/28) — `TariffPublication` ↔ `URPXDocument` shape conflict under `-i rdfs`. Affects 6 PG&E rate plans (E-1, E-TOU-C ×2, E-TOU-D, EV2, E-ELEC ×2 ─ those with an Advice Letter `TariffPublication` carrying `urpx:hasRatePlan`). For now we run `pyshacl` without `-i rdfs`; will re-enable when the discussion lands and we restructure the affected rate plans accordingly.
+- [**urpx-org/urpx discussion #28**](https://github.com/urpx-org/urpx/discussions/28) — `TariffPublication` ↔ `URPXDocument` shape conflict under `-i rdfs`. Affects 6 PG&E rate plans (E-1, E-TOU-C ×2, E-TOU-D, EV2, E-ELEC 2026-03-27 ─ those with an Advice Letter `TariffPublication` carrying `urpx:hasRatePlan`). For now we run `pyshacl` without `-i rdfs`; will re-enable when the discussion lands and we restructure the affected rate plans accordingly.
 
 ### Utilities covered
 
