@@ -37,11 +37,11 @@ Both `urpx:TariffPublication` entities (`pge:al-7869-e` and `pge:al-7846-e`) are
 
 This filing was derived from the 2026-01-01 sibling by `shadow-repo/scripts/derive-e-elec-2026-03-27.py` rather than re-extracted from scratch — same pattern as the E-TOU-C 2026-03-01 → 2026-03-27 derivation. The script:
 
-1. Adds 5 `urpx:ProgramEnrollment` instances (CARE, FERA, CCA, DA, TBS) needed for the new income-tier `ApplicabilityGroup` conditions
+1. Adds 5 `urpx:ProgramEnrollment` instances (CARE, FERA, CCA, DA, TBS) referenced by the income-tier `ProfileAlternative` ConditionExpressions
 2. Adds the new `urpx:RateCase` `pge:rc-d-26-03-013` and the two `urpx:TariffPublication`s
 3. Updates 25 unbundled per-kWh `Price.unitPrice` values per Sheet 3
 4. Drops the California Climate Credit (Ledger, PriceDefinition, Price, household-count MetricInput)
-5. Replaces the flat $0.49281 base-charge `Price` with 3 income-tier `Price`s + `ApplicabilityGroup`s (CARE inclusion, FERA inclusion, NOT-CARE-AND-NOT-FERA via `BooleanOperationNode`)
+5. Replaces the flat $0.49281 base-charge `Price` with the income-tier base services charge structure: `pge:pa-income-tier` `urpx:ProfileAlternatives` (3 ProfileAlternatives: CARE, FERA, Standard — Standard's ConditionExpression uses a `BooleanOperationNode` of two `notEquals`) and 3 BSC `Price`s wrapped in `pge:psa-bsc-by-income-tier` `urpx:PriceSetAlternatives`, each `PriceSetAlternative` referencing the matching ProfileAlternative
 
 ## Vintage PCIA — still not modeled
 

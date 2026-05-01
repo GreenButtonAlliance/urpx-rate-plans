@@ -20,8 +20,8 @@ The `@graph` contains:
 
 ### Patterns applied (URPX v0.2.0)
 
-- **Income-tier conditional Price** — base services charge expressed as 3 conditional Prices keyed on `urpx:hasProgramEnrollment` (CARE, FERA, neither). Each ApplicabilityGroup carries a `urpx:ConditionExpression`: tiers 1 and 2 use a single `urpx:ComparisonNode` (`urpx:equalsOperator` against `pge:program-care` / `pge:program-fera`); the default tier uses a `urpx:BooleanOperationNode` with `urpx:andOperator` over two `urpx:notEqualsOperator` ComparisonNodes (safe-fallback pattern pending [urpx-org/urpx#9](https://github.com/urpx-org/urpx/issues/9)).
-- **Vintage conditional Price** — 18 conditional Prices keyed on `https://example.com/pge/departureVintage`. Each ApplicabilityGroup uses a `urpx:DatatypeOperandNode` with `urpx:integerValue` for the vintage year; native `xsd:gYear` typing pending [urpx-org/urpx#17](https://github.com/urpx-org/urpx/issues/17).
+- **Income-tier base services charge** — `pge:pa-income-tier` `urpx:ProfileAlternatives` with one dimension on `urpx:hasProgramEnrollment` (3 ProfileAlternative entries: CARE, FERA, Standard). The Standard alternative's `urpx:ConditionExpression` uses a `urpx:BooleanOperationNode` (AND of two `notEquals` ComparisonNodes). The 3 BSC `Price`s are wrapped in `pge:psa-bsc-by-income-tier` `urpx:PriceSetAlternatives`, each `PriceSetAlternative` referencing the matching ProfileAlternative.
+- **Vintage-PCIA prices** — `pge:pa-departure-vintage` `urpx:ProfileAlternatives` (18 ProfileAlternative entries, one per vintage year 2009–2026). Each PA's `urpx:ConditionExpression` uses a `urpx:CustomOperandNode` with `urpx:customConditionProperty="departureVintage"` on the left and `urpx:gYearValue` on the right. The 18 vintage `Price`s are wrapped in `pge:psa-vpcia-by-vintage`. The synthetic `urpx:dimensionProperty` URI is a workaround pending [urpx-org/urpx#30](https://github.com/urpx-org/urpx/issues/30) (request for `customDimensionProperty` parallel to `customConditionProperty`).
 
 ### What's deferred
 
