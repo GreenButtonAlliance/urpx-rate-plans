@@ -1,0 +1,103 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "fixed"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R.ashx"
+sha256        = "2bc1beb88755f70db7f3bdce0b516a80946524455188bfae7eda5a5d68da555b"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+filing_id     = "SMUD-Resolution-25-06-15"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "Resolution No. 25-06-15 adopted June 19, 2025 (SMUD Board of Directors)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Source PDF located via SMUD tariff URL pattern documented in
+ca/pou/smud/utility.toml. Found at smud.org/-/media/Documents/
+Rate-Information/Rates/1-R.ashx (the simplest URL component for the
+Schedule R Fixed Rate, where 1-R-TOD.ashx covers the TOD schedule).
+
+Filing details (4-page PDF):
+  Sheet R-1 (Applicability + rate-category list) — Resolution
+    25-06-15 adopted June 19, 2025
+  Sheet R-2 (Firm Service Rates: Fixed Rate RF01 + Master-Metered
+    RSMM closed) — same resolution
+  Sheets R-3 / R-4 — Standby Service, Special Metering, Three-Phase,
+    Renewable Energy Option, Time-of-Day Billing Periods reference
+
+Same Board resolution as TOD-5-8pm with three forward effective-date
+columns; this filing captures the January 1, 2026 column. Same source
+PDF is committed verbatim — bytes may not change as effective dates
+roll forward.
+
+## Rate values captured (Effective 2026-01-01)
+
+System Infrastructure Fixed Charge: $27.00/meter/month (same as TOD)
+
+Electricity Usage Charges (regulatory rate category RF01):
+  Summer (Jun 1 - Sept 30):     $0.2189/kWh (all hours)
+  Non-Summer (Oct 1 - May 31):  $0.1371/kWh (all hours)
+
+No TOU, no tiers, no baseline credit — just season-varying flat rate.
+On average ~4% higher than the TOD Off-Peak weighted average per
+SMUD's customer-facing comparison page; the design is intentional —
+Fixed Rate is the convenience option for customers who don't want
+to manage TOU pricing.
+
+## Modeling structure
+
+Simplest residential rate in the corpus to model:
+  - 3 PriceDefinitions: pd-energy-summer (with hasApplicabilityRule.month
+    Jun-Sep), pd-energy-non-summer (Oct-May), pd-system-infrastructure-
+    fixed-charge.
+  - 3 Prices.
+  - No urpx:TOUSchedule (non-TOU).
+  - No urpx:ServiceTiers (non-tiered).
+  - 2 ledgers: ledger-energy (season-varying usage), ledger-system-
+    infrastructure (per-meter monthly SIFC).
+
+Pattern reference: Like LADWP R-1A's pd-energy-summer / pd-energy-
+low-season but without ServiceTiers. Most compact filing in the
+corpus.
+
+## Modeling deferrals
+
+Same as TOD-5-8pm:
+  - Plug-In EV Credit (referenced in Sec IV.I — points back to
+    Schedule R-TOD; deferred to URPXT-b5j).
+  - EAPR (income-qualified discount) — modifier in URPXT-b5j.
+  - Medical Equipment Discount Program — modifier in URPXT-b5j.
+  - Standby Service ($8.855/kW) — Sec IV.E. Deferred.
+  - NEM1 Customer Energy Generation Option — Sec IV.F. Deferred.
+  - SMUD Renewable Energy Option — Sec IV.G. Deferred.
+  - Special Metering Charge — Sec IV.H. Deferred.
+  - Three-Phase Service Option ($57.95/month) — Sec IV.J. Deferred.
+  - Hydro Generation Adjustment (HGA) — Sec III.A surcharge. Deferred.
+
+Master-Metered Multifamily Accommodation and Mobile Home Park Billing
+(rate category RSMM) is published in this same Schedule R PDF (Sheet
+R-2 page 2) but is CLOSED to new customers. Not modeled here —
+defer to URPXT-b5j or future "closed legacy schedules" tracking.
+RSMM rates would form a separate urpx:RatePlan if modeled.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Second SMUD schedule — closes URPXT-4h6 epic. Pattern reference: ca/pou/ladwp/r-1a/versions/2026-04-01/ for season-encoded-via-PriceDefinition.hasApplicabilityRule.month pattern (LADWP R-1A also uses this pattern, though LADWP has tiers and SMUD Fixed Rate doesn't). The most compact residential rate plan modeled in the corpus to date: 3 PriceDefinitions, 3 Prices, no TOU schedule, no ServiceTiers. Distinctive among modern CA residential offerings — a true non-TOU non-tiered flat rate, available as a customer choice (most other CA utilities have eliminated equivalent flat rates as TOU mass migration progressed)."
