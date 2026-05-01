@@ -50,8 +50,8 @@ No genuinely new URPX modeling territory in this filing — it's the orthogonal 
 
 The following sections of the published Schedule E-4 are **not modeled in this filing**:
 
-- **Section D.5 Primary Voltage Discount** — 2.5% discount for customers taking service at the supply line voltage when above 2 kV. Same clause as E-4 TOU's D.5; tracked under URPXT-34j (broaden scope to all CPAU commercial schedules with this clause).
-- **Section D.6 Standby Charge** — per-kW summer/winter charges for customers with non-utility on-site generation, with NEM-eligibility exemptions. Same shape as E-4 TOU's D.7; tracked under URPXT-hii (broaden scope).
+- **Section D.5 Primary Voltage Discount** — 2.5% discount for customers taking service at the supply line voltage when above 2 kV. Same clause as E-4 TOU's D.5; tracked under urpx-org/urpx#24 (broaden scope to all CPAU commercial schedules with this clause).
+- **Section D.6 Standby Charge** — per-kW summer/winter charges for customers with non-utility on-site generation, with NEM-eligibility exemptions. Same shape as E-4 TOU's D.7; tracked under urpx-org/urpx#25 (broaden scope).
 - **Section D.3 TES (Thermal Energy Storage) carve-out** — for TES customers, the billing demand is computed only from the noon–6 PM weekday window rather than all hours. Customer-attribute-conditional `CalculationMethod` — file as a new bd issue scoped to CPAU E-4. Most customers don't have TES; the default all-hours calculation is what's modeled.
 
 (Section D.3 demand-meter installation rule — install demand meter when monthly use > 8000 kWh for 3 consecutive months — is a metering operations rule, not a rate, and is intentionally not modeled. Section D.3 5-minute-interval option for fluctuating loads is a City-discretion provision; default 15-minute is modeled.)

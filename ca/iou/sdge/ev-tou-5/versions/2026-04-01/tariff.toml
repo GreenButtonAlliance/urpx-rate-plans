@@ -91,8 +91,8 @@ Same as TOU-DR1:
   - PCIA (Special Condition 11) for CCA-served customers.
   - Franchise Fee Differential 5.78% within City of San Diego.
   - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers
-    (URPXT-65v secondary epic).
-  - EV-TOU-5-P (Critical Peak Pricing variant; URPXT-65v).
+    (grid-coordination/urpx-tariffs#13 secondary epic).
+  - EV-TOU-5-P (Critical Peak Pricing variant; grid-coordination/urpx-tariffs#13).
 """
 
 # Validation ------------------------------------------------------------------
@@ -104,4 +104,4 @@ validated_on   = "2026-04-30"
 # Review ----------------------------------------------------------------------
 [review]
 status        = "draft"
-notes         = "Fourth and final SDG&E primary-epic schedule. Closes URPXT-qv2. Pattern reference: ca/iou/sce/tou-d-prime/versions/2025-11-15/ for solar/EV/NBT eligibility rule shape (3-way OR for SDG&E vs 4-way OR for SCE PRIME — SCE includes storage and heat-pump as qualifying technologies, SDG&E does not). 16 PriceDefinitions: 6 EECC (TOU-varying generation) + 2 TOU-varying UDC (Trans, Distr — each with 6 Prices keyed by touPeriodNumber, but only 2 unique values per component) + 6 flat UDC sub-components + DWR-BC + WF-NBC + BSC. 27 Prices total: 6 EECC + 6 Trans + 6 Distr + 7 flat-UDC + 1 BSC + 1 DWR-BC + 1 WF-NBC. Distinguishing modeling pattern: TOU-varying UDC components (vs TOU-DR1's all-flat UDC) — heavily reduced/zeroed in super-off-peak to incentivize overnight EV charging."
+notes         = "Fourth and final SDG&E primary-epic schedule. Pattern reference: ca/iou/sce/tou-d-prime/versions/2025-11-15/ for solar/EV/NBT eligibility rule shape (3-way OR for SDG&E vs 4-way OR for SCE PRIME — SCE includes storage and heat-pump as qualifying technologies, SDG&E does not). 16 PriceDefinitions: 6 EECC (TOU-varying generation) + 2 TOU-varying UDC (Trans, Distr — each with 6 Prices keyed by touPeriodNumber, but only 2 unique values per component) + 6 flat UDC sub-components + DWR-BC + WF-NBC + BSC. 27 Prices total: 6 EECC + 6 Trans + 6 Distr + 7 flat-UDC + 1 BSC + 1 DWR-BC + 1 WF-NBC. Distinguishing modeling pattern: TOU-varying UDC components (vs TOU-DR1's all-flat UDC) — heavily reduced/zeroed in super-off-peak to incentivize overnight EV charging."

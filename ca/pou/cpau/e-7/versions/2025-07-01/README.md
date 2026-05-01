@@ -47,8 +47,8 @@ No new URPX modeling territory.
 
 ## Deferred to follow-up issues
 
-- **Section D.6 Primary Voltage Discount** (2.8%) — URPXT-34j. *Note: rate is 2.8% here vs 2.5% on E-4 / E-4 TOU; modeling work needs to handle per-schedule rate variance.*
-- **Section D.7 Standby Charge** ($40.79/kW summer, $27.75/kW winter) — URPXT-hii. *Note: rates differ from E-4 ($46.58 / $23.49); schedule-specific.*
+- **Section D.6 Primary Voltage Discount** (2.8%) — urpx-org/urpx#24. *Note: rate is 2.8% here vs 2.5% on E-4 / E-4 TOU; modeling work needs to handle per-schedule rate variance.*
+- **Section D.7 Standby Charge** ($40.79/kW summer, $27.75/kW winter) — urpx-org/urpx#25. *Note: rates differ from E-4 ($46.58 / $23.49); schedule-specific.*
 - **Section D.4 TES carve-out** (Thermal Energy Storage customers' billing demand uses noon–6 PM weekday window) — same as E-4's existing TES follow-up.
 - **Section D.4 5-minute interval option** for fluctuating loads — City discretion, default 15-minute is modeled.
 

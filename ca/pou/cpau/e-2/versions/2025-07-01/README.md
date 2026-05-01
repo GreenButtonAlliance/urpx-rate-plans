@@ -56,7 +56,7 @@ CPAU E-2 customers are eligible for several rate-plan modifiers that are **not c
 - **E-NSE-1** (Solar NEM 1 Net Surplus Compensation) — applies to small commercial NEM 1 customers
 - **E-HRA** (Electric Hydro Rate Adjuster) — applies to all CPAU electric customers (currently zero-valued; "Inactive as of 7/1/2023")
 
-Two of these (E-EEC-1, E-NSE-1) became effective 2025-09-01, after the base E-2 effective date. A future multi-source snapshot filing at `versions/2025-09-01/` could embed all three modifier `RatePlanModifierVersion`s into the `@graph` (the same pattern used for [CPAU E-1 2025-09-01](../../e-1/versions/2025-09-01/)). Tracked at [URPXT-tdk](https://github.com/grid-coordination/urpx-tariffs/issues) for the corpus-wide modifier-filing work; URPXT-clw covers the broader business-tariff expansion.
+Two of these (E-EEC-1, E-NSE-1) became effective 2025-09-01, after the base E-2 effective date. A future multi-source snapshot filing at `versions/2025-09-01/` could embed all three modifier `RatePlanModifierVersion`s into the `@graph` (the same pattern used for [CPAU E-1 2025-09-01](../../e-1/versions/2025-09-01/)).
 
 ## Provenance
 
