@@ -50,6 +50,7 @@
    [:rate-plan "SDGE DR"        "ca/iou/sdge/dr/versions/2026-04-01/rate-plan_sdge_dr_2026-04-01.jsonld"]
    [:rate-plan "SDGE TOU-DR2"   "ca/iou/sdge/tou-dr2/versions/2026-04-01/rate-plan_sdge_tou-dr2_2026-04-01.jsonld"]
    [:rate-plan "SDGE EV-TOU-5"  "ca/iou/sdge/ev-tou-5/versions/2026-04-01/rate-plan_sdge_ev-tou-5_2026-04-01.jsonld"]
+   [:rate-plan "SDGE TOU-ELEC"  "ca/iou/sdge/tou-elec/versions/2026-04-01/rate-plan_sdge_tou-elec_2026-04-01.jsonld"]
    [:rate-plan "SMUD TOD-5-8pm" "ca/pou/smud/tod-5-8pm/versions/2026-01-01/rate-plan_smud_tod-5-8pm_2026-01-01.jsonld"]
    [:rate-plan "SMUD Fixed"     "ca/pou/smud/fixed/versions/2026-01-01/rate-plan_smud_fixed_2026-01-01.jsonld"]
    [:rate-plan-modifier "SCE CARE" "ca/iou/sce/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld"]
