@@ -51,7 +51,9 @@
    [:rate-plan "SDGE TOU-DR2"   "ca/iou/sdge/tou-dr2/versions/2026-04-01/rate-plan_sdge_tou-dr2_2026-04-01.jsonld"]
    [:rate-plan "SDGE EV-TOU-5"  "ca/iou/sdge/ev-tou-5/versions/2026-04-01/rate-plan_sdge_ev-tou-5_2026-04-01.jsonld"]
    [:rate-plan "SMUD TOD-5-8pm" "ca/pou/smud/tod-5-8pm/versions/2026-01-01/rate-plan_smud_tod-5-8pm_2026-01-01.jsonld"]
-   [:rate-plan "SMUD Fixed"     "ca/pou/smud/fixed/versions/2026-01-01/rate-plan_smud_fixed_2026-01-01.jsonld"]])
+   [:rate-plan "SMUD Fixed"     "ca/pou/smud/fixed/versions/2026-01-01/rate-plan_smud_fixed_2026-01-01.jsonld"]
+   [:rate-plan-modifier "SCE CARE" "ca/iou/sce/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld"]
+   [:rate-plan-modifier "SCE FERA" "ca/iou/sce/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
