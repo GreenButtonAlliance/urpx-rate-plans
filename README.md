@@ -36,17 +36,17 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 ## Status
 
-44 rate plans landed (32 `urpx:RatePlan` + 12 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
+45 rate plans landed (32 `urpx:RatePlan` + 13 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
 
 **Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
 
-**SHACL-validating ≠ bill-calculation-complete.** All 44 rate plans pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
+**SHACL-validating ≠ bill-calculation-complete.** All 45 rate plans pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
 
 ### Fidelity by rate plan
 
 | Fidelity | Rate plans | Notes |
 |---|---:|---|
-| **Models the published rate-of-record** | 40 | Validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx); the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials, baseline-allocation matrix expansion across territory codes) — all tied to one of the open URPX vocabulary questions listed below. |
+| **Models the published rate-of-record** | 41 | Validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx); the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials; PG&E baseline-allocation matrix is fully modeled for E-TOU-C 2026-03-01 — pending for E-1) — all tied to one of the open URPX vocabulary questions listed below. |
 | **Substantial economic effect deferred to prose** | 2 | SCE CARE and SCE FERA — line-item exemptions (WFC, FRC, BSC adjustments) modeled with concrete unit prices, but the headline 32.5% (CARE) / 18% (FERA) percentage-of-bill discount is captured in description prose only. Tracked at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
 | **Placeholder Price (key value not expressible)** | 2 | LADWP NEM and SMUD NEM1 — both compensate exported energy at the customer's *applicable base-rate energy charge*, a "computed at upstream context" semantic that has no URPX v0.2.0 primitive. The modifiers carry a placeholder `Price` (`unitPrice="0"`) for SHACL conformance, with the actual compensation rule documented in the description prose. Same upstream issue: [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
 
@@ -60,33 +60,23 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 ### Open URPX vocabulary questions
 
-Modeling work on this corpus surfaced a set of upstream issues + discussions. Each rate plan's `tariff.toml` cites the ones that affect it; this is the corpus-wide index.
+Modeling work on this corpus surfaced a set of upstream issues + discussions awaiting resolution. Each rate plan's `tariff.toml` cites the ones that affect it; this is the corpus-wide index.
 
-**Open** (awaiting upstream guidance):
-
-- [**urpx#16**](https://github.com/urpx-org/urpx/issues/16) — SHACL constraint on `urpx:supersedes` is too strict for cross-filing lineage references.
 - [**urpx#18**](https://github.com/urpx-org/urpx/issues/18) — percent-of-baseline / ratio-of-reference modeling for usage-cap conditions.
-- [**urpx#21**](https://github.com/urpx-org/urpx/issues/21) — rate-plan eligibility aggregation across accounts at one site.
-- [**urpx#22**](https://github.com/urpx-org/urpx/issues/22) — voluntary rate plan minimum-tenure requirement. Affects SDG&E TOU-ELEC, DR-SES, EV-TOU-5 (12-month stays).
-- [**urpx#23**](https://github.com/urpx-org/urpx/issues/23) — standalone modifier `applicableToRatePlan` when base RatePlan is in a separate file. Affects all 12 of our `urpx:RatePlanModifier`s.
+- [**urpx#21**](https://github.com/urpx-org/urpx/issues/21) — rate-plan eligibility aggregation across accounts at one site. Una proposed `aggregationMethod=urpx:sum` on a derived `MetricInput`; trying to apply that pattern surfaced an inconsistency in three SHACL shapes — see discussion #29 below.
 - [**urpx#24**](https://github.com/urpx-org/urpx/issues/24) — percentage-of-bill discount + computed-from-upstream-context semantics. Affects SCE CARE/FERA (percentage discount) and LADWP NEM / SMUD NEM1 (compute at customer's base rate).
 - [**urpx#25**](https://github.com/urpx-org/urpx/issues/25) — on-site-generation exemptions and conditional demand credits in a Standby Charge. Affects SMUD NEM1/SSR standby-charge waivers.
 - [**urpx#26**](https://github.com/urpx-org/urpx/issues/26) — packaging standalone `@graph` siblings (e.g. ProgramEnrollment defs) in a `URPXDocument`-wrapped filing.
 - [**urpx-org/urpx discussion #28**](https://github.com/urpx-org/urpx/discussions/28) — `TariffPublication` ↔ `URPXDocument` shape conflict under `-i rdfs`. Affects 6 PG&E rate plans (E-1, E-TOU-C ×2, E-TOU-D, EV2, E-ELEC 2026-03-27 ─ those with an Advice Letter `TariffPublication` carrying `urpx:hasRatePlan`). For now we run `pyshacl` without `-i rdfs`; will re-enable when the discussion lands and we restructure the affected rate plans accordingly.
-
-**Resolved** (closed upstream; downstream follow-up listed inline):
-
-- [**urpx#9**](https://github.com/urpx-org/urpx/issues/9) (closed) — fallback / "default-tier" Price semantics. *Resolution*: use `urpx:ProfileAlternatives` + `urpx:PriceSetAlternatives`. Refactor of PG&E income-tier BSC + vintage-PCIA tracked at `URPXT-pft`; gated on clj-urpx `URPX-vlf`.
-- [**urpx#10**](https://github.com/urpx-org/urpx/issues/10) (closed) — assistance-program category vocabulary. *Resolution*: SHACL enums are closed by design; use `urpx:Program` + `urpx:programName` for utility-specific names; broadly-applicable additions to `ProgramTypeValue` (e.g. `moderateIncomeProgram`) can be proposed individually.
-- [**urpx#11**](https://github.com/urpx-org/urpx/issues/11) (closed) — parameterized matrix-valued tier bounds. *Resolution*: use `ProfileAlternatives` referenced by each `ServiceTiers` container for differential thresholds. Same idiom as #9; baseline-territory matrix expansion (PG&E E-1, E-TOU-C) tracked at urpx-tariffs#2 and rolls into the `URPXT-pft` work.
-- [**urpx#13**](https://github.com/urpx-org/urpx/issues/13) (closed) — TimeBracket holiday handling documentation clarification.
-- [**urpx#17**](https://github.com/urpx-org/urpx/issues/17) (closed) — add `urpx:gYearValue` to `DatatypeOperandNode`. *Resolution*: accepted; will land in a future URPX release. Vintage-PCIA `integerValue` → `gYearValue` migration tracked at urpx-tariffs#7.
+- [**urpx-org/urpx discussion #29**](https://github.com/urpx-org/urpx/discussions/29) — three SHACL shapes (`MetricInputShape`'s inline `calculationRule` constraint, `CalculationMethodShape`, `MetricSpecificationShape`) appear inconsistent on where `aggregationMethod` can attach. Blocks the concrete CPAU E-7 / E-7 TOU site-aggregation refactor proposed on #21.
+- [**urpx#30**](https://github.com/urpx-org/urpx/issues/30) — request for `customDimensionProperty` (string) on `AlternativeDimension`, parallel to `CustomOperandNode.customConditionProperty`. PG&E vintage-PCIA + baseline-tier modifiers currently mint synthetic URIs as a workaround.
+- [**urpx-org/urpx discussion #31**](https://github.com/urpx-org/urpx/discussions/31) — `PlanElementsShape.hasProfileAlternatives` is `sh:maxCount 1`, but PG&E E-1 needs two independent dimension groups (income tier × baseline territory-code). Blocks the in-place E-1 baseline-matrix expansion.
 
 ### Utilities covered
 
 | Utility | Class | Path | Base RatePlans | RatePlanModifiers |
 |---|---|---|---|---|
-| Pacific Gas & Electric (PG&E) | IOU | `ca/iou/pge/` | E-1, E-TOU-C (×2 reissue), E-TOU-D, EV2, E-ELEC (×2 reissue) | — |
+| Pacific Gas & Electric (PG&E) | IOU | `ca/iou/pge/` | E-1, E-TOU-C (×2 reissue), E-TOU-D, EV2, E-ELEC (×2 reissue) | E-TOU-C Baseline-Tier |
 | Southern California Edison (SCE) | IOU | `ca/iou/sce/` | TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME, Schedule D | CARE, FERA |
 | San Diego Gas & Electric (SDG&E) | IOU | `ca/iou/sdge/` | TOU-DR1, DR, TOU-DR2, EV-TOU-5, TOU-ELEC, DR-SES | — |
 | Los Angeles Department of Water and Power (LADWP) | POU | `ca/pou/ladwp/` | R-1A, R-1B | NEM |
