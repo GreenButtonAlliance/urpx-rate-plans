@@ -26,7 +26,7 @@ Use [Issues](https://github.com/grid-coordination/urpx-tariffs/issues) for actio
 - Missing rate plans for utilities the corpus is supposed to cover
 - Provenance bugs (`tariff.toml` sha256 mismatch, broken `[source.url]`, wrong effective date)
 - Schema changes (`schema/tariff-manifest.schema.json`, `schema/utility-manifest.schema.json`)
-- Stale or incorrect prose in `README.md`, `LAYOUT.md`, or any filing's `tariff.toml`
+- Stale or incorrect prose in `README.md`, `LAYOUT.md`, or any rate plan's `tariff.toml`
 
 If you're not sure whether something is an Issue or a Discussion, start with a Discussion — we can convert it later.
 
@@ -36,19 +36,19 @@ Pull requests are welcome.
 
 - For small fixes (typos, broken links, dead code, single-rate-value corrections backed by the committed source PDF), open a PR directly.
 - For substantive changes (new utilities, new modifier shapes, manifest-schema changes, restructuring the directory hierarchy), open a Discussion or Issue first so we can align on scope before you invest the effort.
-- Match the existing tone and structure. Filings in this repo are scaffolded from existing patterns (see the `tariff.toml` notes for pattern references), validated by both [pyshacl](https://github.com/RDFLib/pySHACL) and [clj-urpx](https://github.com/urpx-org/clj-urpx), and kept structurally consistent across utilities so a price-server consuming the corpus doesn't have to special-case different utilities.
+- Match the existing tone and structure. Rate plans in this repo are scaffolded from existing patterns (see the `tariff.toml` notes for pattern references), validated by both [pyshacl](https://github.com/RDFLib/pySHACL) and [clj-urpx](https://github.com/grid-coordination/clj-urpx), and kept structurally consistent across utilities so a price-server consuming the corpus doesn't have to special-case different utilities.
 - One commit per logical change is fine; we don't require squash or any particular branch naming.
 
-## Adding a new filing
+## Adding a new rate plan
 
 The end-to-end workflow for adding a single new rate plan is documented in [LAYOUT.md §11](./LAYOUT.md#11-adding-a-new-filing). In short:
 
-1. Pick a pattern reference — an existing filing whose structure most closely matches the new one (e.g. another utility's residential TOU rate, another modifier with the same compensation mechanism).
+1. Pick a pattern reference — an existing rate plan whose structure most closely matches the new one (e.g. another utility's residential TOU rate, another modifier with the same compensation mechanism).
 2. Create the filing directory: `ca/<class>/<utility>/<schedule>/versions/<effective-date>/`.
 3. Commit the source tariff PDF alongside the JSON-LD; record its `sha256` and the canonical retrieval URL in `tariff.toml`.
-4. Author the JSON-LD (using the URPX ontology), making the filing self-contained (`urpx:URPXDocument` wrapper).
+4. Author the JSON-LD (using the URPX ontology), making the rate plan self-contained (`urpx:URPXDocument` wrapper).
 5. Run `pyshacl` against the URPX ontology to verify SHACL conformance.
-6. Add the filing to `dev/validate_v020.clj` and run `clojure -M -m validate-v020` for end-to-end load → coerce → resolve verification.
+6. Add the rate plan to `dev/validate_v020.clj` and run `clojure -M -m validate-v020` for end-to-end load → coerce → resolve verification.
 7. Update `dev/coverage-estimates.toml` if this is a new utility or significantly shifts a utility's per-tariff residential share.
 8. Document what's modeled, what's deferred, and any URPX vocabulary gaps in `tariff.toml [extraction.notes]`.
 
@@ -56,10 +56,11 @@ The end-to-end workflow for adding a single new rate plan is documented in [LAYO
 
 A few patterns we've found helpful:
 
-- **Pattern reference first.** Before authoring a new filing, identify the closest existing filing in the corpus and scaffold from it. This keeps cross-utility shape consistent.
+- **Pattern reference first.** Before authoring a new rate plan, identify the closest existing rate plan in the corpus and scaffold from it. This keeps cross-utility shape consistent.
 - **Pause when URPX vocabulary doesn't fit.** If you can't express a regulatory rule in URPX cleanly, don't invent a custom shape — file an issue against [urpx-org/urpx](https://github.com/urpx-org/urpx) describing the gap with a concrete example. The current vocabulary-gap discussion is at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24).
+- **[clj-urpx](https://github.com/grid-coordination/clj-urpx) is also WIP.** Its load-coerce-resolve pipeline is the validator we lean on for end-to-end checks beyond pyshacl, but it is in no way definitive — in the course of modeling tariffs in this repo we have repeatedly hit missing capabilities or bugs in it. If you encounter one, please file a Discussion or Issue at [grid-coordination/clj-urpx](https://github.com/grid-coordination/clj-urpx) so the validator improves alongside the corpus.
 - **Description prose is part of the contract.** When a regulatory rule can't be expressed structurally, document it clearly in `urpx:description` on the relevant `RatePlanVersion` / `RatePlanModifierVersion`. A consumer reading the JSON-LD should be able to understand exactly what's modeled and what isn't.
-- **Provenance over prediction.** Every filing's `tariff.toml [source]` block records the canonical URL, retrieval date, and `sha256` of the source PDF. If a utility republishes a different PDF at the same URL (this happens — PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place between two retrievals two days apart), the committed PDF + `sha256` are the durable record.
+- **Provenance over prediction.** Every rate plan's `tariff.toml [source]` block records the canonical URL, retrieval date, and `sha256` of the source PDF. If a utility republishes a different PDF at the same URL (this happens — PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place between two retrievals two days apart), the committed PDF + `sha256` are the durable record.
 
 ## Code of conduct
 

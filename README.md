@@ -36,17 +36,17 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 ## Status
 
-44 rate plans landed (32 `urpx:RatePlan` + 12 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` (SHACL conformance) and `clj-urpx` (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
+44 rate plans landed (32 `urpx:RatePlan` + 12 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` (SHACL conformance) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
 
 **Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
 
-**SHACL-validating ≠ bill-calculation-complete.** All 44 rate plans pass pyshacl + clj-urpx, but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
+**SHACL-validating ≠ bill-calculation-complete.** All 44 rate plans pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
 
 ### Fidelity by rate plan
 
 | Fidelity | Rate plans | Notes |
 |---|---:|---|
-| **Models the published rate-of-record** | 40 | Validates clean against pyshacl + clj-urpx; the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials, baseline-allocation matrix expansion across territory codes) — all tied to one of the open URPX vocabulary questions listed below. |
+| **Models the published rate-of-record** | 40 | Validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx); the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials, baseline-allocation matrix expansion across territory codes) — all tied to one of the open URPX vocabulary questions listed below. |
 | **Substantial economic effect deferred to prose** | 2 | SCE CARE and SCE FERA — line-item exemptions (WFC, FRC, BSC adjustments) modeled with concrete unit prices, but the headline 32.5% (CARE) / 18% (FERA) percentage-of-bill discount is captured in description prose only. Tracked at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
 | **Placeholder Price (key value not expressible)** | 2 | LADWP NEM and SMUD NEM1 — both compensate exported energy at the customer's *applicable base-rate energy charge*, a "computed at upstream context" semantic that has no URPX v0.2.0 primitive. The modifiers carry a placeholder `Price` (`unitPrice="0"`) for SHACL conformance, with the actual compensation rule documented in the description prose. Same upstream issue: [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
 
