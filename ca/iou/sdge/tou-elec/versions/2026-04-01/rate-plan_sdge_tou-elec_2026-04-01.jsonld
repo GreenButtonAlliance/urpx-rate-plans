@@ -44,6 +44,9 @@
     "urpx:intervalDuration": {
       "@type": "xsd:duration"
     },
+    "urpx:minimumTenure": {
+      "@type": "xsd:duration"
+    },
     "urpx:touTierNumber": {
       "@type": "xsd:integer"
     },
@@ -92,6 +95,7 @@
       },
       "urpx:description": "SDG&E's electrification-targeted residential time-of-use schedule for households with at least one of: a battery-electric or plug-in hybrid vehicle (BEV/PHEV) recharged via on-premises outlet, a natural-gas vehicle (NGV) refueled via a home refueling appliance (HRA), a behind-the-meter energy storage device interconnected per Electric Rule 21, or an electric heat pump for water heating or climate control. Estimated ~70K customers (capped at 10,000 enrollments per Special Condition 10 — but the cap has been raised over time and the schedule has substantial enrollment under the original cap plus subsequent expansions; precise count via SDG&E enrollment data). Three TOU periods (On-Peak / Off-Peak / Super Off-Peak); same TOU windows as TOU-DR1 and EV-TOU-5 (4-9pm peak all days; super-off-peak split midnight-6am + 10am-2pm weekdays / continuous midnight-2pm weekends/holidays). Distinguishing structural features vs TOU-DR1: (1) UDC Total is FLAT $0.26288/kWh across all periods (lower than TOU-DR1's flat $0.34061 — reflects subsidized delivery cost for electrification participants); the UDC Distribution component is $0.14708 vs TOU-DR1's $0.15719 and the TRAC component is $0.00000 vs TOU-DR1's $0.06762. (2) NO Baseline Adjustment Credit (vs TOU-DR1's $-0.10892/kWh up to 130% of baseline — the discount is built into lower UDC instead). (3) EECC values are higher in summer on-peak ($0.45690 vs $0.34920) and lower in summer super-off-peak ($0.08637 vs $0.04121 — wait, lower super-off-peak in TOU-DR1; TOU-ELEC's super-off-peak is HIGHER), reflecting cost-based per-kWh pricing for high-load electrification households. Same Base Services Charge $0.79343/day for standard customers; CARE/FERA/DRAH variants modeled as RatePlanModifiers in the grid-coordination/urpx-tariffs#13 secondary epic. Special Condition 4 imposes a 12-month minimum-stay requirement — customers must remain on TOU-ELEC for at least 12 consecutive months before changing schedules, and customers who leave cannot return for 12 consecutive months (one-time exception for first-year-of-offering enrollees per D.22-11-022). Special Condition 10 caps enrollment at 10,000 customers; enrollment subject to availability and SDG&E does not maintain a queue if cap is reached.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
+      "urpx:minimumTenure": "P12M",
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },
