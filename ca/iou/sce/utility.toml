@@ -91,4 +91,56 @@ Two alternatives were considered and rejected for the common case:
 Either alternative remains available if a specific SCE filing's
 structure demands it — but the default for SCE consolidated tariff-book
 PDFs is single-filing-dated-to-most-recent.
+
+Missing sheets in consolidated TOU-D PDFs (Sheets 12-17):
+
+The ELECTRIC_SCHEDULES_TOU-D_<YEAR>.pdf consolidated PDFs structurally
+EXCLUDE Sheets 12-17 — verified across both 2024 and 2025 publications.
+Those sheets contain Schedule TOU-D Special Conditions 1-6 (TOU period
+time-bracket definitions, Option PRIME eligibility, billing calculation,
+baseline allocations, CCA/DA clauses).
+
+Why: SCE's consolidated PDFs aggregate the most recently filed revision
+of each sheet that was filed during the publication year. Special
+Conditions 1-6 have not been re-filed via Advice Letter for several
+publication cycles, so they don't appear in the current bundles. The
+Sheets exist conceptually — Sheet 18's text references "Special
+Conditions 1 and 3" (which would be on Sheets 12-17) — but they're
+not in the SCE-published bundle a user would naturally fetch.
+
+Locations checked and confirmed NOT to contain Sheets 12-17:
+  - SCE Residential Rates SharePoint folders (2024, 2025) — only
+    rate sheets + Sheet 18.
+  - SCE Preliminary Statements SharePoint folder
+    (.../Tariff-SCE Tariff Books/Electric/Preliminary Statements) —
+    contains cross-cutting policy parts (A through III, e.g. Part H
+    Baseline Service, Part FF PPP Adjustment Mechanism), but no
+    per-schedule Special Conditions.
+
+Possible source-of-record locations not yet exhaustively searched:
+  - SCE Approved Advice Letters SharePoint folder
+    (https://edisonintl.sharepoint.com/.../Approved/Electric)
+    — the Advice Letter that filed Sheets 12-17 (likely years old)
+    would carry copies. Hunting through historical ALs is out of
+    scope for an automated scrape; would require either CPUC-docket
+    cross-referencing or direct contact with tariffs.manager@sce.com.
+  - CPUC OASIS (CPUC's e-filing portal at docs.cpuc.ca.gov) —
+    structured Advice Letter / Decision search may surface the
+    most recent filing of these sheets.
+  - Internet Archive snapshots of older sce.com pages.
+
+Practical fallback for modeling TOU period definitions:
+
+For URPXT-t65.{1,2,4} (SCE TOU-D-4-9PM, -5-8PM, -PRIME), this corpus
+sources the TOU window time brackets from SCE's customer-facing rate
+plans page (https://www.sce.com/save-money/rates-financing/...).
+That page presents the time periods graphically per schedule and is
+SCE-published — authoritative for customer-display purposes if not
+for regulatory-filing-record purposes. The discrepancy is documented
+in each affected filing's tariff.toml [extraction.notes].
+
+Tracked as URPXT-uw8 (closed 2026-05-01) — the search was inconclusive;
+re-open or file a follow-up if an authoritative source for Sheets
+12-17 specifically is needed (e.g. for a third-party validator that
+won't accept customer-page sourcing).
 """
