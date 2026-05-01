@@ -832,30 +832,42 @@
                 }
               }
             ]
-          }
-        },
-        "urpx:hasPrices": {
-          "@type": "urpx:Prices",
-          "urpx:hasPrice": [
-            {
-              "@type": "urpx:Price",
-              "@id": "pge:price-base-charge-tier-1",
-              "urpx:referencesPriceDefinition": {
-                "@id": "pge:pd-base-charge"
-              },
-              "urpx:startDate": "2026-03-27",
-              "urpx:name": "Base Services Charge — Income Tier 1 (CARE-eligible)",
-              "urpx:unitPrice": "0.19713",
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "pge:ag-base-charge-tier-1",
-                "urpx:name": "Income Tier 1 — customer enrolled in CARE",
+          },
+          "urpx:hasProfileAlternatives": {
+            "@type": "urpx:ProfileAlternatives",
+            "@id": "pge:pa-income-tier",
+            "urpx:name": "Income tier (CARE / FERA / Standard)",
+            "urpx:hasAlternativeDimensions": {
+              "@type": "urpx:AlternativeDimensions",
+              "urpx:hasAlternativeDimension": [
+                {
+                  "@type": "urpx:AlternativeDimension",
+                  "urpx:dimensionDisplayName": "Program Enrollment",
+                  "urpx:dimensionProperty": "https://urpx-org.github.io/urpx/ontology/hasProgramEnrollment",
+                  "urpx:hasPossibleValues": {
+                    "@list": [
+                      {
+                        "@id": "pge:program-care"
+                      },
+                      {
+                        "@id": "pge:program-fera"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "urpx:hasProfileAlternative": [
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-income-tier-care",
+                "urpx:name": "Income Tier 1 — CARE-eligible",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "pge:cx-tier-1",
+                  "@id": "pge:cx-pa-care",
                   "urpx:rootNode": {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "pge:cn-tier-1",
+                    "@id": "pge:cn-pa-care",
                     "urpx:operator": {
                       "@id": "urpx:equalsOperator"
                     },
@@ -873,27 +885,17 @@
                     }
                   }
                 }
-              }
-            },
-            {
-              "@type": "urpx:Price",
-              "@id": "pge:price-base-charge-tier-2",
-              "urpx:referencesPriceDefinition": {
-                "@id": "pge:pd-base-charge"
               },
-              "urpx:startDate": "2026-03-27",
-              "urpx:name": "Base Services Charge — Income Tier 2 (FERA-eligible)",
-              "urpx:unitPrice": "0.39688",
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "pge:ag-base-charge-tier-2",
-                "urpx:name": "Income Tier 2 — customer enrolled in FERA",
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-income-tier-fera",
+                "urpx:name": "Income Tier 2 — FERA-eligible",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "pge:cx-tier-2",
+                  "@id": "pge:cx-pa-fera",
                   "urpx:rootNode": {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "pge:cn-tier-2",
+                    "@id": "pge:cn-pa-fera",
                     "urpx:operator": {
                       "@id": "urpx:equalsOperator"
                     },
@@ -911,34 +913,24 @@
                     }
                   }
                 }
-              }
-            },
-            {
-              "@type": "urpx:Price",
-              "@id": "pge:price-base-charge-tier-3",
-              "urpx:referencesPriceDefinition": {
-                "@id": "pge:pd-base-charge"
               },
-              "urpx:startDate": "2026-03-27",
-              "urpx:name": "Base Services Charge — Income Tier 3 (no qualifying enrollment)",
-              "urpx:unitPrice": "0.79343",
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "pge:ag-base-charge-tier-3",
-                "urpx:name": "Income Tier 3 — customer not enrolled in CARE or FERA",
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-income-tier-standard",
+                "urpx:name": "Income Tier 3 — neither CARE nor FERA (standard)",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "pge:cx-tier-3",
+                  "@id": "pge:cx-pa-standard",
                   "urpx:rootNode": {
                     "@type": "urpx:BooleanOperationNode",
-                    "@id": "pge:bn-tier-3-and",
+                    "@id": "pge:bn-pa-standard",
                     "urpx:operator": {
                       "@id": "urpx:andOperator"
                     },
                     "urpx:operandNodes": [
                       {
                         "@type": "urpx:ComparisonNode",
-                        "@id": "pge:cn-tier-3-not-care",
+                        "@id": "pge:cn-pa-not-care",
                         "urpx:operator": {
                           "@id": "urpx:notEqualsOperator"
                         },
@@ -957,7 +949,7 @@
                       },
                       {
                         "@type": "urpx:ComparisonNode",
-                        "@id": "pge:cn-tier-3-not-fera",
+                        "@id": "pge:cn-pa-not-fera",
                         "urpx:operator": {
                           "@id": "urpx:notEqualsOperator"
                         },
@@ -974,13 +966,16 @@
                           }
                         }
                       }
-                    ],
-                    "urpx:logicExpression": "hasProgramEnrollment != program-care AND hasProgramEnrollment != program-fera"
+                    ]
                   }
                 }
               }
-            }
-          ],
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "urpx:hasPrice": [],
           "urpx:hasPriceSet": [
             {
               "@type": "urpx:PriceSet",
@@ -1180,6 +1175,75 @@
                   },
                   "urpx:name": "Recovery Bond Credit",
                   "urpx:unitPrice": "-0.00857"
+                }
+              ]
+            }
+          ],
+          "urpx:hasPriceSetAlternatives": [
+            {
+              "@type": "urpx:PriceSetAlternatives",
+              "@id": "pge:psa-bsc-by-income-tier",
+              "urpx:name": "Base Services Charge — varies by income tier (CARE / FERA / Standard)",
+              "urpx:referencesProfileAlternatives": {
+                "@id": "pge:pa-income-tier"
+              },
+              "urpx:hasPriceSetAlternative": [
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-bsc-tier-1",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-income-tier-care"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-base-charge-tier-1",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-base-charge"
+                      },
+                      "urpx:startDate": "2026-03-27",
+                      "urpx:name": "Base Services Charge — Income Tier 1 (CARE-eligible)",
+                      "urpx:unitPrice": "0.19713"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-bsc-tier-2",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-income-tier-fera"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-base-charge-tier-2",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-base-charge"
+                      },
+                      "urpx:startDate": "2026-03-27",
+                      "urpx:name": "Base Services Charge — Income Tier 2 (FERA-eligible)",
+                      "urpx:unitPrice": "0.39688"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-bsc-tier-3",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-income-tier-standard"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-base-charge-tier-3",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-base-charge"
+                      },
+                      "urpx:startDate": "2026-03-27",
+                      "urpx:name": "Base Services Charge — Income Tier 3 (no qualifying enrollment)",
+                      "urpx:unitPrice": "0.79343"
+                    }
+                  ]
                 }
               ]
             }
