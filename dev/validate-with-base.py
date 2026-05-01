@@ -30,7 +30,8 @@ ONTOLOGY = URPX_REPO / "ontology" / "urpx-ontology.ttl"
 
 
 def index_corpus() -> dict[str, Path]:
-    """Map RatePlan @id (string IRI like 'pge:e-1') → file path."""
+    """Map @id (RatePlan or RatePlanVersion, string IRI like 'pge:e-1' or
+    'pge:e-tou-c-2026-03-01') → file path."""
     index: dict[str, Path] = {}
     for path in REPO_ROOT.glob("ca/**/rate-plan_*.jsonld"):
         with open(path) as fh:
@@ -41,7 +42,8 @@ def index_corpus() -> dict[str, Path]:
 
 def _walk_rate_plans(node, path, index):
     if isinstance(node, dict):
-        if node.get("@type") == "urpx:RatePlan":
+        t = node.get("@type")
+        if t in ("urpx:RatePlan", "urpx:RatePlanVersion"):
             iid = node.get("@id")
             if iid:
                 index[iid] = path
@@ -52,8 +54,14 @@ def _walk_rate_plans(node, path, index):
             _walk_rate_plans(v, path, index)
 
 
+# Properties whose value is a cross-file IRI reference that a base file must
+# resolve. SHACL enforces sh:class on each, so the referent file must be loaded
+# into the merged graph.
+CROSS_FILE_REF_PROPS = ("urpx:applicableToRatePlan", "urpx:supersedes")
+
+
 def find_base_refs(jsonld_path: Path) -> list[str]:
-    """Return @id strings referenced by urpx:applicableToRatePlan."""
+    """Return @id strings referenced by any cross-file ref property."""
     with open(jsonld_path) as fh:
         data = json.load(fh)
     refs: list[str] = []
@@ -64,7 +72,7 @@ def find_base_refs(jsonld_path: Path) -> list[str]:
 def _walk_refs(node, refs):
     if isinstance(node, dict):
         for k, v in node.items():
-            if k == "urpx:applicableToRatePlan":
+            if k in CROSS_FILE_REF_PROPS:
                 if isinstance(v, list):
                     for item in v:
                         if isinstance(item, dict) and "@id" in item:
@@ -180,7 +188,7 @@ def validate_one(jsonld: Path, *, rdfs: bool = False, verbose: bool = True) -> b
         print(f"  loaded {len(loaded)} base context(s)", file=sys.stderr)
     if verbose and missing:
         print(
-            f"  WARN: applicableToRatePlan references not found in corpus: {missing}",
+            f"  WARN: cross-file references not found in corpus: {missing}",
             file=sys.stderr,
         )
 
@@ -242,7 +250,7 @@ def validate_one(jsonld: Path, *, rdfs: bool = False, verbose: bool = True) -> b
         # Suppress xref class-failures whose value is an IRI whose only resolution path was skipped
         path = list(results_graph.objects(result_node, SH.resultPath))
         path_str = str(path[0]) if path else "?"
-        if path_str.endswith(("applicableToRatePlan", "applicableToRatePlanVersion")):
+        if path_str.endswith(("applicableToRatePlan", "applicableToRatePlanVersion", "supersedes")):
             value_nodes = list(results_graph.objects(result_node, SH.value))
             if value_nodes and value_nodes[0] in suppressed_xref_iris:
                 suppressed_xref_count += 1
