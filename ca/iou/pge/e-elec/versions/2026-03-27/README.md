@@ -45,7 +45,7 @@ This filing was derived from the 2026-01-01 sibling by `shadow-repo/scripts/deri
 
 ## Vintage PCIA — still not modeled
 
-The 2026-01-01 sibling didn't model the Sheet 4 vintage-PCIA table (carried over from the URPX-team-authored v0.1.x fixture); that omission persists here. Adding a vintage-PCIA `RatePlanModifier` is tracked at grid-coordination/urpx-tariffs#9.
+The 2026-01-01 sibling didn't model the Sheet 4 vintage-PCIA table (carried over from the URPX-team-authored v0.1.x fixture); that omission persists here. Adding a vintage-PCIA `RatePlanModifier` to both E-ELEC versions is tracked at [#12](https://github.com/grid-coordination/urpx-tariffs/issues/12).
 
 ## Validation
 

@@ -39,4 +39,4 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-This filing is migrated to URPX **v0.2.0-candidate** (`../urpx` on branch `v0.2.0-candidate`). See [#1](https://github.com/grid-coordination/urpx-tariffs/issues/1) for the full migration record. clj-urpx end-to-end resolution previously passed against URPX v0.1.x; re-validation against v0.2.0 is pending clj-urpx v0.2.0 support.
+This rate plan is serialized against URPX **v0.2.0** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).

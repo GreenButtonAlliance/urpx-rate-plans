@@ -8,7 +8,7 @@
 - [urpx-org/urpx](https://github.com/urpx-org/urpx) — the URPX ontology, SHACL shapes, and test cases
 - [grid-coordination/clj-urpx](https://github.com/grid-coordination/clj-urpx) — the Clojure consumer library used to parse + resolve URPX rate plans
 
-> **2026-04-28 update — URPX v0.2.0 migration.** The four filings have been migrated to URPX v0.2.0-candidate and validate clean (`pyshacl Conforms: True`; clj-urpx end-to-end load+coerce+resolve also clean) on branch `migrate/urpx-v0.2.0`. The report below captures the v0.1.x-era experience as written; sections describing patterns that v0.2.0 changed are flagged inline. Migration details and remaining work are tracked in [#1](https://github.com/grid-coordination/urpx-tariffs/issues/1). Source PDFs are now committed alongside each filing (reverses the original LAYOUT.md §6 convention) — see [#5](https://github.com/grid-coordination/urpx-tariffs/issues/5) and LAYOUT.md §6 for the rationale.
+> **2026-04-28 update — URPX v0.2.0 migration.** The four rate plans have been migrated to URPX v0.2.0 and validate clean (`pyshacl Conforms: True`; clj-urpx end-to-end load+coerce+resolve also clean). The report below captures the v0.1.x-era experience as written; sections describing patterns that v0.2.0 changed are flagged inline. Source PDFs are now committed alongside each rate plan (reverses the original LAYOUT.md §6 convention) — see LAYOUT.md §6 for the rationale.
 
 ---
 

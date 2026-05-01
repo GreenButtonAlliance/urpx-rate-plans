@@ -57,5 +57,5 @@ End-to-end via clj-urpx: `clojure -M:validate` (load + coerce + resolve, all cle
 ## Modifiers status
 
 - **E-HRA (Electric Hydro Rate Adjuster)** — incorporated into the `@graph` of this filing (effective 2023-01-01, applicable at E-1's filing date).
-- **E-EEC-1 (Export Electricity Compensation)** — *not* incorporated. E-EEC-1 became effective 2025-09-01, AFTER E-1's 2025-07-01 filing. Incorporating it would require a new E-1 filing dated ≥ 2025-09-01. Deferred — see [grid-coordination/urpx-tariffs#9](https://github.com/grid-coordination/urpx-tariffs/issues/9).
-- **E-NSE-1** — *not* incorporated. Same temporal reason as E-EEC-1 (effective 2025-09-01). Same deferral.
+- **E-EEC-1 (Export Electricity Compensation)** — *not* incorporated in this 2025-07-01 rate plan. E-EEC-1 became effective 2025-09-01, AFTER E-1's 2025-07-01 filing date. The sibling rate plan at [`../2025-09-01/`](../2025-09-01/) incorporates both E-EEC-1 and E-NSE-1 in its `@graph`.
+- **E-NSE-1** — same as above; incorporated in the [`../2025-09-01/`](../2025-09-01/) sibling.

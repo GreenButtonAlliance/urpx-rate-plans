@@ -1,6 +1,6 @@
 # CPAU E-2 — effective 2025-07-01
 
-City of Palo Alto Utilities **Schedule E-2: Residential Master-Metered and Small Non-Residential Electric Service**. First commercial filing in this corpus, opening the CPAU business / non-residential schedules under [URPXT-clw](https://github.com/grid-coordination/urpx-tariffs/issues/11).
+City of Palo Alto Utilities **Schedule E-2: Residential Master-Metered and Small Non-Residential Electric Service**. First commercial rate plan in this corpus, opening the CPAU business / non-residential schedules.
 
 ## Files
 
