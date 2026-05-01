@@ -47,7 +47,7 @@ The end-to-end workflow for adding a single new rate plan is documented in [LAYO
 2. Create the filing directory: `ca/<class>/<utility>/<schedule>/versions/<effective-date>/`.
 3. Commit the source tariff PDF alongside the JSON-LD; record its `sha256` and the canonical retrieval URL in `tariff.toml`.
 4. Author the JSON-LD (using the URPX ontology), making the rate plan self-contained (`urpx:URPXDocument` wrapper).
-5. Run `pyshacl` against the URPX ontology to verify SHACL conformance.
+5. Run `pyshacl` against the URPX SHACL shapes (`../urpx/shacl/urpx-shacl.ttl`) with the ontology as extra graph (`../urpx/ontology/urpx-ontology.ttl`) to verify SHACL conformance.
 6. Add the rate plan to `dev/validate_v020.clj` and run `clojure -M -m validate-v020` for end-to-end load → coerce → resolve verification.
 7. Update `dev/coverage-estimates.toml` if this is a new utility or significantly shifts a utility's per-tariff residential share.
 8. Document what's modeled, what's deferred, and any URPX vocabulary gaps in `tariff.toml [extraction.notes]`.
