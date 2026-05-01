@@ -23,6 +23,10 @@
    [:rate-plan "PGE EV2"       "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]
    [:rate-plan "PGE E-ELEC 01-01" "ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld"]
    [:rate-plan "PGE E-ELEC 03-27" "ca/iou/pge/e-elec/versions/2026-03-27/rate-plan_pge_e-elec_2026-03-27.jsonld"]
+   ;; PG&E E-TOU-C baseline-tier modifier: pyshacl PASS (45/45 corpus); held out
+   ;; of clj-urpx exercise pending clj-urpx URPX-6hf (Malli BillingModel.hasServiceTiers
+   ;; expects single :map but SHACL is unbounded — Una's #11 closure requires multiple
+   ;; ServiceTiers per BillingModel).
    [:rate-plan "CPAU E-1 07-01" "ca/pou/cpau/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld"]
    [:rate-plan "CPAU E-1 09-01" "ca/pou/cpau/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld"]
    [:rate-plan "CPAU E-1-TOU"   "ca/pou/cpau/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld"]
