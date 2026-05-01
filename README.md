@@ -36,7 +36,7 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 ## Status
 
-44 rate plans landed (32 `urpx:RatePlan` + 12 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` (SHACL conformance) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
+44 rate plans landed (32 `urpx:RatePlan` + 12 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
 
 **Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
 
@@ -60,7 +60,7 @@ Each `<class>/<utility>/` directory also carries a `utility.toml` discovery mani
 
 ### Open URPX vocabulary questions
 
-Modeling work on this corpus surfaced 13 questions filed against the upstream URPX repo. Each rate plan's `tariff.toml` cites the issues that affect it; this is the corpus-wide index:
+Modeling work on this corpus surfaced 13 issues plus 1 discussion filed against the upstream URPX repo. Each rate plan's `tariff.toml` cites the issues that affect it; this is the corpus-wide index:
 
 - [**urpx#11**](https://github.com/urpx-org/urpx/issues/11) — parameterized matrix-valued tier bounds (baseline-allowance pattern). Affects every baseline-tier residential rate (PG&E E-1's territory matrix, SCE Schedule D, all CPAU tiered rates).
 - [**urpx#23**](https://github.com/urpx-org/urpx/issues/23) — standalone modifier `applicableToRatePlan` when base RatePlan is in a separate file. Affects all 12 of our `urpx:RatePlanModifier`s.
@@ -75,6 +75,7 @@ Modeling work on this corpus surfaced 13 questions filed against the upstream UR
 - [**urpx#17**](https://github.com/urpx-org/urpx/issues/17) — add `urpx:gYearValue` to `DatatypeOperandNode`.
 - [**urpx#18**](https://github.com/urpx-org/urpx/issues/18) — percent-of-baseline / ratio-of-reference modeling for usage-cap conditions.
 - [**urpx#13**](https://github.com/urpx-org/urpx/issues/13) (closed) — TimeBracket holiday handling documentation clarification.
+- [**urpx-org/urpx discussion #28**](https://github.com/urpx-org/urpx/discussions/28) — `TariffPublication` ↔ `URPXDocument` shape conflict under `-i rdfs`. Affects 6 PG&E rate plans (E-1, E-TOU-C ×2, E-TOU-D, EV2, E-ELEC ×2 ─ those with an Advice Letter `TariffPublication` carrying `urpx:hasRatePlan`). For now we run `pyshacl` without `-i rdfs`; will re-enable when the discussion lands and we restructure the affected rate plans accordingly.
 
 ### Utilities covered
 
