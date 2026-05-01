@@ -1,0 +1,184 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "nem1"
+effective_date = "2021-09-17"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_NEM1.ashx"
+sha256        = "9e12676a4a46244dbbabb5ad34bb01c8233d94dac0454ec9fe974535968ff963"
+retrieved_on  = "2026-05-01"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+filing_id     = "SMUD-Resolution-21-09-07"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "SMUD Resolution No. 21-09-07 adopted September 16, 2021 (jointly adopting the SSR introduction and the NEM1 closed-to-new-customers revision)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-01"
+notes         = """
+SMUD Rate Schedule NEM1 — legacy customer-generation framework.
+Closed to new customers as of March 1, 2022 — replaced by the Solar
+and Storage Rate (Schedule SSR) for new interconnections (modeled at
+ca/pou/smud/ssr/versions/2022-03-01/). Existing NEM1 customers
+grandfathered until at least 2031, when SMUD will transition all
+remaining NEM1 customers to SSR.
+
+Filing details (3 effective pages + 1 blank, 4-page PDF):
+  Sheet NEM1-1 (APPLICABILITY — closed-to-new clause, transitional
+    conditions, 2031 sunset; GENERATOR STANDBY CHARGES) — Resolution
+    21-09-07, Sheet NEM1-1
+  Sheet NEM1-2 (CONDITIONS OF SERVICE — 9-item Eligibility list;
+    METERING; PAYMENTS; SETTLEMENT METHOD start) — Sheet NEM1-2
+  Sheet NEM1-3 (SETTLEMENT METHOD continued — Annual Net Surplus
+    Generation, Opt-Out; RESIDENTIAL RATE REQUIREMENT — must be on
+    R-TOD if approved on/after 2018-01-01) — Sheet NEM1-3
+  Sheet 4 — blank
+
+URL convention: SMUD's newer rate schedules use the `01_NAME.ashx`
+prefix (vs older `1-NAME.ashx`); see ca/pou/smud/utility.toml for
+the dual-prefix discovery pattern. NOTE: SMUD also serves an OLDER
+NEM1 revision at the path `1-NEM1.ashx` — Resolution 19-06-13,
+effective 2021-01-01, with a different (6-item) eligibility list and
+no closed-to-new clause. The canonical CURRENT revision is at
+`01_NEM1.ashx` (Resolution 21-09-07, effective 2021-09-17, this
+filing). The older revision was superseded but apparently never
+removed from SMUD's file server.
+
+## What this modifier captures
+
+Eligibility (Sheet 2.III.A) — 9-item list:
+  1. Facility on customer's premises
+  2. Operates in parallel with SMUD's distribution
+  3. Meets Rule and Regulation 21
+  4. Sized to offset part or all of customer's own consumption
+  5. Single metering point
+  6. Customer has NOT received storage incentives under SMUD programs
+     (storage-incentive recipients must be on SSR)
+  7. Facility size has not grown >10% of original CEC-AC capacity (or
+     +1 kW, whichever greater) and does not exceed 110% of original
+  8. No revised/new full-system-replacement interconnection
+     application submitted
+  9. Generating capacity ≤3,000 kW (CEC-AC for PV; nameplate AC otherwise)
+
+Plus closed-to-new clause (Sheet 1.I): facility's interconnection
+application must have been approved by SMUD prior to March 1, 2022.
+
+Renewable fuel sources (Sheet 1.I): photovoltaic, wind, biomass, solar
+thermal, geothermal, fuel cells using renewable fuels, small
+hydroelectric (with environmental conditions), digester gas, municipal
+solid waste conversion, landfill gas, ocean wave, ocean thermal,
+tidal current — defined per the CEC's RPS Eligibility Guidebook.
+NEM1 does NOT cover storage-only customers.
+
+Reverse-flow MetricInput (kWh exported to SMUD).
+
+Compensation mechanism (Sheet 2.V.D): Monthly "retail-valued
+electricity credits" — credit equals the customer's APPLICABLE
+BASE-RATE energy charge × excess kWh exported. The applicable base
+rate depends on customer interconnection-approval date:
+  - Pre-2018-01-01 residential: Fixed Rate (1-R) or R-TOD (elective)
+  - Post-2018-01-01 residential: R-TOD MANDATORY (Sheet 3.VII)
+
+Settlement (Sheet 2.VI / Sheet 3.VI):
+  - 12-month settlement period (begins on customer move-in or
+    NEM-eligible system approval-for-grid-connection date)
+  - Monthly retail-valued credits roll over within settlement period
+  - At end of 12-month period, customer elects:
+    * Monetary payment for net surplus at SMUD's annually-published
+      avoided-generation-cost rate (= expected avoided generation +
+      production-related costs / forecasted annual energy sales;
+      published on www.smud.org by Dec 20 prior to year of effect;
+      SMUD takes ownership of associated renewable electricity credits)
+    * Roll over to next 12-month period
+    * Opt out (forgoes compensation/rollover; retains REC ownership)
+
+Generator Standby Charges (Sheet 1.II): Waived for the portion of
+customer load served by the NEM-eligible facility.
+
+## URPX vocabulary gap
+
+The actual NEM1 credit value depends on the customer's applicable
+base rate (Fixed or R-TOD), what season, and possibly what TOU period
+(R-TOD is TOU). URPX has no primitive for 'compute credit at the
+customer's base rate' — same family of vocabulary gap as
+ca/pou/ladwp/nem/versions/2008-09-01/.
+
+Tracked at urpx-org/urpx#24 (with follow-up comment 4357395644
+covering the LADWP-NEM and SCE-HPWH cases as related vocabulary-need
+data points).
+
+For SHACL conformance, the modifier carries one PriceDefinition (NEM1
+Net Metering Credit, chargeType creditEnergy) with a placeholder
+Price unitPrice='0'. Consumers (price-server) computing actual
+credits must reference the customer's base rate at billing time.
+Description prose documents the rule clearly.
+
+The annual net-surplus monetary payment value is similarly a
+published-annually scalar (avoided-cost-divided-by-forecasted-sales);
+modeling deferred — would require either (a) an annual filing
+revision capturing each year's published value or (b) a URPX
+primitive for 'compute from utility's published annual avoided-cost
+scalar'.
+
+## Modeling deferrals
+
+  - 'Residential customer must be on R-TOD' constraint (Sheet 3.VII for
+    post-2018-01-01 customers; Rate Schedule R Sheet R-1.A.3 for
+    pre-2018-01-01 elective Fixed Rate) — captured in description prose.
+    URPX has no vocabulary for cross-RatePlan eligibility constraints.
+    Consumer (price-server) handles NEM1+R-TOD or NEM1+Fixed
+    composition at billing time.
+  - 110%-of-originally-approved-capacity sizing constraint
+    (Sheet 2.III.A.7) — described in prose. Captures customer-design
+    constraint at interconnection time, not a per-bill rule.
+  - Pre-March-1-2022 interconnection-approval cutoff (Sheet 1.I) —
+    captured as a CustomOperandNode comparison in EligibilityRule
+    'smud:er-nem1-pre-2022-interconnection'. URPX has no enum value
+    for 'interconnection approval date' as a structured customer
+    attribute, so falls back to a custom node.
+  - 2031 NEM1-to-SSR forced-transition sunset (Sheet 1.I) — described
+    in prose. URPX has no vocabulary for 'this rate schedule will be
+    eliminated on date X with all customers migrated to schedule Y'.
+  - Storage-incentive disqualifier (Sheet 2.III.A.6) — described in
+    prose. URPX has no vocabulary for 'customer has received program
+    incentive X' enrollment-history conditions.
+  - Generator standby charge waiver (Sheet 1.II) — Standby Charge is
+    published in the base R-TOD schedule (Sheet R-TOD-3 / R-3); the
+    NEM1 waiver applies at composition time. Modeling deferred.
+  - Annual net-surplus monetary payment value — published-annually
+    scalar; modeling deferred (see vocab-gap discussion above).
+  - 12-month settlement period semantics — described in prose. URPX
+    has no vocabulary for 'rolling 12-month settlement starting at
+    customer-specific anchor date.'
+
+## Cross-utility consistency
+
+SMUD's NEM1 is the analog of:
+  - LADWP Service Rider NEM (closest match — same 'credit at
+    customer's base rate' mechanism; same vocab gap)
+  - PG&E/SCE/SDG&E NEM 1.0 / NEM 2.0 grandfathered customers
+    (similar mechanism — pre-NBT export-compensation overlay)
+  - CPAU E-NSE-1 Net Surplus Energy compensation (closest CPAU
+    analog — handles annual net-surplus billing similarly)
+
+Sibling filing: ca/pou/smud/ssr/versions/2022-03-01/ models the
+post-2022 active customer-generation framework with concrete flat
+$0.0740/kWh export rate (no vocab gap).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-01"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Second SMUD RatePlanModifier filing (after SSR). Pattern reference: ca/pou/ladwp/nem/versions/2008-09-01/ for the placeholder-Price + reverse-flow-MetricInput modifier shape (closest analog — both modifiers use 'computed at customer's base rate' compensation that has no current URPX vocabulary). Four EligibilityRules: residential customer + interconnection-approval-date <2022-03-01 (closed-to-new clause) + 4-way OR over qualifying renewable DER types (solar/wind/hydro + custom-other-renewable for biomass/geothermal/fuel cells/digester gas/MSW/landfill gas/ocean/tidal — NEM1 does not cover storage-only customers, unlike SSR) + capacity ≤3,000 kW. Single PriceDefinition with placeholder Price unitPrice='0'. Vocab gap tracked at urpx-org/urpx#24 (consolidated with LADWP NEM and SCE HPWH cases per follow-up comment 4357395644). NOTE on source PDF: SMUD's older `1-NEM1.ashx` URL serves the pre-revision Resolution 19-06-13 PDF (effective 2021-01-01); the canonical current revision is at `01_NEM1.ashx` (Resolution 21-09-07, effective 2021-09-17, this filing) — see utility.toml dual-URL discussion."

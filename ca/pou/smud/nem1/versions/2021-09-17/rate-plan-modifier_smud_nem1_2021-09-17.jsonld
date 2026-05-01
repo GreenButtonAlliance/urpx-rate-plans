@@ -1,0 +1,350 @@
+{
+  "@context": {
+    "urpx": "https://schema.urpx.org/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "smud": "https://example.com/smud/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "smud:doc-nem1-2021-09-17",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "smud:nem1",
+    "urpx:name": "Net Energy Metering (NEM1) — legacy customer-generation overlay (closed to new customers since 2022-03-01)",
+    "urpx:modifierUniqueIdentifier": "NEM1",
+    "urpx:initialEffectiveDate": "2021-09-17",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "smud:nem1-2021-09-17",
+      "urpx:version": "2021-09-17",
+      "urpx:modifierVersionNumber": "2021-09-17",
+      "urpx:changeReason": {
+        "@id": "urpx:initial"
+      },
+      "urpx:description": "SMUD Rate Schedule NEM1 — legacy customer-generation overlay applied on top of the customer's base SMUD rate (R-TOD for residential customers approved on/after 2018-01-01 per Sheet 3.VII; Fixed Rate elective for pre-2018 residential customers per Rate Schedule R Sheet R-1.A.3) for renewable-fueled electrical generation facilities. Closed to new residential customers as of March 1, 2022 — replaced by the Solar and Storage Rate (Schedule SSR) for new interconnections (modeled separately at ca/pou/smud/ssr/versions/2022-03-01/). NEM1 customers approved before March 1, 2022 are grandfathered until at least 2031, when SMUD will transition all remaining NEM1 customers to SSR (Sheet 1.I). Estimated remaining grandfathered NEM1 customer count is ~tens of thousands (precise figure varies — SMUD's solar customer base is ~60K total split between NEM1 grandfathered + SSR active; this filing covers the closed-to-new legacy tier). Compensation semantics (Sheet 2.V.D): in any regular billing month where the customer's exported electricity exceeds imports, the customer receives 'retail-valued electricity credits for the excess electricity supplied to SMUD' — i.e., the credit equals the customer's APPLICABLE BASE-RATE energy charge × excess kWh. Credits roll over to subsequent billing periods within a 12-month settlement window (Sheet 2.VI). At the end of the 12-month settlement period, customers may elect (Sheet 3.VI.A): (1) monetary payment for net surplus generation at SMUD's annually-published avoided-generation-cost rate (calculated as expected avoided generation and production-related costs divided by forecasted annual energy sales, published on www.smud.org by December 20 prior to the year of effect — for net surplus purchases SMUD takes ownership of associated renewable electricity credits); (2) roll over to next 12-month period; or (3) opt out of compensation/rollover entirely (Sheet 3.VI.B), retaining renewable electricity credits in exchange for forgoing monetary value. Generator standby charges are waived for the portion of customer load served by the NEM-eligible facility (Sheet 1.II). Eligibility (Sheet 2.III.A) — 9-item list including facility on premises, parallel operation, Rule 21 compliance, primary purpose to offset customer's own consumption, single metering point, no storage incentives received under SMUD programs (storage-incentive recipients must be on SSR), facility size has not grown >10% or +1 kW (whichever greater) above original approval and does not exceed 110% of originally-approved capacity, no revised/new full-system-replacement interconnection application submitted, generating capacity ≤3,000 kW. NOT MODELED in this filing: the per-kWh credit value itself. The credit equals the applicable base-rate energy charge — same family of vocabulary gap as ca/pou/ladwp/nem/versions/2008-09-01/ ('compute credit at customer's base rate' semantic). Tracked at urpx-org/urpx#24 (with follow-up comment 4357395644 covering this case as one of three related vocabulary-need data points). Placeholder Price with unitPrice='0' included for SHACL conformance; actual NEM1 credit at billing time is computed by the consumer (price-server) using the customer's base rate. The annual net-surplus monetary payment value is similarly a published-annually scalar; modeling deferred. Renewable fuel sources include photovoltaic, wind, biomass, solar thermal, geothermal, fuel cells using renewable fuels, small hydroelectric (with environmental conditions), digester gas, municipal solid waste conversion, landfill gas, ocean wave, ocean thermal, and tidal current — defined per the CEC's Renewable Portfolio Standard Eligibility Guidebook.",
+      "urpx:effectiveDateTime": "2021-09-17T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "smud_nem1_2021-09-17.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_NEM1.ashx",
+        "urpx:dateRetrieved": "2026-05-01",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 1,
+          "urpx:pageEnd": 3
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-nem1-residential",
+          "urpx:name": "NEM1 — residential customer",
+          "urpx:description": "Available to residential, commercial/industrial, and agricultural customers per Sheet 1.I; this filing scopes to residential. Customers approved on/after January 1, 2018 must additionally be on Rate Schedule R-TOD (Sheet 3.VII) — that constraint is captured in description prose since URPX has no structured vocabulary for cross-RatePlan eligibility.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-nem1-residential",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:cn-nem1-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-nem1-pre-2022-interconnection",
+          "urpx:name": "NEM1 — interconnection approved before March 1, 2022",
+          "urpx:description": "Customer's electrical generation facility must have had an interconnection application approved by SMUD prior to March 1, 2022 (Sheet 1.I). NEM1 closed to new customers as of that date; new applications go to SSR. Modeled as a CustomOperandNode since URPX has no vocabulary for 'customer's facility was approved on/before date X' enrollment-history conditions.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-nem1-pre-2022-interconnection",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:cn-nem1-pre-2022-interconnection",
+              "urpx:operator": {
+                "@id": "urpx:lessThanOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "Interconnection application approval date"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "2022-03-01"
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-nem1-qualifying-der",
+          "urpx:name": "NEM1 — qualifying renewable DER",
+          "urpx:description": "Customer must own a renewable-fueled electrical generation facility (photovoltaic / wind / small hydroelectric / geothermal / biomass / solar thermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current — per the CEC's Renewable Portfolio Standard Eligibility Guidebook). Modeled as a 4-way OR over the most common URPX DER enum values (solar, wind, hydro) plus a CustomOperandNode for other renewable types not covered by the URPX enum. NOTE: Unlike SSR, NEM1 does NOT cover storage-only customers — Sheet 2.III.A.6 disqualifies customers who have received storage incentives under SMUD programs (such customers must be on SSR per SSR Sheet 3.VIII).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-nem1-qualifying-der",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "smud:bn-nem1-qualifying-der",
+              "urpx:operator": {
+                "@id": "urpx:orOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-solar",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:solarDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-wind",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:windDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-hydro",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:hydroDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-other-renewable",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Has other CEC-eligible renewable DER (biomass / solar thermal / geothermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current)"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-nem1-capacity-limit",
+          "urpx:name": "NEM1 — generation capacity ≤3,000 kW",
+          "urpx:description": "Generating capacity capped at 3,000 kW (Sheet 2.III.A.9). Capacity is measured as CEC-AC rating for photovoltaic facilities; nameplate AC rating for all other renewable types. The capacity definition in Sheet 2 applies only to NEM1 rate-schedule applicability and may differ from the capacity measurement under Rule 21.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-nem1-capacity",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:cn-nem1-capacity",
+              "urpx:operator": {
+                "@id": "urpx:lessThanOrEqualOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "Generation nameplate capacity (kW)"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "3000"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:nem1-mi-energy-export",
+            "urpx:name": "Energy Exported to SMUD (kWh, reverse flow)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "smud:nem1-ms-energy-export",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:reverse"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:nem1-ledger-net-credit",
+              "urpx:name": "NEM1 Net Energy Credit (computed at customer's applicable base-rate energy pricing)",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:nem1-mi-energy-export"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:nem1-pd-net-credit",
+              "urpx:name": "NEM1 Net Metering Credit (placeholder — actual credit computed at applicable base-rate energy pricing)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:nem1-ledger-net-credit"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-net-credit-placeholder",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 Net Metering Credit (placeholder; actual credit = customer's applicable base-rate energy charge × excess exported kWh, per Sheet 2.V.D)",
+            "urpx:unitPrice": "0"
+          }
+        ]
+      }
+    }
+  }
+}
