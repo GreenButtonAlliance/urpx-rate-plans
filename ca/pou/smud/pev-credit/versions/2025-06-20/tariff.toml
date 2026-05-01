@@ -1,0 +1,125 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "pev-credit"
+effective_date = "2025-06-20"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx"
+sha256        = "9be2f188d4bb39b4bb6436a9a37035457d0e0ab51f769fe995f58ca35422accd"
+retrieved_on  = "2026-05-01"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+filing_id     = "SMUD-Resolution-25-06-15"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "SMUD Resolution No. 25-06-15 adopted June 19, 2025"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-01"
+notes         = """
+SMUD's Plug-In Electric Vehicle (PEV) Credit — a residential
+EV-charging incentive overlay. Documented in Schedule R-TOD
+Sec II.D Sheet R-TOD-3, effective with the broader R-TOD trajectory
+under Resolution 25-06-15 (adopted June 19 2025, effective June 20
+2025).
+
+Source PDF is the same R-TOD consolidated PDF used for the base
+R-TOD filing at ca/pou/smud/tod-5-8pm/versions/2026-01-01/. The
+PEV Credit lives in Sec II.D of that PDF and is a separate concern
+from the R-TOD usage charges (which the base filing models).
+
+## What this modifier captures
+
+Compensation: $-0.0150/kWh credit applied to all electricity-usage
+charges from midnight to 6:00 a.m. daily. No day-of-week or seasonal
+restriction.
+
+Eligibility (Sec II.D):
+  - Residential customer
+  - Has licensed passenger BEV or PHEV
+  - On any of three R-TOD rate categories: RT02 (TOD 5-8pm),
+    RTL1 (TOD Low-Use), RTC1 (CPP)
+
+The credit value ($-0.0150/kWh) is published in Resolution 25-06-15
+WITHOUT the multi-year forward-effective-date columns that the R-TOD
+usage charges have (May 2025 / Jan 2026 / Jan 2027). The credit is
+stable across all three columns — only the underlying R-TOD usage
+charges step up. This filing's effective date (2025-06-20) reflects
+the Resolution's effective date; the credit value persists through
+the Resolution's lifetime.
+
+## Modeling structure
+
+Forward-flow MetricInput (kWh imports, distinguishes from NEM1/SSR
+which use reverse flow).
+
+The modifier defines its OWN TOUSchedule with:
+  - One TOUTier (PEV Credit Window, mapped to urpx:superOffPeakTier
+    since the midnight-6am window aligns most closely with that
+    standard tier role; tierSourceName 'Plug-In Electric Vehicle
+    Credit Window (overnight)' makes the SMUD-specific framing
+    explicit)
+  - One TOUPeriod (touPeriodNumber=1, midnight-6am all days)
+  - One TimeBracket (00:00:00-06:00:00, urpx:allDays)
+
+Single PriceDefinition with touPeriodNumber=1. Single Price with
+unitPrice='-0.0150' and touPeriodNumber=1.
+
+The modifier's internal TOUSchedule is independent of the base R-TOD's
+TOU structure (R-TOD has Peak / Mid-Peak / Off-Peak periods with
+different boundaries). At composition time, the consumer (price-server)
+applies the PEV Credit additively to the customer's usage during the
+midnight-6am window — independent of whichever R-TOD period that
+window falls within.
+
+## Modeling deferrals
+
+  - 'Licensed passenger vehicle' eligibility constraint — described
+    in prose. URPX has no structured vocabulary for vehicle-licensing-
+    status conditions. Consumer determines vehicle-licensure status
+    at customer attestation time.
+  - Composition with R-TOD rate categories (RT02 / RTL1 / RTC1)
+    — described in prose. URPX has no vocabulary for 'this modifier
+    applies on top of one of N specific RatePlans.' Consumer composes
+    PEV-CREDIT with the customer's specific R-TOD rate category at
+    billing time.
+  - Conventional charge-sustaining HEV ineligibility — described in
+    prose. URPX's urpx:evChargingDER lumps BEV+PHEV together and does
+    not distinguish from charge-sustaining hybrids; Sec II.D's
+    'plug-in or plug-in hybrid' phrasing implicitly excludes HEVs.
+
+## Cross-utility consistency
+
+SMUD's PEV Credit is the analog of:
+  - PG&E E-ELEC's whole-house TOU treatment (different mechanism —
+    E-ELEC is a base rate, not a modifier; PG&E lacks a structurally-
+    isolated PEV-charging credit overlay)
+  - SCE TOU-D-PRIME's EV submeter credit (closer mechanism — also a
+    standalone overnight-EV-charging incentive; modeling deferred for
+    SCE, currently captured only in TOU-D-PRIME description prose)
+  - SDG&E EV-TOU-5's TOU-varying UDC (different mechanism — EV-TOU-5
+    bakes EV-incentive pricing into the TOU rate structure rather than
+    as a standalone modifier)
+
+The cleanest standalone EV-credit modifier in the corpus to date,
+and the second-cleanest customer-attribute-conditioned modifier
+overall (after SMUD SSR — both have concrete rate values, no vocab
+gap; PEV-CREDIT additionally exercises the modifier-internal-TOU
+structure that SSR doesn't need).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-01"
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Third SMUD RatePlanModifier filing (after SSR and NEM1). First filing in the corpus to use a modifier-internal TOUSchedule (the base RatePlan also has TOU but the modifier's credit window doesn't align with the base's TOU periods, so the modifier defines its own). Pattern reference: ca/pou/cpau/e-eec-1/versions/2025-09-01/ for the standalone-modifier-with-Price shape; the TOUSchedule structure mirrors what base RatePlans use (e.g., ca/iou/sdge/tou-dr1/versions/2026-04-01/). Two EligibilityRules (residential + has-EV-DER); single PriceDefinition with touPeriodNumber=1; single Price with unitPrice='-0.0150' and touPeriodNumber=1. ~30K SMUD residential EV customers. Source PDF is the shared R-TOD PDF (Sec II.D Sheet R-TOD-3); PDF is also committed alongside the base R-TOD filing at ca/pou/smud/tod-5-8pm/versions/2026-01-01/."

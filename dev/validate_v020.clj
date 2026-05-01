@@ -58,7 +58,8 @@
    [:rate-plan-modifier "SCE FERA" "ca/iou/sce/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld"]
    [:rate-plan-modifier "LADWP NEM" "ca/pou/ladwp/nem/versions/2008-09-01/rate-plan-modifier_ladwp_nem_2008-09-01.jsonld"]
    [:rate-plan-modifier "SMUD SSR" "ca/pou/smud/ssr/versions/2022-03-01/rate-plan-modifier_smud_ssr_2022-03-01.jsonld"]
-   [:rate-plan-modifier "SMUD NEM1" "ca/pou/smud/nem1/versions/2021-09-17/rate-plan-modifier_smud_nem1_2021-09-17.jsonld"]])
+   [:rate-plan-modifier "SMUD NEM1" "ca/pou/smud/nem1/versions/2021-09-17/rate-plan-modifier_smud_nem1_2021-09-17.jsonld"]
+   [:rate-plan-modifier "SMUD PEV Credit" "ca/pou/smud/pev-credit/versions/2025-06-20/rate-plan-modifier_smud_pev-credit_2025-06-20.jsonld"]])
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
