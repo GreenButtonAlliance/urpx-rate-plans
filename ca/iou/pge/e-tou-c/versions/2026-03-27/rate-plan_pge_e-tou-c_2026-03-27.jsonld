@@ -153,7 +153,7 @@
             "@id": "urpx:utilityOrganization"
           }
         },
-        "urpx:description": "Voluntary residential TOU schedule with summer/winter peak (4-9 p.m. all days) and off-peak periods. Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). Baseline credit and Conservation Incentive Adjustment apply per a territory/code/season matrix — modeled separately as RatePlanModifier (grid-coordination/urpx-tariffs#2, blocked on urpx-org/urpx#11). Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file. Compared to the 2026-03-01 version: California Climate Credit removed (Sheet 2 reissued under AL 7869-E / D.26-03-013, sheet 61249-E).",
+        "urpx:description": "Voluntary residential TOU schedule with summer/winter peak (4-9 p.m. all days) and off-peak periods. Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). Baseline credit and Conservation Incentive Adjustment apply per the 10-territory × 2-code × 2-season baseline-allowance matrix and are modeled in the sibling RatePlanModifier file at `versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld` (the matrix didn't change between 2026-03-01 and 2026-03-27, so no reissue of the modifier was needed; `applicableToRatePlan` references `pge:e-tou-c` and resolves across versions). Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file. Compared to the 2026-03-01 version: California Climate Credit removed (Sheet 2 reissued under AL 7869-E / D.26-03-013, sheet 61249-E).",
         "urpx:effectiveDateTime": "2026-03-27T00:00:00",
         "urpx:supersedes": {
           "@id": "pge:e-tou-c-2026-03-01"

@@ -33,7 +33,7 @@ All other "all usage" components (transmission, public-purpose, wildfire-fund, e
 
 The tier *boundaries* (in absolute kWh/day) come from a 10-territory × 2-code × 2-season matrix. This file models **one cell** — Territory P, Code B residential, summer 13.5 kWh/day / winter 11.0 kWh/day. The file is correct for Territory-P/Code-B customers and incorrect (wrong tier boundaries) for everyone else.
 
-Full-matrix expansion is blocked on upstream [urpx-org/urpx#11](https://github.com/urpx-org/urpx/issues/11) (parameterized matrix-valued tier bounds). Tracked under umbrella [#2](https://github.com/grid-coordination/urpx-tariffs/issues/2).
+Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-tariffs/issues/18), blocked on upstream [urpx-org/urpx discussion #31](https://github.com/urpx-org/urpx/discussions/31) — the existing income-tier `ProfileAlternatives` collides with the new baseline-territory-code one at this `PlanElements` scope (`hasProfileAlternatives` is `sh:maxCount 1`).
 
 ### Code H (all-electric), Code M / S (medical) — not modeled
 
