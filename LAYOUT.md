@@ -200,6 +200,22 @@ The schema is intentionally minimal. Richer fields (per-schedule URL templates, 
 
 These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpau-e-1`, `urpx:cpau-e-1-2025-07-01`). Lowercase, hyphenated, no spaces.
 
+### Cross-version IRI scoping (when adopting `urpx:supersedes`)
+
+URI identity says **one IRI denotes one resource**. When a `RatePlanVersion` adds `urpx:supersedes` pointing to a prior version, both versions get loaded into the same merged graph at validation time (`dev/validate-with-base.py`). Subordinate resources whose **content differs between versions** must therefore use **version-distinct IRIs**, otherwise the merged graph violates property cardinality (e.g., `urpx:rootNode maxCount=1` collides when two ConditionExpressions share an IRI).
+
+Convention: prepend `<schedule>-<date>-` to the descriptor for each colliding subordinate. Example from PG&E E-ELEC 2026-03-27:
+
+| Stable across versions (keep shared IRI) | Diverged content (version-suffix) |
+| --- | --- |
+| `pge:program-care` (ProgramEnrollment) | `pge:e-elec-2026-03-27-cn-nbt` (ComparisonNode w/ different operands) |
+| `pge:e-elec` (RatePlan) | `pge:e-elec-2026-03-27-price-public-purpose` (Price w/ updated unitPrice) |
+| `pge:al-7846-e` (TariffPublication) | `pge:e-elec-2026-03-27-er-residential` (EligibilityRule transitively differs) |
+
+Apply only to the IRIs that actually collide on content; resources unchanged across versions stay shared. Cascades transitively: an ancestor whose child references change is itself a content-divergence and needs the suffix.
+
+Earlier versions in the corpus (e.g., `pge:e-elec-2026-01-01`'s subordinates) keep their unscoped IRIs as the canonical "old" forms — only the newer reissue takes the version-suffix treatment.
+
 ## 7. Source PDF referencing
 
 Each filing's source PDF is **committed alongside the JSON-LD** at:
