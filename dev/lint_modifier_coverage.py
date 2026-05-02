@@ -105,8 +105,14 @@ def build_modifier_index() -> dict[tuple[str, str], dict]:
             "deferrals": modeling.get("deferrals", []),
             "source": "directory",
         }
-    # IRI-scan fallback for inline modifiers in base directories
-    for jp in REPO.glob("ca/*/*/*/versions/*/rate-plan-modifier_*.jsonld"):
+    # IRI-scan fallback: pick up modifiers whose IRI doesn't match a directory
+    # name. This catches two cases — (1) standalone modifier files whose
+    # filename slug differs from their directory (e.g. an inline file in the
+    # base's directory), and (2) modifiers packaged inline inside a base
+    # rate-plan_*.jsonld @graph (e.g. PG&E vintage-PCIA).
+    inline_paths = list(REPO.glob("ca/*/*/*/versions/*/rate-plan-modifier_*.jsonld"))
+    inline_paths += list(REPO.glob("ca/*/*/*/versions/*/rate-plan_*.jsonld"))
+    for jp in inline_paths:
         utility = jp.relative_to(REPO).parts[2]
         d = jp.parent
         modeling = load_modeling(d / "tariff.toml") or {}
@@ -336,6 +342,35 @@ def render_markdown(bases: list[dict], idx: dict, asymmetries: list[dict]) -> st
             for a in base_lists:
                 lines.append(f"| `{a['base_dir']}` | `{a['modifier_slug']}` | `{a['modifier_filing']}` |")
             lines.append("")
+
+    # Missing modifiers, aggregated by (utility, slug) for triage
+    missing_index: dict[tuple[str, str], list[str]] = defaultdict(list)
+    for b in bases:
+        for slug in b["applicable_modifiers"]:
+            status, _ = classify(slug, b["utility"], idx)
+            if status == STATUS_MISSING:
+                missing_index[(b["utility"], slug)].append(b["dir"])
+
+    lines.append("## Missing modifiers, ranked by frequency")
+    lines.append("")
+    if not missing_index:
+        lines.append("_None — every applicable_modifiers entry resolves to a corpus filing._")
+        lines.append("")
+    else:
+        lines.append(
+            "Modifier slugs declared in some base's `[modeling].applicable_modifiers` "
+            "but with no matching filing in the corpus. Higher-leverage slugs (those "
+            "claimed by more bases) appear first — modeling them unblocks the most "
+            "downstream coverage in one filing."
+        )
+        lines.append("")
+        lines.append("| Modifier (utility:slug) | Claimed by # bases | Bases |")
+        lines.append("|---|---:|---|")
+        ranked = sorted(missing_index.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+        for (utility, slug), dirs in ranked:
+            short_dirs = ", ".join(f"`{d.split('/', 3)[3] if d.count('/') >= 3 else d}`" for d in dirs)
+            lines.append(f"| `{utility}:{slug}` | {len(dirs)} | {short_dirs} |")
+        lines.append("")
 
     # Per-base detail, grouped by utility
     lines.append("## Per-base detail")

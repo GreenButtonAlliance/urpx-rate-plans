@@ -16,9 +16,9 @@ Status glyphs:
 - Base RatePlan filings: **32**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
 - Applicable-modifier slots across all bases: **106**
-  - present and complete: 29
-  - present but incomplete: 19
-  - missing: 58
+  - present and complete: 32
+  - present but incomplete: 21
+  - missing: 53
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -26,6 +26,27 @@ Status glyphs:
 Cross-checks the two declarations of base ↔ modifier pairing: `urpx:applicableToRatePlan` on each `RatePlanModifierVersion` (modifier side) and `[modeling].applicable_modifiers` in each base's `tariff.toml` (base side). These should agree.
 
 _None — both declarations agree across the corpus._
+
+## Missing modifiers, ranked by frequency
+
+Modifier slugs declared in some base's `[modeling].applicable_modifiers` but with no matching filing in the corpus. Higher-leverage slugs (those claimed by more bases) appear first — modeling them unblocks the most downstream coverage in one filing.
+
+| Modifier (utility:slug) | Claimed by # bases | Bases |
+|---|---:|---|
+| `pge:care` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
+| `pge:fera` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
+| `pge:medical-baseline` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
+| `sdge:care` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
+| `sdge:drah` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
+| `sdge:fera` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
+| `sce:hpwh-baseline` | 2 | `tou-d-4-9pm/versions/2025-11-15`, `tou-d-5-8pm/versions/2025-11-15` |
+| `smud:eapr` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
+| `smud:hga` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
+| `smud:reo` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
+| `smud:standby` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
+| `smud:three-phase` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
+| `ladwp:ev-discount` | 1 | `r-1b/versions/2026-04-01` |
+| `sce:medical-line-item-discount` | 1 | `tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
 
@@ -161,7 +182,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
-| `e-1-vintage-pcia` | ✗ missing | — |
+| `e-1-vintage-pcia` | ✓ present-complete | `ca/iou/pge/e-1/versions/2026-03-01` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -190,7 +211,7 @@ Base deferrals:
 |---|---|---|
 | `care` | ✗ missing | — |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
-| `e-tou-c-vintage-pcia` | ✗ missing | — |
+| `e-tou-c-vintage-pcia` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -200,7 +221,7 @@ Base deferrals:
 |---|---|---|
 | `care` | ✗ missing | — |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
-| `e-tou-c-vintage-pcia` | ✗ missing | — |
+| `e-tou-c-vintage-pcia` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -209,7 +230,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
-| `e-tou-d-vintage-pcia` | ✗ missing | — |
+| `e-tou-d-vintage-pcia` | ✓ present-complete | `ca/iou/pge/e-tou-d/versions/2026-03-27` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -218,7 +239,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
-| `ev2-vintage-pcia` | ✗ missing | — |
+| `ev2-vintage-pcia` | ✓ present-complete | `ca/iou/pge/ev2/versions/2026-03-27` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 

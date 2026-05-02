@@ -47,7 +47,7 @@ Consumers that need the modifier ↔ base pairings as a flat map can read [`repo
 
 ## Status
 
-45 rate plans landed (32 `urpx:RatePlan` + 13 `urpx:RatePlanModifier`), all serialized against URPX v0.2.0 and validating clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
+45 filings landed (32 `urpx:RatePlan` + 14 standalone `urpx:RatePlanModifier`; one filing — PG&E E-TOU-C 2026-03-01 — packages a base alongside a sibling modifier in the same directory, plus 4 PG&E vintage-PCIA modifiers are bundled inline inside their bases' `@graph` for a total of **18 `RatePlanModifier` resources** in the corpus). All filings serialize against URPX v0.2.0 and validate clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
 
 **Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
 
