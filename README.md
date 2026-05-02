@@ -71,6 +71,7 @@ Modeling work on this corpus surfaced a set of upstream issues + discussions awa
 - [**urpx-org/urpx discussion #29**](https://github.com/urpx-org/urpx/discussions/29) — three SHACL shapes (`MetricInputShape`'s inline `calculationRule` constraint, `CalculationMethodShape`, `MetricSpecificationShape`) appear inconsistent on where `aggregationMethod` can attach. Blocks the concrete CPAU E-7 / E-7 TOU site-aggregation refactor proposed on #21.
 - [**urpx#30**](https://github.com/urpx-org/urpx/issues/30) — request for `customDimensionProperty` (string) on `AlternativeDimension`, parallel to `CustomOperandNode.customConditionProperty`. PG&E vintage-PCIA + baseline-tier modifiers currently mint synthetic URIs as a workaround.
 - [**urpx-org/urpx discussion #31**](https://github.com/urpx-org/urpx/discussions/31) — `PlanElementsShape.hasProfileAlternatives` is `sh:maxCount 1`, but PG&E E-1 needs two independent dimension groups (income tier × baseline territory-code). Blocks the in-place E-1 baseline-matrix expansion.
+- [**urpx-org/urpx discussion #32**](https://github.com/urpx-org/urpx/discussions/32) — *additive baseline allowance* semantics: PG&E's medical baseline raises the Tier 1 cap by +16.438 kWh/day uniformly for eligible customers. Three modeling paths considered (matrix expansion to 4 codes; separate overlay modifier; placeholder Price); none expresses the additive-bound shift cleanly with v0.2.0 vocabulary. Blocks Code M / Code S medical-baseline modeling across all 5 PG&E baseline-having residential schedules.
 
 ### Utilities covered
 
