@@ -112,6 +112,12 @@ validator      = "clj-urpx"
 validator_ver  = "0.3.1"
 validated_on   = "2026-04-26"
 
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete             = true                # source PDF fully captured in this JSON-LD
+deferrals            = []                  # MUST be [] when complete = true
+applicable_modifiers = ["care", "fera"]    # ONLY on base RatePlan filings (see §4.4)
+
 # Review ----------------------------------------------------------------------
 [review]
 status        = "draft"                  # draft | reviewed | published | superseded
@@ -165,6 +171,38 @@ When a multi-source filing's source documents were *each filed separately* with 
 ```
 
 Use this only when the per-document regulatory metadata genuinely differs across the source documents. If they all share one `authority + docket`, the flat single-`[regulator]` form is sufficient. The `authority` enum values (`puc`, `ferc`, `city-council`, `board`, `none`, `unknown`) are deliberately generic — the state context is already in the directory path (`ca/iou/...`), and the regulator's full name (e.g. "California Public Utilities Commission") can live in description prose if needed.
+
+### 4.4. Modeling-completeness metadata (`[modeling]`)
+
+The `[modeling]` block answers two distinct questions about how much of the source tariff has been captured. Keeping them separate is deliberate — collapsing them into a single "ready" flag forces the modeler to pick one axis and lie about the other.
+
+```toml
+[modeling]
+complete             = true
+deferrals            = []
+applicable_modifiers = ["care", "fera", "medical-baseline", "ev-credit"]   # base RatePlan filings only
+```
+
+| Field | Axis | Applies to |
+| --- | --- | --- |
+| `complete` | Within-filing — does this JSON-LD fully capture its source PDF(s)? | All filings (base RatePlans + RatePlanModifiers) |
+| `deferrals` | Within-filing — structured list of source-document parts intentionally not modeled | All filings; MUST be `[]` when `complete = true` |
+| `applicable_modifiers` | Corpus-coverage — which RatePlanModifiers legally attach to this schedule | Base RatePlan filings only (omit on modifier filings) |
+
+**Why two axes.** A base RatePlan being modeling-complete is independent of whether every applicable modifier has its own filing in the corpus. A price server billing a non-CARE customer on E-TOU-C only needs the base RatePlan; one billing a CARE customer needs base + CARE modifier. Conflating them would make `complete = true` mean different things to different consumers.
+
+**Replaces prose deferrals.** Filings predating this convention express deferred work via `(modeling deferred — …)` parentheticals inside `rdfs:comment` strings. New filings should use the structured `deferrals` array instead; the prose form will be migrated incrementally as filings are revisited.
+
+#### Modifier-coverage tracking: options considered
+
+Two shapes were considered for tracking which modifiers a base RatePlan accepts:
+
+- **Option A — self-declared on the base.** Each base RatePlan filing carries `applicable_modifiers` listing the universe of legally-applicable modifiers per the source PDF, *including modifiers not yet modeled in the corpus*. A lint walks the corpus and reports, per base, which applicable modifiers (i) have a filing under the same utility, and (ii) of those, which have `complete = true`.
+- **Option B — derived from the modifier side.** Skip the per-base list entirely. Each RatePlanModifier filing already names its applicable bases via IRI. A corpus walk could collect those references and emit a coverage report without per-base annotation.
+
+**Option A is the chosen approach.** Option B is lighter weight but only sees modifiers that already have filings — it cannot surface the case "we know SCE has a Medical Baseline modifier but no one has modeled it yet", which is the gap signal that matters most. The information *what modifiers legally attach to this schedule* isn't recoverable from the JSON-LD or any other file we keep, so the base manifest is the right home for it.
+
+The lint that consumes `applicable_modifiers` lives at `dev/lint_modifier_coverage.py` (when implemented) and emits `reports/modifier-coverage.md`.
 
 ## 5. Per-utility discovery manifest: `utility.toml`
 
@@ -267,8 +305,9 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 4. Run extraction (e.g. `mineru -p source.pdf -o extracted/ -b pipeline`).
 5. Convert to URPX JSON-LD as `rate-plan_<utility>_<schedule>_<date>.jsonld`.
 6. Validate with `clj-urpx` (SHACL) — record outcome in `[validation]`.
-7. Lint cross-filing consistency (RatePlan-level fields match prior filings of this schedule).
-8. Commit. Optionally open a PR if review is required.
+7. Record modeling-completeness state in `[modeling]` (§4.4): set `complete = true` and `deferrals = []` if the source PDF is fully captured; otherwise list the deferred parts. On base RatePlan filings, also populate `applicable_modifiers` with every RatePlanModifier the source tariff names — *including modifiers not yet modeled in the corpus*, since this list is what drives the modifier-coverage gap report.
+8. Lint cross-filing consistency (RatePlan-level fields match prior filings of this schedule).
+9. Commit. Optionally open a PR if review is required.
 
 ## 10. Future considerations
 

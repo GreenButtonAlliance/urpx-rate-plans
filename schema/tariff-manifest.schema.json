@@ -104,7 +104,8 @@
       "properties": {
         "tool": { "type": "string", "description": "e.g. 'mineru', 'manual', 'pdfplumber'." },
         "tool_version": { "type": "string" },
-        "extracted_on": { "type": "string", "format": "date" }
+        "extracted_on": { "type": "string", "format": "date" },
+        "notes": { "type": "string", "description": "Free-text per-filing extraction notes. Often a multi-line heredoc capturing source-page mapping, modeling structure, deferrals (until the [modeling] block was introduced), or quirks of the source PDF." }
       }
     },
 
@@ -116,6 +117,28 @@
         "validator": { "type": "string", "description": "e.g. 'clj-urpx'." },
         "validator_ver": { "type": "string" },
         "validated_on": { "type": "string", "format": "date" }
+      }
+    },
+
+    "modeling": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Modeling-completeness metadata. Captures whether this filing's JSON-LD fully captures its source PDF (within-filing axis) and, on base RatePlan filings, the universe of legally-applicable RatePlanModifiers regardless of whether each has been modeled yet (corpus-coverage axis). Distinct from [validation] (SHACL correctness) and [review] (human-QA pipeline).",
+      "properties": {
+        "complete": {
+          "type": "boolean",
+          "description": "True iff this filing's JSON-LD fully captures its source document(s) — no parts of the published tariff were intentionally deferred. Within-filing only; says nothing about whether sibling RatePlanModifier filings exist for this schedule. See applicable_modifiers + the corpus-level coverage report for the cross-filing axis."
+        },
+        "deferrals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Structured list of parts of the source document(s) that were intentionally not modeled in this JSON-LD. MUST be empty when complete = true. Each entry is a short free-text identifier referencing the source structure (e.g. 'Section C.2 buyback', 'Medical Baseline allowance per Preliminary Statement Part H'). Replaces the historical convention of burying '(modeling deferred — …)' parentheticals in rdfs:comment prose."
+        },
+        "applicable_modifiers": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "description": "Only meaningful on base RatePlan filings (omit on RatePlanModifier filings). The full universe of RatePlanModifiers that legally attach to this schedule per the source PDF, INCLUDING modifiers not yet modeled in the corpus — that's the point: it's what tells the modifier-coverage lint what is missing. Each entry is a short identifier matching the directory name a corresponding RatePlanModifier filing would use under the same utility (e.g. 'care', 'fera', 'medical-baseline')."
+        }
       }
     },
 
