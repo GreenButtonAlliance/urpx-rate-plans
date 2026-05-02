@@ -8,60 +8,43 @@
    PriceDefinition.referencesLedger is wired to the right Ledger, that
    per-customer credits are excluded from a $/kWh marginal sum, and that
    PriceDefinition.hasApplicabilityRule.month gates resolution by month."
-  (:require [urpx.core :as core]
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]
+            [urpx.core :as core]
             [urpx.coerce :as coerce]
             [urpx.price :as price]
             [urpx.schema :as schema])
-  (:import [java.time ZoneId ZonedDateTime]))
+  (:import [java.io File]
+           [java.time ZoneId ZonedDateTime]))
 
-(def filings
-  ;; [kind name path]. kind ∈ #{:rate-plan :rate-plan-modifier}.
-  [[:rate-plan "PGE E-1"       "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]
-   [:rate-plan "PGE E-TOU-C 03-01" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld"]
-   [:rate-plan "PGE E-TOU-C 03-27" "ca/iou/pge/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld"]
-   [:rate-plan "PGE E-TOU-D"   "ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]
-   [:rate-plan "PGE EV2"       "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]
-   [:rate-plan "PGE E-ELEC 01-01" "ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld"]
-   [:rate-plan "PGE E-ELEC 03-27" "ca/iou/pge/e-elec/versions/2026-03-27/rate-plan_pge_e-elec_2026-03-27.jsonld"]
-   [:rate-plan-modifier "PGE E-TOU-C Baseline-Tier" "ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld"]
-   [:rate-plan "CPAU E-1 07-01" "ca/pou/cpau/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-1 09-01" "ca/pou/cpau/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld"]
-   [:rate-plan "CPAU E-1-TOU"   "ca/pou/cpau/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld"]
-   [:rate-plan "CPAU E-2"       "ca/pou/cpau/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-4 TOU"   "ca/pou/cpau/e-4-tou/versions/2025-07-01/rate-plan_cpau_e-4-tou_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-4"       "ca/pou/cpau/e-4/versions/2025-07-01/rate-plan_cpau_e-4_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-7"       "ca/pou/cpau/e-7/versions/2025-07-01/rate-plan_cpau_e-7_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-7 TOU"   "ca/pou/cpau/e-7-tou/versions/2025-07-01/rate-plan_cpau_e-7-tou_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-14"      "ca/pou/cpau/e-14/versions/2025-07-01/rate-plan_cpau_e-14_2025-07-01.jsonld"]
-   [:rate-plan "CPAU E-16"      "ca/pou/cpau/e-16/versions/2025-09-01/rate-plan_cpau_e-16_2025-09-01.jsonld"]
-   [:rate-plan "CPAU E-3"       "ca/pou/cpau/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-2-G" "ca/pou/cpau/e-2-g/versions/2025-07-01/rate-plan-modifier_cpau_e-2-g_2025-07-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-4-G" "ca/pou/cpau/e-4-g/versions/2025-07-01/rate-plan-modifier_cpau_e-4-g_2025-07-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-7-G" "ca/pou/cpau/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-HRA"   "ca/pou/cpau/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-EEC-1" "ca/pou/cpau/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld"]
-   [:rate-plan-modifier "CPAU E-NSE-1" "ca/pou/cpau/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld"]
-   [:rate-plan "SCE TOU-D-4-9PM" "ca/iou/sce/tou-d-4-9pm/versions/2025-11-15/rate-plan_sce_tou-d-4-9pm_2025-11-15.jsonld"]
-   [:rate-plan "SCE TOU-D-5-8PM" "ca/iou/sce/tou-d-5-8pm/versions/2025-11-15/rate-plan_sce_tou-d-5-8pm_2025-11-15.jsonld"]
-   [:rate-plan "SCE Schedule D"  "ca/iou/sce/d/versions/2025-11-15/rate-plan_sce_d_2025-11-15.jsonld"]
-   [:rate-plan "SCE TOU-D-PRIME" "ca/iou/sce/tou-d-prime/versions/2025-11-15/rate-plan_sce_tou-d-prime_2025-11-15.jsonld"]
-   [:rate-plan "LADWP R-1A"     "ca/pou/ladwp/r-1a/versions/2026-04-01/rate-plan_ladwp_r-1a_2026-04-01.jsonld"]
-   [:rate-plan "LADWP R-1B"     "ca/pou/ladwp/r-1b/versions/2026-04-01/rate-plan_ladwp_r-1b_2026-04-01.jsonld"]
-   [:rate-plan "SDGE TOU-DR1"   "ca/iou/sdge/tou-dr1/versions/2026-04-01/rate-plan_sdge_tou-dr1_2026-04-01.jsonld"]
-   [:rate-plan "SDGE DR"        "ca/iou/sdge/dr/versions/2026-04-01/rate-plan_sdge_dr_2026-04-01.jsonld"]
-   [:rate-plan "SDGE TOU-DR2"   "ca/iou/sdge/tou-dr2/versions/2026-04-01/rate-plan_sdge_tou-dr2_2026-04-01.jsonld"]
-   [:rate-plan "SDGE EV-TOU-5"  "ca/iou/sdge/ev-tou-5/versions/2026-04-01/rate-plan_sdge_ev-tou-5_2026-04-01.jsonld"]
-   [:rate-plan "SDGE TOU-ELEC"  "ca/iou/sdge/tou-elec/versions/2026-04-01/rate-plan_sdge_tou-elec_2026-04-01.jsonld"]
-   [:rate-plan "SDGE DR-SES"    "ca/iou/sdge/dr-ses/versions/2026-04-01/rate-plan_sdge_dr-ses_2026-04-01.jsonld"]
-   [:rate-plan "SMUD TOD-5-8pm" "ca/pou/smud/tod-5-8pm/versions/2026-01-01/rate-plan_smud_tod-5-8pm_2026-01-01.jsonld"]
-   [:rate-plan "SMUD Fixed"     "ca/pou/smud/fixed/versions/2026-01-01/rate-plan_smud_fixed_2026-01-01.jsonld"]
-   [:rate-plan-modifier "SCE CARE" "ca/iou/sce/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld"]
-   [:rate-plan-modifier "SCE FERA" "ca/iou/sce/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld"]
-   [:rate-plan-modifier "SCE Deed-Restricted" "ca/iou/sce/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld"]
-   [:rate-plan-modifier "LADWP NEM" "ca/pou/ladwp/nem/versions/2008-09-01/rate-plan-modifier_ladwp_nem_2008-09-01.jsonld"]
-   [:rate-plan-modifier "SMUD SSR" "ca/pou/smud/ssr/versions/2022-03-01/rate-plan-modifier_smud_ssr_2022-03-01.jsonld"]
-   [:rate-plan-modifier "SMUD NEM1" "ca/pou/smud/nem1/versions/2021-09-17/rate-plan-modifier_smud_nem1_2021-09-17.jsonld"]
-   [:rate-plan-modifier "SMUD PEV Credit" "ca/pou/smud/pev-credit/versions/2025-06-20/rate-plan-modifier_smud_pev-credit_2025-06-20.jsonld"]])
+(defn discover-filings
+  "Walk the ca/ corpus and return [[kind label path] ...] for every
+   rate-plan and rate-plan-modifier JSON-LD, sorted by path.
+
+   kind ∈ #{:rate-plan :rate-plan-modifier} — derived from the filename
+   prefix. label is `<UTILITY> <SLUG> <date>`, where SLUG is the IRI
+   slug pulled from the filename (so an inline modifier like
+   `pge_e-tou-c-baseline-tier` doesn't collide with its base
+   `pge_e-tou-c`). path is the relative POSIX path from the repo root."
+  []
+  (->> (file-seq (io/file "ca"))
+       (filter #(.isFile ^File %))
+       (map #(.getPath ^File %))
+       (filter #(re-matches #"ca/[^/]+/[^/]+/[^/]+/versions/[^/]+/rate-plan(?:-modifier)?_.+\.jsonld" %))
+       sort
+       (mapv (fn [path]
+               ;; Filename: rate-plan{,-modifier}_<utility>_<slug>_<date>.jsonld
+               ;; <slug> may contain hyphens but never underscores.
+               (let [fname (last (str/split path #"/"))
+                     [_ kind-prefix utility slug date]
+                     (re-matches #"(rate-plan(?:-modifier)?)_([^_]+)_([^_]+)_(\d{4}-\d{2}-\d{2})\.jsonld" fname)
+                     kind  (if (= kind-prefix "rate-plan-modifier") :rate-plan-modifier :rate-plan)
+                     label (str (str/upper-case utility) " "
+                                (str/upper-case slug) " "
+                                date)]
+                 [kind label path])))))
+
+(def filings (discover-filings))
 
 (def la (ZoneId/of "America/Los_Angeles"))
 ;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
