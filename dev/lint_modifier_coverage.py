@@ -38,6 +38,10 @@ import tomli
 
 REPO = Path(__file__).resolve().parent.parent
 
+# Reuse the JSON-LD walker from the pairings export.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from list_modifier_base_pairings import collect as collect_pairings  # noqa: E402
+
 # ---------------------------------------------------------------------------
 # Corpus walk
 # ---------------------------------------------------------------------------
@@ -146,6 +150,76 @@ def classify(slug: str, utility: str, idx: dict[tuple[str, str], dict]) -> tuple
 
 
 # ---------------------------------------------------------------------------
+# Asymmetry detection
+# ---------------------------------------------------------------------------
+
+ASYMMETRY_MOD_CLAIMS = "modifier-claims-base-not-listed"
+ASYMMETRY_BASE_LISTS = "base-lists-modifier-not-claimed"
+
+
+def find_asymmetries(bases: list[dict], by_modifier: dict[str, dict]) -> list[dict]:
+    """Cross-check the two declarations of base ↔ modifier pairing.
+
+    Direction A — `modifier-claims-base-not-listed`:
+      a modifier's urpx:applicableToRatePlan declares it applies to a base,
+      but the base's [modeling].applicable_modifiers doesn't list the
+      modifier's slug.
+
+    Direction B — `base-lists-modifier-not-claimed`:
+      a base's [modeling].applicable_modifiers references a slug that
+      resolves to an existing modifier in the corpus, but the modifier's
+      urpx:applicableToRatePlan doesn't include this base's IRI.
+
+    Pairings where the modifier doesn't exist in the corpus at all are
+    `STATUS_MISSING` (already surfaced in the per-base detail table) — not
+    an asymmetry.
+    """
+    out: list[dict] = []
+
+    # base IRI ("sce:d") → list of (per-version) base records
+    by_base_iri: dict[str, list[dict]] = defaultdict(list)
+    for b in bases:
+        by_base_iri[f"{b['utility']}:{b['schedule']}"].append(b)
+
+    # Direction A
+    for mod_iri, info in sorted(by_modifier.items()):
+        if ":" not in mod_iri:
+            continue
+        _, slug = mod_iri.split(":", 1)
+        for base_iri in info.get("applicable_to", []):
+            for b in by_base_iri.get(base_iri, []):
+                if slug not in (b.get("applicable_modifiers") or []):
+                    out.append({
+                        "kind": ASYMMETRY_MOD_CLAIMS,
+                        "modifier_iri": mod_iri,
+                        "modifier_slug": slug,
+                        "modifier_filing": info.get("filing"),
+                        "base_iri": base_iri,
+                        "base_dir": b["dir"],
+                    })
+
+    # Direction B
+    for b in bases:
+        base_iri = f"{b['utility']}:{b['schedule']}"
+        for slug in (b.get("applicable_modifiers") or []):
+            mod_iri = f"{b['utility']}:{slug}"
+            mod_info = by_modifier.get(mod_iri)
+            if mod_info is None:
+                continue  # missing — reported elsewhere
+            if base_iri not in mod_info.get("applicable_to", []):
+                out.append({
+                    "kind": ASYMMETRY_BASE_LISTS,
+                    "modifier_iri": mod_iri,
+                    "modifier_slug": slug,
+                    "modifier_filing": mod_info.get("filing"),
+                    "base_iri": base_iri,
+                    "base_dir": b["dir"],
+                })
+
+    return out
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 
@@ -172,7 +246,7 @@ def collect_bases() -> list[dict]:
     return out
 
 
-def render_markdown(bases: list[dict], idx: dict) -> str:
+def render_markdown(bases: list[dict], idx: dict, asymmetries: list[dict]) -> str:
     lines: list[str] = []
     lines.append("# Modifier-coverage report")
     lines.append("")
@@ -212,7 +286,56 @@ def render_markdown(bases: list[dict], idx: dict) -> str:
     lines.append(f"  - missing: {counts[STATUS_MISSING]}")
     if counts[STATUS_NO_MODELING_BLOCK]:
         lines.append(f"  - no [modeling] block: {counts[STATUS_NO_MODELING_BLOCK]}")
+    lines.append(f"- Asymmetries between modifier-side and base-side declarations: **{len(asymmetries)}**")
     lines.append("")
+
+    # Asymmetries
+    lines.append("## Asymmetries")
+    lines.append("")
+    lines.append(
+        "Cross-checks the two declarations of base ↔ modifier pairing: "
+        "`urpx:applicableToRatePlan` on each `RatePlanModifierVersion` (modifier side) "
+        "and `[modeling].applicable_modifiers` in each base's `tariff.toml` (base side). "
+        "These should agree."
+    )
+    lines.append("")
+    if not asymmetries:
+        lines.append("_None — both declarations agree across the corpus._")
+        lines.append("")
+    else:
+        mod_claims = [a for a in asymmetries if a["kind"] == ASYMMETRY_MOD_CLAIMS]
+        base_lists = [a for a in asymmetries if a["kind"] == ASYMMETRY_BASE_LISTS]
+        if mod_claims:
+            lines.append("### Modifier claims base, but base doesn't list modifier")
+            lines.append("")
+            lines.append(
+                "Modifier's `applicableToRatePlan` declares it applies to this base, "
+                "but the base's `[modeling].applicable_modifiers` doesn't include the "
+                "modifier's slug. Likely fix: add the slug to the base's "
+                "`applicable_modifiers` array."
+            )
+            lines.append("")
+            lines.append("| Modifier | Missing from base |")
+            lines.append("|---|---|")
+            for a in mod_claims:
+                lines.append(f"| `{a['modifier_iri']}` | `{a['base_dir']}` |")
+            lines.append("")
+        if base_lists:
+            lines.append("### Base lists modifier, but modifier doesn't claim base")
+            lines.append("")
+            lines.append(
+                "Base's `[modeling].applicable_modifiers` lists this slug, the slug "
+                "resolves to an existing modifier in the corpus, but the modifier's "
+                "`applicableToRatePlan` doesn't include this base's IRI. Likely fix: "
+                "extend the modifier's `applicableToRatePlan` array — or remove the "
+                "slug from the base if the pairing was speculative."
+            )
+            lines.append("")
+            lines.append("| Base | Slug claims | Modifier filing |")
+            lines.append("|---|---|---|")
+            for a in base_lists:
+                lines.append(f"| `{a['base_dir']}` | `{a['modifier_slug']}` | `{a['modifier_filing']}` |")
+            lines.append("")
 
     # Per-base detail, grouped by utility
     lines.append("## Per-base detail")
@@ -261,9 +384,10 @@ def main() -> int:
 
     idx = build_modifier_index()
     bases = collect_bases()
+    by_modifier, _ = collect_pairings()
+    asymmetries = find_asymmetries(bases, by_modifier)
 
     if args.json:
-        # JSON: emit a flat record per (base, modifier) pair
         records = []
         for b in bases:
             for slug in b["applicable_modifiers"]:
@@ -280,14 +404,14 @@ def main() -> int:
                     "modifier_filing": entry["dir"] if entry else None,
                     "modifier_complete": entry["complete"] if entry else None,
                 })
-        json.dump(records, sys.stdout, indent=2)
+        json.dump({"coverage": records, "asymmetries": asymmetries}, sys.stdout, indent=2)
         sys.stdout.write("\n")
         return 0
 
-    md = render_markdown(bases, idx)
+    md = render_markdown(bases, idx, asymmetries)
     out_path = REPO / args.out
     out_path.write_text(md)
-    print(f"wrote {out_path.relative_to(REPO)}")
+    print(f"wrote {out_path.relative_to(REPO)} ({len(asymmetries)} asymmetries)")
     return 0
 
 

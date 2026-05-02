@@ -15,10 +15,17 @@ Status glyphs:
 
 - Base RatePlan filings: **32**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **101**
+- Applicable-modifier slots across all bases: **106**
   - present and complete: 29
   - present but incomplete: 19
-  - missing: 53
+  - missing: 58
+- Asymmetries between modifier-side and base-side declarations: **0**
+
+## Asymmetries
+
+Cross-checks the two declarations of base ↔ modifier pairing: `urpx:applicableToRatePlan` on each `RatePlanModifierVersion` (modifier side) and `[modeling].applicable_modifiers` in each base's `tariff.toml` (base side). These should agree.
+
+_None — both declarations agree across the corpus._
 
 ## Per-base detail
 
@@ -154,6 +161,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-1-vintage-pcia` | ✗ missing | — |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -181,7 +189,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
-| `e-tou-c` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `e-tou-c-vintage-pcia` | ✗ missing | — |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -190,7 +199,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
-| `e-tou-c` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `e-tou-c-vintage-pcia` | ✗ missing | — |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -199,6 +209,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-tou-d-vintage-pcia` | ✗ missing | — |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -207,6 +218,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `ev2-vintage-pcia` | ✗ missing | — |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 

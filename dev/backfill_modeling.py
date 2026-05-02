@@ -14,9 +14,9 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Iterable
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -190,39 +190,29 @@ def find_filings() -> list[tuple[str, str, str, Path]]:
 def reverse_modifier_map() -> dict[tuple[str, str], list[str]]:
     """For each (utility, base-schedule), return list of in-corpus modifier slugs.
 
-    A modifier slug is the local name portion of its IRI (strips the utility prefix).
+    Slug is the local name portion of the modifier's IRI (strips the utility
+    prefix). Covers both dedicated `rate-plan-modifier_*.jsonld` filings and
+    inline modifiers packaged inside a base's @graph (e.g. PG&E vintage-PCIA,
+    e-tou-c-baseline-tier).
     """
+    # Reuse the same walker that powers the pairings export.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from list_modifier_base_pairings import collect as collect_pairings  # noqa: E402
+
+    by_modifier, _ = collect_pairings()
     rev: dict[tuple[str, str], set[str]] = defaultdict(set)
-    for jp in REPO.glob("ca/*/*/*/versions/*/rate-plan-modifier_*.jsonld"):
-        utility = jp.relative_to(REPO).parts[2]
-        modifier_dir = jp.relative_to(REPO).parts[3]
-        with jp.open() as fp:
-            data = json.load(fp)
-
-        # collect every urpx:applicableToRatePlan reference, recursively
-        applies_to: list[str] = []
-
-        def walk(o):
-            if isinstance(o, dict):
-                if "urpx:applicableToRatePlan" in o:
-                    v = o["urpx:applicableToRatePlan"]
-                    items = v if isinstance(v, list) else [v]
-                    for x in items:
-                        if isinstance(x, dict) and "@id" in x:
-                            applies_to.append(x["@id"])
-                for val in o.values():
-                    walk(val)
-            elif isinstance(o, list):
-                for x in o:
-                    walk(x)
-
-        walk(data)
-        # Slug = directory name of the modifier filing (matches URPX convention)
-        for ref in applies_to:
-            # strip utility prefix: "cpau:e-1" -> "e-1"
-            if ":" in ref:
-                _, base_slug = ref.split(":", 1)
-                rev[(utility, base_slug)].add(modifier_dir)
+    for mod_iri, info in by_modifier.items():
+        if ":" not in mod_iri:
+            continue
+        mod_utility, mod_slug = mod_iri.split(":", 1)
+        for base_iri in info.get("applicable_to", []):
+            if ":" not in base_iri:
+                continue
+            base_utility, base_slug = base_iri.split(":", 1)
+            # Only attach if the modifier and the base share a utility — this
+            # is the same-utility lookup the lint uses.
+            if mod_utility == base_utility:
+                rev[(base_utility, base_slug)].add(mod_slug)
     return {k: sorted(v) for k, v in rev.items()}
 
 
