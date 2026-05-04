@@ -34,7 +34,7 @@
       "urpx:version": "2026-03-20",
       "urpx:modifierVersionNumber": "2026-03-20",
       "urpx:changeReason": {"@id": "urpx:rateCase"},
-      "urpx:description": "Critical Peak Pricing (CPP) variant of Option PRIME. Customer-elected sub-option that overlays event-window charges and non-event-window credits onto the base PRIME rate structure. SCE may call any day a CPP Event (12-15 events per calendar year, day-before notification) — on Event days during 4 p.m.-9 p.m., a CPP Event Energy Charge of +$0.80000/kWh applies. On Summer non-Event days during 4 p.m.-9 p.m., a CPP Non-Event Energy Credit of -$0.15170/kWh applies (no credit on exported generation). PRIME-CPP is restricted to Bundled Service Customers (DA / CCA ineligible per Sheet 16 SC 4.d) and is incompatible with most other DR programs (grandfathered Schedule D-SDP dual participants under Option A-CPP / B-CPP excepted, capped at the Maximum Available Credit of -$0.58794/kWh per Summer Season). First 12 months of CPP enrollment are protected by Bill Protection: customer guaranteed not to pay more than equivalent non-CPP option (NOT modeled here — year-long calculation doesn't fit per-bill shape).",
+      "urpx:description": "Critical Peak Pricing (CPP) variant of Option PRIME. Customer-elected sub-option that overlays event-window charges and non-event-window credits onto the base PRIME rate structure. SCE may call any day a CPP Event (12-15 events per calendar year, day-before notification) — on Event days during 4 p.m.-9 p.m., a CPP Event Energy Charge of +$0.80000/kWh applies. On Summer non-Event days during 4 p.m.-9 p.m., a CPP Non-Event Energy Credit of -$0.15170/kWh applies (no credit on exported generation). PRIME-CPP is restricted to Bundled Service Customers (DA / CCA ineligible per Sheet 16 SC 4.d) and is incompatible with most other DR programs (grandfathered Schedule D-SDP dual participants under Option A-CPP / B-CPP excepted, capped at the Maximum Available Credit of -$0.58794/kWh per Summer Season). First 12 months of CPP enrollment are protected by Bill Protection: customer guaranteed not to pay more than equivalent non-CPP option (NOT modeled here — year-long calculation doesn't fit per-bill shape). The CPP Event Energy Charge uses urpx:hasDynamicPricing with dynamicPricingType=urpx:criticalPeakPricing + priceSource=urpx:wholesaleMarketSource + updateFrequency=urpx:eventTriggeredUpdates + a urpx:PriceUpdateRule whose description carries the SCE-specific event-trigger semantics — the canonical URPX v0.2.0 vocabulary for event-driven pricing demonstrated in the urpx-org/urpx PG&E B6-PDP example. The Non-Event Credit and Maximum Available Credit retain ApplicabilityRule + CustomOperandNode gating: the Non-Event Credit is the inverse polarity of the event gate (applies when 'Is CPP Event Today' = false), which DynamicPricing's vocabulary does not natively express; the Maximum Available Credit gates on a customer-attribute (Grandfathered D-SDP Dual Participation), unrelated to event status. Both remaining CustomOperandNode predicates are consumer-side billing-time evaluations.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {"@id": "urpx:electricity"},
@@ -166,26 +166,17 @@
             "urpx:startDate": "2026-01-01",
             "urpx:name": "CPP Event Energy Charge",
             "urpx:unitPrice": "0.80000",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:tou-d-prime-cpp-2026-03-20-ar-event-charge",
-              "urpx:name": "Applies during 4 p.m.-9 p.m. on CPP Event days (any season)",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:tou-d-prime-cpp-2026-03-20-cx-event-day",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:tou-d-prime-cpp-2026-03-20-cn-event-day",
-                  "urpx:operator": {"@id": "urpx:equalsOperator"},
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "urpx:customConditionProperty": "Is CPP Event Today"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "urpx:stringValue": "true"
-                  }
-                }
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "sce:tou-d-prime-cpp-2026-03-20-dp-event-charge",
+              "urpx:dynamicPricingType": {"@id": "urpx:criticalPeakPricing"},
+              "urpx:priceSource": {"@id": "urpx:wholesaleMarketSource"},
+              "urpx:updateFrequency": {"@id": "urpx:eventTriggeredUpdates"},
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "sce:tou-d-prime-cpp-2026-03-20-pur-event-trigger",
+                "urpx:name": "PRIME-CPP Event Day Trigger Rule",
+                "urpx:description": "PRIME-CPP Events are called by SCE — typically 12-15 events per calendar year — based on system grid stress (CAISO Flex Alert conditions, peak summer heat waves, supply shortfalls). Day-before notification by 3 p.m. for next-day events. The Event Energy Charge of +$0.80000/kWh applies during 4 p.m.-9 p.m. on Event days, in addition to the customer's underlying PRIME base rate for the period. PRIME-CPP is restricted to Bundled Service Customers (DA / CCA ineligible per Sheet 16 SC 4.d) and is incompatible with most other DR programs (grandfathered Schedule D-SDP dual participants under Option A-CPP / B-CPP excepted, capped at the Maximum Available Credit). First 12 months of CPP enrollment are protected by Bill Protection: customer guaranteed not to pay more than equivalent non-CPP option (NOT modeled here — year-long calculation doesn't fit per-bill shape)."
               }
             }
           },
