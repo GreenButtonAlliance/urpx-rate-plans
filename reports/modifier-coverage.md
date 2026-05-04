@@ -15,10 +15,10 @@ Status glyphs:
 
 - Base RatePlan filings: **39**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **156**
+- Applicable-modifier slots across all bases: **158**
   - present and complete: 45
-  - present but incomplete: 73
-  - missing: 38
+  - present but incomplete: 77
+  - missing: 36
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -37,7 +37,6 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `pge:fera` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
 | `pge:medical-baseline` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
 | `sce:hpwh-baseline` | 5 | `tou-d-4-9pm/versions/2025-11-15`, `tou-d-4-9pm/versions/2026-03-20`, `tou-d-5-8pm/versions/2025-11-15`, `tou-d-5-8pm/versions/2026-03-20`, `tou-d-prime/versions/2026-03-20` |
-| `smud:eapr` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:hga` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:reo` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:standby` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
@@ -470,8 +469,9 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `eapr` | ✗ missing | — |
+| `eapr` | ~ present-incomplete | `ca/pou/smud/eapr/versions/2023-09-22` |
 | `hga` | ✗ missing | — |
+| `med` | ~ present-incomplete | `ca/pou/smud/med/versions/2017-07-01` |
 | `nem1` | ~ present-incomplete | `ca/pou/smud/nem1/versions/2021-09-17` |
 | `reo` | ✗ missing | — |
 | `standby` | ✗ missing | — |
@@ -487,8 +487,9 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `eapr` | ✗ missing | — |
+| `eapr` | ~ present-incomplete | `ca/pou/smud/eapr/versions/2023-09-22` |
 | `hga` | ✗ missing | — |
+| `med` | ~ present-incomplete | `ca/pou/smud/med/versions/2017-07-01` |
 | `nem1` | ~ present-incomplete | `ca/pou/smud/nem1/versions/2021-09-17` |
 | `pev-credit` | ✓ present-complete | `ca/pou/smud/pev-credit/versions/2025-06-20` |
 | `reo` | ✗ missing | — |

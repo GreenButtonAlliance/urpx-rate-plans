@@ -1,0 +1,158 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "smud": "https://example.com/smud/",
+    "urpx:unitPrice": {"@type": "xsd:decimal"},
+    "urpx:effectiveDate": {"@type": "xsd:date"},
+    "urpx:effectiveDateTime": {"@type": "xsd:dateTime"},
+    "urpx:baseQuantity": {"@type": "xsd:decimal"},
+    "urpx:initialEffectiveDate": {"@type": "xsd:date"},
+    "urpx:startDate": {"@type": "xsd:date"},
+    "urpx:url": {"@type": "xsd:anyURI"},
+    "urpx:intervalDuration": {"@type": "xsd:duration"},
+    "urpx:pageStart": {"@type": "xsd:integer"},
+    "urpx:pageEnd": {"@type": "xsd:integer"},
+    "urpx:accessURL": {"@type": "xsd:anyURI"},
+    "urpx:dateRetrieved": {"@type": "xsd:date"},
+    "urpx:targetURPXVersion": {"@type": "xsd:anyURI"}
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "smud:doc-med-2017-07-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "smud:med",
+    "urpx:name": "Schedule MED Medical Equipment Discount Program",
+    "urpx:modifierUniqueIdentifier": "MED",
+    "urpx:initialEffectiveDate": "2017-07-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "smud:med-2017-07-01",
+      "urpx:version": "2017-07-01",
+      "urpx:modifierVersionNumber": "2017-07-01",
+      "urpx:changeReason": {"@id": "urpx:initial"},
+      "urpx:description": "SMUD's Medical Equipment Discount (MED) — a flat per-month bill credit applied as an overlay to any SMUD residential base RatePlan when the customer or a full-time resident in the home depends on a qualifying medical equipment device, or has a medical condition with special heating/AC electrical needs. Adopted under SMUD Board Resolution 17-06-01 effective July 1, 2017; rate has been unchanged since (the source PDF carries an 'Edition: January 1, 2021' formatting re-issue date but the underlying $15/month credit is the original). Eligibility (Sec I + IV): customer application with qualified-health-professional certification required; qualified device list and qualified-health-professional definition maintained on smud.org. The single benefit is a flat $-15.00/month credit on the electricity usage portion of the bill (per-meter, per-month). Modeled here as $-0.4931/day (= $15/30.4 days average month length) since URPX's intervalDuration uses ISO-8601 duration and per-day credits compose more naturally with the resolver's day-based math; the per-day approximation introduces ~3% per-month error vs the actual per-month credit on customers with non-30.4-day billing cycles (deferred — exact per-month modeling would require URPX P1M intervalDuration support). Stacks additively with EAPR (Schedule MED Sec III: customers eligible for both EAPR and MED receive BOTH discounts). NOT applicable when customer is on Commercial & Industrial rates — residential only.",
+      "urpx:effectiveDateTime": "2017-07-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {"@id": "urpx:electricity"},
+      "urpx:serviceRole": {"@id": "urpx:bundledServiceRole"},
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {"@id": "urpx:utilityOrganization"}
+      },
+      "urpx:applicableToRatePlan": [
+        {"@id": "smud:fixed"},
+        {"@id": "smud:tod-5-8pm"}
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "SMUD_SCHEDULE_MED.pdf",
+        "urpx:mediaType": {"@id": "urpx:applicationPdf"},
+        "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_MED.ashx",
+        "urpx:dateRetrieved": "2026-05-04",
+        "urpx:dataSourceType": {"@id": "urpx:utilityWebsiteSource"},
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 1,
+          "urpx:pageEnd": 1,
+          "urpx:leafStart": "MED-1",
+          "urpx:leafEnd": "MED-1"
+        }
+      },
+      "urpx:hasEligibilityRule": [{
+        "@type": "urpx:EligibilityRule",
+        "@id": "smud:med-2017-07-01-er-eligible",
+        "urpx:name": "MED-eligible residential customer",
+        "urpx:description": "Customer is a residential customer who has certified (in writing, with qualified-health-professional attestation) that the customer or a full-time resident in the home: (a) depends on a qualifying medical equipment device used in the home, OR (b) has a medical condition with special electric heating needs or air conditioning needs. Application + certification required (Sec IV.A). Qualified device list and qualified-health-professional definition maintained on smud.org. Stacks additively with EAPR.",
+        "urpx:hasConditionExpression": {
+          "@type": "urpx:ConditionExpression",
+          "@id": "smud:med-2017-07-01-cx-eligible",
+          "urpx:rootNode": {
+            "@type": "urpx:BooleanOperationNode",
+            "@id": "smud:med-2017-07-01-bn-residential-and-enrolled",
+            "urpx:operator": {"@id": "urpx:andOperator"},
+            "urpx:operandNodes": [
+              {
+                "@type": "urpx:ComparisonNode",
+                "@id": "smud:med-2017-07-01-cn-residential",
+                "urpx:operator": {"@id": "urpx:equalsOperator"},
+                "urpx:leftOperand": {
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:conditionProperty": {"@id": "urpx:hasCustomerKind"}
+                },
+                "urpx:rightOperand": {
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:referencesValue": {"@id": "urpx:residentialKind"}
+                }
+              },
+              {
+                "@type": "urpx:ComparisonNode",
+                "@id": "smud:med-2017-07-01-cn-program-enrollment",
+                "urpx:operator": {"@id": "urpx:equalsOperator"},
+                "urpx:leftOperand": {
+                  "@type": "urpx:CustomOperandNode",
+                  "urpx:customConditionProperty": "Program Enrollment"
+                },
+                "urpx:rightOperand": {
+                  "@type": "urpx:CustomOperandNode",
+                  "urpx:stringValue": "Medical Equipment Discount"
+                }
+              }
+            ]
+          }
+        }
+      }],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [{
+          "@type": "urpx:MetricInput",
+          "@id": "smud:med-mi-meter-count",
+          "urpx:name": "Per Meter (for daily $/meter credits)",
+          "urpx:metricInputType": {"@id": "urpx:profileMetricInput"},
+          "urpx:profileMetricProperty": {"@id": "urpx:numberOfMeters"}
+        }],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [{
+            "@type": "urpx:Ledger",
+            "@id": "smud:med-ledger-discount",
+            "urpx:name": "MED Medical Equipment Discount",
+            "urpx:ledgerType": {"@id": "urpx:bundledLedger"},
+            "urpx:referencesMetricInput": {"@id": "smud:med-mi-meter-count"}
+          }],
+          "urpx:hasPriceDefinition": [{
+            "@type": "urpx:PriceDefinition",
+            "@id": "smud:med-pd-discount-2017-07-01",
+            "urpx:name": "MED Discount ($-15.00/month, modeled as $-0.4931/day = $15/30.4 days average month length)",
+            "urpx:chargeType": {"@id": "urpx:creditMisc"},
+            "urpx:chargeCategory": {"@id": "urpx:discount"},
+            "urpx:billPortion": {"@id": "urpx:bundledPortion"},
+            "urpx:baseQuantity": "1",
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "urpx:intervalDuration": "P1D"
+            },
+            "urpx:referencesLedger": {"@id": "smud:med-ledger-discount"}
+          }]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [{
+          "@type": "urpx:Price",
+          "@id": "smud:med-price-discount-2017-07-01",
+          "urpx:referencesPriceDefinition": {"@id": "smud:med-pd-discount-2017-07-01"},
+          "urpx:startDate": "2017-07-01",
+          "urpx:name": "MED Discount Credit",
+          "urpx:unitPrice": "-0.4931"
+        }]
+      }
+    }
+  }
+}

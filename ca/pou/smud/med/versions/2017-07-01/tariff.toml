@@ -1,0 +1,111 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "med"
+effective_date = "2017-07-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_MED.ashx"
+sha256        = "5f3235e368cec773acd0fc61f05bba2888d25ce951e7f31bf1fc8fd3c921bd04"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "resolution"
+filing_id     = "SMUD-Resolution-17-06-01"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "SMUD Board Resolution 17-06-01 adopted June 15, 2017"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+First filing of SMUD Schedule MED (Medical Equipment Discount) in this
+corpus (URPXT-b5j.1). Sourced via the SMUD .ashx asset URL pattern
+documented in ca/pou/smud/utility.toml [scrape_notes].
+
+Per the SMUD convention (most-recent per-sheet date in source PDF),
+this filing is dated to 2017-07-01 — Resolution 17-06-01 adopted
+June 15 2017, effective July 1 2017. Note the source PDF carries an
+"Edition: January 1, 2021" date — that's a re-issue date for
+formatting, NOT a rate effective date (the underlying rate has been
+unchanged since 2017).
+
+## Modifier shape
+
+Modeled as urpx:RatePlanModifier (sibling pattern to URPXT-65v.1 SDG&E
+CARE and URPXT-cah.6 SCE CARE, but much simpler — single per-month
+flat credit). Eligibility predicate: customer's "Program Enrollment"
+= "Medical Equipment Discount" (CustomOperandNode), matching the
+cross-utility naming.
+
+MED customer benefit per Schedule MED Sec II:
+  $-15.00/month flat credit on the electricity usage portion of the
+  bill (per-meter, per-month).
+
+Modeled as a per-meter-per-day Price of $-0.4931/day (= $15/30.4 days
+average). Note: SMUD's MED is denominated per MONTH while URPX
+typically expresses BSC and credit prices per DAY (intervalDuration =
+P1D). To convert, we use the average month length (30.4 days/month).
+This introduces ~3% per-month error vs the actual per-month credit
+when applied to a customer with non-30.4-day billing cycles. Future
+URPX vocabulary that supports per-month CalculationMethod
+(intervalDuration = P1M) would let us model the exact $15/month
+credit.
+
+## Eligibility specifics
+
+Per Schedule MED Sec I.applicability:
+  - Customer or full-time resident certifies (in writing, with
+    qualified-health-professional attestation) that they:
+      * Depend on a qualifying medical equipment device used in the
+        home; OR
+      * Have a medical condition with special electric heating needs
+        or air conditioning needs.
+  - Application + certification required. Qualified device list and
+    qualified-health-professional definition maintained on smud.org.
+
+## Stacking with EAPR
+
+Per Schedule MED Sec III: customers eligible for both EAPR and MED
+receive BOTH discounts (additive). When both modifiers compose against
+the same base RatePlan, both per-month credits should apply.
+
+## What this modifier does NOT capture (deferred)
+
+  1. **Per-month CalculationMethod precision** — modeled as $-0.4931/
+     day (= $15/30.4 days). For exact monthly billing, URPX would need
+     intervalDuration = P1M. Affects edge-case billing-cycle accuracy.
+
+  2. **Request for Additional Discount** (Sec IV.C): customers may
+     contact SMUD for additional assistance if MED + EAPR don't meet
+     household needs. Operational, not a rate component.
+
+## applicableToRatePlan
+
+Applies to any SMUD residential base RatePlan — currently sce... I
+mean smud:tod-5-8pm and smud:fixed in this corpus. Per Schedule MED
+Sec I, applicable to "customers receiving service under residential
+rates" — no per-base restrictions documented.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Per-month CalculationMethod precision — modeled as $-0.4931/day (=$15/30.4); URPX P1M intervalDuration support would let us model exact monthly billing",
+  "Request for Additional Discount (Sec IV.C) — operational, not a rate component",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-b5j.1 — first filing of SMUD MED. Single per-meter-per-day credit (-$0.4931/day = $15/30.4 days). Eligibility predicate: 'Program Enrollment' = 'Medical Equipment Discount'. applicableToRatePlan: 2 SMUD residential bases (tod-5-8pm, fixed). Source: canonical SMUD MED schedule PDF via the .ashx asset URL pattern. Stacks additively with EAPR per Sec III."
