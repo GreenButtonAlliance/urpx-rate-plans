@@ -30,10 +30,13 @@ ONTOLOGY = URPX_REPO / "ontology" / "urpx-ontology.ttl"
 
 
 def index_corpus() -> dict[str, Path]:
-    """Map @id (RatePlan or RatePlanVersion, string IRI like 'pge:e-1' or
-    'pge:e-tou-c-2026-03-01') → file path."""
+    """Map @id (RatePlan, RatePlanVersion, RatePlanModifier, or
+    RatePlanModifierVersion — string IRI like 'pge:e-1', 'pge:e-tou-c-2026-03-01',
+    'sce:care', 'sce:care-2025-11-15') → file path. Both base rate-plan filings
+    and standalone modifier filings are indexed so cross-file supersedes /
+    applicableToRatePlan references can resolve."""
     index: dict[str, Path] = {}
-    for path in REPO_ROOT.glob("ca/**/rate-plan_*.jsonld"):
+    for path in REPO_ROOT.glob("ca/**/rate-plan*.jsonld"):
         with open(path) as fh:
             data = json.load(fh)
         _walk_rate_plans(data, path, index)
@@ -43,7 +46,8 @@ def index_corpus() -> dict[str, Path]:
 def _walk_rate_plans(node, path, index):
     if isinstance(node, dict):
         t = node.get("@type")
-        if t in ("urpx:RatePlan", "urpx:RatePlanVersion"):
+        if t in ("urpx:RatePlan", "urpx:RatePlanVersion",
+                 "urpx:RatePlanModifier", "urpx:RatePlanModifierVersion"):
             iid = node.get("@id")
             if iid:
                 index[iid] = path
