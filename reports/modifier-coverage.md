@@ -15,9 +15,9 @@ Status glyphs:
 
 - Base RatePlan filings: **36**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **122**
+- Applicable-modifier slots across all bases: **138**
   - present and complete: 36
-  - present but incomplete: 29
+  - present but incomplete: 45
   - missing: 57
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -250,6 +250,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 
@@ -258,6 +260,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 
@@ -269,6 +273,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `hpwh-baseline` | ✗ missing | — |
@@ -282,6 +288,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `hpwh-baseline` | ✗ missing | — |
@@ -294,6 +302,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `hpwh-baseline` | ✗ missing | — |
@@ -307,6 +317,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `hpwh-baseline` | ✗ missing | — |
@@ -320,6 +332,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `medical-line-item-discount` | ✗ missing | — |
@@ -335,6 +349,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `cca-crs` | ~ present-incomplete | `ca/iou/sce/cca-crs/versions/2026-03-20` |
+| `da-crs` | ~ present-incomplete | `ca/iou/sce/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `hpwh-baseline` | ✗ missing | — |
