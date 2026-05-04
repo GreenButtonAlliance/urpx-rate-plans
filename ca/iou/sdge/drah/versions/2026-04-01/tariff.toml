@@ -1,0 +1,128 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "drah"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=898"
+sha256        = "4a1d3026c8ebfa29f935a523eee6f120578a6766c7f15363f664fb17afa8bb0d"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 24-05-028 (DRAH BSC tier introduced under SB 205 income-graduated fixed charge)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+First filing of SDG&E DRAH (Deed-Restricted Affordable Housing) BSC
+Discount in this corpus (URPXT-65v.3). Same pattern as URPXT-cah.8
+SCE Deed-Restricted modifier — DRAH is not a standalone schedule,
+but a BSC tier defined within each base TOU schedule. Source citation
+is the SDG&E TOU-DR1 base PDF (which carries the canonical 'Total
+Rates' table and Special Condition 17 'Deed-Restricted Affordable
+Housing Requirement'); the same numerical values appear consistently
+across the other 5 SDG&E residential bases.
+
+The cited PDF (sdge_drah_2026-04-01.pdf) is byte-identical to
+ca/iou/sdge/tou-dr1/versions/2026-04-01/sdge_tou-dr1_2026-04-01.pdf
+(same sha256). Stored alongside this filing for archival convenience
+even though it's the same file as the TOU-DR1 source — the filing's
+provenance is a SECTION of that PDF, and a future SDG&E DRAH-specific
+schedule (if ever published) could re-pin the source.
+
+Per the SDG&E convention (most-recent per-sheet date in cited PDF),
+this filing is dated 2026-04-01 — TOU-DR1 Sheet 1's effective date
+under AL 4791-E.
+
+## Modifier shape
+
+Modeled as urpx:RatePlanModifier (sibling pattern to URPXT-cah.8 SCE
+Deed-Restricted). Eligibility predicate: customer's
+'housingDeedRestricted' = true (CustomOperandNode), matching the SCE
+Deed-Restricted naming.
+
+DRAH customer benefit per TOU-DR1 Sheet 1 'Total Rates' table:
+  BSC Adjustment: -$0.39655/day (Standard $0.79343 → DRAH $0.39688;
+                                  exactly 50% reduction, identical
+                                  to FERA's BSC adjustment)
+
+DRAH and FERA produce IDENTICAL per-meter-day BSC reductions
+($-0.39655); they differ in eligibility (DRAH is property-level
+based on rental subsidies; FERA is income-level based on Lower-
+Middle Income tier). A customer can be DRAH-eligible AND CARE/FERA-
+eligible simultaneously; per the TOU-DR1 base PDF prose 'BSC
+placement will be determined by participation in CARE, FERA, and/or
+successfully meeting the deed-restricted affordable housing (DRAH)
+requirement' — placement is a single tier, NOT additive across these
+modifiers (the customer gets ONE BSC, not multiple). This stacking
+non-additivity is documented here but not enforced structurally.
+
+## What this modifier captures
+
+Single line-item credit (overlay onto any SDG&E residential base
+RatePlan when customer's `housingDeedRestricted` is true):
+
+  BSC Adjustment: -$0.39655/day
+
+## Eligibility — Deed-Restricted Affordable Housing
+
+Per TOU-DR1 Sheet 1 Special Condition 17:
+
+  > DRAH placement constitutes those customers who live in an
+  > affordable rental home that is restricted by the rules of federal
+  > or state subsidies to residents who have incomes at or below 80
+  > percent of Area Median Income based on the statewide database of
+  > such homes maintained by the California Housing Partnership and,
+  > subject to attestation where applicable.
+
+Property-level eligibility (NOT income-level): based on the property's
+deed-restriction status as documented in the California Housing
+Partnership database (e.g., LIHTC-funded developments, state
+Multifamily Housing Program units, local inclusionary-housing-
+ordinance units). For properties with less than 80% of units
+identified as DRAH, customers self-attest.
+
+## What this modifier does NOT capture
+
+  1. **Stacking non-additivity with CARE/FERA** — per the source prose,
+     a single BSC is placed; the modifier-overlay model implicitly
+     allows additive stacking which is incorrect for the BSC line
+     item. Consumers should select ONE BSC modifier per customer
+     (DRAH OR CARE OR FERA OR none), not stack. This isn't structurally
+     enforced here. Same gap as the SCE Deed-Restricted modifier.
+
+  2. **Property-records lookup workflow** (California Housing
+     Partnership database) — operational concern, not billing-time
+     logic.
+
+## Cross-utility consistency
+
+DRAH/Deed-Restricted is the SB 205 income-graduated-fixed-charge
+implementation pattern shared by SCE and SDG&E (both gating BSC
+reductions on rental-housing-subsidy property status). PG&E will
+likely have an equivalent if/when modeled.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-65v.3 — first filing of SDG&E DRAH modifier. Modeled as urpx:RatePlanModifier (sibling to URPXT-cah.8 SCE Deed-Restricted and URPXT-65v.{1,2} SDG&E CARE/FERA). Single PriceDefinition: BSC Adjustment -$0.39655/day. Eligibility predicate: 'housingDeedRestricted' = true. applicableToRatePlan: 6 SDG&E residential bases. Source: SDG&E TOU-DR1 base PDF (which carries the canonical Total Rates BSC values + Special Condition 17 DRAH eligibility prose); no standalone Schedule DRAH PDF exists. Stacking non-additivity with CARE/FERA documented in [extraction.notes] but not structurally enforced (same gap as SCE Deed-Restricted)."
