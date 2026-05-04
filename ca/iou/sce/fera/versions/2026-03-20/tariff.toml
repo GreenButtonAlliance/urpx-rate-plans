@@ -1,0 +1,101 @@
+# Identity --------------------------------------------------------------------
+utility        = "sce"
+schedule       = "fera"
+effective_date = "2026-03-20"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256        = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SCE-AL-5771-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 26-03-013 (TOU-D Sheet 21) / Resolution E-5217 (FERA values on Sheet 18)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+Source remains the SCE TOU-D PDF (live tariff-book version) Sheet 18,
+NOT switched to canonical Schedule D-FERA — see "Source choice" note
+below. Re-sourced from the live tariff-book SharePoint folder
+(URPXT-cah.7); the prior 2025-11-15 filing was sourced from the
+historical-rates archive (year-suffixed ELECTRIC_SCHEDULES_TOU-D_2025
+.pdf) and has been superseded.
+
+Per the SCE convention documented in ca/iou/sce/utility.toml, this
+filing is dated to the most recent per-sheet effective date in the
+document (2026-03-20).
+
+Per-sheet effective dates relevant to FERA on the TOU-D PDF:
+  Sheet 18 (Special Conditions 7-9 including FERA values) —
+    2026-01-01 (AL 5725-E, 90943-E)  *** values we model here ***
+  Sheet 21 — 2026-03-20 (AL 5771-E, 91040-E) — newest sheet,
+    drives the filing date.
+
+## Source choice — why TOU-D Sheet 18, not Schedule D-FERA
+
+The companion CARE modifier (URPXT-cah.6) switched its source from
+TOU-D Sheet 18 to canonical Schedule D-CARE PDF Sheet 1, because
+D-CARE Sheet 1 was re-issued under AL 5725-E and carries the new
+Jan 1 2026 CARE values directly. FERA presents a different situation:
+
+  D-FERA PDF Sheet 1 (90648-E, AL 5654-E, eff Nov 15, 2025) — still
+    shows the OLD pre-2026-01-01 values:
+      BSC Surcharge exemption  $0.063/meter/day
+      BSC Credit Adjustment    $(0.202)/meter/day
+  TOU-D Sheet 18 (90943-E, AL 5725-E, eff Jan 1, 2026) — shows the
+    UPDATED values:
+      BSC Surcharge exemption  $0.064/meter/day
+      BSC Credit Adjustment    $(0.201)/meter/day
+  Schedule D Sheet 7 (91033-E, AL 5771-E, eff Mar 20, 2026) —
+    re-states the same updated values as TOU-D Sheet 18.
+
+AL 5725-E updated the FERA values in the cross-cutting prose (TOU-D
+Sheet 18, Schedule D Sheet 7) but did NOT re-issue D-FERA Sheet 1.
+Switching this filing to D-FERA-as-source would force us to either
+(a) cite stale values that don't match SCE's billing system, or
+(b) cite values that aren't literally on the cited page. Neither is
+honest. So the source remains the TOU-D PDF for now; switch to
+D-FERA when SCE reissues D-FERA Sheet 1 with current values.
+
+Substantive deltas vs the prior 2025-11-15 filing:
+
+  BSC Surcharge exemption  -0.063 → -0.064  (-0.001 deeper credit)
+  BSC Credit Adjustment    -0.202 → -0.201  (+0.001 less credit)
+  Net per-meter-day:       -0.265 → -0.265  (no net change)
+
+The two adjustments offset to zero net change — FERA customers see
+no per-meter-day difference between the 2025-11-15 and 2026-03-20
+filings. The split shifts $0.001/day from one line item to the
+other.
+
+Modeling deferrals (unchanged from 2025-11-15):
+  - 18.0% bill-subtotal percentage discount — URPX has no
+    percentage-of-bill primitive (same upstream-vocabulary gap as
+    the CARE modifier).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "20% bill discount on the pre-tax subtotal — URPX has no percentage-of-bill primitive (same upstream-vocabulary gap as the CARE modifier)",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-cah.7 — re-sourced from live tariff-book TOU-D PDF Sheet 18. 2 of 2 prices refreshed to AL 5725-E values (effective 2026-01-01); the two adjustments offset (Surcharge exemption deeper by 0.001, Credit Adjustment shallower by 0.001) for net-zero per-meter-day change. NOT switched to canonical Schedule D-FERA because D-FERA Sheet 1 still shows the older AL 5654-E values (D-FERA wasn't re-issued under AL 5725-E even though TOU-D Sheet 18 and Schedule D Sheet 7 were); see [extraction.notes] 'Source choice' for the full explanation. Per-version IRIs date-suffixed per the URPXT-cah.2 pattern. RatePlanModifierVersion @id sce:fera-2026-03-20 supersedes sce:fera-2025-11-15."
