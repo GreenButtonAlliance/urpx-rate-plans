@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **39**
+- Base RatePlan filings: **40**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **162**
-  - present and complete: 45
-  - present but incomplete: 81
-  - missing: 36
+- Applicable-modifier slots across all bases: **171**
+  - present and complete: 47
+  - present but incomplete: 84
+  - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -37,10 +37,10 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `pge:fera` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
 | `pge:medical-baseline` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
 | `sce:hpwh-baseline` | 5 | `tou-d-4-9pm/versions/2025-11-15`, `tou-d-4-9pm/versions/2026-03-20`, `tou-d-5-8pm/versions/2025-11-15`, `tou-d-5-8pm/versions/2026-03-20`, `tou-d-prime/versions/2026-03-20` |
-| `smud:hga` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
-| `smud:reo` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
-| `smud:standby` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
-| `smud:three-phase` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
+| `smud:hga` | 3 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01`, `tod-low-use/versions/2026-01-01` |
+| `smud:reo` | 3 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01`, `tod-low-use/versions/2026-01-01` |
+| `smud:standby` | 3 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01`, `tod-low-use/versions/2026-01-01` |
+| `smud:three-phase` | 3 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01`, `tod-low-use/versions/2026-01-01` |
 | `ladwp:ev-discount` | 1 | `r-1b/versions/2026-04-01` |
 | `sce:medical-line-item-discount` | 1 | `tou-d-prime/versions/2025-11-15` |
 
@@ -488,6 +488,27 @@ Base deferrals:
 - Standby Service Charge
 - Three-Phase Service fee
 - SMUD Renewable Energy Option
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `eapr` | ~ present-incomplete | `ca/pou/smud/eapr/versions/2023-09-22` |
+| `hga` | ✗ missing | — |
+| `med` | ~ present-incomplete | `ca/pou/smud/med/versions/2017-07-01` |
+| `nem1` | ~ present-incomplete | `ca/pou/smud/nem1/versions/2021-09-17` |
+| `pev-credit` | ✓ present-complete | `ca/pou/smud/pev-credit/versions/2025-06-20` |
+| `reo` | ✗ missing | — |
+| `ssr` | ✓ present-complete | `ca/pou/smud/ssr/versions/2022-03-01` |
+| `standby` | ✗ missing | — |
+| `three-phase` | ✗ missing | — |
+
+#### `tod-low-use` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Hydro Generation Adjustment (HGA)
+- Standby Service Charge
+- Three-Phase Service fee
+- SMUD Renewable Energy Option
+- Specific kWh usage-cap eligibility threshold (modeled prose-only in EligibilityRule description)
 
 | Modifier | Status | Filing |
 |---|---|---|
