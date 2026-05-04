@@ -1,0 +1,1225 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-tou-d-4-9pm-2026-03-20",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "sce:tou-d-4-9pm",
+    "urpx:name": "Schedule TOU-D Time-Of-Use Domestic — Option 4-9 PM",
+    "urpx:ratePlanUniqueIdentifier": "TOU-D-4-9PM",
+    "urpx:initialEffectiveDate": "2019-03-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "sce:tou-d-4-9pm-2026-03-20",
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:description": "Voluntary residential time-of-use schedule with summer on-peak 4:00 p.m.-9:00 p.m. weekdays. Assigned by CPUC mass-migration default rules to a portion of SCE's residential customer base by climate zone. Replaces the prior Basic Charge + Minimum Charge structure with an income-graduated Base Services Charge (BSC) of $0.794/meter/day per Decision 24-05-028, with a Deed-Restricted discount of $(0.332)/meter/day available to customers in qualifying deed-restricted housing. CARE/FERA discounts (32.5% and 18% respectively) and the related BSC surcharge exemption + BSC discount adjustments are documented in Special Conditions and modeled separately as RatePlanModifiers at ca/iou/sce/care/ and ca/iou/sce/fera/; the Deed-Restricted discount referenced above is modeled at ca/iou/sce/deed-restricted/. Climate Credit ($-36.00/household, semi-annually) is applied per Special Conditions. Heat Pump Water Heater (HPWH) customers receive an additional baseline allocation per Preliminary Statement Part H (modeling deferred — baseline credit modifier not yet captured).",
+      "urpx:effectiveDateTime": "2026-03-20T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_TOU-D.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf",
+        "urpx:dateRetrieved": "2026-05-04",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 2,
+          "urpx:pageEnd": 3,
+          "urpx:leafStart": "90937-E",
+          "urpx:leafEnd": "90938-E"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:tou-d-4-9pm-2026-03-20-er-residential",
+          "urpx:name": "Eligibility for Schedule TOU-D Option 4-9 PM",
+          "urpx:description": "Available to customers eligible for service under Schedule D (Domestic): residential customers individually metered by SCE in single-family accommodations or individually-metered single-family dwellings in a Multifamily Accommodation. Voluntary opt-in; selected by CPUC mass-migration default for some climate zones (customers may transfer to Schedule D, TOU-D-5-8PM, TOU-D-PRIME, or other applicable residential schedules subject to a 12-month minimum-stay rule unless defaulted by SCE).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:tou-d-4-9pm-2026-03-20-cx-residential",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-cn-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "sce:season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "sce:season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:numberOfMeters"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:mi-household-count",
+            "urpx:name": "Per Household Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:householdCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "sce:tou-tou-d-4-9pm",
+            "urpx:referencesMetricInput": {
+              "@id": "sce:mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sce:tou-tier-on-peak",
+                "urpx:tierSourceName": "On-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sce:tou-period-summer-on-peak",
+                    "urpx:name": "Summer On-Peak Period (4 p.m.-9 p.m. weekdays excluding holidays)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-summer-on-peak",
+                        "urpx:startTime": "16:00:00",
+                        "urpx:endTime": "21:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sce:tou-tier-mid-peak",
+                "urpx:tierSourceName": "Mid-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:midPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sce:tou-period-summer-mid-peak",
+                    "urpx:name": "Summer Mid-Peak Period (4 p.m.-9 p.m. weekends and holidays)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-summer-mid-peak",
+                        "urpx:startTime": "16:00:00",
+                        "urpx:endTime": "21:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sce:tou-period-winter-mid-peak",
+                    "urpx:name": "Winter Mid-Peak Period (4 p.m.-9 p.m. all days)",
+                    "urpx:touPeriodNumber": 4,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-winter-mid-peak",
+                        "urpx:startTime": "16:00:00",
+                        "urpx:endTime": "21:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sce:tou-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 3,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sce:tou-period-summer-off-peak",
+                    "urpx:name": "Summer Off-Peak Period (all hours outside 4 p.m.-9 p.m., all days)",
+                    "urpx:touPeriodNumber": 3,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-summer-off-peak-am",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "16:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-summer-off-peak-pm",
+                        "urpx:startTime": "21:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sce:tou-period-winter-off-peak",
+                    "urpx:name": "Winter Off-Peak Period (12 a.m.-8 a.m. and 9 p.m.-12 a.m. all days)",
+                    "urpx:touPeriodNumber": 5,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-winter-off-peak-am",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "08:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-winter-off-peak-pm",
+                        "urpx:startTime": "21:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sce:tou-tier-super-off-peak",
+                "urpx:tierSourceName": "Super-Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:superOffPeakTier"
+                },
+                "urpx:touTierNumber": 4,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sce:tou-period-winter-super-off-peak",
+                    "urpx:name": "Winter Super-Off-Peak Period (8 a.m.-4 p.m. all days)",
+                    "urpx:touPeriodNumber": 6,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sce:time-bracket-winter-super-off-peak",
+                        "urpx:startTime": "08:00:00",
+                        "urpx:endTime": "16:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sce:season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:ledger-energy-supply",
+              "urpx:name": "Energy Supply Prices (Generation)",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:ledger-energy-delivery",
+              "urpx:name": "Energy Delivery Prices",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:ledger-adjustments",
+              "urpx:name": "Bundled Energy Adjustments",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:ledger-base-services-charge",
+              "urpx:name": "Base Services Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:ledger-climate-credit",
+              "urpx:name": "California Climate Credit",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:mi-household-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-summer-on-peak",
+              "urpx:name": "Generation Summer On-Peak (UG)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-summer-mid-peak",
+              "urpx:name": "Generation Summer Mid-Peak (UG)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-summer-off-peak",
+              "urpx:name": "Generation Summer Off-Peak (UG)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-winter-mid-peak",
+              "urpx:name": "Generation Winter Mid-Peak (UG)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-winter-off-peak",
+              "urpx:name": "Generation Winter Off-Peak (UG)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 5,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-winter-super-off-peak",
+              "urpx:name": "Generation Winter Super-Off-Peak (UG)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 6,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-gen-dwrec",
+              "urpx:name": "Generation — DWR Energy Credit (DWREC)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dist-summer-on-peak",
+              "urpx:name": "Distribution Summer On-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dist-summer-mid-peak",
+              "urpx:name": "Distribution Summer Mid-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dist-summer-off-peak",
+              "urpx:name": "Distribution Summer Off-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dist-winter-mid-peak",
+              "urpx:name": "Distribution Winter Mid-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dist-winter-off-peak",
+              "urpx:name": "Distribution Winter Off-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 5,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dist-winter-super-off-peak",
+              "urpx:name": "Distribution Winter Super-Off-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 6,
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-transmission",
+              "urpx:name": "Transmission (Trans, includes TOTCA components)",
+              "urpx:chargeType": {
+                "@id": "urpx:transmission"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-nsgc",
+              "urpx:name": "New System Generation Charge (NSGC)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-ndc",
+              "urpx:name": "Nuclear Decommissioning Charge (NDC)",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-pppc",
+              "urpx:name": "Public Purpose Programs Charge (PPPC)",
+              "urpx:chargeType": {
+                "@id": "urpx:publicBenefits"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-cia",
+              "urpx:name": "Conservation Incentive Adjustment (CIA)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-wfc",
+              "urpx:name": "Wildfire Fund Non-Bypassable Charge (WFC)",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-pucrf",
+              "urpx:name": "PUC Reimbursement Fee (PUCRF)",
+              "urpx:chargeType": {
+                "@id": "urpx:recoverySurcharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-dwra",
+              "urpx:name": "DWR Refund (DWRA) — refund relating to DWR power purchases during the 2000-2001 energy crisis",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-baseline-credit",
+              "urpx:name": "Baseline Credit",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-fixed-recovery-charge",
+              "urpx:name": "Fixed Recovery Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:recoverySurcharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-mcam",
+              "urpx:name": "Modified Cost Allocation Mechanism Charge (MCAM)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-base-services-charge-2026-03-20",
+              "urpx:name": "Base Services Charge (BSC)",
+              "urpx:chargeType": {
+                "@id": "urpx:minimumBill"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-base-services-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:pd-climate-credit",
+              "urpx:name": "California Climate Credit",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:month": [
+                  "--04",
+                  "--10"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:ledger-climate-credit"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:price-base-services-charge-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:pd-base-services-charge-2026-03-20"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Base Services Charge",
+            "urpx:unitPrice": "0.794"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:price-climate-credit-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:pd-climate-credit"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "California Climate Credit",
+            "urpx:unitPrice": "-36.00"
+          }
+        ],
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "sce:ps-generation-charges-2026-03-20",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-summer-on-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-summer-on-peak"
+                },
+                "urpx:name": "Generation Summer On-Peak (UG)",
+                "urpx:unitPrice": "0.25448"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-summer-mid-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-summer-mid-peak"
+                },
+                "urpx:name": "Generation Summer Mid-Peak (UG)",
+                "urpx:unitPrice": "0.13441"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-summer-off-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-summer-off-peak"
+                },
+                "urpx:name": "Generation Summer Off-Peak (UG)",
+                "urpx:unitPrice": "0.07360"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-winter-mid-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-winter-mid-peak"
+                },
+                "urpx:name": "Generation Winter Mid-Peak (UG)",
+                "urpx:unitPrice": "0.18077"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-winter-off-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-winter-off-peak"
+                },
+                "urpx:name": "Generation Winter Off-Peak (UG)",
+                "urpx:unitPrice": "0.10212"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-winter-super-off-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-winter-super-off-peak"
+                },
+                "urpx:name": "Generation Winter Super-Off-Peak (UG)",
+                "urpx:unitPrice": "0.08364"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-gen-dwrec-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-gen-dwrec"
+                },
+                "urpx:name": "Generation — DWR Energy Credit (DWREC)",
+                "urpx:unitPrice": "0.00000"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "sce:ps-distribution-charges-2026-03-20",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dist-summer-on-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dist-summer-on-peak"
+                },
+                "urpx:name": "Distribution Summer On-Peak",
+                "urpx:unitPrice": "0.28446"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dist-summer-mid-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dist-summer-mid-peak"
+                },
+                "urpx:name": "Distribution Summer Mid-Peak",
+                "urpx:unitPrice": "0.28446"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dist-summer-off-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dist-summer-off-peak"
+                },
+                "urpx:name": "Distribution Summer Off-Peak",
+                "urpx:unitPrice": "0.22702"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dist-winter-mid-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dist-winter-mid-peak"
+                },
+                "urpx:name": "Distribution Winter Mid-Peak",
+                "urpx:unitPrice": "0.28446"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dist-winter-off-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dist-winter-off-peak"
+                },
+                "urpx:name": "Distribution Winter Off-Peak",
+                "urpx:unitPrice": "0.22702"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dist-winter-super-off-peak-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dist-winter-super-off-peak"
+                },
+                "urpx:name": "Distribution Winter Super-Off-Peak",
+                "urpx:unitPrice": "0.20636"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "sce:ps-delivery-surcharges-2026-03-20",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-transmission-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-transmission"
+                },
+                "urpx:name": "Transmission",
+                "urpx:unitPrice": "0.02586"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-nsgc-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-nsgc"
+                },
+                "urpx:name": "New System Generation Charge",
+                "urpx:unitPrice": "0.00829"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-ndc-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-ndc"
+                },
+                "urpx:name": "Nuclear Decommissioning Charge",
+                "urpx:unitPrice": "0.00003"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-pppc-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-pppc"
+                },
+                "urpx:name": "Public Purpose Programs Charge",
+                "urpx:unitPrice": "0.00527"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-cia-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-cia"
+                },
+                "urpx:name": "Conservation Incentive Adjustment",
+                "urpx:unitPrice": "0.00000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-wfc-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-wfc"
+                },
+                "urpx:name": "Wildfire Fund Non-Bypassable Charge",
+                "urpx:unitPrice": "0.00591"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-dwra-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-dwra"
+                },
+                "urpx:name": "DWR Refund (DWRA)",
+                "urpx:unitPrice": "0.00000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-pucrf-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-pucrf"
+                },
+                "urpx:name": "PUC Reimbursement Fee",
+                "urpx:unitPrice": "0.00100"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-baseline-credit-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-baseline-credit"
+                },
+                "urpx:name": "Baseline Credit",
+                "urpx:unitPrice": "-0.10108"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "sce:ps-bundled-adjustments-2026-03-20",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-fixed-recovery-charge-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-fixed-recovery-charge"
+                },
+                "urpx:name": "Fixed Recovery Charge",
+                "urpx:unitPrice": "0.00619"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:price-mcam-2026-03-20",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:pd-mcam"
+                },
+                "urpx:name": "Modified Cost Allocation Mechanism Charge",
+                "urpx:unitPrice": "0.00223"
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:supersedes": {
+        "@id": "sce:tou-d-4-9pm-2025-11-15"
+      }
+    }
+  }
+}
