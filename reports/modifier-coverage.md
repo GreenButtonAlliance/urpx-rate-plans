@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **37**
+- Base RatePlan filings: **38**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **150**
-  - present and complete: 43
-  - present but incomplete: 69
+- Applicable-modifier slots across all bases: **153**
+  - present and complete: 44
+  - present but incomplete: 71
   - missing: 38
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -376,6 +376,20 @@ Base deferrals:
 | `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 #### `dr-ses` @ 2026-04-01  &nbsp; base: ✓
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
+| `drah` | ✓ present-complete | `ca/iou/sdge/drah/versions/2026-04-01` |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
+
+#### `ev-tou` @ 2026-04-01  &nbsp; base: ~
+
+Base deferrals:
+- PCIA recovery for CCA-served customers (Special Condition 9) — same deferral as other SDG&E filings
+- Optional Billing - Utility Option (Special Condition 6) — utility-discretionary policy, not a rate component
+- Franchise Fee Differential 5.78% for City of San Diego customers — affects bill total but not per-component rates
+- 50% Minimum Bill discount for CARE/MB/FERA customers — modeled at standard $0.413/day; discount path applies via the relevant program-overlay modifier composition
 
 | Modifier | Status | Filing |
 |---|---|---|
