@@ -4,73 +4,168 @@
 utility           = "sce"
 
 # Where SCE publishes tariffs and rate-plan information.
+#
+# SCE publishes its tariff book on the edisonintl.sharepoint.com tenant
+# in two parallel structures: a LIVE tariff book (source-of-record,
+# complete current tariff per schedule) and a HISTORICAL RATES archive
+# (year-bounded consolidated reissuances, frequently incomplete). The
+# live folder is what a CPUC-side reviewer would expect to see cited.
+# See scrape_notes for the distinction in detail.
 tariff_index_urls = [
-  # Customer-facing residential rate-plan landing — links out to per-rate
-  # information pages (TOU plans, tiered, EV) but not directly to tariff PDFs.
-  "https://www.sce.com/save-money/rates-financing/residential-rate-plans",
+  # PRIMARY entry — SCE Tariff Books "Rates and Pricing Choices" landing
+  # page. Links out to the live tariff-book SharePoint folders by rate
+  # class (Residential, General Service/Industrial, Agricultural,
+  # Lighting, Other) plus the Preliminary Statements folder.
+  "https://www.sce.com/regulatory/regulatory-information/tariff-books/rates-pricing-choices",
 
-  # SCE's regulatory tariff-books portal. Current year is gated behind a
-  # SharePoint folder (see scrape_notes); historical years 2014-2025 each
-  # have their own landing page under /regulatory/tariff-books/historical-rates/.
-  "https://www.sce.com/regulatory/regulatory-information/tariff-books",
+  # PRIMARY (live tariff book — Residential Rates SharePoint folder).
+  # Per-schedule PDFs at un-suffixed filenames (e.g.
+  # ELECTRIC_SCHEDULES_TOU-D.pdf). Each PDF is the COMPLETE current
+  # tariff for that schedule including all sheets and Special Conditions.
+  # 14 schedules as of 2026-05: D, D-CARE, D-FERA, D-SDP, DE, DM, DMS-1,
+  # DMS-2, DMS-3, ESC-OO, MB-E, SEP, TOU-D, TOU-D-T.
+  "https://edisonintl.sharepoint.com/:f:/t/Public/TM2/EuKm76K33QlGkEKxS2ZVy8EBNSTo2UjsnzEMOxsP8ISRKg",
 
-  # Per-year historical rate-schedule index pages, e.g.:
-  #   /regulatory/tariff-books/historical-rates/historical-rate-schedules-for-2025
-  # Each year's page links to a SharePoint folder with the year's tariff PDFs.
+  # PRIMARY (live tariff book — Preliminary Statements SharePoint folder).
+  # Cross-cutting policy parts referenced by individual schedules
+  # (Part H = Baseline Service, Part FF = PPP Adjustment Mechanism, etc.).
+  # 30 PDFs as of 2026-05: single-letter parts A_thru_F (combined), G, H, I
+  # plus multi-letter sub-parts AA through III.
+  "https://edisonintl.sharepoint.com/:f:/t/Public/TM2/EtS6mclKSB1Lu_1AeJRN2XUB_uWeOcIVr7bgo6E4ggW87w",
+
+  # ARCHIVE — historical rates index. Per-year landing pages each linking
+  # to a SharePoint folder of YEAR-SUFFIXED consolidated reissuances
+  # (e.g. ELECTRIC_SCHEDULES_TOU-D_2025.pdf). Each year's reissuance only
+  # contains sheets that saw advice-letter activity that year — sheets
+  # unchanged for several cycles can be entirely absent (verified: the
+  # 2024 and 2025 TOU-D reissuances both lack Sheets 12-17). Useful for
+  # time-series comparison and for citing what was effective during a
+  # specific historical window. NOT the source-of-record for current
+  # filings — use the live tariff-book folder above for that.
   "https://www.sce.com/regulatory/tariff-books/historical-rates",
 
-  # Annual rate-options summary PDF. Republished yearly (filename includes
-  # the year). Useful for an authoritative overview of which schedules are
-  # current vs grandfathered/closed.
+  # ANCILLARY — customer-facing residential rate-plan landing page.
+  # Per-rate information pages with TOU window graphics and
+  # customer-display materials. Useful for cross-checking TOU period
+  # definitions modeled from regulatory sheets.
+  "https://www.sce.com/save-money/rates-financing/residential-rate-plans",
+
+  # ANCILLARY — annual rate-options summary PDF. Republished yearly
+  # (filename includes the year). Authoritative overview of which
+  # schedules are current vs grandfathered/closed.
   "https://www.sce.com/sites/default/files/custom-files/PDF_Files/2025_Summary_of_Available_Residential_and_Nonresidential_Rates.pdf",
 ]
 
 scrape_notes = """
 SCE's tariff-publication pattern differs from PG&E's tariffbook directory.
-Per-schedule PDFs are NOT served at predictable stable URLs on sce.com.
-Instead:
+Per-schedule PDFs are NOT served at predictable stable URLs on sce.com;
+they live on a Microsoft SharePoint tenant (edisonintl.sharepoint.com)
+in two parallel structures.
 
-- The historical-rates portal lists per-year landing pages (2014-2025).
-- Each year's landing page links to a Microsoft SharePoint folder hosted at
-  edisonintl.sharepoint.com. The SharePoint folders contain the per-schedule
-  tariff PDFs (Schedule D, Schedule TOU-D, etc.).
-- SharePoint folder URLs use opaque tokens and are not stable across years
-  (a new folder is published each tariff cycle).
-- Some legacy/fact-sheet PDFs are served from sce.com/sites/default/files/
-  (e.g. the annual rate-options summary, TOU-D-PRIME fact sheet).
+LIVE TARIFF BOOK (source-of-record)
+-----------------------------------
+Folder: .../Tariff-SCE Tariff Books/Electric/Schedules/<rate class>/
+Residential entry (anonymous share-token form):
+  https://edisonintl.sharepoint.com/:f:/t/Public/TM2/EuKm76K33QlGkEKxS2ZVy8EBNSTo2UjsnzEMOxsP8ISRKg
+Rendered path form (used in [source.url] of per-filing tariff.toml files):
+  https://edisonintl.sharepoint.com/teams/Public/TM2/Shared Documents/
+  Public/Regulatory/Tariff-SCE Tariff Books/Electric/Schedules/
+  Residential Rates/ELECTRIC_SCHEDULES_<schedule-id>.pdf
+Filename pattern: ELECTRIC_SCHEDULES_<schedule-id>.pdf (un-suffixed)
 
-Practical scraping approach:
-1. Fetch the historical-rates page for the target year to find the
-   SharePoint folder URL.
-2. Use SharePoint's REST/Graph API or browser automation (e.g. spel) to
-   enumerate PDFs in the folder.
-3. Cache discovered PDF URLs in each filing's tariff.toml [source.url];
-   recompute sha256 on subsequent fetches.
+Each PDF is the COMPLETE current tariff for that schedule — all sheets,
+all Special Conditions, all currently-effective revisions. The TOU-D
+PDF runs 26 sheets (vs 14 in the historical reissuance) including
+Special Conditions 1-6 (Sheets 12-17): TOU period bracket definitions,
+Option PRIME eligibility, Billing Calculation (DWREC and PCIA recovery),
+baseline allocation tables, and CCA/DA cost-responsibility clauses.
 
-For ad-hoc lookups, contact tariffs.manager@sce.com (per SCE's regulatory
-page) — there is no public direct-download API as of 2026.
+HISTORICAL RATES (archive — NOT source-of-record)
+-------------------------------------------------
+Per-year landing pages at:
+  https://www.sce.com/regulatory/tariff-books/historical-rates/historical-rate-schedules-for-<YEAR>
+Each year's page links to a SharePoint folder containing YEAR-SUFFIXED
+consolidated reissuances (filename ELECTRIC_SCHEDULES_<id>_<YEAR>.pdf).
+Each reissuance bundles only those sheets that saw advice-letter
+activity during the publication year — sheets that didn't are absent.
 
-Alternative source: OEDI USURDB (https://apps.openei.org/USURDB/) has
-SCE rates parsed but is community-curated, not authoritative — useful for
-cross-checking values, not as the source-of-record for filings here.
+Verified omission: the ELECTRIC_SCHEDULES_TOU-D_2024.pdf and _2025.pdf
+reissuances both lack Sheets 12-17 because Special Conditions 1-6 were
+not re-filed in those years. This corpus's pre-2026-05-04 SCE filings
+were sourced from these reissuances and consequently had to fall back
+to SCE's customer-facing page for TOU period definitions; URPXT-cah
+re-sources from the live tariff book to fix this.
 
-Mixed per-sheet effective dates within a single PDF:
+Use the historical archive for time-series comparison or for citing
+what was effective during a historical window — NOT for current
+source-of-record. The live folder serves both purposes (it carries
+each sheet's per-sheet effective date stamp).
 
-SCE publishes each schedule as a *consolidated tariff-book extract* — a
-single PDF whose individual sheets carry per-sheet effective dates that
-drift out of sync as advice letters take effect on different sheets at
-different times. Example: ELECTRIC_SCHEDULES_TOU-D_2025.pdf contains
-sheets effective Jan 1, Mar 1, Jun 1, Oct 1, and Nov 15 of 2025 because
-each sheet was last touched by a different advice letter. PG&E's tariff
-PDFs do not exhibit this — each PG&E PDF generally carries one effective
-date for the whole document.
+PRELIMINARY STATEMENTS
+----------------------
+Folder: .../Tariff-SCE Tariff Books/Electric/Preliminary Statements/
+Anonymous entry: see tariff_index_urls above.
+Filenames: ELECTRIC_PRELIM_<part>.pdf
+
+Cross-cutting policy parts. Single-letter parts (A_thru_F combined,
+G, H, I) are the canonical "Parts" referenced by schedules; the
+multi-letter sub-parts (AA through III) extend or supersede portions
+of the single-letter parts under specific cost-component or
+docket-specific authority. Part H (Baseline Service) is referenced
+by Schedule TOU-D Special Condition 4 and the HPWH baseline-allocation
+modifier (URPXT-bqg).
+
+ANONYMOUS DOWNLOAD RECIPE
+-------------------------
+SharePoint anonymous-share folders use opaque share-token URLs in the
+:f:/t/Public/TM2/<token> form. Direct curl against the rendered file
+path returns 403 — the FedAuth cookie must first be established by
+navigating the share-token URL in a real browser.
+
+  # 1. Open the share-token folder URL in spel — the browser
+  #    establishes an anonymous FedAuth cookie scoped to the tenant.
+  spel open "https://edisonintl.sharepoint.com/:f:/t/Public/TM2/<token>"
+
+  # 2. Extract the cookie.
+  FEDAUTH=$(spel cookies | awk -F= '/^FedAuth=/{print $2}' | awk '{print $1}')
+
+  # 3. Download via the SharePoint download.aspx endpoint.
+  BASE="https://edisonintl.sharepoint.com/teams/Public/TM2/_layouts/15/download.aspx"
+  SRC="/teams/Public/TM2/Shared Documents/Public/Regulatory/<full-path-to-pdf>"
+  curl -sL -o "$(basename "$SRC")" -b "FedAuth=$FEDAUTH" "${BASE}?SourceUrl=${SRC}"
+
+The cookie has a limited lifespan (minutes to a few hours, not days);
+pull a target set in one session. Cache canonical URLs in each filing's
+tariff.toml [source.url] using the rendered path form (more readable
+than share-token URLs). Recompute sha256 on subsequent fetches to
+detect in-place reissuances.
+
+For ad-hoc lookups outside this recipe, contact tariffs.manager@sce.com
+(per SCE's regulatory page) — there is no public direct-download API
+as of 2026.
+
+Alternative cross-check source: OEDI USURDB
+(https://apps.openei.org/USURDB/) has SCE rates parsed but is
+community-curated, not authoritative — useful for cross-checking values,
+not as the source-of-record for filings here.
+
+MIXED PER-SHEET EFFECTIVE DATES WITHIN A SINGLE PDF
+---------------------------------------------------
+Each live-tariff-book PDF carries per-sheet revisions whose effective
+dates drift out of sync as advice letters take effect on different
+sheets at different times. Example: the live ELECTRIC_SCHEDULES_TOU-D.pdf
+as of 2026-05-04 contains sheets effective Oct 1 2025, Nov 15 2025,
+Jan 1 2026, and Mar 20 2026 because each sheet was last touched by
+a different advice letter. PG&E's tariff PDFs do not exhibit this —
+each PG&E PDF generally carries one effective date for the whole
+document.
 
 Convention for this corpus: treat the SCE PDF as a single filing dated
-to the *most recent per-sheet effective date* in the document — the date
-on which the rate plan in its currently-serialized form became effective.
-Earlier-dated sheets are unchanged since their last revision; the PDF
-as a whole is a snapshot of what's in force right now. Record the
-per-sheet effective dates in tariff.toml [extraction.notes] for
+to the *most recent per-sheet effective date* in the document — the
+date on which the rate plan in its currently-serialized form became
+effective. Earlier-dated sheets are unchanged since their last revision;
+the PDF as a whole is a snapshot of what's in force right now. Record
+the per-sheet effective dates in tariff.toml [extraction.notes] for
 traceability.
 
 Two alternatives were considered and rejected for the common case:
@@ -91,56 +186,4 @@ Two alternatives were considered and rejected for the common case:
 Either alternative remains available if a specific SCE filing's
 structure demands it — but the default for SCE consolidated tariff-book
 PDFs is single-filing-dated-to-most-recent.
-
-Missing sheets in consolidated TOU-D PDFs (Sheets 12-17):
-
-The ELECTRIC_SCHEDULES_TOU-D_<YEAR>.pdf consolidated PDFs structurally
-EXCLUDE Sheets 12-17 — verified across both 2024 and 2025 publications.
-Those sheets contain Schedule TOU-D Special Conditions 1-6 (TOU period
-time-bracket definitions, Option PRIME eligibility, billing calculation,
-baseline allocations, CCA/DA clauses).
-
-Why: SCE's consolidated PDFs aggregate the most recently filed revision
-of each sheet that was filed during the publication year. Special
-Conditions 1-6 have not been re-filed via Advice Letter for several
-publication cycles, so they don't appear in the current bundles. The
-Sheets exist conceptually — Sheet 18's text references "Special
-Conditions 1 and 3" (which would be on Sheets 12-17) — but they're
-not in the SCE-published bundle a user would naturally fetch.
-
-Locations checked and confirmed NOT to contain Sheets 12-17:
-  - SCE Residential Rates SharePoint folders (2024, 2025) — only
-    rate sheets + Sheet 18.
-  - SCE Preliminary Statements SharePoint folder
-    (.../Tariff-SCE Tariff Books/Electric/Preliminary Statements) —
-    contains cross-cutting policy parts (A through III, e.g. Part H
-    Baseline Service, Part FF PPP Adjustment Mechanism), but no
-    per-schedule Special Conditions.
-
-Possible source-of-record locations not yet exhaustively searched:
-  - SCE Approved Advice Letters SharePoint folder
-    (https://edisonintl.sharepoint.com/.../Approved/Electric)
-    — the Advice Letter that filed Sheets 12-17 (likely years old)
-    would carry copies. Hunting through historical ALs is out of
-    scope for an automated scrape; would require either CPUC-docket
-    cross-referencing or direct contact with tariffs.manager@sce.com.
-  - CPUC OASIS (CPUC's e-filing portal at docs.cpuc.ca.gov) —
-    structured Advice Letter / Decision search may surface the
-    most recent filing of these sheets.
-  - Internet Archive snapshots of older sce.com pages.
-
-Practical fallback for modeling TOU period definitions:
-
-For the SCE TOU-D rate plans (TOU-D-4-9PM, -5-8PM, -PRIME), this corpus
-sources the TOU window time brackets from SCE's customer-facing rate
-plans page (https://www.sce.com/save-money/rates-financing/...).
-That page presents the time periods graphically per schedule and is
-SCE-published — authoritative for customer-display purposes if not
-for regulatory-filing-record purposes. The discrepancy is documented
-in each affected filing's tariff.toml [extraction.notes].
-
-The search was inconclusive;
-re-open or file a follow-up if an authoritative source for Sheets
-12-17 specifically is needed (e.g. for a third-party validator that
-won't accept customer-page sourcing).
 """
