@@ -5,17 +5,39 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://example.com/organizations/",
     "sce": "https://example.com/sce/",
-    "urpx:unitPrice": {"@type": "xsd:decimal"},
-    "urpx:effectiveDate": {"@type": "xsd:date"},
-    "urpx:effectiveDateTime": {"@type": "xsd:dateTime"},
-    "urpx:initialEffectiveDate": {"@type": "xsd:date"},
-    "urpx:startDate": {"@type": "xsd:date"},
-    "urpx:url": {"@type": "xsd:anyURI"},
-    "urpx:pageStart": {"@type": "xsd:integer"},
-    "urpx:pageEnd": {"@type": "xsd:integer"},
-    "urpx:accessURL": {"@type": "xsd:anyURI"},
-    "urpx:dateRetrieved": {"@type": "xsd:date"},
-    "urpx:targetURPXVersion": {"@type": "xsd:anyURI"}
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
   },
   "@type": "urpx:URPXDocument",
   "@id": "sce:doc-medical-baseline-2025-10-01",
@@ -32,31 +54,52 @@
       "@id": "sce:medical-baseline-2025-10-01",
       "urpx:version": "2025-10-01",
       "urpx:modifierVersionNumber": "2025-10-01",
-      "urpx:changeReason": {"@id": "urpx:rateCase"},
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
       "urpx:description": "Schedule MB-E Medical Baseline Exemption — applies to any SCE residential customer who qualifies for medical baseline allocation. The full text of Schedule MB-E (Sheet 1) is: 'Customers receiving medical baseline allocation shall be billed in accordance with the terms and conditions of their Otherwise Applicable Tariff (OAT), except that the Wildfire Fund Non-Bypassable Charge (WFC) shall not apply, and the effective Minimum Charge will be $5.00.' Modeled here as a single line-item credit cancelling the WFC ($-0.00591/kWh, matching the current base WFC value). The $5.00 effective Minimum Charge floor is NOT modeled (URPX vocabulary gap for residential per-day-vs-monthly minimum charge mechanic). The Medical Baseline allocation extension itself (extra kWh in the baseline tier per Preliminary Statement Part H) is also NOT modeled (same vocabulary gap as the HPWH baseline-extension modifier). Eligibility: customer's `Program Enrollment` = `Medical Baseline` (CustomOperandNode predicate, evaluated against customer-state input). applicableToRatePlan: 4 SCE residential bases (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Customers can be Medical-Baseline-eligible AND CARE/FERA-eligible simultaneously; benefits stack independently.",
       "urpx:effectiveDateTime": "2025-10-01T00:00:00",
       "urpx:priceCurrency": "USD",
-      "urpx:commodity": {"@id": "urpx:electricity"},
-      "urpx:serviceRole": {"@id": "urpx:bundledServiceRole"},
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
       "urpx:publishedBy": {
         "@type": "urpx:Organization",
         "@id": "org:utility-sce",
         "urpx:legalName": "Southern California Edison Company",
-        "urpx:organizationType": {"@id": "urpx:utilityOrganization"}
+        "urpx:eiaId": "17609",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
       },
       "urpx:applicableToRatePlan": [
-        {"@id": "sce:d"},
-        {"@id": "sce:tou-d-4-9pm"},
-        {"@id": "sce:tou-d-5-8pm"},
-        {"@id": "sce:tou-d-prime"}
+        {
+          "@id": "sce:d"
+        },
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        }
       ],
       "urpx:hasDataSourceReference": {
         "@type": "urpx:DataSourceReference",
         "urpx:fileName": "ELECTRIC_SCHEDULES_MB-E.pdf",
-        "urpx:mediaType": {"@id": "urpx:applicationPdf"},
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
         "urpx:accessURL": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_MB-E.pdf",
         "urpx:dateRetrieved": "2026-05-04",
-        "urpx:dataSourceType": {"@id": "urpx:utilityWebsiteSource"},
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
         "urpx:hasTariffBookReference": {
           "@type": "urpx:TariffBookReference",
           "urpx:pageStart": 1,
@@ -65,73 +108,105 @@
           "urpx:leafEnd": "90597-E"
         }
       },
-      "urpx:hasEligibilityRule": [{
-        "@type": "urpx:EligibilityRule",
-        "@id": "sce:medical-baseline-2025-10-01-er-eligible",
-        "urpx:name": "Medical-Baseline-eligible residential customer",
-        "urpx:description": "Customer is enrolled in SCE's Medical Baseline Allowance program — additional baseline allocation for households where a resident depends on life-support or qualifying medical equipment, or has a medical condition requiring temperature regulation. Eligibility verification by SCE per Medical Baseline application. Customers can be Medical-Baseline-eligible simultaneously with CARE or FERA enrollment; benefits stack independently across modifiers.",
-        "urpx:hasConditionExpression": {
-          "@type": "urpx:ConditionExpression",
-          "@id": "sce:medical-baseline-2025-10-01-cx-eligible",
-          "urpx:rootNode": {
-            "@type": "urpx:ComparisonNode",
-            "@id": "sce:medical-baseline-2025-10-01-cn-eligible",
-            "urpx:operator": {"@id": "urpx:equalsOperator"},
-            "urpx:leftOperand": {
-              "@type": "urpx:CustomOperandNode",
-              "urpx:customConditionProperty": "Program Enrollment"
-            },
-            "urpx:rightOperand": {
-              "@type": "urpx:CustomOperandNode",
-              "urpx:stringValue": "Medical Baseline"
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:medical-baseline-2025-10-01-er-eligible",
+          "urpx:name": "Medical-Baseline-eligible residential customer",
+          "urpx:description": "Customer is enrolled in SCE's Medical Baseline Allowance program — additional baseline allocation for households where a resident depends on life-support or qualifying medical equipment, or has a medical condition requiring temperature regulation. Eligibility verification by SCE per Medical Baseline application. Customers can be Medical-Baseline-eligible simultaneously with CARE or FERA enrollment; benefits stack independently across modifiers.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:medical-baseline-2025-10-01-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sce:medical-baseline-2025-10-01-cn-eligible",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "Program Enrollment"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "Medical Baseline"
+              }
             }
           }
         }
-      }],
+      ],
       "urpx:hasPlanElements": {
         "@type": "urpx:PlanElements",
-        "urpx:hasMetricInput": [{
-          "@type": "urpx:MetricInput",
-          "@id": "sce:medical-baseline-mi-energy",
-          "urpx:name": "kWh Energy Consumption Prices",
-          "urpx:metricInputType": {"@id": "urpx:measuredMetricInput"},
-          "urpx:hasMetricSpecification": {
-            "@type": "urpx:MetricSpecification",
-            "@id": "sce:medical-baseline-ms-energy",
-            "urpx:measurementKind": {"@id": "urpx:energy"},
-            "urpx:unitOfMeasure": {"@id": "urpx:kWh"}
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:medical-baseline-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:medical-baseline-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
           }
-        }],
+        ],
         "urpx:hasBillingModel": {
           "@type": "urpx:BillingModel",
-          "urpx:hasLedger": [{
-            "@type": "urpx:Ledger",
-            "@id": "sce:medical-baseline-ledger-wfc-exemption",
-            "urpx:name": "Medical Baseline WFC Exemption",
-            "urpx:ledgerType": {"@id": "urpx:bundledLedger"},
-            "urpx:referencesMetricInput": {"@id": "sce:medical-baseline-mi-energy"}
-          }],
-          "urpx:hasPriceDefinition": [{
-            "@type": "urpx:PriceDefinition",
-            "@id": "sce:medical-baseline-pd-wfc-exemption",
-            "urpx:name": "Medical Baseline Wildfire Fund Non-Bypassable Charge Exemption (cancels base WFC of $0.00591/kWh per Schedule MB-E)",
-            "urpx:chargeType": {"@id": "urpx:creditEnergy"},
-            "urpx:chargeCategory": {"@id": "urpx:discount"},
-            "urpx:billPortion": {"@id": "urpx:bundledPortion"},
-            "urpx:referencesLedger": {"@id": "sce:medical-baseline-ledger-wfc-exemption"}
-          }]
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:medical-baseline-ledger-wfc-exemption",
+              "urpx:name": "Medical Baseline WFC Exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:medical-baseline-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:medical-baseline-pd-wfc-exemption",
+              "urpx:name": "Medical Baseline Wildfire Fund Non-Bypassable Charge Exemption (cancels base WFC of $0.00591/kWh per Schedule MB-E)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:medical-baseline-ledger-wfc-exemption"
+              }
+            }
+          ]
         }
       },
       "urpx:hasPrices": {
         "@type": "urpx:Prices",
-        "urpx:hasPrice": [{
-          "@type": "urpx:Price",
-          "@id": "sce:medical-baseline-price-wfc-exemption-2025-10-01",
-          "urpx:referencesPriceDefinition": {"@id": "sce:medical-baseline-pd-wfc-exemption"},
-          "urpx:startDate": "2026-01-01",
-          "urpx:name": "Medical Baseline WFC Exemption Credit",
-          "urpx:unitPrice": "-0.00591"
-        }]
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:medical-baseline-price-wfc-exemption-2025-10-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:medical-baseline-pd-wfc-exemption"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Medical Baseline WFC Exemption Credit",
+            "urpx:unitPrice": "-0.00591"
+          }
+        ]
       }
     }
   }

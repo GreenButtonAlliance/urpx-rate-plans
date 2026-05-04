@@ -5,19 +5,45 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://example.com/organizations/",
     "smud": "https://example.com/smud/",
-    "urpx:unitPrice": {"@type": "xsd:decimal"},
-    "urpx:effectiveDate": {"@type": "xsd:date"},
-    "urpx:effectiveDateTime": {"@type": "xsd:dateTime"},
-    "urpx:baseQuantity": {"@type": "xsd:decimal"},
-    "urpx:initialEffectiveDate": {"@type": "xsd:date"},
-    "urpx:startDate": {"@type": "xsd:date"},
-    "urpx:url": {"@type": "xsd:anyURI"},
-    "urpx:intervalDuration": {"@type": "xsd:duration"},
-    "urpx:pageStart": {"@type": "xsd:integer"},
-    "urpx:pageEnd": {"@type": "xsd:integer"},
-    "urpx:accessURL": {"@type": "xsd:anyURI"},
-    "urpx:dateRetrieved": {"@type": "xsd:date"},
-    "urpx:targetURPXVersion": {"@type": "xsd:anyURI"}
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
   },
   "@type": "urpx:URPXDocument",
   "@id": "smud:doc-eapr-2023-09-22",
@@ -34,30 +60,49 @@
       "@id": "smud:eapr-2023-09-22",
       "urpx:version": "2023-09-22",
       "urpx:modifierVersionNumber": "2023-09-22",
-      "urpx:changeReason": {"@id": "urpx:initial"},
+      "urpx:changeReason": {
+        "@id": "urpx:initial"
+      },
       "urpx:description": "SMUD's Energy Assistance Program Rate (EAPR) — income-qualified bill discount applied as an overlay to any SMUD residential base RatePlan. Functionally analogous to the CPUC's CARE program at SCE/PG&E/SDG&E, though structurally different: SMUD's EAPR has TWO discount components — (1) a flat $10/month System Infrastructure Fixed Charge discount, and (2) a 100%-reduction-up-to-cap on electricity usage cost where the monthly cap varies by Federal Poverty Level (FPL) tier ($60 for 0-50% FPL, $32 for >50-100%, $10 for >100-150%, $0 for >150-200%). Adopted under SMUD Board Resolution 23-09-09 effective September 22, 2023. Eligibility (Sec II): residential customer income at-or-below 200% FPL, customer not claimed as dependent, primary residence. This filing models ONLY the $10/month BSC discount (as $-0.3289/day = $10/30.4 days). The cap-on-usage discount is NOT modeled — it's the URPX#24 cap-on-credit / computed-from-upstream-context territory that lacks a v0.2.0 primitive (modeling forward-compatible if URPX adds the vocabulary). For typical EAPR customers in higher-FPL tiers (150-200% where usage cap = $0), the BSC discount captured here is the ENTIRE EAPR benefit; for lower-FPL tiers, it's a fraction (~14% for 0-50% FPL with 500 kWh/month). The ERSF Additional Monthly Discount ($0-$35/month for 0-50% FPL only, year-by-year formulaic) is also NOT modeled. Stacks additively with MED (Schedule MED Sec III). Sec IV-VI cover Nonprofit Organization eligibility — out of scope for this residential-focused filing.",
       "urpx:effectiveDateTime": "2023-09-22T00:00:00",
       "urpx:priceCurrency": "USD",
-      "urpx:commodity": {"@id": "urpx:electricity"},
-      "urpx:serviceRole": {"@id": "urpx:bundledServiceRole"},
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
       "urpx:publishedBy": {
         "@type": "urpx:Organization",
         "@id": "org:utility-smud",
         "urpx:legalName": "Sacramento Municipal Utility District",
-        "urpx:organizationType": {"@id": "urpx:utilityOrganization"}
+        "urpx:eiaId": "16534",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
       },
       "urpx:applicableToRatePlan": [
-        {"@id": "smud:fixed"},
-        {"@id": "smud:tod-5-8pm"},
-        {"@id": "smud:tod-low-use"}
+        {
+          "@id": "smud:fixed"
+        },
+        {
+          "@id": "smud:tod-5-8pm"
+        },
+        {
+          "@id": "smud:tod-low-use"
+        }
       ],
       "urpx:hasDataSourceReference": {
         "@type": "urpx:DataSourceReference",
         "urpx:fileName": "SMUD_SCHEDULE_EAPR.pdf",
-        "urpx:mediaType": {"@id": "urpx:applicationPdf"},
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
         "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_EAPR.ashx",
         "urpx:dateRetrieved": "2026-05-04",
-        "urpx:dataSourceType": {"@id": "urpx:utilityWebsiteSource"},
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
         "urpx:hasTariffBookReference": {
           "@type": "urpx:TariffBookReference",
           "urpx:pageStart": 1,
@@ -66,93 +111,131 @@
           "urpx:leafEnd": "EAPR-2"
         }
       },
-      "urpx:hasEligibilityRule": [{
-        "@type": "urpx:EligibilityRule",
-        "@id": "smud:eapr-2023-09-22-er-eligible",
-        "urpx:name": "EAPR-eligible residential customer",
-        "urpx:description": "Customer is a residential customer enrolled in the EAPR program per Schedule EAPR Sec II: (A) total gross household income conforms to Income Guidelines (typically 0-200% Federal Poverty Level — application-based determination); (B) customer is not claimed as a dependent on another person's tax return; (C) service address on application is the customer's primary residence. Stacks additively with MED.",
-        "urpx:hasConditionExpression": {
-          "@type": "urpx:ConditionExpression",
-          "@id": "smud:eapr-2023-09-22-cx-eligible",
-          "urpx:rootNode": {
-            "@type": "urpx:BooleanOperationNode",
-            "@id": "smud:eapr-2023-09-22-bn-residential-and-enrolled",
-            "urpx:operator": {"@id": "urpx:andOperator"},
-            "urpx:operandNodes": [
-              {
-                "@type": "urpx:ComparisonNode",
-                "@id": "smud:eapr-2023-09-22-cn-residential",
-                "urpx:operator": {"@id": "urpx:equalsOperator"},
-                "urpx:leftOperand": {
-                  "@type": "urpx:ObjectOperandNode",
-                  "urpx:conditionProperty": {"@id": "urpx:hasCustomerKind"}
-                },
-                "urpx:rightOperand": {
-                  "@type": "urpx:ObjectOperandNode",
-                  "urpx:referencesValue": {"@id": "urpx:residentialKind"}
-                }
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:eapr-2023-09-22-er-eligible",
+          "urpx:name": "EAPR-eligible residential customer",
+          "urpx:description": "Customer is a residential customer enrolled in the EAPR program per Schedule EAPR Sec II: (A) total gross household income conforms to Income Guidelines (typically 0-200% Federal Poverty Level — application-based determination); (B) customer is not claimed as a dependent on another person's tax return; (C) service address on application is the customer's primary residence. Stacks additively with MED.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:eapr-2023-09-22-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "smud:eapr-2023-09-22-bn-residential-and-enrolled",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
               },
-              {
-                "@type": "urpx:ComparisonNode",
-                "@id": "smud:eapr-2023-09-22-cn-program-enrollment",
-                "urpx:operator": {"@id": "urpx:equalsOperator"},
-                "urpx:leftOperand": {
-                  "@type": "urpx:CustomOperandNode",
-                  "urpx:customConditionProperty": "Program Enrollment"
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:eapr-2023-09-22-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
                 },
-                "urpx:rightOperand": {
-                  "@type": "urpx:CustomOperandNode",
-                  "urpx:stringValue": "Energy Assistance Program (EAPR)"
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:eapr-2023-09-22-cn-program-enrollment",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Program Enrollment"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "Energy Assistance Program (EAPR)"
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         }
-      }],
+      ],
       "urpx:hasPlanElements": {
         "@type": "urpx:PlanElements",
-        "urpx:hasMetricInput": [{
-          "@type": "urpx:MetricInput",
-          "@id": "smud:eapr-mi-meter-count",
-          "urpx:name": "Per Meter (for daily $/meter credits)",
-          "urpx:metricInputType": {"@id": "urpx:profileMetricInput"},
-          "urpx:profileMetricProperty": {"@id": "urpx:numberOfMeters"}
-        }],
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:eapr-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:numberOfMeters"
+            }
+          }
+        ],
         "urpx:hasBillingModel": {
           "@type": "urpx:BillingModel",
-          "urpx:hasLedger": [{
-            "@type": "urpx:Ledger",
-            "@id": "smud:eapr-ledger-bsc-discount",
-            "urpx:name": "EAPR System Infrastructure Fixed Charge Discount",
-            "urpx:ledgerType": {"@id": "urpx:bundledLedger"},
-            "urpx:referencesMetricInput": {"@id": "smud:eapr-mi-meter-count"}
-          }],
-          "urpx:hasPriceDefinition": [{
-            "@type": "urpx:PriceDefinition",
-            "@id": "smud:eapr-pd-bsc-discount-2023-09-22",
-            "urpx:name": "EAPR System Infrastructure Fixed Charge Discount ($-10.00/month, modeled as $-0.3289/day = $10/30.4 days average month length)",
-            "urpx:chargeType": {"@id": "urpx:creditMisc"},
-            "urpx:chargeCategory": {"@id": "urpx:discount"},
-            "urpx:billPortion": {"@id": "urpx:bundledPortion"},
-            "urpx:baseQuantity": "1",
-            "urpx:hasCalculationMethod": {
-              "@type": "urpx:CalculationMethod",
-              "urpx:intervalDuration": "P1D"
-            },
-            "urpx:referencesLedger": {"@id": "smud:eapr-ledger-bsc-discount"}
-          }]
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:eapr-ledger-bsc-discount",
+              "urpx:name": "EAPR System Infrastructure Fixed Charge Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:eapr-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:eapr-pd-bsc-discount-2023-09-22",
+              "urpx:name": "EAPR System Infrastructure Fixed Charge Discount ($-10.00/month, modeled as $-0.3289/day = $10/30.4 days average month length)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:eapr-ledger-bsc-discount"
+              }
+            }
+          ]
         }
       },
       "urpx:hasPrices": {
         "@type": "urpx:Prices",
-        "urpx:hasPrice": [{
-          "@type": "urpx:Price",
-          "@id": "smud:eapr-price-bsc-discount-2023-09-22",
-          "urpx:referencesPriceDefinition": {"@id": "smud:eapr-pd-bsc-discount-2023-09-22"},
-          "urpx:startDate": "2023-09-22",
-          "urpx:name": "EAPR BSC Discount Credit",
-          "urpx:unitPrice": "-0.3289"
-        }]
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:eapr-price-bsc-discount-2023-09-22",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:eapr-pd-bsc-discount-2023-09-22"
+            },
+            "urpx:startDate": "2023-09-22",
+            "urpx:name": "EAPR BSC Discount Credit",
+            "urpx:unitPrice": "-0.3289"
+          }
+        ]
       }
     }
   }
