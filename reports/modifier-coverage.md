@@ -17,8 +17,8 @@ Status glyphs:
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
 - Applicable-modifier slots across all bases: **147**
   - present and complete: 36
-  - present but incomplete: 55
-  - missing: 56
+  - present but incomplete: 67
+  - missing: 44
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -36,9 +36,7 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `pge:care` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
 | `pge:fera` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
 | `pge:medical-baseline` | 7 | `e-1/versions/2026-03-01`, `e-elec/versions/2026-01-01`, `e-elec/versions/2026-03-27`, `e-tou-c/versions/2026-03-01`, `e-tou-c/versions/2026-03-27`, `e-tou-d/versions/2026-03-27`, `ev2/versions/2026-03-27` |
-| `sdge:care` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
 | `sdge:drah` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
-| `sdge:fera` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
 | `sce:hpwh-baseline` | 5 | `tou-d-4-9pm/versions/2025-11-15`, `tou-d-4-9pm/versions/2026-03-20`, `tou-d-5-8pm/versions/2025-11-15`, `tou-d-5-8pm/versions/2026-03-20`, `tou-d-prime/versions/2026-03-20` |
 | `smud:eapr` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:hga` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
@@ -374,25 +372,25 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ✗ missing | — |
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✗ missing | — |
-| `fera` | ✗ missing | — |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 #### `dr-ses` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ✗ missing | — |
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✗ missing | — |
-| `fera` | ✗ missing | — |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 #### `ev-tou-5` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ✗ missing | — |
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✗ missing | — |
-| `fera` | ✗ missing | — |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 #### `tou-dr1` @ 2026-04-01  &nbsp; base: ~
 
@@ -402,25 +400,25 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ✗ missing | — |
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✗ missing | — |
-| `fera` | ✗ missing | — |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 #### `tou-dr2` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ✗ missing | — |
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✗ missing | — |
-| `fera` | ✗ missing | — |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 #### `tou-elec` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ✗ missing | — |
+| `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✗ missing | — |
-| `fera` | ✗ missing | — |
+| `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
 
 ### SMUD
 
