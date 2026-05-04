@@ -1,11 +1,49 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://urpx.org/tariffs/schema/tariff-manifest.schema.json",
+  "$id": "urn:grid-coordination:urpx-tariffs:schema:tariff-manifest:v1",
   "title": "URPX Tariff Filing Manifest",
-  "description": "Per-filing manifest accompanying each URPX rate-plan JSON-LD in the tariffs corpus. Captures provenance, extraction, validation, and review metadata that does not belong inside the URPX serialization itself.",
+  "description": "Per-filing manifest accompanying each URPX rate-plan JSON-LD in the tariffs corpus. Captures provenance, extraction, validation, and review metadata that does not belong inside the URPX serialization itself. The [source] block accepts two shapes: (a) single-source — flat fields directly under [source] (the common case, where one PDF is the source of the entire filing); (b) multi-source — an optional landing_page string plus one or more named sub-tables under [source.<name>], each carrying the same per-document fields. Multi-source is for self-contained @graph filings that reference multiple source documents (e.g. a base RatePlan plus several modifier RatePlanModifierVersions, each with its own published PDF).",
   "type": "object",
   "required": ["utility", "schedule", "effective_date", "source"],
   "additionalProperties": false,
+  "$defs": {
+    "sourceDocument": {
+      "type": "object",
+      "required": ["url", "sha256", "retrieved_on"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string", "format": "uri", "description": "Canonical URL of the source document." },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "retrieved_on": { "type": "string", "format": "date" },
+        "media_type": { "type": "string", "default": "application/pdf" },
+        "filing_type": {
+          "type": "string",
+          "enum": ["advice-letter", "application", "resolution", "ordinance", "rate-case-decision", "tariff-schedule", "unknown"]
+        },
+        "filing_id": { "type": "string", "description": "Filing reference number if known (e.g. 'PGE-AL-7234-E')." },
+        "landing_page": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional discovery URL — the utility's tariff-listing or landing page where this document is published. Captures provenance of how the URL was discovered, in addition to the direct URL. Useful when the document URL is opaque/versioned but the landing page is durable."
+        }
+      }
+    },
+    "regulatorRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "type": "string",
+          "description": "Generic regulator-class identifier. The state context is already carried by the directory path (e.g. ca/iou/...), and the regulator's full name (California Public Utilities Commission, etc.) can live in description prose if needed. 'puc' covers state-PUC-equivalents broadly (Public Utilities Commission, Public Service Commission, Department of Public Utilities, Corporation Commission, etc.) without committing to one state's specific name.",
+          "enum": ["puc", "ferc", "city-council", "board", "none", "unknown"]
+        },
+        "docket": {
+          "type": "string",
+          "description": "Filing/docket/ordinance/resolution identifier as published by the regulator (e.g. CPUC 'A.24-09-015'; a city-council ordinance number; etc.)."
+        }
+      }
+    }
+  },
   "properties": {
     "utility": {
       "type": "string",
@@ -24,32 +62,40 @@
     },
 
     "source": {
-      "type": "object",
-      "required": ["url", "sha256", "retrieved_on"],
-      "additionalProperties": false,
-      "properties": {
-        "url": { "type": "string", "format": "uri", "description": "Canonical URL of the source document." },
-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
-        "retrieved_on": { "type": "string", "format": "date" },
-        "media_type": { "type": "string", "default": "application/pdf" },
-        "filing_type": {
-          "type": "string",
-          "enum": ["advice-letter", "application", "resolution", "ordinance", "rate-case-decision", "unknown"]
-        },
-        "filing_id": { "type": "string", "description": "Filing reference number if known (e.g. 'PGE-AL-7234-E')." }
-      }
+      "description": "Either a single sourceDocument (single-source filing) or an object with optional landing_page plus one or more named sourceDocument sub-tables (multi-source filing).",
+      "oneOf": [
+        { "$ref": "#/$defs/sourceDocument" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "landing_page": {
+              "type": "string",
+              "format": "uri",
+              "description": "Optional canonical landing page where the utility lists its tariffs (useful when the source PDFs themselves come from per-document URLs but the discovery point is a single page)."
+            }
+          },
+          "patternProperties": {
+            "^(?!landing_page$)[a-z][a-z0-9_]*$": { "$ref": "#/$defs/sourceDocument" }
+          }
+        }
+      ]
     },
 
     "regulator": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "authority": {
-          "type": "string",
-          "enum": ["cpuc", "ferc", "city-council", "board", "none", "unknown"]
-        },
-        "docket": { "type": "string" }
-      }
+      "description": "Either a single regulatorRecord (single-regulator case — applies to the whole filing) or an object with one or more named regulatorRecord sub-tables paralleling [source.<name>] (multi-source filing case where each source document was filed separately with the regulator under its own docket).",
+      "oneOf": [
+        { "$ref": "#/$defs/regulatorRecord" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*$": { "$ref": "#/$defs/regulatorRecord" }
+          }
+        }
+      ]
     },
 
     "extraction": {
@@ -58,7 +104,8 @@
       "properties": {
         "tool": { "type": "string", "description": "e.g. 'mineru', 'manual', 'pdfplumber'." },
         "tool_version": { "type": "string" },
-        "extracted_on": { "type": "string", "format": "date" }
+        "extracted_on": { "type": "string", "format": "date" },
+        "notes": { "type": "string", "description": "Free-text per-filing extraction notes. Often a multi-line heredoc capturing source-page mapping, modeling structure, deferrals (until the [modeling] block was introduced), or quirks of the source PDF." }
       }
     },
 
@@ -70,6 +117,28 @@
         "validator": { "type": "string", "description": "e.g. 'clj-urpx'." },
         "validator_ver": { "type": "string" },
         "validated_on": { "type": "string", "format": "date" }
+      }
+    },
+
+    "modeling": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Modeling-completeness metadata. Captures whether this filing's JSON-LD fully captures its source PDF (within-filing axis) and, on base RatePlan filings, the universe of legally-applicable RatePlanModifiers regardless of whether each has been modeled yet (corpus-coverage axis). Distinct from [validation] (SHACL correctness) and [review] (human-QA pipeline).",
+      "properties": {
+        "complete": {
+          "type": "boolean",
+          "description": "True iff this filing's JSON-LD fully captures its source document(s) — no parts of the published tariff were intentionally deferred. Within-filing only; says nothing about whether sibling RatePlanModifier filings exist for this schedule. See applicable_modifiers + the corpus-level coverage report for the cross-filing axis."
+        },
+        "deferrals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Structured list of parts of the source document(s) that were intentionally not modeled in this JSON-LD. MUST be empty when complete = true. Each entry is a short free-text identifier referencing the source structure (e.g. 'Section C.2 buyback', 'Medical Baseline allowance per Preliminary Statement Part H'). Replaces the historical convention of burying '(modeling deferred — …)' parentheticals in rdfs:comment prose."
+        },
+        "applicable_modifiers": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "description": "Only meaningful on base RatePlan filings (omit on RatePlanModifier filings). The full universe of RatePlanModifiers that legally attach to this schedule per the source PDF, INCLUDING modifiers not yet modeled in the corpus — that's the point: it's what tells the modifier-coverage lint what is missing. Each entry is a short identifier matching the directory name a corresponding RatePlanModifier filing would use under the same utility (e.g. 'care', 'fera', 'medical-baseline')."
+        }
       }
     },
 

@@ -2,17 +2,16 @@
 
 ## Files
 
+- `pge_e-1_2026-03-01.pdf` — source PDF (sha256 in `tariff.toml`)
 - `tariff.toml` — provenance, source URL + sha256, regulator, validation status
 - `rate-plan_pge_e-1_2026-03-01.jsonld` — URPX serialization (single self-contained file with `@graph`)
 
-The source PDF is **not** committed. Retrieve from the URL in `tariff.toml` and verify against the recorded sha256.
-
 ## What's in the JSON-LD
 
-The `@graph` contains four top-level resources:
+The `@graph` contains:
 
-1. `pge:program-care` — `urpx:ProgramEnrollment` for CARE
-2. `pge:program-fera` — `urpx:ProgramEnrollment` for FERA
+1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
+2. `pge:al-7846-e` — `urpx:TariffPublication` for PG&E Advice Letter 7846-E
 3. `pge:e-1` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates, conservation incentive adjustment by tier, and base services charge
 4. `pge:e-1-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) for the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked via `urpx:applicableToRatePlan`
 
@@ -34,7 +33,7 @@ All other "all usage" components (transmission, public-purpose, wildfire-fund, e
 
 The tier *boundaries* (in absolute kWh/day) come from a 10-territory × 2-code × 2-season matrix. This file models **one cell** — Territory P, Code B residential, summer 13.5 kWh/day / winter 11.0 kWh/day. The file is correct for Territory-P/Code-B customers and incorrect (wrong tier boundaries) for everyone else.
 
-Full-matrix expansion is blocked on upstream [urpx-org/urpx#11](https://github.com/urpx-org/urpx/issues/11) (parameterized matrix-valued tier bounds). Tracked locally in **URPXT-xqu**, under umbrella **URPXT-cww**.
+Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-tariffs/issues/18), blocked on upstream [urpx-org/urpx discussion #31](https://github.com/urpx-org/urpx/discussions/31) — the existing income-tier `ProfileAlternatives` collides with the new baseline-territory-code one at this `PlanElements` scope (`hasProfileAlternatives` is `sh:maxCount 1`).
 
 ### Code H (all-electric), Code M / S (medical) — not modeled
 
@@ -47,11 +46,12 @@ The tariff publishes additional baseline allowances for all-electric heating cus
 ## Validation
 
 ```
+# Run from the urpx-tariffs project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \
-        rate-plan_pge_e-1_2026-03-01.jsonld
+        ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld
 # Conforms: True
 ```
 
-clj-urpx (`../clj-urpx` ≥ 0.3.0) loads, coerces, and resolves prices correctly. The 6 CIA tier-Prices are all surfaced under the `Conservation Incentive Adjustment` ledger so the caller can pick the active one based on cumulative billing-period usage.
+This rate plan is serialized against URPX **v0.2.0** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).

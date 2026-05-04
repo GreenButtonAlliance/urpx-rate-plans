@@ -1,0 +1,3234 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "pge": "https://example.com/pge/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "pge:doc-e-tou-c-baseline-tier-2026-03-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "pge:e-tou-c-baseline-tier",
+    "urpx:name": "E-TOU-C Baseline Credit + Conservation Incentive Adjustment",
+    "urpx:modifierUniqueIdentifier": "E-TOU-C-BASELINE-TIER",
+    "urpx:initialEffectiveDate": "2026-03-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "pge:e-tou-c-baseline-tier-2026-03-01",
+      "urpx:version": "2026-03-01",
+      "urpx:modifierVersionNumber": "2026-03-01",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Baseline Credit and Conservation Incentive Adjustment for PG&E Schedule E-TOU-C, modeled per the territory × code × season baseline allowance matrix (10 territories × 2 codes × 2 seasons = 40 cells). The Baseline Credit (-$0.08140/kWh) applies to Tier 1 (within baseline) usage only; the CIA applies to all usage with two values: -$0.02786/kWh on Tier 1 and +$0.05354/kWh on Tier 2 + Tier 2 Continued (over baseline). Tier boundaries are baseline-allowance-keyed and vary per cell; the Tier 2 cap is 4× the Tier 1 baseline per Special Condition 1. Cell selection is structural via urpx:ProfileAlternatives (territory + code dimensions); each urpx:ServiceTiers container references the matching urpx:ProfileAlternative. Code M / Code S medical baseline allowances are NOT modeled here — they require Rule 19 + Preliminary Statement Part A extraction (tracked separately as URPXT-qwr in the project tracker).",
+      "urpx:effectiveDateTime": "2026-03-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-pge",
+        "urpx:legalName": "Pacific Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "pge:e-tou-c"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELEC_SCHEDS_E-TOU-C.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf",
+        "urpx:dateRetrieved": "2026-04-28",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        }
+      },
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "pge:mi-energy-baseline",
+            "urpx:name": "Energy consumption (kWh) — baseline-tier reference metric",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "pge:ms-energy-baseline",
+              "urpx:commodity": {
+                "@id": "urpx:electricity"
+              },
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pge:ledger-baseline-credit",
+              "urpx:name": "Baseline Credit",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pge:ledger-cia",
+              "urpx:name": "Conservation Incentive Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pge:pd-baseline-credit",
+              "urpx:name": "Baseline Credit",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:ledger-baseline-credit"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pge:pd-cia",
+              "urpx:name": "Conservation Incentive Adjustment",
+              "urpx:chargeType": {
+                "@id": "urpx:conservationCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:ledger-cia"
+              }
+            }
+          ],
+          "urpx:hasServiceTiers": [
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-p-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-p-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory P, Code B: 0–13.5 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "13.5",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory P, Code B: 13.5–54.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "13.5",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "54.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory P, Code B: > 54.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "54.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory P, Code B: 0–11.0 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "11.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory P, Code B: 11.0–44.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "11.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "44.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory P, Code B: > 44.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "44.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-p-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-p-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory P, Code H: 0–15.2 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "15.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory P, Code H: 15.2–60.8 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "15.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "60.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory P, Code H: > 60.8 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "60.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory P, Code H: 0–26.0 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "26.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory P, Code H: 26.0–104.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "26.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "104.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-p-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory P, Code H: > 104.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "104.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-q-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-q-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory Q, Code B: 0–9.8 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "9.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory Q, Code B: 9.8–39.2 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "9.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "39.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory Q, Code B: > 39.2 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "39.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory Q, Code B: 0–11.0 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "11.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory Q, Code B: 11.0–44.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "11.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "44.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory Q, Code B: > 44.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "44.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-q-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-q-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory Q, Code H: 0–8.5 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "8.5",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory Q, Code H: 8.5–34.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "8.5",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "34.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory Q, Code H: > 34.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "34.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory Q, Code H: 0–26.0 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "26.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory Q, Code H: 26.0–104.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "26.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "104.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-q-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory Q, Code H: > 104.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "104.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-r-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-r-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory R, Code B: 0–17.7 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "17.7",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory R, Code B: 17.7–70.8 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "17.7",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "70.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory R, Code B: > 70.8 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "70.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory R, Code B: 0–10.4 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "10.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory R, Code B: 10.4–41.6 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "10.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "41.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory R, Code B: > 41.6 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "41.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-r-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-r-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory R, Code H: 0–19.9 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "19.9",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory R, Code H: 19.9–79.6 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "19.9",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "79.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory R, Code H: > 79.6 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "79.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory R, Code H: 0–26.7 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "26.7",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory R, Code H: 26.7–106.8 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "26.7",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "106.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-r-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory R, Code H: > 106.8 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "106.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-s-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-s-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory S, Code B: 0–15.0 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "15.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory S, Code B: 15.0–60.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "15.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "60.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory S, Code B: > 60.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "60.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory S, Code B: 0–10.2 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "10.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory S, Code B: 10.2–40.8 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "10.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "40.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory S, Code B: > 40.8 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "40.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-s-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-s-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory S, Code H: 0–17.8 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "17.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory S, Code H: 17.8–71.2 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "17.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "71.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory S, Code H: > 71.2 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "71.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory S, Code H: 0–23.7 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "23.7",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory S, Code H: 23.7–94.8 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "23.7",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "94.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-s-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory S, Code H: > 94.8 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "94.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-t-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-t-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory T, Code B: 0–6.5 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "6.5",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory T, Code B: 6.5–26.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "6.5",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "26.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory T, Code B: > 26.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "26.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory T, Code B: 0–7.5 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "7.5",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory T, Code B: 7.5–30.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "7.5",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "30.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory T, Code B: > 30.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "30.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-t-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-t-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory T, Code H: 0–7.1 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "7.1",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory T, Code H: 7.1–28.4 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "7.1",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "28.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory T, Code H: > 28.4 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "28.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory T, Code H: 0–12.9 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "12.9",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory T, Code H: 12.9–51.6 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "12.9",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "51.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-t-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory T, Code H: > 51.6 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "51.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-v-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-v-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory V, Code B: 0–7.1 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "7.1",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory V, Code B: 7.1–28.4 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "7.1",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "28.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory V, Code B: > 28.4 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "28.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory V, Code B: 0–8.1 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "8.1",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory V, Code B: 8.1–32.4 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "8.1",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "32.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory V, Code B: > 32.4 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "32.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-v-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-v-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory V, Code H: 0–10.4 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "10.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory V, Code H: 10.4–41.6 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "10.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "41.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory V, Code H: > 41.6 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "41.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory V, Code H: 0–19.1 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "19.1",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory V, Code H: 19.1–76.4 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "19.1",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "76.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-v-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory V, Code H: > 76.4 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "76.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-w-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-w-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory W, Code B: 0–19.2 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "19.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory W, Code B: 19.2–76.8 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "19.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "76.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory W, Code B: > 76.8 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "76.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory W, Code B: 0–9.8 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "9.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory W, Code B: 9.8–39.2 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "9.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "39.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory W, Code B: > 39.2 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "39.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-w-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-w-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory W, Code H: 0–22.4 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "22.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory W, Code H: 22.4–89.6 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "22.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "89.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory W, Code H: > 89.6 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "89.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory W, Code H: 0–19.0 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "19.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory W, Code H: 19.0–76.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "19.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "76.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-w-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory W, Code H: > 76.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "76.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-x-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-x-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory X, Code B: 0–9.8 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "9.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory X, Code B: 9.8–39.2 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "9.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "39.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory X, Code B: > 39.2 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "39.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory X, Code B: 0–9.7 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "9.7",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory X, Code B: 9.7–38.8 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "9.7",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "38.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory X, Code B: > 38.8 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "38.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-x-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-x-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory X, Code H: 0–8.5 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "8.5",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory X, Code H: 8.5–34.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "8.5",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "34.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory X, Code H: > 34.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "34.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory X, Code H: 0–14.6 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "14.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory X, Code H: 14.6–58.4 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "14.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "58.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-x-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory X, Code H: > 58.4 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "58.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-y-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-y-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory Y, Code B: 0–10.5 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "10.5",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory Y, Code B: 10.5–42.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "10.5",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "42.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory Y, Code B: > 42.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "42.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory Y, Code B: 0–11.1 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "11.1",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory Y, Code B: 11.1–44.4 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "11.1",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "44.4",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory Y, Code B: > 44.4 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "44.4",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-y-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-y-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory Y, Code H: 0–12.0 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "12.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory Y, Code H: 12.0–48.0 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "12.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "48.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory Y, Code H: > 48.0 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "48.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory Y, Code H: 0–24.0 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "24.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory Y, Code H: 24.0–96.0 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "24.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "96.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-y-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory Y, Code H: > 96.0 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "96.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-z-b",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-z-b"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-b-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory Z, Code B: 0–5.9 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "5.9",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-b-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory Z, Code B: 5.9–23.6 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "5.9",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "23.6",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-b-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory Z, Code B: > 23.6 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "23.6",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-b-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory Z, Code B: 0–7.8 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "7.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-b-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory Z, Code B: 7.8–31.2 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "7.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "31.2",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-b-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory Z, Code B: > 31.2 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "31.2",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "pge:tiers-baseline-z-h",
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy-baseline"
+              },
+              "urpx:referencesProfileAlternative": {
+                "@id": "pge:pa-baseline-z-h"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-h-summer-t1",
+                  "urpx:name": "Summer Tier 1 — within baseline (Territory Z, Code H: 0–6.7 kWh/day)",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "6.7",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-h-summer-t2",
+                  "urpx:name": "Summer Tier 2 — 101–400% of baseline (Territory Z, Code H: 6.7–26.8 kWh/day)",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "6.7",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "26.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-h-summer-t2c",
+                  "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory Z, Code H: > 26.8 kWh/day)",
+                  "urpx:serviceTierNumber": 3,
+                  "urpx:lowerBound": "26.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-h-winter-t1",
+                  "urpx:name": "Winter Tier 1 — within baseline (Territory Z, Code H: 0–15.7 kWh/day)",
+                  "urpx:serviceTierNumber": 4,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "15.7",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-h-winter-t2",
+                  "urpx:name": "Winter Tier 2 — 101–400% of baseline (Territory Z, Code H: 15.7–62.8 kWh/day)",
+                  "urpx:serviceTierNumber": 5,
+                  "urpx:lowerBound": "15.7",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "62.8",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "pge:tier-z-h-winter-t2c",
+                  "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory Z, Code H: > 62.8 kWh/day)",
+                  "urpx:serviceTierNumber": 6,
+                  "urpx:lowerBound": "62.8",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "pge:pa-baseline-territory-code",
+          "urpx:name": "Baseline territory × code (PG&E residential baseline allowance dimensions)",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "urpx:dimensionDisplayName": "Baseline Territory",
+                "urpx:dimensionProperty": "https://example.com/pge/properties/baselineTerritory",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "P",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "Q",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "R",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "S",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "T",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "V",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "W",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "X",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "Y",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "Z",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "urpx:AlternativeDimension",
+                "urpx:dimensionDisplayName": "Baseline Code",
+                "urpx:dimensionProperty": "https://example.com/pge/properties/baselineCode",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "B",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "H",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-p-b",
+              "urpx:name": "Baseline territory P, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-p-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-p-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-p-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "P"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-p-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-p-h",
+              "urpx:name": "Baseline territory P, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-p-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-p-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-p-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "P"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-p-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-q-b",
+              "urpx:name": "Baseline territory Q, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-q-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-q-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-q-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Q"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-q-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-q-h",
+              "urpx:name": "Baseline territory Q, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-q-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-q-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-q-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Q"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-q-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-r-b",
+              "urpx:name": "Baseline territory R, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-r-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-r-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-r-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "R"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-r-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-r-h",
+              "urpx:name": "Baseline territory R, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-r-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-r-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-r-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "R"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-r-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-s-b",
+              "urpx:name": "Baseline territory S, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-s-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-s-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-s-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "S"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-s-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-s-h",
+              "urpx:name": "Baseline territory S, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-s-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-s-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-s-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "S"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-s-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-t-b",
+              "urpx:name": "Baseline territory T, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-t-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-t-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-t-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "T"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-t-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-t-h",
+              "urpx:name": "Baseline territory T, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-t-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-t-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-t-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "T"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-t-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-v-b",
+              "urpx:name": "Baseline territory V, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-v-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-v-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-v-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "V"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-v-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-v-h",
+              "urpx:name": "Baseline territory V, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-v-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-v-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-v-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "V"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-v-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-w-b",
+              "urpx:name": "Baseline territory W, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-w-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-w-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-w-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "W"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-w-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-w-h",
+              "urpx:name": "Baseline territory W, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-w-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-w-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-w-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "W"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-w-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-x-b",
+              "urpx:name": "Baseline territory X, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-x-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-x-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-x-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "X"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-x-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-x-h",
+              "urpx:name": "Baseline territory X, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-x-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-x-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-x-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "X"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-x-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-y-b",
+              "urpx:name": "Baseline territory Y, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-y-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-y-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-y-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Y"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-y-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-y-h",
+              "urpx:name": "Baseline territory Y, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-y-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-y-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-y-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Y"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-y-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-z-b",
+              "urpx:name": "Baseline territory Z, Code B",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-z-b",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-z-b",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-z-b-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Z"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-z-b-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "B"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "pge:pa-baseline-z-h",
+              "urpx:name": "Baseline territory Z, Code H",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cx-pa-baseline-z-h",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:bn-pa-baseline-z-h",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-z-h-territory",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineTerritory"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Z"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:cn-pa-baseline-z-h-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "H"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "pge:prices-baseline-tier",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-baseline-credit-summer-t1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-baseline-credit"
+            },
+            "urpx:name": "Baseline Credit — Summer Tier 1 (within baseline)",
+            "urpx:unitPrice": "-0.08140",
+            "urpx:serviceTierNumber": 1
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-baseline-credit-winter-t1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-baseline-credit"
+            },
+            "urpx:name": "Baseline Credit — Winter Tier 1 (within baseline)",
+            "urpx:unitPrice": "-0.08140",
+            "urpx:serviceTierNumber": 4
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-cia-summer-t1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-cia"
+            },
+            "urpx:name": "CIA — Summer Tier 1 (within baseline)",
+            "urpx:unitPrice": "-0.02786",
+            "urpx:serviceTierNumber": 1
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-cia-summer-t2",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-cia"
+            },
+            "urpx:name": "CIA — Summer Tier 2 (101–400% of baseline)",
+            "urpx:unitPrice": "0.05354",
+            "urpx:serviceTierNumber": 2
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-cia-summer-t2c",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-cia"
+            },
+            "urpx:name": "CIA — Summer Tier 2 Continued (over 400% of baseline)",
+            "urpx:unitPrice": "0.05354",
+            "urpx:serviceTierNumber": 3
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-cia-winter-t1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-cia"
+            },
+            "urpx:name": "CIA — Winter Tier 1 (within baseline)",
+            "urpx:unitPrice": "-0.02786",
+            "urpx:serviceTierNumber": 4
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-cia-winter-t2",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-cia"
+            },
+            "urpx:name": "CIA — Winter Tier 2 (101–400% of baseline)",
+            "urpx:unitPrice": "0.05354",
+            "urpx:serviceTierNumber": 5
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:price-cia-winter-t2c",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:pd-cia"
+            },
+            "urpx:name": "CIA — Winter Tier 2 Continued (over 400% of baseline)",
+            "urpx:unitPrice": "0.05354",
+            "urpx:serviceTierNumber": 6
+          }
+        ]
+      }
+    }
+  }
+}

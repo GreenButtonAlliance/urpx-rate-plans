@@ -1,0 +1,60 @@
+version = 1
+
+# REUSE.toml — declarative license/copyright annotations for urpx-tariffs.
+#
+# Most files (JSON-LD rate-plan serializations, manifests, schemas, prose
+# documentation, code) are CDLA-Permissive-2.0 with copyright held by
+# Clark Communications Corporation.
+#
+# Two exceptions:
+#   1. Committed PDFs — public regulatory documents, LicenseRef-PublicRecord
+#      with the issuing utility named for attribution.
+#   2. ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_*.jsonld — derivative
+#      of URPX-team-authored work (Flux Tailor LLC originated the v0.1.x
+#      fixture; Clark Communications Corporation authored the v0.2.0
+#      migration in this repo). Both copyrights asserted; license is
+#      CDLA-Permissive-2.0, matching the upstream urpx-org/urpx datasets.
+#
+# Annotation order: catch-all (aggregate) first, then PDF + e-elec
+# overrides. Per the REUSE 3.3 spec, `override` annotations replace
+# any prior aggregates for matching files.
+
+# ---------------------------------------------------------------------------
+# Catch-all — Clark Communications Corporation, CDLA-Permissive-2.0.
+# Covers: rate-plan JSON-LDs, tariff.toml + utility.toml manifests,
+# JSON Schema files, Markdown docs, Clojure code, deps.edn, .gitignore.
+# ---------------------------------------------------------------------------
+[[annotations]]
+path = ["**/*.jsonld", "**/*.toml", "**/*.json", "**/*.md", "**/*.clj", "**/*.edn", "**/*.py", "**/.gitignore"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Clark Communications Corporation"
+SPDX-License-Identifier = "CDLA-Permissive-2.0"
+
+# ---------------------------------------------------------------------------
+# PG&E-published regulatory PDFs — public record, no copyright attaches.
+# ---------------------------------------------------------------------------
+[[annotations]]
+path = "ca/iou/pge/**/*.pdf"
+precedence = "override"
+SPDX-FileCopyrightText = "Pacific Gas and Electric Company"
+SPDX-License-Identifier = "LicenseRef-PublicRecord"
+
+# ---------------------------------------------------------------------------
+# CPAU-published regulatory PDFs — public record, no copyright attaches.
+# ---------------------------------------------------------------------------
+[[annotations]]
+path = "ca/pou/cpau/**/*.pdf"
+precedence = "override"
+SPDX-FileCopyrightText = "City of Palo Alto"
+SPDX-License-Identifier = "LicenseRef-PublicRecord"
+
+# ---------------------------------------------------------------------------
+# E-ELEC 2026-01-01 rate-plan JSON-LD — derived from URPX-team-authored
+# fixture (Flux Tailor LLC), v0.2.0 migration by Clark Communications
+# Corporation. Both copyrights asserted via array form.
+# ---------------------------------------------------------------------------
+[[annotations]]
+path = "ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld"
+precedence = "override"
+SPDX-FileCopyrightText = ["Flux Tailor LLC", "2026 Clark Communications Corporation"]
+SPDX-License-Identifier = "CDLA-Permissive-2.0"

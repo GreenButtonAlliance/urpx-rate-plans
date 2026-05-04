@@ -1,0 +1,1342 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "cpau": "https://example.com/cpau/",
+    "org": "https://example.com/organizations/"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:RatePlan",
+      "@id": "cpau:e-1",
+      "urpx:name": "Residential Electric Service",
+      "urpx:initialEffectiveDate": "2025-07-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanVersion": {
+        "@type": "urpx:RatePlanVersion",
+        "@id": "cpau:e-1-2025-07-01",
+        "urpx:version": "2025-07-01",
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:description": "Applies to all single-family residential electric service supplied through one meter at one point of delivery for domestic purposes in a single-family dwelling unit within the City of Palo Alto electric service area.",
+        "urpx:effectiveDateTime": "2025-07-01T00:00:00",
+        "urpx:priceCurrency": "USD",
+        "urpx:commodity": {
+          "@id": "urpx:electricity"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "urpx:url": "file://./assets/CPAU_E-1_2025-07-01.pdf",
+          "urpx:fileName": "CPAU_E-1_2025-07-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          }
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:er-residential-single-family",
+            "urpx:name": "Residential single-family separately-metered service",
+            "urpx:description": "Applies to all single-family residential electric service supplied through one meter at one point of delivery for domestic purposes in a single-family dwelling unit within the City of Palo Alto electric service area.",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:cx-residential-single-family",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:bn-residential-single-family-and",
+                "urpx:operator": {
+                  "@id": "urpx:andOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:cn-residential",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:conditionProperty": {
+                        "@id": "urpx:hasCustomerKind"
+                      }
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:referencesValue": {
+                        "@id": "urpx:residentialKind"
+                      }
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:cn-single-family",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "dwellingType"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Single-family dwelling"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:cn-separately-metered",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "metering"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Separately metered"
+                    }
+                  }
+                ],
+                "urpx:logicExpression": "hasCustomerKind = residentialKind AND dwellingType = 'Single-family dwelling' AND metering = 'Separately metered'"
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:mi-energy",
+              "urpx:name": "Energy Consumption",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:ms-energy",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                }
+              }
+            },
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:mi-meter-count",
+              "urpx:name": "Meter Count",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "urpx:hasServiceTiers": {
+              "@type": "urpx:ServiceTiers",
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:mi-energy"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "cpau:tier-1",
+                  "urpx:name": "Tier 1 — Baseline",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "15",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "cpau:tier-2",
+                  "urpx:name": "Tier 2 — Over Baseline",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:lowerBound": "15",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "999999",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              ]
+            },
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:ledger-commodity",
+                "urpx:name": "Commodity (Supply)",
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:ledger-distribution",
+                "urpx:name": "Distribution (Delivery)",
+                "urpx:ledgerType": {
+                  "@id": "urpx:deliveryLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:ledger-public-benefits",
+                "urpx:name": "Public Benefits",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:mi-energy"
+                }
+              },
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:ledger-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:mi-meter-count"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:pd-commodity-tier1",
+                "urpx:name": "Commodity Tier 1",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:serviceTierNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:ledger-commodity"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:pd-commodity-tier2",
+                "urpx:name": "Commodity Tier 2",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:serviceTierNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:ledger-commodity"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:pd-distribution-tier1",
+                "urpx:name": "Distribution Tier 1",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:serviceTierNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:ledger-distribution"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:pd-distribution-tier2",
+                "urpx:name": "Distribution Tier 2",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:serviceTierNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "cpau:ledger-distribution"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:pd-public-benefits",
+                "urpx:name": "Public Benefits",
+                "urpx:chargeType": {
+                  "@id": "urpx:publicBenefits"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:regulatory"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:ledger-public-benefits"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:pd-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:minimumCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:serviceCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "urpx:intervalDuration": "P1M"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:ledger-customer-charge"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "urpx:hasPrice": [
+            {
+              "@type": "urpx:Price",
+              "@id": "cpau:price-customer-charge",
+              "urpx:referencesPriceDefinition": {
+                "@id": "cpau:pd-customer-charge"
+              },
+              "urpx:startDate": "2025-07-01",
+              "urpx:name": "Customer Charge",
+              "urpx:unitPrice": "5.15"
+            },
+            {
+              "@type": "urpx:Price",
+              "@id": "cpau:price-public-benefits",
+              "urpx:referencesPriceDefinition": {
+                "@id": "cpau:pd-public-benefits"
+              },
+              "urpx:startDate": "2025-07-01",
+              "urpx:name": "Public Benefits",
+              "urpx:unitPrice": "0.00604"
+            }
+          ],
+          "urpx:hasPriceSet": [
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:ps-commodity",
+              "urpx:name": "Commodity Charges",
+              "urpx:startDate": "2025-07-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:price-commodity-tier1",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:pd-commodity-tier1"
+                  },
+                  "urpx:name": "Commodity Tier 1",
+                  "urpx:unitPrice": "0.10373"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:price-commodity-tier2",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:pd-commodity-tier2"
+                  },
+                  "urpx:name": "Commodity Tier 2",
+                  "urpx:unitPrice": "0.13372"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:ps-distribution",
+              "urpx:name": "Distribution Charges",
+              "urpx:startDate": "2025-07-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:price-distribution-tier1",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:pd-distribution-tier1"
+                  },
+                  "urpx:name": "Distribution Tier 1",
+                  "urpx:unitPrice": "0.09593"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:price-distribution-tier2",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:pd-distribution-tier2"
+                  },
+                  "urpx:name": "Distribution Tier 2",
+                  "urpx:unitPrice": "0.08968"
+                }
+              ]
+            }
+          ]
+        },
+        "urpx:hasModifierOptions": [
+          {
+            "@id": "cpau:e-hra"
+          },
+          {
+            "@id": "cpau:e-eec-1"
+          },
+          {
+            "@id": "cpau:e-nse-1"
+          }
+        ],
+        "urpx:hasModifierVersionOptions": [
+          {
+            "@id": "cpau:e-hra-2023-01-01"
+          },
+          {
+            "@id": "cpau:e-eec-1-2025-09-01"
+          },
+          {
+            "@id": "cpau:e-nse-1-2025-09-01"
+          }
+        ]
+      },
+      "urpx:ratePlanUniqueIdentifier": "E-1"
+    },
+    {
+      "@type": "urpx:RatePlanModifier",
+      "@id": "cpau:e-hra",
+      "urpx:name": "Electric Hydro Rate Adjuster",
+      "urpx:initialEffectiveDate": "2023-01-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanModifierVersion": {
+        "@type": "urpx:RatePlanModifierVersion",
+        "@id": "cpau:e-hra-2023-01-01",
+        "urpx:version": "2023-01-01",
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:modifierVersionNumber": "2023-01-01",
+        "urpx:description": "A surcharge or discount applied to all CPAU electric rate schedules based on the strength of the City's hydrological generation portfolio. Applied to manage volatility in energy costs and the impact on customer rates. The adjustment value is determined annually in May (or when conditions warrant) by a 4x4 matrix of Hydro Stabilization Reserve level vs. projected hydro generation, and falls within the range ($0.066) credit to $0.048 surcharge per kWh. Applied upon Council approval.",
+        "urpx:effectiveDateTime": "2023-01-01T00:00:00",
+        "urpx:priceCurrency": "USD",
+        "urpx:commodity": {
+          "@id": "urpx:electricity"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:applicableToRatePlan": {
+          "@id": "cpau:e-1"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "urpx:url": "file://./assets/CPAU_E-HRA_2023-01-01.pdf",
+          "urpx:fileName": "CPAU_E-HRA_2023-01-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          }
+        },
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:hra-mi-energy",
+              "urpx:name": "Energy Consumption",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:hra-ms-energy",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:forward"
+                }
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:hra-ledger-adjustment",
+                "urpx:name": "Hydro Rate Adjustment",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:hra-mi-energy"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:hra-pd-adjustment",
+                "urpx:name": "Hydro Rate Adjustment",
+                "urpx:description": "Surcharge or discount per kWh determined by a matrix of Hydro Stabilization Reserve level (4 rows) vs. projected hydro generation relative to average (4 columns). Value ranges from ($0.066) credit to $0.048 surcharge. One value from the matrix is in effect at any given time, set annually by staff and approved by Council.",
+                "urpx:chargeType": {
+                  "@id": "urpx:adjustmentPowerCost"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:hra-ledger-adjustment"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "urpx:hasPriceSet": [
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:hra-ps-reserve-above-max",
+              "urpx:name": "Hydro Adjustment — Reserve Above Maximum",
+              "urpx:startDate": "2023-01-01",
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "cpau:hra-ps-reserve-above-max-cx",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:hra-cond-reserve-above-max",
+                    "urpx:operator": {
+                      "@id": "urpx:greaterThanOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Maximum"
+                    }
+                  }
+                }
+              },
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-above-max-gen-lt319",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve Above Max / Generation < 319 GWh",
+                  "urpx:unitPrice": "0.000",
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "urpx:hasConditionExpression": {
+                      "@type": "urpx:ConditionExpression",
+                      "@id": "cpau:hra-price-above-max-gen-lt319-cx",
+                      "urpx:rootNode": {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:hra-price-above-max-gen-lt319-cn",
+                        "urpx:operator": {
+                          "@id": "urpx:lessThanOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "projectedHydroGeneration"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "319 GWh/year"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-above-max-gen-319-480",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve Above Max / Generation 319–480 GWh",
+                  "urpx:unitPrice": "-0.024",
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "urpx:hasConditionExpression": {
+                      "@type": "urpx:ConditionExpression",
+                      "@id": "cpau:hra-price-above-max-gen-319-480-cx",
+                      "urpx:rootNode": {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:hra-price-above-max-gen-319-480-cn",
+                        "urpx:operator": {
+                          "@id": "urpx:betweenOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "projectedHydroGeneration"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "319–480 GWh/year"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-above-max-gen-480-642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve Above Max / Generation 480–642 GWh",
+                  "urpx:unitPrice": "-0.024",
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "urpx:hasConditionExpression": {
+                      "@type": "urpx:ConditionExpression",
+                      "@id": "cpau:hra-price-above-max-gen-480-642-cx",
+                      "urpx:rootNode": {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:hra-price-above-max-gen-480-642-cn",
+                        "urpx:operator": {
+                          "@id": "urpx:betweenOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "projectedHydroGeneration"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "480–642 GWh/year"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-above-max-gen-gt642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve Above Max / Generation > 642 GWh",
+                  "urpx:unitPrice": "-0.066",
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "urpx:hasConditionExpression": {
+                      "@type": "urpx:ConditionExpression",
+                      "@id": "cpau:hra-price-above-max-gen-gt642-cx",
+                      "urpx:rootNode": {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "cpau:hra-price-above-max-gen-gt642-cn",
+                        "urpx:operator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:customConditionProperty": "projectedHydroGeneration"
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:CustomOperandNode",
+                          "urpx:stringValue": "642 GWh/year"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:hra-ps-reserve-75-100",
+              "urpx:name": "Hydro Adjustment — Reserve 75%–100%",
+              "urpx:startDate": "2023-01-01",
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "cpau:hra-ps-reserve-75-100-cx",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:hra-cond-reserve-75-100",
+                    "urpx:operator": {
+                      "@id": "urpx:betweenOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "75%–100%"
+                    }
+                  }
+                }
+              },
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-75-100-gen-lt319",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 75–100% / Generation < 319 GWh",
+                  "urpx:unitPrice": "0.000"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-75-100-gen-319-480",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 75–100% / Generation 319–480 GWh",
+                  "urpx:unitPrice": "0.000"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-75-100-gen-480-642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 75–100% / Generation 480–642 GWh",
+                  "urpx:unitPrice": "-0.024"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-75-100-gen-gt642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 75–100% / Generation > 642 GWh",
+                  "urpx:unitPrice": "-0.048"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:hra-ps-reserve-25-75",
+              "urpx:name": "Hydro Adjustment — Reserve 25%–75%",
+              "urpx:startDate": "2023-01-01",
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "cpau:hra-ps-reserve-25-75-cx",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:hra-cond-reserve-25-75",
+                    "urpx:operator": {
+                      "@id": "urpx:betweenOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "25%–75%"
+                    }
+                  }
+                }
+              },
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-25-75-gen-lt319",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 25–75% / Generation < 319 GWh",
+                  "urpx:unitPrice": "0.000"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-25-75-gen-319-480",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 25–75% / Generation 319–480 GWh",
+                  "urpx:unitPrice": "0.000"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-25-75-gen-480-642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 25–75% / Generation 480–642 GWh",
+                  "urpx:unitPrice": "0.000"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-25-75-gen-gt642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve 25–75% / Generation > 642 GWh",
+                  "urpx:unitPrice": "0.000"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSet",
+              "@id": "cpau:hra-ps-reserve-below-25",
+              "urpx:name": "Hydro Adjustment — Reserve 25% and Below",
+              "urpx:startDate": "2023-01-01",
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "cpau:hra-ps-reserve-below-25-cx",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:hra-cond-reserve-below-25",
+                    "urpx:operator": {
+                      "@id": "urpx:lessThanOrEqualOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "25%"
+                    }
+                  }
+                }
+              },
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-below-25-gen-lt319",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve ≤25% / Generation < 319 GWh",
+                  "urpx:unitPrice": "0.048"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-below-25-gen-319-480",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve ≤25% / Generation 319–480 GWh",
+                  "urpx:unitPrice": "0.024"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-below-25-gen-480-642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve ≤25% / Generation 480–642 GWh",
+                  "urpx:unitPrice": "0.000"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "cpau:hra-price-below-25-gen-gt642",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "cpau:hra-pd-adjustment"
+                  },
+                  "urpx:name": "Reserve ≤25% / Generation > 642 GWh",
+                  "urpx:unitPrice": "0.000"
+                }
+              ]
+            }
+          ]
+        },
+        "urpx:applicableToRatePlanVersion": {
+          "@id": "cpau:e-1-2025-07-01"
+        }
+      },
+      "urpx:modifierUniqueIdentifier": "E-HRA"
+    },
+    {
+      "@type": "urpx:RatePlanModifier",
+      "@id": "cpau:e-eec-1",
+      "urpx:name": "Export Electricity Compensation",
+      "urpx:initialEffectiveDate": "2025-09-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanModifierVersion": {
+        "@type": "urpx:RatePlanModifierVersion",
+        "@id": "cpau:e-eec-1-2025-09-01",
+        "urpx:version": "2025-09-01",
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:modifierVersionNumber": "2025-09-01",
+        "urpx:description": "Provides compensation for electricity exported to the grid by Customer-Generators not eligible for Net Energy Metering or electing this schedule. Applies in conjunction with the customer's otherwise applicable base rate schedule. Not applicable with Time-of-Use schedules. Requires a bidirectional meter.",
+        "urpx:effectiveDateTime": "2025-09-01T00:00:00",
+        "urpx:priceCurrency": "USD",
+        "urpx:commodity": {
+          "@id": "urpx:electricity"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:applicableToRatePlan": {
+          "@id": "cpau:e-1"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "urpx:url": "file://./assets/CPAU_E-EEC-1_2025-09-01.pdf",
+          "urpx:fileName": "CPAU_E-EEC-1_2025-09-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          }
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:er-customer-generator",
+            "urpx:description": "Customer-Generators not eligible for or not electing Net Energy Metering",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:er-customer-generator-cx",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:er-customer-generator-bn-and",
+                "urpx:operator": {
+                  "@id": "urpx:andOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:cn-customer-generator",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "derType"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Customer-Generator (on-site generation)"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:cn-nem-eligible",
+                    "urpx:operator": {
+                      "@id": "urpx:notEqualsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "Other customer enrollment"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Net Energy Metering (NEM)"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:cn-bidirectional-meter",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "metering"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Bidirectional meter"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:eec-mi-energy-export",
+              "urpx:name": "Energy Export",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:eec-ms-energy-export",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:reverse"
+                }
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:eec-ledger-export-compensation",
+                "urpx:name": "Export Electricity Compensation",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:eec-mi-energy-export"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:eec-pd-export-compensation",
+                "urpx:name": "Export Compensation Rate",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditEnergy"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:discount"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:eec-ledger-export-compensation"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "urpx:hasPrice": [
+            {
+              "@type": "urpx:Price",
+              "@id": "cpau:eec-price-export-compensation",
+              "urpx:referencesPriceDefinition": {
+                "@id": "cpau:eec-pd-export-compensation"
+              },
+              "urpx:startDate": "2025-09-01",
+              "urpx:name": "Export Compensation Rate",
+              "urpx:unitPrice": "-0.12060"
+            }
+          ]
+        },
+        "urpx:applicableToRatePlanVersion": {
+          "@id": "cpau:e-1-2025-07-01"
+        }
+      },
+      "urpx:modifierUniqueIdentifier": "E-EEC-1"
+    },
+    {
+      "@type": "urpx:RatePlanModifier",
+      "@id": "cpau:e-nse-1",
+      "urpx:name": "Net Metering Net Surplus Electricity Compensation",
+      "urpx:initialEffectiveDate": "2025-09-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanModifierVersion": {
+        "@type": "urpx:RatePlanModifierVersion",
+        "@id": "cpau:e-nse-1-2025-09-01",
+        "urpx:version": "2025-09-01",
+        "urpx:changeReason": {
+          "@id": "urpx:initial"
+        },
+        "urpx:modifierVersionNumber": "2025-09-01",
+        "urpx:description": "Applies to eligible residential and small commercial Net Energy Metering Election A Customers who, at the end of an annual settlement period (per Rule 29), are Net Surplus Customer-Generators of electricity who elect to receive monetary compensation. Does not apply to customers on the City's Net Energy Metering Successor Rate. Net surplus electricity is multiplied by the compensation rate to determine annual monetary compensation.",
+        "urpx:effectiveDateTime": "2025-09-01T00:00:00",
+        "urpx:priceCurrency": "USD",
+        "urpx:commodity": {
+          "@id": "urpx:electricity"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:applicableToRatePlan": {
+          "@id": "cpau:e-1"
+        },
+        "urpx:publishedBy": {
+          "@type": "urpx:Organization",
+          "@id": "org:utility-cpau",
+          "urpx:legalName": "City of Palo Alto Utilities",
+          "urpx:eiaId": "3203",
+          "urpx:organizationType": {
+            "@id": "urpx:municipalOrganization"
+          }
+        },
+        "urpx:hasDataSourceReference": {
+          "@type": "urpx:DataSourceReference",
+          "urpx:url": "file://./assets/CPAU_E-NSE-1_2025-09-01.pdf",
+          "urpx:fileName": "CPAU_E-NSE-1_2025-09-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          }
+        },
+        "urpx:hasEligibilityRule": [
+          {
+            "@type": "urpx:EligibilityRule",
+            "@id": "cpau:nse-er-nem-surplus",
+            "urpx:description": "Eligible residential and small commercial customers",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "cpau:nse-er-nem-surplus-cx",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "cpau:nse-er-nem-surplus-bn-and",
+                "urpx:operator": {
+                  "@id": "urpx:andOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:nse-cn-nem-election-a",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "Other customer enrollment"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Net Energy Metering Election A"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:nse-cn-net-surplus",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "derType"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Net Surplus Customer-Generator"
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "cpau:nse-cn-nem-successor",
+                    "urpx:operator": {
+                      "@id": "urpx:notEqualsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "Other customer enrollment"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:stringValue": "Net Energy Metering Successor Rate"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@type": "urpx:PlanElements",
+          "urpx:hasMetricInput": [
+            {
+              "@type": "urpx:MetricInput",
+              "@id": "cpau:nse-mi-energy-net-surplus",
+              "urpx:name": "Net Surplus Energy",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "@type": "urpx:MetricSpecification",
+                "@id": "cpau:nse-ms-energy-net-surplus",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "urpx:flowDirection": {
+                  "@id": "urpx:reverse"
+                }
+              }
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "@type": "urpx:BillingModel",
+            "urpx:hasLedger": [
+              {
+                "@type": "urpx:Ledger",
+                "@id": "cpau:nse-ledger-surplus-compensation",
+                "urpx:name": "Net Surplus Electricity Compensation",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:nse-mi-energy-net-surplus"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "cpau:nse-pd-surplus-compensation",
+                "urpx:name": "Net Surplus Electricity Compensation Rate",
+                "urpx:description": "Applied to net surplus kWh at end of annual settlement period (Rule 29). Customer must elect monetary compensation on the net surplus electricity election form.",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditEnergy"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:discount"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "cpau:nse-ledger-surplus-compensation"
+                }
+              }
+            ]
+          }
+        },
+        "urpx:hasPrices": {
+          "@type": "urpx:Prices",
+          "urpx:hasPrice": [
+            {
+              "@type": "urpx:Price",
+              "@id": "cpau:nse-price-surplus-compensation",
+              "urpx:referencesPriceDefinition": {
+                "@id": "cpau:nse-pd-surplus-compensation"
+              },
+              "urpx:startDate": "2025-09-01",
+              "urpx:name": "Net Surplus Electricity Compensation Rate",
+              "urpx:unitPrice": "-0.10120"
+            }
+          ]
+        },
+        "urpx:applicableToRatePlanVersion": {
+          "@id": "cpau:e-1-2025-07-01"
+        }
+      },
+      "urpx:modifierUniqueIdentifier": "E-NSE-1"
+    }
+  ]
+}

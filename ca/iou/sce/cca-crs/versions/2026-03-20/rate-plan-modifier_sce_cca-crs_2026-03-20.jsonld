@@ -1,0 +1,996 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-cca-crs-2026-03-20",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:cca-crs",
+    "urpx:name": "Schedule CCA-CRS",
+    "urpx:modifierUniqueIdentifier": "CCA-CRS",
+    "urpx:initialEffectiveDate": "2023-07-27",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:cca-crs-2026-03-20",
+      "urpx:version": "2026-03-20",
+      "urpx:modifierVersionNumber": "2026-03-20",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Schedule CCA-CRS — CCA Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers served by a Community Choice Aggregator (CCA) instead of Bundled SCE service. Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh), CTC ($0.00014/kWh), FRC ($0.00619/kWh), and PCIA (vintage-discriminated, identical PCIA values to Schedule DA-CRS — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 to $0.02624 for 2023). Per-Price hasApplicabilityRule on each PCIA vintage gates on customer's `CCA Vintage Year` CustomOperandNode property. Per the OAT reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, CCA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service; this OAT-side adjustment is NOT modeled here. CCA-CRS Sheet 3 has a richer customer-subgroup exemption table than DA-CRS — CCA customers on Medical Baseline are WFC-exempt; CCA customers on CARE are WFC-exempt + FRC-exempt; CCA customers on FERA are FRC-exempt; Continuous DA/CCA customers are WFC + PCIA-exempt; Returning Continuous DA customers are WFC-exempt. Only the default CCA Customers subgroup is captured by the Eligibility Rule here; the subgroup exemptions are stacking interactions with already-modeled CARE / FERA modifiers and are deferred to a follow-up issue.",
+      "urpx:effectiveDateTime": "2026-03-20T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sce:d"
+        },
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_CCA-CRS.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-CRS.pdf",
+        "urpx:dateRetrieved": "2026-05-04",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 3,
+          "urpx:pageEnd": 9,
+          "urpx:leafStart": "74861-E",
+          "urpx:leafEnd": "90840-E"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:cca-crs-2026-03-20-er-eligible",
+          "urpx:name": "CCA-CRS-eligible customer",
+          "urpx:description": "Customer is enrolled in Community Choice Aggregation service. The cost-responsibility surcharge under this Schedule recovers stranded power-procurement costs allocated to customers who have departed Bundled Service. Eligibility is by enrollment record; PCIA value depends on the customer's vintage year (year of departing-load enrollment) — see per-Price ApplicabilityRule gates below.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:cca-crs-2026-03-20-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sce:cca-crs-2026-03-20-cn-eligible",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "Energy Service Type"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "Community Choice Aggregation"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:cca-crs-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:cca-crs-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:cca-crs-ledger-wfc",
+              "urpx:name": "CCA-CRS Wildfire Fund Non-Bypassable Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:cca-crs-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:cca-crs-ledger-ctc",
+              "urpx:name": "CCA-CRS Competition Transition Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:cca-crs-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:cca-crs-ledger-frc",
+              "urpx:name": "CCA-CRS Fixed Recovery Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:cca-crs-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:cca-crs-ledger-pcia",
+              "urpx:name": "CCA-CRS Power Charge Indifference Adjustment (vintage-conditional)",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:cca-crs-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:cca-crs-pd-wfc",
+              "urpx:name": "Wildfire Fund Non-Bypassable Charge (WFC)",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:cca-crs-ledger-wfc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:cca-crs-pd-ctc",
+              "urpx:name": "Competition Transition Charge (CTC)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:cca-crs-ledger-ctc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:cca-crs-pd-frc",
+              "urpx:name": "Fixed Recovery Charge (FRC)",
+              "urpx:chargeType": {
+                "@id": "urpx:recoverySurcharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:cca-crs-ledger-frc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:cca-crs-pd-pcia",
+              "urpx:name": "Power Charge Indifference Adjustment (PCIA) — vintage-discriminated by customer's enrollment year",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:cca-crs-ledger-pcia"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-wfc-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-wfc"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Wildfire Fund Non-Bypassable Charge",
+            "urpx:unitPrice": "0.00591"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-ctc-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-ctc"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Competition Transition Charge",
+            "urpx:unitPrice": "0.00014"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-frc-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-frc"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Fixed Recovery Charge",
+            "urpx:unitPrice": "0.00619"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2001-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2001 Vintage",
+            "urpx:unitPrice": "0.00009",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2001",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2001",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2001",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2001",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2001"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2004-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2004 Vintage",
+            "urpx:unitPrice": "0.00009",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2004",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2004",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2004",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2004",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2004"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2009-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2009 Vintage",
+            "urpx:unitPrice": "0.01742",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2009",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2009",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2009",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2009",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2009"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2010-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2010 Vintage",
+            "urpx:unitPrice": "0.02077",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2010",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2010",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2010",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2010",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2010"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2011-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2011 Vintage",
+            "urpx:unitPrice": "0.02508",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2011",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2011",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2011",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2011",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2011"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2012-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2012 Vintage",
+            "urpx:unitPrice": "0.02563",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2012",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2012",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2012",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2012",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2012"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2013-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2013 Vintage",
+            "urpx:unitPrice": "0.02608",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2013",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2013",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2013",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2013",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2013"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2014-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2014 Vintage",
+            "urpx:unitPrice": "0.02443",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2014",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2014",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2014",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2014",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2014"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2015-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2015 Vintage",
+            "urpx:unitPrice": "0.02367",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2015",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2015",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2015",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2015",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2015"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2016-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2016 Vintage",
+            "urpx:unitPrice": "0.02321",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2016",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2016",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2016",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2016",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2016"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2017-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2017 Vintage",
+            "urpx:unitPrice": "0.02322",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2017",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2017",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2017",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2017",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2017"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2018-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2018 Vintage",
+            "urpx:unitPrice": "0.02311",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2018",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2018",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2018",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2018",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2018"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2019-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2019 Vintage",
+            "urpx:unitPrice": "0.02141",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2019",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2019",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2019",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2019",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2019"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2020-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2020 Vintage",
+            "urpx:unitPrice": "0.02015",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2020",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2020",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2020",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2020",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2020"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2021-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2021 Vintage",
+            "urpx:unitPrice": "0.02007",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2021",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2021",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2021",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2021",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2021"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2022-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2022 Vintage",
+            "urpx:unitPrice": "0.02419",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2022",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2022",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2022",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2022",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2022"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2023-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2023 Vintage",
+            "urpx:unitPrice": "0.02624",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2023",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2023",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2023",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2023",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2023"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2024-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2024 Vintage",
+            "urpx:unitPrice": "0.01175",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2024",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2024",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2024",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2024",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2024"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2025-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2025 Vintage",
+            "urpx:unitPrice": "-0.00644",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2025",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2025",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2025",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2025",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2025"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-pcia-v2026-2026-03-20",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-pcia"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "PCIA — 2026 Vintage",
+            "urpx:unitPrice": "-0.00644",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:cca-crs-2026-03-20-ar-pcia-v2026",
+              "urpx:name": "Applies when customer's CCA Vintage Year = 2026",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:cca-crs-2026-03-20-cx-pcia-v2026",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cca-crs-2026-03-20-cn-pcia-v2026",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "CCA Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2026"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

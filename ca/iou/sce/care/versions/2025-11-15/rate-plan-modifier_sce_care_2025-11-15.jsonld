@@ -1,0 +1,359 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-care-2025-11-15",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:care",
+    "urpx:name": "California Alternate Rates for Energy (CARE) Discount",
+    "urpx:modifierUniqueIdentifier": "CARE",
+    "urpx:initialEffectiveDate": "2001-08-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:care-2025-11-15",
+      "urpx:version": "2025-11-15",
+      "urpx:modifierVersionNumber": "2025-11-15",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "California Alternate Rates for Energy (CARE) program — income-qualified bill discount applied as an overlay to any SCE residential base rate plan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME, and others). CPUC-mandated program; SCE's implementation is defined in Schedule D-CARE and articulated in each base schedule's Special Condition 8. Eligibility: customer must meet the definition of a CARE Household per Schedule D-CARE — typically 200% of the Federal Poverty Guidelines or participation in qualifying public-assistance programs. As of 2026-04-30 SCE has ~1.5M customers enrolled in CARE (~30% of SCE residential), making this the highest-customer-impact RatePlanModifier in the corpus. CARE provides several distinct benefits: (1) a 32.5% bill discount on the pre-PUCRF / pre-tax subtotal (NOT MODELED — URPX has no percentage-of-bill primitive; tracked as upstream-vocabulary gap), (2) exemption from the Wildfire Fund Non-Bypassable Charge (modeled as $-0.00595/kWh credit), (3) exemption from the Fixed Recovery Charge (modeled as $-0.00198/kWh credit), (4) exemption from the Base Services Charge Surcharge component (modeled as $-0.063/meter/day credit), and (5) a Base Services Charge Discount (modeled as $-0.153/meter/day credit). Net per-kWh credit from line-item exemptions: $-0.00793/kWh. Net per-meter-per-day credit from BSC adjustments: $-0.216/meter/day. Special Condition 8 also references a 'CARE Surcharge of $0.212/meter/day' that CARE customers are exempt from paying — this is a non-CARE-customer-funded surcharge that supports the CARE program; it is NOT itemized in the SCE TOU-D base rate-sheet line items currently modeled in this corpus, so the exemption is not modeled as a credit (modeling deferred until base rate plans track this surcharge as a non-CARE-only line item). Bill calculation correctness with this modifier therefore captures the line-item exemptions but underrepresents the full CARE customer benefit by approximately the 32.5% percentage discount + the $0.212/meter/day CARE Surcharge avoidance. Future filing versions will replace those gaps with structured PriceDefinitions when URPX adds percentage-of-bill vocabulary and when base SCE filings itemize the CARE Surcharge.",
+      "urpx:effectiveDateTime": "2025-11-15T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        },
+        {
+          "@id": "sce:d"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_TOU-D_2025.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_TOU-D_2025.pdf",
+        "urpx:dateRetrieved": "2026-04-30",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 46,
+          "urpx:pageEnd": 46,
+          "urpx:leafStart": "Sheet 18",
+          "urpx:leafEnd": "Sheet 18"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:er-care-eligible",
+          "urpx:name": "CARE-eligible residential customer",
+          "urpx:description": "Customer must be a residential customer enrolled in the CARE program per Schedule D-CARE eligibility requirements. CPUC standard CARE qualifying criteria: household income at-or-below 200% of the Federal Poverty Guidelines, OR enrollment in qualifying public-assistance programs (Medi-Cal, CalFresh, LIHEAP, WIC, SSI, etc.). Application + eligibility declaration required; SCE applies discount no later than one billing period after approval. Customers may be rebilled for periods when they did not meet eligibility requirements. Customers receiving FERA discount are NOT eligible for CARE simultaneously.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:cx-care-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sce:bn-care-residential-and-enrolled",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cn-care-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cn-care-program-enrollment",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Program Enrollment"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "California Alternate Rates for Energy (CARE)"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:care-mi-energy",
+            "urpx:name": "kWh Energy Consumption (for line-item kWh credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:care-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:care-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:numberOfMeters"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:care-ledger-energy-credits",
+              "urpx:name": "CARE per-kWh Line-Item Credits",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:care-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:care-ledger-bsc-credits",
+              "urpx:name": "CARE Base Services Charge Adjustments",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:care-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:care-pd-wfc-exemption",
+              "urpx:name": "CARE Wildfire Fund Non-Bypassable Charge Exemption (cancels base WFC of $0.00595/kWh)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:care-ledger-energy-credits"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:care-pd-frc-exemption",
+              "urpx:name": "CARE Fixed Recovery Charge Exemption (cancels base FRC of $0.00198/kWh)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:care-ledger-energy-credits"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:care-pd-bsc-surcharge-exemption",
+              "urpx:name": "CARE BSC Surcharge Exemption (cancels the BSC Surcharge component of $0.063/meter/day from the base $0.794 BSC)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:care-ledger-bsc-credits"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:care-pd-bsc-discount",
+              "urpx:name": "CARE Base Services Charge Discount (additional reduction beyond the surcharge exemption)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:care-ledger-bsc-credits"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:care-price-wfc-exemption",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:care-pd-wfc-exemption"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "CARE WFC Exemption Credit",
+            "urpx:unitPrice": "-0.00595"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:care-price-frc-exemption",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:care-pd-frc-exemption"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "CARE FRC Exemption Credit",
+            "urpx:unitPrice": "-0.00198"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:care-price-bsc-surcharge-exemption",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:care-pd-bsc-surcharge-exemption"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "CARE BSC Surcharge Exemption Credit",
+            "urpx:unitPrice": "-0.063"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:care-price-bsc-discount",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:care-pd-bsc-discount"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "CARE BSC Discount",
+            "urpx:unitPrice": "-0.153"
+          }
+        ]
+      }
+    }
+  }
+}

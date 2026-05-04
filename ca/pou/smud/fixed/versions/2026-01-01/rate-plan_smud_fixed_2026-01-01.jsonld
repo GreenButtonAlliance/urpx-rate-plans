@@ -1,0 +1,344 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "smud": "https://example.com/smud/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "smud:doc-fixed-2026-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "smud:fixed",
+    "urpx:name": "Schedule R Residential Service — Fixed Rate",
+    "urpx:ratePlanUniqueIdentifier": "FIXED",
+    "urpx:initialEffectiveDate": "1948-01-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "smud:fixed-2026-01-01",
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:description": "SMUD's voluntary opt-out flat residential rate — alternative to the Time-of-Day (5-8 p.m.) default. Regulatory rate category RF01 within Rate Schedule R. Distinctive among modern CA residential offerings: a true non-TOU non-tiered flat rate, season-varying only. Estimated ~10% of SMUD residential = ~60K customers. Bill structure: System Infrastructure Fixed Charge ($27.00/meter/month) + flat per-kWh Electricity Usage Charge by season ($0.1371/kWh non-summer, $0.2189/kWh summer per the Jan 1, 2026 column of the multi-year rate schedule adopted by Board Resolution 25-06-15). Required (not optional) for customers with analog or digital non-communicating meters. NOT available to customers with NEM1 customer-generation approved on/after January 1, 2018, or any SSR (Solar and Storage Rate) generation, or storage-only without generation. Customers on master meters (RSMM rate category) and customers grandfathered with NEM1 generation approved before January 1, 2018 are eligible. Same source PDF (Resolution 25-06-15) as TOD-5-8pm with three forward effective-date columns; this filing captures the January 1, 2026 column. Plug-In EV Credit, EAPR/Medical Equipment overlays, NEM1/SSR/Standby/Three-Phase/Renewable-Energy options all deferred to grid-coordination/urpx-tariffs#15 (secondary epic) per cross-utility convention. Master-Metered Multifamily / Mobile Home Park Billing (rate category RSMM, also in Schedule R) is closed to new customers and is not modeled here — defer to grid-coordination/urpx-tariffs#15 or future modeling issues.",
+      "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "1-R.ashx",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R.ashx",
+        "urpx:dateRetrieved": "2026-04-30",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 1,
+          "urpx:pageEnd": 4,
+          "urpx:leafStart": "R-1",
+          "urpx:leafEnd": "R-4"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-residential-fixed",
+          "urpx:name": "Eligibility for Schedule R Fixed Rate (rate category RF01)",
+          "urpx:description": "Applicable to single- and three-phase service for residential premises: individually-metered single-family homes, duplexes, apartments, condominiums; general farm service where the meter also serves the residence; master-metered service to qualifying multifamily accommodations or mobile home parks that are submetered to single-family units. The Fixed Rate is the alternative to the TOD (5-8 p.m.) default. REQUIRED for customers with analog meters or digital non-communicating meters. NOT eligible: customers with NEM1 generation approved on/after January 1, 2018 (mandatorily on R-TOD); customers with SSR (Solar and Storage Rate) generation; customers with storage-only without an associated generating facility; customers on master meters in rate category RSMM. Customers with NEM1 generation approved BEFORE January 1, 2018 are grandfathered and may remain on Fixed Rate.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-residential-fixed",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:cn-residential-fixed",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "smud:season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "smud:season-non-summer",
+            "urpx:seasonName": "Non-Summer",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "smud:ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:numberOfMeters"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:ledger-energy",
+              "urpx:name": "Electricity Usage Charge (season-varying, non-TOU)",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:ledger-system-infrastructure",
+              "urpx:name": "System Infrastructure Fixed Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:pd-energy-summer",
+              "urpx:name": "Electricity Usage Charge — Summer (June-September)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:pd-energy-non-summer",
+              "urpx:name": "Electricity Usage Charge — Non-Summer (October-May)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "urpx:month": [
+                  "--10",
+                  "--11",
+                  "--12",
+                  "--01",
+                  "--02",
+                  "--03",
+                  "--04",
+                  "--05"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:pd-system-infrastructure-fixed-charge",
+              "urpx:name": "System Infrastructure Fixed Charge — flat per meter per month",
+              "urpx:chargeType": {
+                "@id": "urpx:facilities"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:ledger-system-infrastructure"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:price-energy-summer",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:pd-energy-summer"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Summer Energy Usage Charge",
+            "urpx:unitPrice": "0.2189"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:price-energy-non-summer",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:pd-energy-non-summer"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Non-Summer Energy Usage Charge",
+            "urpx:unitPrice": "0.1371"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:price-system-infrastructure-fixed-charge",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:pd-system-infrastructure-fixed-charge"
+            },
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "System Infrastructure Fixed Charge",
+            "urpx:unitPrice": "27.00"
+          }
+        ]
+      }
+    }
+  }
+}

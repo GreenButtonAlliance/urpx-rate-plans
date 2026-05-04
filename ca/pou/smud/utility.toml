@@ -1,0 +1,114 @@
+# Sacramento Municipal Utility District (SMUD) utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §10.
+
+utility           = "smud"
+
+# Where SMUD publishes residential electric rates.
+tariff_index_urls = [
+  # Customer-facing residential rates landing page — overview of the four
+  # active residential pricing plans (Time-of-Day, Critical Peak Pricing,
+  # Fixed Rate, Time-of-Day Low Use) plus discount/incentive overlays.
+  "https://www.smud.org/Rate-Information/Residential-rates",
+
+  # Top-level Rate Information page.
+  "https://www.smud.org/Rate-Information",
+
+  # Rate change archive — board-approved rate change history.
+  "https://www.smud.org/Rate-Information/Rate-archive",
+]
+
+scrape_notes = """
+SMUD is a Municipal Utility District (MUD) governed by the SMUD Board of
+Directors (publicly elected) — not the CPUC. Rate changes are adopted via
+Board resolution (e.g., "Resolution No. 25-06-15"), not Advice Letters.
+tariff.toml [regulator] uses authority = "board" per the schema enum
+(differs from LADWP's "city-council" and CPUC IOUs' "puc").
+
+## Tariff source-of-record pattern
+
+SMUD publishes rate schedules as PDFs under a Sitecore-style asset path
+on smud.org. The pattern (verified 2026-04-30):
+
+  https://www.smud.org/-/media/Documents/Rate-Information/Rates/<filename>.ashx
+
+The .ashx extension is a Sitecore handler that returns the binary file.
+The customer-facing rates pages don't expose direct PDF links; the
+canonical URLs were discovered via Google site:smud.org filetype:pdf
+search.
+
+Known residential rate-schedule PDFs (two co-existing URL conventions):
+
+  Schedule                                   URL filename
+  ────────────────────────────────────────   ──────────────────
+  Residential (Fixed)                        1-R.ashx
+  Residential Time-of-Day (R-TOD)            1-R-TOD.ashx
+  Net Energy Metering (NEM1)                 01_NEM1.ashx
+  Solar and Storage Rate (SSR)               01_SSR.ashx
+  Hydro Generation Adjustment (HGA)          01_HGA.ashx
+  Energy Assistance Program Rate (EAPR)      01_EAPR.ashx
+  Medical Equipment Discount (MED)           01_MED.ashx
+  Non-Local Government Tariff (NLGT)         01_NLGT.ashx
+  Reserve Bond Charge (RBC)                  01_RBC.ashx
+  Preliminary Statement Prices               00_Preliminary-Statement_Prices.ashx
+  Commercial & Industrial TOD                CI-TOD1.ashx, CI-TOD4.ashx (et al)
+  Residential Rate Guide (consumer summary)  Residential-Rates/Residential-Rate-Guide.ashx
+
+URL prefix convention: SMUD's older residential rate schedules (R, R-TOD)
+use `1-NAME.ashx`; newer rate schedules and rate-program overlays use
+`01_NAME.ashx` (zero-padded, underscore separator). Both prefix styles
+co-exist on the active Residential Rates page (verified 2026-04-30) —
+neither prefix indicates obsolescence. When discovering a new SMUD
+schedule's URL, probe BOTH `1-<NAME>.ashx` and `01_<NAME>.ashx` styles.
+
+The R-TOD schedule PDF covers THREE rate categories under one umbrella:
+  RT02 — Time-of-Day (5-8 p.m.) Rate (default residential)
+  RTL1 — Time-of-Day (Low Use) Rate (small panels + low usage)
+  RTC1 — Critical Peak Pricing Rate (voluntary CPP overlay)
+
+For modeling purposes, each rate category is a distinct urpx:RatePlan
+even though they share the same source PDF and Board resolution. This
+mirrors the SCE TOU-D pattern (one consolidated PDF covering Options
+4-9PM/5-8PM/PRIME as separate RatePlans).
+
+## Filing recordkeeping
+
+Each SMUD rate schedule PDF carries:
+  - Schedule designator (e.g., R-TOD)
+  - Sheet number (e.g., R-TOD-1, R-TOD-2, ...)
+  - Resolution number (e.g., "Resolution No. 25-06-15 adopted June 19, 2025")
+  - Effective date (e.g., "Effective: June 20, 2025")
+
+A single Board resolution may pre-publish multi-year rate trajectories.
+Resolution 25-06-15 (June 19, 2025) adopts rate columns for three forward
+effective dates simultaneously: May 1, 2025 / January 1, 2026 / January 1,
+2027. Convention for this corpus: each effective-date column becomes its
+own filing version directory; the source PDF is committed verbatim under
+each version (the same bytes serve all three filings).
+
+## Convention for this corpus
+
+  - Each modeled SMUD rate plan lives at
+    ca/pou/smud/<schedule>/versions/<effective-date>/
+    with the source PDF committed alongside the JSON-LD.
+  - Schedule slugs use customer-facing terminology (e.g., "tod-5-8pm",
+    "fixed", "tod-low-use", "cpp") rather than rate category codes.
+  - tariff.toml [source.url] uses the canonical .ashx URL.
+  - SMUD does not have CPUC PCIA / CCA generation-vs-delivery split —
+    SMUD is vertically integrated. Bill structure is simpler than IOUs:
+    System Infrastructure Fixed Charge ($/meter/month) + Electricity
+    Usage Charge ($/kWh, possibly TOU- or season-varying).
+  - SMUD has its own customer-generation rate schedules (NEM1, SSR) —
+    independent of CPUC NEM/NBT framework. Both are RatePlanModifier
+    overlays on the customer's base rate (NEM1 closed to new residential
+    after 2022-03-01; SSR active for new). NEM1 successor section places
+    customers approved on/after 2018-01-01 on R-TOD; SSR Sheet 2.IV.A.6
+    requires residential SSR customers to be on R-TOD. Modeling tracked
+    in the electrification effort.
+
+## SMUD board governance
+
+Rate schedules cite Board resolutions (e.g., "Resolution No. 25-06-15
+adopted June 19, 2025"). Resolution numbers follow the YY-MM-NN pattern.
+Board meetings, agendas, and approved resolutions are at:
+https://www.smud.org/Corporate/About-us/Company-Information/Board-Meetings
+"""

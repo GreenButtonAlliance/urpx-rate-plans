@@ -1,0 +1,53 @@
+# Identity --------------------------------------------------------------------
+utility        = "pge"
+schedule       = "e-elec"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ELEC.pdf"
+sha256        = "56f3946298b95318125ed2d8a0651fe4bc43b478f53f264622f0e94ce4655742"
+retrieved_on  = "2026-01-05"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "PGE-AL-7797-E"
+
+# Note: at the canonical URL above, PG&E NOW serves a different PDF
+# (sha256 09b55962f66ddb88f698d734d81d31d1c2e2ce16b095f1eb73e40224fd40e2c1
+# as of 2026-04-29 fetch via curl_cffi). The committed PDF here is the
+# original retrieved 2026-01-05 by the URPX team when they authored their
+# test-case (urpx-org/urpx test-cases/pge-e-elec-2026-01-01/assets/PGE_E-ELEC_2026-01-01.pdf).
+# The current canonical bytes are NOT a substitute — the JSON-LD in this
+# filing was extracted from the original. Ingestion of the updated PDF
+# is a separate filing, tracked at grid-coordination/urpx-tariffs#TBD.
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "A.24-09-015"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-01-05"
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-29"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "care",
+  "fera",
+  "medical-baseline",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "PG&E E-ELEC (Residential Time-Of-Use, Electric Home) — schedule for residential customers with qualifying electric technologies (BEV/PHEV charging, energy storage, electric heat pump, or NBT enrollment). Brought into urpx-tariffs from the urpx-org/urpx v0.2.0 test-case at test-cases/pge-e-elec-2026-01-01/ (URPX-team-authored — original v0.1.1 pre-draft contributed by Flux Tailor / Una Smith-Simon, with subsequent updates by Una and Klaartje De Schepper); in this corpus we migrated it from intermediate v0.2.0 vocabulary — ConditionLogic/ObjectTerminalNode/CustomTerminalNode — to the final v0.2.0 ConditionExpression/ObjectOperandNode/CustomOperandNode form per Decisions #097/098. Substantive transforms: split EligibilityRule into 2 (residential customer-kind + qualifying technology with 4-way OR), ratePlanIdentifier→ratePlanUniqueIdentifier, removed hasCustomerProfile from EligibilityRule, wrapped top-level RatePlan in @graph for self-containment. The 4 qualifying-technology conditions: storage→urpx:derType=urpx:storageDER; EVCharging→urpx:derType=urpx:evChargingDER (covers BEV+PHEV per URPX vocabulary); heatpump→urpx:hasHVAC=urpx:airSourceHeatPump (URPX-native vs. the source's CustomTerminalNode 'Has Heat Pump' boolean — semantically richer); NBT→CustomOperandNode 'Program Enrollment'='Net Billing Tariff (NBT)' (URPX has no NBT-specific vocabulary). The published rate table on Sheet 4 of the PDF includes the 18-vintage PCIA table; the URPX-team-authored fixture does NOT include a vintage-PCIA RatePlanModifier; we follow that for now (could be added as a follow-up to match our other PG&E filings' pattern). pyshacl + clj-urpx end-to-end validate clean."

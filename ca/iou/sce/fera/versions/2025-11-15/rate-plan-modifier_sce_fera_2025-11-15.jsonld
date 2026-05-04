@@ -1,0 +1,276 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-fera-2025-11-15",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:fera",
+    "urpx:name": "Family Electric Rate Assistance (FERA) Discount",
+    "urpx:modifierUniqueIdentifier": "FERA",
+    "urpx:initialEffectiveDate": "2005-04-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:fera-2025-11-15",
+      "urpx:version": "2025-11-15",
+      "urpx:modifierVersionNumber": "2025-11-15",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Family Electric Rate Assistance (FERA) program — income-qualified bill discount for moderate-income households with three or more residents, applied as an overlay to any SCE residential base rate plan. CPUC-mandated program; SCE's implementation is defined in Schedule D-FERA and articulated in each base schedule's Special Condition 9. Eligibility: household income at-or-below 250% of Federal Poverty Guidelines AND minimum 3+ household members; customers receiving CARE Discount are NOT eligible for FERA simultaneously. FERA provides two distinct benefits: (1) an 18.0% bill discount on the pre-tax subtotal (NOT MODELED — URPX has no percentage-of-bill primitive; same upstream-vocabulary gap as the CARE modifier), (2) exemption from the Base Services Charge Surcharge component (modeled as $-0.063/meter/day credit) and a Base Services Charge credit adjustment of $-0.202/meter/day (modeled as a separate credit). Net per-meter-per-day credit from BSC adjustments: $-0.265/meter/day. Unlike CARE, FERA does NOT include WFC or FRC exemptions — FERA customers continue to pay the Wildfire Fund Non-Bypassable Charge ($0.00595/kWh) and Fixed Recovery Charge ($0.00198/kWh) at the standard rates. Bill calculation correctness with this modifier captures the BSC adjustments but underrepresents the full FERA customer benefit by the 18.0% percentage discount. Future filing versions will replace this gap with structured PriceDefinitions when URPX adds percentage-of-bill vocabulary.",
+      "urpx:effectiveDateTime": "2025-11-15T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        },
+        {
+          "@id": "sce:d"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_TOU-D_2025.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_TOU-D_2025.pdf",
+        "urpx:dateRetrieved": "2026-04-30",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 46,
+          "urpx:pageEnd": 46,
+          "urpx:leafStart": "Sheet 18",
+          "urpx:leafEnd": "Sheet 18"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:er-fera-eligible",
+          "urpx:name": "FERA-eligible residential customer",
+          "urpx:description": "Customer must be a residential customer enrolled in the FERA program per Schedule D-FERA eligibility requirements: household income at-or-below 250% of the Federal Poverty Guidelines AND a minimum of three or more persons residing in the household. Customers receiving the CARE Discount are not eligible for FERA simultaneously. Application + eligibility declaration required; SCE applies discount no later than one billing period after approval. Customers may be rebilled for periods when they did not meet eligibility requirements.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:cx-fera-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sce:bn-fera-residential-and-enrolled",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cn-fera-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cn-fera-program-enrollment",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Program Enrollment"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "Family Electric Rate Assistance (FERA)"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:fera-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:numberOfMeters"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:fera-ledger-bsc-credits",
+              "urpx:name": "FERA Base Services Charge Adjustments",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:fera-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:fera-pd-bsc-surcharge-exemption",
+              "urpx:name": "FERA BSC Surcharge Exemption (cancels the BSC Surcharge component of $0.063/meter/day from the base $0.794 BSC)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:fera-ledger-bsc-credits"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:fera-pd-bsc-credit-adjustment",
+              "urpx:name": "FERA Base Services Charge Credit Adjustment (additional reduction beyond the surcharge exemption)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:fera-ledger-bsc-credits"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:fera-price-bsc-surcharge-exemption",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:fera-pd-bsc-surcharge-exemption"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "FERA BSC Surcharge Exemption Credit",
+            "urpx:unitPrice": "-0.063"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:fera-price-bsc-credit-adjustment",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:fera-pd-bsc-credit-adjustment"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "FERA BSC Credit Adjustment",
+            "urpx:unitPrice": "-0.202"
+          }
+        ]
+      }
+    }
+  }
+}

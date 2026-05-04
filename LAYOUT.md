@@ -1,10 +1,12 @@
 # Repository Layout
 
-This document defines the conventions for organizing tariff data in this repo. It is the source of truth for directory structure, file naming, manifest schema, and the temporal model.
+This document defines the conventions for organizing **tariff documents** (the regulatory PDFs) and the **URPX rate-plan serializations** extracted from them. It is the source of truth for directory structure, file naming, manifest schema, and the temporal model.
+
+> **Terminology** (per [URPX CONTRIBUTING.md](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use)): a *tariff* is the regulatory document; a *rate plan* is the parameter package; a *rate* is a single price value. This repo holds both — a tariff PDF and the URPX rate-plan JSON-LD extracted from it — under each filing directory.
 
 ## 1. The temporal model: RatePlan vs RatePlanVersion
 
-URPX models a tariff using two related concepts:
+URPX models a rate plan using two related concepts:
 
 - **`urpx:RatePlan`** — the stable, conceptual schedule. Holds a persistent identifier (e.g. "E-TOU-C"), the schedule's display name, the publishing utility, and the date it was first introduced. This resource rarely changes.
 - **`urpx:RatePlanVersion`** — an immutable snapshot of one regulatory filing. Holds the rate values, time-of-use windows, riders, eligibility rules, and effective date. A new filing creates a new RatePlanVersion.
@@ -32,7 +34,7 @@ Rationale:
 - RDF graph merge handles the overlap cleanly: every file describes the same `urpx:RatePlan` IRI with consistent properties — merging multiple files yields a single RatePlan with all its versions linked.
 - The duplicated RatePlan-level boilerplate (~15 lines) is small and lint-checkable.
 
-A linter (TBD) will verify that `urpx:initialEffectiveDate`, `urpx:ratePlanIdentifier`, `urpx:name`, and the RatePlan `@id` are identical across all filings of a given schedule.
+The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_consistency.py) verifies that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqueIdentifier`, `urpx:name`, `urpx:timezoneIdentifier`, and the RatePlan `@id` are byte-identical across all filings of a given schedule. Run from the repo root: `python3 dev/lint_consistency.py` (or `--json` for machine-readable output).
 
 ## 3. Directory hierarchy
 
@@ -51,8 +53,10 @@ A linter (TBD) will verify that `urpx:initialEffectiveDate`, `urpx:ratePlanIdent
 Example:
 
 ```
-ca/iou/pge/e-tou-c/versions/2026-03-01/
+ca/iou/pge/utility.toml                            # per-utility discovery manifest (§5)
+ca/iou/pge/e-tou-c/versions/2026-03-01/            # per-filing directory (§4, §6, §7)
 ca/iou/pge/e-tou-c/versions/2025-09-01/
+ca/pou/cpau/utility.toml
 ca/pou/cpau/e-1/versions/2025-07-01/
 ```
 
@@ -65,12 +69,16 @@ ca/pou/cpau/e-1/versions/2025-07-01/
 
 ## 4. Per-filing manifest: `tariff.toml`
 
-Each `versions/<date>/` directory contains a `tariff.toml` capturing provenance and processing metadata that does not belong inside the URPX JSON-LD.
+Each `versions/<date>/` directory contains a `tariff.toml` capturing provenance and processing metadata that does not belong inside the URPX JSON-LD. The schema is at `schema/tariff-manifest.schema.json`.
+
+### Single-source filing (the common case)
+
+When a filing's `@graph` is extracted from a single source PDF:
 
 ```toml
 # Identity --------------------------------------------------------------------
-utility       = "pge"
-schedule      = "e-tou-c"
+utility        = "pge"
+schedule       = "e-tou-c"
 effective_date = "2026-03-01"
 
 # Source ----------------------------------------------------------------------
@@ -79,12 +87,16 @@ url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E
 sha256        = "9c2f6b3e..."
 retrieved_on  = "2026-04-26"
 media_type    = "application/pdf"
-filing_type   = "advice-letter"          # advice-letter | application | resolution | unknown
+# filing_type values: advice-letter | application | resolution | ordinance |
+#                     rate-case-decision | tariff-schedule | unknown
+filing_type   = "advice-letter"
 filing_id     = "PGE-AL-7234-E"          # if known
+landing_page  = "..."                    # optional; the utility's discovery
+                                         # surface where this PDF is published
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "cpuc"                   # cpuc | city-council | board | none
+authority     = "puc"                    # puc | ferc | city-council | board | none | unknown
 docket        = "A.24-12-345"            # if known
 
 # Extraction ------------------------------------------------------------------
@@ -100,6 +112,12 @@ validator      = "clj-urpx"
 validator_ver  = "0.3.1"
 validated_on   = "2026-04-26"
 
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete             = true                # source PDF fully captured in this JSON-LD
+deferrals            = []                  # MUST be [] when complete = true
+applicable_modifiers = ["care", "fera"]    # ONLY on base RatePlan filings (see §4.4)
+
 # Review ----------------------------------------------------------------------
 [review]
 status        = "draft"                  # draft | reviewed | published | superseded
@@ -108,9 +126,108 @@ reviewed_on   = ""
 notes         = ""                       # short free text
 ```
 
-Fields marked optional may be omitted (TOML simply elides them). `source.url` and `source.sha256` are required so the original PDF is always retrievable and verifiable. The schema is mirrored in `schema/tariff-manifest.schema.json` for tooling.
+`source.url`, `source.sha256`, and `source.retrieved_on` are required so the original PDF is always retrievable and verifiable. Optional fields may be omitted (TOML elides them).
 
-## 5. IRI naming conventions
+### Multi-source filing
+
+Some filings package a base RatePlan and one or more `RatePlanModifier`s into a single self-contained `@graph` — each modifier traces back to its own published PDF with its own URL, sha256, and retrieval date. In that case `[source]` is a parent table with an optional `landing_page` plus one named sub-table per source document:
+
+```toml
+[source]
+landing_page  = "https://www.paloalto.gov/.../Residential-Rates"
+
+  [source.base]
+  url          = "https://www.paloalto.gov/.../e-1-effective-2025-07-01.pdf"
+  sha256       = "9c8ad3bd..."
+  retrieved_on = "2026-04-28"
+  media_type   = "application/pdf"
+  filing_type  = "tariff-schedule"
+
+  [source.modifier_e_eec_1]
+  url          = "https://www.paloalto.gov/.../e-eec-1-effective-2025-09-01.pdf"
+  sha256       = "b2876440..."
+  retrieved_on = "2026-04-28"
+  media_type   = "application/pdf"
+  filing_type  = "tariff-schedule"
+
+  # ... one [source.<name>] block per source document
+```
+
+Sub-table names are free-form (`base`, `modifier_e_eec_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `ca/pou/cpau/e-1/versions/2025-09-01/tariff.toml` for a working example.
+
+### Per-document regulator metadata in multi-source filings
+
+When a multi-source filing's source documents were *each filed separately* with the regulator under their own dockets/ordinances, `[regulator]` accepts named sub-tables paralleling `[source.<name>]`:
+
+```toml
+[regulator]
+  [regulator.base]
+  authority = "city-council"
+  docket    = "Ordinance No. 5378"
+
+  [regulator.modifier_e_eec_1]
+  authority = "city-council"
+  docket    = "Resolution 9.876"
+```
+
+Use this only when the per-document regulatory metadata genuinely differs across the source documents. If they all share one `authority + docket`, the flat single-`[regulator]` form is sufficient. The `authority` enum values (`puc`, `ferc`, `city-council`, `board`, `none`, `unknown`) are deliberately generic — the state context is already in the directory path (`ca/iou/...`), and the regulator's full name (e.g. "California Public Utilities Commission") can live in description prose if needed.
+
+### 4.4. Modeling-completeness metadata (`[modeling]`)
+
+The `[modeling]` block answers two distinct questions about how much of the source tariff has been captured. Keeping them separate is deliberate — collapsing them into a single "ready" flag forces the modeler to pick one axis and lie about the other.
+
+```toml
+[modeling]
+complete             = true
+deferrals            = []
+applicable_modifiers = ["care", "fera", "medical-baseline", "ev-credit"]   # base RatePlan filings only
+```
+
+| Field | Axis | Applies to |
+| --- | --- | --- |
+| `complete` | Within-filing — does this JSON-LD fully capture its source PDF(s)? | All filings (base RatePlans + RatePlanModifiers) |
+| `deferrals` | Within-filing — structured list of source-document parts intentionally not modeled | All filings; MUST be `[]` when `complete = true` |
+| `applicable_modifiers` | Corpus-coverage — which RatePlanModifiers legally attach to this schedule | Base RatePlan filings only (omit on modifier filings) |
+
+**Why two axes.** A base RatePlan being modeling-complete is independent of whether every applicable modifier has its own filing in the corpus. A price server billing a non-CARE customer on E-TOU-C only needs the base RatePlan; one billing a CARE customer needs base + CARE modifier. Conflating them would make `complete = true` mean different things to different consumers.
+
+**Replaces prose deferrals.** Filings predating this convention express deferred work via `(modeling deferred — …)` parentheticals inside `rdfs:comment` strings. New filings should use the structured `deferrals` array instead; the prose form will be migrated incrementally as filings are revisited.
+
+#### Modifier-coverage tracking: options considered
+
+Two shapes were considered for tracking which modifiers a base RatePlan accepts:
+
+- **Option A — self-declared on the base.** Each base RatePlan filing carries `applicable_modifiers` listing the universe of legally-applicable modifiers per the source PDF, *including modifiers not yet modeled in the corpus*. A lint walks the corpus and reports, per base, which applicable modifiers (i) have a filing under the same utility, and (ii) of those, which have `complete = true`.
+- **Option B — derived from the modifier side.** Skip the per-base list entirely. Each RatePlanModifier filing already names its applicable bases via IRI. A corpus walk could collect those references and emit a coverage report without per-base annotation.
+
+**Option A is the chosen approach.** Option B is lighter weight but only sees modifiers that already have filings — it cannot surface the case "we know SCE has a Medical Baseline modifier but no one has modeled it yet", which is the gap signal that matters most. The information *what modifiers legally attach to this schedule* isn't recoverable from the JSON-LD or any other file we keep, so the base manifest is the right home for it.
+
+The lint that consumes `applicable_modifiers` lives at `dev/lint_modifier_coverage.py` (when implemented) and emits `reports/modifier-coverage.md`.
+
+## 5. Per-utility discovery manifest: `utility.toml`
+
+Each `ca/<class>/<utility>/` directory contains a `utility.toml` pointing at where the utility publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
+
+```toml
+utility           = "pge"
+
+tariff_index_urls = [
+  "https://www.pge.com/en/account/rate-plans/rate-plans/learn-about-rate-plans.html",
+  "https://www.pge.com/tariffs/assets/pdf/tariffbook/",
+]
+
+scrape_notes = """
+Free text. Document scrape strategy hints: known TLS-fingerprint blocks
+(curl_cffi required), URL patterns per schedule, AL-listing locations,
+paywalls, etc.
+"""
+```
+
+Required fields are `utility` and `tariff_index_urls` (one or more discovery URLs). `scrape_notes` is optional but recommended — capture what a future scraper will need to know that isn't obvious from the URLs alone.
+
+The schema is intentionally minimal. Richer fields (per-schedule URL templates, AL-listing endpoints, structured scrape recipes) can be added once a real scraper is built and tells us what it needs.
+
+## 6. IRI naming conventions
 
 | Resource | IRI shape | Example |
 | --- | --- | --- |
@@ -121,28 +238,66 @@ Fields marked optional may be omitted (TOML simply elides them). `source.url` an
 
 These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpau-e-1`, `urpx:cpau-e-1-2025-07-01`). Lowercase, hyphenated, no spaces.
 
-## 6. Source PDF referencing
+### Cross-version IRI scoping (when adopting `urpx:supersedes`)
 
-PDFs are **not committed**. The URPX `urpx:hasDataSourceReference` block in each JSON-LD points at the canonical published URL:
+URI identity says **one IRI denotes one resource**. When a `RatePlanVersion` adds `urpx:supersedes` pointing to a prior version, both versions get loaded into the same merged graph at validation time (`dev/validate-with-base.py`). Subordinate resources whose **content differs between versions** must therefore use **version-distinct IRIs**, otherwise the merged graph violates property cardinality (e.g., `urpx:rootNode maxCount=1` collides when two ConditionExpressions share an IRI).
+
+Convention: prepend `<schedule>-<date>-` to the descriptor for each colliding subordinate. Example from PG&E E-ELEC 2026-03-27:
+
+| Stable across versions (keep shared IRI) | Diverged content (version-suffix) |
+| --- | --- |
+| `pge:program-care` (ProgramEnrollment) | `pge:e-elec-2026-03-27-cn-nbt` (ComparisonNode w/ different operands) |
+| `pge:e-elec` (RatePlan) | `pge:e-elec-2026-03-27-price-public-purpose` (Price w/ updated unitPrice) |
+| `pge:al-7846-e` (TariffPublication) | `pge:e-elec-2026-03-27-er-residential` (EligibilityRule transitively differs) |
+
+Apply only to the IRIs that actually collide on content; resources unchanged across versions stay shared. Cascades transitively: an ancestor whose child references change is itself a content-divergence and needs the suffix.
+
+Earlier versions in the corpus (e.g., `pge:e-elec-2026-01-01`'s subordinates) keep their unscoped IRIs as the canonical "old" forms — only the newer reissue takes the version-suffix treatment.
+
+## 7. Source PDF referencing
+
+Each filing's source PDF is **committed alongside the JSON-LD** at:
+
+```
+ca/<class>/<utility>/<schedule>/versions/<date>/<utility>_<schedule>_<date>.pdf
+```
+
+Examples:
+```
+ca/iou/pge/e-tou-c/versions/2026-03-01/pge_e-tou-c_2026-03-01.pdf
+ca/iou/pge/e-tou-d/versions/2026-03-27/pge_e-tou-d_2026-03-27.pdf
+```
+
+The URPX `urpx:hasDataSourceReference` block in each JSON-LD retains the canonical published URL via `urpx:accessURL` and the publisher's filename via `urpx:fileName`:
 
 ```json
 "urpx:hasDataSourceReference": {
   "@type": "urpx:DataSourceReference",
-  "urpx:url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf",
   "urpx:fileName": "ELEC_SCHEDS_E-TOU-C.pdf",
-  "urpx:mediaType": "application/pdf"
+  "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf",
+  ...
 }
 ```
 
-The `tariff.toml` carries the sha256 and the date the document was retrieved, so a future consumer can re-fetch and verify byte-identity.
+`tariff.toml` carries the sha256 of the bytes-as-extracted, allowing the committed local PDF to be self-checked.
 
-## 7. Extraction intermediates
+### Why PDFs ARE committed (reversal of an earlier decision)
+
+The earlier convention was *"PDFs are not committed; future consumers can re-fetch and verify byte-identity"*. That convention was reversed on 2026-04-28 after a real demonstration of why URLs alone are not durable provenance: PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place at the canonical URL between our 2026-04-26 retrieval and a 2026-04-28 re-fetch — same URL, different bytes. The original was recoverable only because dcj had a private archive copy. URDB and similar tariff databases are full of broken links and silently-mutated documents for the same reason; URPX's *raison d'être* is auditable provenance, which requires the actual bytes the data was extracted from to live alongside the structured representation.
+
+### Edge case: corrections to the same effective date
+
+If a regulator issues a correction with a new sheet number for the same effective date, extend the filename to include the CPUC leaf identifier (e.g. `pge_e-tou-d_2026-03-27_61254-E.pdf`). Not a problem we have today.
+
+Utility-specific source-document quirks (publication cadence, per-sheet vs whole-document effective dates, opaque vs stable URLs) are documented in each utility's `utility.toml` `scrape_notes` rather than aggregated here.
+
+## 8. Extraction intermediates
 
 Per-filing extraction byproducts (MinerU markdown, OCR layouts, intermediate JSON) live at `versions/<date>/extracted/` and are excluded from git via the top-level `.gitignore`. They are useful locally for debugging the conversion but bloat the repo and are reproducible from the source PDF.
 
 If a particular extraction needs to be preserved (e.g. as evidence of how a tricky table was parsed), commit a single `extracted/notes.md` describing the issue, not the raw output.
 
-## 8. Workflow: adding a new filing
+## 9. Workflow: adding a new filing
 
 1. Identify a new tariff PDF (utility website, CPUC e-filing, regulator portal).
 2. Create the directory: `ca/<class>/<utility>/<schedule>/versions/<effective-date>/`.
@@ -150,12 +305,13 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 4. Run extraction (e.g. `mineru -p source.pdf -o extracted/ -b pipeline`).
 5. Convert to URPX JSON-LD as `rate-plan_<utility>_<schedule>_<date>.jsonld`.
 6. Validate with `clj-urpx` (SHACL) — record outcome in `[validation]`.
-7. Lint cross-filing consistency (RatePlan-level fields match prior filings of this schedule).
-8. Commit. Optionally open a PR if review is required.
+7. Record modeling-completeness state in `[modeling]` (§4.4): set `complete = true` and `deferrals = []` if the source PDF is fully captured; otherwise list the deferred parts. On base RatePlan filings, also populate `applicable_modifiers` with every RatePlanModifier the source tariff names — *including modifiers not yet modeled in the corpus*, since this list is what drives the modifier-coverage gap report.
+8. Lint cross-filing consistency (RatePlan-level fields match prior filings of this schedule).
+9. Commit. Optionally open a PR if review is required.
 
-## 9. Future considerations
+## 10. Future considerations
 
 - **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `ca/iou/pge/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
 - **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `ca/iou/pge/a-1/`). The class-level split is by utility class, not by customer class.
-- **Lineage tracking** (this version supersedes that one) is captured by `urpx:priorRatePlanVersion` inside the JSON-LD, not by directory layout.
+- **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Per [urpx-org/urpx#16](https://github.com/urpx-org/urpx/issues/16), the value must point to an existing `RatePlanVersion` IRI; cross-file resolution is verified by `dev/validate-with-base.py`. Adopted in [#3](https://github.com/grid-coordination/urpx-tariffs/issues/3) starting with PG&E E-TOU-C 2026-03-27 → 2026-03-01.
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.

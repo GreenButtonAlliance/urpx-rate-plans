@@ -1,0 +1,237 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-deed-restricted-2025-11-15",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:deed-restricted",
+    "urpx:name": "Deed-Restricted Base Services Charge Discount",
+    "urpx:modifierUniqueIdentifier": "DEED-RESTRICTED",
+    "urpx:initialEffectiveDate": "2025-11-15",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:deed-restricted-2025-11-15",
+      "urpx:version": "2025-11-15",
+      "urpx:modifierVersionNumber": "2025-11-15",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Base Services Charge (BSC) Discount of $-0.334/meter/day available to SCE residential customers in qualifying deed-restricted housing, applied as an overlay to any SCE residential base rate plan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Introduced 2025-11-15 with the income-graduated Base Services Charge restructuring per CPUC Decision 24-05-028 (SB 205 implementation): the base BSC of $0.794/meter/day is reduced by this $0.334/meter/day discount for customers in qualifying deed-restricted housing, yielding a net BSC of $0.460/meter/day. 'Deed-restricted' refers to housing units with recorded deed restrictions limiting occupancy to income-qualified tenants — typically affordable-housing developments funded under federal LIHTC, state Multifamily Housing Program, or local inclusionary-housing ordinances. Eligibility is unit-level (not customer-level): the discount applies based on the property's deed-restriction status as documented in the property records, regardless of the individual customer's income. Distinct from CARE/FERA (which gate on individual customer income); a customer can be both deed-restricted-eligible AND CARE/FERA-eligible, in which case multiple BSC adjustments stack. Bill calculation correctness: this modifier captures the structured discount; eligibility verification (deed restriction confirmed via property records) is operational rather than billing-time logic and is treated here as a customer-state property (housingDeedRestricted=true). Source: SCE Schedule TOU-D Special Condition 9 + Decision 24-05-028 implementation notes; documented in description prose of all four affected base rate-plan filings in this corpus.",
+      "urpx:effectiveDateTime": "2025-11-15T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        },
+        {
+          "@id": "sce:d"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_TOU-D_2025.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_TOU-D_2025.pdf",
+        "urpx:dateRetrieved": "2026-04-30",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:er-deed-restricted",
+          "urpx:name": "Customer in qualifying deed-restricted housing",
+          "urpx:description": "Customer must be a residential customer whose service address is a housing unit with a recorded deed restriction limiting occupancy to income-qualified tenants (typically LIHTC-funded, state Multifamily Housing Program-funded, or local inclusionary-housing-ordinance units). Eligibility is unit-level rather than customer-level — based on the property's deed-restriction status as documented in property records, regardless of the individual customer's current income.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:cx-deed-restricted",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sce:bn-deed-restricted-residential-and-eligible",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cn-deed-restricted-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:cn-deed-restricted-housing-flag",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "housingDeedRestricted"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:booleanValue": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:deed-restricted-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:numberOfMeters"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:deed-restricted-ledger-bsc-credit",
+              "urpx:name": "Deed-Restricted Base Services Charge Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:deed-restricted-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:deed-restricted-pd-bsc-discount",
+              "urpx:name": "Deed-Restricted Base Services Charge Discount",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:deed-restricted-ledger-bsc-credit"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:deed-restricted-price-bsc-discount",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:deed-restricted-pd-bsc-discount"
+            },
+            "urpx:startDate": "2025-11-15",
+            "urpx:name": "Deed-Restricted BSC Discount",
+            "urpx:unitPrice": "-0.334"
+          }
+        ]
+      }
+    }
+  }
+}

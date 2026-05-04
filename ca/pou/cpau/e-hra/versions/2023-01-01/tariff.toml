@@ -1,0 +1,41 @@
+# Identity --------------------------------------------------------------------
+utility        = "cpau"
+schedule       = "e-hra"
+effective_date = "2023-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page  = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+url           = "https://www.paloalto.gov/files/assets/public/v/3/utilities/rates-schedules-for-utilities/e-hra-effective-2023-01-01.pdf"
+sha256        = "7e80aec8012b25b55257edec4166fc15044536508fe167797b41aeffc0d939b8"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+
+# Note: paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation.
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "city-council"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "CPAU Schedule E-HRA — standalone urpx:RatePlanModifier filing applicable to all CPAU electric customers. Electric Hydro Rate Adjuster — surcharge or discount applied to all CPAU electric rate schedules based on the Hydro Stabilization Reserve level and projected hydro generation. Set annually in May (or when conditions warrant) by Council via a 4×4 matrix; range from $-0.066 credit to $+0.048 surcharge per kWh. Currently noted on the canonical landing page as 'Inactive as of 7/1/2023' — produces zero adjustment until reactivated. Originally DCJ-authored, contributed to urpx-org/urpx/test-cases/ via PR #7 (cpau-rate-plans branch); brought into urpx-tariffs on 2026-04-30 by shadow-repo/scripts/extract-cpau-modifiers-tdk.py — carves the modifier subtree out of the existing CPAU E-1 2025-09-01 multi-source filing's @graph into a standalone @graph. Has urpx:applicableToRatePlan and urpx:applicableToRatePlanVersion stripped per the standalone-modifier cross-graph identity workaround for urpx-org/urpx#23 (same shape as the green-power filings E-2-G / E-4-G / E-7-G). DataSourceReference updated to the canonical paloalto.gov URL (vs the placeholder file:// URI inherited from the URPX-team-authored source). pyshacl + clj-urpx end-to-end validate clean (resolve N/A — modifier requires base+modifier composition; awaits urpx-org/urpx#23)."

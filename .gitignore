@@ -2,9 +2,16 @@
 # Reproducible from the source PDF; preserve via extracted/notes.md if needed.
 **/extracted/
 
-# Source PDFs — never committed; fetched on demand from canonical URLs.
-**/source.pdf
-**/*.pdf
+# Source PDFs are committed alongside each filing as
+#   ca/<class>/<utility>/<schedule>/versions/<date>/<utility>_<schedule>_<date>.pdf
+# (see LAYOUT.md §6 for rationale). No PDF gitignore rule.
+
+# Clojure CLI dependency cache
+.cpcache/
+
+# Python bytecode cache (e.g. dev/__pycache__/ from dev/validate-with-base.py)
+__pycache__/
+*.pyc
 
 # OS / editor noise
 .DS_Store

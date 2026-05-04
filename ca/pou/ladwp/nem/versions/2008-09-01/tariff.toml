@@ -1,0 +1,111 @@
+# Identity --------------------------------------------------------------------
+utility        = "ladwp"
+schedule       = "nem"
+effective_date = "2008-09-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.ladwp.com/sites/default/files/documents/LADWP_Electric_Rates.pdf"
+sha256        = "789d1183a45f1ba0a29158697001ab3e0eb03a1121936422000a0058e0c6dbbb"
+retrieved_on  = "2026-05-01"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "city-council"
+docket        = "LADWP Electric Rates Ordinance, Service Rider NEM (terms unchanged since September 1, 2008)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-01"
+notes         = """
+First LADWP RatePlanModifier filing in the corpus. Source-of-record is
+the LADWP Electric Rates Ordinance PDF (the comprehensive base
+ordinance), pages 19-21, "SERVICE RIDER NEM — Net Energy Metering"
+section. There is no separately-published NEM PDF — the rider lives
+inside the master ordinance.
+
+The NEM Service Rider has been "Rate Effective September 1, 2008"
+with text unchanged since (LADWP's NEM is closed to new commercial
+generators >1MW since 2008 but residential terms have remained
+stable). Filing's effective_date is 2008-09-01 (rider's stated
+effectiveness) — distinct from the base R-1A/R-1B residential
+filings which are dated 2026-04-01 (current quarterly factor period).
+
+## What this modifier captures
+
+Eligibility:
+  - Customer-generator with on-premises permanent solar/wind/hybrid
+    facility ≤1MW capacity
+  - Bidirectional metering (LADWP-provided)
+  - Generation primarily offsets customer's own load
+  - Customer pays interconnection costs
+  - >10kW nameplate requires signed Solar-Powered Customer Generation
+    Interconnection Agreement
+  - NOT eligible: emergency / standby / temporary / mobile generation,
+    or commercial customer-generation Schedules CG-2 / CG-3
+
+Reverse-flow MetricInput (exported kWh).
+
+Net-metering billing rule (in description prose):
+  - If grid-supplied kWh ≥ generated kWh: customer pays at applicable
+    base-rate energy charges
+  - If generated kWh > grid-supplied kWh: customer pays applicable
+    monthly charges except energy charges; receives credit equal to
+    applicable Rate Schedule energy pricing × excess exported kWh
+  - Credits roll forward (excluding Taxes and Minimum Charges) until
+    consumed; balance zeroes at termination
+
+## URPX vocabulary gap
+
+The actual NEM credit value depends on which base rate (R-1A or R-1B)
+the customer is on, what tier (R-1A's Z1/Z2 × Tier 1/2/3) or TOU
+period (R-1B's High Peak / Low Peak / Base), and what season. URPX
+has no primitive for "compute credit at the base rate's applicable
+energy price" — same family of vocabulary gap as the bill-percentage-
+discount issue tracked at urpx-org/urpx#24 (CARE/FERA modifiers).
+
+For SHACL conformance, the modifier carries one PriceDefinition
+(NEM Net Metering Credit, chargeType creditEnergy) with a placeholder
+Price unitPrice="0". Consumers (price-server) computing actual credits
+must reference the customer's base rate at billing time. Description
+prose documents the rule clearly.
+
+A future filing version will replace the placeholder Price with a
+structured PriceDefinition once URPX adds vocabulary for "computed at
+base rate" semantic. Will track via a comment on urpx-org/urpx#24
+once that issue's modeling-direction outcome lands (the same primitive
+that resolves the percentage-of-bill discount may also resolve the
+NEM-style net-metering case).
+
+## Cross-utility consistency
+
+Most major CA utilities have NEM-style customer-generation overlays:
+  - LADWP: Service Rider NEM (this filing) — net metering at applicable rate
+  - SMUD: NEM1 + Solar and Storage Rate (SSR) — separate program;
+    now modeled at ca/pou/smud/ssr/
+  - PG&E / SCE / SDG&E: pre-NBT customers grandfathered under NEM 1.0
+    or NEM 2.0; post-NBT (2023) customers on NBT (Net Billing Tariff)
+    with different export-compensation semantics. Not yet modeled in
+    the corpus.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-01"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Service Rider REO (Green Power) — separate modifier",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "First LADWP RatePlanModifier filing. Pattern reference: ca/pou/cpau/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, single Price. The Price is a placeholder (unitPrice='0') because URPX has no 'computed at base rate' primitive — same family of vocabulary gap as the percentage-of-bill discount issue at urpx-org/urpx#24. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."

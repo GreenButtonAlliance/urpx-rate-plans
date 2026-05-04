@@ -1,0 +1,78 @@
+# Identity --------------------------------------------------------------------
+utility        = "cpau"
+schedule       = "e-1"
+effective_date = "2025-09-01"
+
+# Source ----------------------------------------------------------------------
+# This filing is a SNAPSHOT — the base E-1 rates did not change between
+# 2025-07-01 and 2025-09-01. What changed: E-EEC-1 (NEM 2 export compensation)
+# and E-NSE-1 (NEM 1 net surplus compensation) modifiers became effective
+# 2025-09-01, both applicable to E-1. The base RatePlanVersion in this filing
+# is still cpau:e-1-2025-07-01 (same data); the directory date 2025-09-01
+# reflects the snapshot date when this @graph configuration became operative.
+[source]
+landing_page  = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+
+  [source.base]
+  url           = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-effective-2025-07-01.pdf"
+  sha256        = "9c8ad3bd32858ffba9e9a62ca7d5fce12da357d7348a846456fbbe761aea2a93"
+  retrieved_on  = "2026-04-28"
+  media_type    = "application/pdf"
+  filing_type   = "tariff-schedule"
+
+  [source.modifier_e_hra]
+  url           = "https://www.paloalto.gov/files/assets/public/v/3/utilities/rates-schedules-for-utilities/e-hra-effective-2023-01-01.pdf"
+  sha256        = "7e80aec8012b25b55257edec4166fc15044536508fe167797b41aeffc0d939b8"
+  retrieved_on  = "2026-04-28"
+  media_type    = "application/pdf"
+  filing_type   = "tariff-schedule"
+
+  [source.modifier_e_eec_1]
+  url           = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/residential-utility-rates/e-eec-1-effective-2025-09-01.pdf"
+  sha256        = "b28764405097fa7b38523cf7d6022bde3ad94da9e4c15c49d625844e5e9d3489"
+  retrieved_on  = "2026-04-28"
+  media_type    = "application/pdf"
+  filing_type   = "tariff-schedule"
+
+  [source.modifier_e_nse_1]
+  url           = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/residential-utility-rates/e-nse-1-effective-2025-09-01.pdf"
+  sha256        = "c07362c5d7e5ca1922194a9d174292e89a24808cccfed5666996c265c8991493"
+  retrieved_on  = "2026-04-28"
+  media_type    = "application/pdf"
+  filing_type   = "tariff-schedule"
+
+# Note: paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via a real browser, OR via curl_cffi with
+# Chrome impersonation: requests.Session(impersonate="chrome120"). Verified
+# 2026-04-28 — current canonical PDFs are byte-identical to the committed
+# copies here for all four (sha256 above match curl_cffi re-fetches).
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "city-council"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-03-03"
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl"
+validated_on   = "2026-04-28"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "e-eec-1",
+  "e-hra",
+  "e-nse-1",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "City of Palo Alto Utilities (CPAU) E-1 Residential Electric Service — 2025-09-01 SNAPSHOT. Base RatePlanVersion (cpau:e-1-2025-07-01) is identical to ../2025-07-01/. What's new in this filing: E-EEC-1 (Solar NEM 2 Export Electricity Compensation, applies only to E-1) and E-NSE-1 (Solar NEM 1 Net Surplus Electricity Compensation, applies to E-1 and E-1-TOU) modifier RatePlanModifierVersions added to the @graph; both became effective 2025-09-01. E-HRA carried over from the 2025-07-01 filing (effective 2023-01-01; per the canonical landing page, annotated 'Inactive as of 7/1/2023' — the schedule still applies but currently produces zero adjustment). The 4-entity @graph is the consumer-ready snapshot for any consumer querying CPAU E-1 as of 2025-09-01 onwards. Modifier source data: the migration script consumed the modifier JSON-LD from urpx-org/urpx PR #7 head e8ed4f0 (DCJ-authored) and applied the v0.2.0 transforms (Decision #094/097/098 ConditionExpression rewrites including nested ApplicabilityRule.hasCondition migration, BillingModel-owned PriceDefinition with referencesLedger, isOptional removal, modifierIdentifier→modifierUniqueIdentifier relocation, IRI prefix translation). Validates clean via pyshacl + clj-urpx."

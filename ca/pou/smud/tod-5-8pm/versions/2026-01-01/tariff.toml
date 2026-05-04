@@ -1,0 +1,143 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "tod-5-8pm"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx"
+sha256        = "9be2f188d4bb39b4bb6436a9a37035457d0e0ab51f769fe995f58ca35422accd"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+filing_id     = "SMUD-Resolution-25-06-15"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "Resolution No. 25-06-15 adopted June 19, 2025 (SMUD Board of Directors)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+First SMUD filing in the corpus. Source PDF located via Google
+site:smud.org filetype:pdf search — see ca/pou/smud/utility.toml for
+the SMUD tariff URL pattern (smud.org/-/media/Documents/Rate-Information/
+Rates/<name>.ashx).
+
+Filing details (5-page PDF):
+  Sheet R-TOD-1 (Applicability + rate-category list) —
+    Resolution 25-06-15 adopted June 19, 2025
+  Sheet R-TOD-2 (Firm Service Rates: TOD, TOD Low Use, CPP) —
+    same resolution
+  Sheet R-TOD-3 (CPP details + EV Credit + Surcharges + Rate Option Menu)
+  Sheet R-TOD-4 (Standby + Special Metering + Three-Phase + Time-of-Day
+    Billing Periods + holidays)
+  Sheet R-TOD-5 (Billing — proration rules)
+
+The single Board resolution adopts a multi-year rate trajectory with
+THREE forward effective-date columns:
+  - Effective May 1, 2025      — superseded
+  - Effective January 1, 2026  — CURRENT (this filing)
+  - Effective January 1, 2027  — future (will be a new RatePlanVersion)
+
+This filing captures the January 1, 2026 column. The same source PDF
+is committed verbatim — bytes do not change as effective dates roll
+forward; only the column we read changes. Future quarterly retrievals
+should re-fetch and re-sha256 in case SMUD republishes the PDF for
+another reason.
+
+## Rate values captured (Effective 2026-01-01)
+
+System Infrastructure Fixed Charge: $27.00/meter/month
+
+Electricity Usage Charges (regulatory rate category RT02):
+  Summer (Jun 1 - Sept 30):
+    Peak     $0.3765/kWh   (5pm-8pm weekdays excluding holidays)
+    Mid-Peak $0.2139/kWh   (12pm-5pm + 8pm-12am weekdays excluding holidays)
+    Off-Peak $0.1550/kWh   (12am-12pm weekdays + all weekends/holidays)
+  Non-Summer (Oct 1 - May 31):
+    Peak     $0.1776/kWh   (5pm-8pm weekdays excluding holidays)
+    Off-Peak $0.1285/kWh   (all other hours including weekends/holidays)
+    NO Mid-Peak in non-summer.
+
+## Modeling structure
+
+Asymmetric TOU period count by season (3 periods in summer; 2 periods
+in winter — only Peak and Off-Peak, no Mid-Peak). Modeled as 5 distinct
+TOUPeriods (3 summer + 2 winter) under 3 TOUTiers (peak / mid-peak /
+off-peak). The Mid-Peak tier has only one period (summer). 5 PriceDefinitions
+for usage charges keyed by touPeriodNumber 1-5 + 1 PriceDefinition for
+SIFC. 6 Prices total.
+
+Holiday handling: SMUD lists 11 federal holidays in Sec V.A; off-peak
+applies on those days (full list in source PDF). Modeled here using
+urpx:weekdayDays for peak/mid-peak (with description noting holiday
+exclusion); urpx:weekendDays for off-peak weekend brackets (with
+description noting holidays receive same treatment as weekends).
+Explicit urpx:HolidayCalendar reference is deferred — same gap as the
+SCE TOU-D rate plans.
+
+## Modeling deferrals
+
+Deferred to grid-coordination/urpx-tariffs#15 (SMUD secondary epic):
+  - Plug-In Electric Vehicle Credit (-$0.0150/kWh, midnight-6am daily) —
+    see Sec II.D of source PDF. EV-owner overlay; modeled as a
+    RatePlanModifier in grid-coordination/urpx-tariffs#15.
+  - Energy Assistance Program Rate (EAPR) — Sec IV.A.
+  - Medical Equipment Discount Program (MED) — Sec IV.B.
+  - Standby Service charge ($8.855/kW for customers with on-site
+    generation under 100 kW nameplate) — Sec IV.D.
+  - Customer Energy Generation Options (NEM1, SSR) — Sec IV.E.
+  - SMUD Renewable Energy Option (voluntary green-power program) —
+    Sec IV.F.
+  - Special Metering Charge — Sec IV.G.
+  - Three-Phase Service Option ($57.95/month special facilities fee) —
+    Sec IV.H.
+
+Deferred to other future modeling (not grid-coordination/urpx-tariffs#15 scope):
+  - Hydro Generation Adjustment (HGA) — Sec III.A references separate
+    Rate Schedule HGA. Likely an electricity-usage surcharge that
+    fluctuates with hydro generation availability. Not yet modeled.
+  - Holiday-aware billing semantics — currently approximated via
+    weekday/weekend dayType.
+
+NEM1/SSR mandatory enrollment: Sec I.3 mandates customers with NEM1
+or SSR generation facilities approved on/after January 1, 2018 to
+take service on R-TOD. Documented in the EligibilityRule description
+but not encoded as a separate rule (it's an inclusion rule, not an
+exclusion).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Hydro Generation Adjustment (HGA)",
+  "Standby Service Charge",
+  "Three-Phase Service fee",
+  "SMUD Renewable Energy Option",
+]
+applicable_modifiers = [
+  "eapr",
+  "hga",
+  "nem1",
+  "pev-credit",
+  "reo",
+  "ssr",
+  "standby",
+  "three-phase",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "First SMUD schedule modeled in this corpus. Pattern reference: ca/iou/sce/tou-d-4-9pm/versions/2025-11-15/ for non-tiered residential TOU structure. Differences: SMUD has asymmetric TOU period count by season (3 summer, 2 winter — no Mid-Peak in winter), 5pm-8pm peak window (vs SCE's 4pm-9pm), simpler bill structure (no PCIA/CCA split since SMUD is vertically integrated; just 1 usage ledger + 1 service-charge ledger). 6 PriceDefinitions, 6 Prices total. Source PDF is a multi-year rate trajectory adopted by single Board resolution (Resolution 25-06-15) with three forward effective dates (May 2025, Jan 2026, Jan 2027); this filing captures the Jan 2026 column."

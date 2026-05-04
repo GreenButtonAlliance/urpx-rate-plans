@@ -1,40 +1,99 @@
 {
   "@context": {
-    "urpx": "https://schema.urpx.org/",
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
     "schema": "http://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://example.com/organizations/",
     "pge": "https://example.com/pge/",
-    "urpx:unitPrice": { "@type": "xsd:decimal" },
-    "urpx:effectiveDate": { "@type": "xsd:date" },
-    "urpx:effectiveDateTime": { "@type": "xsd:dateTime" },
-    "urpx:baseQuantity": { "@type": "xsd:decimal" },
-    "urpx:initialEffectiveDate": { "@type": "xsd:date" },
-    "urpx:startDate": { "@type": "xsd:date" },
-    "urpx:url": { "@type": "xsd:anyURI" },
-    "urpx:month": { "@type": "xsd:gMonth" },
-    "urpx:intervalDuration": { "@type": "xsd:duration" },
-    "urpx:serviceTierNumber": { "@type": "xsd:integer" },
-    "urpx:lowerBound": { "@type": "xsd:decimal" },
-    "urpx:upperBound": { "@type": "xsd:decimal" },
-    "urpx:pageStart": { "@type": "xsd:integer" },
-    "urpx:pageEnd": { "@type": "xsd:integer" },
-    "urpx:accessURL": { "@type": "xsd:anyURI" },
-    "urpx:dateRetrieved": { "@type": "xsd:date" },
-    "urpx:dateReceived": { "@type": "xsd:date" },
-    "urpx:constraintProperty": { "@type": "xsd:anyURI" }
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:dateReceived": {
+      "@type": "xsd:date"
+    },
+    "urpx:gYearValue": {
+      "@type": "xsd:gYear"
+    }
   },
   "@graph": [
     {
       "@type": "urpx:ProgramEnrollment",
       "@id": "pge:program-care",
       "urpx:programName": "California Alternate Rates for Energy (CARE)",
-      "urpx:programType": { "@id": "urpx:lowIncomeProgram" }
+      "urpx:programType": {
+        "@id": "urpx:lowIncomeProgram"
+      }
     },
     {
       "@type": "urpx:ProgramEnrollment",
       "@id": "pge:program-fera",
-      "urpx:programName": "Family Electric Rate Assistance (FERA)"
+      "urpx:programName": "Family Electric Rate Assistance (FERA)",
+      "urpx:programType": {
+        "@id": "urpx:lowIncomeProgram"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-cca",
+      "urpx:programName": "Community Choice Aggregation (CCA)",
+      "urpx:programType": {
+        "@id": "urpx:communityChoiceAggregation"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-da",
+      "urpx:programName": "Direct Access (DA)"
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-tbs",
+      "urpx:programName": "Transitional Bundled Service (TBS)"
     },
     {
       "@type": "urpx:TariffPublication",
@@ -42,16 +101,21 @@
       "urpx:name": "PG&E Advice Letter 7846-E",
       "urpx:filingNumber": "7846-E",
       "urpx:issuingAuthority": "California Public Utilities Commission",
-      "urpx:publicationType": { "@id": "urpx:regulatoryFiling" },
+      "urpx:publicationType": {
+        "@id": "urpx:regulatoryFiling"
+      },
       "urpx:effectiveDate": "2026-03-01",
       "urpx:dateReceived": "2026-02-27",
-      "urpx:hasRatePlan": { "@id": "pge:e-1" },
-      "urpx:hasRatePlanModifier": { "@id": "pge:e-1-vintage-pcia" }
+      "urpx:hasRatePlan": {
+        "@id": "pge:e-1"
+      },
+      "urpx:hasRatePlanModifier": {
+        "@id": "pge:e-1-vintage-pcia"
+      }
     },
     {
       "@type": "urpx:RatePlan",
       "@id": "pge:e-1",
-      "urpx:ratePlanIdentifier": "E-1",
       "urpx:name": "Residential Services",
       "urpx:initialEffectiveDate": "2001-01-01",
       "urpx:timezoneIdentifier": "America/Los_Angeles",
@@ -62,21 +126,37 @@
           "@type": "urpx:Organization",
           "@id": "org:utility-pge",
           "urpx:legalName": "Pacific Gas & Electric Company",
-          "urpx:organizationType": { "@id": "urpx:utilityOrganization" }
+          "urpx:organizationType": {
+            "@id": "urpx:utilityOrganization"
+          }
         },
-        "urpx:description": "Default non-TOU residential schedule. Energy is billed at three tiered rates based on percentage of baseline allowance: Tier 1 (0-100%), Tier 2 (101-400%), Tier 2 Continued (over 400%). Generation and Distribution components are tier-agnostic; the tier-varying piece is the Conservation Incentive Adjustment. Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). KNOWN LIMITATION: the baseline allowance varies by 10 territories × 2 codes (B/H) × 2 seasons; this filing models ONE cell (Territory P, Code B residential, summer 13.5 / winter 11.0 kWh/day). Full-matrix expansion is blocked on upstream URPX-#11 (parameterized matrix-valued tier bounds); tracked under URPXT-cww. Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file. (urpx:initialEffectiveDate set to 2001-01-01 as a placeholder for the post-restructuring modern PG&E E-1 era; the schedule predates this.)",
+        "urpx:description": "Default non-TOU residential schedule. Energy is billed at three tiered rates based on percentage of baseline allowance: Tier 1 (0-100%), Tier 2 (101-400%), Tier 2 Continued (over 400%). Generation and Distribution components are tier-agnostic; the tier-varying piece is the Conservation Incentive Adjustment. Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). KNOWN LIMITATION: the baseline allowance varies by 10 territories × 2 codes (B/H) × 2 seasons; this filing models ONE cell (Territory P, Code B residential, summer 13.5 / winter 11.0 kWh/day). Full-matrix expansion is tracked under grid-coordination/urpx-tariffs#18, blocked on upstream urpx-org/urpx discussion #31 (PlanElements.hasProfileAlternatives maxCount=1 collides with the existing income-tier ProfileAlternatives at this PlanElements scope). Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file. (urpx:initialEffectiveDate set to 2001-01-01 as a placeholder for the post-restructuring modern PG&E E-1 era; the schedule predates this.)",
         "urpx:effectiveDateTime": "2026-03-01T00:00:00",
-        "urpx:changeReason": { "@id": "urpx:rateCase" },
+        "urpx:changeReason": {
+          "@id": "urpx:rateCase"
+        },
         "urpx:priceCurrency": "USD",
-        "urpx:commodity": { "@id": "urpx:electricity" },
-        "urpx:serviceRole": { "@id": "urpx:bundledServiceRole" },
+        "urpx:commodity": {
+          "@id": "urpx:electricity"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:customerChoice": {
+          "@id": "urpx:voluntaryChoice"
+        },
+        "urpx:isDefault": true,
         "urpx:hasDataSourceReference": {
           "@type": "urpx:DataSourceReference",
           "urpx:fileName": "ELEC_SCHEDS_E-1.pdf",
-          "urpx:mediaType": { "@id": "urpx:applicationPdf" },
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
           "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-1.pdf",
           "urpx:dateRetrieved": "2026-04-26",
-          "urpx:dataSourceType": { "@id": "urpx:utilityWebsiteSource" },
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
           "urpx:hasTariffBookReference": {
             "@type": "urpx:TariffBookReference",
             "urpx:pageStart": 1,
@@ -91,10 +171,28 @@
             "@id": "pge:er-residential-e-1",
             "urpx:name": "Eligibility for E-1 Residential Service",
             "urpx:description": "Single-phase or polyphase residential service in single-family dwellings, separately metered flats and apartments, common-area accounts in multifamily complexes, and farm service on residential premises. PG&E's default residential schedule for customers not opting into a TOU rate.",
-            "urpx:hasCustomerProfile": {
-              "@type": "urpx:CustomerProfile",
-              "@id": "pge:cp-residential",
-              "urpx:hasCustomerKind": { "@id": "urpx:residentialKind" }
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "pge:cx-residential",
+              "urpx:rootNode": {
+                "@type": "urpx:ComparisonNode",
+                "@id": "pge:cn-residential",
+                "urpx:operator": {
+                  "@id": "urpx:equalsOperator"
+                },
+                "urpx:leftOperand": {
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:conditionProperty": {
+                    "@id": "urpx:hasCustomerKind"
+                  }
+                },
+                "urpx:rightOperand": {
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:referencesValue": {
+                    "@id": "urpx:residentialKind"
+                  }
+                }
+              }
             }
           }
         ],
@@ -105,13 +203,27 @@
               "@type": "urpx:Season",
               "@id": "pge:season-summer",
               "urpx:seasonName": "Summer",
-              "urpx:month": ["--06", "--07", "--08", "--09"]
+              "urpx:month": [
+                "--06",
+                "--07",
+                "--08",
+                "--09"
+              ]
             },
             {
               "@type": "urpx:Season",
               "@id": "pge:season-winter",
               "urpx:seasonName": "Winter",
-              "urpx:month": ["--10", "--11", "--12", "--01", "--02", "--03", "--04", "--05"]
+              "urpx:month": [
+                "--10",
+                "--11",
+                "--12",
+                "--01",
+                "--02",
+                "--03",
+                "--04",
+                "--05"
+              ]
             }
           ],
           "urpx:hasMetricInput": [
@@ -119,20 +231,30 @@
               "@type": "urpx:MetricInput",
               "@id": "pge:mi-energy",
               "urpx:name": "kWh Energy Consumption Prices",
-              "urpx:metricInputType": { "@id": "urpx:measuredMetricInput" },
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
               "urpx:hasMetricSpecification": {
                 "@type": "urpx:MetricSpecification",
                 "@id": "pge:ms-energy",
-                "urpx:measurementKind": { "@id": "urpx:energy" },
-                "urpx:unitOfMeasure": { "@id": "urpx:kWh" }
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                }
               }
             },
             {
               "@type": "urpx:MetricInput",
               "@id": "pge:mi-meter-count",
               "urpx:name": "Per Meter Prices",
-              "urpx:metricInputType": { "@id": "urpx:profileMetricInput" },
-              "urpx:profileMetricProperty": { "@id": "urpx:numberOfMeters" }
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              }
             }
           ],
           "urpx:hasBillingModel": {
@@ -140,7 +262,9 @@
             "urpx:hasServiceTiers": {
               "@type": "urpx:ServiceTiers",
               "@id": "pge:tiers-baseline-tp-cb",
-              "urpx:referencesMetricInput": { "@id": "pge:mi-energy" },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:mi-energy"
+              },
               "urpx:hasServiceTier": [
                 {
                   "@type": "urpx:ServiceTier",
@@ -148,9 +272,13 @@
                   "urpx:name": "Summer Tier 1 — within baseline (Territory P, Code B: 0-13.5 kWh/day)",
                   "urpx:serviceTierNumber": 1,
                   "urpx:lowerBound": "0",
-                  "urpx:lowerBoundOperator": { "@id": "urpx:greaterThanOrEqualOperator" },
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
                   "urpx:upperBound": "13.5",
-                  "urpx:upperBoundOperator": { "@id": "urpx:lessThanOrEqualOperator" }
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 },
                 {
                   "@type": "urpx:ServiceTier",
@@ -158,9 +286,13 @@
                   "urpx:name": "Summer Tier 2 — 101-400% of baseline (Territory P, Code B: 13.5-54.0 kWh/day)",
                   "urpx:serviceTierNumber": 2,
                   "urpx:lowerBound": "13.5",
-                  "urpx:lowerBoundOperator": { "@id": "urpx:greaterThanOperator" },
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
                   "urpx:upperBound": "54.0",
-                  "urpx:upperBoundOperator": { "@id": "urpx:lessThanOrEqualOperator" }
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 },
                 {
                   "@type": "urpx:ServiceTier",
@@ -168,9 +300,13 @@
                   "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory P, Code B: > 54.0 kWh/day)",
                   "urpx:serviceTierNumber": 3,
                   "urpx:lowerBound": "54.0",
-                  "urpx:lowerBoundOperator": { "@id": "urpx:greaterThanOperator" },
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
                   "urpx:upperBound": "999999",
-                  "urpx:upperBoundOperator": { "@id": "urpx:lessThanOrEqualOperator" }
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 },
                 {
                   "@type": "urpx:ServiceTier",
@@ -178,9 +314,13 @@
                   "urpx:name": "Winter Tier 1 — within baseline (Territory P, Code B: 0-11.0 kWh/day)",
                   "urpx:serviceTierNumber": 4,
                   "urpx:lowerBound": "0",
-                  "urpx:lowerBoundOperator": { "@id": "urpx:greaterThanOrEqualOperator" },
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
                   "urpx:upperBound": "11.0",
-                  "urpx:upperBoundOperator": { "@id": "urpx:lessThanOrEqualOperator" }
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 },
                 {
                   "@type": "urpx:ServiceTier",
@@ -188,9 +328,13 @@
                   "urpx:name": "Winter Tier 2 — 101-400% of baseline (Territory P, Code B: 11.0-44.0 kWh/day)",
                   "urpx:serviceTierNumber": 5,
                   "urpx:lowerBound": "11.0",
-                  "urpx:lowerBoundOperator": { "@id": "urpx:greaterThanOperator" },
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
                   "urpx:upperBound": "44.0",
-                  "urpx:upperBoundOperator": { "@id": "urpx:lessThanOrEqualOperator" }
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 },
                 {
                   "@type": "urpx:ServiceTier",
@@ -198,9 +342,13 @@
                   "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory P, Code B: > 44.0 kWh/day)",
                   "urpx:serviceTierNumber": 6,
                   "urpx:lowerBound": "44.0",
-                  "urpx:lowerBoundOperator": { "@id": "urpx:greaterThanOperator" },
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
                   "urpx:upperBound": "999999",
-                  "urpx:upperBoundOperator": { "@id": "urpx:lessThanOrEqualOperator" }
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 }
               ]
             },
@@ -209,173 +357,472 @@
                 "@type": "urpx:Ledger",
                 "@id": "pge:ledger-energy-supply",
                 "urpx:name": "Energy Supply Prices",
-                "urpx:ledgerType": { "@id": "urpx:supplyLedger" },
-                "urpx:referencesMetricInput": { "@id": "pge:mi-energy" },
-                "urpx:hasPriceDefinition": [
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-generation",
-                    "urpx:name": "Generation",
-                    "urpx:chargeType": { "@id": "urpx:usageCharge" },
-                    "urpx:chargeCategory": { "@id": "urpx:auxiliaryCharge" },
-                    "urpx:billPortion": { "@id": "urpx:supplyPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-bundled-pcia",
-                    "urpx:name": "Bundled Power Charge Indifference Adjustment",
-                    "urpx:chargeType": { "@id": "urpx:adjustmentPowerCost" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:supplyPortion" }
-                  }
-                ]
+                "urpx:ledgerType": {
+                  "@id": "urpx:supplyLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:mi-energy"
+                }
               },
               {
                 "@type": "urpx:Ledger",
                 "@id": "pge:ledger-energy-delivery",
                 "urpx:name": "Energy Delivery Prices",
-                "urpx:ledgerType": { "@id": "urpx:deliveryLedger" },
-                "urpx:referencesMetricInput": { "@id": "pge:mi-energy" },
-                "urpx:hasPriceDefinition": [
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-distribution",
-                    "urpx:name": "Distribution",
-                    "urpx:chargeType": { "@id": "urpx:usageCharge" },
-                    "urpx:chargeCategory": { "@id": "urpx:auxiliaryCharge" },
-                    "urpx:billPortion": { "@id": "urpx:deliveryPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-transmission",
-                    "urpx:name": "Transmission",
-                    "urpx:chargeType": { "@id": "urpx:transmission" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:deliveryPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-transmission-adj",
-                    "urpx:name": "Transmission Rate Adjustments",
-                    "urpx:chargeType": { "@id": "urpx:transmission" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:deliveryPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-reliability",
-                    "urpx:name": "Reliability Services",
-                    "urpx:chargeType": { "@id": "urpx:reliabilityCharge" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:deliveryPortion" }
-                  }
-                ]
+                "urpx:ledgerType": {
+                  "@id": "urpx:deliveryLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:mi-energy"
+                }
               },
               {
                 "@type": "urpx:Ledger",
                 "@id": "pge:ledger-cia",
                 "urpx:name": "Conservation Incentive Adjustment",
-                "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-                "urpx:referencesMetricInput": { "@id": "pge:mi-energy" },
-                "urpx:hasPriceDefinition": {
-                  "@type": "urpx:PriceDefinition",
-                  "@id": "pge:pd-cia",
-                  "urpx:name": "Conservation Incentive Adjustment",
-                  "urpx:chargeType": { "@id": "urpx:conservationCharge" },
-                  "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                  "urpx:billPortion": { "@id": "urpx:bundledPortion" }
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:mi-energy"
                 }
               },
               {
                 "@type": "urpx:Ledger",
                 "@id": "pge:ledger-adjustments",
                 "urpx:name": "Adjustment Prices",
-                "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-                "urpx:referencesMetricInput": { "@id": "pge:mi-energy" },
-                "urpx:hasPriceDefinition": [
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-public-purpose",
-                    "urpx:name": "Public Purpose Programs",
-                    "urpx:chargeType": { "@id": "urpx:publicBenefits" },
-                    "urpx:chargeCategory": { "@id": "urpx:regulatory" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-nuclear",
-                    "urpx:name": "Nuclear Decommissioning",
-                    "urpx:chargeType": { "@id": "urpx:environmentalFunding" },
-                    "urpx:chargeCategory": { "@id": "urpx:environmental" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-ctc",
-                    "urpx:name": "Competition Transition Charges",
-                    "urpx:chargeType": { "@id": "urpx:transitionCharge" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-energy-cost-recovery",
-                    "urpx:name": "Energy Cost Recovery Amount",
-                    "urpx:chargeType": { "@id": "urpx:recoverySurcharge" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-wildfire-fund",
-                    "urpx:name": "Wildfire Fund Charge",
-                    "urpx:chargeType": { "@id": "urpx:environmentalFunding" },
-                    "urpx:chargeCategory": { "@id": "urpx:environmental" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-wildfire-hardening",
-                    "urpx:name": "Wildfire Hardening Charge",
-                    "urpx:chargeType": { "@id": "urpx:environmentalFunding" },
-                    "urpx:chargeCategory": { "@id": "urpx:environmental" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-recovery-bond",
-                    "urpx:name": "Recovery Bond Charge",
-                    "urpx:chargeType": { "@id": "urpx:recoverySurcharge" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  },
-                  {
-                    "@type": "urpx:PriceDefinition",
-                    "@id": "pge:pd-recovery-bond-credit",
-                    "urpx:name": "Recovery Bond Credit",
-                    "urpx:chargeType": { "@id": "urpx:creditMisc" },
-                    "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                    "urpx:billPortion": { "@id": "urpx:bundledPortion" }
-                  }
-                ]
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:mi-energy"
+                }
               },
               {
                 "@type": "urpx:Ledger",
                 "@id": "pge:ledger-base-charge",
                 "urpx:name": "Base Services Charge",
-                "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-                "urpx:referencesMetricInput": { "@id": "pge:mi-meter-count" },
-                "urpx:hasPriceDefinition": {
-                  "@type": "urpx:PriceDefinition",
-                  "@id": "pge:pd-base-charge",
-                  "urpx:name": "Base Services Charge",
-                  "urpx:chargeType": { "@id": "urpx:minimumBill" },
-                  "urpx:chargeCategory": { "@id": "urpx:serviceCharge" },
-                  "urpx:billPortion": { "@id": "urpx:bundledPortion" },
-                  "urpx:baseQuantity": "1",
-                  "urpx:hasCalculationMethod": {
-                    "@type": "urpx:CalculationMethod",
-                    "urpx:intervalDuration": "P1D"
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:mi-meter-count"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-generation",
+                "urpx:name": "Generation",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-energy-supply"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-bundled-pcia",
+                "urpx:name": "Bundled Power Charge Indifference Adjustment",
+                "urpx:chargeType": {
+                  "@id": "urpx:adjustmentPowerCost"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:supplyPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-energy-supply"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-distribution",
+                "urpx:name": "Distribution",
+                "urpx:chargeType": {
+                  "@id": "urpx:usageCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-energy-delivery"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-transmission",
+                "urpx:name": "Transmission",
+                "urpx:chargeType": {
+                  "@id": "urpx:transmission"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-energy-delivery"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-transmission-adj",
+                "urpx:name": "Transmission Rate Adjustments",
+                "urpx:chargeType": {
+                  "@id": "urpx:transmission"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-energy-delivery"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-reliability",
+                "urpx:name": "Reliability Services",
+                "urpx:chargeType": {
+                  "@id": "urpx:reliabilityCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-energy-delivery"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-cia",
+                "urpx:name": "Conservation Incentive Adjustment",
+                "urpx:chargeType": {
+                  "@id": "urpx:conservationCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-cia"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-public-purpose",
+                "urpx:name": "Public Purpose Programs",
+                "urpx:chargeType": {
+                  "@id": "urpx:publicBenefits"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:regulatory"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-nuclear",
+                "urpx:name": "Nuclear Decommissioning",
+                "urpx:chargeType": {
+                  "@id": "urpx:environmentalFunding"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:environmental"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-ctc",
+                "urpx:name": "Competition Transition Charges",
+                "urpx:chargeType": {
+                  "@id": "urpx:transitionCharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-energy-cost-recovery",
+                "urpx:name": "Energy Cost Recovery Amount",
+                "urpx:chargeType": {
+                  "@id": "urpx:recoverySurcharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-wildfire-fund",
+                "urpx:name": "Wildfire Fund Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:environmentalFunding"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:environmental"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-wildfire-hardening",
+                "urpx:name": "Wildfire Hardening Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:environmentalFunding"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:environmental"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-recovery-bond",
+                "urpx:name": "Recovery Bond Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:recoverySurcharge"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-recovery-bond-credit",
+                "urpx:name": "Recovery Bond Credit",
+                "urpx:chargeType": {
+                  "@id": "urpx:creditMisc"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-adjustments"
+                }
+              },
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-base-charge",
+                "urpx:name": "Base Services Charge",
+                "urpx:chargeType": {
+                  "@id": "urpx:minimumBill"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:serviceCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "urpx:intervalDuration": "P1D"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-base-charge"
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternatives": {
+            "@type": "urpx:ProfileAlternatives",
+            "@id": "pge:pa-income-tier",
+            "urpx:name": "Income tier (CARE / FERA / Standard)",
+            "urpx:hasAlternativeDimensions": {
+              "@type": "urpx:AlternativeDimensions",
+              "urpx:hasAlternativeDimension": [
+                {
+                  "@type": "urpx:AlternativeDimension",
+                  "urpx:dimensionDisplayName": "Program Enrollment",
+                  "urpx:dimensionProperty": "https://urpx-org.github.io/urpx/ontology/hasProgramEnrollment",
+                  "urpx:hasPossibleValues": {
+                    "@list": [
+                      {
+                        "@id": "pge:program-care"
+                      },
+                      {
+                        "@id": "pge:program-fera"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "urpx:hasProfileAlternative": [
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-income-tier-care",
+                "urpx:name": "Income Tier 1 — CARE-eligible",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-care",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-care",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:conditionProperty": {
+                        "@id": "urpx:hasProgramEnrollment"
+                      }
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:referencesValue": {
+                        "@id": "pge:program-care"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-income-tier-fera",
+                "urpx:name": "Income Tier 2 — FERA-eligible",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-fera",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-fera",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:conditionProperty": {
+                        "@id": "urpx:hasProgramEnrollment"
+                      }
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:referencesValue": {
+                        "@id": "pge:program-fera"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-income-tier-standard",
+                "urpx:name": "Income Tier 3 — neither CARE nor FERA (standard)",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-standard",
+                  "urpx:rootNode": {
+                    "@type": "urpx:BooleanOperationNode",
+                    "@id": "pge:bn-pa-standard",
+                    "urpx:operator": {
+                      "@id": "urpx:andOperator"
+                    },
+                    "urpx:operandNodes": [
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "pge:cn-pa-not-care",
+                        "urpx:operator": {
+                          "@id": "urpx:notEqualsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:conditionProperty": {
+                            "@id": "urpx:hasProgramEnrollment"
+                          }
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:referencesValue": {
+                            "@id": "pge:program-care"
+                          }
+                        }
+                      },
+                      {
+                        "@type": "urpx:ComparisonNode",
+                        "@id": "pge:cn-pa-not-fera",
+                        "urpx:operator": {
+                          "@id": "urpx:notEqualsOperator"
+                        },
+                        "urpx:leftOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:conditionProperty": {
+                            "@id": "urpx:hasProgramEnrollment"
+                          }
+                        },
+                        "urpx:rightOperand": {
+                          "@type": "urpx:ObjectOperandNode",
+                          "urpx:referencesValue": {
+                            "@id": "pge:program-fera"
+                          }
+                        }
+                      }
+                    ]
                   }
                 }
               }
@@ -384,69 +831,7 @@
         },
         "urpx:hasPrices": {
           "@type": "urpx:Prices",
-          "urpx:hasPrice": [
-            {
-              "@type": "urpx:Price",
-              "@id": "pge:price-base-charge-tier-1",
-              "urpx:referencesPriceDefinition": { "@id": "pge:pd-base-charge" },
-              "urpx:startDate": "2026-03-01",
-              "urpx:name": "Base Services Charge — Income Tier 1 (CARE-eligible)",
-              "urpx:unitPrice": "0.19713",
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "pge:ag-base-charge-tier-1",
-                "urpx:name": "Income Tier 1 — customer enrolled in CARE",
-                "urpx:hasInclusionConstraint": {
-                  "@type": "urpx:ApplicabilityConstraint",
-                  "urpx:constraintProperty": "https://schema.urpx.org/hasProgramEnrollment",
-                  "urpx:constraintValue": { "@id": "pge:program-care" }
-                }
-              }
-            },
-            {
-              "@type": "urpx:Price",
-              "@id": "pge:price-base-charge-tier-2",
-              "urpx:referencesPriceDefinition": { "@id": "pge:pd-base-charge" },
-              "urpx:startDate": "2026-03-01",
-              "urpx:name": "Base Services Charge — Income Tier 2 (FERA-eligible)",
-              "urpx:unitPrice": "0.39688",
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "pge:ag-base-charge-tier-2",
-                "urpx:name": "Income Tier 2 — customer enrolled in FERA",
-                "urpx:hasInclusionConstraint": {
-                  "@type": "urpx:ApplicabilityConstraint",
-                  "urpx:constraintProperty": "https://schema.urpx.org/hasProgramEnrollment",
-                  "urpx:constraintValue": { "@id": "pge:program-fera" }
-                }
-              }
-            },
-            {
-              "@type": "urpx:Price",
-              "@id": "pge:price-base-charge-tier-3",
-              "urpx:referencesPriceDefinition": { "@id": "pge:pd-base-charge" },
-              "urpx:startDate": "2026-03-01",
-              "urpx:name": "Base Services Charge — Income Tier 3 (no qualifying enrollment)",
-              "urpx:unitPrice": "0.79343",
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "pge:ag-base-charge-tier-3",
-                "urpx:name": "Income Tier 3 — customer not enrolled in CARE or FERA",
-                "urpx:hasExclusionConstraint": [
-                  {
-                    "@type": "urpx:ApplicabilityConstraint",
-                    "urpx:constraintProperty": "https://schema.urpx.org/hasProgramEnrollment",
-                    "urpx:constraintValue": { "@id": "pge:program-care" }
-                  },
-                  {
-                    "@type": "urpx:ApplicabilityConstraint",
-                    "urpx:constraintProperty": "https://schema.urpx.org/hasProgramEnrollment",
-                    "urpx:constraintValue": { "@id": "pge:program-fera" }
-                  }
-                ]
-              }
-            }
-          ],
+          "urpx:hasPrice": [],
           "urpx:hasPriceSet": [
             {
               "@type": "urpx:PriceSet",
@@ -456,14 +841,18 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-generation",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-generation" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-generation"
+                  },
                   "urpx:name": "Generation",
                   "urpx:unitPrice": "0.12855"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-bundled-pcia",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-bundled-pcia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-bundled-pcia"
+                  },
                   "urpx:name": "Bundled Power Charge Indifference Adjustment",
                   "urpx:unitPrice": "-0.01011"
                 }
@@ -477,28 +866,36 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-distribution",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-distribution" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-distribution"
+                  },
                   "urpx:name": "Distribution",
                   "urpx:unitPrice": "0.18042"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-transmission",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-transmission" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-transmission"
+                  },
                   "urpx:name": "Transmission",
                   "urpx:unitPrice": "0.04638"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-transmission-adj",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-transmission-adj" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-transmission-adj"
+                  },
                   "urpx:name": "Transmission Rate Adjustments",
                   "urpx:unitPrice": "0.00453"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-reliability",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-reliability" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-reliability"
+                  },
                   "urpx:name": "Reliability Services",
                   "urpx:unitPrice": "0.00013"
                 }
@@ -512,7 +909,9 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-cia-summer-t1",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-cia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-cia"
+                  },
                   "urpx:name": "CIA — Summer Tier 1 (within baseline)",
                   "urpx:unitPrice": "-0.04052",
                   "urpx:serviceTierNumber": 1
@@ -520,7 +919,9 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-cia-summer-t2",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-cia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-cia"
+                  },
                   "urpx:name": "CIA — Summer Tier 2 (101-400% of baseline)",
                   "urpx:unitPrice": "0.04089",
                   "urpx:serviceTierNumber": 2
@@ -528,7 +929,9 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-cia-summer-t2c",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-cia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-cia"
+                  },
                   "urpx:name": "CIA — Summer Tier 2 Continued (over 400% of baseline)",
                   "urpx:unitPrice": "0.04089",
                   "urpx:serviceTierNumber": 3
@@ -536,7 +939,9 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-cia-winter-t1",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-cia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-cia"
+                  },
                   "urpx:name": "CIA — Winter Tier 1 (within baseline)",
                   "urpx:unitPrice": "-0.04052",
                   "urpx:serviceTierNumber": 4
@@ -544,7 +949,9 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-cia-winter-t2",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-cia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-cia"
+                  },
                   "urpx:name": "CIA — Winter Tier 2 (101-400% of baseline)",
                   "urpx:unitPrice": "0.04089",
                   "urpx:serviceTierNumber": 5
@@ -552,7 +959,9 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-cia-winter-t2c",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-cia" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-cia"
+                  },
                   "urpx:name": "CIA — Winter Tier 2 Continued (over 400% of baseline)",
                   "urpx:unitPrice": "0.04089",
                   "urpx:serviceTierNumber": 6
@@ -567,97 +976,201 @@
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-public-purpose",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-public-purpose" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-public-purpose"
+                  },
                   "urpx:name": "Public Purpose Programs",
                   "urpx:unitPrice": "0.00614"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-nuclear",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-nuclear" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-nuclear"
+                  },
                   "urpx:name": "Nuclear Decommissioning",
                   "urpx:unitPrice": "-0.00002"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-ctc",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-ctc" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-ctc"
+                  },
                   "urpx:name": "Competition Transition Charges",
                   "urpx:unitPrice": "0.00027"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-energy-cost-recovery",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-energy-cost-recovery" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-energy-cost-recovery"
+                  },
                   "urpx:name": "Energy Cost Recovery Amount",
                   "urpx:unitPrice": "0.00002"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-wildfire-fund",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-wildfire-fund" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-wildfire-fund"
+                  },
                   "urpx:name": "Wildfire Fund Charge",
                   "urpx:unitPrice": "0.00591"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-wildfire-hardening",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-wildfire-hardening" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-wildfire-hardening"
+                  },
                   "urpx:name": "Wildfire Hardening Charge",
                   "urpx:unitPrice": "0.00391"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-recovery-bond",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-recovery-bond" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-recovery-bond"
+                  },
                   "urpx:name": "Recovery Bond Charge",
                   "urpx:unitPrice": "0.00857"
                 },
                 {
                   "@type": "urpx:Price",
                   "@id": "pge:price-recovery-bond-credit",
-                  "urpx:referencesPriceDefinition": { "@id": "pge:pd-recovery-bond-credit" },
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "pge:pd-recovery-bond-credit"
+                  },
                   "urpx:name": "Recovery Bond Credit",
                   "urpx:unitPrice": "-0.00857"
                 }
               ]
             }
+          ],
+          "urpx:hasPriceSetAlternatives": [
+            {
+              "@type": "urpx:PriceSetAlternatives",
+              "@id": "pge:psa-bsc-by-income-tier",
+              "urpx:name": "Base Services Charge — varies by income tier (CARE / FERA / Standard)",
+              "urpx:referencesProfileAlternatives": {
+                "@id": "pge:pa-income-tier"
+              },
+              "urpx:hasPriceSetAlternative": [
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-bsc-tier-1",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-income-tier-care"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-base-charge-tier-1",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-base-charge"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Base Services Charge — Income Tier 1 (CARE-eligible)",
+                      "urpx:unitPrice": "0.19713"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-bsc-tier-2",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-income-tier-fera"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-base-charge-tier-2",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-base-charge"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Base Services Charge — Income Tier 2 (FERA-eligible)",
+                      "urpx:unitPrice": "0.39688"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-bsc-tier-3",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-income-tier-standard"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-base-charge-tier-3",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-base-charge"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Base Services Charge — Income Tier 3 (no qualifying enrollment)",
+                      "urpx:unitPrice": "0.79343"
+                    }
+                  ]
+                }
+              ]
+            }
           ]
+        },
+        "urpx:hasModifierOptions": {
+          "@id": "pge:e-1-vintage-pcia"
+        },
+        "urpx:hasModifierVersionOptions": {
+          "@id": "pge:e-1-vintage-pcia-2026-03-01"
         }
-      }
+      },
+      "urpx:ratePlanUniqueIdentifier": "E-1"
     },
     {
       "@type": "urpx:RatePlanModifier",
       "@id": "pge:e-1-vintage-pcia",
       "urpx:name": "Vintaged Power Charge Indifference Adjustment (E-1)",
       "urpx:initialEffectiveDate": "2009-01-01",
-      "urpx:isOptional": false,
       "urpx:timezoneIdentifier": "America/Los_Angeles",
       "urpx:hasRatePlanModifierVersion": {
         "@type": "urpx:RatePlanModifierVersion",
         "@id": "pge:e-1-vintage-pcia-2026-03-01",
-        "urpx:applicableToRatePlan": { "@id": "pge:e-1" },
-        "urpx:modifierIdentifier": "E-1-VPCIA",
+        "urpx:applicableToRatePlan": {
+          "@id": "pge:e-1"
+        },
         "urpx:modifierVersionNumber": "2026-03-01",
-        "urpx:changeReason": { "@id": "urpx:rateCase" },
+        "urpx:changeReason": {
+          "@id": "urpx:rateCase"
+        },
         "urpx:description": "Vintaged Power Charge Indifference Adjustment (per kWh) applied to Transitional Bundled Service (TBS), Community Choice Aggregation (CCA), and Direct Access (DA) customers on Schedule E-1. Replaces the Bundled PCIA for these customers; the applicable rate is determined by the customer's bundled-service departure vintage year.",
         "urpx:effectiveDateTime": "2026-03-01T00:00:00",
         "urpx:priceCurrency": "USD",
-        "urpx:commodity": { "@id": "urpx:electricity" },
-        "urpx:serviceRole": { "@id": "urpx:bundledServiceRole" },
+        "urpx:commodity": {
+          "@id": "urpx:electricity"
+        },
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
         "urpx:publishedBy": {
           "@type": "urpx:Organization",
           "@id": "org:utility-pge",
           "urpx:legalName": "Pacific Gas & Electric Company",
-          "urpx:organizationType": { "@id": "urpx:utilityOrganization" }
+          "urpx:organizationType": {
+            "@id": "urpx:utilityOrganization"
+          }
         },
         "urpx:hasDataSourceReference": {
           "@type": "urpx:DataSourceReference",
           "urpx:fileName": "ELEC_SCHEDS_E-1.pdf",
-          "urpx:mediaType": { "@id": "urpx:applicationPdf" },
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
           "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-1.pdf",
           "urpx:dateRetrieved": "2026-04-26",
-          "urpx:dataSourceType": { "@id": "urpx:utilityWebsiteSource" },
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
           "urpx:hasTariffBookReference": {
             "@type": "urpx:TariffBookReference",
             "urpx:pageStart": 5,
@@ -669,20 +1182,108 @@
         "urpx:hasEligibilityRule": [
           {
             "@type": "urpx:EligibilityRule",
+            "@id": "pge:er-residential",
+            "urpx:name": "Residential customer",
+            "urpx:description": "Vintaged PCIA applies only to residential customers.",
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "pge:cx-vpcia-residential",
+              "urpx:rootNode": {
+                "@type": "urpx:ComparisonNode",
+                "@id": "pge:cn-vpcia-residential",
+                "urpx:operator": {
+                  "@id": "urpx:equalsOperator"
+                },
+                "urpx:leftOperand": {
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:conditionProperty": {
+                    "@id": "urpx:hasCustomerKind"
+                  }
+                },
+                "urpx:rightOperand": {
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:referencesValue": {
+                    "@id": "urpx:residentialKind"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:EligibilityRule",
             "@id": "pge:er-cca-da-tbs",
-            "urpx:name": "Eligibility: CCA, DA, or TBS service",
+            "urpx:name": "Generation service: CCA, DA, or TBS",
             "urpx:description": "Vintaged PCIA applies to customers receiving generation service from a non-utility provider (CCA, DA) or in transitional bundled service (TBS).",
-            "urpx:hasCustomerProfile": {
-              "@type": "urpx:CustomerProfile",
-              "@id": "pge:cp-cca-da-tbs",
-              "urpx:hasCustomerKind": { "@id": "urpx:residentialKind" }
-            },
-            "urpx:logicExpression": "pge:condition-cca OR pge:condition-da OR pge:condition-tbs",
-            "urpx:hasCondition": [
-              { "@type": "urpx:Condition", "@id": "pge:condition-cca", "urpx:conditionType": "generationService", "urpx:operator": { "@id": "urpx:equalsOperator" }, "urpx:conditionValue": "Community Choice Aggregation (CCA)" },
-              { "@type": "urpx:Condition", "@id": "pge:condition-da", "urpx:conditionType": "generationService", "urpx:operator": { "@id": "urpx:equalsOperator" }, "urpx:conditionValue": "Direct Access (DA)" },
-              { "@type": "urpx:Condition", "@id": "pge:condition-tbs", "urpx:conditionType": "generationService", "urpx:operator": { "@id": "urpx:equalsOperator" }, "urpx:conditionValue": "Transitional Bundled Service (TBS)" }
-            ]
+            "urpx:hasConditionExpression": {
+              "@type": "urpx:ConditionExpression",
+              "@id": "pge:cx-cca-da-tbs",
+              "urpx:rootNode": {
+                "@type": "urpx:BooleanOperationNode",
+                "@id": "pge:bn-cca-da-tbs-or",
+                "urpx:operator": {
+                  "@id": "urpx:orOperator"
+                },
+                "urpx:operandNodes": [
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-program-cca",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:conditionProperty": {
+                        "@id": "urpx:hasProgramEnrollment"
+                      }
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:referencesValue": {
+                        "@id": "pge:program-cca"
+                      }
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-program-da",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:conditionProperty": {
+                        "@id": "urpx:hasProgramEnrollment"
+                      }
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:referencesValue": {
+                        "@id": "pge:program-da"
+                      }
+                    }
+                  },
+                  {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-program-tbs",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:conditionProperty": {
+                        "@id": "urpx:hasProgramEnrollment"
+                      }
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:ObjectOperandNode",
+                      "urpx:referencesValue": {
+                        "@id": "pge:program-tbs"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
           }
         ],
         "urpx:hasPlanElements": {
@@ -692,12 +1293,18 @@
               "@type": "urpx:MetricInput",
               "@id": "pge:mi-energy-vpcia",
               "urpx:name": "kWh Energy Consumption",
-              "urpx:metricInputType": { "@id": "urpx:measuredMetricInput" },
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
               "urpx:hasMetricSpecification": {
                 "@type": "urpx:MetricSpecification",
                 "@id": "pge:ms-energy-vpcia",
-                "urpx:measurementKind": { "@id": "urpx:energy" },
-                "urpx:unitOfMeasure": { "@id": "urpx:kWh" }
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                }
               }
             }
           ],
@@ -708,15 +1315,555 @@
                 "@type": "urpx:Ledger",
                 "@id": "pge:ledger-vintage-pcia",
                 "urpx:name": "Vintaged Power Charge Indifference Adjustment",
-                "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-                "urpx:referencesMetricInput": { "@id": "pge:mi-energy-vpcia" },
-                "urpx:hasPriceDefinition": {
-                  "@type": "urpx:PriceDefinition",
-                  "@id": "pge:pd-vintage-pcia",
-                  "urpx:name": "Vintaged PCIA",
-                  "urpx:chargeType": { "@id": "urpx:strandedCosts" },
-                  "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-                  "urpx:billPortion": { "@id": "urpx:deliveryPortion" }
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:mi-energy-vpcia"
+                }
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@type": "urpx:PriceDefinition",
+                "@id": "pge:pd-vintage-pcia",
+                "urpx:name": "Vintaged PCIA",
+                "urpx:chargeType": {
+                  "@id": "urpx:strandedCosts"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:deliveryPortion"
+                },
+                "urpx:referencesLedger": {
+                  "@id": "pge:ledger-vintage-pcia"
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternatives": {
+            "@type": "urpx:ProfileAlternatives",
+            "@id": "pge:pa-departure-vintage",
+            "urpx:name": "Vintaged PCIA — departure-vintage year",
+            "urpx:hasAlternativeDimensions": {
+              "@type": "urpx:AlternativeDimensions",
+              "urpx:hasAlternativeDimension": [
+                {
+                  "@type": "urpx:AlternativeDimension",
+                  "urpx:dimensionDisplayName": "Departure Vintage Year",
+                  "urpx:dimensionProperty": "https://example.com/pge/properties/departureVintage",
+                  "urpx:hasPossibleValues": {
+                    "@list": [
+                      {
+                        "@value": "2009",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2010",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2011",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2012",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2013",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2014",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2015",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2016",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2017",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2018",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2019",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2020",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2021",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2022",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2023",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2024",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2025",
+                        "@type": "xsd:gYear"
+                      },
+                      {
+                        "@value": "2026",
+                        "@type": "xsd:gYear"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "urpx:hasProfileAlternative": [
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2009",
+                "urpx:name": "Departure vintage 2009",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2009",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2009",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2009"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2010",
+                "urpx:name": "Departure vintage 2010",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2010",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2010",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2010"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2011",
+                "urpx:name": "Departure vintage 2011",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2011",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2011",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2011"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2012",
+                "urpx:name": "Departure vintage 2012",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2012",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2012",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2012"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2013",
+                "urpx:name": "Departure vintage 2013",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2013",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2013",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2013"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2014",
+                "urpx:name": "Departure vintage 2014",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2014",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2014",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2014"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2015",
+                "urpx:name": "Departure vintage 2015",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2015",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2015",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2015"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2016",
+                "urpx:name": "Departure vintage 2016",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2016",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2016",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2016"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2017",
+                "urpx:name": "Departure vintage 2017",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2017",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2017",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2017"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2018",
+                "urpx:name": "Departure vintage 2018",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2018",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2018",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2018"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2019",
+                "urpx:name": "Departure vintage 2019",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2019",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2019",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2019"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2020",
+                "urpx:name": "Departure vintage 2020",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2020",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2020",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2020"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2021",
+                "urpx:name": "Departure vintage 2021",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2021",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2021",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2021"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2022",
+                "urpx:name": "Departure vintage 2022",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2022",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2022",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2022"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2023",
+                "urpx:name": "Departure vintage 2023",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2023",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2023",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2023"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2024",
+                "urpx:name": "Departure vintage 2024",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2024",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2024",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2024"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2025",
+                "urpx:name": "Departure vintage 2025",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2025",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2025",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2025"
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ProfileAlternative",
+                "@id": "pge:pa-vintage-2026",
+                "urpx:name": "Departure vintage 2026",
+                "urpx:hasConditionExpression": {
+                  "@type": "urpx:ConditionExpression",
+                  "@id": "pge:cx-pa-vintage-2026",
+                  "urpx:rootNode": {
+                    "@type": "urpx:ComparisonNode",
+                    "@id": "pge:cn-pa-vintage-2026",
+                    "urpx:operator": {
+                      "@id": "urpx:equalsOperator"
+                    },
+                    "urpx:leftOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:customConditionProperty": "departureVintage"
+                    },
+                    "urpx:rightOperand": {
+                      "@type": "urpx:CustomOperandNode",
+                      "urpx:gYearValue": "2026"
+                    }
+                  }
                 }
               }
             ]
@@ -724,28 +1871,366 @@
         },
         "urpx:hasPrices": {
           "@type": "urpx:Prices",
-          "urpx:hasPrice": [
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2009", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2009", "urpx:unitPrice": "0.02973", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2009", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2009", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2010", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2010", "urpx:unitPrice": "0.03366", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2010", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2010", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2011", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2011", "urpx:unitPrice": "0.03492", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2011", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2011", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2012", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2012", "urpx:unitPrice": "0.03676", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2012", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2012", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2013", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2013", "urpx:unitPrice": "0.03708", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2013", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2013", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2014", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2014", "urpx:unitPrice": "0.03686", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2014", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2014", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2015", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2015", "urpx:unitPrice": "0.03680", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2015", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2015", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2016", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2016", "urpx:unitPrice": "0.03687", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2016", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2016", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2017", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2017", "urpx:unitPrice": "0.03661", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2017", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2017", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2018", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2018", "urpx:unitPrice": "0.03679", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2018", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2018", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2019", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2019", "urpx:unitPrice": "0.03725", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2019", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2019", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2020", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2020", "urpx:unitPrice": "0.03632", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2020", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2020", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2021", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2021", "urpx:unitPrice": "0.05264", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2021", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2021", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2022", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2022", "urpx:unitPrice": "0.05272", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2022", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2022", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2023", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2023", "urpx:unitPrice": "0.05380", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2023", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2023", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2024", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2024", "urpx:unitPrice": "0.05066", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2024", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2024", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2025", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2025 (credit)", "urpx:unitPrice": "-0.01011", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2025", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2025", "@type": "xsd:gYear" } } } },
-            { "@type": "urpx:Price", "@id": "pge:price-vpcia-2026", "urpx:referencesPriceDefinition": { "@id": "pge:pd-vintage-pcia" }, "urpx:startDate": "2026-03-01", "urpx:name": "Vintage PCIA — 2026 (credit)", "urpx:unitPrice": "-0.01011", "urpx:hasApplicabilityGroup": { "@type": "urpx:ApplicabilityGroup", "@id": "pge:ag-vpcia-2026", "urpx:hasInclusionConstraint": { "@type": "urpx:ApplicabilityConstraint", "urpx:constraintProperty": "https://example.com/pge/departureVintage", "urpx:constraintValue": { "@value": "2026", "@type": "xsd:gYear" } } } }
+          "urpx:hasPriceSetAlternatives": [
+            {
+              "@type": "urpx:PriceSetAlternatives",
+              "@id": "pge:psa-vpcia-by-vintage",
+              "urpx:name": "Vintaged PCIA — varies by departure-vintage year",
+              "urpx:referencesProfileAlternatives": {
+                "@id": "pge:pa-departure-vintage"
+              },
+              "urpx:hasPriceSetAlternative": [
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2009",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2009"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2009",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2009",
+                      "urpx:unitPrice": "0.02973"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2010",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2010"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2010",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2010",
+                      "urpx:unitPrice": "0.03366"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2011",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2011"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2011",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2011",
+                      "urpx:unitPrice": "0.03492"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2012",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2012"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2012",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2012",
+                      "urpx:unitPrice": "0.03676"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2013",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2013"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2013",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2013",
+                      "urpx:unitPrice": "0.03708"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2014",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2014"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2014",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2014",
+                      "urpx:unitPrice": "0.03686"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2015",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2015"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2015",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2015",
+                      "urpx:unitPrice": "0.03680"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2016",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2016"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2016",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2016",
+                      "urpx:unitPrice": "0.03687"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2017",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2017"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2017",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2017",
+                      "urpx:unitPrice": "0.03661"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2018",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2018"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2018",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2018",
+                      "urpx:unitPrice": "0.03679"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2019",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2019"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2019",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2019",
+                      "urpx:unitPrice": "0.03725"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2020",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2020"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2020",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2020",
+                      "urpx:unitPrice": "0.03632"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2021",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2021"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2021",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2021",
+                      "urpx:unitPrice": "0.05264"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2022",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2022"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2022",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2022",
+                      "urpx:unitPrice": "0.05272"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2023",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2023"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2023",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2023",
+                      "urpx:unitPrice": "0.05380"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2024",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2024"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2024",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2024",
+                      "urpx:unitPrice": "0.05066"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2025",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2025"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2025",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2025 (credit)",
+                      "urpx:unitPrice": "-0.01011"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "pge:psa-vpcia-2026",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "pge:pa-vintage-2026"
+                  },
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "pge:price-vpcia-2026",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "pge:pd-vintage-pcia"
+                      },
+                      "urpx:startDate": "2026-03-01",
+                      "urpx:name": "Vintage PCIA — 2026 (credit)",
+                      "urpx:unitPrice": "-0.01011"
+                    }
+                  ]
+                }
+              ]
+            }
           ]
+        },
+        "urpx:applicableToRatePlanVersion": {
+          "@id": "pge:e-1-2026-03-01"
         }
-      }
+      },
+      "urpx:modifierUniqueIdentifier": "E-1-VPCIA"
     }
   ]
 }

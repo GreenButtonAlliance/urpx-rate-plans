@@ -1,0 +1,100 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "tou-dr2"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=899"
+sha256        = "abdb914bced9b78cf722f814400d8b55e70639347b45c536cf2e415c733de589"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "D.25-09-006 / Advice Letter 4791-E + 4791-E-A supplement"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Source pattern shared with TOU-DR1 / DR — see ca/iou/sdge/utility.toml
+for the SDG&E tariff-portal URL convention.
+
+Filing details (8-page PDF):
+  Sheet 1 (APPLICABILITY) — AL 4791-E, P.U.C. Sheet 64388-E
+  Sheet 2 (RATES — standard + CARE) — AL 4791-E-A supplement, Sheet 64671-E
+  Sheet 3 (RATES — MB) — AL 4791-E-A supplement
+  Sheet 4 (UDC sub-component breakdown) — AL 4791-E-A, Sheet 64672-E
+  Sheets 5-8 — Special Conditions, Time Periods table (Sheet 5)
+
+## TOU period definitions (Sheet 5)
+
+  TOU Period      Summer / Winter (year-round identical windows)
+  ───────────     ───────────────────────────────────────────────
+  On-Peak         4:00 p.m. – 9:00 p.m. (all days)
+  Off-Peak        all other hours (9:00 p.m. – 4:00 p.m.)
+
+NO Super Off-Peak — TOU-DR2's distinguishing feature vs TOU-DR1.
+Otherwise the schedule structure (4-9pm peak, all-days, Jun-Oct
+summer, Nov-May winter) matches TOU-DR1.
+
+## Modeling structure
+
+Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
+  - UDC: 7 flat sub-components (Trans, Distr, PPP, ND, CTC, LGC, RS)
+    identical to TOU-DR1, plus 1 TOU-VARYING sub-component (TRAC):
+      Summer On-Peak  TRAC: $0.07211/kWh
+      Summer Off-Peak TRAC: $0.06564/kWh
+      Winter On-Peak  TRAC: $0.06762/kWh (matches TOU-DR1 winter UDC TRAC)
+      Winter Off-Peak TRAC: $0.06762/kWh
+    Modeled as a single pd-udc-trac PriceDefinition with 4 Prices
+    keyed by touPeriodNumber 1-4 (same pattern as EECC).
+  - DWR-BC + WF-NBC: 0.00000 + 0.00591 = $0.00591/kWh flat (same as TOU-DR1).
+  - EECC (Generation): 4 distinct values (2 periods × 2 seasons) —
+    no super-off-peak.
+      Summer On-Peak:  $0.34920 (matches TOU-DR1)
+      Summer Off-Peak: $0.08432 (between TOU-DR1's Off-Peak 0.12853
+        and Super-Off-Peak 0.04121 — averaged across the wider
+        off-peak window)
+      Winter On-Peak:  $0.27475 (matches TOU-DR1)
+      Winter Off-Peak: $0.13777 (between TOU-DR1's Off-Peak 0.19304
+        and Super-Off-Peak 0.10228)
+  - Baseline Adjustment Credit: $-0.10892/kWh applies to consumption up
+    to 130% of CPUC baseline allocation (both seasons; same as TOU-DR1).
+  - Base Services Charge: $0.79343/day for standard customers.
+
+## Modeling deferrals
+
+Same as TOU-DR1:
+  - PCIA (Special Condition 16) for CCA-served customers.
+  - Franchise Fee Differential 5.78% within City of San Diego.
+  - 130%-of-baseline ServiceTier (currently encoded as flat credit).
+  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers
+    (grid-coordination/urpx-tariffs#13 secondary epic).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "care",
+  "drah",
+  "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Third SDG&E schedule. Pattern reference: ca/iou/sdge/tou-dr1/versions/2026-04-01/ for component decomposition; ca/iou/sce/tou-d-4-9pm/versions/2025-11-15/ for TOU structure. 16 PriceDefinitions: 4 EECC (TOU-varying) + 7 UDC flat sub-components + 1 UDC TRAC (TOU-varying with 4 Prices keyed by touPeriodNumber) + DWR-BC + WF-NBC + Baseline Credit + BSC. 18 Prices total (4 EECC + 7 UDC flat + 4 UDC TRAC + DWR-BC + WF-NBC + Baseline Credit + BSC). Distinguishing feature vs TOU-DR1: 2 TOU periods (no Super Off-Peak), and TRAC is the only UDC sub-component that varies by TOU period."

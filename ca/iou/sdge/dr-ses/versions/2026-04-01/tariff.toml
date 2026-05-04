@@ -1,0 +1,166 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "dr-ses"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=540"
+sha256        = "8fe1c9d8b157714f5644a9c7d209e49f23901bb28b252a37f3a2bdded3e34d2d"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "D.25-09-006 / Advice Letter 4791-E + 4791-E-A supplement"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Schedule DR-SES is SDG&E's residential time-of-use rate for households
+with an on-premises Solar Energy System (1 kW – 5 MW AC, per
+California Solar Initiative eligibility criteria; CA Public Resources
+Code §§ 25780-25782). Available on a voluntary basis to individually-
+metered residential customers in single-family dwellings + flats.
+
+Filing details (5-page PDF):
+  Sheet 1 (APPLICABILITY + Rate tables + UDC sub-component breakdown)
+    — AL 4791-E-A supplement, P.U.C. Sheet 64657-E
+  Sheet 2 (BSC explanation, Rate Components note excluding TRAC,
+    Franchise Fee Differential, TOU Periods, Seasons)
+    — AL 4791-E, Sheet 64348-E
+  Sheets 3-5 — Special Conditions, AL 4791-E original (Sheet 5) +
+    earlier ALs (Sheets 3-4 effective Jul 22, 2019 / Jan 1, 2023)
+
+Note on 'individually metered': the customer's residence has a
+dedicated SDG&E meter (single-family dwelling or flat), NOT separate
+metering of the PV system. Whole-house import/export flows through
+the single residential meter. Schedule DR-SES + Schedule NEM are
+billed in combination if applicable (Special Condition 9).
+
+Source URL retrieval pattern is identical to TOU-DR1 — see
+ca/iou/sdge/utility.toml for the Azure Front Door bypass pattern.
+
+## Modeling structure
+
+Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
+  - UDC (Utility Distribution Company) is FLAT $0.27299/kWh across all
+    six (season, period) combinations. Decomposed into 7 sub-components
+    (Trans 0.10067, Distr 0.15719, PPP 0.01515, ND 0, CTC -0.00007,
+    LGC 0, RS 0.00005). TRAC is structurally EXCLUDED per the Sheet 2
+    note: 'The UDC Total Rate applicable to eligible customers taking
+    service under Schedule DR-SES shall exclude the TRAC or its
+    successor rate.' DR-SES UDC = TOU-DR1 UDC – TRAC ($0.34061 -
+    $0.06762 = $0.27299, exact match).
+  - DWR-BC + WF-NBC: DWR-BC = $0.00000, WF-NBC = $0.00591, total
+    $0.00591 flat. Modeled as 2 separate flat PriceDefinitions.
+  - EECC (Electric Energy Commodity Cost) is the TOU-varying generation
+    component, applicable to BUNDLED customers only. 6 distinct
+    (season, period) values — IDENTICAL to EV-TOU-5's EECC values
+    (DR-SES and EV-TOU-5 share the cost-based-residential-TOU
+    EECC schedule):
+      Summer:  On-Peak $0.47019 / Off-Peak $0.17311 / Super Off-Peak $0.08147
+      Winter:  On-Peak $0.19990 / Off-Peak $0.14337 / Super Off-Peak $0.07410
+  - Base Services Charge: $0.79343/day for standard customers. Reduced
+    BSCs for CARE ($0.19713) / FERA ($0.39688) / DRAH ($0.39688)
+    variants documented on Sheet 1; modeled as RatePlanModifiers in
+    the grid-coordination/urpx-tariffs#13 secondary epic.
+
+Notable absences vs TOU-DR1:
+  - NO Baseline Adjustment Credit on DR-SES. TOU-DR1 has $-0.10892/kWh
+    up to 130% of CPUC baseline allocation; DR-SES eliminates the
+    baseline-credit mechanism (residential solar customers historically
+    excluded from baseline-credit programs).
+  - NO TRAC component (excluded by Special Condition).
+
+## TOU period definitions (Sheet 2)
+
+  TOU Period      Weekday Summer/Winter         Weekend/Holiday Summer/Winter
+  ───────────     ───────────────────────       ──────────────────────────────
+  On-Peak         4 PM – 9 PM                   4 PM – 9 PM
+  Off-Peak        all other hours               all other hours
+  Super Off-Peak  Midnight – 6 AM AND 10 AM – 2 PM   Midnight – 2 PM
+
+Identical TOU windows to TOU-DR1, EV-TOU-5, and TOU-ELEC.
+
+Seasons: Summer June 1 – October 31 (5 months); Winter November 1 – May 31.
+
+## Special Conditions
+
+  - SC 1 (Voltage): Standard lighting voltage.
+  - SC 2 (Welder Service): ≤2.9 kVA at 240V or ≤0.5 kVA at 120V.
+  - SC 3 (Metering): Utility-supplied bidirectional metering for
+    qualifying customers; load research metering may be installed.
+  - SC 4 (Failure of Meter Timing): Estimation per Rule 18.
+  - SC 5 (Terms of Service): All current and future occupants must
+    enter into a Rule 21 interconnection agreement to continue service
+    on DR-SES. 12-month minimum stay if customer leaves the schedule.
+  - SC 6 (Opt-Out Provision): Initial-term-only 90-day opt-out window
+    starting from receipt of first DR-SES bill.
+  - SC 7 (Qualification): Customer must demonstrate Solar Energy System
+    eligibility per SC 13.
+  - SC 8 (CARE Customers): Eligible for CARE discount + CARE-surcharge
+    exemption.
+  - SC 9 (Net Energy Billing): DR-SES + Schedule NEM billed in
+    combination if applicable.
+  - SC 10 (Billing): UDC Bundled / DA / CCA billing rules; CRS for
+    DA/CCA per Schedule DA-CRS / CCA-CRS.
+  - SC 11 (Other Tariffs): Rules 21, 23, Schedule E-DEPART for
+    customers with solar.
+  - SC 12 (Commencement): Service commences on first meter read with
+    full TOU billing period.
+  - SC 13 (Solar Energy System): 1 kW – 5 MW AC, per CA Public
+    Resources Code §§ 25780-25782 (California Solar Initiative).
+  - SC 14 (PCIA): Bundled EECC includes Power Charge Indifference
+    Adjustment.
+  - SC 15 (DRAH): Deed-Restricted Affordable Housing definition.
+  - SC 16 (Medical Baseline): Refers to Schedule E-MEDICAL.
+
+## Modeling deferrals
+
+  - PCIA (Power Charge Indifference Adjustment) for CCA-served customers
+    — Special Condition 14. Tracked as a future RatePlanModifier issue.
+  - Franchise Fee Differential 5.78% within City of San Diego corporate
+    limits — applies as a multiplier on monthly billings. Tracked as a
+    future modeling issue.
+  - 12-month minimum-stay clause (SC 5) — described in prose; not
+    encoded as a structured rule. URPX has no vocabulary for
+    minimum-stay-duration billing constraints.
+  - 90-day initial-term opt-out window (SC 6) — described in prose;
+    not encoded structurally.
+  - Schedule NEM billing combination (SC 9) — DR-SES + NEM modeled as
+    independent filings; the combination semantic at billing time
+    requires consumer-side composition with Schedule NEM.
+  - California Climate Credit (semi-annual $-49.36 per Schedule
+    GHG-ARR) — applies to eligible DR-SES customers; modeled in a
+    future cross-utility GHG-ARR modifier issue.
+  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers — Sheet 1
+    publishes reduced rates for these customer classes; modeled as
+    standalone RatePlanModifiers in the grid-coordination/urpx-tariffs#13 secondary epic.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "care",
+  "drah",
+  "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Third SDG&E electrification-targeted schedule modeled (after EV-TOU-5 and TOU-ELEC). Pattern reference: ca/iou/sdge/tou-elec/versions/2026-04-01/ for the flat-UDC + 6 EECC + no-Baseline-Credit structure. 15 PriceDefinitions (TOU-ELEC has 16): 6 EECC (TOU-varying generation) + 7 UDC sub-components (flat across periods/seasons; TRAC excluded by Special Condition vs included with $0 in TOU-ELEC) + DWR-BC + WF-NBC + BSC. 15 Prices total. Eligibility is the simplest in the SDG&E electrification family — single OR-leaf urpx:solarDER (vs EV-TOU-5's 3-way OR / TOU-ELEC's 4-way OR). EECC values match EV-TOU-5 exactly (DR-SES inherits the cost-based residential-TOU EECC schedule). Smallest electrification target by customer count (~5K, vs TOU-ELEC ~70K and EV-TOU-5 ~140K) but high-signal: every DR-SES customer is a confirmed solar adopter."

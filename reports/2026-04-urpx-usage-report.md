@@ -8,6 +8,8 @@
 - [urpx-org/urpx](https://github.com/urpx-org/urpx) — the URPX ontology, SHACL shapes, and test cases
 - [grid-coordination/clj-urpx](https://github.com/grid-coordination/clj-urpx) — the Clojure consumer library used to parse + resolve URPX rate plans
 
+> **2026-04-28 update — URPX v0.2.0 migration.** The four rate plans have been migrated to URPX v0.2.0 and validate clean (`pyshacl Conforms: True`; clj-urpx end-to-end load+coerce+resolve also clean). The report below captures the v0.1.x-era experience as written; sections describing patterns that v0.2.0 changed are flagged inline. Source PDFs are now committed alongside each rate plan (reverses the original LAYOUT.md §6 convention) — see LAYOUT.md §6 for the rationale.
+
 ---
 
 ## 1. Context
@@ -109,6 +111,11 @@ The closed-shape SHACL design caught us early and pointed us straight at the rig
 
 ### 3.3 `ApplicabilityGroup` + inclusion/exclusion constraints scale
 
+> **v0.2.0 update — pattern superseded.** v0.2.0 removed `urpx:hasInclusionConstraint`, `urpx:hasExclusionConstraint`, and `urpx:ApplicabilityConstraint` (Decisions #097/#098). `ApplicabilityGroup` now carries a single `urpx:hasConditionExpression` rooted at a `urpx:ComparisonNode` or `urpx:BooleanOperationNode`. Our three cases now look like:
+> - **Income-tier base services charge** — tiers 1 / 2 use a single `equalsOperator` ComparisonNode against `pge:program-care` / `pge:program-fera`; the default tier uses a `BooleanOperationNode` (`andOperator`) over two `notEqualsOperator` ComparisonNodes (safe-fallback pending [urpx-org/urpx#9](https://github.com/urpx-org/urpx/issues/9)).
+> - **Vintage PCIA** — each per-vintage AG carries a `ComparisonNode` whose right operand is a `DatatypeOperandNode` with `urpx:integerValue` (gYear typing pending [urpx-org/urpx#17](https://github.com/urpx-org/urpx/issues/17)).
+> - **EV2 annual usage cap** — see §4.2 update.
+
 We used this pattern for three quite-different cases:
 
 - **Income-tier base services charge** (3 conditional Prices): two prices use single inclusion constraints (CARE, FERA); the "everyone else" Tier 3 uses two exclusion constraints (NOT-CARE AND NOT-FERA). This N-1-exclusion pattern motivates urpx-org/urpx#9 (a default-tier or NOT-IN-set operator). (See §4.4.)
@@ -117,7 +124,7 @@ We used this pattern for three quite-different cases:
 
 ### 3.4 `urpx:includeHolidays` / `urpx:includeNonHolidays`: exactly the right shape for E-TOU-D
 
-This was the most pleasant find of the project. PG&E E-TOU-D's peak window is "5–8 p.m. Monday through Friday, NOT including holidays" — exactly the kind of conjunction that's clumsy to express in many tariff DSLs. URPX expresses it as two boolean properties on `TimeBracket`, and the modeling falls out:
+This was the most pleasant find of the project. PG&E E-TOU-D's peak window is "5–8 p.m. Monday through Friday, NOT including holidays" — exactly the kind of conjunction that takes multiple coordinated constraints to express in many tariff DSLs. URPX expresses it as two boolean properties on `TimeBracket`, and the modeling falls out:
 
 ```jsonld
 { "@type": "urpx:TimeBracket", "@id": "pge:time-bracket-summer-peak",
@@ -157,6 +164,9 @@ URPX covers most of what we encountered out of the box. The items below describe
 This is the single biggest leverage point we found. **Recommendation**: prioritize.
 
 ### 4.2 Rolling-window aggregation + percent-of-baseline UoM in Conditions
+
+> **v0.2.0 update — partial closure.** v0.2.0 attached `urpx:intervalAlignment` (with values like `urpx:rollingAligned`) and `urpx:intervalDuration` to `MetricSpecification`. EV2's cap rule now references a `MetricInput` (`pge:mi-energy-annual-rolling`) whose MetricSpecification carries `intervalDuration: P1Y` + `intervalAlignment: urpx:rollingAligned`. The percent-of-baseline UoM is still missing — the right-side `800` represents *800% of baseline* informally; full formalization remains a follow-up. Tracked at [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4).
+
 
 **Tariff text** (PG&E EV2, Sheet 1):
 

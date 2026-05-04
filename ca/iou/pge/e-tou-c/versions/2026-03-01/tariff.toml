@@ -14,7 +14,7 @@ filing_id     = "PGE-AL-7846-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "cpuc"
+authority     = "puc"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
@@ -27,7 +27,21 @@ shacl_passed   = true
 validator      = "pyshacl"
 validated_on   = "2026-04-27"
 
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked as URPXT-qwr)",
+]
+applicable_modifiers = [
+  "care",
+  "e-tou-c-baseline-tier",
+  "e-tou-c-vintage-pcia",
+  "fera",
+  "medical-baseline",
+]
+
 # Review ----------------------------------------------------------------------
 [review]
 status        = "draft"
-notes         = "URPXT-i7t initial conversion. RatePlan + Vintaged-PCIA RatePlanModifier in single @graph. Baseline-credit + CIA RatePlanModifier deferred to URPXT-o1i (blocked on urpx-org/urpx#11 — full territory/code matrix needs ~200 entities without parameterized tier bounds)."
+notes         = "RatePlan + Vintaged-PCIA RatePlanModifier in single @graph. Baseline-credit + CIA modeled in sibling rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld (full 40-cell territory × code × season matrix, 20 ServiceTiers each referencing a per-cell ProfileAlternative)."

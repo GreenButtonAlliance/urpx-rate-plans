@@ -1,0 +1,294 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "smud": "https://example.com/smud/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "smud:doc-pev-credit-2025-06-20",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "smud:pev-credit",
+    "urpx:name": "Plug-In Electric Vehicle Credit (overnight EV charging incentive)",
+    "urpx:modifierUniqueIdentifier": "PEV-CREDIT",
+    "urpx:initialEffectiveDate": "2025-06-20",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "smud:pev-credit-2025-06-20",
+      "urpx:version": "2025-06-20",
+      "urpx:modifierVersionNumber": "2025-06-20",
+      "urpx:changeReason": {
+        "@id": "urpx:initial"
+      },
+      "urpx:description": "SMUD's Plug-In Electric Vehicle (PEV) Credit — a residential EV-charging incentive overlay applied on top of the customer's base SMUD residential rate (R-TOD rate categories RT02 / RTL1 / RTC1, per Schedule R-TOD Sec II.D Sheet R-TOD-3). Estimated ~30K SMUD residential EV-owner customers. Compensation: a flat $-0.0150/kWh credit applied to all electricity-usage charges from midnight to 6:00 a.m. daily (no day-of-week or seasonal restriction). Credit is published in the same Board Resolution that adopts the R-TOD base rate trajectory (Resolution 25-06-15 adopted June 19 2025, effective June 20 2025); credit value is stable across the multi-year forward rate columns (May 2025 / Jan 2026 / Jan 2027) — only the underlying R-TOD usage charges step up across those columns. Eligibility (Sec II.D): residential customer with a licensed passenger battery-electric vehicle (BEV) or plug-in hybrid electric vehicle (PHEV) — both map to urpx:evChargingDER since URPX's DERTypeValue enum does not distinguish BEV from PHEV. Conventional charge-sustaining hybrids without grid charging are NOT eligible. The credit applies on top of any of three R-TOD rate categories (RT02 Time-of-Day 5-8pm, RTL1 TOD Low-Use, RTC1 Critical Peak Pricing) — composing PEV-CREDIT with the customer's specific R-TOD rate category at billing time is the consumer (price-server) responsibility. Modeled as the modifier's own TOUSchedule with one TOUTier (PEV credit window, mapped to urpx:superOffPeakTier since the midnight-6am window aligns most closely with that standard tier role) and one TOUPeriod (midnight-6am all days). The modifier's PriceDefinition uses urpx:touPeriodNumber to reference this internal TOUPeriod (touPeriodNumber=1).",
+      "urpx:effectiveDateTime": "2025-06-20T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "smud:tod-5-8pm"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "smud_pev-credit_2025-06-20.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx",
+        "urpx:dateRetrieved": "2026-05-01",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 3,
+          "urpx:pageEnd": 3
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-pev-residential",
+          "urpx:name": "PEV Credit — residential customer",
+          "urpx:description": "Available exclusively to residential customers (per the Sec II.D phrasing 'residential customers who have a licensed passenger battery electric plug-in or plug-in hybrid electric vehicle').",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-pev-residential",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:cn-pev-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-pev-licensed-vehicle",
+          "urpx:name": "PEV Credit — licensed passenger BEV or PHEV",
+          "urpx:description": "Customer must own or lease a licensed passenger battery-electric vehicle (BEV) or plug-in hybrid electric vehicle (PHEV). Both map to urpx:evChargingDER since URPX's DERTypeValue enum does not distinguish BEV from PHEV. Conventional charge-sustaining hybrids without grid charging are NOT eligible (the Sec II.D phrasing is explicit: 'plug-in or plug-in hybrid'). The 'licensed' requirement (vehicle must be registered as a road-legal passenger vehicle, not e.g. a fleet truck or off-road EV) is captured in description prose since URPX has no structured vocabulary for vehicle-licensing-status conditions.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-pev-licensed-vehicle",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:cn-pev-ev-charging",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:derType"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "urpx:referencesValue": {
+                  "@id": "urpx:evChargingDER"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:pev-mi-energy",
+            "urpx:name": "kWh Energy Consumption (forward flow, midnight-6am window)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "smud:pev-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:forward"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "smud:tou-pev-credit",
+            "urpx:referencesMetricInput": {
+              "@id": "smud:pev-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "smud:tou-tier-pev-credit-window",
+                "urpx:tierSourceName": "Plug-In Electric Vehicle Credit Window (overnight)",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:superOffPeakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "smud:tou-period-pev-credit-overnight",
+                    "urpx:name": "PEV Credit Overnight Period (midnight-6am all days)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:time-bracket-pev-credit-overnight",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "06:00:00",
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:pev-ledger-credit",
+              "urpx:name": "Plug-In Electric Vehicle Credit",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:pev-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:pev-pd-credit",
+              "urpx:name": "PEV Credit (midnight-6am all days)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "smud:pev-ledger-credit"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:pev-price-credit",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:pev-pd-credit"
+            },
+            "urpx:startDate": "2025-06-20",
+            "urpx:name": "PEV Credit (midnight-6am all days; stable across May 2025 / Jan 2026 / Jan 2027 forward rate columns under Resolution 25-06-15)",
+            "urpx:unitPrice": "-0.0150",
+            "urpx:touPeriodNumber": 1
+          }
+        ]
+      }
+    }
+  }
+}
