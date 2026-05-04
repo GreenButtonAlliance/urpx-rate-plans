@@ -15,9 +15,9 @@ Status glyphs:
 
 - Base RatePlan filings: **39**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **158**
+- Applicable-modifier slots across all bases: **160**
   - present and complete: 45
-  - present but incomplete: 77
+  - present but incomplete: 79
   - missing: 36
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -159,6 +159,7 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
+| `ez-save` | ~ present-incomplete | `ca/pou/ladwp/ez-save/versions/2008-09-01` |
 | `nem` | ~ present-incomplete | `ca/pou/ladwp/nem/versions/2008-09-01` |
 
 #### `r-1b` @ 2026-04-01  &nbsp; base: ~
@@ -169,6 +170,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `ev-discount` | ✗ missing | — |
+| `ez-save` | ~ present-incomplete | `ca/pou/ladwp/ez-save/versions/2008-09-01` |
 | `nem` | ~ present-incomplete | `ca/pou/ladwp/nem/versions/2008-09-01` |
 
 ### PGE
