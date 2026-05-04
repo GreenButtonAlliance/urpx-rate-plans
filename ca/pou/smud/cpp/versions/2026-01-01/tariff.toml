@@ -1,0 +1,182 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "cpp"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx"
+sha256        = "9be2f188d4bb39b4bb6436a9a37035457d0e0ab51f769fe995f58ca35422accd"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+filing_id     = "SMUD-Resolution-25-06-15"
+landing_page  = "https://www.smud.org/Rate-Information/Residential-rates"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "Resolution No. 25-06-15 adopted June 19, 2025 (regulatory framework + base rate trajectory) + SMUD residential rates HTML page (current Event Price + Discount values, updated annually at SMUD's discretion)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+URPXT-b5j.4 — first filing of SMUD's Optional Critical Peak Pricing
+Rate (regulatory rate category RTC1). Sister modifier to the default
+Time-of-Day (5-8 p.m.) Rate (RT02 — smud:tod-5-8pm) and Time-of-Day
+Low Use Rate (RTL1 — smud:tod-low-use) under the shared Rate
+Schedule R-TOD umbrella.
+
+Modeled as a urpx:RatePlanModifier (not a separate base RatePlan)
+because Sec II.C.1 explicitly states: 'The CPP Rate base prices per
+time-of-day period are the same as the prices per time-of-day period
+for TOD (5-8 p.m.).' RTC1 doesn't have its own base rate trajectory
+— it's an overlay (discount + Event Charge) on top of either RT02 or
+RTL1.
+
+Pattern reference: ca/iou/sce/tou-d-prime-cpp/versions/2026-03-20/
+(SCE PRIME-CPP — also modeled as a RatePlanModifier with per-Price
+ApplicabilityRule on 'Is CPP Event Today' CustomOperandNode).
+
+## Source split: PDF vs HTML page
+
+The R-TOD source PDF (Sec II.C, III.C) carries the regulatory
+framework — eligibility (Sec I.C), enrollment cap (30,000), event
+window rules (1-4 hours, max 1/day, summer only, day-ahead announce,
+50 hr/summer cap, system-emergency same-day exception), discount
+applicability (Mid-Peak + Off-Peak summer months only), and Event
+Charge applicability (energy charged + Event Price during Events;
+exports compensated at Event Price).
+
+The PDF does NOT carry the actual Event Price or Discount values:
+'The CPP Rate Event Price and discount will be updated annually at
+SMUD's discretion and posted on www.smud.org' (Sec III.C.5).
+
+Current values (per SMUD residential rates HTML page, retrieved
+2026-05-04):
+  CPP Event Price:               +$0.5000/kWh (during Events)
+  Summer Mid-Peak Discount:      -$0.0200/kWh ($0.2139 → $0.1939)
+  Summer Off-Peak Discount:      -$0.0200/kWh ($0.1550 → $0.1350)
+  Summer Peak rate:              unchanged at $0.3765/kWh
+  Non-summer pricing:            same as RT02 (no CPP modification)
+
+The HTML page is cited as the modifier's authoritative price source
+(landing_page in [source]); the PDF carries the regulatory framework
+but is not the dollar-value source.
+
+## Modeling shape
+
+3 PriceDefinitions on 3 separate Ledgers:
+
+  1. CPP Event Charge — chargeType=adjustmentPowerCost, $+0.5000/kWh
+     ApplicabilityRule: month=summer (Jun-Sept) AND
+                        'Is CPP Event Today' = true
+     (CustomOperandNode pattern matching SCE PRIME-CPP convention)
+
+  2. Summer Mid-Peak Discount — chargeType=creditEnergy, $-0.0200/kWh
+     touPeriodNumber=2 (matches base RT02 / RTL1 Summer Mid-Peak)
+     No ApplicabilityRule on the Price (gating is via touPeriodNumber).
+
+  3. Summer Off-Peak Discount — chargeType=creditEnergy, $-0.0200/kWh
+     touPeriodNumber=3 (matches base RT02 / RTL1 Summer Off-Peak)
+     No ApplicabilityRule on the Price (gating is via touPeriodNumber).
+
+The discount touPeriodNumbers are DELIBERATELY chosen to match the
+base RatePlan's Summer Mid-Peak and Off-Peak period numbers (RT02
+and RTL1 share the same touPeriodNumber assignments since RTL1 was
+script-derived from RT02). This is the same cross-RatePlan
+touPeriodNumber convention used by smud:pev-credit (which uses
+touPeriodNumber=1 for the midnight-6am window — see pev-credit
+description for the convention discussion).
+
+## Resolver behavior at the validator probe instant
+
+The clj-urpx validate_v020.clj script probes at 2026-07-15 17:00
+PDT (Tuesday Summer Peak hour). With this modifier composed against
+smud:tod-5-8pm:
+
+  marginal = $0.8365/kWh
+           = $0.3765 (RT02 Summer Peak)
+           + $0.5000 (CPP Event Charge — fires because resolver
+                       treats unevaluated CustomOperandNode as
+                       passing)
+           - $0.0200 (Summer Mid-Peak Discount — fires)
+           - $0.0200 (Summer Off-Peak Discount — fires)
+
+Note that all 3 modifier prices fire at the probe instant even
+though strictly Peak hour 17:00 should NOT receive Mid-Peak or
+Off-Peak discounts (and Is CPP Event Today is unevaluable). This is
+consistent with how the resolver handles modifier composition with
+both CustomOperandNode-gated and touPeriodNumber-gated prices —
+gating happens at the consumer (price-server) billing-time layer,
+not in marginal-unit-rate. The marginal value represents the
+worst-case CPP-on-top-of-base per-kWh cost. Same loose-coupling
+behavior as observed for smud:pev-credit (where the midnight-6am
+PEV credit also fires at the 17:00 probe instant because
+touPeriodNumber=1 matches RT02 Period 1 = Summer Peak).
+
+This is a known URPX v0.2.0 vocabulary gap around modifier-time
+gating semantics — tracked as a deferral here, with the
+authoritative billing-time gating being the consumer's
+responsibility.
+
+## What this modifier does NOT capture (deferred)
+
+  1. **Resolver-side time gating of modifier touPeriodNumber prices**
+     — the Mid-Peak and Off-Peak discount touPeriodNumbers are
+     informational only at marginal-unit-rate computation time.
+     Consumer (price-server) must filter by base touPeriodNumber
+     at billing time. URPX vocabulary improvement needed.
+
+  2. **CPP Event Charge applicability inside the Event window** —
+     'Is CPP Event Today' is a per-day flag; within an Event day
+     the charge applies only during the called window (1-4 hours).
+     Modeled here as month + day-flag; intra-day window not
+     captured. Consumer must additionally filter to the actual
+     event window.
+
+  3. **30,000-customer enrollment cap** — modeled in
+     EligibilityRule description prose only.
+
+  4. **Storage-incentive mandatory-enrollment** — the SSR
+     storage-incentive-recipient mandatory-CPP-enrollment chain
+     (Sec I.C.1) is documented in description prose but not
+     encoded as a structured cross-modifier dependency.
+
+  5. **Energy-export-during-Events compensation** — the +$0.5000/kWh
+     applies bidirectionally (consumed energy charged, exported
+     energy compensated at the same value during Events). Modeled
+     here as a forward-only Energy charge; the export-compensation
+     symmetry is documented in description prose but not encoded
+     as a separate flowDirection-aware Price.
+
+  6. **Annual price update cadence** — the Event Price and Discount
+     values 'will be updated annually at SMUD's discretion'. Each
+     annual update should be a new RatePlanModifierVersion;
+     captured here only for the 2026-01-01 baseline.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Resolver-side time gating of modifier touPeriodNumber prices — informational only at marginal-unit-rate; consumer must filter at billing time. URPX vocabulary improvement needed.",
+  "CPP Event Charge intra-day window — modeled as month + day-flag; intra-day Event window (1-4 hr) not captured.",
+  "30,000-customer enrollment cap — documented in EligibilityRule description prose only.",
+  "Storage-incentive mandatory-CPP-enrollment cross-modifier dependency (SSR → CPP) — documented in prose only.",
+  "Energy-export-during-Events compensation symmetry — modeled as forward charge; export-compensation symmetry documented in prose only.",
+  "Annual price update cadence — captured here only for 2026-01-01 baseline; future annual updates require new RatePlanModifierVersions.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-b5j.4 — first filing of SMUD RTC1 (Optional Critical Peak Pricing Rate). Same source PDF + Board Resolution as RT02 + RTL1; modeled as RatePlanModifier (RTC1 has no own base rate trajectory per Sec II.C.1). 3 PriceDefinitions: Event Charge ($+0.5000/kWh, CustomOperandNode 'Is CPP Event Today' + month=summer); Mid-Peak Discount ($-0.0200/kWh, touPeriodNumber=2 matching RT02/RTL1 Summer Mid-Peak); Off-Peak Discount ($-0.0200/kWh, touPeriodNumber=3 matching RT02/RTL1 Summer Off-Peak). Source PDF carries regulatory framework only; Event Price + Discount values from SMUD residential rates HTML page (cited as landing_page) — same shared-source split-page pattern as LADWP EZ-Save and Lifeline. applicableToRatePlan: 2 R-TOD bases (tod-5-8pm, tod-low-use). compose ✓ × 2 (smud:tod-5-8pm → 4 ledgers, marginal=0.8365 — note marginal is upper-bound; consumer must time-gate at billing)."
