@@ -1,0 +1,258 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": {"@type": "xsd:decimal"},
+    "urpx:effectiveDate": {"@type": "xsd:date"},
+    "urpx:effectiveDateTime": {"@type": "xsd:dateTime"},
+    "urpx:initialEffectiveDate": {"@type": "xsd:date"},
+    "urpx:startDate": {"@type": "xsd:date"},
+    "urpx:url": {"@type": "xsd:anyURI"},
+    "urpx:month": {"@type": "xsd:gMonth"},
+    "urpx:pageStart": {"@type": "xsd:integer"},
+    "urpx:pageEnd": {"@type": "xsd:integer"},
+    "urpx:accessURL": {"@type": "xsd:anyURI"},
+    "urpx:dateRetrieved": {"@type": "xsd:date"},
+    "urpx:targetURPXVersion": {"@type": "xsd:anyURI"}
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-tou-d-prime-cpp-2026-03-20",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:tou-d-prime-cpp",
+    "urpx:name": "Schedule TOU-D Option PRIME-CPP (Critical Peak Pricing variant of Option PRIME)",
+    "urpx:modifierUniqueIdentifier": "TOU-D-PRIME-CPP",
+    "urpx:initialEffectiveDate": "2022-06-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:tou-d-prime-cpp-2026-03-20",
+      "urpx:version": "2026-03-20",
+      "urpx:modifierVersionNumber": "2026-03-20",
+      "urpx:changeReason": {"@id": "urpx:rateCase"},
+      "urpx:description": "Critical Peak Pricing (CPP) variant of Option PRIME. Customer-elected sub-option that overlays event-window charges and non-event-window credits onto the base PRIME rate structure. SCE may call any day a CPP Event (12-15 events per calendar year, day-before notification) — on Event days during 4 p.m.-9 p.m., a CPP Event Energy Charge of +$0.80000/kWh applies. On Summer non-Event days during 4 p.m.-9 p.m., a CPP Non-Event Energy Credit of -$0.15170/kWh applies (no credit on exported generation). PRIME-CPP is restricted to Bundled Service Customers (DA / CCA ineligible per Sheet 16 SC 4.d) and is incompatible with most other DR programs (grandfathered Schedule D-SDP dual participants under Option A-CPP / B-CPP excepted, capped at the Maximum Available Credit of -$0.58794/kWh per Summer Season). First 12 months of CPP enrollment are protected by Bill Protection: customer guaranteed not to pay more than equivalent non-CPP option (NOT modeled here — year-long calculation doesn't fit per-bill shape).",
+      "urpx:effectiveDateTime": "2026-03-20T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {"@id": "urpx:electricity"},
+      "urpx:serviceRole": {"@id": "urpx:bundledServiceRole"},
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {"@id": "urpx:utilityOrganization"}
+      },
+      "urpx:applicableToRatePlan": [
+        {"@id": "sce:tou-d-prime"}
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_TOU-D.pdf",
+        "urpx:mediaType": {"@id": "urpx:applicationPdf"},
+        "urpx:accessURL": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf",
+        "urpx:dateRetrieved": "2026-05-04",
+        "urpx:dataSourceType": {"@id": "urpx:utilityWebsiteSource"},
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 6,
+          "urpx:pageEnd": 16,
+          "urpx:leafStart": "90941-E",
+          "urpx:leafEnd": "73729-E"
+        }
+      },
+      "urpx:hasEligibilityRule": [{
+        "@type": "urpx:EligibilityRule",
+        "@id": "sce:tou-d-prime-cpp-2026-03-20-er-eligible",
+        "urpx:name": "PRIME-CPP-elected customer",
+        "urpx:description": "Customer is on the PRIME base RatePlan (qualifying technology: storage / EV / heat-pump / NBT) AND has elected the CPP variant. CPP election is a Bundled-Service-Customer-only option per Sheet 16 SC 4.d; DA / CCA customers are ineligible. CPP-elected customers are also ineligible for most other DR programs.",
+        "urpx:hasConditionExpression": {
+          "@type": "urpx:ConditionExpression",
+          "@id": "sce:tou-d-prime-cpp-2026-03-20-cx-eligible",
+          "urpx:rootNode": {
+            "@type": "urpx:ComparisonNode",
+            "@id": "sce:tou-d-prime-cpp-2026-03-20-cn-eligible",
+            "urpx:operator": {"@id": "urpx:equalsOperator"},
+            "urpx:leftOperand": {
+              "@type": "urpx:CustomOperandNode",
+              "urpx:customConditionProperty": "CPP Election"
+            },
+            "urpx:rightOperand": {
+              "@type": "urpx:CustomOperandNode",
+              "urpx:stringValue": "PRIME-CPP"
+            }
+          }
+        }
+      }],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [{
+          "@type": "urpx:MetricInput",
+          "@id": "sce:tou-d-prime-cpp-mi-energy",
+          "urpx:name": "kWh Energy Consumption Prices",
+          "urpx:metricInputType": {"@id": "urpx:measuredMetricInput"},
+          "urpx:hasMetricSpecification": {
+            "@type": "urpx:MetricSpecification",
+            "@id": "sce:tou-d-prime-cpp-ms-energy",
+            "urpx:measurementKind": {"@id": "urpx:energy"},
+            "urpx:unitOfMeasure": {"@id": "urpx:kWh"}
+          }
+        }],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:tou-d-prime-cpp-ledger-event-charge",
+              "urpx:name": "PRIME-CPP Event Energy Charge",
+              "urpx:ledgerType": {"@id": "urpx:bundledLedger"},
+              "urpx:referencesMetricInput": {"@id": "sce:tou-d-prime-cpp-mi-energy"}
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:tou-d-prime-cpp-ledger-non-event-credit",
+              "urpx:name": "PRIME-CPP Non-Event Energy Credit",
+              "urpx:ledgerType": {"@id": "urpx:bundledLedger"},
+              "urpx:referencesMetricInput": {"@id": "sce:tou-d-prime-cpp-mi-energy"}
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:tou-d-prime-cpp-ledger-max-credit",
+              "urpx:name": "PRIME-CPP Maximum Available Credit (grandfathered SDP dual-participation cap)",
+              "urpx:ledgerType": {"@id": "urpx:bundledLedger"},
+              "urpx:referencesMetricInput": {"@id": "sce:tou-d-prime-cpp-mi-energy"}
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:tou-d-prime-cpp-pd-event-charge",
+              "urpx:name": "CPP Event Energy Charge — applies during 4-9 p.m. on CPP Event days",
+              "urpx:chargeType": {"@id": "urpx:adjustmentPowerCost"},
+              "urpx:chargeCategory": {"@id": "urpx:adjustment"},
+              "urpx:billPortion": {"@id": "urpx:bundledPortion"},
+              "urpx:referencesLedger": {"@id": "sce:tou-d-prime-cpp-ledger-event-charge"}
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:tou-d-prime-cpp-pd-non-event-credit",
+              "urpx:name": "CPP Non-Event On-Peak Energy Credit — applies during Summer 4-9 p.m. on non-Event days",
+              "urpx:chargeType": {"@id": "urpx:creditEnergy"},
+              "urpx:chargeCategory": {"@id": "urpx:discount"},
+              "urpx:billPortion": {"@id": "urpx:bundledPortion"},
+              "urpx:referencesLedger": {"@id": "sce:tou-d-prime-cpp-ledger-non-event-credit"}
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:tou-d-prime-cpp-pd-max-credit",
+              "urpx:name": "Maximum Available Credit — Summer Season cap on dual-DR-participation credit (grandfathered Schedule D-SDP only)",
+              "urpx:chargeType": {"@id": "urpx:creditEnergy"},
+              "urpx:chargeCategory": {"@id": "urpx:discount"},
+              "urpx:billPortion": {"@id": "urpx:bundledPortion"},
+              "urpx:referencesLedger": {"@id": "sce:tou-d-prime-cpp-ledger-max-credit"}
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:tou-d-prime-cpp-price-event-charge-2026-03-20",
+            "urpx:referencesPriceDefinition": {"@id": "sce:tou-d-prime-cpp-pd-event-charge"},
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "CPP Event Energy Charge",
+            "urpx:unitPrice": "0.80000",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:tou-d-prime-cpp-2026-03-20-ar-event-charge",
+              "urpx:name": "Applies during 4 p.m.-9 p.m. on CPP Event days (any season)",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-prime-cpp-2026-03-20-cx-event-day",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:tou-d-prime-cpp-2026-03-20-cn-event-day",
+                  "urpx:operator": {"@id": "urpx:equalsOperator"},
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Is CPP Event Today"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:tou-d-prime-cpp-price-non-event-credit-2026-03-20",
+            "urpx:referencesPriceDefinition": {"@id": "sce:tou-d-prime-cpp-pd-non-event-credit"},
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Summer CPP Non-Event On-Peak Energy Credit",
+            "urpx:unitPrice": "-0.15170",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:tou-d-prime-cpp-2026-03-20-ar-non-event-credit",
+              "urpx:name": "Applies during Summer Season 4 p.m.-9 p.m. on non-CPP-Event days; June-September only",
+              "urpx:month": ["--06", "--07", "--08", "--09"],
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-prime-cpp-2026-03-20-cx-non-event-day",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:tou-d-prime-cpp-2026-03-20-cn-non-event-day",
+                  "urpx:operator": {"@id": "urpx:equalsOperator"},
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Is CPP Event Today"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "false"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:tou-d-prime-cpp-price-max-credit-2026-03-20",
+            "urpx:referencesPriceDefinition": {"@id": "sce:tou-d-prime-cpp-pd-max-credit"},
+            "urpx:startDate": "2026-01-01",
+            "urpx:name": "Summer Season Maximum Available Credit (grandfathered D-SDP dual-participation cap)",
+            "urpx:unitPrice": "-0.58794",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:tou-d-prime-cpp-2026-03-20-ar-max-credit",
+              "urpx:name": "Applies in Summer Season; cap on credits when customer is grandfathered into Schedule D-SDP dual participation under Option A-CPP / B-CPP",
+              "urpx:month": ["--06", "--07", "--08", "--09"],
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-prime-cpp-2026-03-20-cx-grandfathered-sdp",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:tou-d-prime-cpp-2026-03-20-cn-grandfathered-sdp",
+                  "urpx:operator": {"@id": "urpx:equalsOperator"},
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "Grandfathered D-SDP Dual Participation"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
