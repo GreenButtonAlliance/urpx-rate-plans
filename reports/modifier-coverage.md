@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **32**
+- Base RatePlan filings: **33**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **106**
-  - present and complete: 32
-  - present but incomplete: 21
+- Applicable-modifier slots across all bases: **109**
+  - present and complete: 33
+  - present but incomplete: 23
   - missing: 53
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -246,6 +246,14 @@ Base deferrals:
 ### SCE
 
 #### `d` @ 2025-11-15  &nbsp; base: ✓
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
+| `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
+
+#### `d` @ 2026-03-20  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
