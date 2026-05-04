@@ -47,26 +47,26 @@ Consumers that need the modifier ↔ base pairings as a flat map can read [`repo
 
 ## Status
 
-45 filings landed (32 `urpx:RatePlan` + 14 standalone `urpx:RatePlanModifier`; one filing — PG&E E-TOU-C 2026-03-01 — packages a base alongside a sibling modifier in the same directory, plus 4 PG&E vintage-PCIA modifiers are bundled inline inside their bases' `@graph` for a total of **18 `RatePlanModifier` resources** in the corpus). All filings serialize against URPX v0.2.0 and validate clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
+63 filings landed (39 `urpx:RatePlan` + 24 standalone `urpx:RatePlanModifier`; one filing — PG&E E-TOU-C 2026-03-01 — packages a base alongside a sibling modifier in the same directory, plus 4 PG&E vintage-PCIA modifiers are bundled inline inside their bases' `@graph`). All filings serialize against URPX v0.2.0 and validate clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/v0.2.0/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
 
-**Statewide residential coverage**: ~90% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
+**Statewide residential coverage**: ~91% of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
 
-**SHACL-validating ≠ bill-calculation-complete.** All 45 rate plans pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
+**SHACL-validating ≠ bill-calculation-complete.** All filings pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [Open URPX vocabulary questions](#open-urpx-vocabulary-questions) section below cross-references them.
 
 ### Fidelity by rate plan
 
 | Fidelity | Rate plans | Notes |
 |---|---:|---|
-| **Models the published rate-of-record** | 41 | Validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx); the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials; PG&E baseline-allocation matrix is fully modeled for E-TOU-C 2026-03-01 — pending for E-1) — all tied to one of the open URPX vocabulary questions listed below. |
-| **Substantial economic effect deferred to prose** | 2 | SCE CARE and SCE FERA — line-item exemptions (WFC, FRC, BSC adjustments) modeled with concrete unit prices, but the headline 32.5% (CARE) / 18% (FERA) percentage-of-bill discount is captured in description prose only. Tracked at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
+| **Models the published rate-of-record** | 55 | Validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx); the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials; PG&E baseline-allocation matrix is fully modeled for E-TOU-C 2026-03-01 — pending for E-1) — all tied to one of the open URPX vocabulary questions listed below. |
+| **Substantial economic effect deferred to prose** | 6 | SCE CARE/FERA + SDG&E CARE/FERA — line-item exemptions (WFC, FRC, BSC adjustments) modeled with concrete unit prices, but the headline percentage-of-bill discounts (32.5% / 18% CARE/FERA, 35% / 18% SDG&E) are captured in description prose only. SCE PRIME-CPP and SCE DA-CRS / CCA-CRS modifiers also carry deferrals on dynamic event-day / vintage-year ApplicabilityRule evaluation (modeling forward-compatible; resolver enforcement is a future enhancement). All tracked at [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24) (percentage-of-bill) plus the resolver-side enhancement note. |
 | **Placeholder Price (key value not expressible)** | 2 | LADWP NEM and SMUD NEM1 — both compensate exported energy at the customer's *applicable base-rate energy charge*, a "computed at upstream context" semantic that has no URPX v0.2.0 primitive. The modifiers carry a placeholder `Price` (`unitPrice="0"`) for SHACL conformance, with the actual compensation rule documented in the description prose. Same upstream issue: [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24). |
 
 **Customer reach by fidelity bucket** (estimates per `dev/coverage-estimates.toml`; modifier counts overlap with their already-modeled base RatePlans):
 
 | Bucket | Estimated customer reach |
 |---|---|
-| Models the published rate-of-record (base rates) | ~13.5M of ~15M tracked CA residential customers (~90%) |
-| Substantial economic effect deferred to prose (modifier overlay) | ~1.5M SCE CARE + ~250K SCE FERA (~12% of CA residential, all on top of structurally-modeled base rates; line-item exemptions correct, headline percentage discount missing) |
+| Models the published rate-of-record (base rates) | ~13.6M of ~15M tracked CA residential customers (~91%) |
+| Substantial economic effect deferred to prose (modifier overlay) | ~1.5M SCE CARE + ~250K SCE FERA + ~420K SDG&E CARE + ~70K SDG&E FERA (~14% of CA residential, all on top of structurally-modeled base rates; line-item exemptions and BSC adjustments correct, headline percentage discount missing) |
 | Placeholder Price (modifier overlay) | ~140K LADWP NEM solar + tens of K SMUD NEM1 grandfathered solar (~1% of CA residential, all on top of structurally-modeled base rates) |
 
 ### Open URPX vocabulary questions
@@ -82,15 +82,15 @@ Modeling work on this corpus surfaced a set of upstream issues + discussions awa
 - [**urpx-org/urpx discussion #29**](https://github.com/urpx-org/urpx/discussions/29) — three SHACL shapes (`MetricInputShape`'s inline `calculationRule` constraint, `CalculationMethodShape`, `MetricSpecificationShape`) appear inconsistent on where `aggregationMethod` can attach. Blocks the concrete CPAU E-7 / E-7 TOU site-aggregation refactor proposed on #21.
 - [**urpx#30**](https://github.com/urpx-org/urpx/issues/30) — request for `customDimensionProperty` (string) on `AlternativeDimension`, parallel to `CustomOperandNode.customConditionProperty`. PG&E vintage-PCIA + baseline-tier modifiers currently mint synthetic URIs as a workaround.
 - [**urpx-org/urpx discussion #31**](https://github.com/urpx-org/urpx/discussions/31) — `PlanElementsShape.hasProfileAlternatives` is `sh:maxCount 1`, but PG&E E-1 needs two independent dimension groups (income tier × baseline territory-code). Blocks the in-place E-1 baseline-matrix expansion.
-- [**urpx-org/urpx discussion #32**](https://github.com/urpx-org/urpx/discussions/32) — *additive baseline allowance* semantics: PG&E's medical baseline raises the Tier 1 cap by +16.438 kWh/day uniformly for eligible customers. Three modeling paths considered (matrix expansion to 4 codes; separate overlay modifier; placeholder Price); none expresses the additive-bound shift cleanly with v0.2.0 vocabulary. Blocks Code M / Code S medical-baseline modeling across all 5 PG&E baseline-having residential schedules.
+- [**urpx-org/urpx discussion #32**](https://github.com/urpx-org/urpx/discussions/32) — *additive baseline allowance* semantics: PG&E's medical baseline raises the Tier 1 cap by +16.438 kWh/day uniformly for eligible customers. Three modeling paths considered (matrix expansion to 4 codes; separate overlay modifier; placeholder Price); none expresses the additive-bound shift cleanly with v0.2.0 vocabulary. Blocks Code M / Code S medical-baseline modeling across all 5 PG&E baseline-having residential schedules. **SCE HPWH** (Heat Pump Water Heater +1.9 kWh/day summer, +2.6/3.0 kWh/day winter for HPWH-attesting TOU-D customers) and **SDG&E E-MEDICAL** (Schedule MB) hit the same shape — see the SCE HPWH parallel-evidence comment on the discussion. Three CA IOUs blocked on the same answer.
 
 ### Utilities covered
 
 | Utility | Class | Path | Base RatePlans | RatePlanModifiers |
 |---|---|---|---|---|
 | Pacific Gas & Electric (PG&E) | IOU | `ca/iou/pge/` | E-1, E-TOU-C (×2 reissue), E-TOU-D, EV2, E-ELEC (×2 reissue) | E-TOU-C Baseline-Tier |
-| Southern California Edison (SCE) | IOU | `ca/iou/sce/` | TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME, Schedule D | CARE, FERA |
-| San Diego Gas & Electric (SDG&E) | IOU | `ca/iou/sdge/` | TOU-DR1, DR, TOU-DR2, EV-TOU-5, TOU-ELEC, DR-SES | — |
+| Southern California Edison (SCE) | IOU | `ca/iou/sce/` | TOU-D-4-9PM (×2 reissue), TOU-D-5-8PM (×2 reissue), TOU-D-PRIME (×2 reissue), Schedule D (×2 reissue) | CARE (×2 reissue), FERA (×2 reissue), Deed-Restricted (×2 reissue), DA-CRS, CCA-CRS, PRIME-CPP, Medical Baseline |
+| San Diego Gas & Electric (SDG&E) | IOU | `ca/iou/sdge/` | TOU-DR1, TOU-DR, TOU-DR2, DR, DR-SES, EV-TOU, EV-TOU-2, EV-TOU-5, TOU-ELEC | CARE, FERA, DRAH |
 | Los Angeles Department of Water and Power (LADWP) | POU | `ca/pou/ladwp/` | R-1A, R-1B | NEM |
 | Sacramento Municipal Utility District (SMUD) | POU | `ca/pou/smud/` | TOD-5-8pm, Fixed | SSR, NEM1, PEV Credit |
 | City of Palo Alto Utilities (CPAU) | POU | `ca/pou/cpau/` | E-1 (×2 multi-source), E-1-TOU, E-2, E-3, E-4, E-4-TOU, E-7, E-7-TOU, E-14, E-16 | E-2-G, E-4-G, E-7-G, E-HRA, E-EEC-1, E-NSE-1 |
@@ -99,9 +99,11 @@ Modeling work on this corpus surfaced a set of upstream issues + discussions awa
 
 Tracked in [Issues](https://github.com/grid-coordination/urpx-tariffs/issues) and the local `bd` (beads) issue tracker. Highlights:
 
-- SCE TOU-D HPWH (Heat Pump Water Heater) baseline-allocation modifier — blocked on [urpx-org/urpx#24](https://github.com/urpx-org/urpx/issues/24) (the gap there spans both percentage-of-bill discounts and quantity-threshold extensions)
-- PG&E and SDG&E CARE/FERA modifiers — same shape as SCE's, deferred until the urpx#24 vocabulary lands
-- Smaller-utility coverage (Imperial Irrigation District, City of Anaheim, Modesto Irrigation District, Riverside, Glendale, etc.) — each adds ~50K–150K residential customers and broadens statewide coverage
+- SCE TOU-D HPWH (Heat Pump Water Heater) baseline-allocation modifier and SDG&E E-MEDICAL — blocked on [urpx-org/urpx discussion #32](https://github.com/urpx-org/urpx/discussions/32) (additive baseline allowance vocabulary, parallel question to PG&E Code M / Code S medical baseline). The +1.9 / +2.6 / +3.0 kWh/day extension structure is documented in SCE Preliminary Statement Part H; URPX vocabulary path TBD.
+- PG&E CARE/FERA modifiers — same shape as the SCE/SDG&E modifiers; deferred for utility-coverage breadth.
+- SMUD secondary residential schedules and modifiers ([URPXT-b5j](https://github.com/grid-coordination/urpx-tariffs/issues) tracking).
+- LADWP secondary residential schedules and modifiers ([URPXT-qh2](https://github.com/grid-coordination/urpx-tariffs/issues) tracking).
+- Smaller-utility coverage (Imperial Irrigation District, City of Anaheim, Modesto Irrigation District, Riverside, Glendale, etc.) — each adds ~50K–150K residential customers and broadens statewide coverage.
 
 ## Contributing
 
