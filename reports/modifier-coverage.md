@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **35**
+- Base RatePlan filings: **36**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **117**
-  - present and complete: 35
-  - present but incomplete: 27
-  - missing: 55
+- Applicable-modifier slots across all bases: **122**
+  - present and complete: 36
+  - present but incomplete: 29
+  - missing: 57
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -39,14 +39,14 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `sdge:care` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
 | `sdge:drah` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
 | `sdge:fera` | 6 | `dr/versions/2026-04-01`, `dr-ses/versions/2026-04-01`, `ev-tou-5/versions/2026-04-01`, `tou-dr1/versions/2026-04-01`, `tou-dr2/versions/2026-04-01`, `tou-elec/versions/2026-04-01` |
-| `sce:hpwh-baseline` | 4 | `tou-d-4-9pm/versions/2025-11-15`, `tou-d-4-9pm/versions/2026-03-20`, `tou-d-5-8pm/versions/2025-11-15`, `tou-d-5-8pm/versions/2026-03-20` |
+| `sce:hpwh-baseline` | 5 | `tou-d-4-9pm/versions/2025-11-15`, `tou-d-4-9pm/versions/2026-03-20`, `tou-d-5-8pm/versions/2025-11-15`, `tou-d-5-8pm/versions/2026-03-20`, `tou-d-prime/versions/2026-03-20` |
+| `sce:medical-line-item-discount` | 2 | `tou-d-prime/versions/2025-11-15`, `tou-d-prime/versions/2026-03-20` |
 | `smud:eapr` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:hga` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:reo` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:standby` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `smud:three-phase` | 2 | `fixed/versions/2026-01-01`, `tod-5-8pm/versions/2026-01-01` |
 | `ladwp:ev-discount` | 1 | `r-1b/versions/2026-04-01` |
-| `sce:medical-line-item-discount` | 1 | `tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
 
@@ -322,6 +322,22 @@ Base deferrals:
 | `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
 | `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
+| `medical-line-item-discount` | ✗ missing | — |
+
+#### `tou-d-prime` @ 2026-03-20  &nbsp; base: ~
+
+Base deferrals:
+- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured (URPXT-bqg, source now staged)
+- Option PRIME-CPP variant — CPP event charges + non-event credits not yet modeled (URPXT-cah.10)
+- 100% Medical Line Item Discount RatePlanModifier (URPXT-cah.11)
+- Conditional applicability of EV Meter Credit / EV Submeter Credit — EligibilityRule / ApplicabilityRule refinement deferred
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `ca/iou/sce/care/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `ca/iou/sce/deed-restricted/versions/2025-11-15` |
+| `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
+| `hpwh-baseline` | ✗ missing | — |
 | `medical-line-item-discount` | ✗ missing | — |
 
 ### SDGE
