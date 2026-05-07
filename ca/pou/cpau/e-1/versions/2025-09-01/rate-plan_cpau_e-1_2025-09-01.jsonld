@@ -199,13 +199,17 @@
                   "@id": "cpau:tier-1",
                   "urpx:name": "Tier 1 — Baseline",
                   "urpx:serviceTierNumber": 1,
-                  "urpx:lowerBound": "0",
-                  "urpx:lowerBoundOperator": {
-                    "@id": "urpx:greaterThanOrEqualOperator"
-                  },
-                  "urpx:upperBound": "15",
-                  "urpx:upperBoundOperator": {
-                    "@id": "urpx:lessThanOrEqualOperator"
+                  "urpx:hasServiceBracket": {
+                    "@type": "urpx:ServiceBracket",
+                    "@id": "cpau:tier-1-bracket",
+                    "urpx:lowerBound": "0",
+                    "urpx:lowerBoundOperator": {
+                      "@id": "urpx:greaterThanOrEqualOperator"
+                    },
+                    "urpx:upperBound": "15",
+                    "urpx:upperBoundOperator": {
+                      "@id": "urpx:lessThanOrEqualOperator"
+                    }
                   }
                 },
                 {
@@ -213,9 +217,13 @@
                   "@id": "cpau:tier-2",
                   "urpx:name": "Tier 2 — Over Baseline",
                   "urpx:serviceTierNumber": 2,
-                  "urpx:lowerBound": "15",
-                  "urpx:lowerBoundOperator": {
-                    "@id": "urpx:greaterThanOperator"
+                  "urpx:hasServiceBracket": {
+                    "@type": "urpx:ServiceBracket",
+                    "@id": "cpau:tier-2-bracket",
+                    "urpx:lowerBound": "15",
+                    "urpx:lowerBoundOperator": {
+                      "@id": "urpx:greaterThanOperator"
+                    }
                   }
                 }
               ]

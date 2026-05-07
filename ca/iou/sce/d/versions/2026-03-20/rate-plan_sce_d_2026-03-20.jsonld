@@ -234,13 +234,17 @@
                 "@id": "sce:tier-baseline",
                 "urpx:name": "Tier 1 — Baseline Service (kWh up to applicable Baseline allocation per Preliminary Statement Part H; allocation varies by Baseline Region, Season, and Basic vs All-Electric service)",
                 "urpx:serviceTierNumber": 1,
-                "urpx:lowerBound": "0",
-                "urpx:lowerBoundOperator": {
-                  "@id": "urpx:greaterThanOrEqualOperator"
-                },
-                "urpx:upperBound": "1.0",
-                "urpx:upperBoundOperator": {
-                  "@id": "urpx:lessThanOrEqualOperator"
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "sce:tier-baseline-bracket",
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "1.0",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 }
               },
               {
@@ -248,9 +252,13 @@
                 "@id": "sce:tier-nonbaseline",
                 "urpx:name": "Tier 2 — Nonbaseline Service (kWh in excess of applicable Baseline allocation; rate sheet quotes 101%-400% range, but no separate >400% surcharge applies on Schedule D)",
                 "urpx:serviceTierNumber": 2,
-                "urpx:lowerBound": "1.0",
-                "urpx:lowerBoundOperator": {
-                  "@id": "urpx:greaterThanOperator"
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "sce:tier-nonbaseline-bracket",
+                  "urpx:lowerBound": "1.0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  }
                 }
               }
             ]

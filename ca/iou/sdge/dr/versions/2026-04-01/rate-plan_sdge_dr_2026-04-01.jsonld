@@ -220,13 +220,17 @@
                 "@id": "sdge:tier-baseline",
                 "urpx:name": "Tier 1 — Baseline Energy (kWh up to 130% of CPUC baseline allocation; allowance varies by Climate Zone × Season × Basic/All-Electric per Special Condition 3)",
                 "urpx:serviceTierNumber": 1,
-                "urpx:lowerBound": "0",
-                "urpx:lowerBoundOperator": {
-                  "@id": "urpx:greaterThanOrEqualOperator"
-                },
-                "urpx:upperBound": "1.3",
-                "urpx:upperBoundOperator": {
-                  "@id": "urpx:lessThanOrEqualOperator"
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "sdge:tier-baseline-bracket",
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "1.3",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
                 }
               },
               {
@@ -234,9 +238,13 @@
                 "@id": "sdge:tier-above-baseline",
                 "urpx:name": "Tier 2 — Above 130% of Baseline (no Baseline Adjustment Credit)",
                 "urpx:serviceTierNumber": 2,
-                "urpx:lowerBound": "1.3",
-                "urpx:lowerBoundOperator": {
-                  "@id": "urpx:greaterThanOperator"
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "sdge:tier-above-baseline-bracket",
+                  "urpx:lowerBound": "1.3",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  }
                 }
               }
             ]
