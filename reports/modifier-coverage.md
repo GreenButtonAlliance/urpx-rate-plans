@@ -15,11 +15,11 @@ Status glyphs:
 
 - Base RatePlan filings: **40**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **171**
+- Applicable-modifier slots across all bases: **183**
   - present and complete: 47
-  - present but incomplete: 84
+  - present but incomplete: 96
   - missing: 40
-- Asymmetries between modifier-side and base-side declarations: **14**
+- Asymmetries between modifier-side and base-side declarations: **2**
 
 ## Asymmetries
 
@@ -31,18 +31,6 @@ Modifier's `applicableToRatePlan` declares it applies to this base, but the base
 
 | Modifier | Missing from base |
 |---|---|
-| `pge:e-rsmart` | `ca/iou/pge/e-1/versions/2026-03-01` |
-| `pge:e-rsmart` | `ca/iou/pge/e-elec/versions/2026-01-01` |
-| `pge:e-rsmart` | `ca/iou/pge/e-elec/versions/2026-03-27` |
-| `pge:e-rsmart` | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
-| `pge:e-rsmart` | `ca/iou/pge/e-tou-c/versions/2026-03-27` |
-| `pge:e-rsmart` | `ca/iou/pge/e-tou-d/versions/2026-03-27` |
-| `pge:e-rsmart` | `ca/iou/pge/ev2/versions/2026-03-27` |
-| `pge:nbt` | `ca/iou/pge/e-elec/versions/2026-01-01` |
-| `pge:nbt` | `ca/iou/pge/e-elec/versions/2026-03-27` |
-| `sce:nbt` | `ca/iou/sce/tou-d-prime/versions/2025-11-15` |
-| `sce:nbt` | `ca/iou/sce/tou-d-prime/versions/2026-03-20` |
-| `sdge:nbt` | `ca/iou/sdge/ev-tou-5/versions/2026-04-01` |
 | `smud:cpp` | `ca/pou/smud/tod-5-8pm/versions/2026-01-01` |
 | `smud:cpp` | `ca/pou/smud/tod-low-use/versions/2026-01-01` |
 
@@ -202,6 +190,7 @@ Base deferrals:
 |---|---|---|
 | `care` | ✗ missing | — |
 | `e-1-vintage-pcia` | ✓ present-complete | `ca/iou/pge/e-1/versions/2026-03-01` |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -210,16 +199,20 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
+| `nbt` | ~ present-incomplete | `ca/iou/pge/nbt/versions/2025-10-17` |
 
 #### `e-elec` @ 2026-03-27  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
+| `nbt` | ~ present-incomplete | `ca/iou/pge/nbt/versions/2025-10-17` |
 
 #### `e-tou-c` @ 2026-03-01  &nbsp; base: ~
 
@@ -231,6 +224,7 @@ Base deferrals:
 | `care` | ✗ missing | — |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
 | `e-tou-c-vintage-pcia` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -241,6 +235,7 @@ Base deferrals:
 | `care` | ✗ missing | — |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
 | `e-tou-c-vintage-pcia` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -250,6 +245,7 @@ Base deferrals:
 |---|---|---|
 | `care` | ✗ missing | — |
 | `e-tou-d-vintage-pcia` | ✓ present-complete | `ca/iou/pge/e-tou-d/versions/2026-03-27` |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -258,6 +254,7 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `ev2-vintage-pcia` | ✓ present-complete | `ca/iou/pge/ev2/versions/2026-03-27` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
@@ -363,6 +360,7 @@ Base deferrals:
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `medical-baseline` | ~ present-incomplete | `ca/iou/sce/medical-baseline/versions/2025-10-01` |
 | `medical-line-item-discount` | ✗ missing | — |
+| `nbt` | ~ present-incomplete | `ca/iou/sce/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `ca/iou/sce/tou-d-prime-cpp/versions/2026-03-20` |
 
 #### `tou-d-prime` @ 2026-03-20  &nbsp; base: ~
@@ -382,6 +380,7 @@ Base deferrals:
 | `fera` | ~ present-incomplete | `ca/iou/sce/fera/versions/2025-11-15` |
 | `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `ca/iou/sce/medical-baseline/versions/2025-10-01` |
+| `nbt` | ~ present-incomplete | `ca/iou/sce/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `ca/iou/sce/tou-d-prime-cpp/versions/2026-03-20` |
 
 ### SDGE
@@ -440,6 +439,7 @@ Base deferrals:
 | `care` | ~ present-incomplete | `ca/iou/sdge/care/versions/2025-10-01` |
 | `drah` | ✓ present-complete | `ca/iou/sdge/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `ca/iou/sdge/fera/versions/2026-04-01` |
+| `nbt` | ~ present-incomplete | `ca/iou/sdge/nbt/versions/2025-01-27` |
 
 #### `tou-dr` @ 2026-04-01  &nbsp; base: ~
 
