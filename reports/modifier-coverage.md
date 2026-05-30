@@ -19,13 +19,32 @@ Status glyphs:
   - present and complete: 47
   - present but incomplete: 84
   - missing: 40
-- Asymmetries between modifier-side and base-side declarations: **0**
+- Asymmetries between modifier-side and base-side declarations: **14**
 
 ## Asymmetries
 
 Cross-checks the two declarations of base ↔ modifier pairing: `urpx:applicableToRatePlan` on each `RatePlanModifierVersion` (modifier side) and `[modeling].applicable_modifiers` in each base's `tariff.toml` (base side). These should agree.
 
-_None — both declarations agree across the corpus._
+### Modifier claims base, but base doesn't list modifier
+
+Modifier's `applicableToRatePlan` declares it applies to this base, but the base's `[modeling].applicable_modifiers` doesn't include the modifier's slug. Likely fix: add the slug to the base's `applicable_modifiers` array.
+
+| Modifier | Missing from base |
+|---|---|
+| `pge:e-rsmart` | `ca/iou/pge/e-1/versions/2026-03-01` |
+| `pge:e-rsmart` | `ca/iou/pge/e-elec/versions/2026-01-01` |
+| `pge:e-rsmart` | `ca/iou/pge/e-elec/versions/2026-03-27` |
+| `pge:e-rsmart` | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
+| `pge:e-rsmart` | `ca/iou/pge/e-tou-c/versions/2026-03-27` |
+| `pge:e-rsmart` | `ca/iou/pge/e-tou-d/versions/2026-03-27` |
+| `pge:e-rsmart` | `ca/iou/pge/ev2/versions/2026-03-27` |
+| `pge:nbt` | `ca/iou/pge/e-elec/versions/2026-01-01` |
+| `pge:nbt` | `ca/iou/pge/e-elec/versions/2026-03-27` |
+| `sce:nbt` | `ca/iou/sce/tou-d-prime/versions/2025-11-15` |
+| `sce:nbt` | `ca/iou/sce/tou-d-prime/versions/2026-03-20` |
+| `sdge:nbt` | `ca/iou/sdge/ev-tou-5/versions/2026-04-01` |
+| `smud:cpp` | `ca/pou/smud/tod-5-8pm/versions/2026-01-01` |
+| `smud:cpp` | `ca/pou/smud/tod-low-use/versions/2026-01-01` |
 
 ## Missing modifiers, ranked by frequency
 

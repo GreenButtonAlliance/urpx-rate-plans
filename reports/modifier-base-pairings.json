@@ -83,6 +83,16 @@
       ],
       "filing": "ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"
     },
+    "pge:e-rsmart": {
+      "applicable_to": [
+        "pge:e-1",
+        "pge:e-elec",
+        "pge:e-tou-c",
+        "pge:e-tou-d",
+        "pge:ev2"
+      ],
+      "filing": "ca/iou/pge/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld"
+    },
     "pge:e-tou-c-baseline-tier": {
       "applicable_to": [
         "pge:e-tou-c"
@@ -106,6 +116,12 @@
         "pge:ev2"
       ],
       "filing": "ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"
+    },
+    "pge:nbt": {
+      "applicable_to": [
+        "pge:e-elec"
+      ],
+      "filing": "ca/iou/pge/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld"
     },
     "sce:care": {
       "applicable_to": [
@@ -161,6 +177,12 @@
       ],
       "filing": "ca/iou/sce/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld"
     },
+    "sce:nbt": {
+      "applicable_to": [
+        "sce:tou-d-prime"
+      ],
+      "filing": "ca/iou/sce/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld"
+    },
     "sce:tou-d-prime-cpp": {
       "applicable_to": [
         "sce:tou-d-prime"
@@ -208,6 +230,12 @@
         "sdge:tou-elec"
       ],
       "filing": "ca/iou/sdge/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld"
+    },
+    "sdge:nbt": {
+      "applicable_to": [
+        "sdge:ev-tou-5"
+      ],
+      "filing": "ca/iou/sdge/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld"
     },
     "smud:cpp": {
       "applicable_to": [
@@ -337,22 +365,32 @@
     },
     "pge:e-1": {
       "modifiers": [
-        "pge:e-1-vintage-pcia"
+        "pge:e-1-vintage-pcia",
+        "pge:e-rsmart"
+      ]
+    },
+    "pge:e-elec": {
+      "modifiers": [
+        "pge:e-rsmart",
+        "pge:nbt"
       ]
     },
     "pge:e-tou-c": {
       "modifiers": [
+        "pge:e-rsmart",
         "pge:e-tou-c-baseline-tier",
         "pge:e-tou-c-vintage-pcia"
       ]
     },
     "pge:e-tou-d": {
       "modifiers": [
+        "pge:e-rsmart",
         "pge:e-tou-d-vintage-pcia"
       ]
     },
     "pge:ev2": {
       "modifiers": [
+        "pge:e-rsmart",
         "pge:ev2-vintage-pcia"
       ]
     },
@@ -394,6 +432,7 @@
         "sce:deed-restricted",
         "sce:fera",
         "sce:medical-baseline",
+        "sce:nbt",
         "sce:tou-d-prime-cpp"
       ]
     },
@@ -429,7 +468,8 @@
       "modifiers": [
         "sdge:care",
         "sdge:drah",
-        "sdge:fera"
+        "sdge:fera",
+        "sdge:nbt"
       ]
     },
     "sdge:tou-dr": {
