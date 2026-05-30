@@ -50,17 +50,32 @@ Same eligibility basis across all three CA IOUs; only the terminology differs (L
 - 4 `urpx:Ledger` + 4 `urpx:PriceDefinition` declaring the structural surface (same as PG&E and SCE NBT):
   - Export Compensation Rate — Generation Component (system-wide ACC: energy, cap-and-trade, generation capacity)
   - Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)
-  - ACC Plus Residential adder
-  - ACC Plus Low Income Customer adder
+  - ACC Plus Residential adder (Prices pending discovery)
+  - ACC Plus Low Income Customer adder (Prices pending discovery)
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 5 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1)
-- **0 `urpx:Price` instances** in initial shell
+- 48 shared `urpx:TOUPeriod` (24 hours × 2 day-types)
+- 60 shared `urpx:ApplicabilityRule` (12 months × 5 vintages NBT23/NBT24/NBT25/NBT26/NBT00, each with vintage-gating `ConditionExpression` keyed on `"NBT Vintage Label"`)
+- **5,760 `urpx:Price` instances** for the per-cell EEC values (5 vintages × 576 cells × 2 components) loaded from `sdge.com/solar/solar-billing-plan/export-pricing`
+
+## MIDAS RIN cross-reference (first in corpus)
+
+Each per-cell Price carries its CEC **MIDAS Rate Identification Number (RIN)** in `urpx:name`:
+
+| Vintage | Generation RIN | Delivery RIN |
+|---|---|---|
+| NBT23 | `USCA-XXSD-NB23-0000` | `USCA-SDXX-NB23-0000` |
+| NBT24 | `USCA-XXSD-NB24-0000` | `USCA-SDXX-NB24-0000` |
+| NBT25 | `USCA-XXSD-NB25-0000` | `USCA-SDXX-NB25-0000` |
+| NBT26 | `USCA-XXSD-NB26-0000` | `USCA-SDXX-NB26-0000` |
+| NBT00 | `USCA-XXSD-NB00-0000` | `USCA-SDXX-NB00-0000` |
+
+Downstream tools can verify URPX-resolved prices against MIDAS by RIN + instant lookup — for any (vintage, component, instant) tuple, the same data exists in MIDAS keyed by RIN. This is the first RIN-tagged filing in the corpus; the pattern is extensible to other MIDAS-published rates (PG&E NBT, SCE NBT, IOU TOU schedules) when their RIN mappings are located.
 
 ## What's deferred
 
 | Deferral | Why |
 |---|---|
-| **Per-cell Export Compensation Rate Prices** (4 published vintages × 576 cells × 2 components = ~4,608 Prices) | Loaded by URPXT-7kr.3.1; SDG&E publishes the URL directly on Sheet 4: `https://www.sdge.com/solar/solar-billing-plan/export-pricing` |
-| **ACC Plus Adder values** | Sheet 8 references "ACC Plus credit" semantics but the values table is not in this composite PDF (Sheets 21-22 are absent from this PDF — could be where the values live or were canceled). Discovery needed. |
+| **ACC Plus Adder values** | Sheet 8 references "ACC Plus credit" semantics but the values are NOT in this composite PDF AND NOT in the SDG&E EEC ZIPs (RateType=TOU only). Sheets 21-22 absent from PDF (could be where ACC Plus lived, or canceled). PriceDefinition surface kept for parity with PG&E/SCE; values pending discovery. |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
 | Discontinuance of NSC Double Compensation (Sheet 14 §6.c) | Consumer-side true-up reconciliation |
@@ -74,9 +89,14 @@ Same eligibility basis across all three CA IOUs; only the terminology differs (L
 
 Full list with reasoning in `tariff.toml` under `[modeling]`.
 
-## EEC data URL — exposed directly in the tariff
+## EEC data load — complete
 
-Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as the location of current EEC Rates. **Cleaner entry point than the SCE case**, where the equivalent URL was not exposed in the tariff or customer-facing pages. The per-cell load follow-up (URPXT-7kr.3.1) starts from this URL — likely a clean fetch unlike the SCE URL-discovery archaeology.
+Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as the location of current EEC Rates. **Cleaner entry point than the SCE case** — the page exposes 5 vintage ZIPs (NBT23 / NBT24 / NBT25 / NBT26 + Current/NBT00) directly:
+
+- Each ZIP contains a CSV in CEC MIDAS upload format (RIN, RateName, DateStart/End in UTC, DayStart/End 1-7 + 8 for Holiday, ValueName as Month + Weekday/Weekend + HSn, Value, Unit)
+- CSV is a flat unrolled 20-year hourly time-series per CPUC Resolution E-5301; within each vintage's 9-year lock-in period the per-cell value is constant — first occurrence is used as the canonical lock-in value
+- NBT00 has no lock-in; current-year values are the "actual effective rates" (illustrative beyond that)
+- Pipeline: `shadow-repo/.../scripts/extract-sdge-nbt-eec-values.py` + `build-sdge-nbt-prices-2025-01-27.py`
 
 ## Cross-references
 
@@ -88,4 +108,4 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py` with the SDG&E EV-TOU-5 base RatePlan loaded as data context. The modifier validates with an empty `hasPrice` array — `urpx:Prices` does not require a minimum `hasPrice` count.
+SHACL passes via `dev/validate-with-base.py` with the SDG&E EV-TOU-5 base RatePlan loaded as data context. 5,760 per-cell Prices + 48 TOUPeriods + 60 ApplicabilityRules + structural shell all validate clean.
