@@ -1,0 +1,68 @@
+#!/bin/bash
+# Pre-commit hook: regenerate derived reports when tariff filings change.
+#
+# When any ca/**/*.toml or ca/**/*.jsonld is staged, re-runs the 4
+# report generators and stages any resulting reports/ changes into the
+# same commit. Docs-only commits (README, LAYOUT, etc.) skip the hook
+# and don't slow down.
+#
+# Install (one-time, per-checkout):
+#
+#   git config core.hooksPath dev/git-hooks
+#
+# Skip ad-hoc with `git commit --no-verify` if needed (e.g. revert commit
+# that intentionally desyncs reports).
+#
+# Hook is intentionally narrow: it regenerates derived artifacts but does
+# NOT run lint failures back at the user as commit blockers — that's
+# dev/check_all.py's job, intended for CI.
+
+set -euo pipefail
+
+# Only run when tariff content is staged
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(ca/.*\.(toml|jsonld)|dev/(coverage|list_modifier_base_pairings|lint_modifier_coverage|list_ready_for_use)\.py)$'; then
+    exit 0
+fi
+
+REPO=$(git rev-parse --show-toplevel)
+cd "$REPO"
+
+# Activate venv if available (the dev/*.py scripts need rdflib, pyshacl, etc.)
+if [ -f "$HOME/env/py/p3newa/bin/activate" ]; then
+    # shellcheck disable=SC1091
+    source "$HOME/env/py/p3newa/bin/activate"
+fi
+
+echo "pre-commit: tariff filings staged → regenerating reports..."
+
+failed=0
+run_step() {
+    local name=$1
+    shift
+    if ! "$@" >/tmp/pre-commit-step.log 2>&1; then
+        echo "pre-commit: $name FAILED"
+        cat /tmp/pre-commit-step.log
+        failed=1
+    fi
+}
+
+run_step "coverage.py"                       python3 dev/coverage.py --write-report
+run_step "list_modifier_base_pairings.py"    python3 dev/list_modifier_base_pairings.py
+run_step "lint_modifier_coverage.py"         python3 dev/lint_modifier_coverage.py
+run_step "list_ready_for_use.py"             python3 dev/list_ready_for_use.py
+
+if [ "$failed" -ne 0 ]; then
+    echo "pre-commit: one or more report generators failed — commit aborted."
+    echo "pre-commit: re-stage and retry, or use 'git commit --no-verify' to bypass."
+    exit 1
+fi
+
+# Stage any newly-regenerated reports into this commit
+if ! git diff --quiet reports/; then
+    git add reports/
+    echo "pre-commit: staged regenerated files in reports/"
+else
+    echo "pre-commit: reports/ already current — no changes to stage."
+fi
+
+exit 0

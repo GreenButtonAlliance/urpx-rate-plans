@@ -1,0 +1,29 @@
+# Git hooks for urpx-tariffs
+
+Versioned pre-commit hook(s) that keep derived artifacts (reports/, etc.) in sync with tariff filings.
+
+## One-time install
+
+```bash
+git config core.hooksPath dev/git-hooks
+```
+
+That points git at this directory for hook execution. The setting is per-checkout — each contributor runs it once. Run from any directory inside the repo.
+
+To uninstall:
+
+```bash
+git config --unset core.hooksPath
+```
+
+## Hooks
+
+### `pre-commit`
+
+Triggers when any `ca/**/*.toml`, `ca/**/*.jsonld`, or any of the four report generators in `dev/` (`coverage.py`, `list_modifier_base_pairings.py`, `lint_modifier_coverage.py`, `list_ready_for_use.py`) is staged. Re-runs the generators and stages any resulting `reports/` changes into the same commit. Docs-only commits (`README.md`, `LAYOUT.md`, `dev/git-hooks/*`, etc.) skip the hook and aren't slowed down.
+
+Activates `~/env/py/p3newa/bin/activate` if present (the generators need rdflib, pyshacl, etc.).
+
+If a generator fails, the commit is aborted with a non-zero exit. Re-stage / fix and retry, or pass `git commit --no-verify` to bypass intentionally (e.g. for a revert that needs to desync reports).
+
+Per the user's note when this hook landed: the hook regenerates derived artifacts but does NOT block on lint failures — that's `dev/check_all.py`'s job, which is intended for CI (and exits non-zero on drift). The hook is the "keep me from forgetting" half; `check_all` is the "verify clean" half.
