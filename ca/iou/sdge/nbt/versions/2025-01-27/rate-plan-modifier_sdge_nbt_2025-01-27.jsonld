@@ -1,0 +1,212 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sdge": "https://example.com/sdge/",
+    "urpx:unitPrice": { "@type": "xsd:decimal" },
+    "urpx:effectiveDate": { "@type": "xsd:date" },
+    "urpx:effectiveDateTime": { "@type": "xsd:dateTime" },
+    "urpx:initialEffectiveDate": { "@type": "xsd:date" },
+    "urpx:startDate": { "@type": "xsd:date" },
+    "urpx:startTime": { "@type": "xsd:time" },
+    "urpx:endTime": { "@type": "xsd:time" },
+    "urpx:url": { "@type": "xsd:anyURI" },
+    "urpx:month": { "@type": "xsd:gMonth" },
+    "urpx:pageStart": { "@type": "xsd:integer" },
+    "urpx:pageEnd": { "@type": "xsd:integer" },
+    "urpx:accessURL": { "@type": "xsd:anyURI" },
+    "urpx:dateRetrieved": { "@type": "xsd:date" },
+    "urpx:targetURPXVersion": { "@type": "xsd:anyURI" }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sdge:doc-nbt-2025-01-27",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sdge:nbt",
+    "urpx:name": "Schedule NBT (Net Billing Tariff) for Customer-Sited Renewable Distributed Generation",
+    "urpx:modifierUniqueIdentifier": "NBT",
+    "urpx:initialEffectiveDate": "2023-11-30",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sdge:nbt-2025-01-27",
+      "urpx:version": "2025-01-27",
+      "urpx:modifierVersionNumber": "2025-01-27",
+      "urpx:changeReason": { "@id": "urpx:rateCase" },
+      "urpx:description": "SDG&E's Net Billing Tariff (NBT) per CPUC Decision 22-12-056. Customer-facing name: Solar Billing Plan (SBP). Effective for new residential DER interconnection applications submitted on or after April 15, 2023 (NEM-ST sunset date). Per Sheet 3, separately metered residential customers (including Aggregation customers) taking NBT MUST take service on Schedule EV-TOU-5 as their Otherwise Applicable Schedule (OAS) — modeled here as a urpx:RatePlanModifier overlay binding to sdge:ev-tou-5. Single-base binding mirrors the PG&E NBT (E-ELEC mandate) and SCE NBT (TOU-D-PRIME mandate) patterns. EV-TOU-5 is SDG&E's residential EV-friendly TOU rate; mandating it for NBT reflects the assumption that solar customers are also EV-adopting / electrification-leaning. Third export-direction modifier in the corpus (PG&E NBT and SCE NBT preceded). Import-side charges remain governed by the base EV-TOU-5 RatePlan; this modifier handles only the export-side compensation (urpx:flowDirection urpx:reverse on the MetricSpecification). SDG&E pays 5 NBCs vs PG&E and SCE's 4: PPP, ND, CTC, DWR-BC (Department of Water Resources Bond Charge — SDG&E-specific), WF-NBC (Wildfire Fund). DWR-BC NBC modeling lives on the base EV-TOU-5 RatePlan, not on this modifier. PriceDefinition surface: (1) Export Compensation Rate Generation Component; (2) Export Compensation Rate Delivery Component; (3) ACC Plus Residential adder; (4) ACC Plus Low Income adder. ZERO Prices in initial shell — per-cell EEC values deferred to URPXT-7kr.3.1 (URL cited directly on Sheet 4: https://www.sdge.com/solar/solar-billing-plan/export-pricing); ACC Plus values pending discovery (Sheet 8 references 'ACC Plus credit' in annual true-up semantics but the values table is not in this composite PDF — may be in a separate SDG&E filing or in absent Sheets 21-22). Annual true-up settlement, Net Surplus Compensation (NSC), NSC Renewable Attribute Adder (RAA), Discontinuance of NSC Double Compensation, and bill-credit rollover all deferred to consumer (price-server) responsibility.",
+      "urpx:effectiveDateTime": "2025-01-27T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": { "@id": "urpx:electricity" },
+      "urpx:serviceRole": { "@id": "urpx:bundledServiceRole" },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:eiaId": "16609",
+        "urpx:organizationType": { "@id": "urpx:utilityOrganization" }
+      },
+      "urpx:applicableToRatePlan": [
+        { "@id": "sdge:ev-tou-5" }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "Schedule NBT (tarfKey 1064).pdf",
+        "urpx:mediaType": { "@id": "urpx:applicationPdf" },
+        "urpx:accessURL": "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1064",
+        "urpx:dateRetrieved": "2026-05-29",
+        "urpx:dataSourceType": { "@id": "urpx:utilityWebsiteSource" },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 1,
+          "urpx:pageEnd": 31,
+          "urpx:leafStart": "37363-E",
+          "urpx:leafEnd": "61779-E"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sdge:nbt-2025-01-27-er-regf",
+          "urpx:name": "Customer has Renewable Electrical Generation Facility (REGF)",
+          "urpx:description": "Per Sheet 5 §1.b, customer must operate a Renewable Electrical Generation Facility (REGF) located on the Customer's owned, leased, or rented premises, interconnected and operating in parallel with SDG&E's transmission and distribution systems, intended primarily to offset part or all of the customer's own electrical requirements. Eligible renewable sources: biomass, solar thermal, photovoltaic, wind, geothermal, fuel cells using renewable fuels, small hydroelectric generation, digester gas, municipal solid waste conversion, landfill gas, ocean wave, ocean thermal, tidal current.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sdge:nbt-2025-01-27-cx-regf",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sdge:nbt-2025-01-27-cn-regf",
+              "urpx:operator": { "@id": "urpx:equalsOperator" },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "Has Eligible REGF"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "true"
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sdge:nbt-2025-01-27-er-interconnection-date",
+          "urpx:name": "NBT interconnection application submitted on or after 2023-04-15",
+          "urpx:description": "Per Sheet 1, Schedule NBT becomes available to eligible customer-generators beginning April 15, 2023, the day following the NEM-ST eligibility sunset required by D.22-12-056. Customers submitting complete applications on or after April 15, 2023 interconnect under Schedule NBT. NEM Transition Customers (post-2024-02-15 for NBT Aggregation per D.23-11-068) and NEM/NEM-ST legacy expiry customers also covered — those transition-state cases handled in description prose rather than as billing-time eligibility predicates.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sdge:nbt-2025-01-27-cx-interconnection-date",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sdge:nbt-2025-01-27-cn-interconnection-date",
+              "urpx:operator": { "@id": "urpx:greaterThanOrEqualOperator" },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "NBT Interconnection Application Date"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "2023-04-15"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:nbt-mi-energy-export",
+            "urpx:name": "kWh Exported to Grid (export channel)",
+            "urpx:metricInputType": { "@id": "urpx:measuredMetricInput" },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sdge:nbt-ms-energy-export",
+              "urpx:measurementKind": { "@id": "urpx:energy" },
+              "urpx:unitOfMeasure": { "@id": "urpx:kWh" },
+              "urpx:flowDirection": { "@id": "urpx:reverse" }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:nbt-ledger-export-rate-generation",
+              "urpx:name": "Export Compensation Rate — Generation Component (ACC: energy, cap-and-trade, generation capacity)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sdge:nbt-mi-energy-export" }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:nbt-ledger-export-rate-delivery",
+              "urpx:name": "Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sdge:nbt-mi-energy-export" }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:nbt-ledger-acc-plus-residential",
+              "urpx:name": "ACC Plus Residential Adder (values pending discovery)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sdge:nbt-mi-energy-export" }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:nbt-ledger-acc-plus-low-income",
+              "urpx:name": "ACC Plus Low Income Customer Adder (CARE/FERA / disadvantaged-community / California Indian Country — values pending discovery)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sdge:nbt-mi-energy-export" }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:nbt-pd-export-rate-generation",
+              "urpx:name": "Export Compensation Rate — Generation Component",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sdge:nbt-ledger-export-rate-generation" }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:nbt-pd-export-rate-delivery",
+              "urpx:name": "Export Compensation Rate — Delivery Component",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sdge:nbt-ledger-export-rate-delivery" }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:nbt-pd-acc-plus-residential",
+              "urpx:name": "ACC Plus Residential per-kWh Adder",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sdge:nbt-ledger-acc-plus-residential" }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:nbt-pd-acc-plus-low-income",
+              "urpx:name": "ACC Plus Low Income Customer per-kWh Adder",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sdge:nbt-ledger-acc-plus-low-income" }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": []
+      }
+    }
+  }
+}
