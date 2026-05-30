@@ -1,0 +1,293 @@
+{
+  "@context": {
+    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://example.com/organizations/",
+    "sce": "https://example.com/sce/",
+    "urpx:unitPrice": { "@type": "xsd:decimal" },
+    "urpx:effectiveDate": { "@type": "xsd:date" },
+    "urpx:effectiveDateTime": { "@type": "xsd:dateTime" },
+    "urpx:initialEffectiveDate": { "@type": "xsd:date" },
+    "urpx:startDate": { "@type": "xsd:date" },
+    "urpx:startTime": { "@type": "xsd:time" },
+    "urpx:endTime": { "@type": "xsd:time" },
+    "urpx:url": { "@type": "xsd:anyURI" },
+    "urpx:month": { "@type": "xsd:gMonth" },
+    "urpx:pageStart": { "@type": "xsd:integer" },
+    "urpx:pageEnd": { "@type": "xsd:integer" },
+    "urpx:accessURL": { "@type": "xsd:anyURI" },
+    "urpx:dateRetrieved": { "@type": "xsd:date" },
+    "urpx:targetURPXVersion": { "@type": "xsd:anyURI" }
+  },
+  "@type": "urpx:URPXDocument",
+  "@id": "sce:doc-nbt-2025-04-23",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:nbt",
+    "urpx:name": "Schedule NBT (Net Billing Tariff) Service",
+    "urpx:modifierUniqueIdentifier": "NBT",
+    "urpx:initialEffectiveDate": "2023-03-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:nbt-2025-04-23",
+      "urpx:version": "2025-04-23",
+      "urpx:modifierVersionNumber": "2025-04-23",
+      "urpx:changeReason": { "@id": "urpx:rateCase" },
+      "urpx:description": "SCE's Net Billing Tariff (NBT) per CPUC Decision 22-12-056. Customer-facing name: Solar Billing Plan (SBP), with vintage labels NBT23 / NBT24 / NBT25 / NBT26 / NBT00. Effective for new residential DER interconnection applications submitted on or after April 15, 2023 (NEM and NEM-ST closed at that date except for NBT Transition Customers). Per Sheet 2 §1.a, residential customers taking NBT MUST be on the Prime Option of Schedule TOU-D — modeled here as a urpx:RatePlanModifier overlay binding to sce:tou-d-prime. Single-base binding mirrors PG&E NBT's E-ELEC mandate and the SCE TOU-D-PRIME-CPP precedent. Import-side charges remain governed by the base TOU-D-PRIME RatePlan (measured on the meter's import channel); this modifier handles only the export-side compensation (measured on channel 2; urpx:flowDirection urpx:reverse on the MetricSpecification). Second export-direction modifier in the corpus (PG&E NBT was first). PriceDefinitions: (1) Export Compensation Rate Generation Component (energy, cap-and-trade, generation capacity); (2) Export Compensation Rate Delivery Component (transmission, distribution, greenhouse adder, methane leakage); (3) ACC Plus Non-Equity Customer adder; (4) ACC Plus Equity Customer adder (higher per-kWh value for CARE/FERA / disadvantaged-community resident-owners / California Indian Country residents per Sheet 17 Equity Customer definition). This initial filing scopes to canonical residential NBT (PRIME-required); sibling sub-schedule filings (NBT-A Aggregation, NBT-PS Paired Storage, NBT-MT Multiple Tariff) deferred. Per-cell Export Compensation Rate Prices deferred to URPXT-7kr.2.1 — the SCE data-file URL was not surfaced during 2026-05-29 sourcing. 2025-vintage ACC Plus values included (Non-Equity $0.024/kWh, Equity $0.056/kWh — Sheet 7 table). Annual true-up settlement, Net Surplus Compensation (NSC), NSC Renewable Attribute Adder (RAA), and bill-credit rollover deferred to consumer (price-server) responsibility.",
+      "urpx:effectiveDateTime": "2025-04-23T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": { "@id": "urpx:electricity" },
+      "urpx:serviceRole": { "@id": "urpx:bundledServiceRole" },
+      "urpx:publishedBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:eiaId": "17609",
+        "urpx:organizationType": { "@id": "urpx:utilityOrganization" }
+      },
+      "urpx:applicableToRatePlan": [
+        { "@id": "sce:tou-d-prime" }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_NBT.pdf",
+        "urpx:mediaType": { "@id": "urpx:applicationPdf" },
+        "urpx:accessURL": "https://www.sce.com/sites/default/files/custom-files/PDF_Files/ELECTRIC_SCHEDULES_NBT.pdf",
+        "urpx:dateRetrieved": "2026-05-29",
+        "urpx:dataSourceType": { "@id": "urpx:utilityWebsiteSource" },
+        "urpx:hasTariffBookReference": {
+          "@type": "urpx:TariffBookReference",
+          "urpx:pageStart": 1,
+          "urpx:pageEnd": 42,
+          "urpx:leafStart": "87677-E",
+          "urpx:leafEnd": "87711-E"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:nbt-2025-04-23-er-regf",
+          "urpx:name": "Customer has Renewable Electrical Generating Facility (REGF)",
+          "urpx:description": "Per Sheet 11 §1.b, customer must operate an Eligible Renewable Electrical Generating Facility on the Customer's Premises, interconnected to SCE's electric system. Eligible technologies: biomass, solar thermal, photovoltaic, wind, geothermal, fuel cells using renewable fuels, small hydroelectric generation, digester gas, municipal solid waste conversion, landfill gas, ocean wave, ocean thermal, tidal current — per CEC RPS Eligibility Guidebook.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:nbt-2025-04-23-cx-regf",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sce:nbt-2025-04-23-cn-regf",
+              "urpx:operator": { "@id": "urpx:equalsOperator" },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "Has Eligible REGF"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "true"
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:nbt-2025-04-23-er-interconnection-date",
+          "urpx:name": "NBT interconnection application submitted on or after 2023-04-15",
+          "urpx:description": "Per Sheet 1 / Sheet 13, Schedule NEM-ST closed for new interconnection applications after 2023-04-14. Customers submitting complete Interconnection Requests on or after 2023-04-15 take service on NBT. Customers with legacy NEM or NEM-ST whose 20-year transition period expires, or who voluntarily elect into NBT, or NBT Transition Customers are also eligible — those transition-state cases are handled in description prose and process state rather than as billing-time eligibility predicates.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:nbt-2025-04-23-cx-interconnection-date",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sce:nbt-2025-04-23-cn-interconnection-date",
+              "urpx:operator": { "@id": "urpx:greaterThanOrEqualOperator" },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:customConditionProperty": "NBT Interconnection Application Date"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "urpx:stringValue": "2023-04-15"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:nbt-mi-energy-export",
+            "urpx:name": "kWh Exported to Grid (channel 2 / export channel)",
+            "urpx:metricInputType": { "@id": "urpx:measuredMetricInput" },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:nbt-ms-energy-export",
+              "urpx:measurementKind": { "@id": "urpx:energy" },
+              "urpx:unitOfMeasure": { "@id": "urpx:kWh" },
+              "urpx:flowDirection": { "@id": "urpx:reverse" }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:nbt-ledger-export-rate-generation",
+              "urpx:name": "Export Compensation Rate — Generation Component (ACC: energy, cap-and-trade, generation capacity)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sce:nbt-mi-energy-export" }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:nbt-ledger-export-rate-delivery",
+              "urpx:name": "Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sce:nbt-mi-energy-export" }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:nbt-ledger-acc-plus-non-equity",
+              "urpx:name": "ACC Plus Non-Equity Customer Adder",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sce:nbt-mi-energy-export" }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:nbt-ledger-acc-plus-equity",
+              "urpx:name": "ACC Plus Equity Customer Adder (CARE/FERA / disadvantaged-community / California Indian Country)",
+              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
+              "urpx:referencesMetricInput": { "@id": "sce:nbt-mi-energy-export" }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:nbt-pd-export-rate-generation",
+              "urpx:name": "Export Compensation Rate — Generation Component",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sce:nbt-ledger-export-rate-generation" }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:nbt-pd-export-rate-delivery",
+              "urpx:name": "Export Compensation Rate — Delivery Component",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sce:nbt-ledger-export-rate-delivery" }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:nbt-pd-acc-plus-non-equity",
+              "urpx:name": "ACC Plus Non-Equity Customer per-kWh Adder",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sce:nbt-ledger-acc-plus-non-equity" }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:nbt-pd-acc-plus-equity",
+              "urpx:name": "ACC Plus Equity Customer per-kWh Adder",
+              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
+              "urpx:chargeCategory": { "@id": "urpx:discount" },
+              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
+              "urpx:referencesLedger": { "@id": "sce:nbt-ledger-acc-plus-equity" }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:nbt-price-acc-plus-non-equity-vintage-2025",
+            "urpx:referencesPriceDefinition": { "@id": "sce:nbt-pd-acc-plus-non-equity" },
+            "urpx:startDate": "2025-01-01",
+            "urpx:name": "ACC Plus Non-Equity Customer — 2025 interconnection vintage ($0.024/kWh-exported)",
+            "urpx:unitPrice": "-0.024",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:nbt-2025-04-23-ar-acc-plus-non-equity-2025-vintage",
+              "urpx:name": "Applies to Non-Equity NBT customers with 2025-calendar-year interconnection vintage. Vintage-locked for 9 years from PTO date per Sheet 7. Other vintages (2023, 2024, 2026, 2027) require sibling Prices with their respective values (deferred). Per Sheet 7 / Sheet 8: master-metered customers are not eligible for the ACC Plus Adder; NEM and NEM-ST customers transferring to NBT are not eligible except for NBT Transition Customers; New Construction customers are not eligible.",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:nbt-2025-04-23-cx-acc-plus-ne-2025-vintage",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:nbt-2025-04-23-cn-acc-plus-ne-2025-vintage",
+                  "urpx:operator": { "@id": "urpx:equalsOperator" },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:customConditionProperty": "NBT Interconnection Vintage Year"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "urpx:stringValue": "2025"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:nbt-price-acc-plus-equity-vintage-2025",
+            "urpx:referencesPriceDefinition": { "@id": "sce:nbt-pd-acc-plus-equity" },
+            "urpx:startDate": "2025-01-01",
+            "urpx:name": "ACC Plus Equity Customer — 2025 interconnection vintage ($0.056/kWh-exported)",
+            "urpx:unitPrice": "-0.056",
+            "urpx:hasApplicabilityRule": {
+              "@type": "urpx:ApplicabilityRule",
+              "@id": "sce:nbt-2025-04-23-ar-acc-plus-equity-2025-vintage",
+              "urpx:name": "Applies to Equity Customers with 2025-calendar-year NBT interconnection vintage. 2025-vintage Equity value is $0.056/kWh (Sheet 7 Table — roughly 2.3x the Non-Equity adder). Equity Customer definition per Sheet 17: (a) enrolled in CARE or FERA, OR (b) resident-owner of a single-family home in a disadvantaged community per D.18-06-027, OR (c) Residential Customer in California Indian Country per D.20-12-003. The Equity Customer predicate is consumer-side-evaluable; this Price encodes the conjunction with vintage-2025 via a BooleanOperationNode.",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:nbt-2025-04-23-cx-acc-plus-eq-2025-vintage",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:nbt-2025-04-23-bn-acc-plus-eq-2025-vintage",
+                  "urpx:operator": { "@id": "urpx:andOperator" },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:nbt-2025-04-23-cn-acc-plus-eq-2025-vintage-year",
+                      "urpx:operator": { "@id": "urpx:equalsOperator" },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "NBT Interconnection Vintage Year"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "2025"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:nbt-2025-04-23-cn-acc-plus-eq-eligible",
+                      "urpx:operator": { "@id": "urpx:equalsOperator" },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "SCE NBT Equity Customer"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "true"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
