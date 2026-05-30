@@ -163,11 +163,25 @@ shacl_passed   = true
 validator      = "pyshacl"
 validated_on   = "2026-05-29"
 
+# MIDAS RIN cross-reference (added by URPXT-7kr.2.1) ------------------------
+# Each per-cell Delivery Price carries its CEC MIDAS Rate Identification
+# Number (RIN) in urpx:name for cross-reference. SCE uses per-base-RatePlan
+# RIN families; for residential TOU-D-PRIME-NBT:
+#   USCA-SCXX-0602-0000   TOU-D-PRIME-NBT NON-VINTAGED
+#   USCA-SCXX-0603-0000   TOU-D-PRIME-NBT 2023 VINTAGE
+#   USCA-SCXX-0604-0000   TOU-D-PRIME-NBT 2024 VINTAGE
+#   USCA-SCXX-0605-0000   TOU-D-PRIME-NBT 2025 VINTAGE
+#   USCA-SCXX-0606-0000   TOU-D-PRIME-NBT 2026 VINTAGE
+# Generation EEC is NOT in MIDAS — USCA-XXSC-* RINs don't exist
+# (verified via HistoricalList 2026-05-29). Generation source TBD.
+
 # Modeling -------------------------------------------------------------------
 [modeling]
 complete  = false
 deferrals = [
-  "Per-cell Export Compensation Rate Price entities (576 cells per vintage × 2 components × at least 4 vintages 2023-2026) — loaded by URPXT-7kr.2.1 once the SCE data file URL is located",
+  "Per-cell Generation EEC Component Prices — SCE does not publish Generation EEC via MIDAS (USCA-XXSC-* RINs don't exist; only Delivery USCA-SCXX-* is published). Tariff Sheet 5 confirms Generation EEC exists (energy, cap-and-trade, generation capacity components); source TBD (likely SCE advice-letter filings or a separate publication channel)",
+  "NBT 2026 vintage per-cell Prices (Jun-Dec) — MIDAS publishes only partial-year 2026 data as of extraction (Jan-May populated); 336 cells deferred until MIDAS publication catches up",
+  "NBT 2023 vintage covers 2023-2031 lock-in; Delivery values loaded via query of MIDAS 2025 data (same locked-in values for any year within the customer's lock-in)",
   "Multi-vintage ACC Plus values — initial filing models the 2025-vintage row; full per-vintage matrix (2023-2027 in table) is a follow-up",
   "Annual true-up + Relevant Period settlement — year-long calculation doesn't fit per-bill modifier shape (same deferral pattern as PG&E NBT)",
   "Net Surplus Compensation (NSC) — end-of-year DLAP-based settlement using rolling 12-month avg of SCE hourly DLAP prices Hour Ending 08 through 17",
