@@ -179,6 +179,21 @@ shacl_passed   = true
 validator      = "pyshacl"
 validated_on   = "2026-05-29"
 
+# MIDAS RIN cross-reference (added by URPXT-7kr.4 — see notes) -------------
+# Each Delivery Component Price carries its CEC MIDAS Rate Identification
+# Number in urpx:name (2,304 Delivery Prices tagged). PG&E E-ELEC NBT RINs:
+#   USCA-PGXX-3500-0000   E-ELEC + NBT23-CCA (Delivery)
+#   USCA-PGXX-3600-0000   E-ELEC + NBT24-CCA (Delivery)
+#   USCA-PGXX-3900-0000   E-ELEC + NBT25-CCA (Delivery)
+#   USCA-PGXX-4000-0000   E-ELEC + NBT26-CCA (Delivery)
+# CCA-flavored AltRateName1 is a labeling artifact — Delivery values are
+# system-wide and apply identically to Bundled and CCA customers.
+# Generation Component Prices (2,304 of them) are NOT RIN-tagged — PG&E
+# doesn't publish Generation EEC via MIDAS (USCA-XXPG family contains only
+# SGIP and Flex entries). Same pattern as SCE.
+# Tagging tool: shadow-repo/scripts/tag-pge-nbt-prices-with-midas-rins.py
+# (idempotent — re-running detects and skips already-tagged Prices)
+
 # Modeling -------------------------------------------------------------------
 [modeling]
 complete  = false
