@@ -172,16 +172,23 @@ validated_on   = "2026-05-29"
 #   USCA-SCXX-0604-0000   TOU-D-PRIME-NBT 2024 VINTAGE
 #   USCA-SCXX-0605-0000   TOU-D-PRIME-NBT 2025 VINTAGE
 #   USCA-SCXX-0606-0000   TOU-D-PRIME-NBT 2026 VINTAGE
-# Generation EEC is NOT in MIDAS — USCA-XXSC-* RINs don't exist
-# (verified via HistoricalList 2026-05-29). Generation source TBD.
+# Generation EEC IS derivable from MIDAS — discovered 2026-05-29 via
+# SCSC-SCXX subtraction:
+#   USCA-SCSC-{code}-0000   bundled-service rate, carries COMBINED EEC
+#   USCA-SCXX-{code}-0000   CCA-service rate,     carries DELIVERY-ONLY EEC
+#   Generation EEC = SCSC combined "Energy Export Credit"
+#                  − SCXX "Energy Export Credit Delivery"
+# Empirically verified constant across multiple weeks within each vintage's
+# lock-in period. Implemented in shadow-repo/scripts/
+# augment-sce-nbt-with-generation-eec.py. Generation Price names carry
+# both source RINs (e.g. "MIDAS RIN: USCA-SCSC-0605-0000 − USCA-SCXX-0605-0000").
 
 # Modeling -------------------------------------------------------------------
 [modeling]
 complete  = false
 deferrals = [
-  "Per-cell Generation EEC Component Prices — SCE does not publish Generation EEC via MIDAS (USCA-XXSC-* RINs don't exist; only Delivery USCA-SCXX-* is published). Tariff Sheet 5 confirms Generation EEC exists (energy, cap-and-trade, generation capacity components); source TBD (likely SCE advice-letter filings or a separate publication channel)",
-  "NBT 2026 vintage per-cell Prices (Jun-Dec) — MIDAS publishes only partial-year 2026 data as of extraction (Jan-May populated); 336 cells deferred until MIDAS publication catches up",
-  "NBT 2023 vintage covers 2023-2031 lock-in; Delivery values loaded via query of MIDAS 2025 data (same locked-in values for any year within the customer's lock-in)",
+  "NBT 2026 vintage per-cell Prices (Jun-Dec) — MIDAS publishes only partial-year 2026 data as of extraction; 672 cells (336 Delivery + 336 Generation) deferred until MIDAS publication catches up",
+  "NBT 2023 vintage values loaded via query of MIDAS 2025 data (the customer's locked-in rate is constant within their 9-year window, so any year in the published range gives the same per-cell values)",
   "Multi-vintage ACC Plus values — initial filing models the 2025-vintage row; full per-vintage matrix (2023-2027 in table) is a follow-up",
   "Annual true-up + Relevant Period settlement — year-long calculation doesn't fit per-bill modifier shape (same deferral pattern as PG&E NBT)",
   "Net Surplus Compensation (NSC) — end-of-year DLAP-based settlement using rolling 12-month avg of SCE hourly DLAP prices Hour Ending 08 through 17",
