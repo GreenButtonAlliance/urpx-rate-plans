@@ -5,4 +5,10 @@
          :git/sha "935a870bd554af6f28924a0c128220c05749ea0f"}}
 
  :aliases
- {:validate {:main-opts ["-m" "validate-v020"]}}}
+ {:validate {:main-opts ["-m" "validate-v020"]}
+
+  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.6.0"}
+                       cider/cider-nrepl {:mvn/version "0.50.3"}}
+          :jvm-opts ["-Djdk.attach.allowAttachSelf"]
+          :main-opts ["-m" "nrepl.cmdline"
+                      "--middleware" "[cider.nrepl/cider-middleware]"]}}}
