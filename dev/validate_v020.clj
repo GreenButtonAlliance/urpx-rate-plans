@@ -112,19 +112,23 @@
       (do
         (print "load+coerce ✓ ")
         (flush)
-        (try
-          (let [resolved (price/resolve-prices plan probe-instant)
-                ledger-count (count (:urpx.resolved/ledgers resolved))
-                marginal (price/marginal-unit-rate resolved)]
-            (print (format "resolve ✓  (%d ledgers, marginal=%s)"
-                           ledger-count marginal)))
-          (catch Exception e
-            (print (format "resolve ✗  %s" (.getMessage e)))))
-        (println))
+        (let [ok (try
+                   (let [resolved (price/resolve-prices plan probe-instant)
+                         ledger-count (count (:urpx.resolved/ledgers resolved))
+                         marginal (price/marginal-unit-rate resolved)]
+                     (print (format "resolve ✓  (%d ledgers, marginal=%s)"
+                                    ledger-count marginal))
+                     true)
+                   (catch Exception e
+                     (print (format "resolve ✗  %s" (.getMessage e)))
+                     false))]
+          (println)
+          ok))
       (do
         (println "validate ✗")
         (let [explanation (coerce/explain schema/RatePlan plan)]
-          (println "    explain:" (pr-str explanation)))))))
+          (println "    explain:" (pr-str explanation)))
+        false))))
 
 (defn- compose-modifier-with-base
   "Compose `modifier` into the latest version of `base-kw`'s base RatePlan
@@ -148,7 +152,8 @@
     (if-not (coerce/validate schema/RatePlanModifier modifier)
       (do (println "validate ✗")
           (let [explanation (coerce/explain schema/RatePlanModifier modifier)]
-            (println "    explain:" (pr-str explanation))))
+            (println "    explain:" (pr-str explanation)))
+          false)
       (let [mod-iri  (:jsonld/id modifier)
             mod-kw   (iri->kw mod-iri)
             base-kws (get-in pairings [:by-modifier mod-kw :applicable-to])]
@@ -156,7 +161,7 @@
         (flush)
         (cond
           (empty? base-kws)
-          (println "(no applicable bases declared)")
+          (do (println "(no applicable bases declared)") true)
 
           :else
           (let [results  (mapv #(assoc (compose-modifier-with-base modifier % base-iri-lookup)
@@ -166,11 +171,13 @@
                 failures (filterv #(not= :ok (:status %)) results)
                 total    (count results)]
             (if (empty? failures)
-              (println (format "compose ✓ × %d (e.g. %s → %d ledgers, marginal=%s)"
+              (do
+               (println (format "compose ✓ × %d (e.g. %s → %d ledgers, marginal=%s)"
                                total
                                (kw->iri (:base (first ok)))
                                (:ledgers (first ok))
                                (:marginal (first ok))))
+               true)
               (do
                 (println (format "compose %d/%d" (count ok) total))
                 (doseq [f failures]
@@ -178,23 +185,30 @@
                                  :no-corpus-base "no base filing in corpus"
                                  :error          (:error f)
                                  (str (:status f)))]
-                    (println (format "    ✗ %s — %s" (kw->iri (:base f)) reason))))))))))))
+                    (println (format "    ✗ %s — %s" (kw->iri (:base f)) reason))))
+                false))))))))
 
 (defn validate-one [width [kind label path] pairings base-iri-lookup]
   (print (pad label width) "")
   (flush)
   (try
-    (case kind
-      :rate-plan          (validate-rate-plan path)
-      :rate-plan-modifier (validate-rate-plan-modifier path pairings base-iri-lookup))
+    (boolean
+     (case kind
+       :rate-plan          (validate-rate-plan path)
+       :rate-plan-modifier (validate-rate-plan-modifier path pairings base-iri-lookup)))
     (catch Exception e
-      (println "load+coerce ✗  " (.getMessage e)))))
+      (println "load+coerce ✗  " (.getMessage e))
+      false)))
 
 (defn -main [& _]
   (println "Probe instant:" probe-instant)
   (println)
   (let [w               (inc (name-width filings))
         pairings        (read-pairings)
-        base-iri-lookup (build-base-iri-lookup filings)]
-    (doseq [filing filings] (validate-one w filing pairings base-iri-lookup)))
-  (System/exit 0))
+        base-iri-lookup (build-base-iri-lookup filings)
+        results         (mapv #(validate-one w % pairings base-iri-lookup) filings)
+        failed          (count (remove true? results))
+        total           (count results)]
+    (println)
+    (println (format "%d/%d passed" (- total failed) total))
+    (System/exit (if (zero? failed) 0 1))))
