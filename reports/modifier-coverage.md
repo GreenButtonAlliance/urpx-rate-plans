@@ -15,11 +15,11 @@ Status glyphs:
 
 - Base RatePlan filings: **40**
 - Fully covered (base complete + every applicable modifier present-and-complete): **3**
-- Applicable-modifier slots across all bases: **183**
+- Applicable-modifier slots across all bases: **184**
   - present and complete: 47
-  - present but incomplete: 96
+  - present but incomplete: 97
   - missing: 40
-- Asymmetries between modifier-side and base-side declarations: **2**
+- Asymmetries between modifier-side and base-side declarations: **1**
 
 ## Asymmetries
 
@@ -31,7 +31,6 @@ Modifier's `applicableToRatePlan` declares it applies to this base, but the base
 
 | Modifier | Missing from base |
 |---|---|
-| `smud:cpp` | `ca/pou/smud/tod-5-8pm/versions/2026-01-01` |
 | `smud:cpp` | `ca/pou/smud/tod-low-use/versions/2026-01-01` |
 
 ## Missing modifiers, ranked by frequency
@@ -222,9 +221,9 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
 | `e-tou-c-vintage-pcia` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
-| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -233,9 +232,9 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
+| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
 | `e-tou-c-vintage-pcia` | ~ present-incomplete | `ca/iou/pge/e-tou-c/versions/2026-03-01` |
-| `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -244,8 +243,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
-| `e-tou-d-vintage-pcia` | ✓ present-complete | `ca/iou/pge/e-tou-d/versions/2026-03-27` |
 | `e-rsmart` | ~ present-incomplete | `ca/iou/pge/e-rsmart/versions/2025-10-31` |
+| `e-tou-d-vintage-pcia` | ✓ present-complete | `ca/iou/pge/e-tou-d/versions/2026-03-27` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
@@ -510,6 +509,7 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
+| `cpp` | ~ present-incomplete | `ca/pou/smud/cpp/versions/2026-01-01` |
 | `eapr` | ~ present-incomplete | `ca/pou/smud/eapr/versions/2023-09-22` |
 | `hga` | ✗ missing | — |
 | `med` | ~ present-incomplete | `ca/pou/smud/med/versions/2017-07-01` |
