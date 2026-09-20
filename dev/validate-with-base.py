@@ -1,22 +1,39 @@
 #!/usr/bin/env python3
-"""Validate a URPX rate-plan or rate-plan-modifier filing with its referenced base
-RatePlan(s) loaded as data context (Path 1 per upstream urpx-org/urpx#23).
+"""SHACL-validate the urpx-tariffs corpus against a pinned URPX revision.
 
-A standalone RatePlanModifier filing's `urpx:applicableToRatePlan` references its
-base RatePlan(s) by IRI. SHACL's `sh:class urpx:RatePlan` constraint cannot resolve
-those IRIs unless the base filing is also loaded into the same data graph.
+The gate unit is a MERGED graph per utility, not a per-file run. Cross-file
+references (`urpx:applicableToRatePlan`, `urpx:supersedes`) only resolve when the
+referent is in the same graph, and no modifier pairing crosses a utility
+boundary, so merging one utility resolves every reference it has. The six
+per-utility profiles sum to the whole-corpus profile exactly, so a wave gated on
+its own utility loses no coverage.
 
-Usage:
-    python dev/validate-with-base.py <jsonld>           # validate one file with auto-located base context
-    python dev/validate-with-base.py --all              # walk the corpus and validate each
-    python dev/validate-with-base.py --rdfs <jsonld>    # also enable RDFS inference
+An earlier version validated file-by-file and suppressed the resulting cross-file
+violations to reach a clean report. That suppression is gone: it hid 735
+cross-base violations and 7 xref class-checks, which is indistinguishable from
+having none.
 
-Run inside the urpx-tariffs project root with the ../urpx checkout adjacent.
+Modes:
+    --all                    every utility, each as its own merged graph (the gate)
+    --utility <slug>         one utility merged (the wave gate)
+    --merged                 the whole corpus as one graph; the only mode that can
+                             see a NEW cross-utility @id collision
+    --per-file               each file alone, unsuppressed (DIAGNOSTIC, expect
+                             failures from unresolved cross-file references)
+    <jsonld>                 one file alone (DIAGNOSTIC, same caveat)
+
+    --urpx-rev <rev>         URPX revision in ../urpx to validate against
+    --rdfs                   enable RDFS inference
+    --keys                   print stable violation keys, for baseline comparison
+
+Exit codes: 0 conforming, 1 violations, 3 refused (the harness cannot produce a
+meaningful answer, e.g. the data and the shapes share no vocabulary).
+
+Run from the urpx-tariffs project root with the ../urpx checkout adjacent.
 """
 from __future__ import annotations
 
 import argparse
-import json
 import os
 import subprocess
 import sys
@@ -112,303 +129,161 @@ def shapes_target_any(data_graph: rdflib.Graph, shapes_graph: rdflib.Graph) -> b
     return bool(data_types & targeted)
 
 
-def index_corpus() -> dict[str, Path]:
-    """Map @id (RatePlan, RatePlanVersion, RatePlanModifier, or
-    RatePlanModifierVersion — string IRI like 'pge:e-1', 'pge:e-tou-c-2026-03-01',
-    'sce:care', 'sce:care-2025-11-15') → file path. Both base rate-plan filings
-    and standalone modifier filings are indexed so cross-file supersedes /
-    applicableToRatePlan references can resolve."""
-    index: dict[str, Path] = {}
-    for path in REPO_ROOT.glob("ca/**/rate-plan*.jsonld"):
-        with open(path) as fh:
-            data = json.load(fh)
-        _walk_rate_plans(data, path, index)
-    return index
+# --- corpus discovery -------------------------------------------------------
+# One place, so the pending restructure to us/<subdivision>/<utility>/<carrier>/
+# changes this function and nothing else.
+CORPUS_ROOT = "ca"
+_UTILITY_PATH_INDEX = 2   # ca/<class>/<utility>/...
 
 
-def _walk_rate_plans(node, path, index):
-    if isinstance(node, dict):
-        t = node.get("@type")
-        if t in ("urpx:RatePlan", "urpx:RatePlanVersion",
-                 "urpx:RatePlanModifier", "urpx:RatePlanModifierVersion"):
-            iid = node.get("@id")
-            if iid:
-                index[iid] = path
-        for v in node.values():
-            _walk_rate_plans(v, path, index)
-    elif isinstance(node, list):
-        for v in node:
-            _walk_rate_plans(v, path, index)
+def corpus_files(utility: str | None = None) -> list[Path]:
+    """Every rate-plan filing, optionally narrowed to one utility."""
+    files = sorted(REPO_ROOT.glob(f"{CORPUS_ROOT}/**/rate-plan*.jsonld"))
+    if utility is None:
+        return files
+    return [f for f in files if utility_of(f) == utility]
 
 
-# Properties whose value is a cross-file IRI reference that a base file must
-# resolve. SHACL enforces sh:class on each, so the referent file must be loaded
-# into the merged graph.
-CROSS_FILE_REF_PROPS = ("urpx:applicableToRatePlan", "urpx:supersedes")
+def utility_of(path: Path) -> str:
+    return path.relative_to(REPO_ROOT).parts[_UTILITY_PATH_INDEX]
 
 
-def find_base_refs(jsonld_path: Path) -> list[str]:
-    """Return @id strings referenced by any cross-file ref property."""
-    with open(jsonld_path) as fh:
-        data = json.load(fh)
-    refs: list[str] = []
-    _walk_refs(data, refs)
-    return refs
+def utilities() -> list[str]:
+    return sorted({utility_of(f) for f in corpus_files()})
 
 
-def _walk_refs(node, refs):
-    if isinstance(node, dict):
-        for k, v in node.items():
-            if k in CROSS_FILE_REF_PROPS:
-                if isinstance(v, list):
-                    for item in v:
-                        if isinstance(item, dict) and "@id" in item:
-                            refs.append(item["@id"])
-                elif isinstance(v, dict) and "@id" in v:
-                    refs.append(v["@id"])
-            else:
-                _walk_refs(v, refs)
-    elif isinstance(node, list):
-        for v in node:
-            _walk_refs(v, refs)
+# --- validation -------------------------------------------------------------
+SH = rdflib.Namespace("http://www.w3.org/ns/shacl#")
+
+OK, VIOLATIONS, REFUSED = "ok", "violations", "refused"
 
 
-def _collect_local_rate_plan_ids(node, out: set[str]):
-    """Collect all RatePlan @ids declared (with @type) in this node tree."""
-    if isinstance(node, dict):
-        if node.get("@type") == "urpx:RatePlan":
-            iid = node.get("@id")
-            if iid:
-                out.add(iid)
-        for v in node.values():
-            _collect_local_rate_plan_ids(v, out)
-    elif isinstance(node, list):
-        for v in node:
-            _collect_local_rate_plan_ids(v, out)
+def violation_keys(results_graph: rdflib.Graph) -> list[tuple[str, str, str]]:
+    """Stable (focusNode, resultPath, constraintComponent) keys, sorted.
 
-
-def _collect_local_modifier_ids(node, out: set[str]):
-    """Collect all RatePlanModifier @ids declared (with @type) in this node tree."""
-    if isinstance(node, dict):
-        if node.get("@type") == "urpx:RatePlanModifier":
-            iid = node.get("@id")
-            if iid:
-                out.add(iid)
-        for v in node.values():
-            _collect_local_modifier_ids(v, out)
-    elif isinstance(node, list):
-        for v in node:
-            _collect_local_modifier_ids(v, out)
-
-
-def _file_embeds_any(path: Path, modifier_ids: set[str]) -> bool:
-    """Return True if the JSON-LD file declares any of the given IRIs as urpx:RatePlanModifier."""
-    with open(path) as fh:
-        data = json.load(fh)
-    declared: set[str] = set()
-    _collect_local_modifier_ids(data, declared)
-    return bool(declared & modifier_ids)
-
-
-def validate_one(jsonld: Path, *, rdfs: bool = False, verbose: bool = True) -> bool:
-    """Path 1 per upstream urpx-org/urpx#23: validate with referenced base RatePlan(s)
-    loaded as data context.
-
-    Strategy:
-      1. Parse the file under test; record its primary subjects.
-      2. Load all referenced base files into the same graph (so applicableToRatePlan
-         IRIs resolve as urpx:RatePlan instances).
-      3. Run pyshacl on the merged graph.
-      4. Filter out violations whose Focus Node is a base-file resource (i.e., not a
-         resource declared in the file under test) — those are base-validation
-         concerns, not modifier-validation concerns. This deals with the cross-base
-         IRI collision problem (e.g., LADWP R-1A and R-1B both declare
-         ladwp:ledger-energy with different names — which is a real cross-filing
-         collision but irrelevant to whether LADWP NEM itself is well-formed).
+    Keys rather than counts: a count is invariant under a violation being traded
+    for a different one, which is exactly the failure a migration produces.
     """
-    g_local = rdflib.Graph()
-    g_local.parse(jsonld, format="json-ld")
-    local_subjects: set = set(s for s in g_local.subjects() if isinstance(s, rdflib.URIRef))
+    keys = []
+    for r in results_graph.subjects(rdflib.RDF.type, SH.ValidationResult):
+        focus = next(results_graph.objects(r, SH.focusNode), None)
+        path = next(results_graph.objects(r, SH.resultPath), None)
+        comp = next(results_graph.objects(r, SH.sourceConstraintComponent), None)
+        keys.append((str(focus), str(path), str(comp)))
+    return sorted(keys)
 
-    # Collect ALL @ids declared in the file under test (including BNode-anchored, but those won't be focus nodes via SHACL targetClass anyway)
-    with open(jsonld) as fh:
-        local_data = json.load(fh)
-    local_rps: set[str] = set()
-    _collect_local_rate_plan_ids(local_data, local_rps)
-    # Modifier IRIs declared in the file under test (used to detect bases that embed redundant copies)
-    local_modifier_ids: set[str] = set()
-    _collect_local_modifier_ids(local_data, local_modifier_ids)
 
-    base_refs = find_base_refs(jsonld)
-    external_refs = [r for r in base_refs if r not in local_rps]
+def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
+                   verbose: bool = True, show_keys: bool = False):
+    """Validate `files` as ONE merged graph. Returns (status, keys)."""
+    if not files:
+        # An empty file set conforms trivially. That is the vacuous pass this
+        # harness exists to refuse, and it is exactly what a restructure that
+        # breaks discovery would produce.
+        print(f"REFUSED  {label}: no filings matched. Corpus discovery is broken "
+              f"or the selector is wrong; refusing to report conformance over "
+              f"an empty graph.", file=sys.stderr)
+        return REFUSED, []
 
     g = rdflib.Graph()
-    g += g_local
-
-    loaded: list[str] = []
-    skipped_redundant: list[str] = []
-    missing: list[str] = []
-    if external_refs:
-        index = index_corpus()
-        loaded_paths: set = set()
-        for ref in external_refs:
-            base = index.get(ref)
-            if not base:
-                missing.append(ref)
-                continue
-            if base == jsonld or base in loaded_paths:
-                continue
-            # Skip bases that embed redundant copies of the same modifier — the
-            # embedded sub-graph re-introduces the modifier's resources with fresh
-            # blank-node operand-node anchors, producing spurious MaxCount violations
-            # on the modifier's own ComparisonNodes (e.g., the CPAU multi-source
-            # filings still embed E-HRA / E-EEC-1 / E-NSE-1 sub-graphs that pre-date
-            # standalone modifier extraction).
-            if local_modifier_ids and _file_embeds_any(base, local_modifier_ids):
-                skipped_redundant.append(str(base.relative_to(REPO_ROOT)))
-                continue
-            g.parse(base, format="json-ld")
-            loaded_paths.add(base)
-            loaded.append(str(base.relative_to(REPO_ROOT)))
-
-    if verbose and loaded:
-        print(f"  loaded {len(loaded)} base context(s)", file=sys.stderr)
-    if verbose and missing:
-        print(
-            f"  WARN: cross-file references not found in corpus: {missing}",
-            file=sys.stderr,
-        )
+    for f in files:
+        g.parse(f, format="json-ld")
 
     shapes = load_graph(SHAPES_PATH)
     ontology = load_graph(ONTOLOGY_PATH)
 
     if not shapes_target_any(g, shapes):
-        print(
-            f"ERROR {jsonld.relative_to(REPO_ROOT)}: no shape targets any class asserted "
-            f"in this file at URPX {URPX_REV}. Validation would pass vacuously; refusing "
-            f"to report a result. Check the urpx: namespace binding against the pinned "
-            f"revision, or pass --urpx-rev.",
-            file=sys.stderr,
-        )
-        return False
+        print(f"REFUSED  {label}: no shape targets any class asserted in these "
+              f"{len(files)} file(s) at URPX {URPX_REV}. Validation would pass "
+              f"vacuously. Check the urpx: namespace binding against the pinned "
+              f"revision, or pass --urpx-rev.", file=sys.stderr)
+        return REFUSED, []
 
-    conforms, results_graph, results_text = validate(
-        g,
-        shacl_graph=shapes,
-        ont_graph=ontology,
-        inference="rdfs" if rdfs else None,
-        advanced=True,
+    conforms, results_graph, _ = validate(
+        g, shacl_graph=shapes, ont_graph=ontology,
+        inference="rdfs" if rdfs else None, advanced=True,
     )
-
-    if conforms:
-        if verbose:
-            print(f"PASS  {jsonld.relative_to(REPO_ROOT)}")
-        return True
-
-    # Compute the set of IRIs whose ONLY resolution paths were skipped bases (those
-    # bases embed redundant copies of the modifier under test). The IRIs ARE typed
-    # correctly in those skipped files — we just couldn't load them without
-    # introducing collisions. Suppress class-check violations for those refs.
-    URPX_NS = str(load_graph(ONTOLOGY_PATH).namespace_manager.store.namespace("urpx") or "")
-    suppressed_xref_iris: set = set()
-    if skipped_redundant and external_refs:
-        index = index_corpus()
-        # For each ref, check if all its candidate resolution files were skipped
-        for ref in external_refs:
-            base = index.get(ref)
-            if not base:
-                continue
-            base_rel = str(base.relative_to(REPO_ROOT))
-            if base_rel in skipped_redundant:
-                # JSON-LD prefix expansion: ref like "cpau:e-1" → expand
-                # We need the full IRI as it appears in rdflib triples
-                ctx = local_data.get("@context", {})
-                if isinstance(ctx, dict) and ":" in ref:
-                    prefix, local = ref.split(":", 1)
-                    base_iri = ctx.get(prefix)
-                    if base_iri:
-                        suppressed_xref_iris.add(rdflib.URIRef(f"{base_iri}{local}"))
-
-    # Filter violations: keep only those whose Focus Node belongs to local_subjects.
-    SH = rdflib.Namespace("http://www.w3.org/ns/shacl#")
-    primary_violations: list[str] = []
-    base_violations_count = 0
-    suppressed_xref_count = 0
-    for result_node in results_graph.subjects(rdflib.RDF.type, SH.ValidationResult):
-        focus_nodes = list(results_graph.objects(result_node, SH.focusNode))
-        if not focus_nodes:
-            continue
-        focus = focus_nodes[0]
-        if focus not in local_subjects:
-            base_violations_count += 1
-            continue
-        # Suppress xref class-failures whose value is an IRI whose only resolution path was skipped
-        path = list(results_graph.objects(result_node, SH.resultPath))
-        path_str = str(path[0]) if path else "?"
-        if path_str.endswith(("applicableToRatePlan", "applicableToRatePlanVersion", "supersedes")):
-            value_nodes = list(results_graph.objects(result_node, SH.value))
-            if value_nodes and value_nodes[0] in suppressed_xref_iris:
-                suppressed_xref_count += 1
-                continue
-        msg = list(results_graph.objects(result_node, SH.resultMessage))
-        msg_str = str(msg[0]) if msg else "?"
-        primary_violations.append(f"Focus: {focus} | Path: {path_str} | Message: {msg_str}")
+    keys = violation_keys(results_graph)
 
     if verbose:
-        if base_violations_count > 0:
-            print(
-                f"  ({base_violations_count} cross-base violation(s) suppressed — base-file concerns, not modifier-validation)",
-                file=sys.stderr,
-            )
-        if suppressed_xref_count > 0:
-            print(
-                f"  ({suppressed_xref_count} xref class-check(s) suppressed — only resolution paths were skipped redundant-embed bases)",
-                file=sys.stderr,
-            )
-
-    if not primary_violations:
-        if verbose:
-            print(f"PASS  {jsonld.relative_to(REPO_ROOT)}")
-        return True
-
-    if verbose:
-        print(f"FAIL  {jsonld.relative_to(REPO_ROOT)}")
-        for v in primary_violations:
-            print(f"  {v}")
-    return False
+        if conforms:
+            print(f"PASS  {label}  ({len(files)} files)")
+        else:
+            print(f"FAIL  {label}  ({len(files)} files, {len(keys)} violations)")
+            if show_keys:
+                for focus, path, comp in keys:
+                    print(f"  {focus} | {path} | {comp.rsplit('#', 1)[-1]}")
+    return (OK if conforms else VIOLATIONS), keys
 
 
 def main():
     global URPX_REV
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("jsonld", nargs="?", help="Path to a single JSON-LD file (relative to repo root or absolute)")
-    ap.add_argument("--all", action="store_true", help="Validate every rate-plan*.jsonld in the corpus")
-    ap.add_argument("--rdfs", action="store_true", help="Enable RDFS inference (-i rdfs equivalent)")
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("jsonld", nargs="?", help="A single JSON-LD file (DIAGNOSTIC)")
+    ap.add_argument("--all", action="store_true",
+                    help="Every utility, each merged separately (the gate)")
+    ap.add_argument("--utility", metavar="SLUG", help="One utility, merged")
+    ap.add_argument("--merged", action="store_true",
+                    help="The whole corpus as one graph")
+    ap.add_argument("--per-file", action="store_true",
+                    help="Each file alone, unsuppressed (DIAGNOSTIC)")
+    ap.add_argument("--rdfs", action="store_true", help="Enable RDFS inference")
+    ap.add_argument("--keys", action="store_true", help="Print violation keys")
     ap.add_argument("--urpx-rev", default=URPX_REV,
-                    help=f"URPX git revision in ../urpx to validate against (default: {URPX_REV})")
+                    help=f"URPX revision in ../urpx (default: {URPX_REV})")
     args = ap.parse_args()
     URPX_REV = args.urpx_rev
+    kw = dict(rdfs=args.rdfs, show_keys=args.keys)
+
+    if args.merged:
+        status, _ = validate_files(corpus_files(), "corpus (merged)", **kw)
+        sys.exit({OK: 0, VIOLATIONS: 1, REFUSED: 3}[status])
+
+    if args.utility:
+        files = corpus_files(args.utility)
+        status, _ = validate_files(files, f"{args.utility} (merged)", **kw)
+        sys.exit({OK: 0, VIOLATIONS: 1, REFUSED: 3}[status])
 
     if args.all:
-        files = sorted(REPO_ROOT.glob("ca/**/rate-plan*.jsonld"))
-        fail = 0
-        for f in files:
-            if not validate_one(f, rdfs=args.rdfs):
-                fail += 1
-        total = len(files)
-        print(f"\n{total - fail}/{total} passed")
-        sys.exit(0 if fail == 0 else 1)
+        names = utilities()
+        if not names:
+            print("REFUSED  corpus discovery found no utilities.", file=sys.stderr)
+            sys.exit(3)
+        statuses = []
+        for u in names:
+            st, _ = validate_files(corpus_files(u), f"{u} (merged)", **kw)
+            statuses.append(st)
+        ok = sum(1 for s in statuses if s == OK)
+        print(f"\n{ok}/{len(names)} utilities conforming")
+        if REFUSED in statuses:
+            sys.exit(3)
+        sys.exit(0 if ok == len(names) else 1)
+
+    if args.per_file:
+        files = corpus_files()
+        if not files:
+            print("REFUSED  corpus discovery found no filings.", file=sys.stderr)
+            sys.exit(3)
+        print("DIAGNOSTIC: per-file mode leaves cross-file references unresolved, "
+              "so failures here are expected and are not a gate signal.\n",
+              file=sys.stderr)
+        statuses = [validate_files([f], str(f.relative_to(REPO_ROOT)), **kw)[0]
+                    for f in files]
+        ok = sum(1 for s in statuses if s == OK)
+        print(f"\n{ok}/{len(files)} conforming (per-file, diagnostic)")
+        sys.exit(3 if REFUSED in statuses else (0 if ok == len(files) else 1))
 
     if not args.jsonld:
-        ap.error("provide a JSON-LD path or --all")
+        ap.error("give a JSON-LD path, or one of --all / --utility / --merged / --per-file")
 
     p = Path(args.jsonld)
-    if not p.is_absolute():
-        # try repo-relative first
-        candidate = REPO_ROOT / p
-        if candidate.exists():
-            p = candidate
-    sys.exit(0 if validate_one(p, rdfs=args.rdfs) else 1)
+    if not p.is_absolute() and (REPO_ROOT / p).exists():
+        p = REPO_ROOT / p
+    print("DIAGNOSTIC: single-file mode leaves cross-file references unresolved.",
+          file=sys.stderr)
+    status, _ = validate_files([p], str(p.relative_to(REPO_ROOT)), **kw)
+    sys.exit({OK: 0, VIOLATIONS: 1, REFUSED: 3}[status])
 
 
 if __name__ == "__main__":

@@ -81,4 +81,4 @@ NBT-compatibility: NBT is explicitly preserved as eligible per Sheet 1 — no ad
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py` with all five base RatePlans loaded as data context. 140 cross-base violations are suppressed by the script as base-file concerns rather than modifier-validation failures (overlapping ProgramEnrollment / TariffPublication declarations between the 5 base files).
+SHACL passes via `dev/validate-with-base.py --utility pge`, which merges every PG&E filing into one graph so all five `applicableToRatePlan` references resolve. The overlapping ProgramEnrollment and TariffPublication declarations across those base files do produce cross-filing violations. An earlier version of the script suppressed them as base-file concerns; that hid the fact that they are real `@id` reuse, so they are now counted in the PG&E merged profile and held against a recorded baseline instead.

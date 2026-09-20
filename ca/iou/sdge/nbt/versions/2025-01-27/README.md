@@ -108,4 +108,4 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py` with the SDG&E EV-TOU-5 base RatePlan loaded as data context. 5,760 per-cell Prices + 48 TOUPeriods + 60 ApplicabilityRules + structural shell all validate clean.
+SHACL passes via `dev/validate-with-base.py --utility sdge`, which merges every SDG&E filing into one graph so the `applicableToRatePlan` reference to EV-TOU-5 resolves. 5,760 per-cell Prices + 48 TOUPeriods + 60 ApplicabilityRules + structural shell all validate clean.

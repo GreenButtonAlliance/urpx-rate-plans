@@ -240,7 +240,7 @@ These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpa
 
 ### Cross-version IRI scoping (when adopting `urpx:supersedes`)
 
-URI identity says **one IRI denotes one resource**. When a `RatePlanVersion` adds `urpx:supersedes` pointing to a prior version, both versions get loaded into the same merged graph at validation time (`dev/validate-with-base.py`). Subordinate resources whose **content differs between versions** must therefore use **version-distinct IRIs**, otherwise the merged graph violates property cardinality (e.g., `urpx:rootNode maxCount=1` collides when two ConditionExpressions share an IRI).
+URI identity says **one IRI denotes one resource**. When a `RatePlanVersion` adds `urpx:supersedes` pointing to a prior version, both versions get loaded into the same merged graph at validation time (`dev/validate-with-base.py --utility <slug>`, the gate unit). Subordinate resources whose **content differs between versions** must therefore use **version-distinct IRIs**, otherwise the merged graph violates property cardinality (e.g., `urpx:rootNode maxCount=1` collides when two ConditionExpressions share an IRI).
 
 Convention: prepend `<schedule>-<date>-` to the descriptor for each colliding subordinate. Example from PG&E E-ELEC 2026-03-27:
 
@@ -313,5 +313,5 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 
 - **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `ca/iou/pge/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
 - **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `ca/iou/pge/a-1/`). The class-level split is by utility class, not by customer class.
-- **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Per [urpx-org/urpx#16](https://github.com/urpx-org/urpx/issues/16), the value must point to an existing `RatePlanVersion` IRI; cross-file resolution is verified by `dev/validate-with-base.py`. Adopted in [#3](https://github.com/grid-coordination/urpx-tariffs/issues/3) starting with PG&E E-TOU-C 2026-03-27 → 2026-03-01.
+- **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Per [urpx-org/urpx#16](https://github.com/urpx-org/urpx/issues/16), the value must point to an existing `RatePlanVersion` IRI; cross-file resolution is verified by `dev/validate-with-base.py --utility <slug>`, which merges a whole utility so the referent is in the same graph. Adopted in [#3](https://github.com/grid-coordination/urpx-tariffs/issues/3) starting with PG&E E-TOU-C 2026-03-27 → 2026-03-01.
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.

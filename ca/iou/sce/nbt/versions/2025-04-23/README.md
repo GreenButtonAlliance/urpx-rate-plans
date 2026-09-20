@@ -92,4 +92,4 @@ The 4-vintage × 24-hour × 12-month × 2-day-type × 2-component grid (~4,608 P
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py` with the SCE TOU-D-PRIME base RatePlan loaded as data context. Validation passes on first attempt — the PG&E NBT modeling pattern transferred cleanly with utility-specific substitutions only.
+SHACL passes via `dev/validate-with-base.py --utility sce`, which merges every SCE filing into one graph so the `applicableToRatePlan` reference to TOU-D-PRIME resolves. Validation passes on first attempt — the PG&E NBT modeling pattern transferred cleanly with utility-specific substitutions only.
