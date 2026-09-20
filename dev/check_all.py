@@ -16,6 +16,9 @@ Exit codes:
   1 — at least one step failed (generator/lint/schema error).
   2 — every step passed but tracked files drifted (run the generators).
 
+  --generators-only  run step 1-2 only and stop. This is what the pre-commit
+                     hook calls, so the hook does not keep a second step list.
+
 Run from repo root:  python3 dev/check_all.py
 """
 from __future__ import annotations
@@ -28,7 +31,13 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 
 
+# The single source of truth for which generators and lints run. The pre-commit
+# hook invokes this file with --generators-only rather than keeping its own list,
+# because two lists drift: this one carried backfill_modeling and lint_consistency
+# that the hook lacked, while the hook carried coverage.py that this one lacked,
+# which is why backfill output had never been committed.
 STEPS: list[tuple[str, list[str]]] = [
+    ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
     ("backfill_modeling",           ["python3", "dev/backfill_modeling.py"]),
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
@@ -85,6 +94,8 @@ def detect_drift() -> list[str]:
 
 
 def main() -> int:
+    generators_only = "--generators-only" in sys.argv
+
     print("=== Generators + lints ===")
     failures: list[tuple[str, str, str]] = []
     for name, cmd in STEPS:
@@ -93,6 +104,22 @@ def main() -> int:
         print(f"  {marker} {name}")
         if not ok:
             failures.append((name, out, err))
+
+    if generators_only:
+        # The pre-commit hook's mode: regenerate derived artifacts so they can be
+        # staged into the same commit. Schema validation and the drift check are
+        # deliberately skipped, because drift is what the hook is about to fix.
+        if failures:
+            print()
+            print("=== FAILURES ===")
+            for name, out, err in failures:
+                print(f"\n--- {name} ---")
+                if out:
+                    print(out)
+                if err:
+                    print(err, file=sys.stderr)
+            return 1
+        return 0
 
     print()
     print("=== Schema validation ===")
