@@ -44,9 +44,21 @@ _GRAPH_CACHE: dict[tuple[str, str], rdflib.Graph] = {}
 def _read_at_rev(rev: str, rel_path: str) -> str:
     """Read a file from ../urpx at a fixed git revision.
 
-    `git show <rev>:<path>` has been unreliable for the multi-megabyte SHACL blob,
-    so fall back to resolving the blob hash and cat-file-ing it directly.
+    The shapes are read from the URPX checkout rather than vendored into this
+    repo, deliberately: this repository is destined to be public and must not
+    carry URPX-derived specification files. That makes ../urpx a hard
+    dependency, so every way it can be missing is reported with the command
+    that fixes it.
+
+    `git show <rev>:<path>` has been unreliable for the multi-megabyte SHACL
+    blob, so fall back to resolving the blob hash and cat-file-ing it directly.
     """
+    if not (URPX_REPO / ".git").exists():
+        raise SystemExit(
+            f"ERROR: no URPX checkout at {URPX_REPO}. The shapes are read from it at a "
+            f"pinned revision and are deliberately not vendored here. Clone urpx-org/urpx "
+            f"next to this repository."
+        )
     try:
         return subprocess.run(
             ["git", "-C", str(URPX_REPO), "show", f"{rev}:{rel_path}"],
@@ -54,12 +66,21 @@ def _read_at_rev(rev: str, rel_path: str) -> str:
         ).stdout
     except subprocess.CalledProcessError:
         pass
-    ls = subprocess.run(
-        ["git", "-C", str(URPX_REPO), "ls-tree", rev, rel_path],
-        check=True, capture_output=True, text=True,
-    ).stdout.split()
+    try:
+        ls = subprocess.run(
+            ["git", "-C", str(URPX_REPO), "ls-tree", rev, rel_path],
+            check=True, capture_output=True, text=True,
+        ).stdout.split()
+    except subprocess.CalledProcessError:
+        raise SystemExit(
+            f"ERROR: revision {rev!r} is unknown in {URPX_REPO}. If it is a new tag or "
+            f"branch, fetch it first:  git -C {URPX_REPO} fetch --all --tags"
+        ) from None
     if len(ls) < 3:
-        raise SystemExit(f"ERROR: {rel_path} not found in ../urpx at revision {rev}")
+        raise SystemExit(
+            f"ERROR: {rel_path} does not exist in {URPX_REPO} at revision {rev}. The URPX "
+            f"repository layout may have changed at that release."
+        )
     return subprocess.run(
         ["git", "-C", str(URPX_REPO), "cat-file", "-p", ls[2]],
         check=True, capture_output=True, text=True,
