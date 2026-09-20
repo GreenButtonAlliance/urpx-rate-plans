@@ -25,8 +25,11 @@ Modes:
     --urpx-rev <rev>         URPX revision in ../urpx to validate against
     --rdfs                   enable RDFS inference
     --keys                   print stable violation keys, for baseline comparison
+    --write-baseline         record every merged mode's key profile
+    --check-baseline         compare every merged mode against that record
 
-Exit codes: 0 conforming, 1 violations, 3 refused (the harness cannot produce a
+Exit codes: 0 conforming, 1 violations or a new baseline key, 2 a baseline key
+is gone (an improvement, refresh deliberately), 3 refused (the harness cannot produce a
 meaningful answer, e.g. the data and the shapes share no vocabulary).
 
 Run from the urpx-tariffs project root with the ../urpx checkout adjacent.
@@ -34,6 +37,7 @@ Run from the urpx-tariffs project root with the ../urpx checkout adjacent.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import subprocess
 import sys
@@ -216,6 +220,136 @@ def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
     return (OK if conforms else VIOLATIONS), keys
 
 
+# --- baseline -----------------------------------------------------------------
+BASELINE_DIR = REPO_ROOT / "dev" / "baseline"
+
+
+def declaring_files(iri: str, index: dict[str, set[str]]) -> set[str]:
+    return index.get(iri, set())
+
+
+def subject_index() -> dict[str, set[str]]:
+    """Map every subject IRI to the set of files asserting it.
+
+    Used to triage a violation: a focus node asserted in more than one file is
+    cross-filing @id reuse (the known, accepted condition), while one confined to
+    a single file would be a real defect hiding inside the accepted noise.
+    """
+    index: dict[str, set[str]] = {}
+    for f in corpus_files():
+        g = rdflib.Graph()
+        g.parse(f, format="json-ld")
+        rel = str(f.relative_to(REPO_ROOT))
+        for s in set(g.subjects()):
+            if isinstance(s, rdflib.URIRef):
+                index.setdefault(str(s), set()).add(rel)
+    return index
+
+
+def collect_modes(*, rdfs: bool = False) -> dict:
+    """Run every merged mode and return its key profile.
+
+    Per-file is deliberately excluded: it produces 248 violations over only 162
+    distinct keys, so its keys are not comparable with the merged schema.
+    """
+    modes: dict[str, dict] = {}
+    status, keys = validate_files(corpus_files(), "corpus (merged)",
+                                  rdfs=rdfs, verbose=False)
+    if status == REFUSED:
+        return {}
+    modes["corpus"] = {"count": len(keys), "keys": [list(k) for k in keys]}
+    for u in utilities():
+        st, ks = validate_files(corpus_files(u), f"{u} (merged)",
+                                rdfs=rdfs, verbose=False)
+        if st == REFUSED:
+            return {}
+        modes[u] = {"count": len(ks), "keys": [list(k) for k in ks]}
+    return modes
+
+
+def baseline_path(rev: str) -> Path:
+    return BASELINE_DIR / f"urpx-{rev.replace('/', '-')}.json"
+
+
+def write_baseline(*, rdfs: bool = False) -> int:
+    modes = collect_modes(rdfs=rdfs)
+    if not modes:
+        print("REFUSED  cannot record a baseline the harness would not report.",
+              file=sys.stderr)
+        return 3
+    idx = subject_index()
+    triage: dict[str, int] = {}
+    unexplained: list[list[str]] = []
+    for k in modes["corpus"]["keys"]:
+        n = len(declaring_files(k[0], idx))
+        if n > 1:
+            triage["cross-filing-iri-reuse"] = triage.get("cross-filing-iri-reuse", 0) + 1
+        else:
+            triage["single-file"] = triage.get("single-file", 0) + 1
+            unexplained.append(k)
+
+    BASELINE_DIR.mkdir(parents=True, exist_ok=True)
+    out = {
+        "urpx_rev": URPX_REV,
+        "note": ("Accepted violations at this URPX revision. Compared as SETS, not "
+                 "counts: a count is invariant under one violation being traded for "
+                 "another, which is what a migration produces. Per-file mode is "
+                 "excluded because its keys are not comparable."),
+        "triage": triage,
+        "unexplained_single_file_keys": unexplained,
+        "modes": modes,
+    }
+    path = baseline_path(URPX_REV)
+    path.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"wrote {path.relative_to(REPO_ROOT)}")
+    for m, d in sorted(modes.items()):
+        print(f"  {m:8s} {d['count']:4d}")
+    print(f"  triage: {triage}")
+    if unexplained:
+        print(f"  WARNING: {len(unexplained)} key(s) whose focus node is asserted in "
+              f"only one file; those are not explained by cross-filing reuse.",
+              file=sys.stderr)
+    return 0
+
+
+def check_baseline(*, rdfs: bool = False) -> int:
+    path = baseline_path(URPX_REV)
+    if not path.exists():
+        print(f"REFUSED  no baseline at {path.relative_to(REPO_ROOT)}; "
+              f"run --write-baseline first.", file=sys.stderr)
+        return 3
+    recorded = json.loads(path.read_text(encoding="utf-8"))["modes"]
+    current = collect_modes(rdfs=rdfs)
+    if not current:
+        return 3
+
+    new_keys, gone_keys = 0, 0
+    for mode in sorted(set(recorded) | set(current)):
+        was = {tuple(k) for k in recorded.get(mode, {}).get("keys", [])}
+        now = {tuple(k) for k in current.get(mode, {}).get("keys", [])}
+        added, removed = now - was, was - now
+        new_keys += len(added)
+        gone_keys += len(removed)
+        flag = "OK  " if not (added or removed) else "DIFF"
+        print(f"{flag} {mode:8s} baseline {len(was):4d}  now {len(now):4d}"
+              f"  +{len(added)} -{len(removed)}")
+        for k in sorted(added):
+            print(f"      NEW      {k[0]} | {k[1]} | {k[2].rsplit('#', 1)[-1]}")
+        for k in sorted(removed):
+            print(f"      RESOLVED {k[0]} | {k[1]} | {k[2].rsplit('#', 1)[-1]}")
+
+    if new_keys:
+        print(f"\n{new_keys} new violation key(s): regression.", file=sys.stderr)
+        return 1
+    if gone_keys:
+        print(f"\n{gone_keys} baseline key(s) no longer present: improvement. "
+              f"Refresh the baseline deliberately with --write-baseline.",
+              file=sys.stderr)
+        return 2
+    print("\nidentical to baseline")
+    return 0
+
+
 def main():
     global URPX_REV
     ap = argparse.ArgumentParser(
@@ -230,11 +364,21 @@ def main():
                     help="Each file alone, unsuppressed (DIAGNOSTIC)")
     ap.add_argument("--rdfs", action="store_true", help="Enable RDFS inference")
     ap.add_argument("--keys", action="store_true", help="Print violation keys")
+    ap.add_argument("--write-baseline", action="store_true",
+                    help="Record every merged mode's key profile under dev/baseline/")
+    ap.add_argument("--check-baseline", action="store_true",
+                    help="Compare every merged mode against the recorded baseline")
     ap.add_argument("--urpx-rev", default=URPX_REV,
                     help=f"URPX revision in ../urpx (default: {URPX_REV})")
     args = ap.parse_args()
     URPX_REV = args.urpx_rev
     kw = dict(rdfs=args.rdfs, show_keys=args.keys)
+
+    if args.write_baseline:
+        sys.exit(write_baseline(rdfs=args.rdfs))
+
+    if args.check_baseline:
+        sys.exit(check_baseline(rdfs=args.rdfs))
 
     if args.merged:
         status, _ = validate_files(corpus_files(), "corpus (merged)", **kw)
