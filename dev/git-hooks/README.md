@@ -20,7 +20,11 @@ git config --unset core.hooksPath
 
 ### `pre-commit`
 
-Triggers when any `ca/**/*.toml`, `ca/**/*.jsonld`, or any of the four report generators in `dev/` (`coverage.py`, `list_modifier_base_pairings.py`, `lint_modifier_coverage.py`, `list_ready_for_use.py`) is staged. Re-runs the generators and stages any resulting `reports/` changes into the same commit. Docs-only commits (`README.md`, `LAYOUT.md`, `dev/git-hooks/*`, etc.) skip the hook and aren't slowed down.
+Triggers when any `ca/**/*.toml`, `ca/**/*.jsonld`, or any generator in `dev/` is staged. Re-runs the generators (the list lives in `dev/check_all.py`, so the hook does not keep its own) and stages any resulting `reports/` changes into the same commit, then runs `dev/gate.sh --fast`.
+
+**The hook blocks.** A gate failure aborts the commit with the gate's own exit code (1 regression, 2 drift, 3 refused). It previously did not block, deferring that to CI; there is no CI in this repository, so that deferral was to nothing.
+
+Set `URPXT_SKIP_REPORTS=1` to skip only the regeneration and staging while still running the gate, for commits meant to be read as data. `--no-verify` disarms everything and is the deliberate escape hatch. Docs-only commits (`README.md`, `LAYOUT.md`, `dev/git-hooks/*`, etc.) skip the hook and aren't slowed down.
 
 Activates `~/env/py/p3newa/bin/activate` if present (the generators need rdflib, pyshacl, etc.).
 

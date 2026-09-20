@@ -27,6 +27,7 @@ Modes:
     --keys                   print stable violation keys, for baseline comparison
     --write-baseline         record every merged mode's key profile
     --check-baseline         compare every merged mode against that record
+                             (add --utility <slug> to compare just one)
 
 Exit codes: 0 conforming, 1 violations or a new baseline key, 2 a baseline key
 is gone (an improvement, refresh deliberately), 3 refused (the harness cannot produce a
@@ -312,16 +313,30 @@ def write_baseline(*, rdfs: bool = False) -> int:
     return 0
 
 
-def check_baseline(*, rdfs: bool = False) -> int:
+def check_baseline(*, rdfs: bool = False, only: str | None = None) -> int:
     path = baseline_path(URPX_REV)
     if not path.exists():
         print(f"REFUSED  no baseline at {path.relative_to(REPO_ROOT)}; "
               f"run --write-baseline first.", file=sys.stderr)
         return 3
     recorded = json.loads(path.read_text(encoding="utf-8"))["modes"]
-    current = collect_modes(rdfs=rdfs)
-    if not current:
-        return 3
+
+    if only:
+        # --fast path: compare one utility instead of re-running all seven modes.
+        if only not in recorded:
+            print(f"REFUSED  {only!r} is not a recorded mode in "
+                  f"{path.relative_to(REPO_ROOT)}.", file=sys.stderr)
+            return 3
+        st, ks = validate_files(corpus_files(only), f"{only} (merged)",
+                                rdfs=rdfs, verbose=False)
+        if st == REFUSED:
+            return 3
+        current = {only: {"count": len(ks), "keys": [list(k) for k in ks]}}
+        recorded = {only: recorded[only]}
+    else:
+        current = collect_modes(rdfs=rdfs)
+        if not current:
+            return 3
 
     new_keys, gone_keys = 0, 0
     for mode in sorted(set(recorded) | set(current)):
@@ -378,7 +393,7 @@ def main():
         sys.exit(write_baseline(rdfs=args.rdfs))
 
     if args.check_baseline:
-        sys.exit(check_baseline(rdfs=args.rdfs))
+        sys.exit(check_baseline(rdfs=args.rdfs, only=args.utility))
 
     if args.merged:
         status, _ = validate_files(corpus_files(), "corpus (merged)", **kw)

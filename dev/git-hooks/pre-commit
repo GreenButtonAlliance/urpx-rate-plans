@@ -13,14 +13,23 @@
 # Skip ad-hoc with `git commit --no-verify` if needed (e.g. revert commit
 # that intentionally desyncs reports).
 #
-# Hook is intentionally narrow: it regenerates derived artifacts but does
-# NOT run lint failures back at the user as commit blockers — that's
-# dev/check_all.py's job, intended for CI.
+# The hook DOES block. It regenerates derived artifacts, stages them, and then
+# runs dev/gate.sh --fast, which fails the commit on a regression.
+#
+# It did not block before, on the reasoning that blocking was CI's job. There is
+# no CI in this repository: .github/ does not exist. So the hook was deferring to
+# a fallback that was never there, which is how three NBT filings stayed broken
+# and a generator output stayed uncommitted for months.
+#
+# Set URPXT_SKIP_REPORTS=1 to skip ONLY the regeneration and staging, while still
+# running the gate. Use it when a commit is meant to be read as data (a migration
+# wave) and regenerated reports would bury the diff. It does not disarm the gate;
+# --no-verify does, and that is the point of having a narrower escape hatch.
 
 set -euo pipefail
 
 # Only run when tariff content is staged
-if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(ca/.*\.(toml|jsonld)|dev/(coverage|list_modifier_base_pairings|lint_modifier_coverage|list_ready_for_use|backfill_modeling|lint_consistency|check_all)\.py)$'; then
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(ca/.*\.(toml|jsonld)|dev/(coverage|list_modifier_base_pairings|lint_modifier_coverage|list_ready_for_use|backfill_modeling|lint_consistency|check_all|validate-with-base)\.py|dev/gate\.sh|dev/validate_v020\.clj)$'; then
     exit 0
 fi
 
@@ -32,6 +41,10 @@ if [ -f "$HOME/env/py/p3newa/bin/activate" ]; then
     # shellcheck disable=SC1091
     source "$HOME/env/py/p3newa/bin/activate"
 fi
+
+if [ "${URPXT_SKIP_REPORTS:-0}" = "1" ]; then
+    echo "pre-commit: URPXT_SKIP_REPORTS=1 - skipping report regeneration (gate still runs)"
+else
 
 echo "pre-commit: tariff filings staged → regenerating reports..."
 
@@ -51,5 +64,17 @@ if ! git diff --quiet reports/; then
 else
     echo "pre-commit: reports/ already current — no changes to stage."
 fi
+
+fi
+
+echo "pre-commit: running dev/gate.sh --fast..."
+if ! dev/gate.sh --fast > /tmp/pre-commit-gate.log 2>&1; then
+    gate_rc=$?
+    cat /tmp/pre-commit-gate.log
+    echo "pre-commit: gate failed (exit $gate_rc) - commit aborted."
+    echo "pre-commit: fix it, or bypass deliberately with 'git commit --no-verify'."
+    exit "$gate_rc"
+fi
+tail -3 /tmp/pre-commit-gate.log
 
 exit 0
