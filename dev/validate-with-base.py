@@ -191,6 +191,9 @@ def violation_keys(results_graph: rdflib.Graph) -> list[tuple[str, str, str]]:
 # The gate unit is a merged graph, so a mixed-vocabulary SET is refused rather
 # than guessed at: validating it against either shape set would silently exempt
 # half the files.
+OLD_URPX_NS = "https://urpx-org.github.io/urpx/ontology/"
+NEW_URPX_NS = "https://urpx.org/ns/ontology/"
+
 URPX_NAMESPACE_REVS = {
     "https://urpx-org.github.io/urpx/ontology/": "v0.2.1",
     "https://urpx.org/ns/ontology/": "origin/v0.5.1-candidate",
@@ -423,11 +426,25 @@ def check_baseline(*, rdfs: bool = False, only: str | None = None) -> int:
         was = {tuple(k) for k in recorded.get(mode, {}).get("keys", [])}
         now = {tuple(k) for k in current.get(mode, {}).get("keys", [])}
         added, removed = now - was, was - now
+
+        # A migration wave moves every predicate from the v0.2.x namespace to the
+        # v0.5.1 one, so each surviving violation leaves as one key and returns as
+        # another. Pair those up and report them as MIGRATED rather than as a
+        # regression plus a fix, which is what they would otherwise read as on
+        # every single wave. Nothing is hidden: the pairs are counted and shown,
+        # and anything that does not pair exactly stays a regression.
+        def shifted(k):
+            return (k[0], k[1].replace(OLD_URPX_NS, NEW_URPX_NS), k[2])
+        migrated = {k for k in removed if shifted(k) in added}
+        added = added - {shifted(k) for k in migrated}
+        removed = removed - migrated
+
         new_keys += len(added)
         gone_keys += len(removed)
         flag = "OK  " if not (added or removed) else "DIFF"
+        shift = f"  ~{len(migrated)} migrated" if migrated else ""
         print(f"{flag} {mode:8s} baseline {len(was):4d}  now {len(now):4d}"
-              f"  +{len(added)} -{len(removed)}")
+              f"  +{len(added)} -{len(removed)}{shift}")
         for k in sorted(added):
             print(f"      NEW      {k[0]} | {k[1]} | {k[2].rsplit('#', 1)[-1]}")
         for k in sorted(removed):
