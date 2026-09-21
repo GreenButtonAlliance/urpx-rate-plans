@@ -63,7 +63,6 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
 
 | Deferral | Why |
 |---|---|
-| **Per-cell Export Compensation Rate Prices** | Tracked at ; SCE data-file URL was not surfaced during 2026-05-29 sourcing |
 | **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each requires sibling Price + vintage-gated ApplicabilityRule; follow-up |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
@@ -77,9 +76,17 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
 
 Full list with reasoning in `tariff.toml` under `[modeling]`.
 
-## Per-cell data load — pending
+## Per-cell export compensation data
 
-The 4-vintage × 24-hour × 12-month × 2-day-type × 2-component grid (~4,608 Prices) is tracked at ****. PG&E NBT loaded these from `pge.com/energyexportcredit` (a single ZIP redirect to per-vintage PDFs); SCE's equivalent file location is not exposed on their customer-facing pages (the `Understanding Solar Export Pricing` page describes the file format including UTC time columns alongside PST, but doesn't surface the download URL). Follow-up will locate the SCE data file and run the equivalent of the PG&E extract+build pipeline.
+Loaded. The filing carries 5,088 RIN-tagged export compensation Prices covering all
+twelve months, the hour-by-month-by-day-type grid the tariff prices exports on.
+Generation is not published directly by SCE and is derived per cell by subtracting
+the delivery-only SCXX rate from the bundled SCSC rate in MIDAS.
+
+SCE does not expose the export rate file on its customer-facing pages the way PG&E
+does at `pge.com/energyexportcredit`, so these came through MIDAS rather than a
+published file. The `Understanding Solar Export Pricing` page documents the format,
+including UTC time columns alongside PST, without surfacing a download URL.
 
 ## Cross-references
 
