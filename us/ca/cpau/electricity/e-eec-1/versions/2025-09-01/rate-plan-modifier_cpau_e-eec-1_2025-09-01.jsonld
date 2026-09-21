@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "urpx:unitPrice": {
       "@type": "xsd:decimal"
@@ -42,11 +42,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "cpau:doc-e-eec-1-2025-09-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlanModifier": {
     "@type": "urpx:RatePlanModifier",
     "@id": "cpau:e-eec-1",
@@ -69,15 +70,6 @@
       },
       "urpx:serviceRole": {
         "@id": "urpx:bundledServiceRole"
-      },
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-cpau",
-        "urpx:legalName": "City of Palo Alto Utilities",
-        "urpx:eiaId": "3203",
-        "urpx:organizationType": {
-          "@id": "urpx:municipalOrganization"
-        }
       },
       "urpx:applicableToRatePlan": [
         {
@@ -254,6 +246,42 @@
             "urpx:unitPrice": "-0.12060"
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-cpau",
+        "urpx:legalName": "City of Palo Alto Utilities",
+        "urpx:organizationType": {
+          "@id": "urpx:municipalOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-cpau-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-cpau-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "City of Palo Alto Utilities"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-cpau-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "3203"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "cpau:e-eec-1"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "cpau:e-eec-1-2025-09-01-coverage",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:complete"
+        },
+        "urpx:selfContained": true
       }
     },
     "urpx:modifierUniqueIdentifier": "E-EEC-1"
