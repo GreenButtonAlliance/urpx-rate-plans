@@ -119,6 +119,15 @@ case "$MODE" in
         record $rc
     fi
 
+    note "Discount subtotals"
+    if python3 dev/lint_discount_summaries.py > /tmp/gate-discounts.log 2>&1; then
+        tail -1 /tmp/gate-discounts.log
+    else
+        rc=$?
+        cat /tmp/gate-discounts.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -176,6 +185,15 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-copies.log
+        record $rc
+    fi
+
+    note "Discount subtotals"
+    if python3 dev/lint_discount_summaries.py > /tmp/gate-discounts.log 2>&1; then
+        tail -1 /tmp/gate-discounts.log
+    else
+        rc=$?
+        cat /tmp/gate-discounts.log
         record $rc
     fi
 
