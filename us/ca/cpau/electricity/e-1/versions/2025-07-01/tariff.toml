@@ -6,11 +6,23 @@ effective_date = "2025-07-01"
 # Source ----------------------------------------------------------------------
 [source]
 landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
-url = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-effective-2025-07-01.pdf"
-sha256 = "9c8ad3bd32858ffba9e9a62ca7d5fce12da357d7348a846456fbbe761aea2a93"
-retrieved_on = "2026-03-03"
-media_type = "application/pdf"
-filing_type = "tariff-schedule"
+
+  [source.base]
+  url = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-effective-2025-07-01.pdf"
+  sha256 = "9c8ad3bd32858ffba9e9a62ca7d5fce12da357d7348a846456fbbe761aea2a93"
+  retrieved_on = "2026-03-03"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  # This filing inlines the cpau:e-hra modifier, so its source belongs here too
+  # (LAYOUT.md section 5). Declaring only the base left the inlined subtree with
+  # no declared provenance at all. url/sha256 match the standalone e-hra filing.
+  [source.modifier_e_hra]
+  url = "https://www.paloalto.gov/files/assets/public/v/3/utilities/rates-schedules-for-utilities/e-hra-effective-2023-01-01.pdf"
+  sha256 = "7e80aec8012b25b55257edec4166fc15044536508fe167797b41aeffc0d939b8"
+  retrieved_on = "2026-04-30"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
 # Note: paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
 # fingerprint check). Re-fetch via a real browser, OR via curl_cffi with
 # Chrome impersonation: requests.Session(impersonate="chrome120"). Verified

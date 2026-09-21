@@ -6,11 +6,31 @@ effective_date = "2026-01-01"
 # Source ----------------------------------------------------------------------
 [source]
 landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
-url = "https://www.paloalto.gov/files/assets/public/v/1/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-tou-effective-2026-01-01.pdf"
-sha256 = "e125390489d15bd55e1535263e49718597d01b0efb9d1f47e7c0891d0ccd9a71"
-retrieved_on = "2026-03-03"
-media_type = "application/pdf"
-filing_type = "tariff-schedule"
+
+  [source.base]
+  url = "https://www.paloalto.gov/files/assets/public/v/1/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-tou-effective-2026-01-01.pdf"
+  sha256 = "e125390489d15bd55e1535263e49718597d01b0efb9d1f47e7c0891d0ccd9a71"
+  retrieved_on = "2026-03-03"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  # This filing inlines the cpau:e-hra and cpau:e-nse-1 modifiers, so their
+  # sources belong here too (LAYOUT.md section 5). Declaring only the base left
+  # both inlined subtrees with no declared provenance. url/sha256 match the
+  # standalone filings of each modifier.
+  [source.modifier_e_hra]
+  url = "https://www.paloalto.gov/files/assets/public/v/3/utilities/rates-schedules-for-utilities/e-hra-effective-2023-01-01.pdf"
+  sha256 = "7e80aec8012b25b55257edec4166fc15044536508fe167797b41aeffc0d939b8"
+  retrieved_on = "2026-04-30"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  [source.modifier_e_nse_1]
+  url = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/residential-utility-rates/e-nse-1-effective-2025-09-01.pdf"
+  sha256 = "c07362c5d7e5ca1922194a9d174292e89a24808cccfed5666996c265c8991493"
+  retrieved_on = "2026-04-30"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
 # Note: paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
 # fingerprint check). Re-fetch via a real browser, OR via curl_cffi with
 # Chrome impersonation: requests.Session(impersonate="chrome120"). Verified

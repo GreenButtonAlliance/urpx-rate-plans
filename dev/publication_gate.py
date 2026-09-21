@@ -19,6 +19,7 @@ Run: python3 dev/publication_gate.py
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -121,6 +122,38 @@ def check_example_com() -> None:
           "" if not hits else f"{len(hits)} file(s), e.g. " + ", ".join(hits[:3]))
 
 
+# --- 5b ----------------------------------------------------------------------
+def check_source_urls() -> None:
+    """Every source URL a reader could follow must be fetchable by them.
+
+    Same class as example.com: a URL that means something only on one machine.
+    Eleven urpx:url values across five filings pointed at
+    `file://./assets/<NAME>.pdf`, none of which existed anywhere in the corpus,
+    and `file://./` is not a well-formed absolute URI in any case, since file://
+    takes an authority. They shipped for months because nothing looked.
+    """
+    bad: list[str] = []
+    for f in tracked("*.jsonld"):
+        doc = json.loads((REPO / f).read_text(encoding="utf-8"))
+
+        def walk(node, _f=f):
+            if isinstance(node, dict):
+                for k, v in node.items():
+                    if k == "@context":
+                        continue
+                    if k in ("urpx:url", "urpx:accessURL") and isinstance(v, str):
+                        if not v.startswith("https://"):
+                            bad.append(f"{_f}: {k} = {v[:60]}")
+                    walk(v)
+            elif isinstance(node, list):
+                for v in node:
+                    walk(v)
+
+        walk(doc)
+    check("5b. every source URL is https", not bad,
+          "" if not bad else f"{len(bad)} occurrence(s), e.g. " + "; ".join(bad[:3]))
+
+
 # --- 6 -----------------------------------------------------------------------
 def check_provenance() -> None:
     import tomli
@@ -161,6 +194,7 @@ def main() -> int:
     check_beads_ids()
     check_shadow_refs()
     check_example_com()
+    check_source_urls()
     check_provenance()
 
     print("\nNOT CHECKED HERE (printed, never silently passed)")
