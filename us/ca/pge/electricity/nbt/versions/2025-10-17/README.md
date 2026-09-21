@@ -27,14 +27,14 @@ SCE TOU-D-PRIME-CPP previously deferred direction-of-flow distinction because it
 ## What's modeled
 
 - 4 `urpx:Ledger` + 4 `urpx:PriceDefinition` declaring the structural surface:
-  - Export Compensation Rate — Generation Component (system-wide ACC values; bundled-customer-only per published price-sheet footnote)
-  - Export Compensation Rate — Delivery Component (system-averaged across PG&E climate zones per tariff Sheet 10 step 2; applies to all NBT customers)
-  - ACC Plus Residential adder ("Energy Export Bonus Credit")
-  - ACC Plus Low-Income Residential adder (CARE/FERA / disadvantaged-community-resident-owner / California-Indian-Country)
+ - Export Compensation Rate — Generation Component (system-wide ACC values; bundled-customer-only per published price-sheet footnote)
+ - Export Compensation Rate — Delivery Component (system-averaged across PG&E climate zones per tariff Sheet 10 step 2; applies to all NBT customers)
+ - ACC Plus Residential adder ("Energy Export Bonus Credit")
+ - ACC Plus Low-Income Residential adder (CARE/FERA / disadvantaged-community-resident-owner / California-Indian-Country)
 - 2 `urpx:EligibilityRule`s — REGF requirement + post-2023-04-15 interconnection-application date
 - 2 `urpx:Price` instances (2025 interconnection vintage):
-  - ACC Plus Residential: `$-0.01320/kWh` (Sheet 11 Table)
-  - ACC Plus Low-Income: `$-0.05400/kWh` (Sheet 11 Table)
+ - ACC Plus Residential: `$-0.01320/kWh` (Sheet 11 Table)
+ - ACC Plus Low-Income: `$-0.05400/kWh` (Sheet 11 Table)
 
 The low-income Price uses a `urpx:BooleanOperationNode` with `urpx:andOperator` conjoining (vintage = 2025) AND (low-income-eligible = true). First use of boolean-composition vocabulary in this corpus.
 
@@ -56,7 +56,7 @@ Full list with reasoning in `tariff.toml` under `[modeling]`.
 
 ## Per-cell data load — TOUPeriod chain
 
-The per-cell Export Compensation Rate Prices use a `urpx:TOUPeriod` chain: `Price → TOUPeriod → TimeBracket`. `urpx:hasTimeBracket` attaches to TOUPeriod, not directly to ApplicabilityRule. The data load (URPXT-7kr.1.1) emits 48 shared TOUPeriods (24 hours × 2 day-types — `urpx:weekdayDays` / `urpx:weekendDays`), 48 shared ApplicabilityRules (12 months × 4 vintages, each carrying month + vintage-gating ConditionExpression), and 4,608 per-cell Prices (576 cells per vintage × 2 components × 4 published vintages 2023-2026). Combined with the 2 ACC Plus prices, total 4,610 Prices on the modifier.
+The per-cell Export Compensation Rate Prices use a `urpx:TOUPeriod` chain: `Price → TOUPeriod → TimeBracket`. `urpx:hasTimeBracket` attaches to TOUPeriod, not directly to ApplicabilityRule. The data load emits 48 shared TOUPeriods (24 hours × 2 day-types — `urpx:weekdayDays` / `urpx:weekendDays`), 48 shared ApplicabilityRules (12 months × 4 vintages, each carrying month + vintage-gating ConditionExpression), and 4,608 per-cell Prices (576 cells per vintage × 2 components × 4 published vintages 2023-2026). Combined with the 2 ACC Plus prices, total 4,610 Prices on the modifier.
 
 Per the tariff Sheet 10 methodology step 2, the published Delivery component is system-averaged across PG&E climate zones (no per-zone variability in the published data), so the cell count is per-vintage not per-zone-vintage.
 
@@ -64,8 +64,8 @@ Source: `pge.com/energyexportcredit` redirects to a ZIP containing per-vintage P
 
 ## Cross-references
 
-- **Parent epic**: URPXT-7kr (NBT export-compensation modeling for all three CA IOUs)
-- **Sibling utility filings**: URPXT-7kr.2 (SCE NBT) and URPXT-7kr.3 (SDG&E NBT) — both follow the modeling pattern established here
+- **Parent epic**: (NBT export-compensation modeling for all three CA IOUs)
+- **Sibling utility filings**: (SCE NBT) and (SDG&E NBT) — both follow the modeling pattern established here
 - **Modeling-pattern source**: `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/` (RatePlanModifier-overlay precedent)
 - **Base RatePlan**: `us/ca/pge/electricity/e-elec/versions/2026-03-27/` (the mandatory residential OAS per Sheet 9 §A)
 - **Foundational regulatory**: CPUC Decision D.22-12-056

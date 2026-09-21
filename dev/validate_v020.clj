@@ -12,7 +12,7 @@
    Modifier filings additionally exercise composition: for each base IRI
    in the modifier's urpx:applicableToRatePlan, the latest base filing
    in the corpus is paired with the modifier via
-   urpx.price/resolve-prices-with-modifiers (URPX-21n, clj-urpx 36a1095)
+   urpx.price/resolve-prices-with-modifiers (clj-urpx 36a1095)
    and reports any composition failure."
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cross-filing RatePlan-level consistency linter (URPXT-3tn).
+Cross-filing RatePlan-level consistency linter.
 
 LAYOUT.md §2 promises: a linter that verifies that urpx:initialEffectiveDate,
 urpx:ratePlanUniqueIdentifier, urpx:name, and the RatePlan @id are

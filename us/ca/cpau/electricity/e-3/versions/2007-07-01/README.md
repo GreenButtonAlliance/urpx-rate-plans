@@ -33,9 +33,9 @@ DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-3-2007
 
 ```
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld
 # Conforms: True
 ```
 

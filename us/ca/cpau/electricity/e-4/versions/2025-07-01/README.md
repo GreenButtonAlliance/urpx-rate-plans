@@ -65,9 +65,9 @@ DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-4-2025
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-4/versions/2025-07-01/rate-plan_cpau_e-4_2025-07-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-4/versions/2025-07-01/rate-plan_cpau_e-4_2025-07-01.jsonld
 # Conforms: True
 ```
 

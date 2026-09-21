@@ -1,55 +1,55 @@
 # Identity --------------------------------------------------------------------
-utility        = "ladwp"
-schedule       = "lifeline"
+utility = "ladwp"
+schedule = "lifeline"
 effective_date = "2008-09-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.ladwp.com/sites/default/files/documents/LADWP_Electric_Rates.pdf"
-sha256        = "789d1183a45f1ba0a29158697001ab3e0eb03a1121936422000a0058e0c6dbbb"
-retrieved_on  = "2026-05-04"
-media_type    = "application/pdf"
-filing_type   = "ordinance"
-filing_id     = "LADWP-Ordinance-180127"
-landing_page  = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
+url = "https://www.ladwp.com/sites/default/files/documents/LADWP_Electric_Rates.pdf"
+sha256 = "789d1183a45f1ba0a29158697001ab3e0eb03a1121936422000a0058e0c6dbbb"
+retrieved_on = "2026-05-04"
+media_type = "application/pdf"
+filing_type = "ordinance"
+filing_id = "LADWP-Ordinance-180127"
+landing_page = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "city-council"
-docket        = "LADWP Electric Rates Ordinance 180127 as amended by 181181 (Rate E - Lifeline Service definition + LADWP residential rates HTML page for current dollar value)"
+authority = "city-council"
+docket = "LADWP Electric Rates Ordinance 180127 as amended by 181181 (Rate E - Lifeline Service definition + LADWP residential rates HTML page for current dollar value)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual + script-derivation from ladwp:ez-save"
-extracted_on  = "2026-05-04"
-notes         = """
+tool = "manual + script-derivation from ladwp:ez-save"
+extracted_on = "2026-05-04"
+notes = """
 First filing of LADWP Lifeline (Senior Citizen / Disability Subsidy)
-program in this corpus (URPXT-qh2.3). Sister filing to URPXT-qh2.1
+program in this corpus. Sister filing to 
 EZ-Save — LADWP operates two parallel income-qualified subsidy
 programs:
 
-  Program       Tier              Subsidy            Eligibility
-  ───────       ────              ───────            ───────────
-  Lifeline      Higher            $35.42 every 2 mo  Senior (62+) OR
-                                                     Disability +
-                                                     income guidelines
-  EZ-Save       Lower             $16.34 every 2 mo  Income-only,
-                                                     no categorical
-                                                     shortcut
+ Program Tier Subsidy Eligibility
+ ─────── ──── ─────── ───────────
+ Lifeline Higher $35.42 every 2 mo Senior (62+) OR
+ Disability +
+ income guidelines
+ EZ-Save Lower $16.34 every 2 mo Income-only,
+ no categorical
+ shortcut
 
 A customer qualifies for one but not both.
 
 ## Provenance approach
 
-Same shared-PDF pattern as URPXT-qh2.1 EZ-Save and us/ca/ladwp/electricity/nem/
+Same shared-PDF pattern as EZ-Save and us/ca/ladwp/electricity/nem/
 (LADWP doesn't publish per-program tariff PDFs):
-  - tariff.toml [source.url] = the multi-program LADWP Electric Rates
-    Ordinance 180127 PDF (carries the regulatory framework + 'Rate E
-    - Lifeline Service' provision in the residential rate schedule
-    section)
-  - tariff.toml [source.landing_page] = the LADWP residential rates
-    HTML page (where the current $35.42/2-mo dollar value is
-    published; provenance for the modeled credit value)
+ - tariff.toml [source.url] = the multi-program LADWP Electric Rates
+ Ordinance 180127 PDF (carries the regulatory framework + 'Rate E
+ - Lifeline Service' provision in the residential rate schedule
+ section)
+ - tariff.toml [source.landing_page] = the LADWP residential rates
+ HTML page (where the current $35.42/2-mo dollar value is
+ published; provenance for the modeled credit value)
 
 Per the LADWP convention (effective date matches ordinance baseline),
 this filing is dated 2008-09-01 — Lifeline has been a long-standing
@@ -65,8 +65,8 @@ value updated. Same single-PriceDefinition shape — flat per-meter-day
 credit reflecting the bimonthly subsidy.
 
 Lifeline customer benefit per LADWP residential rates HTML page:
-  Up to $35.42 every two months on the customer's electric bill.
-  The subsidy should not exceed the customer's electric bill.
+ Up to $35.42 every two months on the customer's electric bill.
+ The subsidy should not exceed the customer's electric bill.
 
 Modeled as -$0.5817/day per-meter (= $35.42/60.875 days = average 2-
 month period in days). Same per-day approximation deferral as
@@ -75,10 +75,10 @@ EZ-Save and SMUD MED/EAPR.
 ## Eligibility specifics
 
 Per LADWP residential rates HTML page:
-  Customer must be (a) Senior Citizen (typically 62+ years of age)
-  OR (b) Disability-qualified, AND (c) meet LADWP's published income
-  guidelines (revised periodically — eligibility broader than EZ-Save's
-  income-only qualification).
+ Customer must be (a) Senior Citizen (typically 62+ years of age)
+ OR (b) Disability-qualified, AND (c) meet LADWP's published income
+ guidelines (revised periodically — eligibility broader than EZ-Save's
+ income-only qualification).
 
 Lifeline is the higher-tier subsidy versus EZ-Save's lower-tier
 $16.34/2-mo. Customer qualifies for one but not both.
@@ -87,24 +87,24 @@ $16.34/2-mo. Customer qualifies for one but not both.
 
 Same deferrals as EZ-Save:
 
-  1. **'Subsidy not to exceed bill' cap** — cap-on-credit pattern
-     (URPX#24 territory). Most customers won't hit the cap; edge
-     case for very-low-usage customers.
+ 1. **'Subsidy not to exceed bill' cap** — cap-on-credit pattern
+ (URPX#24 territory). Most customers won't hit the cap; edge
+ case for very-low-usage customers.
 
-  2. **Per-bimonthly CalculationMethod precision** — modeled as
-     -$0.5817/day. Future URPX P2M intervalDuration would let us
-     model exact bimonthly billing.
+ 2. **Per-bimonthly CalculationMethod precision** — modeled as
+ -$0.5817/day. Future URPX P2M intervalDuration would let us
+ model exact bimonthly billing.
 
-  3. **Senior-vs-Disability eligibility distinction** — modeled as
-     a single 'Lifeline' enrollment predicate without distinguishing
-     the two qualification paths. The modifier value is the same
-     for both paths so this doesn't affect bill calculation.
+ 3. **Senior-vs-Disability eligibility distinction** — modeled as
+ a single 'Lifeline' enrollment predicate without distinguishing
+ the two qualification paths. The modifier value is the same
+ for both paths so this doesn't affect bill calculation.
 
-  4. **Stacking exclusivity with EZ-Save** — customer qualifies for
-     Lifeline OR EZ-Save but not both. This is enforced by LADWP's
-     enrollment process; modeling-side, both modifiers exist
-     independently and the consumer should select at most one for
-     a given customer.
+ 4. **Stacking exclusivity with EZ-Save** — customer qualifies for
+ Lifeline OR EZ-Save but not both. This is enforced by LADWP's
+ enrollment process; modeling-side, both modifiers exist
+ independently and the consumer should select at most one for
+ a given customer.
 
 ## Cross-utility consistency
 
@@ -124,21 +124,21 @@ in corpus).
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "'Subsidy not to exceed bill' cap-on-credit constraint — URPX#24 territory; edge case for very-low-usage customers",
-  "Per-bimonthly CalculationMethod precision — modeled as -$0.5817/day (=$35.42/60.875 days); URPX P2M intervalDuration would let us model exact bimonthly billing",
-  "Senior-vs-Disability eligibility distinction — modeled as single 'Lifeline' predicate (both paths produce same modifier value, so distinction doesn't affect bill calc)",
-  "Stacking exclusivity with EZ-Save — modeling-side both modifiers exist independently; consumer should select at most one per customer",
+ "'Subsidy not to exceed bill' cap-on-credit constraint — URPX#24 territory; edge case for very-low-usage customers",
+ "Per-bimonthly CalculationMethod precision — modeled as -$0.5817/day (=$35.42/60.875 days); URPX P2M intervalDuration would let us model exact bimonthly billing",
+ "Senior-vs-Disability eligibility distinction — modeled as single 'Lifeline' predicate (both paths produce same modifier value, so distinction doesn't affect bill calc)",
+ "Stacking exclusivity with EZ-Save — modeling-side both modifiers exist independently; consumer should select at most one per customer",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-qh2.3 — first filing of LADWP Lifeline modifier. Single per-meter-day credit -$0.5817/day (=$35.42/60.875 days bimonthly). Sister to EZ-Save: Lifeline is higher-tier ($35.42/2-mo, Senior/Disability+income) vs EZ-Save lower-tier ($16.34/2-mo, income-only). Same shared-PDF source pattern as EZ-Save (multi-program ordinance + landing_page HTML). Eligibility predicate: 'Program Enrollment' = 'Lifeline'. applicableToRatePlan: 2 LADWP residential bases (r-1a, r-1b)."
+status = "draft"
+notes = "first filing of LADWP Lifeline modifier. Single per-meter-day credit -$0.5817/day (=$35.42/60.875 days bimonthly). Sister to EZ-Save: Lifeline is higher-tier ($35.42/2-mo, Senior/Disability+income) vs EZ-Save lower-tier ($16.34/2-mo, income-only). Same shared-PDF source pattern as EZ-Save (multi-program ordinance + landing_page HTML). Eligibility predicate: 'Program Enrollment' = 'Lifeline'. applicableToRatePlan: 2 LADWP residential bases (r-1a, r-1b)."

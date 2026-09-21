@@ -1,46 +1,46 @@
 # Identity --------------------------------------------------------------------
-utility        = "pge"
-schedule       = "e-tou-d"
+utility = "pge"
+schedule = "e-tou-d"
 effective_date = "2026-03-27"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-D.pdf"
-sha256        = "c469fdb57f6936cd89d0151876f4bab336ae146f1da145c3786de392c885712f"
-retrieved_on  = "2026-04-26"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "PGE-AL-7869-E"
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-D.pdf"
+sha256 = "c469fdb57f6936cd89d0151876f4bab336ae146f1da145c3786de392c885712f"
+retrieved_on = "2026-04-26"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7869-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "D.26-03-013"
+authority = "puc"
+docket = "D.26-03-013"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "mineru"
-extracted_on  = "2026-04-26"
+tool = "mineru"
+extracted_on = "2026-04-26"
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = true
+complete = true
 deferrals = []
 applicable_modifiers = [
-  "care",
-  "e-rsmart",
-  "e-tou-d-vintage-pcia",
-  "fera",
-  "medical-baseline",
+ "care",
+ "e-rsmart",
+ "e-tou-d-vintage-pcia",
+ "fera",
+ "medical-baseline",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "Initial conversion + HolidayCalendar adoption. RatePlan + Vintaged-PCIA modifier in single @graph. No baseline credit/CIA (this schedule has none). No climate credit on rate sheet. Holiday-on-weekday TOU correctness expressed via urpx:includeHolidays / urpx:includeNonHolidays booleans on TimeBracket. Eight named PG&E holidays embedded as a urpx:HolidayCalendar under PlanElements (each Holiday carries holidayName + holidayRule). SHACL conforms; clj-urpx resolves correctly with a holiday predicate (verified across 7 cases including Memorial Day, Christmas, Independence Day Saturday)."
+status = "draft"
+notes = "Initial conversion + HolidayCalendar adoption. RatePlan + Vintaged-PCIA modifier in single @graph. No baseline credit/CIA (this schedule has none). No climate credit on rate sheet. Holiday-on-weekday TOU correctness expressed via urpx:includeHolidays / urpx:includeNonHolidays booleans on TimeBracket. Eight named PG&E holidays embedded as a urpx:HolidayCalendar under PlanElements (each Holiday carries holidayName + holidayRule). SHACL conforms; clj-urpx resolves correctly with a holiday predicate (verified across 7 cases including Memorial Day, Christmas, Independence Day Saturday)."

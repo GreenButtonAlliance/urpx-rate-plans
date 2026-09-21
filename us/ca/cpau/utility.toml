@@ -1,27 +1,27 @@
 # City of Palo Alto Utilities (CPAU) utility-level discovery manifest.
 # See schema/utility-manifest.schema.json and LAYOUT.md §10.
 
-utility           = "cpau"
+utility = "cpau"
 
 # Where CPAU publishes tariffs.
 tariff_index_urls = [
-  # Residential rates landing page — lists active and inactive residential
-  # schedules with download links to each tariff sheet PDF.
-  "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates",
+ # Residential rates landing page — lists active and inactive residential
+ # schedules with download links to each tariff sheet PDF.
+ "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates",
 
-  # Commercial / business rates landing page — covers E-2 through E-7 and
-  # related green-power schedules (not yet modeled in this corpus; see
-  # commercial-tariff expansion).
-  "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates",
+ # Commercial / business rates landing page — covers E-2 through E-7 and
+ # related green-power schedules (not yet modeled in this corpus; see
+ # commercial-tariff expansion).
+ "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates",
 ]
 
 scrape_notes = """
 paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS-fingerprint
 check). Use curl_cffi with Chrome impersonation:
 
-  from curl_cffi import requests
-  s = requests.Session(impersonate="chrome120")
-  s.get(url)
+ from curl_cffi import requests
+ s = requests.Session(impersonate="chrome120")
+ s.get(url)
 
 Tariff PDFs live at paths like
 /files/assets/public/v/<vN>/utilities/rates-schedules-for-utilities/...

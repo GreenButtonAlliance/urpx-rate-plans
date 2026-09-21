@@ -48,9 +48,9 @@ The tariff publishes additional baseline allowances for all-electric heating cus
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld
 # Conforms: True
 ```
 

@@ -1,31 +1,31 @@
 # Identity --------------------------------------------------------------------
-utility        = "sce"
-schedule       = "tou-d-4-9pm"
+utility = "sce"
+schedule = "tou-d-4-9pm"
 effective_date = "2026-03-20"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
-sha256        = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
-retrieved_on  = "2026-05-04"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "SCE-AL-5771-E"
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256 = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+retrieved_on = "2026-05-04"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5771-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "Decision 26-03-013 (Sheet 21) / Resolution E-5217 + Decision 24-05-028 (rate sheets and Special Conditions)"
+authority = "puc"
+docket = "Decision 26-03-013 (Sheet 21) / Resolution E-5217 + Decision 24-05-028 (rate sheets and Special Conditions)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-05-04"
-notes         = """
+tool = "manual"
+extracted_on = "2026-05-04"
+notes = """
 Source PDF is the LIVE SCE tariff-book Schedule TOU-D — the complete
 current tariff, 26 sheets including Special Conditions 1-6 (Sheets
 12-17) which were absent from the prior historical-rates reissuance.
-Re-sourced from the live tariff-book SharePoint folder (URPXT-cah.3) —
+Re-sourced from the live tariff-book SharePoint folder —
 the prior 2025-11-15 filing was sourced from the historical-rates
 archive (year-suffixed ELECTRIC_SCHEDULES_TOU-D_2025.pdf) and has been
 superseded.
@@ -37,132 +37,132 @@ document (2026-03-20).
 Per-sheet effective dates within the source PDF (most recent revision
 per sheet, with Cal. P.U.C. sheet number):
 
-  Sheet 1 (Title page, Applicability, Territory) — 2024-08-15
-  Sheet 2 (Option 4-9 PM headline rates) — 2026-01-01 (AL 5725-E,
-    90937-E)  *** rates we model here ***
-  Sheet 3 (Option 4-9 PM Delivery Service breakdown) — 2026-01-01
-    (AL 5725-E, 90938-E)  *** rates we model here ***
-  Sheet 4 (Option 5-8 PM headline rates) — 2026-01-01
-  Sheet 5 (Option 5-8 PM Delivery Service breakdown) — 2026-01-01
-  Sheet 6 (Option PRIME headline rates) — 2026-01-01
-  Sheet 7 (Option PRIME Delivery Service breakdown) — 2026-01-01
-  Sheets 8-11 (Option A and Option B — closed schedules) — 2025-10-01
-  Sheet 12 (Special Condition 1: TOU period definitions for all
-    options) — 2022-06-01 (AL 4765-E, 89841-E)
-    *** unblocks Sheet 12 sourcing — TOU windows for 4-9 PM are now
-        cited from the regulatory Sheet 12 instead of the
-        customer-facing rate-plans page ***
-  Sheet 13 (Special Condition 2: Option PRIME eligibility) — 2025-06-02
-  Sheet 14 (Special Condition 3: Billing Calculation, DWREC, PCIA
-    recovery, DA-CRS / CCA-CRS cross-references) — 2025-06-02
-    *** unblocks Vintage PCIA / DA-CRS / CCA-CRS modifier sourcing
-        (URPXT-cah.9) ***
-  Sheet 15 (Special Condition 4: Baseline Allocation / Preliminary
-    Statement Part H reference) — 2022-06-01
-    *** unblocks HPWH baseline allocation modifier sourcing
-        (URPXT-bqg) — Part H is staged at scripts/sce-live-tariff-book
-        -2026-05-04/preliminary-statements/ELECTRIC_PRELIM_H.pdf ***
-  Sheet 16 (Special Condition 5: CCA / DA clauses) — 2019-03-01
-  Sheet 17 (Special Condition 6) — 2024-08-15
-  Sheet 18 (Special Conditions 7-9: Change of Rate, CARE, FERA,
-    Climate Credit) — 2026-01-01
-  Sheets 19-26 (additional Special Conditions and CPP variants) —
-    range from 2022-10-01 through 2026-03-20
-  Sheet 21 — 2026-03-20 (AL 5771-E, 91040-E)
-    *** newest sheet in the document — drives the filing date ***
+ Sheet 1 (Title page, Applicability, Territory) — 2024-08-15
+ Sheet 2 (Option 4-9 PM headline rates) — 2026-01-01 (AL 5725-E,
+ 90937-E) *** rates we model here ***
+ Sheet 3 (Option 4-9 PM Delivery Service breakdown) — 2026-01-01
+ (AL 5725-E, 90938-E) *** rates we model here ***
+ Sheet 4 (Option 5-8 PM headline rates) — 2026-01-01
+ Sheet 5 (Option 5-8 PM Delivery Service breakdown) — 2026-01-01
+ Sheet 6 (Option PRIME headline rates) — 2026-01-01
+ Sheet 7 (Option PRIME Delivery Service breakdown) — 2026-01-01
+ Sheets 8-11 (Option A and Option B — closed schedules) — 2025-10-01
+ Sheet 12 (Special Condition 1: TOU period definitions for all
+ options) — 2022-06-01 (AL 4765-E, 89841-E)
+ *** unblocks Sheet 12 sourcing — TOU windows for 4-9 PM are now
+ cited from the regulatory Sheet 12 instead of the
+ customer-facing rate-plans page ***
+ Sheet 13 (Special Condition 2: Option PRIME eligibility) — 2025-06-02
+ Sheet 14 (Special Condition 3: Billing Calculation, DWREC, PCIA
+ recovery, DA-CRS / CCA-CRS cross-references) — 2025-06-02
+ *** unblocks Vintage PCIA / DA-CRS / CCA-CRS modifier sourcing
+ ***
+ Sheet 15 (Special Condition 4: Baseline Allocation / Preliminary
+ Statement Part H reference) — 2022-06-01
+ *** unblocks HPWH baseline allocation modifier sourcing
+ — Part H is staged at scripts/sce-live-tariff-book
+ -2026-05-04/preliminary-statements/ELECTRIC_PRELIM_H.pdf ***
+ Sheet 16 (Special Condition 5: CCA / DA clauses) — 2019-03-01
+ Sheet 17 (Special Condition 6) — 2024-08-15
+ Sheet 18 (Special Conditions 7-9: Change of Rate, CARE, FERA,
+ Climate Credit) — 2026-01-01
+ Sheets 19-26 (additional Special Conditions and CPP variants) —
+ range from 2022-10-01 through 2026-03-20
+ Sheet 21 — 2026-03-20 (AL 5771-E, 91040-E)
+ *** newest sheet in the document — drives the filing date ***
 
 Substantive deltas vs the prior 2025-11-15 filing (4-9 PM rates):
 
 (a) RATE REFRESH — AL 5725-E updated all energy-charge components
-    effective 2026-01-01:
+ effective 2026-01-01:
 
-    Generation (UG) $/kWh:
-      Summer On-Peak         0.27519 → 0.25448  (-0.02071)
-      Summer Mid-Peak        0.15107 → 0.13441  (-0.01666)
-      Summer Off-Peak        0.08548 → 0.07360  (-0.01188)
-      Winter Mid-Peak        0.19933 → 0.18077  (-0.01856)
-      Winter Off-Peak        0.11521 → 0.10212  (-0.01309)
-      Winter Super-Off-Peak  0.09510 → 0.08364  (-0.01146)
+ Generation (UG) $/kWh:
+ Summer On-Peak 0.27519 → 0.25448 (-0.02071)
+ Summer Mid-Peak 0.15107 → 0.13441 (-0.01666)
+ Summer Off-Peak 0.08548 → 0.07360 (-0.01188)
+ Winter Mid-Peak 0.19933 → 0.18077 (-0.01856)
+ Winter Off-Peak 0.11521 → 0.10212 (-0.01309)
+ Winter Super-Off-Peak 0.09510 → 0.08364 (-0.01146)
 
-    Distribution $/kWh:
-      Summer On-Peak         0.28354 → 0.28446  (+0.00092)
-      Summer Mid-Peak        0.28354 → 0.28446  (+0.00092)
-      Summer Off-Peak        0.22689 → 0.22702  (+0.00013)
-      Winter Mid-Peak        0.28354 → 0.28446  (+0.00092)
-      Winter Off-Peak        0.22689 → 0.22702  (+0.00013)
-      Winter Super-Off-Peak  0.20651 → 0.20636  (-0.00015)
+ Distribution $/kWh:
+ Summer On-Peak 0.28354 → 0.28446 (+0.00092)
+ Summer Mid-Peak 0.28354 → 0.28446 (+0.00092)
+ Summer Off-Peak 0.22689 → 0.22702 (+0.00013)
+ Winter Mid-Peak 0.28354 → 0.28446 (+0.00092)
+ Winter Off-Peak 0.22689 → 0.22702 (+0.00013)
+ Winter Super-Off-Peak 0.20651 → 0.20636 (-0.00015)
 
-    Other delivery surcharges $/kWh:
-      Transmission           0.02351 → 0.02586  (+0.00235)
-      NSGC                   0.00989 → 0.00829  (-0.00160)
-      NDC                   -0.00001 → 0.00003  (+0.00004)
-      PPPC                   0.01060 → 0.00527  (-0.00533)
-      WFC                    0.00595 → 0.00591  (-0.00004)
-      PUCRF                  0.00080 → 0.00100  (+0.00020)
-      Baseline Credit       -0.10449 → -0.10108 (+0.00341)
+ Other delivery surcharges $/kWh:
+ Transmission 0.02351 → 0.02586 (+0.00235)
+ NSGC 0.00989 → 0.00829 (-0.00160)
+ NDC -0.00001 → 0.00003 (+0.00004)
+ PPPC 0.01060 → 0.00527 (-0.00533)
+ WFC 0.00595 → 0.00591 (-0.00004)
+ PUCRF 0.00080 → 0.00100 (+0.00020)
+ Baseline Credit -0.10449 → -0.10108 (+0.00341)
 
-    Bundled adjustments $/kWh:
-      Fixed Recovery Charge  0.00198 → 0.00619  (+0.00421)
-      MCAM                   0.00160 → 0.00223  (+0.00063)
+ Bundled adjustments $/kWh:
+ Fixed Recovery Charge 0.00198 → 0.00619 (+0.00421)
+ MCAM 0.00160 → 0.00223 (+0.00063)
 
-    Other:
-      BSC ($/meter/day)      0.794   → 0.794    (unchanged)
-      BSC Adj Deed-Restr     -0.334  → -0.332   (+0.002)
-      Climate Credit         -56.00  → -36.00   (+20.00)
+ Other:
+ BSC ($/meter/day) 0.794 → 0.794 (unchanged)
+ BSC Adj Deed-Restr -0.334 → -0.332 (+0.002)
+ Climate Credit -56.00 → -36.00 (+20.00)
 
-    CIA (currently 0 for 4-9 PM and unchanged) is preserved.
+ CIA (currently 0 for 4-9 PM and unchanged) is preserved.
 
 (b) NEW LINE ITEMS — Sheets 2 and 3 add two rate components that were
-    not displayed on the 2025 reissuance:
-      Generation→DWREC (DWR Energy Credit) — 0.00000 $/kWh (Sheet 2)
-      Delivery→DWRA (DWR Refund) — 0.00000 $/kWh (Sheet 3)
-    Both currently zero but are explicit columns on the rate sheets
-    indicating they're rate-bookkeeping line items for future use.
-    Modeled as PriceDefinitions with current Price = 0.
+ not displayed on the 2025 reissuance:
+ Generation→DWREC (DWR Energy Credit) — 0.00000 $/kWh (Sheet 2)
+ Delivery→DWRA (DWR Refund) — 0.00000 $/kWh (Sheet 3)
+ Both currently zero but are explicit columns on the rate sheets
+ indicating they're rate-bookkeeping line items for future use.
+ Modeled as PriceDefinitions with current Price = 0.
 
 (c) TOU PERIOD SOURCE — TOU window TimeBracket values were previously
-    cited from SCE's customer-facing rate-plans page because Sheet 12
-    (Special Condition 1: TOU period definitions) was absent from the
-    historical-rates reissuance. Sheet 12 is now in the source PDF —
-    citation surface upgraded to the regulatory sheet. Modeled values
-    are unchanged (the customer page presented the same windows).
+ cited from SCE's customer-facing rate-plans page because Sheet 12
+ (Special Condition 1: TOU period definitions) was absent from the
+ historical-rates reissuance. Sheet 12 is now in the source PDF —
+ citation surface upgraded to the regulatory sheet. Modeled values
+ are unchanged (the customer page presented the same windows).
 
-Modeling deferrals (tracked as siblings under URPXT-cah):
-  - HPWH baseline allocation modifier — URPXT-bqg, partly unblocked
-    by Sheet 15 + Preliminary Statement Part H now being available.
-  - Vintage PCIA / DA-CRS / CCA-CRS RatePlanModifiers — URPXT-cah.9,
-    unblocked by Sheet 14.
-  - Option 4-9 PM-CPP variant — Sheet 2 carries CPP Event Energy
-    Charge ($0.80000/kWh), Summer On-Peak Non-Event Credit
-    ($-0.15170/kWh), and Maximum Available Credit (-$0.58794/kWh).
-    Not modeled here. Sibling deferral to URPXT-cah.10 (PRIME-CPP);
-    if both CPP variants get modeled together, file a unifying issue.
+Modeling deferrals (tracked as siblings under ):
+ - HPWH baseline allocation modifier, partly unblocked
+ by Sheet 15 + Preliminary Statement Part H now being available.
+ - Vintage PCIA / DA-CRS / CCA-CRS RatePlanModifiers — ,
+ unblocked by Sheet 14.
+ - Option 4-9 PM-CPP variant — Sheet 2 carries CPP Event Energy
+ Charge ($0.80000/kWh), Summer On-Peak Non-Event Credit
+ ($-0.15170/kWh), and Maximum Available Credit (-$0.58794/kWh).
+ Not modeled here. Sibling deferral to (PRIME-CPP);
+ if both CPP variants get modeled together, file a unifying issue.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured (URPXT-bqg, source now staged)",
-  "Option 4-9 PM-CPP variant — CPP event charges + non-event credits not yet modeled",
+ "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
+ "Option 4-9 PM-CPP variant — CPP event charges + non-event credits not yet modeled",
 ]
 applicable_modifiers = [
-  "care",
-  "cca-crs",
-  "da-crs",
-  "deed-restricted",
-  "fera",
-  "hpwh-baseline",
-  "medical-baseline",
+ "care",
+ "cca-crs",
+ "da-crs",
+ "deed-restricted",
+ "fera",
+ "hpwh-baseline",
+ "medical-baseline",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-cah.3 — re-sourced from live tariff-book TOU-D PDF. 24 of 24 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 2/3. Sheet 12 (TOU period definitions) is now in the source PDF — TOU windows are now sourced from the regulatory Sheet 12 instead of the customer-facing rate-plans page (modeled values unchanged). Per-version IRIs (Prices, PriceSets, EligibilityRule subtree, BSC PriceDefinition with its blank-node CalculationMethod) date-suffixed per the URPXT-cah.2 pattern so the validator can load both 2025-11-15 and 2026-03-20 simultaneously via urpx:supersedes without SHACL maxCount collisions. RatePlanVersion @id sce:tou-d-4-9pm-2026-03-20 supersedes sce:tou-d-4-9pm-2025-11-15."
+status = "draft"
+notes = "re-sourced from live tariff-book TOU-D PDF. 24 of 24 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 2/3. Sheet 12 (TOU period definitions) is now in the source PDF — TOU windows are now sourced from the regulatory Sheet 12 instead of the customer-facing rate-plans page (modeled values unchanged). Per-version IRIs (Prices, PriceSets, EligibilityRule subtree, BSC PriceDefinition with its blank-node CalculationMethod) date-suffixed per the pattern so the validator can load both 2025-11-15 and 2026-03-20 simultaneously via urpx:supersedes without SHACL maxCount collisions. RatePlanVersion @id sce:tou-d-4-9pm-2026-03-20 supersedes sce:tou-d-4-9pm-2025-11-15."

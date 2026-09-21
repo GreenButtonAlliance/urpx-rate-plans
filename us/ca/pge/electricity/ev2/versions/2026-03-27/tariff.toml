@@ -1,46 +1,46 @@
 # Identity --------------------------------------------------------------------
-utility        = "pge"
-schedule       = "ev2"
+utility = "pge"
+schedule = "ev2"
 effective_date = "2026-03-27"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_EV2 (Sch).pdf"
-sha256        = "598730212267d5be22d7583f02257b00c767978993466a51a59c3dc7db1a7dcd"
-retrieved_on  = "2026-04-27"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "PGE-AL-7869-E"
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_EV2 (Sch).pdf"
+sha256 = "598730212267d5be22d7583f02257b00c767978993466a51a59c3dc7db1a7dcd"
+retrieved_on = "2026-04-27"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7869-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "D.26-03-013"
+authority = "puc"
+docket = "D.26-03-013"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "mineru"
-extracted_on  = "2026-04-27"
+tool = "mineru"
+extracted_on = "2026-04-27"
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = true
+complete = true
 deferrals = []
 applicable_modifiers = [
-  "care",
-  "e-rsmart",
-  "ev2-vintage-pcia",
-  "fera",
-  "medical-baseline",
+ "care",
+ "e-rsmart",
+ "ev2-vintage-pcia",
+ "fera",
+ "medical-baseline",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "Residential TOU for plug-in EV customers. Three TOU periods (Peak / Part-Peak / Off-Peak) every day including weekends and holidays. No baseline credit, no CIA, no climate credit, no baseline matrix. RatePlan + Vintaged-PCIA modifier in single @graph. Customer-facing name is 'EV2-A' per PG&E (per Sheet 1 'Bills issued under Schedule EV2 will be identified as EV2A')."
+status = "draft"
+notes = "Residential TOU for plug-in EV customers. Three TOU periods (Peak / Part-Peak / Off-Peak) every day including weekends and holidays. No baseline credit, no CIA, no climate credit, no baseline matrix. RatePlan + Vintaged-PCIA modifier in single @graph. Customer-facing name is 'EV2-A' per PG&E (per Sheet 1 'Bills issued under Schedule EV2 will be identified as EV2A')."

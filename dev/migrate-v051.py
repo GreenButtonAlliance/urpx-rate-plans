@@ -76,7 +76,7 @@ def find_all(node, pred, out=None):
 def t1_context(doc, log):
     ctx = doc.get("@context")
     if not isinstance(ctx, dict):
-        raise Migrate("@context is not an inline object; array form is URPXT-buh")
+        raise Migrate("@context is not an inline object; array form is tracked separately")
     if ctx.get("urpx") == OLD_URPX:
         ctx["urpx"] = NEW_URPX
         log("T1 urpx namespace rebound")

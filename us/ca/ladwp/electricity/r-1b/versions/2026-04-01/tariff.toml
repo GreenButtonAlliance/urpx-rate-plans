@@ -1,38 +1,38 @@
 # Identity --------------------------------------------------------------------
-utility        = "ladwp"
-schedule       = "r-1b"
+utility = "ladwp"
+schedule = "r-1b"
 effective_date = "2026-04-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf"
-sha256        = "1280dd0769f0912922d718fe64843545e6af4be7456fa76fb2bf99bf5bd8f625"
-retrieved_on  = "2026-04-30"
-media_type    = "application/pdf"
-filing_type   = "tariff-schedule"
-landing_page  = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
+url = "https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf"
+sha256 = "1280dd0769f0912922d718fe64843545e6af4be7456fa76fb2bf99bf5bd8f625"
+retrieved_on = "2026-04-30"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+landing_page = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "city-council"
-docket        = "Final Incremental Electric Rate Ordinance (4-15-16) + Electric Rates Ordinance"
+authority = "city-council"
+docket = "Final Incremental Electric Rate Ordinance (4-15-16) + Electric Rates Ordinance"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-04-30"
-notes         = """
+tool = "manual"
+extracted_on = "2026-04-30"
+notes = """
 Same source PDF as us/ca/ladwp/electricity/r-1a/versions/2026-04-01/. Page 2 of
 the Electric Rate Summary (effective 2019-07-01) covers Schedule R-1(B).
 
 TOU period definitions are explicitly listed in the source PDF
 (footnotes on the rate sheet):
 
-  High Peak Period:  1:00 p.m. – 5:00 p.m., Monday through Friday
-  Low Peak Period:   10:00 a.m. – 1:00 p.m., Monday through Friday,
-                     and 5:00 p.m. – 8:00 p.m., Monday through Friday
-  Base Period:       8:00 p.m. – 10:00 a.m., Monday through Friday,
-                     all day Saturday and Sunday
+ High Peak Period: 1:00 p.m. – 5:00 p.m., Monday through Friday
+ Low Peak Period: 10:00 a.m. – 1:00 p.m., Monday through Friday,
+ and 5:00 p.m. – 8:00 p.m., Monday through Friday
+ Base Period: 8:00 p.m. – 10:00 a.m., Monday through Friday,
+ all day Saturday and Sunday
 
 TOU windows do NOT vary by season — only the per-tier rates differ
 between High Season (Jun-Sep) and Low Season (Oct-May). Winter High
@@ -43,8 +43,8 @@ ADJUSTMENT FACTORS (quarterly pass-through):
 Same as R-1A — see us/ca/ladwp/electricity/r-1a/versions/2026-04-01/tariff.toml
 for the full listing. Apr-Jun 2026 values captured inline:
 
-  ECA 0.05690 + ESA 0.00147 + RCA 0.00300 + IRCA 0.05505 + VEA 0.00503
-  + CRPSEA 0.01779 + VRPSEA 0.03296 = 0.17220 total $/kWh pass-through
+ ECA 0.05690 + ESA 0.00147 + RCA 0.00300 + IRCA 0.05505 + VEA 0.00503
+ + CRPSEA 0.01779 + VRPSEA 0.03296 = 0.17220 total $/kWh pass-through
 
 MANDATORY ENROLLMENT: residential customers whose annual monthly
 average consumption reaches or exceeds 3,000 kWh in a 12-month period
@@ -53,37 +53,37 @@ may voluntarily choose R-1(A) or R-1(B); customers transferring from
 R-1(B) to R-1(A) cannot revert to R-1(B) before 12 months elapse.
 
 Modeling deferrals:
-  - Electric Vehicle Discount of $-0.025/kWh appears on the rate sheet
-    but is conditional on EV ownership. Modeling deferred to a
-    follow-up issue (separate from grid-coordination/urpx-rate-plans#16 since this discount lives
-    inside R-1B itself rather than as a standalone Service Rider).
-    Will file as a child of grid-coordination/urpx-rate-plans#16 when work approaches.
-  - The "(1) Conditions for this element set in the capped ordinance"
-    footnote suggests EV-discount eligibility specifics live in the
-    base Electric Rates Ordinance (not the Incremental Ordinance).
-    Verify when modeling.
+ - Electric Vehicle Discount of $-0.025/kWh appears on the rate sheet
+ but is conditional on EV ownership. Modeling deferred to a
+ follow-up issue (separate from grid-coordination/urpx-rate-plans#16 since this discount lives
+ inside R-1B itself rather than as a standalone Service Rider).
+ Will file as a child of grid-coordination/urpx-rate-plans#16 when work approaches.
+ - The "(1) Conditions for this element set in the capped ordinance"
+ footnote suggests EV-discount eligibility specifics live in the
+ base Electric Rates Ordinance (not the Incremental Ordinance).
+ Verify when modeling.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "$0.025/kWh EV-conditional rate — separate RatePlanModifier",
+ "$0.025/kWh EV-conditional rate — separate RatePlanModifier",
 ]
 applicable_modifiers = [
-  "ev-discount",
-  "ez-save",
-  "lifeline",
-  "nem",
+ "ev-discount",
+ "ez-save",
+ "lifeline",
+ "nem",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "Second LADWP filing. Pattern reference: us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/ (TOU structure with hasTOUSchedule + 3 tiers + 6 periods = 2 seasons × 3 tiers). LADWP TOU windows don't vary by season (unlike SCE's super-off-peak that's winter-only), so Summer and Winter periods share the same TimeBracket times but differ in rate values. 14 PriceDefinitions: 6 energy charges (3 tiers × 2 seasons), 1 service charge ($12/month flat), 7 quarterly adjustment factors. 14 Prices total. Base period uses 3 TimeBrackets per season to capture (M-F evening 20:00-00:00) + (M-F early morning 00:00-10:00) + (weekend full day 00:00-00:00). Electric Vehicle Discount referenced on rate sheet but deferred — conditional on EV ownership."
+status = "draft"
+notes = "Second LADWP filing. Pattern reference: us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/ (TOU structure with hasTOUSchedule + 3 tiers + 6 periods = 2 seasons × 3 tiers). LADWP TOU windows don't vary by season (unlike SCE's super-off-peak that's winter-only), so Summer and Winter periods share the same TimeBracket times but differ in rate values. 14 PriceDefinitions: 6 energy charges (3 tiers × 2 seasons), 1 service charge ($12/month flat), 7 quarterly adjustment factors. 14 Prices total. Base period uses 3 TimeBrackets per season to capture (M-F evening 20:00-00:00) + (M-F early morning 00:00-10:00) + (weekend full day 00:00-00:00). Electric Vehicle Discount referenced on rate sheet but deferred — conditional on EV ownership."

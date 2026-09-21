@@ -1,32 +1,32 @@
 # Los Angeles Department of Water and Power (LADWP) utility-level discovery manifest.
 # See schema/utility-manifest.schema.json and LAYOUT.md §10.
 
-utility           = "ladwp"
+utility = "ladwp"
 
 # Where LADWP publishes electric rates.
 tariff_index_urls = [
-  # Residential electric rates landing page — overview of R-1A (Standard),
-  # R-1B (Time-of-Use), and links to ordinances.
-  "https://www.ladwp.com/account/understanding-your-rates/residential-electric-rates",
+ # Residential electric rates landing page — overview of R-1A (Standard),
+ # R-1B (Time-of-Use), and links to ordinances.
+ "https://www.ladwp.com/account/understanding-your-rates/residential-electric-rates",
 
-  # Detailed residential rates page — per-tier values and adjustment-factor
-  # references. Customer-facing detail.
-  "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates",
+ # Detailed residential rates page — per-tier values and adjustment-factor
+ # references. Customer-facing detail.
+ "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates",
 
-  # Residential adjustment billing factors page — current quarterly values
-  # for ECA, ESA, RCA, IRCA, VEA, CRPSEA, VRPSEA. The current effective rates
-  # for any LADWP residential schedule are determined by combining the base
-  # rates (in the rate-summary ordinance) with these quarterly factors.
-  "https://www.ladwp.com/account/customer-service/electric-rates/residential-adjustment-billing-factors",
+ # Residential adjustment billing factors page — current quarterly values
+ # for ECA, ESA, RCA, IRCA, VEA, CRPSEA, VRPSEA. The current effective rates
+ # for any LADWP residential schedule are determined by combining the base
+ # rates (in the rate-summary ordinance) with these quarterly factors.
+ "https://www.ladwp.com/account/customer-service/electric-rates/residential-adjustment-billing-factors",
 
-  # Top-level rate ordinance and rate-summary PDFs are linked from the
-  # rates landing page; current canonical URLs:
-  #   - Electric Rates Ordinance (base ordinance):
-  #     https://www.ladwp.com/sites/default/files/documents/LADWP_Electric_Rates.pdf
-  #   - Final Incremental Electric Rate Ordinance (4-15-16):
-  #     https://www.ladwp.com/sites/default/files/2023-08/Final%20Incremental%20Electric%20Rate%20Ordinance%204-15-16.pdf
-  #   - Electric Rate Summary (effective 7-1-2019):
-  #     https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf
+ # Top-level rate ordinance and rate-summary PDFs are linked from the
+ # rates landing page; current canonical URLs:
+ # - Electric Rates Ordinance (base ordinance):
+ # https://www.ladwp.com/sites/default/files/documents/LADWP_Electric_Rates.pdf
+ # - Final Incremental Electric Rate Ordinance (4-15-16):
+ # https://www.ladwp.com/sites/default/files/2023-08/Final%20Incremental%20Electric%20Rate%20Ordinance%204-15-16.pdf
+ # - Electric Rate Summary (effective 7-1-2019):
+ # https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf
 ]
 
 scrape_notes = """
@@ -39,26 +39,26 @@ should use authority = "city-council" (precedent: ca/pou/cpau/).
 Rate filings are decomposed into THREE published documents that combine
 to determine the customer-facing rate:
 
-  1. Electric Rates Ordinance — the base ordinance establishing rate
-     schedules R-1, A-1, etc. Last amended around 2016 (see filename of
-     "Final Incremental Electric Rate Ordinance 4-15-16.pdf"). Sets
-     base rate values for each schedule.
+ 1. Electric Rates Ordinance — the base ordinance establishing rate
+ schedules R-1, A-1, etc. Last amended around 2016 (see filename of
+ "Final Incremental Electric Rate Ordinance 4-15-16.pdf"). Sets
+ base rate values for each schedule.
 
-  2. Final Incremental Electric Rate Ordinance — the second ordinance
-     layered on top of (1) with incremental adjustments. Together (1)
-     and (2) define the "Capped" + "Incremental" rate components.
+ 2. Final Incremental Electric Rate Ordinance — the second ordinance
+ layered on top of (1) with incremental adjustments. Together (1)
+ and (2) define the "Capped" + "Incremental" rate components.
 
-  3. Electric Rate Summary — a customer-facing summary document
-     synthesizing (1) and (2) into per-schedule rate sheets. The
-     current public summary is dated effective 2019-07-01.
+ 3. Electric Rate Summary — a customer-facing summary document
+ synthesizing (1) and (2) into per-schedule rate sheets. The
+ current public summary is dated effective 2019-07-01.
 
-  4. Quarterly Adjustment Factors — pass-through factors (ECA, ESA,
-     RCA, IRCA, VEA, CRPSEA, VRPSEA) updated quarterly. Published as
-     a table on the LADWP residential-adjustment-billing-factors HTML
-     page, not as PDFs. These factors get added to the per-tier
-     energy charge and recover variable costs (fuel, RPS compliance,
-     reliability). The MOST RECENT effective date for any LADWP
-     schedule is the start of the current quarterly factor period.
+ 4. Quarterly Adjustment Factors — pass-through factors (ECA, ESA,
+ RCA, IRCA, VEA, CRPSEA, VRPSEA) updated quarterly. Published as
+ a table on the LADWP residential-adjustment-billing-factors HTML
+ page, not as PDFs. These factors get added to the per-tier
+ energy charge and recover variable costs (fuel, RPS compliance,
+ reliability). The MOST RECENT effective date for any LADWP
+ schedule is the start of the current quarterly factor period.
 
 Convention for this corpus: each LADWP filing snapshot is dated to the
 start of the current quarterly adjustment-factor period (2026-04-01 for

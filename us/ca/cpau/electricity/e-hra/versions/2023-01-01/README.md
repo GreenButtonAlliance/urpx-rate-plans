@@ -29,10 +29,10 @@ The modifier's relationship to its base RatePlan(s) is captured in the `RatePlan
 
 ```
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld
 # Conforms: True
 ```
 
-End-to-end via clj-urpx: `clojure -M:validate` reports `load+coerce ✓  (resolve N/A — modifier requires base composition)`. Resolve-prices is correctly skipped pending the base+modifier composer (separate clj-urpx work; awaits `urpx-org/urpx#23` resolution).
+End-to-end via clj-urpx: `clojure -M:validate` reports `load+coerce ✓ (resolve N/A — modifier requires base composition)`. Resolve-prices is correctly skipped pending the base+modifier composer (separate clj-urpx work; awaits `urpx-org/urpx#23` resolution).

@@ -1,28 +1,28 @@
 # Identity --------------------------------------------------------------------
-utility        = "sce"
-schedule       = "tou-d-prime-cpp"
+utility = "sce"
+schedule = "tou-d-prime-cpp"
 effective_date = "2026-03-20"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
-sha256        = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
-retrieved_on  = "2026-05-04"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "SCE-AL-5771-E"
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256 = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+retrieved_on = "2026-05-04"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5771-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "Decision 26-03-013 (TOU-D Sheet 21) / Resolution E-5217 (PRIME-CPP rates Sheet 6) / Decision 21-03-056 (CPP Special Conditions Sheets 12-16)"
+authority = "puc"
+docket = "Decision 26-03-013 (TOU-D Sheet 21) / Resolution E-5217 (PRIME-CPP rates Sheet 6) / Decision 21-03-056 (CPP Special Conditions Sheets 12-16)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-05-04"
-notes         = """
-First filing of Option PRIME-CPP variant in this corpus (URPXT-cah.10).
+tool = "manual"
+extracted_on = "2026-05-04"
+notes = """
+First filing of Option PRIME-CPP variant in this corpus.
 Modeled as a urpx:RatePlanModifier overlaying the base PRIME RatePlan
 (sce:tou-d-prime). Customer-state-driven sub-option that adds CPP
 event-window charges and non-event-window credits to a PRIME customer's
@@ -35,23 +35,23 @@ filing is dated to the most recent per-sheet effective date in the
 source PDF (2026-03-20).
 
 Per-sheet effective dates relevant to the PRIME-CPP filing:
-  Sheet 6 (Option PRIME-CPP rate values: Event Charge, Non-Event
-    Credit, Maximum Available Credit) — 2026-01-01 (AL 5725-E)
-  Sheet 12 (Special Condition 1: TOU period definitions including
-    CPP Event Period and CPP Non-Event Credit Period windows) —
-    2022-06-01 (AL 4765-E)
-  Sheet 15 (Special Condition 4: Critical Peak Pricing — event
-    framework, 12-15 events/year, day-before notification) —
-    2022-06-01
-  Sheet 16 (Special Condition 4 continued: CPP participation rules,
-    Maximum Available Credit cap, Bill Protection) — 2019-03-01
-  Sheet 21 — 2026-03-20 (newest sheet in the document, drives the
-    filing date)
+ Sheet 6 (Option PRIME-CPP rate values: Event Charge, Non-Event
+ Credit, Maximum Available Credit) — 2026-01-01 (AL 5725-E)
+ Sheet 12 (Special Condition 1: TOU period definitions including
+ CPP Event Period and CPP Non-Event Credit Period windows) —
+ 2022-06-01 (AL 4765-E)
+ Sheet 15 (Special Condition 4: Critical Peak Pricing — event
+ framework, 12-15 events/year, day-before notification) —
+ 2022-06-01
+ Sheet 16 (Special Condition 4 continued: CPP participation rules,
+ Maximum Available Credit cap, Bill Protection) — 2019-03-01
+ Sheet 21 — 2026-03-20 (newest sheet in the document, drives the
+ filing date)
 
 ## Modifier shape
 
 Architecture choice: modeled as urpx:RatePlanModifier (sibling pattern
-to DA-CRS / CCA-CRS in URPXT-cah.9), NOT as a separate urpx:RatePlan.
+to DA-CRS / CCA-CRS in ), NOT as a separate urpx:RatePlan.
 Reasoning: PRIME-CPP customers pay the FULL base PRIME rate structure
 PLUS CPP-window adjustments. A modifier overlay is more lightweight
 than cloning the entire 25-PriceDefinition PRIME structure. The
@@ -62,25 +62,25 @@ same residential bases.
 
 3 PriceDefinitions (Sheet 6 of source PDF):
 
-  CPP Event Energy Charge          $+0.80000/kWh
-    Applies during the CPP Event Period (4 p.m.-9 p.m. summer or
-    winter days, ON CPP Event days only — SCE may call any day a
-    CPP Event; 12-15 events per calendar year, day-before notice).
+ CPP Event Energy Charge $+0.80000/kWh
+ Applies during the CPP Event Period (4 p.m.-9 p.m. summer or
+ winter days, ON CPP Event days only — SCE may call any day a
+ CPP Event; 12-15 events per calendar year, day-before notice).
 
-  CPP Non-Event On-Peak Energy Credit  $-0.15170/kWh
-    Applies during the CPP Non-Event Credit Period (4 p.m.-9 p.m.
-    Summer Season days, ON non-CPP-Event days only). No credit
-    provided on exported generation (i.e. behind-the-meter solar
-    output during 4 p.m.-9 p.m. doesn't earn the credit).
+ CPP Non-Event On-Peak Energy Credit $-0.15170/kWh
+ Applies during the CPP Non-Event Credit Period (4 p.m.-9 p.m.
+ Summer Season days, ON non-CPP-Event days only). No credit
+ provided on exported generation (i.e. behind-the-meter solar
+ output during 4 p.m.-9 p.m. doesn't earn the credit).
 
-  Maximum Available Credit          $-0.58794/kWh (Summer Season cap)
-    Caps the total credit a CPP customer can earn when dually
-    participating in another DR program. Only applies to customers
-    grandfathered to dual participation with Schedule D-SDP under
-    Option A-CPP / B-CPP terms (NOT directly applicable to PRIME-CPP
-    customers per Sheet 16, but listed on Sheet 6 as a reference cap
-    for the dual-participation grandfather; modeled here for
-    completeness and forward use).
+ Maximum Available Credit $-0.58794/kWh (Summer Season cap)
+ Caps the total credit a CPP customer can earn when dually
+ participating in another DR program. Only applies to customers
+ grandfathered to dual participation with Schedule D-SDP under
+ Option A-CPP / B-CPP terms (NOT directly applicable to PRIME-CPP
+ customers per Sheet 16, but listed on Sheet 6 as a reference cap
+ for the dual-participation grandfather; modeled here for
+ completeness and forward use).
 
 ## Eligibility encoding
 
@@ -143,47 +143,47 @@ and the customer's grandfathered status at billing time.
 
 ## Modeling deferrals
 
-  1. **Bill Protection**: First 12 months of CPP enrollment, customer
-     is guaranteed not to pay more than they would have under the
-     equivalent non-CPP PRIME option. This is a year-long bill
-     calculation that doesn't fit a per-bill RatePlan/Modifier shape.
-     Not modeled.
+ 1. **Bill Protection**: First 12 months of CPP enrollment, customer
+ is guaranteed not to pay more than they would have under the
+ equivalent non-CPP PRIME option. This is a year-long bill
+ calculation that doesn't fit a per-bill RatePlan/Modifier shape.
+ Not modeled.
 
-  2. **Dynamic event-day gating** not enforced by current resolver
-     (see above). Event Charge uses hasDynamicPricing for the
-     canonical event-driven semantics (consumer-evaluable); Non-Event
-     Credit and Max Credit retain CustomOperandNode predicates
-     because their gating semantics (inverse-event-polarity and
-     grandfathered-customer-attribute, respectively) don't map to
-     DynamicPricing.
+ 2. **Dynamic event-day gating** not enforced by current resolver
+ (see above). Event Charge uses hasDynamicPricing for the
+ canonical event-driven semantics (consumer-evaluable); Non-Event
+ Credit and Max Credit retain CustomOperandNode predicates
+ because their gating semantics (inverse-event-polarity and
+ grandfathered-customer-attribute, respectively) don't map to
+ DynamicPricing.
 
-  3. **No-export-credit rule**: CPP Non-Event Credit excludes kWh
-     exported by behind-the-meter generation during 4 p.m.-9 p.m.
-     Requires distinguishing import vs export kWh on the energy
-     metric input. Not modeled.
+ 3. **No-export-credit rule**: CPP Non-Event Credit excludes kWh
+ exported by behind-the-meter generation during 4 p.m.-9 p.m.
+ Requires distinguishing import vs export kWh on the energy
+ metric input. Not modeled.
 
-  4. **Sibling 4-9 PM-CPP and 5-8 PM-CPP variants**: Same modifier
-     pattern would apply to TOU-D-4-9 PM and TOU-D-5-8 PM bases.
-     Tracked in those bases' tariff.toml deferrals; can be modeled
-     in a follow-up issue.
+ 4. **Sibling 4-9 PM-CPP and 5-8 PM-CPP variants**: Same modifier
+ pattern would apply to TOU-D-4-9 PM and TOU-D-5-8 PM bases.
+ Tracked in those bases' tariff.toml deferrals; can be modeled
+ in a follow-up issue.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "Bill Protection (12-month guarantee that CPP customer doesn't pay more than non-CPP equivalent) — year-long bill calculation, doesn't fit per-bill modifier shape",
-  "No-credit-on-exported-generation rule (CPP Non-Event Credit excludes BTM solar output during 4-9pm) — requires import/export kWh distinction not currently modeled",
-  "Sibling Option 4-9 PM-CPP and Option 5-8 PM-CPP variants — same modifier pattern, deferred to follow-up issue",
+ "Bill Protection (12-month guarantee that CPP customer doesn't pay more than non-CPP equivalent) — year-long bill calculation, doesn't fit per-bill modifier shape",
+ "No-credit-on-exported-generation rule (CPP Non-Event Credit excludes BTM solar output during 4-9pm) — requires import/export kWh distinction not currently modeled",
+ "Sibling Option 4-9 PM-CPP and Option 5-8 PM-CPP variants — same modifier pattern, deferred to follow-up issue",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-cah.10 — first filing of PRIME-CPP variant. Modeled as urpx:RatePlanModifier (sibling pattern to DA-CRS / CCA-CRS in URPXT-cah.9), NOT as a separate RatePlan — avoids cloning the 25-PriceDefinition base PRIME structure. 3 PriceDefinitions on 3 separate Ledgers per the marginal-unit-rate sum semantics: CPP Event Energy Charge ($+0.80000, hasDynamicPricing with dynamicPricingType=criticalPeakPricing + priceSource=wholesaleMarketSource + updateFrequency=eventTriggeredUpdates + PriceUpdateRule prose); CPP Non-Event On-Peak Credit ($-0.15170, ApplicabilityRule + CustomOperandNode 'Is CPP Event Today'=false + month=Jun-Sept — inverse-polarity gating doesn't map to DynamicPricing); Maximum Available Credit ($-0.58794, grandfathered SDP dual-participation cap, ApplicabilityRule + CustomOperandNode customer-attribute gate). Refactored 2026-05-04: the Event Charge gate moved from CustomOperandNode 'Is CPP Event Today' to hasDynamicPricing after pulling urpx-org/urpx commit 55584e2 surfaced the canonical PG&E B6-PDP example pattern. RatePlanModifierVersion @id sce:tou-d-prime-cpp-2026-03-20."
+status = "draft"
+notes = "first filing of PRIME-CPP variant. Modeled as urpx:RatePlanModifier (sibling pattern to DA-CRS / CCA-CRS in ), NOT as a separate RatePlan — avoids cloning the 25-PriceDefinition base PRIME structure. 3 PriceDefinitions on 3 separate Ledgers per the marginal-unit-rate sum semantics: CPP Event Energy Charge ($+0.80000, hasDynamicPricing with dynamicPricingType=criticalPeakPricing + priceSource=wholesaleMarketSource + updateFrequency=eventTriggeredUpdates + PriceUpdateRule prose); CPP Non-Event On-Peak Credit ($-0.15170, ApplicabilityRule + CustomOperandNode 'Is CPP Event Today'=false + month=Jun-Sept — inverse-polarity gating doesn't map to DynamicPricing); Maximum Available Credit ($-0.58794, grandfathered SDP dual-participation cap, ApplicabilityRule + CustomOperandNode customer-attribute gate). Refactored 2026-05-04: the Event Charge gate moved from CustomOperandNode 'Is CPP Event Today' to hasDynamicPricing after pulling urpx-org/urpx commit 55584e2 surfaced the canonical PG&E B6-PDP example pattern. RatePlanModifierVersion @id sce:tou-d-prime-cpp-2026-03-20."

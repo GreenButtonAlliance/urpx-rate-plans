@@ -1,48 +1,48 @@
 # Identity --------------------------------------------------------------------
-utility        = "pge"
-schedule       = "e-tou-c"
+utility = "pge"
+schedule = "e-tou-c"
 effective_date = "2026-03-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf"
-sha256        = "f96a3ea9fcae1bf489207d99be17a6f566c07f57f203332424541338a2330828"
-retrieved_on  = "2026-04-26"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "PGE-AL-7846-E"
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf"
+sha256 = "f96a3ea9fcae1bf489207d99be17a6f566c07f57f203332424541338a2330828"
+retrieved_on = "2026-04-26"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7846-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
+authority = "puc"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "mineru"
-extracted_on  = "2026-04-26"
+tool = "mineru"
+extracted_on = "2026-04-26"
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked as URPXT-qwr)",
+ "Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked in the project issue tracker)",
 ]
 applicable_modifiers = [
-  "care",
-  "e-rsmart",
-  "e-tou-c-baseline-tier",
-  "e-tou-c-vintage-pcia",
-  "fera",
-  "medical-baseline",
+ "care",
+ "e-rsmart",
+ "e-tou-c-baseline-tier",
+ "e-tou-c-vintage-pcia",
+ "fera",
+ "medical-baseline",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "RatePlan + Vintaged-PCIA RatePlanModifier in single @graph. Baseline-credit + CIA modeled in sibling rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld (full 40-cell territory × code × season matrix, 20 ServiceTiers each referencing a per-cell ProfileAlternative)."
+status = "draft"
+notes = "RatePlan + Vintaged-PCIA RatePlanModifier in single @graph. Baseline-credit + CIA modeled in sibling rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld (full 40-cell territory × code × season matrix, 20 ServiceTiers each referencing a per-cell ProfileAlternative)."

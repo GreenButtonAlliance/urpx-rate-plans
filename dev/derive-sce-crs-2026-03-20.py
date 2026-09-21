@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the SCE DA-CRS and CCA-CRS RatePlanModifier filings (URPXT-cah.9).
+"""Generate the SCE DA-CRS and CCA-CRS RatePlanModifier filings.
 
 Both schedules share an identical structure (4 components: WFC/CTC/FRC/PCIA)
 and identical Domestic-class values per PCIA vintage. The two filings differ

@@ -1,37 +1,37 @@
 # Identity --------------------------------------------------------------------
-utility        = "sce"
-schedule       = "care"
+utility = "sce"
+schedule = "care"
 effective_date = "2026-03-20"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-CARE.pdf"
-sha256        = "f1cd8a7faa61014d86d735d7ae80583113a2c14c8ced3fe1efd9baa0d497ea95"
-retrieved_on  = "2026-05-04"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "SCE-AL-5771-E"
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-CARE.pdf"
+sha256 = "f1cd8a7faa61014d86d735d7ae80583113a2c14c8ced3fe1efd9baa0d497ea95"
+retrieved_on = "2026-05-04"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5771-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "Decision 26-03-013 (Sheet 5) / Resolution E-5217 (Sheet 1)"
+authority = "puc"
+docket = "Decision 26-03-013 (Sheet 5) / Resolution E-5217 (Sheet 1)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-05-04"
-notes         = """
+tool = "manual"
+extracted_on = "2026-05-04"
+notes = """
 Source-of-record SWITCHED to Schedule D-CARE PDF (canonical CARE
 schedule), replacing the prior 2025-11-15 filing's source which was
 the TOU-D consolidated PDF Sheet 18. The prior tariff.toml's
 [extraction.notes] explicitly anticipated this switch:
-  > A future filing may pin Schedule D-CARE directly as the source-of-
-  > record once that PDF is fetched and committed to the corpus.
+ > A future filing may pin Schedule D-CARE directly as the source-of-
+ > record once that PDF is fetched and committed to the corpus.
 The D-CARE PDF is now staged at scripts/sce-live-tariff-book-2026-05-04
 /ELECTRIC_SCHEDULES_D-CARE.pdf and committed alongside this filing.
 
-Re-sourced from the live tariff-book SharePoint folder (URPXT-cah.6).
+Re-sourced from the live tariff-book SharePoint folder.
 The D-CARE PDF restates the same numerical CARE values that appear on
 TOU-D Sheet 18 (and on Schedule D Sheet 7) — Sheet 1 of D-CARE is the
 canonical source.
@@ -41,72 +41,72 @@ filing is dated to the most recent per-sheet effective date in the
 document (2026-03-20).
 
 Per-sheet effective dates within the source PDF (D-CARE has 6 sheets):
-  Sheet 1 (Applicability + CARE rate components: discount, surcharge
-    exemption, WFC exemption, FRC exemption, BSC adjustments) —
-    2026-01-01 (AL 5725-E, 90844-E)  *** rates we model here ***
-  Sheet 2 (Special Conditions 1-3: seasons, CARE Household income
-    eligibility, Group Living Facility) — 2025-11-15 (AL 5654-E)
-  Sheet 3 (Special Conditions 4-6: enrollment, post-enrollment
-    verification) — 2025-11-15 (AL 5654-E)
-  Sheet 4 (Special Conditions 7-9) — 2025-11-15 (AL 5654-E)
-  Sheet 5 (Special Conditions 10-12: CCA/DA service paths,
-    Climate Credit, etc.) — 2026-03-20 (AL 5771-E, 91034-E)
-    *** newest sheet — drives the filing date ***
-  Sheet 6 (Special Conditions 13-onward) — 2025-11-15 (AL 5654-E)
+ Sheet 1 (Applicability + CARE rate components: discount, surcharge
+ exemption, WFC exemption, FRC exemption, BSC adjustments) —
+ 2026-01-01 (AL 5725-E, 90844-E) *** rates we model here ***
+ Sheet 2 (Special Conditions 1-3: seasons, CARE Household income
+ eligibility, Group Living Facility) — 2025-11-15 (AL 5654-E)
+ Sheet 3 (Special Conditions 4-6: enrollment, post-enrollment
+ verification) — 2025-11-15 (AL 5654-E)
+ Sheet 4 (Special Conditions 7-9) — 2025-11-15 (AL 5654-E)
+ Sheet 5 (Special Conditions 10-12: CCA/DA service paths,
+ Climate Credit, etc.) — 2026-03-20 (AL 5771-E, 91034-E)
+ *** newest sheet — drives the filing date ***
+ Sheet 6 (Special Conditions 13-onward) — 2025-11-15 (AL 5654-E)
 
 Substantive deltas vs the prior 2025-11-15 filing:
 
 (a) RATE REFRESH — AL 5725-E updated all CARE line-item credit values
-    effective 2026-01-01:
+ effective 2026-01-01:
 
-      WFC exemption           -0.00595 → -0.00591  (+0.00004 less credit)
-      FRC exemption           -0.00198 → -0.00619  (-0.00421 deeper credit)
-      BSC Surcharge exemption -0.063   → -0.064    (-0.001 deeper credit)
-      BSC Discount            -0.153   → -0.155    (-0.002 deeper credit)
+ WFC exemption -0.00595 → -0.00591 (+0.00004 less credit)
+ FRC exemption -0.00198 → -0.00619 (-0.00421 deeper credit)
+ BSC Surcharge exemption -0.063 → -0.064 (-0.001 deeper credit)
+ BSC Discount -0.153 → -0.155 (-0.002 deeper credit)
 
-    Summary:
-      Net per-kWh credit:  -0.00793 → -0.01210  (-0.00417 deeper credit)
-      Net per-meter-day:   -0.216   → -0.219    (-0.003 deeper credit)
+ Summary:
+ Net per-kWh credit: -0.00793 → -0.01210 (-0.00417 deeper credit)
+ Net per-meter-day: -0.216 → -0.219 (-0.003 deeper credit)
 
-    The FRC exemption deepening tracks the FRC base rate going up
-    (0.00198 → 0.00619 in URPXT-cah.{2,3,4,5}); CARE customers
-    remain fully exempt regardless of the underlying FRC level.
+ The FRC exemption deepening tracks the FRC base rate going up
+ (0.00198 → 0.00619 in .{2,3,4,5}); CARE customers
+ remain fully exempt regardless of the underlying FRC level.
 
 (b) CARE Surcharge value (referenced but not modeled): $0.212/meter/day
-    → $0.208/meter/day. Still NOT modeled here per the existing
-    deferral (the surcharge isn't itemized in the base SCE residential
-    rate plans currently in this corpus, so the exemption credit has
-    no base item to cancel).
+ → $0.208/meter/day. Still NOT modeled here per the existing
+ deferral (the surcharge isn't itemized in the base SCE residential
+ rate plans currently in this corpus, so the exemption credit has
+ no base item to cancel).
 
 (c) SOURCE-OF-RECORD SWITCH — provenance now points at canonical
-    Schedule D-CARE rather than the cross-cutting TOU-D Sheet 18.
-    Same numerical values, cleaner attribution.
+ Schedule D-CARE rather than the cross-cutting TOU-D Sheet 18.
+ Same numerical values, cleaner attribution.
 
 Modeling deferrals (unchanged from 2025-11-15):
-  - 32.5% bill-subtotal percentage discount — URPX has no
-    percentage-of-bill primitive (urpx:Price.unitPrice is xsd:decimal
-    in $-per-unit). Tracked as an upstream URPX vocabulary gap.
-  - CARE Surcharge $0.208/meter/day exemption — not itemized in
-    base SCE residential rate plans currently modeled, so the
-    exemption credit has no base item to cancel. Modeling deferred
-    until base rate plans separately track the CARE Surcharge as a
-    non-CARE-only line item.
+ - 32.5% bill-subtotal percentage discount — URPX has no
+ percentage-of-bill primitive (urpx:Price.unitPrice is xsd:decimal
+ in $-per-unit). Tracked as an upstream URPX vocabulary gap.
+ - CARE Surcharge $0.208/meter/day exemption — not itemized in
+ base SCE residential rate plans currently modeled, so the
+ exemption credit has no base item to cancel. Modeling deferred
+ until base rate plans separately track the CARE Surcharge as a
+ non-CARE-only line item.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "CARE-customer exemption from a non-CARE-funded surcharge — not modeled until base rate plans track this surcharge as a non-CARE-only line item",
+ "CARE-customer exemption from a non-CARE-funded surcharge — not modeled until base rate plans track this surcharge as a non-CARE-only line item",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-cah.6 — re-sourced to canonical Schedule D-CARE PDF (was TOU-D Sheet 18 before). 4 of 4 prices refreshed to AL 5725-E values (effective 2026-01-01); FRC exemption credit deepens significantly (-0.00198 → -0.00619) tracking the underlying FRC base-rate increase. Per-version IRIs date-suffixed per the URPXT-cah.2 pattern (4 Prices + 2 PriceDefinitions for BSC adjustments which carry blank-node CalculationMethod). RatePlanModifierVersion @id sce:care-2026-03-20 supersedes sce:care-2025-11-15."
+status = "draft"
+notes = "re-sourced to canonical Schedule D-CARE PDF (was TOU-D Sheet 18 before). 4 of 4 prices refreshed to AL 5725-E values (effective 2026-01-01); FRC exemption credit deepens significantly (-0.00198 → -0.00619) tracking the underlying FRC base-rate increase. Per-version IRIs date-suffixed per the pattern (4 Prices + 2 PriceDefinitions for BSC adjustments which carry blank-node CalculationMethod). RatePlanModifierVersion @id sce:care-2026-03-20 supersedes sce:care-2025-11-15."

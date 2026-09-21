@@ -22,14 +22,14 @@ The chain of artifacts:
 
 ```
 PG&E PDF tariff (CPUC sheet)
-    │
-    ▼  (this repo: urpx-rate-plans)
+ │
+ ▼ (this repo: urpx-rate-plans)
 URPX JSON-LD filing
-    │
-    ▼  (sibling repo: grid-coordination/clj-urpx)
+ │
+ ▼ (sibling repo: grid-coordination/clj-urpx)
 Clojure data + SHACL-validated price resolution
-    │
-    ▼  (downstream: clj-price-server)
+ │
+ ▼ (downstream: clj-price-server)
 OpenADR 3 events / prices for VEN-clients
 ```
 
@@ -64,9 +64,9 @@ The repo's [`LAYOUT.md`](../LAYOUT.md) documents these in detail; the load-beari
 ```
 $ source ~/env/py/p3newa/bin/activate
 $ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-          -e ../urpx/ontology/urpx-ontology.ttl \
-          -df json-ld \
-          us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld
 Validation Report
 Conforms: True
 ```
@@ -75,19 +75,19 @@ End-to-end resolution sanity, via clj-urpx 0.3.0:
 
 ```
 === E-TOU-D (dayType + holiday-inclusion check) ===
-PASS Wed 2026-07-15 18:00 (non-holiday)        -> Summer Peak Period
-PASS Sat 2026-07-04 18:00 (weekend)             -> Summer Off-Peak Period
-PASS Mon 2026-05-25 18:00 (Memorial Day)        -> Winter Off-Peak Period
-PASS Fri 2026-12-25 18:00 (Christmas Day)       -> Winter Off-Peak Period
+PASS Wed 2026-07-15 18:00 (non-holiday) -> Summer Peak Period
+PASS Sat 2026-07-04 18:00 (weekend) -> Summer Off-Peak Period
+PASS Mon 2026-05-25 18:00 (Memorial Day) -> Winter Off-Peak Period
+PASS Fri 2026-12-25 18:00 (Christmas Day) -> Winter Off-Peak Period
 
 === E-1 (tier-stratified resolution check) ===
 Conservation Incentive Adjustment -> 6 tier(s)
-    tier 1 -0.04052M
-    tier 2  0.04089M
-    tier 3  0.04089M
-    tier 4 -0.04052M
-    tier 5  0.04089M
-    tier 6  0.04089M
+ tier 1 -0.04052M
+ tier 2 0.04089M
+ tier 3 0.04089M
+ tier 4 -0.04052M
+ tier 5 0.04089M
+ tier 6 0.04089M
 ```
 
 ---
@@ -128,11 +128,11 @@ This was the most pleasant find of the project. PG&E E-TOU-D's peak window is "5
 
 ```jsonld
 { "@type": "urpx:TimeBracket", "@id": "pge:time-bracket-summer-peak",
-  "urpx:startTime": "17:00:00", "urpx:endTime": "20:00:00",
-  "urpx:appliesInSeason": { "@id": "pge:season-summer" },
-  "urpx:dayType":           { "@id": "urpx:weekdayDays" },
-  "urpx:includeHolidays":   false,
-  "urpx:includeNonHolidays": true }
+ "urpx:startTime": "17:00:00", "urpx:endTime": "20:00:00",
+ "urpx:appliesInSeason": { "@id": "pge:season-summer" },
+ "urpx:dayType": { "@id": "urpx:weekdayDays" },
+ "urpx:includeHolidays": false,
+ "urpx:includeNonHolidays": true }
 ```
 
 A second TimeBracket with `dayType: weekdayDays` + `includeHolidays: true, includeNonHolidays: false` covers the off-peak case for holidays-on-weekdays. **An acknowledgement to the URPX team**: we initially missed these properties on a first read and started filing a "weekday-non-holiday" gap, which a parallel agent in [`urpx-org/urpx`](https://github.com/urpx-org/urpx) quickly pointed out was already covered. The features are well-designed and SHACL-conformant; the existing [test cases](https://github.com/urpx-org/urpx/tree/main/test-cases) happen to use only `urpx:allDays`, so a future test case demonstrating these properties (using a real schedule like E-TOU-D, or a synthetic example) would help others find them on their first pass.
@@ -183,10 +183,10 @@ This is the single biggest leverage point we found. **Recommendation**: prioriti
 
 ```jsonld
 { "@type": "urpx:Condition", "@id": "pge:condition-annual-usage-cap",
-  "urpx:conditionType": "annualUsageCapAsPercentOfBaseline",
-  "urpx:operator":      { "@id": "urpx:lessThanOrEqualOperator" },
-  "urpx:conditionValue": "800",
-  "urpx:hasMetricSpecification": { "@id": "pge:ms-energy" } }
+ "urpx:conditionType": "annualUsageCapAsPercentOfBaseline",
+ "urpx:operator": { "@id": "urpx:lessThanOrEqualOperator" },
+ "urpx:conditionValue": "800",
+ "urpx:hasMetricSpecification": { "@id": "pge:ms-energy" } }
 ```
 
 **Suggested enhancement**: (a) attach `IntervalAlignmentValue` + `windowDuration` to `Condition`/`MetricSpecification`, and (b) add a `percentOfBaseline` UoM (or a generic ratio-of-reference relation). Once such vocabulary lands, EV2's annual usage cap can be re-expressed formally and the informal `conditionType` string retired.
@@ -230,12 +230,12 @@ Both were straightforward to identify *because* the input was a real published t
 
 ```
 PASS Wed 2026-07-15 18:00 (non-holiday peak hour) -> Summer Peak Period
-PASS Sat 2026-07-04 18:00 (weekend)               -> Summer Off-Peak Period
+PASS Sat 2026-07-04 18:00 (weekend) -> Summer Off-Peak Period
 PASS Mon 2026-05-25 18:00 (Memorial Day, holiday) -> Winter Off-Peak Period
-PASS Fri 2026-12-25 18:00 (Christmas, holiday)    -> Winter Off-Peak Period
+PASS Fri 2026-12-25 18:00 (Christmas, holiday) -> Winter Off-Peak Period
 PASS Tue 2026-12-22 18:00 (non-holiday peak hour) -> Winter Peak Period
-PASS Sun 2026-12-20 18:00 (weekend)               -> Winter Off-Peak Period
-PASS Wed 2026-07-15 10:00 (weekday morning)       -> Summer Off-Peak Period
+PASS Sun 2026-12-20 18:00 (weekend) -> Winter Off-Peak Period
+PASS Wed 2026-07-15 10:00 (weekday morning) -> Summer Off-Peak Period
 
 E-1 CIA ledger: 6 tiers exposed, unit prices [-0.04052, 0.04089, 0.04089, -0.04052, 0.04089, 0.04089]
 ```

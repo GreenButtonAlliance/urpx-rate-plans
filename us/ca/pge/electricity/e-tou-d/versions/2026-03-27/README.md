@@ -57,9 +57,9 @@ A consuming application that recognizes these rule strings (or maps them to date
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/pge/electricity/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/pge/electricity/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld
 # Conforms: True
 ```
 

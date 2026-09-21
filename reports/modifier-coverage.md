@@ -359,7 +359,7 @@ Base deferrals:
 #### `electricity` @ versions  &nbsp; base: ~
 
 Base deferrals:
-- Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked as URPXT-qwr)
+- Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked in the project issue tracker)
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -443,7 +443,7 @@ Base deferrals:
 #### `electricity` @ versions  &nbsp; base: ~
 
 Base deferrals:
-- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured (URPXT-bqg, source now staged)
+- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 - Option 4-9 PM-CPP variant — CPP event charges + non-event credits not yet modeled
 
 | Modifier | Status | Filing |
@@ -474,7 +474,7 @@ Base deferrals:
 #### `electricity` @ versions  &nbsp; base: ~
 
 Base deferrals:
-- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured (URPXT-bqg, source now staged)
+- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 - Option 5-8 PM-CPP variant — CPP event charges + non-event credits not yet modeled
 
 | Modifier | Status | Filing |
@@ -508,9 +508,9 @@ Base deferrals:
 #### `electricity` @ versions  &nbsp; base: ~
 
 Base deferrals:
-- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured (URPXT-bqg, source now staged)
-- Option PRIME-CPP variant — CPP event charges + non-event credits not yet modeled (URPXT-cah.10)
-- 100% Medical Line Item Discount RatePlanModifier (URPXT-cah.11)
+- Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
+- Option PRIME-CPP variant — CPP event charges + non-event credits not yet modeled
+- 100% Medical Line Item Discount RatePlanModifier
 - Conditional applicability of EV Meter Credit / EV Submeter Credit — EligibilityRule / ApplicabilityRule refinement deferred
 
 | Modifier | Status | Filing |

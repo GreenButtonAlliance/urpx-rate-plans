@@ -46,9 +46,9 @@ DCJ-authored. Original v0.1.x conversion contributed to `urpx-org/urpx` via [PR 
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-1/versions/2025-07-01/rate-plan_cpau_e-1_2025-07-01.jsonld
 # Conforms: True
 ```
 

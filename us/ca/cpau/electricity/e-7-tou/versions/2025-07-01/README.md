@@ -64,9 +64,9 @@ DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-7-tou-
 
 ```
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-7-tou/versions/2025-07-01/rate-plan_cpau_e-7-tou_2025-07-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-7-tou/versions/2025-07-01/rate-plan_cpau_e-7-tou_2025-07-01.jsonld
 # Conforms: True
 ```
 

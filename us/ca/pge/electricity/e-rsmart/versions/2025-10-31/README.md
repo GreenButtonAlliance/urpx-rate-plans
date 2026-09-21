@@ -10,7 +10,7 @@ PG&E Schedule E-RSMART (Residential SmartRate Program) — voluntary Critical Pe
 
 ## Schedule designation
 
-Filed PG&E tariff designation is **Schedule E-RSMART**. URPXT-zvd's original title carried "E-CPP" which is incorrect — corrected to E-RSMART when claiming.
+Filed PG&E tariff designation is **Schedule E-RSMART**. 's original title carried "E-CPP" which is incorrect — corrected to E-RSMART when claiming.
 
 ## Multi-base modifier — first in corpus
 
@@ -22,7 +22,7 @@ E-RSMART overlays **five** base RatePlans simultaneously (Sheet 1 APPLICABILITY)
 - `pge:e-tou-d` — TOU with 5-8pm peak (note: different from SmartRate's 4-9pm window)
 - `pge:ev2` — TOU with 4-9pm peak
 
-This is the **first multi-base `urpx:RatePlanModifier` in the corpus**. SHACL-confirmed during sourcing that `urpx:applicableToRatePlan` has `maxCount=None` — multi-base binding is fully supported. SCE TOU-D-PRIME-CPP and PG&E NBT (URPXT-7kr.1) both bind to a single base; SmartRate exercises the multi-base case.
+This is the **first multi-base `urpx:RatePlanModifier` in the corpus**. SHACL-confirmed during sourcing that `urpx:applicableToRatePlan` has `maxCount=None` — multi-base binding is fully supported. SCE TOU-D-PRIME-CPP and PG&E NBT both bind to a single base; SmartRate exercises the multi-base case.
 
 NBT compatibility is explicit (Sheet 1): NBT customers ARE eligible for SmartRate. SmartRate + NBT + E-ELEC stack for solar+battery+EMS customers — three overlapping pieces of pricing logic.
 
@@ -73,9 +73,9 @@ NBT-compatibility: NBT is explicitly preserved as eligible per Sheet 1 — no ad
 
 ## Cross-references
 
-- **Issue**: URPXT-zvd
+- **Issue**: 
 - **Modeling-pattern source**: `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/` (CPP-modifier-overlay precedent)
-- **Sibling overlay**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` (PG&E NBT, separate epic URPXT-7kr) — NBT + SmartRate are both available on E-ELEC and can stack
+- **Sibling overlay**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` (PG&E NBT, separate epic ) — NBT + SmartRate are both available on E-ELEC and can stack
 - **Foundational regulatory**: D.19-07-004 (SmartRate authorization), D.21-03-056 (CPP framework — shared with SCE PRIME-CPP), D.18-11-029 (DR dual-enrollment prohibition)
 - **Most-recent reissue**: Advice 7747-E (Sheet 1, 2025-10-31); Sheets 2-5 unchanged since Advice 6560-E (2022-05-01)
 

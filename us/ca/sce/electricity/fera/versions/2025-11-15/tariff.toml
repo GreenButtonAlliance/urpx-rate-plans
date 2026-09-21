@@ -1,27 +1,27 @@
 # Identity --------------------------------------------------------------------
-utility        = "sce"
-schedule       = "fera"
+utility = "sce"
+schedule = "fera"
 effective_date = "2025-11-15"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_TOU-D_2025.pdf"
-sha256        = "1280046520b8324fab86fe5145737b967cc438261aee4e798d1493ead7bcfc7a"
-retrieved_on  = "2026-04-30"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "SCE-AL-5654-E"
+url = "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_TOU-D_2025.pdf"
+sha256 = "1280046520b8324fab86fe5145737b967cc438261aee4e798d1493ead7bcfc7a"
+retrieved_on = "2026-04-30"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5654-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "Decision 24-05-028 / Resolution E-5356 (FERA program terms inherited from Schedule D-FERA)"
+authority = "puc"
+docket = "Decision 24-05-028 / Resolution E-5356 (FERA program terms inherited from Schedule D-FERA)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-04-30"
-notes         = """
+tool = "manual"
+extracted_on = "2026-04-30"
+notes = """
 Companion modifier to us/ca/sce/electricity/care/versions/2025-11-15/. Source is
 the same SCE TOU-D-2025 consolidated PDF; Sheet 18 has Special Condition
 9 (FERA) with the BSC adjustment values.
@@ -36,20 +36,20 @@ eligible for FERA simultaneously.
 Line-item credits applied as overlays to any SCE residential base
 rate plan when the customer is enrolled in FERA:
 
-  BSC Surcharge Exemption:  -$0.063/meter/day
-  BSC Credit Adjustment:    -$0.202/meter/day
-  ─────────────────────────────────────────────
-  Net per-meter-per-day:    -$0.265/meter/day
+ BSC Surcharge Exemption: -$0.063/meter/day
+ BSC Credit Adjustment: -$0.202/meter/day
+ ─────────────────────────────────────────────
+ Net per-meter-per-day: -$0.265/meter/day
 
 Unlike CARE, FERA does NOT include WFC or FRC exemptions — FERA
 customers continue to pay both at the standard rates.
 
 ## What this modifier does NOT capture (deferred)
 
-  1. 18.0% bill-subtotal percentage discount — same URPX vocabulary
-     gap as the CARE modifier. URPX has no percentage-of-bill primitive.
-     The 18.0% applies to the pre-tax subtotal across all base
-     PriceDefinitions.
+ 1. 18.0% bill-subtotal percentage discount — same URPX vocabulary
+ gap as the CARE modifier. URPX has no percentage-of-bill primitive.
+ The 18.0% applies to the pre-tax subtotal across all base
+ PriceDefinitions.
 
 For a FERA customer on a typical SCE residential schedule, the modeled
 BSC credits represent a small fraction of the actual FERA benefit;
@@ -65,18 +65,18 @@ moderate-income tier vs CARE's deeper low-income tier.
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "20% bill discount on the pre-tax subtotal — URPX has no percentage-of-bill primitive (same upstream-vocabulary gap as the CARE modifier)",
+ "20% bill discount on the pre-tax subtotal — URPX has no percentage-of-bill primitive (same upstream-vocabulary gap as the CARE modifier)",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "Second SCE RatePlanModifier filing. Same structural pattern as us/ca/sce/electricity/care/versions/2025-11-15/ — standalone modifier, source PDF (TOU-D-2025) Sheet 18 Special Condition 9. 2 PriceDefinitions (BSC Surcharge Exemption, BSC Credit Adjustment), 2 Prices. Bill-subtotal 18.0% discount deferred (URPX vocabulary gap shared with CARE). FERA customer share ~5-10% of SCE residential."
+status = "draft"
+notes = "Second SCE RatePlanModifier filing. Same structural pattern as us/ca/sce/electricity/care/versions/2025-11-15/ — standalone modifier, source PDF (TOU-D-2025) Sheet 18 Special Condition 9. 2 PriceDefinitions (BSC Surcharge Exemption, BSC Credit Adjustment), 2 Prices. Bill-subtotal 18.0% discount deferred (URPX vocabulary gap shared with CARE). FERA customer share ~5-10% of SCE residential."

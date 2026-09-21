@@ -30,9 +30,9 @@ DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-16-202
 
 ```
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-16/versions/2025-09-01/rate-plan_cpau_e-16_2025-09-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-16/versions/2025-09-01/rate-plan_cpau_e-16_2025-09-01.jsonld
 # Conforms: True
 ```
 

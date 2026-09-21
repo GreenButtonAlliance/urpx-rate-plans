@@ -74,7 +74,7 @@ Patterns exercised here for the first time in this corpus (vocabulary verified v
 6. **Holiday-aware TOU** — same pattern as PG&E E-TOU-D (HolidayCalendar at PlanElements; includeHolidays/includeNonHolidays booleans on TimeBracket).
 7. **Voluntary opt-in commercial schedule** — `customerChoice: voluntaryChoice`, `isDefault: false`.
 
-clj-urpx required one resolver-side enhancement to consume this filing — vector cardinality on `BillingModel.hasTOUSchedule` (filed as URPX-qb5 in clj-urpx beads, fixed in clj-urpx@faebc1a). The filing's modeling itself is unchanged from initial draft.
+clj-urpx required one resolver-side enhancement to consume this filing — vector cardinality on `BillingModel.hasTOUSchedule` (filed against clj-urpx). The filing's modeling itself is unchanged from initial draft.
 
 ## Deferred to follow-up issues
 
@@ -95,9 +95,9 @@ DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-4-tou-
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-4-tou/versions/2025-07-01/rate-plan_cpau_e-4-tou_2025-07-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-4-tou/versions/2025-07-01/rate-plan_cpau_e-4-tou_2025-07-01.jsonld
 # Conforms: True
 ```
 

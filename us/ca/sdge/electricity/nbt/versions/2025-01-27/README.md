@@ -14,7 +14,7 @@ Filed SDG&E tariff designation is **Schedule NBT** (same as PG&E and SCE). Tarif
 
 ## Sibling of PG&E NBT + SCE NBT — third export-direction modifier in the corpus
 
-Modeling pattern derived from `us/ca/pge/electricity/nbt/versions/2025-10-17/` (URPXT-7kr.1) and `us/ca/sce/electricity/nbt/versions/2025-04-23/` (URPXT-7kr.2). All three NBT filings use `urpx:flowDirection urpx:reverse` on the MetricSpecification — the export-direction vocabulary the PG&E NBT work surfaced. All three bind to a single mandatory residential base RatePlan.
+Modeling pattern derived from `us/ca/pge/electricity/nbt/versions/2025-10-17/` and `us/ca/sce/electricity/nbt/versions/2025-04-23/`. All three NBT filings use `urpx:flowDirection urpx:reverse` on the MetricSpecification — the export-direction vocabulary the PG&E NBT work surfaced. All three bind to a single mandatory residential base RatePlan.
 
 ## Single-base binding to EV-TOU-5
 
@@ -48,10 +48,10 @@ Same eligibility basis across all three CA IOUs; only the terminology differs (L
 ## What's modeled
 
 - 4 `urpx:Ledger` + 4 `urpx:PriceDefinition` declaring the structural surface (same as PG&E and SCE NBT):
-  - Export Compensation Rate — Generation Component (system-wide ACC: energy, cap-and-trade, generation capacity)
-  - Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)
-  - ACC Plus Residential adder (Prices pending discovery)
-  - ACC Plus Low Income Customer adder (Prices pending discovery)
+ - Export Compensation Rate — Generation Component (system-wide ACC: energy, cap-and-trade, generation capacity)
+ - Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)
+ - ACC Plus Residential adder (Prices pending discovery)
+ - ACC Plus Low Income Customer adder (Prices pending discovery)
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 5 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1)
 - 48 shared `urpx:TOUPeriod` (24 hours × 2 day-types)
 - 60 shared `urpx:ApplicabilityRule` (12 months × 5 vintages NBT23/NBT24/NBT25/NBT26/NBT00, each with vintage-gating `ConditionExpression` keyed on `"NBT Vintage Label"`)
@@ -100,8 +100,8 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 
 ## Cross-references
 
-- **Parent epic**: URPXT-7kr (NBT export-compensation modeling for all three CA IOUs)
-- **Sibling utility filings**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` (URPXT-7kr.1) and `us/ca/sce/electricity/nbt/versions/2025-04-23/` (URPXT-7kr.2)
+- **Parent epic**: (NBT export-compensation modeling for all three CA IOUs)
+- **Sibling utility filings**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` and `us/ca/sce/electricity/nbt/versions/2025-04-23/`
 - **Base RatePlan**: SDG&E Schedule EV-TOU-5 — the mandatory residential OAS for NBT per Sheet 3
 - **Foundational regulatory**: CPUC Decision D.22-12-056 (NBT adoption), D.23-11-068 (NBT Aggregation SC 12)
 - **Most-recent reissue**: Advice 4596-E (Sheets 23, 24, 25 — Prevailing Wage updates; effective 2025-01-27); most rate-bearing sheets carry 2023-2024 advice letters

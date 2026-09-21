@@ -33,10 +33,10 @@ Two `urpx:EligibilityRule`s (both must hold for service under E-ELEC):
 
 1. **`pge:er-residential`** — `urpx:hasCustomerKind = urpx:residentialKind`
 2. **`pge:er-qualifying-technology`** — at least ONE of:
-   - `urpx:derType = urpx:storageDER` (energy storage; per Special Condition interconnection requirements)
-   - `urpx:derType = urpx:evChargingDER` (BEV or PHEV — URPX's DERTypeValue enum doesn't distinguish them)
-   - `urpx:hasHVAC = urpx:airSourceHeatPump` (electric heat pump as primary water-heating or climate-control source)
-   - `urpx:CustomOperandNode` "Program Enrollment" = "Net Billing Tariff (NBT)" (NBT customers must take service under E-ELEC and aren't required to have any of the qualifying technologies above; CustomOperandNode used because URPX has no NBT-specific vocabulary)
+ - `urpx:derType = urpx:storageDER` (energy storage; per Special Condition interconnection requirements)
+ - `urpx:derType = urpx:evChargingDER` (BEV or PHEV — URPX's DERTypeValue enum doesn't distinguish them)
+ - `urpx:hasHVAC = urpx:airSourceHeatPump` (electric heat pump as primary water-heating or climate-control source)
+ - `urpx:CustomOperandNode` "Program Enrollment" = "Net Billing Tariff (NBT)" (NBT customers must take service under E-ELEC and aren't required to have any of the qualifying technologies above; CustomOperandNode used because URPX has no NBT-specific vocabulary)
 
 The four qualifying-technology predicates are joined by `urpx:orOperator` in a `urpx:BooleanOperationNode`.
 
@@ -57,9 +57,9 @@ The canonical PG&E URL `https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_S
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/pge/electricity/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/pge/electricity/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld
 # Conforms: True
 ```
 

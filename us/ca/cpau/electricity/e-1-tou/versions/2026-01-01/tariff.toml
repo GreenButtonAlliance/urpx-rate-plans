@@ -1,16 +1,16 @@
 # Identity --------------------------------------------------------------------
-utility        = "cpau"
-schedule       = "e-1-tou"
+utility = "cpau"
+schedule = "e-1-tou"
 effective_date = "2026-01-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-landing_page  = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
-url           = "https://www.paloalto.gov/files/assets/public/v/1/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-tou-effective-2026-01-01.pdf"
-sha256        = "e125390489d15bd55e1535263e49718597d01b0efb9d1f47e7c0891d0ccd9a71"
-retrieved_on  = "2026-03-03"
-media_type    = "application/pdf"
-filing_type   = "tariff-schedule"
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/1/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-tou-effective-2026-01-01.pdf"
+sha256 = "e125390489d15bd55e1535263e49718597d01b0efb9d1f47e7c0891d0ccd9a71"
+retrieved_on = "2026-03-03"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
 # Note: paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
 # fingerprint check). Re-fetch via a real browser, OR via curl_cffi with
 # Chrome impersonation: requests.Session(impersonate="chrome120"). Verified
@@ -19,29 +19,29 @@ filing_type   = "tariff-schedule"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "city-council"
+authority = "city-council"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-03-03"
+tool = "manual"
+extracted_on = "2026-03-03"
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = true
+complete = true
 deferrals = []
 applicable_modifiers = [
-  "e-hra",
-  "e-nse-1",
+ "e-hra",
+ "e-nse-1",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "City of Palo Alto Utilities (CPAU) E-1 TOU Residential Time-Of-Use Electric Service. DCJ-authored rate plan; original v0.1.x conversion contributed to urpx-org/urpx test-cases via PR #7 (urpx-org/urpx#7). Migrated to URPX v0.2.0 on 2026-04-28 from urpx-org/urpx PR head e8ed4f0 using shadow-repo/scripts/migrate-cpau-v020.py. Substantive changes vs. the v0.1.x source: ConditionExpression rewrite of the EligibilityRule (residential single-family separately-metered + AMI-meter required), BillingModel-owned PriceDefinitions with referencesLedger, ratePlanIdentifier → ratePlanUniqueIdentifier rename, ServiceTier description + hasCalculationMethod stripped where applicable, profileMetricProperty numberOfMeters → meterCount where applicable, IRI prefix urpx:cpau-* → cpau:* per repo convention. Voluntary residential TOU schedule with 3 periods (peak 4-9pm / off-peak / super off-peak) × 2 seasons. Only commodity rate varies by TOU; distribution and public benefits are flat. Two CPAU RatePlanModifiers (E-HRA, E-NSE-1) apply to this RatePlan but are not yet incorporated — packaging decision pending."
+status = "draft"
+notes = "City of Palo Alto Utilities (CPAU) E-1 TOU Residential Time-Of-Use Electric Service. DCJ-authored rate plan; original v0.1.x conversion contributed to urpx-org/urpx test-cases via PR #7 (urpx-org/urpx#7). Migrated to URPX v0.2.0 on 2026-04-28 from urpx-org/urpx PR head e8ed4f0 using shadow-repo/scripts/migrate-cpau-v020.py. Substantive changes vs. the v0.1.x source: ConditionExpression rewrite of the EligibilityRule (residential single-family separately-metered + AMI-meter required), BillingModel-owned PriceDefinitions with referencesLedger, ratePlanIdentifier → ratePlanUniqueIdentifier rename, ServiceTier description + hasCalculationMethod stripped where applicable, profileMetricProperty numberOfMeters → meterCount where applicable, IRI prefix urpx:cpau-* → cpau:* per repo convention. Voluntary residential TOU schedule with 3 periods (peak 4-9pm / off-peak / super off-peak) × 2 seasons. Only commodity rate varies by TOU; distribution and public benefits are flat. Two CPAU RatePlanModifiers (E-HRA, E-NSE-1) apply to this RatePlan but are not yet incorporated — packaging decision pending."

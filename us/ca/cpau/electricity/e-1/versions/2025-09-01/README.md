@@ -31,9 +31,9 @@ DCJ-authored. Original v0.1.x conversions of all four documents contributed to `
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-1/versions/2025-09-01/rate-plan_cpau_e-1_2025-09-01.jsonld
 # Conforms: True
 ```
 
@@ -46,7 +46,7 @@ End-to-end via clj-urpx: `clojure -M:validate` (load + coerce + resolve, all cle
 ```python
 from curl_cffi import requests
 s = requests.Session(impersonate="chrome120")
-s.get("https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates")  # populate session
+s.get("https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates") # populate session
 r = s.get(canonical_pdf_url, headers={"Referer": landing_page_url}, timeout=30)
 ```
 

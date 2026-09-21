@@ -50,20 +50,20 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
 ## What's modeled
 
 - 4 `urpx:Ledger` + 4 `urpx:PriceDefinition` declaring the structural surface:
-  - Export Compensation Rate — Generation Component (system-wide ACC: energy, cap-and-trade, generation capacity)
-  - Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)
-  - ACC Plus Non-Equity Customer adder
-  - ACC Plus Equity Customer adder
+ - Export Compensation Rate — Generation Component (system-wide ACC: energy, cap-and-trade, generation capacity)
+ - Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)
+ - ACC Plus Non-Equity Customer adder
+ - ACC Plus Equity Customer adder
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 11 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1 / Sheet 13)
 - 2 `urpx:Price` instances (2025 interconnection vintage):
-  - ACC Plus Non-Equity: `-$0.024/kWh` (Sheet 7 Table)
-  - ACC Plus Equity: `-$0.056/kWh` (Sheet 7 Table)
+ - ACC Plus Non-Equity: `-$0.024/kWh` (Sheet 7 Table)
+ - ACC Plus Equity: `-$0.056/kWh` (Sheet 7 Table)
 
 ## What's deferred
 
 | Deferral | Why |
 |---|---|
-| **Per-cell Export Compensation Rate Prices** | Tracked at URPXT-7kr.2.1; SCE data-file URL was not surfaced during 2026-05-29 sourcing |
+| **Per-cell Export Compensation Rate Prices** | Tracked at ; SCE data-file URL was not surfaced during 2026-05-29 sourcing |
 | **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each requires sibling Price + vintage-gated ApplicabilityRule; follow-up |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
@@ -79,12 +79,12 @@ Full list with reasoning in `tariff.toml` under `[modeling]`.
 
 ## Per-cell data load — pending
 
-The 4-vintage × 24-hour × 12-month × 2-day-type × 2-component grid (~4,608 Prices) is tracked at **URPXT-7kr.2.1**. PG&E NBT loaded these from `pge.com/energyexportcredit` (a single ZIP redirect to per-vintage PDFs); SCE's equivalent file location is not exposed on their customer-facing pages (the `Understanding Solar Export Pricing` page describes the file format including UTC time columns alongside PST, but doesn't surface the download URL). Follow-up will locate the SCE data file and run the equivalent of the PG&E extract+build pipeline.
+The 4-vintage × 24-hour × 12-month × 2-day-type × 2-component grid (~4,608 Prices) is tracked at ****. PG&E NBT loaded these from `pge.com/energyexportcredit` (a single ZIP redirect to per-vintage PDFs); SCE's equivalent file location is not exposed on their customer-facing pages (the `Understanding Solar Export Pricing` page describes the file format including UTC time columns alongside PST, but doesn't surface the download URL). Follow-up will locate the SCE data file and run the equivalent of the PG&E extract+build pipeline.
 
 ## Cross-references
 
-- **Parent epic**: URPXT-7kr (NBT export-compensation modeling for all three CA IOUs)
-- **Sibling utility filings**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` (URPXT-7kr.1) — modeling-pattern source; URPXT-7kr.3 (SDG&E NBT) — next sibling
+- **Parent epic**: (NBT export-compensation modeling for all three CA IOUs)
+- **Sibling utility filings**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` — modeling-pattern source; (SDG&E NBT) — next sibling
 - **Base RatePlan**: SCE TOU-D Option PRIME — the mandatory residential OAS for NBT per Sheet 2 §1.a
 - **Modifier overlay precedent**: `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/` (CPP modifier over PRIME)
 - **Foundational regulatory**: CPUC Decision D.22-12-056 (NBT adoption), D.23-11-068 (NBT-A Aggregation)

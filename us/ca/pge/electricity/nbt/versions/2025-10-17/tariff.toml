@@ -1,31 +1,31 @@
 # Identity --------------------------------------------------------------------
-utility        = "pge"
-schedule       = "nbt"
+utility = "pge"
+schedule = "nbt"
 effective_date = "2025-10-17"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_NBT.pdf"
-sha256        = "47024b7c8ef29189d870af29f8ef37480f59a2d881de900d5820d462c02f652e"
-retrieved_on  = "2026-05-29"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "PGE-AL-7730-E"
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_NBT.pdf"
+sha256 = "47024b7c8ef29189d870af29f8ef37480f59a2d881de900d5820d462c02f652e"
+retrieved_on = "2026-05-29"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7730-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "D.22-12-056 (NBT adoption) / D.23-11-068 (NBTA Load Aggregation) / Advice 7730-E (most recent reissue) — prior Advice Letters layered into composite PDF: 6848-E (original D.22-12-056 implementation, Sheets 3, 6), 6848-E-A (Sheet 4), 7174-E (Sheets 7, 8, 16-20, 22-26, 28-31, 34, 37, 41-42, 44), 7733-E (Sheets 38, 40, 43)"
+authority = "puc"
+docket = "D.22-12-056 (NBT adoption) / D.23-11-068 (NBTA Load Aggregation) / Advice 7730-E (most recent reissue) — prior Advice Letters layered into composite PDF: 6848-E (original D.22-12-056 implementation, Sheets 3, 6), 6848-E-A (Sheet 4), 7174-E (Sheets 7, 8, 16-20, 22-26, 28-31, 34, 37, 41-42, 44), 7733-E (Sheets 38, 40, 43)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual"
-extracted_on  = "2026-05-29"
-notes         = """
-First NBT (Net Billing Tariff) filing in this corpus (URPXT-7kr.1).
+tool = "manual"
+extracted_on = "2026-05-29"
+notes = """
+First NBT (Net Billing Tariff) filing in this corpus.
 First export-compensation modeling overall — establishes the
 RatePlanModifier-with-flowDirection-reverse pattern that SCE NBT
-(URPXT-7kr.2) and SDG&E NBT (URPXT-7kr.3) will reuse.
+reused by the SCE and SDG&E NBT filings.
 
 PG&E Schedule designation is just "NBT" (filed) — colloquially called
 "NEM-3" or "Solar Billing Plan" but the tariff-book filed name is NBT.
@@ -41,14 +41,14 @@ residential base RatePlan per Sheet 9 §A: "Residential customers taking
 service on the NBT tariff must take service on the E-ELEC rate as their
 OAS"). Single-base binding — mirrors the SCE TOU-D-PRIME-CPP precedent
 (us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/) exactly. The five-base-
-binding hypothesis in the original URPXT-7kr.1 description was incorrect.
+binding hypothesis in the original description was incorrect.
 
 Non-residential customers can take NBT on any applicable TOU rate; this
 filing scopes to residential NBT-S (canonical small-customer ≤30 kW
 solar/wind, per Sheet 13 sub-schedule list). Sibling sub-schedule filings
 (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) deferred.
 
-## Export-side direction modeling (Q2 of URPXT-7kr)
+## Export-side direction modeling (Q2 of )
 
 MetricSpecification carries urpx:flowDirection urpx:reverse — defined in
 URPX v0.2.0 ontology as "Reverse energy flow - generation/export to grid"
@@ -56,23 +56,23 @@ with rdfs:domain MetricSpecification, range FlowDirectionValue.
 MetricSpecificationShape is sh:closed=true but explicitly lists
 urpx:flowDirection in its sh:path — closed shape admits the property.
 Confirmed via SPARQL against ../urpx/ontology + ../urpx/shacl during
-URPXT-7kr.1 sourcing 2026-05-29. SCE TOU-D-PRIME-CPP DEFERRED direction-
+ sourcing 2026-05-29. SCE TOU-D-PRIME-CPP DEFERRED direction-
 distinction because it didn't need it (credit applies to consumption);
 NBT needs it and the vocabulary is already there.
 
-## ACC Plus / Glide Path Adder modeling (Q3 of URPXT-7kr)
+## ACC Plus / Glide Path Adder modeling (Q3 of )
 
 ACC Plus (Sheet 11 §D, customer-facing: "Energy Export Bonus Credit") is
 a per-kWh adder layered on top of the base Export Compensation Rate.
 Two tiers (Residential / Residential Low Income), per-vintage table
 declining 20% annually:
 
-  Vintage  Residential  Low Income
-  2023     $0.02200     $0.09000
-  2024     $0.01760     $0.07200
-  2025     $0.01320     $0.05400
-  2026     $0.00880     $0.03600
-  2027     $0.00440     $0.01800
+ Vintage Residential Low Income
+ 2023 $0.02200 $0.09000
+ 2024 $0.01760 $0.07200
+ 2025 $0.01320 $0.05400
+ 2026 $0.00880 $0.03600
+ 2027 $0.00440 $0.01800
 
 Adder locked for 9 years from customer's PTO date. Low-income definition
 per Sheet 5: CARE/FERA OR disadvantaged-community single-family
@@ -87,7 +87,7 @@ applicable to customers with interconnection applications submitted
 2025-01-01 through 2025-12-31. Each vintage requires a separate Price
 entity with its own ApplicabilityRule.
 
-## Export Compensation Rate cardinality (Q1 of URPXT-7kr)
+## Export Compensation Rate cardinality (Q1 of )
 
 Sheet 6 / Sheet 10 confirm: Export Compensation Rate varies by
 month-and-hour and is differentiated by weekdays vs weekends/holidays.
@@ -109,25 +109,25 @@ gating ConditionExpression). Total 4,610 urpx:Price entries on the
 RatePlanModifier — the largest single filing in the corpus by Price
 count to date.
 
-Per-cell Prices loaded by URPXT-7kr.1.1 via the two-stage shadow-repo
+Per-cell Prices loaded by the generator via the two-stage shadow-repo
 script pipeline:
-  1. shadow-repo/scripts/extract-nbt-eec-values.py — extracts the 4 per-
-     vintage PDFs from pge.com/energyexportcredit's PGE-EEC-Price-Sheets.zip
-     (pdfplumber + pypdf multi-extractor fallback handles per-vintage PDF
-     styling quirks)
-  2. shadow-repo/scripts/build-pge-nbt-prices-2025-10-17.py — emits 4,608
-     Price entities into urpx:hasPrice[] with first-use inline TOUPeriods
-     and ApplicabilityRules, then deduplicated @id references
+ 1. shadow-repo/scripts/extract-nbt-eec-values.py — extracts the 4 per-
+ vintage PDFs from pge.com/energyexportcredit's PGE-EEC-Price-Sheets.zip
+ (pdfplumber + pypdf multi-extractor fallback handles per-vintage PDF
+ styling quirks)
+ 2. shadow-repo/scripts/build-pge-nbt-prices-2025-10-17.py — emits 4,608
+ Price entities into urpx:hasPrice[] with first-use inline TOUPeriods
+ and ApplicabilityRules, then deduplicated @id references
 
 To refresh when PG&E publishes new vintage values: re-download the ZIP,
 re-run extract + build, re-validate. Idempotent — preserves the ACC Plus
 prices and replaces the per-cell layer.
 
-## Binding mechanism (Q4 of URPXT-7kr)
+## Binding mechanism (Q4 of )
 
 urpx:applicableToRatePlan pge:e-elec — single-base modifier overlay,
 same shape as SCE TOU-D-PRIME-CPP applying to sce:tou-d-prime. The
-"modifier on multiple base RatePlans" concern from URPXT-7kr's original
+"modifier on multiple base RatePlans" concern from 's original
 framing is moot for residential NBT — Sheet 9 mandates E-ELEC as the
 sole residential OAS.
 
@@ -151,15 +151,15 @@ evaluation.
 Per the PRIME-CPP Bill Protection deferral pattern, year-long-window
 settlement logic isn't modeled at the modifier level:
 
-  - Annual true-up at end of customer's Relevant Period (12 cycles from
-    PTO anniversary)
-  - Net Surplus Compensation (NSC) — end-of-year DLAP-based rate paid on
-    Net Surplus Electricity (exports > imports over Relevant Period).
-    Separate from per-hour Export Credit; computed at true-up using a
-    12-month rolling DLAP average 7am-5pm.
-  - NSC Renewable Attribute Adder (RAA) — WECC-based renewable premium
-    if customer transfers WREGIS Certificates to PG&E.
-  - Excess credit carry-forward / forfeiture mechanics
+ - Annual true-up at end of customer's Relevant Period (12 cycles from
+ PTO anniversary)
+ - Net Surplus Compensation (NSC) — end-of-year DLAP-based rate paid on
+ Net Surplus Electricity (exports > imports over Relevant Period).
+ Separate from per-hour Export Credit; computed at true-up using a
+ 12-month rolling DLAP average 7am-5pm.
+ - NSC Renewable Attribute Adder (RAA) — WECC-based renewable premium
+ if customer transfers WREGIS Certificates to PG&E.
+ - Excess credit carry-forward / forfeiture mechanics
 
 These are consumer-side (price-server / billing engine) responsibilities.
 
@@ -175,17 +175,17 @@ billing concern, not a modifier-level price.
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
-# MIDAS RIN cross-reference (added by URPXT-7kr.4 — see notes) -------------
+# MIDAS RIN cross-reference (added by — see notes) -------------
 # Each Delivery Component Price carries its CEC MIDAS Rate Identification
 # Number in urpx:name (2,304 Delivery Prices tagged). PG&E E-ELEC NBT RINs:
-#   USCA-PGXX-3500-0000   E-ELEC + NBT23-CCA (Delivery)
-#   USCA-PGXX-3600-0000   E-ELEC + NBT24-CCA (Delivery)
-#   USCA-PGXX-3900-0000   E-ELEC + NBT25-CCA (Delivery)
-#   USCA-PGXX-4000-0000   E-ELEC + NBT26-CCA (Delivery)
+# USCA-PGXX-3500-0000 E-ELEC + NBT23-CCA (Delivery)
+# USCA-PGXX-3600-0000 E-ELEC + NBT24-CCA (Delivery)
+# USCA-PGXX-3900-0000 E-ELEC + NBT25-CCA (Delivery)
+# USCA-PGXX-4000-0000 E-ELEC + NBT26-CCA (Delivery)
 # CCA-flavored AltRateName1 is a labeling artifact — Delivery values are
 # system-wide and apply identically to Bundled and CCA customers.
 # Generation Component Prices (2,304 of them) are NOT RIN-tagged — PG&E
@@ -196,22 +196,22 @@ validated_on   = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "Multi-vintage ACC Plus values — initial filing models the 2025-vintage row; full per-vintage matrix (2023-2027 in table; plus 2028+ rolling) is a follow-up",
-  "Annual true-up + Relevant Period settlement — year-long calculation doesn't fit per-bill modifier shape (same deferral pattern as SCE TOU-D-PRIME-CPP Bill Protection)",
-  "Net Surplus Compensation (NSC) — end-of-year DLAP-based rate paid on Net Surplus Electricity; separate from per-hour Export Credit",
-  "Net Surplus Compensation Renewable Attribute Adder (RAA) — out of scope; year-end WREGIS-transfer-contingent",
-  "Sub-schedule variants (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) — sibling filings to be filed separately; this filing scopes to canonical residential NBT-S",
-  "Multiple Tariff Facilities (SC 4) — non-residential, out of scope here",
-  "Load Aggregation NBTA (SC 6) — non-residential / multi-parcel arrangements, out of scope here",
-  "NBT Paired Storage NBT-PS (SC 8) — sibling filing planned",
-  "Legacy NEM/NEM2 transition mechanics — modeled as eligibility-rule conditions only; full transition state machine is a process concern, not a billing-time concern",
-  "Prevailing Wage requirements (SC 10) — pre-PTO project eligibility, not a billing/rate concept",
-  "Natural or Human-Made Disasters provisions (SC 9) — interconnection-process concern, not a billing-time concern",
+ "Multi-vintage ACC Plus values — initial filing models the 2025-vintage row; full per-vintage matrix (2023-2027 in table; plus 2028+ rolling) is a follow-up",
+ "Annual true-up + Relevant Period settlement — year-long calculation doesn't fit per-bill modifier shape (same deferral pattern as SCE TOU-D-PRIME-CPP Bill Protection)",
+ "Net Surplus Compensation (NSC) — end-of-year DLAP-based rate paid on Net Surplus Electricity; separate from per-hour Export Credit",
+ "Net Surplus Compensation Renewable Attribute Adder (RAA) — out of scope; year-end WREGIS-transfer-contingent",
+ "Sub-schedule variants (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) — sibling filings to be filed separately; this filing scopes to canonical residential NBT-S",
+ "Multiple Tariff Facilities (SC 4) — non-residential, out of scope here",
+ "Load Aggregation NBTA (SC 6) — non-residential / multi-parcel arrangements, out of scope here",
+ "NBT Paired Storage NBT-PS (SC 8) — sibling filing planned",
+ "Legacy NEM/NEM2 transition mechanics — modeled as eligibility-rule conditions only; full transition state machine is a process concern, not a billing-time concern",
+ "Prevailing Wage requirements (SC 10) — pre-PTO project eligibility, not a billing/rate concept",
+ "Natural or Human-Made Disasters provisions (SC 9) — interconnection-process concern, not a billing-time concern",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-7kr.1 — first NBT filing in corpus. RatePlanModifier overlaying pge:e-elec (mandatory residential base). MetricSpecification carries urpx:flowDirection urpx:reverse for export-direction prices — confirmed available + admitted by closed MetricSpecificationShape via SPARQL during 2026-05-29 sourcing. PriceDefinitions: Export Compensation Rate (Generation Component + Delivery Component), ACC Plus Residential, ACC Plus Low-Income. Per-cell Price entities (576 cells per zone-vintage) deferred to price-data-load follow-up. Establishes modeling pattern for sibling URPXT-7kr.2 (SCE NBT) and URPXT-7kr.3 (SDG&E NBT). Structurally validates with pyshacl + clj-urpx, but is intentionally incomplete on the per-cell Price layer."
+status = "draft"
+notes = "first NBT filing in corpus. RatePlanModifier overlaying pge:e-elec (mandatory residential base). MetricSpecification carries urpx:flowDirection urpx:reverse for export-direction prices — confirmed available + admitted by closed MetricSpecificationShape via SPARQL during 2026-05-29 sourcing. PriceDefinitions: Export Compensation Rate (Generation Component + Delivery Component), ACC Plus Residential, ACC Plus Low-Income. Per-cell Price entities (576 cells per zone-vintage) deferred to price-data-load follow-up. Establishes modeling pattern for sibling (SCE NBT) and (SDG&E NBT). Structurally validates with pyshacl + clj-urpx, but is intentionally incomplete on the per-cell Price layer."

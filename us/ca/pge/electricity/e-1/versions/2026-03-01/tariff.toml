@@ -1,45 +1,45 @@
 # Identity --------------------------------------------------------------------
-utility        = "pge"
-schedule       = "e-1"
+utility = "pge"
+schedule = "e-1"
 effective_date = "2026-03-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-1.pdf"
-sha256        = "7b3584d59b4436d903193eca624803640bef9331d49af4efa343e381a9a29d6f"
-retrieved_on  = "2026-04-26"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "PGE-AL-7846-E"
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-1.pdf"
+sha256 = "7b3584d59b4436d903193eca624803640bef9331d49af4efa343e381a9a29d6f"
+retrieved_on = "2026-04-26"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7846-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
+authority = "puc"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "mineru"
-extracted_on  = "2026-04-26"
+tool = "mineru"
+extracted_on = "2026-04-26"
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = true
+complete = true
 deferrals = []
 applicable_modifiers = [
-  "care",
-  "e-1-vintage-pcia",
-  "e-rsmart",
-  "fera",
-  "medical-baseline",
+ "care",
+ "e-1-vintage-pcia",
+ "e-rsmart",
+ "fera",
+ "medical-baseline",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "Non-TOU residential. RatePlan + Vintaged-PCIA modifier in single @graph. Income-tier base charge (CARE / FERA / std). KNOWN LIMITATION: baseline matrix is modeled with one cell only (Territory P, Code B) — correct for those customers, wrong tier boundaries for everyone else. Tracked at grid-coordination/urpx-rate-plans#18, blocked on upstream urpx-org/urpx discussion #31."
+status = "draft"
+notes = "Non-TOU residential. RatePlan + Vintaged-PCIA modifier in single @graph. Income-tier base charge (CARE / FERA / std). KNOWN LIMITATION: baseline matrix is modeled with one cell only (Territory P, Code B) — correct for those customers, wrong tier boundaries for everyone else. Tracked at grid-coordination/urpx-rate-plans#18, blocked on upstream urpx-org/urpx discussion #31."

@@ -46,7 +46,7 @@ Several patterns are exercised here for the first time in the urpx-rate-plans co
 3. **`urpx:hasSeasons` on `PlanElements`** — declares the Summer/Winter `urpx:Season` instances with `xsd:gMonth` lists, referenced by `appliesInSeason` from each unbundled PriceDefinition.
 4. **Monthly `intervalDuration` (`P1M`) on the customer-charge calculation method** — residential CPAU and all PG&E filings in this corpus use `P1D` for their daily customer charges. CPAU E-2 publishes a per-month charge ($6.22/month).
 
-The `appliesInSeason → Season.month` resolver path was added to clj-urpx in [URPX-2nk](https://github.com/grid-coordination/clj-urpx/issues) (clj-urpx@86d109e) to support this pattern.
+The `appliesInSeason → Season.month` resolver path was added to clj-urpx in [](https://github.com/grid-coordination/clj-urpx/issues) (clj-urpx@86d109e) to support this pattern.
 
 ## Modifiers (not yet integrated)
 
@@ -67,9 +67,9 @@ DCJ-authored, generated from scratch (not migrated from any prior fixture) by `s
 ```
 # Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
-        -e ../urpx/ontology/urpx-ontology.ttl \
-        -df json-ld \
-        us/ca/cpau/electricity/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld
+ -e ../urpx/ontology/urpx-ontology.ttl \
+ -df json-ld \
+ us/ca/cpau/electricity/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld
 # Conforms: True
 ```
 

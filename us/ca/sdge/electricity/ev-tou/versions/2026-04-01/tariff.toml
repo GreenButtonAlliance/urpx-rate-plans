@@ -1,28 +1,28 @@
 # Identity --------------------------------------------------------------------
-utility        = "sdge"
-schedule       = "ev-tou"
+utility = "sdge"
+schedule = "ev-tou"
 effective_date = "2026-04-01"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=17"
-sha256        = "2ab78339c8dd831800eb31fb96168128546c975f5d1255db3cdf9826a2386a01"
-retrieved_on  = "2026-05-04"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "SDGE-AL-4791-E-A"
+url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=17"
+sha256 = "2ab78339c8dd831800eb31fb96168128546c975f5d1255db3cdf9826a2386a01"
+retrieved_on = "2026-05-04"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4791-E-A"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "Advice Letter 4791-E (Sheets 4-5, eff Apr 1 2026) + 4791-E-A supplement (Sheets 1-3, eff Apr 1 2026)"
+authority = "puc"
+docket = "Advice Letter 4791-E (Sheets 4-5, eff Apr 1 2026) + 4791-E-A supplement (Sheets 1-3, eff Apr 1 2026)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual + script-derivation from sdge:ev-tou-5"
-extracted_on  = "2026-05-04"
-notes         = """
-First filing of SDG&E Schedule EV-TOU in this corpus (URPXT-65v.5).
+tool = "manual + script-derivation from sdge:ev-tou-5"
+extracted_on = "2026-05-04"
+notes = """
+First filing of SDG&E Schedule EV-TOU in this corpus.
 Sourced via the SDG&E Azure FDoor tariff API (recipe documented in
 us/ca/sdge/electricity/utility.toml [scrape_notes]).
 
@@ -40,16 +40,16 @@ AL 4129-E, no rate change since).
 
 ## Per-sheet effective dates
 
-  Sheet 1 (Applicability + Total Rates table + Minimum Bill) —
-    2026-04-01 (AL 4791-E-A, 64665-E) *** newest ***
-  Sheet 2 (UDC Rates per-component breakdown) —
-    2026-04-01 (AL 4791-E-A, 64371-E)
-  Sheet 3 (TOU period table + Special Conditions 1-5) —
-    2026-04-01 (AL 4791-E, 64372-E)
-  Sheet 4 (Special Conditions 6-8: Optional Billing, Billing
-    paths, Other Applicable Tariffs) — 2023-01-01 (AL 4129-E)
-  Sheet 5 (Special Condition 9: PCIA Recovery) —
-    2023-01-01 (AL 4129-E)
+ Sheet 1 (Applicability + Total Rates table + Minimum Bill) —
+ 2026-04-01 (AL 4791-E-A, 64665-E) *** newest ***
+ Sheet 2 (UDC Rates per-component breakdown) —
+ 2026-04-01 (AL 4791-E-A, 64371-E)
+ Sheet 3 (TOU period table + Special Conditions 1-5) —
+ 2026-04-01 (AL 4791-E, 64372-E)
+ Sheet 4 (Special Conditions 6-8: Optional Billing, Billing
+ paths, Other Applicable Tariffs) — 2023-01-01 (AL 4129-E)
+ Sheet 5 (Special Condition 9: PCIA Recovery) —
+ 2023-01-01 (AL 4129-E)
 
 ## Structural relationship to EV-TOU-5
 
@@ -61,53 +61,53 @@ EECC values are IDENTICAL between EV-TOU and EV-TOU-5 (Summer:
 
 Differences from EV-TOU-5:
 
-  (a) NO Base Services Charge — EV-TOU uses the older $0.413/day
-      Minimum Bill mechanic instead (predates the BSC introduced
-      under Decision 24-05-028). Reduced to $0.207/day for
-      CARE/Medical-Baseline/FERA customers per Sheet 2 prose
-      (50% discount) — modeled here at the standard rate; the
-      discounted rate is captured implicitly in the relevant
-      modifier filings if/when they apply on EV-TOU.
+ (a) NO Base Services Charge — EV-TOU uses the older $0.413/day
+ Minimum Bill mechanic instead (predates the BSC introduced
+ under Decision 24-05-028). Reduced to $0.207/day for
+ CARE/Medical-Baseline/FERA customers per Sheet 2 prose
+ (50% discount) — modeled here at the standard rate; the
+ discounted rate is captured implicitly in the relevant
+ modifier filings if/when they apply on EV-TOU.
 
-  (b) NO Baseline Adjustment Credit — EV-TOU customers don't
-      receive the baseline credit (all kWh are billed at the same
-      rates regardless of usage relative to baseline allocation).
+ (b) NO Baseline Adjustment Credit — EV-TOU customers don't
+ receive the baseline credit (all kWh are billed at the same
+ rates regardless of usage relative to baseline allocation).
 
-  (c) Different UDC sub-component values:
-        Component       EV-TOU-5         EV-TOU        delta
-        Distribution    0.21102/0.02601  0.25679/0.10014   higher
-                          (TOU-varying;    (TOU-varying;
-                            super-off-peak  super-off-peak
-                            cheaper)        cheaper, but
-                                            both higher
-                                            than EV-TOU-5)
-        Transmission    0.10067/0        0.10067         flat
-                          (TOU-varying;    (no super-off-peak
-                            zero on        discount)
-                            super-off-peak)
-        PPP             0.01515          0.01713         +0.00198
-        LGC             0.00000          0.01235         +0.01235
-        TRAC            0.00000          0.00000         same
+ (c) Different UDC sub-component values:
+ Component EV-TOU-5 EV-TOU delta
+ Distribution 0.21102/0.02601 0.25679/0.10014 higher
+ (TOU-varying; (TOU-varying;
+ super-off-peak super-off-peak
+ cheaper) cheaper, but
+ both higher
+ than EV-TOU-5)
+ Transmission 0.10067/0 0.10067 flat
+ (TOU-varying; (no super-off-peak
+ zero on discount)
+ super-off-peak)
+ PPP 0.01515 0.01713 +0.00198
+ LGC 0.00000 0.01235 +0.01235
+ TRAC 0.00000 0.00000 same
 
-      Net: EV-TOU's UDC Total is HIGHER than EV-TOU-5's in all
-      periods. Combined with identical EECC, EV-TOU's all-in rate
-      is higher than EV-TOU-5's; the schedule remains attractive
-      for niche use cases (commercial EVSE pass-through per
-      D.18-01-024) but is dominated by EV-TOU-5 for standard
-      residential EV-owner use.
+ Net: EV-TOU's UDC Total is HIGHER than EV-TOU-5's in all
+ periods. Combined with identical EECC, EV-TOU's all-in rate
+ is higher than EV-TOU-5's; the schedule remains attractive
+ for niche use cases (commercial EVSE pass-through per
+ D.18-01-024) but is dominated by EV-TOU-5 for standard
+ residential EV-owner use.
 
 ## Eligibility specifics
 
-  - Customer must have a registered Motor Vehicle: BEV or PHEV
-    recharged at premises, OR NGV refueled via HRA (Sheet 1).
-  - NOT available to conventional charge-sustaining HEVs.
-  - Per Special Condition 2: customer MUST separately meter EV
-    charging facilities (EV charging gets its own meter, not
-    the whole premise).
-  - 12-month minimum stay rule (Special Condition 4) — once on
-    EV-TOU, customer must stay 12 months before changing rates;
-    after departing, can't return for 1 year.
-  - Eligibility verification by utility (Special Condition 5).
+ - Customer must have a registered Motor Vehicle: BEV or PHEV
+ recharged at premises, OR NGV refueled via HRA (Sheet 1).
+ - NOT available to conventional charge-sustaining HEVs.
+ - Per Special Condition 2: customer MUST separately meter EV
+ charging facilities (EV charging gets its own meter, not
+ the whole premise).
+ - 12-month minimum stay rule (Special Condition 4) — once on
+ EV-TOU, customer must stay 12 months before changing rates;
+ after departing, can't return for 1 year.
+ - Eligibility verification by utility (Special Condition 5).
 
 ## Modifier compose
 
@@ -117,41 +117,41 @@ this filing lands. Done in the same commit.
 
 ## Modeling deferrals
 
-  - Optional Billing - Utility Option (Special Condition 6) —
-    utility may bill the lower of EV-TOU or non-TOU rate for first
-    3 months. Not modeled — utility-discretionary policy, not a
-    rate component.
-  - PCIA recovery for CCA-served customers (Special Condition 9) —
-    same deferral as the other SDG&E filings.
-  - Franchise Fee Differential 5.78% for City of San Diego customers.
-  - The 50% Minimum Bill discount for CARE/Medical-Baseline/FERA
-    customers — modeled at the standard $0.413/day here; the
-    discount path applies when the relevant program-overlay
-    modifier is composed in.
+ - Optional Billing - Utility Option (Special Condition 6) —
+ utility may bill the lower of EV-TOU or non-TOU rate for first
+ 3 months. Not modeled — utility-discretionary policy, not a
+ rate component.
+ - PCIA recovery for CCA-served customers (Special Condition 9) —
+ same deferral as the other SDG&E filings.
+ - Franchise Fee Differential 5.78% for City of San Diego customers.
+ - The 50% Minimum Bill discount for CARE/Medical-Baseline/FERA
+ customers — modeled at the standard $0.413/day here; the
+ discount path applies when the relevant program-overlay
+ modifier is composed in.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "PCIA recovery for CCA-served customers (Special Condition 9) — same deferral as other SDG&E filings",
-  "Optional Billing - Utility Option (Special Condition 6) — utility-discretionary policy, not a rate component",
-  "Franchise Fee Differential 5.78% for City of San Diego customers — affects bill total but not per-component rates",
-  "50% Minimum Bill discount for CARE/MB/FERA customers — modeled at standard $0.413/day; discount path applies via the relevant program-overlay modifier composition",
+ "PCIA recovery for CCA-served customers (Special Condition 9) — same deferral as other SDG&E filings",
+ "Optional Billing - Utility Option (Special Condition 6) — utility-discretionary policy, not a rate component",
+ "Franchise Fee Differential 5.78% for City of San Diego customers — affects bill total but not per-component rates",
+ "50% Minimum Bill discount for CARE/MB/FERA customers — modeled at standard $0.413/day; discount path applies via the relevant program-overlay modifier composition",
 ]
 applicable_modifiers = [
-  "care",
-  "drah",
-  "fera",
+ "care",
+ "drah",
+ "fera",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-65v.5 — first filing of SDG&E Schedule EV-TOU (older EV-charging-targeted residential TOU; predecessor to EV-TOU-2 and EV-TOU-5; still optionally available). Script-derived from sdge:ev-tou-5 with: (a) BSC PriceDefinition replaced by Minimum Bill ($0.413/day); (b) UDC sub-component values updated (Distribution higher, PPP higher, LGC nonzero, no Transmission super-off-peak discount); (c) EECC values unchanged from EV-TOU-5 (same EECC schedule). Same TOU window structure as TOU-DR1/EV-TOU-5. RatePlanVersion @id sdge:ev-tou-2026-04-01. CARE/FERA/DRAH modifiers extended to compose against the new base."
+status = "draft"
+notes = "first filing of SDG&E Schedule EV-TOU (older EV-charging-targeted residential TOU; predecessor to EV-TOU-2 and EV-TOU-5; still optionally available). Script-derived from sdge:ev-tou-5 with: (a) BSC PriceDefinition replaced by Minimum Bill ($0.413/day); (b) UDC sub-component values updated (Distribution higher, PPP higher, LGC nonzero, no Transmission super-off-peak discount); (c) EECC values unchanged from EV-TOU-5 (same EECC schedule). Same TOU window structure as TOU-DR1/EV-TOU-5. RatePlanVersion @id sdge:ev-tou-2026-04-01. CARE/FERA/DRAH modifiers extended to compose against the new base."

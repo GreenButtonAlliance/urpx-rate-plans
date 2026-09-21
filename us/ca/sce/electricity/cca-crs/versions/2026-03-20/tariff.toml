@@ -1,28 +1,28 @@
 # Identity --------------------------------------------------------------------
-utility        = "sce"
-schedule       = "cca-crs"
+utility = "sce"
+schedule = "cca-crs"
 effective_date = "2026-03-20"
 
 # Source ----------------------------------------------------------------------
 [source]
-url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-CRS.pdf"
-sha256        = "b0b32770715fabab09ca94a8595ace3bde4e948b11085d6c602a066cc5201728"
-retrieved_on  = "2026-05-04"
-media_type    = "application/pdf"
-filing_type   = "advice-letter"
-filing_id     = "SCE-AL-5725-E"
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-CRS.pdf"
+sha256 = "b0b32770715fabab09ca94a8595ace3bde4e948b11085d6c602a066cc5201728"
+retrieved_on = "2026-05-04"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5725-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority     = "puc"
-docket        = "Resolution E-5217 (CCA-CRS Sheets 4-9 vintage PCIA tables effective Jan 1, 2026)"
+authority = "puc"
+docket = "Resolution E-5217 (CCA-CRS Sheets 4-9 vintage PCIA tables effective Jan 1, 2026)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
-tool          = "manual + dev/derive-sce-crs-2026-03-20.py"
-extracted_on  = "2026-05-04"
-notes         = """
-First filing of Schedule CCA-CRS in this corpus (URPXT-cah.9). Sourced
+tool = "manual + dev/derive-sce-crs-2026-03-20.py"
+extracted_on = "2026-05-04"
+notes = """
+First filing of Schedule CCA-CRS in this corpus. Sourced
 from the live tariff-book Other Rates SharePoint folder. Sibling to
 Schedule DA-CRS (modeled at us/ca/sce/electricity/da-crs/) — same 4 components
 (WFC + CTC + FRC + PCIA), identical Domestic-class numerical values
@@ -38,11 +38,11 @@ document — newest stamp 90840-E (Sheet 9 PCIA 2026 Vintage), AL
 note on why this isn't 2026-03-20 like the TOU-D-sourced filings.)
 
 Per-sheet effective dates within the source PDF:
-  Sheets 1-3 (Applicability + Composition + Customer Group Exemption
-    table) — 2023-07-27 (AL 4882-E baseline)
-  Sheet 3 (Domestic-class WFC + CTC + FRC values) — 2025-06-30
-  Sheets 4-9 (PCIA per-vintage rate tables) — 2026-01-01
-    (AL 5725-E, leaves through 90840-E)
+ Sheets 1-3 (Applicability + Composition + Customer Group Exemption
+ table) — 2023-07-27 (AL 4882-E baseline)
+ Sheet 3 (Domestic-class WFC + CTC + FRC values) — 2025-06-30
+ Sheets 4-9 (PCIA per-vintage rate tables) — 2026-01-01
+ (AL 5725-E, leaves through 90840-E)
 
 ## Modifier shape
 
@@ -58,15 +58,15 @@ sce:tou-d-prime].
 CCA-CRS distinguishes 8 customer subgroups with different
 per-component applicability:
 
-  # Subgroup                         WFC         PCIA  CTC  FRC
-  1 Community Choice Aggregator      Applicable  App.  App. App.
-  2 Community Aggregator             Applicable  App.  App. App.
-  3 CCA Customers on Medical Baseline Exempt    App.  App. App.
-  4 CCA Customers on CARE             Exempt    App.  App. Exempt
-  5 CCA Customers on FERA             Applicable App.  App. Exempt
-  6 Continuous DA/CCA Customers       Exempt    Exempt App. App.
-  7 Returning Continuous DA Customers Exempt    App.  App. App.
-  8 Transitional Bundled Service     Applicable App.  App. App.
+ # Subgroup WFC PCIA CTC FRC
+ 1 Community Choice Aggregator Applicable App. App. App.
+ 2 Community Aggregator Applicable App. App. App.
+ 3 CCA Customers on Medical Baseline Exempt App. App. App.
+ 4 CCA Customers on CARE Exempt App. App. Exempt
+ 5 CCA Customers on FERA Applicable App. App. Exempt
+ 6 Continuous DA/CCA Customers Exempt Exempt App. App.
+ 7 Returning Continuous DA Customers Exempt App. App. App.
+ 8 Transitional Bundled Service Applicable App. App. App.
 
 Only the default subgroup (#1 + #2) is captured by the EligibilityRule
 here — same Eligibility predicate gates both as 'CCA Service'. The
@@ -80,34 +80,34 @@ modeling note below.
 Same 4 deferrals as the DA-CRS sibling (see
 us/ca/sce/electricity/da-crs/.../tariff.toml):
 
-  1. OAT-side DWRBC subtraction not modeled.
-  2. Zero-out of OAT Generation rate for CCA customers not modeled
-     (CCA customer buys energy from CCA, not SCE).
-  3. Customer-subgroup variants beyond default CCA (subgroups 3-8 in
-     the table above) need separate EligibilityRules / per-subgroup
-     modifier filings.
-  4. PCIA + CARE / FERA / Medical-Baseline stacking exemptions
-     deferred to a follow-up issue.
+ 1. OAT-side DWRBC subtraction not modeled.
+ 2. Zero-out of OAT Generation rate for CCA customers not modeled
+ (CCA customer buys energy from CCA, not SCE).
+ 3. Customer-subgroup variants beyond default CCA (subgroups 3-8 in
+ the table above) need separate EligibilityRules / per-subgroup
+ modifier filings.
+ 4. PCIA + CARE / FERA / Medical-Baseline stacking exemptions
+ deferred to a follow-up issue.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
-shacl_passed   = true
-validator      = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on   = "2026-09-20"
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete  = false
+complete = false
 deferrals = [
-  "OAT-side DWRBC subtraction (CCA customer's base TOU-D / Schedule D Total Delivery has DWRBC removed before billing-determinant multiplication) — not modeled because base filings don't itemize DWRBC",
-  "Zero-out of OAT Generation rate for CCA customers (CCA customer buys energy from CCA, not SCE) — URPX doesn't natively express component zeroing in modifier overlay form",
-  "Customer-subgroup variants beyond default CCA (Medical Baseline, CARE, FERA, Continuous DA/CCA, Returning Continuous DA, Transitional Bundled — subgroups 3-8 in the CCA-CRS Sheet 3 table) — per-subgroup modifier filings or richer EligibilityRule extensions needed",
-  "PCIA + CARE / FERA / Medical-Baseline stacking exemptions — deferred to a follow-up issue",
+ "OAT-side DWRBC subtraction (CCA customer's base TOU-D / Schedule D Total Delivery has DWRBC removed before billing-determinant multiplication) — not modeled because base filings don't itemize DWRBC",
+ "Zero-out of OAT Generation rate for CCA customers (CCA customer buys energy from CCA, not SCE) — URPX doesn't natively express component zeroing in modifier overlay form",
+ "Customer-subgroup variants beyond default CCA (Medical Baseline, CARE, FERA, Continuous DA/CCA, Returning Continuous DA, Transitional Bundled — subgroups 3-8 in the CCA-CRS Sheet 3 table) — per-subgroup modifier filings or richer EligibilityRule extensions needed",
+ "PCIA + CARE / FERA / Medical-Baseline stacking exemptions — deferred to a follow-up issue",
 ]
 applicable_modifiers = []
 
 # Review ----------------------------------------------------------------------
 [review]
-status        = "draft"
-notes         = "URPXT-cah.9 — first filing of Schedule CCA-CRS. Generated by dev/derive-sce-crs-2026-03-20.py from manually-extracted source values. Mirror of Schedule DA-CRS — same 4 PriceDefinitions, same 20 PCIA vintages, same Domestic-class values; only Eligibility predicate (CCA Service) and PCIA vintage-property name (CCA Vintage Year) differ. Compose marginal at sce:d goes 0.26226 → 0.27459 (same +0.01233 delta as DA-CRS). CCA-CRS Sheet 3 customer-subgroup exemption table is richer than DA-CRS — see [extraction.notes] for the 8-subgroup table; only default CCA captured here."
+status = "draft"
+notes = "first filing of Schedule CCA-CRS. Generated by dev/derive-sce-crs-2026-03-20.py from manually-extracted source values. Mirror of Schedule DA-CRS — same 4 PriceDefinitions, same 20 PCIA vintages, same Domestic-class values; only Eligibility predicate (CCA Service) and PCIA vintage-property name (CCA Vintage Year) differ. Compose marginal at sce:d goes 0.26226 → 0.27459 (same +0.01233 delta as DA-CRS). CCA-CRS Sheet 3 customer-subgroup exemption table is richer than DA-CRS — see [extraction.notes] for the 8-subgroup table; only default CCA captured here."

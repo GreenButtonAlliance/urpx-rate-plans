@@ -36,7 +36,7 @@ DEFERRALS: dict[tuple[str, str, str], list[str]] = {
     ("pge",   "e-1",             "2026-03-01"): [],
     ("pge",   "e-tou-c",         "2026-03-01"): [
         # base is complete; sibling modifier (baseline-tier) has a deferral
-        "Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked as URPXT-qwr)",
+        "Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in the sibling baseline-tier modifier)",
     ],
     ("pge",   "e-tou-c",         "2026-03-27"): [],
     ("pge",   "e-tou-d",         "2026-03-27"): [],
