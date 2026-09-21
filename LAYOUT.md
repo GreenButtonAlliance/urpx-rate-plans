@@ -32,11 +32,11 @@ This mirrors the convention used by the URPX test cases (e.g. `test-cases/cpau-e
 
 Rationale:
 
-- Each filing artifact is self-contained, portable, and can be cited or distributed in isolation.
-- RDF graph merge handles the overlap cleanly: every file describes the same `urpx:RatePlan` IRI with consistent properties — merging multiple files yields a single RatePlan with all its versions linked.
+- Every **base rate plan** filing is self-contained, portable, and can be cited or distributed in isolation: all 40 of them validate standalone. A **modifier** filing cannot be, and is not: it names the base plans it applies to via `urpx:applicableToRatePlan`, and those live in their own filings. `dev/validate-with-base.py --per-file` reports 40 of 73 conforming for exactly this reason, and the 33 that do not are the 33 modifier filings. That mode is a diagnostic, not a gate; the gate unit is the merged graph, where those references resolve.
+- RDF graph merge handles the overlap cleanly, but only because every node that two filings both carry is named. Blank nodes never merge, so before the naming pass in section 6 the merged graph held one blank child per filing under each shared parent and violated every `sh:maxCount 1` edge into it. `dev/name_blank_nodes.py --check` is what keeps this bullet true.
 - The duplicated RatePlan-level boilerplate (~15 lines) is small and lint-checkable.
 
-The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_consistency.py) verifies that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqueIdentifier`, `urpx:name`, `urpx:timezoneIdentifier`, and the RatePlan `@id` are byte-identical across all filings of a given schedule. Run from the repo root: `python3 dev/lint_consistency.py` (or `--json` for machine-readable output).
+The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_consistency.py) verifies that `urpx:initialEffectiveDate`, `urpx:ratePlanUniqueIdentifier`, `urpx:name`, `urpx:timezoneIdentifier`, and the RatePlan `@id` are byte-identical across all filings of a given schedule. Run from the repo root: `python3 dev/lint_consistency.py` (or `--json` for machine-readable output). It refuses, rather than passing, when it finds no RatePlan to compare: it spent the period after the v0.5.1 migration locating none in 41 of 73 filings, reporting "Schedules checked: 0", and exiting 0 with "corpus is consistent", which is the failure mode this sentence previously described as a guarantee.
 
 ## 3. Directory hierarchy
 
