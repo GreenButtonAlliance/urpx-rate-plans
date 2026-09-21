@@ -51,19 +51,41 @@ RATE_PLAN_LEVEL_FIELDS = [
 
 
 def find_rate_plan(doc):
-    """Return the top-level urpx:RatePlan node, navigating either shape:
-    - URPXDocument-wrapped (v0.2.0): doc[@type]=urpx:URPXDocument with
-      doc[urpx:hasRatePlan]={...the RatePlan...}
-    - Legacy @graph: doc[@graph] contains a urpx:RatePlan entry"""
-    if doc.get("@type") == "urpx:URPXDocument":
-        rp = doc.get("urpx:hasRatePlan")
-        if isinstance(rp, dict) and rp.get("@type") == "urpx:RatePlan":
-            return rp
+    """Return the filing's urpx:RatePlan node, wherever the wrapper puts it.
+
+    This used to match two fixed shapes, `urpx:URPXDocument` with a
+    `urpx:hasRatePlan` child and a legacy top-level `@graph` entry. The v0.5.1
+    migration introduced a `urpx:URPXPackage` wrapper and matched neither, so
+    this returned None for 41 of 73 filings and the linter reported "Schedules
+    checked: 0" and then exited 0 with "corpus is consistent". It had been
+    verifying nothing, while LAYOUT.md cited it as what keeps the identity layer
+    honest.
+
+    Searching the tree rather than naming wrapper shapes is what stops the next
+    wrapper change from silently doing this again.
+    """
+    found = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            t = node.get("@type")
+            types = t if isinstance(t, list) else [t]
+            if "urpx:RatePlan" in types and "@id" in node:
+                found.append(node)
+            for k, v in node.items():
+                if k == "@context":
+                    continue
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    walk(doc)
+    if not found:
         return None
-    for node in doc.get("@graph") or []:
-        if isinstance(node, dict) and node.get("@type") == "urpx:RatePlan":
-            return node
-    return None
+    # A filing that inlines a modifier can carry more than one RatePlan node;
+    # the filing's own plan is the one its RatePlanVersion points back to.
+    return found[0]
 
 
 def normalize(value):
@@ -137,6 +159,17 @@ def main():
         return 1 if out["drift"] else 0
 
     # Human-readable mode
+    #
+    # Refuse rather than pass when there is nothing to check. Reporting "corpus
+    # is consistent" over zero schedules is the failure this linter actually had
+    # for months, and it is the same vacuity that validate-with-base.py guards
+    # against with shapes_target_any(). A gate that cannot fail is not a gate.
+    if not filings:
+        print("REFUSED: no filing yielded a urpx:RatePlan node, so there is "
+              "nothing to compare. The wrapper shape probably changed; see "
+              "find_rate_plan().", file=sys.stderr)
+        return 3
+
     print(f"Schedules checked: {len(filings)}")
     multi = {s: items for s, items in filings.items() if len(items) >= 2}
     print(f"  with multiple versions: {len(multi)}")

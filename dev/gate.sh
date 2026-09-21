@@ -101,6 +101,15 @@ case "$MODE" in
         record $rc
     fi
 
+    note "Blank nodes"
+    if python3 dev/name_blank_nodes.py --check > /tmp/gate-blank.log 2>&1; then
+        tail -1 /tmp/gate-blank.log
+    else
+        rc=$?
+        cat /tmp/gate-blank.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -140,6 +149,15 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-iriscope.log
+        record $rc
+    fi
+
+    note "Blank nodes"
+    if python3 dev/name_blank_nodes.py --check > /tmp/gate-blank.log 2>&1; then
+        tail -1 /tmp/gate-blank.log
+    else
+        rc=$?
+        cat /tmp/gate-blank.log
         record $rc
     fi
 

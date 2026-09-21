@@ -267,6 +267,22 @@ Whether a type may stay shared is decided by **closure, not by how utility-level
 
 `dev/lint_iri_scope.py` enforces this and runs in the gate, so the convention no longer depends on someone noticing. `dev/rescope_iris.py` applies it.
 
+### Blank nodes carry `@id`s too
+
+A node with no `@id` is a fresh blank node on every parse, so it never merges with its counterpart in another filing. Where two filings serialize the same subtree, which section 2 both permits and relies on, the merged graph then holds one blank child per filing under a single named parent, and every `sh:maxCount 1` edge into it is violated. This accounted for 90 of the corpus's remaining violations: 1,468 blank nodes sat under `sh:maxCount 1` edges, and not one of the corpus's 1,184 operand nodes had an `@id`.
+
+**Every node reachable by a `sh:maxCount 1` edge carries an `@id`, named after the node that points at it:**
+
+```
+<parent @id>-<property name, minus a leading "has", kebab-cased>
+```
+
+So `pge:e-tou-c-2026-03-01-plan-elements`, and below it `...-plan-elements-billing-model`. Because the parent is already scoped to its owning version, the scoping is inherited rather than re-derived, which is what makes an inlined modifier's operands come out identically named in every filing that inlines them.
+
+There is deliberately no ordinal in the scheme. An ordinal would depend on array order, and array order is not guaranteed to agree between two serializations of one subtree, so it would defeat the merge it is meant to enable. That is safe only because no parent holds more than one such blank child under a single property; `dev/name_blank_nodes.py --audit` checks that property, along with parent reachability and name collisions, before writing anything.
+
+`dev/name_blank_nodes.py --check` runs in both gate modes and fails on a blank node in scope. This covers `urpx:PlanElements`, `urpx:Prices`, `urpx:BillingModel`, `urpx:CalculationMethod`, `urpx:AlternativeDimensions` and the three operand node types. `urpx:BillingModel` is in scope purely by closure: nothing points at one twice, but `PlanElementsShape` puts `sh:maxCount 1` on `urpx:hasBillingModel`, so naming `PlanElements` without it would trade five violations for five others.
+
 ## 7. Source PDF referencing
 
 Each filing's source PDF is **committed alongside the JSON-LD** at:
