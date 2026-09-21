@@ -139,6 +139,34 @@
                 "@id": "urpx:forward"
               }
             }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e-hra-2023-01-01-mi-reserve-level",
+            "urpx:name": "Hydro Stabilization Reserve level",
+            "urpx:description": "Utility-side state: the reserve balance band the City Council sets, not a customer or service point attribute.",
+            "urpx:metricInputType": {
+              "@id": "urpx:virtualMetricInput"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e-hra-2023-01-01-mi-projected-generation",
+            "urpx:name": "Projected annual hydro generation",
+            "urpx:description": "Utility-side forecast of hydroelectric generation for the coming year.",
+            "urpx:metricInputType": {
+              "@id": "urpx:virtualMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "cpau:e-hra-2023-01-01-mi-projected-generation-spec",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:GWh"
+              }
+            }
           }
         ],
         "urpx:hasBillingModel": {
@@ -160,9 +188,14 @@
           "urpx:hasPriceDefinition": [
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "cpau:e-hra-2023-01-01-pd-adjustment",
-              "urpx:name": "Hydro Rate Adjustment",
-              "urpx:description": "Surcharge or discount per kWh determined by a matrix of Hydro Stabilization Reserve level (4 rows) vs. projected hydro generation relative to average (4 columns). Value ranges from ($0.066) credit to $0.048 surcharge. One value from the matrix is in effect at any given time, set annually by staff and approved by Council.",
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-lt319",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Above Maximum, generation under 319 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
               "urpx:chargeType": {
                 "@id": "urpx:adjustmentPowerCost"
               },
@@ -171,9 +204,1271 @@
               },
               "urpx:billPortion": {
                 "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-319-480",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Above Maximum, generation 319–480 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480"
               },
               "urpx:referencesLedger": {
                 "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-480-642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Above Maximum, generation 480–642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-gt642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Above Maximum, generation over 642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-lt319",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 75%–100%, generation under 319 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-319-480",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 75%–100%, generation 319–480 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-480-642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 75%–100%, generation 480–642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-gt642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 75%–100%, generation over 642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-lt319",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 25%–75%, generation under 319 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-319-480",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 25%–75%, generation 319–480 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-480-642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 25%–75%, generation 480–642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-gt642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve 25%–75%, generation over 642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-lt319",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Below Minimum, generation under 319 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-319-480",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Below Minimum, generation 319–480 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-480-642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Below Minimum, generation 480–642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-gt642",
+              "urpx:name": "Hydroelectric Rate Adjustment, reserve Below Minimum, generation over 642 GWh/year",
+              "urpx:referencesProfileAlternative": {
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
+              },
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              }
+            }
+          ]
+        },
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "cpau:e-hra-2023-01-01-pa-hydro",
+          "urpx:name": "Hydro Stabilization Reserve level and projected hydro generation",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "cpau:e-hra-2023-01-01-pa-hydro-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "urpx:dimensionDisplayName": "Hydro Stabilization Reserve Level",
+                "urpx:customDimensionProperty": "hydroStabilizationReserveLevel",
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                },
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "Above Maximum",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "75%–100%",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "25%–75%",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "Below Minimum",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "urpx:AlternativeDimension",
+                "urpx:dimensionDisplayName": "Projected Hydro Generation",
+                "urpx:customDimensionProperty": "projectedHydroGeneration",
+                "urpx:referencesMetricInput": {
+                  "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                },
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "under 319 GWh/year",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "319–480 GWh/year",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "480–642 GWh/year",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "over 642 GWh/year",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319",
+              "urpx:name": "Reserve Above Maximum / Generation under 319 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-res",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-res-r",
+                        "urpx:stringValue": "Maximum"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-lt319-gen-r",
+                        "urpx:stringValue": "319 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480",
+              "urpx:name": "Reserve Above Maximum / Generation 319–480 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-res",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-res-r",
+                        "urpx:stringValue": "Maximum"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-319-480-gen-r",
+                        "urpx:stringValue": "319–480 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642",
+              "urpx:name": "Reserve Above Maximum / Generation 480–642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-res-r",
+                        "urpx:stringValue": "Maximum"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-480-642-gen-r",
+                        "urpx:stringValue": "480–642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642",
+              "urpx:name": "Reserve Above Maximum / Generation over 642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-res-r",
+                        "urpx:stringValue": "Maximum"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-above-max-gt642-gen-r",
+                        "urpx:stringValue": "642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319",
+              "urpx:name": "Reserve 75%–100% / Generation under 319 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-res-r",
+                        "urpx:stringValue": "75%–100%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-lt319-gen-r",
+                        "urpx:stringValue": "319 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480",
+              "urpx:name": "Reserve 75%–100% / Generation 319–480 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-res-r",
+                        "urpx:stringValue": "75%–100%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-319-480-gen-r",
+                        "urpx:stringValue": "319–480 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642",
+              "urpx:name": "Reserve 75%–100% / Generation 480–642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-res-r",
+                        "urpx:stringValue": "75%–100%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-480-642-gen-r",
+                        "urpx:stringValue": "480–642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642",
+              "urpx:name": "Reserve 75%–100% / Generation over 642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-res-r",
+                        "urpx:stringValue": "75%–100%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-75-100-gt642-gen-r",
+                        "urpx:stringValue": "642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319",
+              "urpx:name": "Reserve 25%–75% / Generation under 319 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-res-r",
+                        "urpx:stringValue": "25%–75%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-lt319-gen-r",
+                        "urpx:stringValue": "319 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480",
+              "urpx:name": "Reserve 25%–75% / Generation 319–480 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-res-r",
+                        "urpx:stringValue": "25%–75%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-319-480-gen-r",
+                        "urpx:stringValue": "319–480 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642",
+              "urpx:name": "Reserve 25%–75% / Generation 480–642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-res-r",
+                        "urpx:stringValue": "25%–75%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-480-642-gen-r",
+                        "urpx:stringValue": "480–642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642",
+              "urpx:name": "Reserve 25%–75% / Generation over 642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-res-r",
+                        "urpx:stringValue": "25%–75%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-25-75-gt642-gen-r",
+                        "urpx:stringValue": "642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319",
+              "urpx:name": "Reserve Below Minimum / Generation under 319 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-res",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-res-r",
+                        "urpx:stringValue": "25%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-lt319-gen-r",
+                        "urpx:stringValue": "319 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480",
+              "urpx:name": "Reserve Below Minimum / Generation 319–480 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-res",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-res-r",
+                        "urpx:stringValue": "25%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-319-480-gen-r",
+                        "urpx:stringValue": "319–480 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642",
+              "urpx:name": "Reserve Below Minimum / Generation 480–642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-res-r",
+                        "urpx:stringValue": "25%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:betweenOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-480-642-gen-r",
+                        "urpx:stringValue": "480–642 GWh/year"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642",
+              "urpx:name": "Reserve Below Minimum / Generation over 642 GWh/year",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-res",
+                      "urpx:operator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-res-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-reserve-level"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-res-r",
+                        "urpx:stringValue": "25%"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-gen",
+                      "urpx:operator": {
+                        "@id": "urpx:greaterThanOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-gen-l",
+                        "urpx:referencesMetricInput": {
+                          "@id": "cpau:e-hra-2023-01-01-mi-projected-generation"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-hra-2023-01-01-pa-below-25-gt642-gen-r",
+                        "urpx:stringValue": "642 GWh/year"
+                      }
+                    }
+                  ]
+                }
               }
             }
           ]
@@ -182,678 +1477,454 @@
       "urpx:hasPrices": {
         "@type": "urpx:Prices",
         "@id": "cpau:e-hra-2023-01-01-prices",
-        "urpx:hasPriceSet": [
+        "urpx:hasPrice": [
           {
-            "@type": "urpx:PriceSet",
-            "@id": "cpau:e-hra-2023-01-01-ps-reserve-above-max",
-            "urpx:name": "Hydro Adjustment — Reserve Above Maximum",
-            "urpx:startDate": "2023-01-01",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "cpau:e-hra-2023-01-01-ps-reserve-above-max-cx",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:e-hra-2023-01-01-cond-reserve-above-max",
-                  "urpx:operator": {
-                    "@id": "urpx:greaterThanOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-above-max-left-operand",
-                    "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-above-max-right-operand",
-                    "urpx:stringValue": "Maximum"
-                  }
-                }
-              }
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-lt319"
             },
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve Above Max / Generation < 319 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasApplicabilityRule": {
-                  "@type": "urpx:ApplicabilityRule",
-                  "urpx:hasConditionExpression": {
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319-cx",
-                    "urpx:rootNode": {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319-cn",
-                      "urpx:operator": {
-                        "@id": "urpx:lessThanOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319-cn-left-operand",
-                        "urpx:customConditionProperty": "projectedHydroGeneration"
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319-cn-right-operand",
-                        "urpx:stringValue": "319 GWh/year"
-                      }
-                    }
-                  }
-                },
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-above-max-gen-lt319",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-above-max-gen-lt319",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+            "urpx:name": "Reserve Above Max / Generation < 319 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-above-max-gen-lt319",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve Above Max / Generation 319–480 GWh",
-                "urpx:unitPrice": "-0.024",
-                "urpx:hasApplicabilityRule": {
-                  "@type": "urpx:ApplicabilityRule",
-                  "urpx:hasConditionExpression": {
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480-cx",
-                    "urpx:rootNode": {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480-cn",
-                      "urpx:operator": {
-                        "@id": "urpx:betweenOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480-cn-left-operand",
-                        "urpx:customConditionProperty": "projectedHydroGeneration"
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480-cn-right-operand",
-                        "urpx:stringValue": "319–480 GWh/year"
-                      }
-                    }
-                  }
-                },
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-above-max-gen-319-480",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-above-max-gen-319-480",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve Above Max / Generation 480–642 GWh",
-                "urpx:unitPrice": "-0.024",
-                "urpx:hasApplicabilityRule": {
-                  "@type": "urpx:ApplicabilityRule",
-                  "urpx:hasConditionExpression": {
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642-cx",
-                    "urpx:rootNode": {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642-cn",
-                      "urpx:operator": {
-                        "@id": "urpx:betweenOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642-cn-left-operand",
-                        "urpx:customConditionProperty": "projectedHydroGeneration"
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642-cn-right-operand",
-                        "urpx:stringValue": "480–642 GWh/year"
-                      }
-                    }
-                  }
-                },
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-above-max-gen-480-642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-above-max-gen-480-642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve Above Max / Generation > 642 GWh",
-                "urpx:unitPrice": "-0.066",
-                "urpx:hasApplicabilityRule": {
-                  "@type": "urpx:ApplicabilityRule",
-                  "urpx:hasConditionExpression": {
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642-cx",
-                    "urpx:rootNode": {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642-cn",
-                      "urpx:operator": {
-                        "@id": "urpx:greaterThanOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642-cn-left-operand",
-                        "urpx:customConditionProperty": "projectedHydroGeneration"
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642-cn-right-operand",
-                        "urpx:stringValue": "642 GWh/year"
-                      }
-                    }
-                  }
-                },
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-above-max-gen-gt642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-above-max-gen-gt642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-above-max-gen-lt319",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
               }
-            ]
+            }
           },
           {
-            "@type": "urpx:PriceSet",
-            "@id": "cpau:e-hra-2023-01-01-ps-reserve-75-100",
-            "urpx:name": "Hydro Adjustment — Reserve 75%–100%",
-            "urpx:startDate": "2023-01-01",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "cpau:e-hra-2023-01-01-ps-reserve-75-100-cx",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:e-hra-2023-01-01-cond-reserve-75-100",
-                  "urpx:operator": {
-                    "@id": "urpx:betweenOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-75-100-left-operand",
-                    "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-75-100-right-operand",
-                    "urpx:stringValue": "75%–100%"
-                  }
-                }
-              }
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-319-480"
             },
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-lt319",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 75–100% / Generation < 319 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-75-100-gen-lt319",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-75-100-gen-lt319",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+            "urpx:name": "Reserve Above Max / Generation 319–480 GWh",
+            "urpx:unitPrice": "-0.024",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-above-max-gen-319-480",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-319-480",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 75–100% / Generation 319–480 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-75-100-gen-319-480",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-75-100-gen-319-480",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-480-642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 75–100% / Generation 480–642 GWh",
-                "urpx:unitPrice": "-0.024",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-75-100-gen-480-642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-75-100-gen-480-642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-gt642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 75–100% / Generation > 642 GWh",
-                "urpx:unitPrice": "-0.048",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-75-100-gen-gt642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-75-100-gen-gt642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-above-max-gen-319-480",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
               }
-            ]
+            }
           },
           {
-            "@type": "urpx:PriceSet",
-            "@id": "cpau:e-hra-2023-01-01-ps-reserve-25-75",
-            "urpx:name": "Hydro Adjustment — Reserve 25%–75%",
-            "urpx:startDate": "2023-01-01",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "cpau:e-hra-2023-01-01-ps-reserve-25-75-cx",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:e-hra-2023-01-01-cond-reserve-25-75",
-                  "urpx:operator": {
-                    "@id": "urpx:betweenOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-25-75-left-operand",
-                    "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-25-75-right-operand",
-                    "urpx:stringValue": "25%–75%"
-                  }
-                }
-              }
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-480-642"
             },
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-lt319",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 25–75% / Generation < 319 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-25-75-gen-lt319",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-25-75-gen-lt319",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+            "urpx:name": "Reserve Above Max / Generation 480–642 GWh",
+            "urpx:unitPrice": "-0.024",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-above-max-gen-480-642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-319-480",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 25–75% / Generation 319–480 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-25-75-gen-319-480",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-25-75-gen-319-480",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-480-642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 25–75% / Generation 480–642 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-25-75-gen-480-642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-25-75-gen-480-642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-gt642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve 25–75% / Generation > 642 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-25-75-gen-gt642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-25-75-gen-gt642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-above-max-gen-480-642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
               }
-            ]
+            }
           },
           {
-            "@type": "urpx:PriceSet",
-            "@id": "cpau:e-hra-2023-01-01-ps-reserve-below-25",
-            "urpx:name": "Hydro Adjustment — Reserve 25% and Below",
-            "urpx:startDate": "2023-01-01",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "cpau:e-hra-2023-01-01-ps-reserve-below-25-cx",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:e-hra-2023-01-01-cond-reserve-below-25",
-                  "urpx:operator": {
-                    "@id": "urpx:lessThanOrEqualOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-below-25-left-operand",
-                    "urpx:customConditionProperty": "hydroStabilizationReserveLevel"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-below-25-right-operand",
-                    "urpx:stringValue": "25%"
-                  }
-                }
-              }
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-above-max-gt642"
             },
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-lt319",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve ≤25% / Generation < 319 GWh",
-                "urpx:unitPrice": "0.048",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-below-25-gen-lt319",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-below-25-gen-lt319",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+            "urpx:name": "Reserve Above Max / Generation > 642 GWh",
+            "urpx:unitPrice": "-0.066",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-above-max-gen-gt642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-319-480",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve ≤25% / Generation 319–480 GWh",
-                "urpx:unitPrice": "0.024",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-below-25-gen-319-480",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-below-25-gen-319-480",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-480-642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve ≤25% / Generation 480–642 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-below-25-gen-480-642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-below-25-gen-480-642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
               },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-gt642",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
-                },
-                "urpx:name": "Reserve ≤25% / Generation > 642 GWh",
-                "urpx:unitPrice": "0.000",
-                "urpx:hasDynamicPricing": {
-                  "@type": "urpx:DynamicPricing",
-                  "@id": "cpau:hra-dp-below-25-gen-gt642",
-                  "urpx:dynamicPricingType": {
-                    "@id": "urpx:indexBasedPricing"
-                  },
-                  "urpx:priceSource": {
-                    "@id": "urpx:renewableForecastSource"
-                  },
-                  "urpx:updateFrequency": {
-                    "@id": "urpx:onDemandUpdates"
-                  },
-                  "urpx:hasPriceUpdateRule": {
-                    "@type": "urpx:PriceUpdateRule",
-                    "@id": "cpau:hra-pur-below-25-gen-gt642",
-                    "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
-                    "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
-                  }
-                }
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-above-max-gen-gt642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
               }
-            ]
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-lt319",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-lt319"
+            },
+            "urpx:name": "Reserve 75–100% / Generation < 319 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-75-100-gen-lt319",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-75-100-gen-lt319",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-319-480",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-319-480"
+            },
+            "urpx:name": "Reserve 75–100% / Generation 319–480 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-75-100-gen-319-480",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-75-100-gen-319-480",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-480-642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-480-642"
+            },
+            "urpx:name": "Reserve 75–100% / Generation 480–642 GWh",
+            "urpx:unitPrice": "-0.024",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-75-100-gen-480-642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-75-100-gen-480-642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-gt642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-75-100-gt642"
+            },
+            "urpx:name": "Reserve 75–100% / Generation > 642 GWh",
+            "urpx:unitPrice": "-0.048",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-75-100-gen-gt642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-75-100-gen-gt642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-lt319",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-lt319"
+            },
+            "urpx:name": "Reserve 25–75% / Generation < 319 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-25-75-gen-lt319",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-25-75-gen-lt319",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-319-480",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-319-480"
+            },
+            "urpx:name": "Reserve 25–75% / Generation 319–480 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-25-75-gen-319-480",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-25-75-gen-319-480",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-480-642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-480-642"
+            },
+            "urpx:name": "Reserve 25–75% / Generation 480–642 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-25-75-gen-480-642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-25-75-gen-480-642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-gt642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-25-75-gt642"
+            },
+            "urpx:name": "Reserve 25–75% / Generation > 642 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-25-75-gen-gt642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-25-75-gen-gt642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-lt319",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-lt319"
+            },
+            "urpx:name": "Reserve ≤25% / Generation < 319 GWh",
+            "urpx:unitPrice": "0.048",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-below-25-gen-lt319",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-below-25-gen-lt319",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-319-480",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-319-480"
+            },
+            "urpx:name": "Reserve ≤25% / Generation 319–480 GWh",
+            "urpx:unitPrice": "0.024",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-below-25-gen-319-480",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-below-25-gen-319-480",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-480-642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-480-642"
+            },
+            "urpx:name": "Reserve ≤25% / Generation 480–642 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-below-25-gen-480-642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-below-25-gen-480-642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-gt642",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-hra-2023-01-01-pd-below-25-gt642"
+            },
+            "urpx:name": "Reserve ≤25% / Generation > 642 GWh",
+            "urpx:unitPrice": "0.000",
+            "urpx:hasDynamicPricing": {
+              "@type": "urpx:DynamicPricing",
+              "@id": "cpau:hra-dp-below-25-gen-gt642",
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:indexBasedPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:renewableForecastSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:onDemandUpdates"
+              },
+              "urpx:hasPriceUpdateRule": {
+                "@type": "urpx:PriceUpdateRule",
+                "@id": "cpau:hra-pur-below-25-gen-gt642",
+                "urpx:name": "CPAU E-HRA Annual Hydro Adjustment Update",
+                "urpx:description": "The Electric Hydro Rate Adjuster value is reset by the Palo Alto City Council annually in May (or when conditions warrant) based on a 4x4 lookup matrix indexed by Hydro Stabilization Reserve level (Above Maximum / 75-100% / 50-75% / Below Minimum) crossed with projected hydro generation tier (<319 / 319-480 / 480-642 / >642 GWh/year). The adjustment ranges from -$0.066/kWh credit to +$0.048/kWh surcharge. priceSource=urpx:renewableForecastSource reflects the hydro-generation projection that drives one of the two index dimensions. updateFrequency=urpx:onDemandUpdates is the closest enum fit for an annually-or-as-needed cadence (the v0.5.1 UpdateFrequencyValue enum has continuousUpdates / dailyUpdates / eventTriggeredUpdates / every15Minutes / every5Minutes / hourlyUpdates / monthlyUpdates / onDemandUpdates / weeklyUpdates — 'annuallyUpdates' is not a member; 'monthlyUpdates' would overstate the cadence)."
+              }
+            }
           }
         ]
       },
