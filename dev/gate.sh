@@ -83,6 +83,19 @@ run_clojure_gate() {
         grep '✗' /tmp/gate-clj.log || true
         record 1
     fi
+
+    # Resolution asserts that resolving SUCCEEDS; this asserts that the charges
+    # a filing declares actually come back. Without it a consumer-side
+    # regression that drops a whole class of charge leaves the gate green,
+    # which is how 89 recurring charges went missing across all 40 base plans.
+    note "Resolution coverage"
+    if clojure -M:coverage > /tmp/gate-coverage.log 2>&1; then
+        tail -1 /tmp/gate-coverage.log
+    else
+        rc=$?
+        cat /tmp/gate-coverage.log
+        record "$rc"
+    fi
 }
 
 case "$MODE" in
