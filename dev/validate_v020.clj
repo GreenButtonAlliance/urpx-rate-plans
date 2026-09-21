@@ -3,7 +3,7 @@
 
    Pyshacl confirms each JSON-LD file is SHACL-conformant. This script
    exercises the consumer path: load → coerce (Malli) → validate →
-   resolve a representative price for a known instant. Catches semantic
+   resolve a representative price at known instants. Catches semantic
    bugs that SHACL alone cannot see — for example, that
    PriceDefinition.referencesLedger is wired to the right Ledger, that
    per-customer credits are excluded from a $/kWh marginal sum, and that
@@ -13,7 +13,25 @@
    in the modifier's urpx:applicableToRatePlan, the latest base filing
    in the corpus is paired with the modifier via
    urpx.price/resolve-prices-with-modifiers (clj-urpx 36a1095)
-   and reports any composition failure."
+   and reports any composition failure.
+
+   Three modes:
+
+     clojure -M:validate                    the report above, at the first probe
+                                            instant. Exit 0, 1, 3.
+     clojure -M:validate --check-baseline   compare every resolved marginal rate,
+                                            at every probe instant, against the
+                                            recorded file. Exit 0, 1 (a value
+                                            moved), 2 (rows appeared or
+                                            vanished), 3 (refused).
+     clojure -M:validate --record-baseline  re-record that file. Deliberate and
+                                            manual: nothing else invokes it.
+
+   The report and the baseline read the same `probe-plan` and
+   `compose-modifier-with-base`, so they cannot disagree about what a filing
+   resolves to. The report covers one instant; the baseline covers every instant
+   in `probe-instants`, and that list says why one was not enough. See the
+   baseline section below for why a recorded value rather than a bound."
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.string :as str]
@@ -56,11 +74,106 @@
 (def filings (discover-filings))
 
 (def la (ZoneId/of "America/Los_Angeles"))
-;; Tuesday 2026-07-15 17:00 PDT — summer weekday, 5pm; covers peak windows
-;; for PGE E-TOU-C (4-9pm all days), PGE E-TOU-D (5-8pm weekdays non-holiday),
-;; PGE EV2 (4-9pm all days), and CPAU E-1-TOU (4-9pm peak). PGE E-1 and
-;; CPAU E-1 are non-TOU.
-(def probe-instant (ZonedDateTime/of 2026 7 15 17 0 0 0 la))
+
+(defn- at
+  "A probe instant in the corpus's timezone. Minutes are always zero: every
+   startTime and endTime in the corpus falls on the hour."
+  [y m d h]
+  (ZonedDateTime/of y m d h 0 0 0 la))
+
+;; --- the probe instants ------------------------------------------------------
+;;
+;; WHY THERE IS A LIST. This file used to record one instant, summer weekday
+;; 17:00, which is a gate reporting on one hour of one day type of one season.
+;; Moving a TOU discriminator from Price onto PriceDefinition changed which
+;; price is live at 8 of the 19 instants below on sdge:ev-tou, ev-tou-2 and
+;; ev-tou-5, and at 17 of 19 on sdge:tou-dr2. The single instant at which all
+;; four were unchanged is the instant this file probed. sdge:ev-tou-5 read
+;; 0.41420 at summer super-off-peak where the filing says 0.12852, a rate wrong
+;; by 0.28568/kWh at most hours of most days, and every gate here was green.
+;;
+;; HOW THE SET WAS DERIVED, rather than picked. The corpus was resolved at all
+;; 744 instants of an hourly grid: every month of the window below, on a
+;; weekday, on a weekend day, and on that month's holiday where the embedded
+;; calendars have one. That grid separates the corpus into 106 distinct
+;; behaviors. These 19 are one per (season regime x day type x band) that the
+;; corpus actually distinguishes, and the set was then measured against the grid
+;; for the two properties that make it worth running:
+;;
+;;   EVERY LIVE PRICE IS READ. Over the year the corpus feeds 2,617 distinct
+;;   (row, price) pairs into a marginal rate. These 19 read all 2,617. The
+;;   single instant read 1,678 of them, 64%, so a third of the corpus's prices
+;;   could have taken any value at all without moving a recorded number.
+;;
+;;   NO TWO ARE INTERCHANGEABLE. No two of the 19 record the same thing for
+;;   every filing. Each differs from every other on at least one row, so
+;;   dropping any one of them drops a season, a day type or a band with it.
+;;
+;; DATE VALIDITY was checked, not assumed. The latest startDate in the corpus is
+;; 2026-04-01 and no filing carries an expirationDate, so 2026-04-01 through
+;; 2027-03-31 is the first full year in which every filing is in force, and
+;; every instant below sits inside it. A winter probe in January 2026 would
+;; resolve to :no-energy-ledger on the 2026-04-01 filings and teach nothing. At
+;; all 744 grid instants the corpus resolves 150 rates and 9 refusals, the same
+;; 9 rows every time, so no probe here is a probe that refuses everywhere.
+;;
+;; SEASON REGIMES. Summer is Jun-Sep for PG&E, SCE, SMUD, LADWP and CPAU
+;; E-1-TOU; Jun-Oct for SDG&E; May-Oct for CPAU E-2 through E-7. That is five
+;; regimes rather than two: deep summer, deep winter (Nov-Mar, which resolve
+;; alike), and three shoulder months that resolve like none of the others. April
+;; and October carry the PG&E and SCE month-gated elements (urpx:month --04
+;; --10) as well, which resolve an extra ledger on 48 rows that no deep-winter
+;; probe sees.
+;;
+;; Adding, moving or renaming an instant invalidates the rows recorded under its
+;; :id, so it is a --record-baseline and a diff to review, never a quiet edit.
+(def probe-instants
+  "Every instant the baseline records a row at. :id is the stable key in the
+   baseline file; :why is the band, season and day type the instant is there
+   for. Rows are written in this order."
+  [{:id "summer-weekday-peak"      :at (at 2026 7 15 17)
+    :why "Wed, deep summer, on-peak in every TOU plan that has one: 16-21 for SDG&E, SCE and PG&E and CPAU, 17-20 for PG&E E-TOU-D and SCE TOU-D-5-8PM"}
+   {:id "summer-weekday-shoulder"  :at (at 2026 7 15 15)
+    :why "the 15-16 partial-peak hour, carved out by exactly three schedules (PG&E E-ELEC, PG&E EV2, CPAU E-1-TOU) and off-peak for the rest"}
+   {:id "summer-weekday-midday"    :at (at 2026 7 15 11)
+    :why "SDG&E's 10-14 weekday super-off-peak solar window; no other probe sits in it"}
+   {:id "summer-weekday-overnight" :at (at 2026 7 15 2)
+    :why "the SDG&E EV 00-06 weekday super-off-peak band, which is the band the discriminator defect mispriced"}
+   {:id "summer-weekend-peak"      :at (at 2026 7 18 17)
+    :why "Sat: the same clock hour as summer-weekday-peak, and the weekend price wherever a plan discriminates by day type"}
+   {:id "summer-holiday-peak"      :at (at 2026 9 7 17)
+    :why "Labor Day: the third day type. 8 rows move against the same hour on a weekday, all of them CPAU E-4-TOU, CPAU E-7-TOU, PG&E E-TOU-D or a composition over one"}
+   {:id "winter-weekday-peak"      :at (at 2026 12 8 17)
+    :why "Tue, deep winter (Nov-Mar all resolve alike), on-peak"}
+   {:id "winter-weekday-shoulder"  :at (at 2026 12 8 15)
+    :why "the same 15-16 partial peak in winter"}
+   {:id "winter-weekday-midday"    :at (at 2026 12 8 11)
+    :why "winter 10-14, where SDG&E prices its super-off-peak window as off-peak"}
+   {:id "winter-weekday-morning"   :at (at 2026 12 8 8)
+    :why "the morning bands (SDG&E 06-10, SCE 08-16), still overnight inside CPAU E-1-TOU's 21-09"}
+   {:id "winter-weekday-overnight" :at (at 2026 12 8 2)
+    :why "winter super-off-peak, the band on which sdge:tou-dr2 was wrong"}
+   {:id "winter-weekend-peak"      :at (at 2026 12 12 17)
+    :why "Sat: day-type discrimination at the winter peak hour"}
+   {:id "winter-holiday-peak"      :at (at 2026 12 25 17)
+    :why "Christmas, observed on the day it falls: the holiday-aware rows again, now against a winter weekday"}
+   {:id "april-weekday-peak"       :at (at 2026 4 7 17)
+    :why "Tue: winter for every utility, plus the PG&E and SCE month --04 elements that no deep-winter probe resolves"}
+   {:id "april-weekday-morning"    :at (at 2026 4 7 9)
+    :why "09, where SDG&E's 06-10 off-peak and CPAU E-1-TOU's 09-15 meet, with the April elements live"}
+   {:id "april-weekday-overnight"  :at (at 2026 4 7 2)
+    :why "the April elements against the overnight band"}
+   {:id "october-weekday-peak"     :at (at 2026 10 6 17)
+    :why "Tue: SDG&E and CPAU E-2 through E-7 are still in summer while PG&E, SCE, SMUD, LADWP and CPAU E-1-TOU are in winter. 52 rates move against deep winter, and the month --10 elements are live"}
+   {:id "october-weekday-shoulder" :at (at 2026 10 6 15)
+    :why "the same split season at the 15-16 partial-peak hour"}
+   {:id "may-weekday-peak"         :at (at 2026 5 5 17)
+    :why "Tue: the one month where CPAU E-2 through E-7 are in summer and everything else, CPAU E-1-TOU included, is in winter"}])
+
+;; The human report below resolves one instant rather than all 19: 73 filings by
+;; 19 instants is a wall of output, and the report is for reading. The baseline
+;; is the part that asserts, and it asserts at every one of them.
+(def probe-instant (:at (first probe-instants)))
 
 ;; A refusal is not a failure when the refusal IS the right answer. Both of
 ;; these mean "nothing here is priced per kWh at this instant", and clj-urpx
@@ -133,72 +246,105 @@
    {}
    filings))
 
+;; Load, coercion and Malli validation are per FILING, not per instant, so they
+;; are cached: 19 instants over 73 filings would otherwise repeat them 19 times
+;; each. Measured on this corpus, validation is the expensive half by a wide
+;; margin (a full corpus sweep runs in 0.03s per instant once validated, against
+;; 0.6s when every instant re-validates), which is why widening the probe set
+;; costs almost nothing here.
+(def ^:private load-plan!
+  (memoize (fn [path] (-> path core/load-rate-plan coerce/coerce-rate-plan))))
+
+(def ^:private plan-valid?
+  (memoize (fn [path] (coerce/validate schema/RatePlan (load-plan! path)))))
+
+(def ^:private load-modifier!
+  (memoize (fn [path] (-> path core/load-rate-plan-modifier
+                          coerce/coerce-rate-plan-modifier))))
+
+(def ^:private modifier-valid?
+  (memoize (fn [path] (coerce/validate schema/RatePlanModifier (load-modifier! path)))))
+
+(defn- probe-plan
+  "Resolve the base RatePlan at `path` at `instant` and return WHAT HAPPENED,
+   without printing or tallying. Exactly one of:
+
+     {:status :ok       :ledgers n :rate <BigDecimal>}
+     {:status :refused  :reason <keyword>}      see `legitimate-refusals`
+     {:status :error    :error <message>}       any other refusal
+     {:status :invalid  :explanation <malli>}
+
+   Load and coercion exceptions propagate; the caller decides how to report
+   them. Both the human report below and the recorded baseline read this one
+   function, so they cannot disagree about what a filing resolves to."
+  [path instant]
+  (if-not (plan-valid? path)
+    {:status :invalid :explanation (coerce/explain schema/RatePlan (load-plan! path))}
+    ;; See `legitimate-refusals`: a refusal with one of those reasons is the
+    ;; right answer, not a failure. Any other refusal still fails.
+    (try
+      (let [resolved (price/resolve-prices (load-plan! path) instant)]
+        {:status  :ok
+         :ledgers (count (:urpx.resolved/ledgers resolved))
+         :rate    (price/marginal-unit-rate resolved)})
+      (catch Exception e
+        (let [reason (:reason (ex-data e))]
+          (if (legitimate-refusals reason)
+            {:status :refused :reason reason}
+            {:status :error :error (.getMessage e)}))))))
+
 (defn- validate-rate-plan [path]
-  (let [raw (core/load-rate-plan path)
-        plan (coerce/coerce-rate-plan raw)]
-    (if (coerce/validate schema/RatePlan plan)
-      (do
-        (print "load+coerce ✓ ")
-        (flush)
-        ;; See `legitimate-refusals`: a refusal with one of those reasons is the
-        ;; right answer, not a failure. Any other refusal still fails.
-        (let [ok (try
-                   (let [resolved (price/resolve-prices plan probe-instant)
-                         ledger-count (count (:urpx.resolved/ledgers resolved))
-                         marginal (price/marginal-unit-rate resolved)]
-                     (swap! marginal-count inc)
-                     (print (format "resolve ✓  (%d ledgers, marginal=%s)"
-                                    ledger-count marginal))
-                     true)
-                   (catch Exception e
-                     (let [reason (:reason (ex-data e))]
-                       (if (legitimate-refusals reason)
-                         (do (note-refusal! reason)
-                             (print (format "resolve ✓  (%s; nothing priced per kWh here)"
-                                            (name reason)))
-                             true)
-                         (do (print (format "resolve ✗  %s" (.getMessage e)))
-                             false)))))]
-          (println)
-          ok))
-      (do
-        (println "validate ✗")
-        (let [explanation (coerce/explain schema/RatePlan plan)]
-          (println "    explain:" (pr-str explanation)))
-        false))))
+  (let [r (probe-plan path probe-instant)]
+    (case (:status r)
+      :invalid (do (println "validate ✗")
+                   (println "    explain:" (pr-str (:explanation r)))
+                   false)
+      :ok      (do (swap! marginal-count inc)
+                   (println (format "load+coerce ✓ resolve ✓  (%d ledgers, marginal=%s)"
+                                    (:ledgers r) (:rate r)))
+                   true)
+      :refused (do (note-refusal! (:reason r))
+                   (println (format "load+coerce ✓ resolve ✓  (%s; nothing priced per kWh here)"
+                                    (name (:reason r))))
+                   true)
+      :error   (do (println (format "load+coerce ✓ resolve ✗  %s" (:error r)))
+                   false))))
 
 (defn- compose-modifier-with-base
   "Compose `modifier` into the latest version of `base-kw`'s base RatePlan
-   filing. Returns a map: :status ∈ #{:ok :refused :no-corpus-base :error},
-   plus :ledgers + :marginal on :ok, or :reason on :refused, or :error.
+   filing, resolved at `instant`. Returns a map: :status ∈ #{:ok :refused :no-corpus-base :error},
+   plus :ledgers + :rate + :base-version on :ok, or :reason on :refused, or
+   :error. Like `probe-plan` it neither prints nor tallies, so the human
+   report and the recorded baseline read the same result.
+
+   :base-version is the date of the base filing actually used. A newer base
+   version landing changes which filing this composes against, and that is a
+   change the recorded baseline should show rather than absorb.
 
    :refused is a PASS. A composition can legitimately price nothing per kWh:
    CPAU E-14 is street lighting, and composing the hydroelectric adjustment
    onto it contributes one energy ledger whose every tier is event-driven. See
    `legitimate-refusals` for why accepting these does not make the gate
    vacuous."
-  [modifier base-kw base-iri-lookup]
+  [modifier base-kw base-iri-lookup instant]
   (if-let [base-info (get base-iri-lookup base-kw)]
-    (let [base (-> (:path base-info) core/load-rate-plan coerce/coerce-rate-plan)]
+    (let [base (load-plan! (:path base-info))]
       (try
-        (let [resolved (price/resolve-prices-with-modifiers base [modifier] probe-instant)
-              marginal (price/marginal-unit-rate resolved)]
-          (swap! marginal-count inc)
-          {:status   :ok
-           :ledgers  (count (:urpx.resolved/ledgers resolved))
-           :marginal marginal})
+        (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant)]
+          {:status       :ok
+           :base-version (:date base-info)
+           :ledgers      (count (:urpx.resolved/ledgers resolved))
+           :rate         (price/marginal-unit-rate resolved)})
         (catch Exception e
           (let [reason (:reason (ex-data e))]
             (if (legitimate-refusals reason)
-              (do (note-refusal! reason)
-                  {:status :refused :reason reason})
-              {:status :error :error (.getMessage e)})))))
+              {:status :refused :reason reason :base-version (:date base-info)}
+              {:status :error :error (.getMessage e) :base-version (:date base-info)})))))
     {:status :no-corpus-base}))
 
 (defn- validate-rate-plan-modifier [path pairings base-iri-lookup]
-  (let [raw      (core/load-rate-plan-modifier path)
-        modifier (coerce/coerce-rate-plan-modifier raw)]
-    (if-not (coerce/validate schema/RatePlanModifier modifier)
+  (let [modifier (load-modifier! path)]
+    (if-not (modifier-valid? path)
       (do (println "validate ✗")
           (let [explanation (coerce/explain schema/RatePlanModifier modifier)]
             (println "    explain:" (pr-str explanation)))
@@ -213,9 +359,15 @@
           (do (println "(no applicable bases declared)") true)
 
           :else
-          (let [results  (mapv #(assoc (compose-modifier-with-base modifier % base-iri-lookup)
+          (let [results  (mapv #(assoc (compose-modifier-with-base modifier % base-iri-lookup
+                                                                   probe-instant)
                                        :base %)
                                base-kws)
+                _        (doseq [r results]
+                           (case (:status r)
+                             :ok      (swap! marginal-count inc)
+                             :refused (note-refusal! (:reason r))
+                             nil))
                 ok       (filterv #(= :ok (:status %)) results)
                 refused  (filterv #(= :refused (:status %)) results)
                 failures (filterv #(not (#{:ok :refused} (:status %))) results)
@@ -228,7 +380,7 @@
                                    (format "e.g. %s → %d ledgers, marginal=%s"
                                            (kw->iri (:base (first ok)))
                                            (:ledgers (first ok))
-                                           (:marginal (first ok)))
+                                           (:rate (first ok)))
                                    "no base prices anything per kWh")
                                  (if (seq refused)
                                    (format "; %d priced nothing per kWh" (count refused))
@@ -256,14 +408,331 @@
       (println "load+coerce ✗  " (.getMessage e))
       false)))
 
-(defn -main [& _]
-  (println "Probe instant:" probe-instant)
-  (println)
-  (when (empty? filings)
-    (println "ERROR: corpus discovery found no filings under us/. The tree moved")
-    (println "       and this script was not updated, or this is not the repo root.")
-    (println "       Refusing to report 0/0 as success.")
+;; --- the marginal-rate baseline ----------------------------------------------
+;;
+;; WHY THIS EXISTS. Everything above computes a marginal unit rate and prints
+;; it. Nothing above ASSERTS on it. The only value-shaped guard is the
+;; anti-vacuity refusal at the end of -main, which fires solely when NO filing
+;; produced a rate at all, so any individual rate could take any value and the
+;; run still read green. It did: three NBT compositions resolved to -213, -218
+;; and -260 dollars per kWh while this gate reported 73/73 passed.
+;;
+;; WHY NOT A BOUND. A strictly-positive bound was tried and rejected. Three of
+;; the corpus's numeric resolutions are legitimately negative (export credits
+;; make a negative marginal rate meaningful), so the bound fires on correct
+;; values; and a wrong rate that stays positive sails through it, so it misses
+;; the defects it was built for. A bound encodes a guess about the range. A
+;; recorded value encodes the actual answer.
+;;
+;; WHAT THIS DOES INSTEAD. Every resolvable thing in the corpus, base filing
+;; and modifier/base composition alike, gets a row in a checked-in file. The
+;; check compares the tree against that file and fails on any row whose value
+;; moved. Movement is then a diff to review, not a number to eyeball.
+;;
+;; WHAT MAKES IT NOT VACUOUS. Three properties, each of which the checks below
+;; refuse (exit 3) rather than pass when it fails:
+;;
+;;   TOTAL       A refusal is a row carrying its reason, not an absent row.
+;;               Without that, the way to silence a row would be to make it
+;;               refuse, and silence would read as agreement.
+;;   DELIBERATE  Re-recording is its own command that nothing else invokes.
+;;               A baseline the gate refreshes when it differs asserts
+;;               nothing at all: it agrees with whatever it is shown. Neither
+;;               dev/gate.sh nor dev/check_all.py nor dev/git-hooks/pre-commit
+;;               writes this file (see `record-baseline!`).
+;;   DENOMINATED The check reports how many recorded VALUES it compared, and
+;;               refuses when that count is zero. A corpus that stops
+;;               resolving, a baseline that loses its rows, or a rename that
+;;               makes every key miss all collapse the denominator, and each
+;;               of them would otherwise leave 0 differences and a green exit.
+
+(def baseline-file "dev/baseline/marginal-rates.edn")
+
+(defn- clj-urpx-version
+  "The consumer version this run resolved under, read from deps.edn. Recorded
+   as context: a rate that moves because clj-urpx moved is still a rate that
+   moved, and the reviewer of the diff wants to know which."
+  []
+  (try
+    (-> (slurp "deps.edn") edn/read-string
+        (get-in [:deps 'energy.grid-coordination/clj-urpx :mvn/version]))
+    (catch Exception _ nil)))
+
+(defn- row-of
+  "The recorded form of a probe result. Small and stable: the Malli
+   explanation and nothing else large is kept, and the rate is stored as the
+   string the BigDecimal prints to, so the file diffs as text."
+  [r]
+  (cond-> {:status (:status r)}
+    (:reason r)       (assoc :reason (:reason r))
+    (:base-version r) (assoc :base-version (:base-version r))
+    (:ledgers r)      (assoc :ledgers (:ledgers r))
+    (:rate r)         (assoc :rate (str (:rate r)))
+    (:error r)        (assoc :error (:error r))))
+
+(defn- at-each-instant
+  "`(f instant)` at every probe instant, as {instant-id -> row}, in the order
+   `probe-instants` declares. Every corpus key carries a cell for every
+   instant, including the ones that refuse: the grid is rectangular, which is
+   what lets the check below report a per-instant denominator."
+  [f]
+  (reduce (fn [m probe] (assoc m (:id probe) (row-of (f (:at probe)))))
+          {}
+          probe-instants))
+
+(defn- collect-rows
+  "Every filing in the corpus, resolved at every probe instant, as an ordered
+   {key -> {instant-id -> row}}. Over the corpus a base filing contributes one
+   key, a modifier contributes one key per declared base, and a filing that
+   resolves to nothing still contributes a key saying so. Each key then
+   contributes one cell per instant.
+
+   Keys are paths, not labels, because a path is what a reviewer greps for and
+   because two filings can share a label across versions. The instant id is a
+   separate level rather than part of the key so that a filing's instants sit
+   together in the recorded file and a diff reads down one filing at a time."
+  [filings pairings base-iri-lookup]
+  (into (sorted-map)
+        (mapcat
+         (fn [[kind _ path]]
+           (try
+             (case kind
+               :rate-plan
+               [[(str "plan|" path) (at-each-instant #(probe-plan path %))]]
+
+               :rate-plan-modifier
+               (let [modifier (load-modifier! path)]
+                 (if-not (modifier-valid? path)
+                   [[(str "modifier|" path) (at-each-instant (constantly {:status :invalid}))]]
+                   (let [base-kws (get-in pairings
+                                          [:by-modifier (iri->kw (:jsonld/id modifier))
+                                           :applicable-to])]
+                     (if (empty? base-kws)
+                       [[(str "modifier|" path) (at-each-instant (constantly {:status :no-bases}))]]
+                       (for [b (sort base-kws)]
+                         [(str "compose|" path "|" (kw->iri b))
+                          (at-each-instant #(compose-modifier-with-base
+                                             modifier b base-iri-lookup %))]))))))
+             (catch Exception e
+               ;; A filing that will not load fails at every instant alike, and
+               ;; recording it that way keeps the grid rectangular.
+               [[(str "plan|" path)
+                 (at-each-instant (constantly {:status :load-error :error (.getMessage e)}))]])))
+         filings)))
+
+(defn- cells
+  "The {key -> {instant-id -> row}} grid flattened to {[key instant-id] -> row}.
+   Comparison, counting and refusal all work on cells: a row is what a filing
+   resolves to AT AN INSTANT, and the instant is half of its identity."
+  [rows]
+  (into {} (for [[k by-instant] rows [id r] by-instant] [[k id] r])))
+
+(defn- numeric
+  "Cells carrying an actual resolved value. This is the denominator every
+   refusal below is measured against."
+  [cells]
+  (into {} (filter #(= :ok (:status (val %))) cells)))
+
+(defn- per-instant-ok
+  "{instant-id -> how many of `cells` resolved to a rate there}. A probe whose
+   count is zero asserted nothing at all, and the checks below refuse rather
+   than pass on one."
+  [cells]
+  (reduce (fn [m [[_ id] r]] (update m id (fnil + 0) (if (= :ok (:status r)) 1 0)))
+          (into {} (map (juxt :id (constantly 0))) probe-instants)
+          cells))
+
+(defn- rate= [a b]
+  (cond
+    (= a b)                true
+    (or (nil? a) (nil? b)) false
+    ;; Compared by value, not by printed form: a scale change (0.5868 vs
+    ;; 0.58680) is the same rate and should not fire.
+    :else (try (zero? (.compareTo (bigdec a) (bigdec b)))
+               (catch Exception _ false))))
+
+(defn- row= [a b]
+  (and (= (:status a) (:status b))
+       (= (:reason a) (:reason b))
+       (= (:ledgers a) (:ledgers b))
+       (= (:base-version a) (:base-version b))
+       (= (:error a) (:error b))
+       (rate= (:rate a) (:rate b))))
+
+(defn- describe
+  "One row rendered for a diff line. Every field `row=` compares appears here,
+   so a CHANGED pair never renders identically on both sides."
+  [r]
+  (str (case (:status r)
+         :ok         (str (:rate r) " over " (:ledgers r) " ledger(s)")
+         :refused    (str "refused " (name (:reason r)))
+         :error      (str "error " (pr-str (:error r)))
+         :load-error (str "load-error " (pr-str (:error r)))
+         (name (:status r)))
+       (when (:base-version r) (str ", base " (:base-version r)))))
+
+(defn- record-baseline!
+  "Write the baseline. NOTHING CALLS THIS BUT AN EXPLICIT --record-baseline.
+   It is deliberately absent from dev/gate.sh, from dev/check_all.py's
+   generator list, and therefore from the pre-commit hook, which regenerates
+   and stages only reports/. A baseline regenerated whenever it disagrees with
+   the tree is an assertion that the tree equals itself."
+  [rows]
+  (let [cs         (cells rows)
+        n          (count (numeric cs))
+        by-instant (per-instant-ok cs)
+        barren     (sort (keep (fn [[id c]] (when (zero? c) id)) by-instant))]
+    (when (zero? n)
+      (println "REFUSED: not one filing or composition produced a marginal unit rate,")
+      (println "         so this baseline would assert nothing. Refusing to record it.")
+      (System/exit 3))
+    ;; A probe instant that resolves nothing anywhere asserts nothing, and a
+    ;; column of pure refusals recorded as though it were evidence is exactly
+    ;; the shape of gate this file exists to not be. It means the instant fell
+    ;; outside every filing's validity window, so fix the instant.
+    (when (seq barren)
+      (println (format "REFUSED: %d probe instant(s) resolved no rate at all: %s."
+                       (count barren) (str/join ", " barren)))
+      (println "         An instant that refuses everywhere records a column of")
+      (println "         nothing. Check it against the corpus's startDate range.")
+      (System/exit 3))
+    (io/make-parents baseline-file)
+    (spit baseline-file
+          (str ";; Resolved marginal unit rates: one block per base filing and per\n"
+               ";; modifier/base composition, and inside each block one row per probe\n"
+               ";; instant. The instants, and why each is there, are in the probe-instants\n"
+               ";; list in dev/validate_v020.clj.\n"
+               ";;\n"
+               ";; NOT auto-generated. No gate, generator or git hook writes this file.\n"
+               ";; Re-record deliberately and review the diff:\n"
+               ";;\n"
+               ";;     clojure -M:validate --record-baseline\n"
+               ";;\n"
+               ";; Compared by `clojure -M:validate --check-baseline`, which dev/gate.sh\n"
+               ";; runs in both --fast and --full. See the baseline section of\n"
+               ";; dev/validate_v020.clj for why a recorded value and not a bound.\n"
+               "{:probe-instants\n"
+               " [" (str/join "\n  " (for [{:keys [id at]} probe-instants]
+                                       (pr-str {:id id :at (str at)}))) "]\n"
+               " :clj-urpx-version " (pr-str (clj-urpx-version)) "\n"
+               " :rows\n"
+               " {"
+               (str/join "\n\n  "
+                         (for [[k by-id] rows]
+                           (str (pr-str k) "\n  {"
+                                (str/join "\n   "
+                                          (for [{:keys [id]} probe-instants
+                                                :let [r (get by-id id)]
+                                                :when r]
+                                            (str (pr-str id) " " (pr-str r))))
+                                "}")))
+               "}}\n"))
+    (println (format "wrote %s" baseline-file))
+    (println (format "  %d filing row(s) x %d probe instant(s) = %d cells, %d carrying a"
+                     (count rows) (count probe-instants) (count cs) n))
+    (println (format "  resolved rate, %d refusing"
+                     (count (filter #(= :refused (:status (val %))) cs))))
+    (doseq [{:keys [id]} probe-instants]
+      (println (format "    %-26s %3d rate(s)" id (get by-instant id))))
+    (System/exit 0)))
+
+(defn- check-baseline
+  "Compare `rows` against the recorded file, cell by cell, where a cell is one
+   filing row at one probe instant. Exit 0 identical, 1 a recorded value moved,
+   2 cells appeared or vanished, 3 refused."
+  [rows]
+  (when-not (.exists (io/file baseline-file))
+    (println (format "REFUSED: no baseline at %s." baseline-file))
+    (println "         Record one deliberately: clojure -M:validate --record-baseline")
     (System/exit 3))
+  (let [file         (edn/read-string (slurp baseline-file))
+        recorded     (cells (:rows file))
+        now          (cells rows)
+        ;; An id whose recorded instant is not the instant the code now probes
+        ;; is not a value that moved, it is a different question. Comparing the
+        ;; two would report a corpus regression for an edit to this file, so
+        ;; those cells are set aside and named instead.
+        recorded-ats (into {} (map (juxt :id :at)) (:probe-instants file))
+        redefined    (into #{} (keep (fn [{:keys [id at]}]
+                                       (when-let [was (get recorded-ats id)]
+                                         (when (not= was (str at)) id)))
+                                     probe-instants))
+        comparable   (fn [[_ id]] (not (redefined id)))
+        shared       (sort (filter #(and (contains? now %) (comparable %)) (keys recorded)))
+        changed      (remove #(row= (get recorded %) (get now %)) shared)
+        added        (sort (remove #(contains? recorded %) (keys now)))
+        missing      (sort (remove #(contains? now %) (keys recorded)))
+        compared     (count (filter #(= :ok (:status (get recorded %))) shared))
+        per-instant  (reduce (fn [m k]
+                               (cond-> m
+                                 (= :ok (:status (get recorded k)))
+                                 (update (second k) (fnil inc 0))))
+                             (into {} (map (fn [k] [(second k) 0])) shared)
+                             shared)
+        barren       (sort (keep (fn [[id c]] (when (zero? c) id)) per-instant))]
+    (when (empty? recorded)
+      (println (format "REFUSED: %s records no rows." baseline-file))
+      (System/exit 3))
+    (doseq [id (sort redefined)]
+      (println (format "  REDEFINED  probe instant %s: recorded at %s, now %s"
+                       id (get recorded-ats id)
+                       (str (:at (first (filter #(= id (:id %)) probe-instants)))))))
+    ;; The denominator. Zero here means no recorded VALUE was tested: a corpus
+    ;; that stopped resolving, a rename that made every key miss, or a baseline
+    ;; of nothing but refusals. Each leaves zero differences and would
+    ;; otherwise exit green.
+    (when (zero? compared)
+      (println (format "REFUSED: %d recorded cell(s), %d resolved now, but not one"
+                       (count recorded) (count now)))
+      (println "         recorded RATE was compared. Nothing was asserted, so this run")
+      (println "         proves nothing. Refusing to report it as a pass.")
+      (System/exit 3))
+    ;; The same denominator, per instant. A widened probe set fails the way a
+    ;; single one did if one column quietly stops asserting: the corpus-wide
+    ;; count stays healthy on the strength of the other instants while that
+    ;; instant covers nothing. An instant with no comparable recorded rate is
+    ;; either newly added (re-record) or newly outside every validity window.
+    (when (seq barren)
+      (println (format "REFUSED: probe instant(s) %s compared no recorded rate."
+                       (str/join ", " barren)))
+      (println "         That column asserts nothing, so this run does not prove what")
+      (println "         it appears to. Re-record deliberately, or fix the instant.")
+      (System/exit 3))
+    (doseq [[k id] changed]
+      (println (format "  CHANGED  %s @ %s\n             %s  ->  %s"
+                       k id (describe (get recorded [k id])) (describe (get now [k id])))))
+    (doseq [[k id] added]
+      (println (format "  NEW      %s @ %s  =  %s" k id (describe (get now [k id])))))
+    (doseq [[k id] missing]
+      (println (format "  GONE     %s @ %s  was %s" k id (describe (get recorded [k id])))))
+    (let [recorded-version (:clj-urpx-version file)
+          now-version      (clj-urpx-version)]
+      (when (and recorded-version now-version (not= recorded-version now-version))
+        (println (format "  note: baseline recorded under clj-urpx %s, running %s"
+                         recorded-version now-version))))
+    (println (format "marginal-rate baseline: %d instants, %d recorded cell(s), %d resolved, %d rate(s) compared, %d changed, %d new, %d gone"
+                     (count probe-instants) (count recorded) (count now) compared
+                     (count changed) (count added) (count missing)))
+    (cond
+      (seq changed)
+      (do (println (format "\n%d recorded value(s) moved, over %d instant(s): %s."
+                           (count changed)
+                           (count (distinct (map second changed)))
+                           (str/join ", " (sort (distinct (map second changed))))))
+          (println "Account for each one, then re-record deliberately:")
+          (println "clojure -M:validate --record-baseline")
+          (System/exit 1))
+
+      (or (seq added) (seq missing) (seq redefined))
+      (do (println (format "\n%d cell(s) appeared, %d vanished and %d probe instant(s) were"
+                           (count added) (count missing) (count redefined)))
+          (println "redefined; no recorded rate moved.")
+          (println "Re-record deliberately: clojure -M:validate --record-baseline")
+          (System/exit 2))
+
+      :else (System/exit 0))))
+
+(defn- validate-corpus []
   (let [w               (inc (name-width filings))
         pairings        (read-pairings)
         base-iri-lookup (build-base-iri-lookup filings)
@@ -287,3 +756,29 @@
       (System/exit 3))
     (println (format "%d/%d passed" (- total failed) total))
     (System/exit (if (zero? failed) 0 1))))
+
+(defn -main [& args]
+  (let [mode (cond (some #{"--record-baseline"} args) :record
+                   (some #{"--check-baseline"} args)  :check
+                   :else                              :validate)]
+    (if (= mode :validate)
+      (println "Report instant:" probe-instant)
+      (println (format "Probe instants: %d, %s .. %s"
+                       (count probe-instants)
+                       (:id (first probe-instants))
+                       (:id (last probe-instants)))))
+    (println)
+    (when (empty? filings)
+      (println "ERROR: corpus discovery found no filings under us/. The tree moved")
+      (println "       and this script was not updated, or this is not the repo root.")
+      (println "       Refusing to report 0/0 as success.")
+      (System/exit 3))
+    (when (not= mode :validate)
+      (let [rows (collect-rows filings (read-pairings) (build-base-iri-lookup filings))]
+        (when (empty? rows)
+          (println "REFUSED: the corpus resolved to no rows at all.")
+          (System/exit 3))
+        (if (= mode :record)
+          (record-baseline! rows)
+          (check-baseline rows)))))
+  (validate-corpus))

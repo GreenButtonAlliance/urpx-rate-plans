@@ -576,8 +576,8 @@
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac",
-              "urpx:name": "UDC Total Rate Adjustment Component (TRAC) — TOU-varying",
+              "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-summer-on-peak",
+              "urpx:name": "UDC Total Rate Adjustment Component Summer On-Peak (TRAC)",
               "urpx:chargeType": {
                 "@id": "urpx:adjustmentPowerCost"
               },
@@ -587,6 +587,61 @@
               "urpx:billPortion": {
                 "@id": "urpx:deliveryPortion"
               },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-dr2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-summer-off-peak",
+              "urpx:name": "UDC Total Rate Adjustment Component Summer Off-Peak (TRAC)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-dr2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-winter-on-peak",
+              "urpx:name": "UDC Total Rate Adjustment Component Winter On-Peak (TRAC)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-dr2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-winter-off-peak",
+              "urpx:name": "UDC Total Rate Adjustment Component Winter Off-Peak (TRAC)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 4,
               "urpx:referencesLedger": {
                 "@id": "sdge:tou-dr2-2026-04-01-ledger-energy-delivery"
               }
@@ -951,41 +1006,37 @@
                 "@type": "urpx:Price",
                 "@id": "sdge:price-udc-trac-summer-on-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac"
+                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-summer-on-peak"
                 },
                 "urpx:name": "UDC TRAC — Summer On-Peak",
-                "urpx:unitPrice": "0.07211",
-                "urpx:touPeriodNumber": 1
+                "urpx:unitPrice": "0.07211"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:price-udc-trac-summer-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac"
+                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-summer-off-peak"
                 },
                 "urpx:name": "UDC TRAC — Summer Off-Peak",
-                "urpx:unitPrice": "0.06564",
-                "urpx:touPeriodNumber": 2
+                "urpx:unitPrice": "0.06564"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:price-udc-trac-winter-on-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac"
+                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-winter-on-peak"
                 },
                 "urpx:name": "UDC TRAC — Winter On-Peak",
-                "urpx:unitPrice": "0.06762",
-                "urpx:touPeriodNumber": 3
+                "urpx:unitPrice": "0.06762"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:price-udc-trac-winter-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac"
+                  "@id": "sdge:tou-dr2-2026-04-01-pd-udc-trac-winter-off-peak"
                 },
                 "urpx:name": "UDC TRAC — Winter Off-Peak",
-                "urpx:unitPrice": "0.06762",
-                "urpx:touPeriodNumber": 4
+                "urpx:unitPrice": "0.06762"
               }
             ]
           }

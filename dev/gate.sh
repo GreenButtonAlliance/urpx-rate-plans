@@ -96,6 +96,37 @@ run_clojure_gate() {
         cat /tmp/gate-coverage.log
         record "$rc"
     fi
+
+    # Resolution asserts that resolving succeeds; coverage asserts that the
+    # declared charges come back. Neither one looks at the NUMBER. Nothing in
+    # this repository did, which is how three NBT compositions resolved to
+    # -213, -218 and -260 dollars per kWh with the gate green. This compares
+    # every resolved marginal rate against dev/baseline/marginal-rates.edn.
+    #
+    # AT 19 INSTANTS, not one. One instant is a gate over one hour of one day
+    # type of one season: a TOU discriminator moved on four SDG&E filings and
+    # was wrong at most hours of most days while the single probed instant, and
+    # therefore this gate, was unchanged. The instants and the reason for each
+    # are in probe-instants in dev/validate_v020.clj. Widening cost nothing
+    # here: 3,021 cells in 4.0s against 159 cells in 5.5s, because load and
+    # Malli validation are now cached per filing instead of repeated per
+    # resolution.
+    #
+    # Exit 1 a recorded value moved, 2 cells appeared or vanished, 3 refused.
+    # Refusals now include a per-instant denominator: a probe instant that
+    # compares no recorded rate refuses rather than riding along green on the
+    # strength of the other 18. The gate NEVER re-records: a baseline refreshed
+    # whenever it disagrees with the tree asserts only that the tree equals
+    # itself. Re-record by hand and review the diff:
+    #   clojure -M:validate --record-baseline
+    note "Marginal-rate baseline"
+    if clojure -M:validate --check-baseline > /tmp/gate-marginal.log 2>&1; then
+        tail -1 /tmp/gate-marginal.log
+    else
+        rc=$?
+        cat /tmp/gate-marginal.log
+        record "$rc"
+    fi
 }
 
 case "$MODE" in

@@ -746,7 +746,7 @@
             {
               "@type": "urpx:PriceDefinition",
               "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission",
-              "urpx:name": "UDC Transmission (Trans, includes TRBAA + TACBAA adjustments) — TOU-varying (zero in Super Off-Peak)",
+              "urpx:name": "UDC Transmission (Trans, includes TRBAA + TACBAA adjustments)",
               "urpx:chargeType": {
                 "@id": "urpx:transmission"
               },
@@ -762,8 +762,8 @@
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution",
-              "urpx:name": "UDC Distribution (Distr) — TOU-varying (heavily reduced in Super Off-Peak)",
+              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-summer-on-peak",
+              "urpx:name": "UDC Distribution Summer On-Peak (Distr)",
               "urpx:chargeType": {
                 "@id": "urpx:distributionCharge"
               },
@@ -773,6 +773,97 @@
               "urpx:billPortion": {
                 "@id": "urpx:deliveryPortion"
               },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "sdge:ev-tou-2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-summer-off-peak",
+              "urpx:name": "UDC Distribution Summer Off-Peak (Distr)",
+              "urpx:chargeType": {
+                "@id": "urpx:distributionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "sdge:ev-tou-2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-summer-super-off-peak",
+              "urpx:name": "UDC Distribution Summer Super Off-Peak (Distr)",
+              "urpx:chargeType": {
+                "@id": "urpx:distributionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "sdge:ev-tou-2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-winter-on-peak",
+              "urpx:name": "UDC Distribution Winter On-Peak (Distr)",
+              "urpx:chargeType": {
+                "@id": "urpx:distributionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "sdge:ev-tou-2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-winter-off-peak",
+              "urpx:name": "UDC Distribution Winter Off-Peak (Distr)",
+              "urpx:chargeType": {
+                "@id": "urpx:distributionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 5,
+              "urpx:referencesLedger": {
+                "@id": "sdge:ev-tou-2-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-winter-super-off-peak",
+              "urpx:name": "UDC Distribution Winter Super Off-Peak (Distr)",
+              "urpx:chargeType": {
+                "@id": "urpx:distributionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:touPeriodNumber": 6,
               "urpx:referencesLedger": {
                 "@id": "sdge:ev-tou-2-2026-04-01-ledger-energy-delivery"
               }
@@ -1023,6 +1114,15 @@
             "urpx:hasPrice": [
               {
                 "@type": "urpx:Price",
+                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
+                },
+                "urpx:name": "UDC Transmission",
+                "urpx:unitPrice": "0.10067"
+              },
+              {
+                "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-pppc",
                 "urpx:referencesPriceDefinition": {
                   "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-pppc"
@@ -1137,22 +1237,7 @@
                     "@id": "sdge:ev-tou-2-2026-04-01-price-udc-trac"
                   },
                   {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-on-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-off-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-super-off-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-on-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-off-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-super-off-peak"
+                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission"
                   },
                   {
                     "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-summer-on-peak"
@@ -1222,22 +1307,7 @@
                     "@id": "sdge:ev-tou-2-2026-04-01-price-wf-nbc"
                   },
                   {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-on-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-off-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-super-off-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-on-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-off-peak"
-                  },
-                  {
-                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-super-off-peak"
+                    "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission"
                   },
                   {
                     "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-summer-on-peak"
@@ -1263,73 +1333,6 @@
           },
           {
             "@type": "urpx:PriceSet",
-            "@id": "sdge:ev-tou-2-2026-04-01-ps-udc-transmission-tou",
-            "urpx:startDate": "2026-04-01",
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-on-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
-                },
-                "urpx:name": "UDC Transmission — Summer On-Peak",
-                "urpx:unitPrice": "0.10067",
-                "urpx:touPeriodNumber": 1
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-off-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
-                },
-                "urpx:name": "UDC Transmission — Summer Off-Peak",
-                "urpx:unitPrice": "0.10067",
-                "urpx:touPeriodNumber": 2
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-summer-super-off-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
-                },
-                "urpx:name": "UDC Transmission — Summer Super Off-Peak (zero)",
-                "urpx:unitPrice": "0.10067",
-                "urpx:touPeriodNumber": 3
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-on-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
-                },
-                "urpx:name": "UDC Transmission — Winter On-Peak",
-                "urpx:unitPrice": "0.10067",
-                "urpx:touPeriodNumber": 4
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-off-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
-                },
-                "urpx:name": "UDC Transmission — Winter Off-Peak",
-                "urpx:unitPrice": "0.10067",
-                "urpx:touPeriodNumber": 5
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-transmission-winter-super-off-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-transmission"
-                },
-                "urpx:name": "UDC Transmission — Winter Super Off-Peak (zero)",
-                "urpx:unitPrice": "0.10067",
-                "urpx:touPeriodNumber": 6
-              }
-            ]
-          },
-          {
-            "@type": "urpx:PriceSet",
             "@id": "sdge:ev-tou-2-2026-04-01-ps-udc-distribution-tou",
             "urpx:startDate": "2026-04-01",
             "urpx:hasPrice": [
@@ -1337,61 +1340,55 @@
                 "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-summer-on-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution"
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-summer-on-peak"
                 },
                 "urpx:name": "UDC Distribution — Summer On-Peak",
-                "urpx:unitPrice": "0.19763",
-                "urpx:touPeriodNumber": 1
+                "urpx:unitPrice": "0.19763"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-summer-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution"
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-summer-off-peak"
                 },
                 "urpx:name": "UDC Distribution — Summer Off-Peak",
-                "urpx:unitPrice": "0.19763",
-                "urpx:touPeriodNumber": 2
+                "urpx:unitPrice": "0.19763"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-summer-super-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution"
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-summer-super-off-peak"
                 },
                 "urpx:name": "UDC Distribution — Summer Super Off-Peak",
-                "urpx:unitPrice": "0.19763",
-                "urpx:touPeriodNumber": 3
+                "urpx:unitPrice": "0.05666"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-winter-on-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution"
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-winter-on-peak"
                 },
                 "urpx:name": "UDC Distribution — Winter On-Peak",
-                "urpx:unitPrice": "0.19763",
-                "urpx:touPeriodNumber": 4
+                "urpx:unitPrice": "0.19763"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-winter-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution"
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-winter-off-peak"
                 },
                 "urpx:name": "UDC Distribution — Winter Off-Peak",
-                "urpx:unitPrice": "0.19763",
-                "urpx:touPeriodNumber": 5
+                "urpx:unitPrice": "0.19763"
               },
               {
                 "@type": "urpx:Price",
                 "@id": "sdge:ev-tou-2-2026-04-01-price-udc-distribution-winter-super-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution"
+                  "@id": "sdge:ev-tou-2-2026-04-01-pd-udc-distribution-winter-super-off-peak"
                 },
                 "urpx:name": "UDC Distribution — Winter Super Off-Peak",
-                "urpx:unitPrice": "0.19763",
-                "urpx:touPeriodNumber": 6
+                "urpx:unitPrice": "0.05666"
               }
             ]
           }

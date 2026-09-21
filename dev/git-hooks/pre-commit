@@ -35,7 +35,11 @@ set -euo pipefail
 # had to be remembered here, and fix_file_urls.py was already missing. Matching
 # the whole directory cannot drift. The cost is that editing an unrelated dev
 # script runs the gate, which is a couple of minutes and the safe direction.
-if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(us/.*\.(toml|jsonld)|dev/[^/]+\.(py|sh|clj))$'; then
+# dev/baseline/ is matched explicitly: the old pattern only reached dev/*.py|sh|clj
+# at one level, so a commit touching ONLY dev/baseline/marginal-rates.edn skipped
+# the gate entirely. That is the one file whose whole purpose is to be compared
+# against, so a re-record could land unverified.
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(us/.*\.(toml|jsonld)|dev/[^/]+\.(py|sh|clj)|dev/baseline/.*\.(edn|json))$'; then
     exit 0
 fi
 
