@@ -53,13 +53,21 @@ EAPR customer benefits per Schedule EAPR Sec III (Residential):
  >150-200% $0/month
 
  NOT MODELED. The "100% reduction up to $X cap" pattern is a
- cap-on-credit semantic that URPX v0.2.0 does not directly
- express. It's not a flat per-kWh credit (the discount evaporates
- once the customer hits the monthly cap), and it's not a flat
- per-month credit (the customer pays nothing if they're under
- the cap, then resumes paying full rate). Same family as the
- LADWP NEM and SMUD NEM1 "compute at upstream context" pattern,
- tracked at urpx-org/urpx discussion #34 (OPEN).
+ cap-on-credit semantic. It is not a flat per-kWh credit (the
+ discount evaporates once the customer hits the monthly cap), and
+ it is not a flat per-month credit (the customer pays nothing if
+ they're under the cap, then resumes paying full rate). URPX v0.5.1
+ does carry that shape: marginal ServiceBrackets over a
+ money-denominated MetricInput, with a -1.0 multiplier on the first
+ bracket and 0.0 on the rest. What it cannot state is that a bracket
+ bound of 60 means sixty dollars, since a bracket bound carries no
+ unit and urpx:unitOfMeasure attaches only to a MetricSpecification.
+ That is a different question from the LADWP NEM and SMUD NEM1
+ export credit (urpx-org/urpx discussion #63) and from the
+ percentage-of-bill discount (#34, cited here previously, answered
+ by urpx:multiplier over urpx:basedOnPrice). No upstream thread
+ covers this case yet; the worked construction is in
+ MODELING-GAPS.md.
 
  (3) ERSF (Rate Stabilization Fund) Additional Monthly Discount
  (0-50% FPL only): $0-$35/month additional discount, determined
@@ -105,9 +113,9 @@ same SMUD residential base, both per-month credits should apply.
 
  1. **Income-tier-conditional usage discount cap** ($60/$32/$10/$0
  per month, depending on FPL tier) — primary EAPR benefit, not
- modeled. URPX#24 territory (cap-on-credit / computed-from-
- upstream-context). The $10/month BSC discount captured here is
- the secondary EAPR benefit.
+ modeled. Blocked on stating the dollar denomination of a bracket
+ bound, not on cap-on-credit vocabulary (see above). The $10/month
+ BSC discount captured here is the secondary EAPR benefit.
 
  2. **ERSF Additional Monthly Discount** ($0-$35/month for 0-50%
  FPL tier only, formulaic, year-by-year) — not modeled.
@@ -137,7 +145,7 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "Income-tier-conditional usage discount cap ($60/$32/$10/$0 per FPL tier per month) — URPX#24 territory (cap-on-credit / computed-from-upstream-context); primary EAPR benefit, not modeled",
+ "Income-tier-conditional usage discount cap ($60/$32/$10/$0 per FPL tier per month) — blocked on stating that a bracket bound denominated in dollars is dollars, not on cap-on-credit vocabulary; primary EAPR benefit, not modeled",
  "ERSF Additional Monthly Discount ($0-$35/month for 0-50% FPL only, year-by-year formulaic) — not modeled",
   "Nonprofit Organization eligibility paths (Sec IV-VI) — residential-focus filing; nonprofit out of scope",
 ]
@@ -145,4 +153,4 @@ deferrals = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "first filing of SMUD EAPR. Single per-meter-per-day credit for the $10/month BSC discount (modeled as -$0.3289/day = $10/30.4 days). Income-tier usage-cap discount deferred (URPX#24). For 150-200% FPL customers (where usage cap = $0), the BSC discount is the ENTIRE EAPR benefit; for 0-50% FPL customers, modeled BSC discount captures ~14% of benefit. Eligibility predicate: 'Program Enrollment' = 'Energy Assistance Program (EAPR)'. applicableToRatePlan: 2 SMUD residential bases (tod-5-8pm, fixed). Stacks additively with MED."
+notes = "first filing of SMUD EAPR. Single per-meter-per-day credit for the $10/month BSC discount (modeled as -$0.3289/day = $10/30.4 days). Income-tier usage-cap discount deferred (blocked on unit-bearing bracket bounds, no upstream thread yet). For 150-200% FPL customers (where usage cap = $0), the BSC discount is the ENTIRE EAPR benefit; for 0-50% FPL customers, modeled BSC discount captures ~14% of benefit. Eligibility predicate: 'Program Enrollment' = 'Energy Assistance Program (EAPR)'. applicableToRatePlan: 2 SMUD residential bases (tod-5-8pm, fixed). Stacks additively with MED."

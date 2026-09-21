@@ -105,13 +105,22 @@ customer load served by the NEM-eligible facility.
 
 The actual NEM1 credit value depends on the customer's applicable
 base rate (Fixed or R-TOD), what season, and possibly what TOU period
-(R-TOD is TOU). URPX has no primitive for 'compute credit at the
-customer's base rate' — same family of vocabulary gap as
+(R-TOD is TOU). Naming that base price is itself expressible:
+urpx:basedOnPrice is constrained only to resolve to a urpx:Price or
+urpx:PriceSummary in the validated graph, with nothing scoping it to
+the referring document. What we have not found is a way to scope a
+per-base-plan credit to the plan it mirrors, and this modifier applies
+to three (smud:tod-5-8pm, smud:tod-low-use, smud:fixed), so credits
+written for one base go active with nothing to resolve against when
+the modifier composes against another. Same open question as
 us/ca/ladwp/electricity/nem/versions/2008-09-01/.
 
-Tracked at urpx-org/urpx discussion #34 (with follow-up comment 4357395644
-covering the LADWP-NEM and SCE-HPWH cases as related vocabulary-need
-data points).
+Tracked at urpx-org/urpx discussion #63 (the several-base-plans
+scoping question, filed 2026-09-21). Discussion #34, cited here
+previously, is the percentage-of-bill discount question; its shape,
+urpx:multiplier over a urpx:basedOnPrice list read as candidate bases,
+does not fit a credit bound by construction to one specific base
+price.
 
 For SHACL conformance, the modifier carries one PriceDefinition (NEM1
 Net Metering Credit, chargeType creditEnergy) with a placeholder
@@ -188,4 +197,4 @@ deferrals = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Second SMUD RatePlanModifier filing (after SSR). Pattern reference: us/ca/ladwp/electricity/nem/versions/2008-09-01/ for the placeholder-Price + reverse-flow-MetricInput modifier shape (closest analog — both modifiers use 'computed at customer's base rate' compensation that has no current URPX vocabulary). Four EligibilityRules: residential customer + interconnection-approval-date <2022-03-01 (closed-to-new clause) + 4-way OR over qualifying renewable DER types (solar/wind/hydro + custom-other-renewable for biomass/geothermal/fuel cells/digester gas/MSW/landfill gas/ocean/tidal — NEM1 does not cover storage-only customers, unlike SSR) + capacity ≤3,000 kW. Single PriceDefinition with placeholder Price unitPrice='0'. Vocab gap tracked at urpx-org/urpx discussion #34 (consolidated with LADWP NEM and SCE HPWH cases per follow-up comment 4357395644). NOTE on source PDF: SMUD's older `1-NEM1.ashx` URL serves the pre-revision Resolution 19-06-13 PDF (effective 2021-01-01); the canonical current revision is at `01_NEM1.ashx` (Resolution 21-09-07, effective 2021-09-17, this filing) — see utility.toml dual-URL discussion."
+notes = "Second SMUD RatePlanModifier filing (after SSR). Pattern reference: us/ca/ladwp/electricity/nem/versions/2008-09-01/ for the placeholder-Price + reverse-flow-MetricInput modifier shape (closest analog — both modifiers compensate at the customer's own base-plan rate and both ship a placeholder Price in place of it). Four EligibilityRules: residential customer + interconnection-approval-date <2022-03-01 (closed-to-new clause) + 4-way OR over qualifying renewable DER types (solar/wind/hydro + custom-other-renewable for biomass/geothermal/fuel cells/digester gas/MSW/landfill gas/ocean/tidal — NEM1 does not cover storage-only customers, unlike SSR) + capacity ≤3,000 kW. Single PriceDefinition with placeholder Price unitPrice='0'. Open question tracked at urpx-org/urpx discussion #63 (how a modifier scopes a credit priced at the customer's own base-plan rate when it applies to several base plans; LADWP NEM has the same shape over two bases, this one over three). NOTE on source PDF: SMUD's older `1-NEM1.ashx` URL serves the pre-revision Resolution 19-06-13 PDF (effective 2021-01-01); the canonical current revision is at `01_NEM1.ashx` (Resolution 21-09-07, effective 2021-09-17, this filing) — see utility.toml dual-URL discussion."

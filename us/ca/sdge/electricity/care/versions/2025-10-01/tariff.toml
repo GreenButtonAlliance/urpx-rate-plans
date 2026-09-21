@@ -45,9 +45,9 @@ Per-sheet effective dates:
 
 ## Modifier shape
 
-Modeled as urpx:RatePlanModifier (sibling pattern to SCE CARE in
-, with the same line-item exemption + percentage-discount
-deferral structure). Eligibility predicate: customer's
+Modeled as urpx:RatePlanModifier (sibling pattern to SCE CARE,
+with the same four line-item exemptions plus a percentage
+discount). Eligibility predicate: customer's
 'Program Enrollment' = 'California Alternate Rates for Energy (CARE)'
 (CustomOperandNode), matching the SCE/cross-utility naming.
 
@@ -85,16 +85,24 @@ when customer is enrolled in CARE):
  'Total Rates' table). Same numerical values appear consistently
  across the SDG&E residential bases.
 
+Percentage discount (one Price over a subtotal, not a line item):
+
+ 35% bill discount: sdge:care-price-bill-discount-2025-10-01
+ carries urpx:multiplier -0.35, and its urpx:basedOnPrice names
+ sdge:<base>-2026-04-01-summary-care-discountable in each of the
+ 9 bases listed in applicableToRatePlan, so the discount
+ composes against whichever base the customer is on.
+
+ Each of those urpx:PriceSummary nodes is the CARE-discountable
+ subtotal Sheet 1 defines as the bill less applicable
+ exemptions, minimum bill amount and base services charge: it
+ names the base's energy, delivery and surcharge Prices, and
+ excludes the fixed charge, the DWR-BC and the WF-NBC. 10
+ members on sdge:dr, 24 on sdge:ev-tou-5.
+
 ## What this modifier does NOT capture (deferred)
 
- 1. **35% line-item bill discount** — URPX has no percentage-of-bill
- primitive (urpx:Price.unitPrice is xsd:decimal in $-per-unit).
- Same upstream-vocabulary gap as SCE CARE and
- PG&E CARE — tracked at urpx-org/urpx discussion #34 (OPEN). The 35%
- discount is the bulk of the customer's CARE benefit; the
- line-item exemptions modeled here cover the remainder.
-
- 2. **CARE Medical Baseline customer co-benefits** — Sheet 1 prose:
+ 1. **CARE Medical Baseline customer co-benefits** — Sheet 1 prose:
  'CARE Medical Baseline customers taking electric service will
  also receive applicable benefits associated with Medical
  Baseline Program participation pursuant to D.25-09-006.' Those
@@ -102,13 +110,13 @@ when customer is enrolled in CARE):
  the same upstream allocation-extension question as SCE HPWH /
  PG&E Code M/S — urpx-org/urpx#32, OPEN). Not modeled here.
 
- 3. **Non-Residential CARE** — Sheet 1 lists separate eligibility
+ 2. **Non-Residential CARE** — Sheet 1 lists separate eligibility
  and exemption structure (e.g., DWR-BC + WF-NBC exemptions are
  explicit there). Not in scope for this residential-focused
  filing; would be modeled in a separate non-residential CARE
  filing if ever needed.
 
- 4. **CARE Surcharge value variance** — Sheet 2 distinguishes two
+ 3. **CARE Surcharge value variance** — Sheet 2 distinguishes two
  CARE Surcharge rates: $0.00864/kWh for "All Other Residential
  CARE Schedules" (DR, DS, DT, DT-RV, DR-SES, TOU-DR, EV-TOU-2,
  EV-TOU-5, TOU-DR1, TOU-DR2, TOU-ELEC) and $0.01062/kWh for
@@ -122,8 +130,8 @@ when customer is enrolled in CARE):
 
 CARE is a CPUC-mandated program implemented by all three CA IOUs.
 SCE CARE modeled at us/ca/sce/electricity/care/2026-03-20/ — same shape (4
-line-item exemptions + deferred percentage discount). PG&E CARE
-not yet modeled.
+line-item exemptions plus a percentage discount carried as a
+multiplier over a subtotal). PG&E CARE not yet modeled.
 """
 
 # Validation ------------------------------------------------------------------
@@ -136,7 +144,6 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "35% line-item bill discount, per Schedule E-CARE Sheet 1. URPX v0.5.1 can express this: a urpx:PriceSummary over the discountable line items with a urpx:Price carrying urpx:multiplier and urpx:basedOnPrice. Not yet modeled; the shape is settled and the work is scoped",
  "CARE Medical Baseline co-benefits via Schedule E-MEDICAL — blocked on urpx-org/urpx#32 (additive baseline allowance, OPEN)",
  "Non-Residential CARE structure (separate exemption list) — out of scope for residential-focused filing",
  "CARE Surcharge $0.01062/kWh variant for DM & EV-TOU CARE Schedules — those bases aren't currently in our corpus",
@@ -145,4 +152,4 @@ deferrals = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "first filing of SDG&E Schedule E-CARE. Modeled as urpx:RatePlanModifier (sibling pattern to SCE CARE). 4 PriceDefinitions on 4 separate Ledgers per the urpx.price/marginal-unit-rate sum semantics: WF-NBC Exemption (-0.00591), DWR-BC Exemption (0), CARE Surcharge Exemption (-0.00864), BSC Adjustment (-0.59630/day). 35% percentage discount deferred to URPX upstream #24. Eligibility predicate: 'Program Enrollment' = 'California Alternate Rates for Energy (CARE)'. applicableToRatePlan: 9 SDG&E residential bases (dr, dr-ses, ev-tou, ev-tou-2, ev-tou-5, tou-dr, tou-dr1, tou-dr2, tou-elec). Source: canonical Schedule E-CARE PDF via SDG&E Azure FDoor API (tarfKey 383)."
+notes = "first filing of SDG&E Schedule E-CARE. Modeled as urpx:RatePlanModifier (sibling pattern to SCE CARE). 5 PriceDefinitions on 5 separate Ledgers per the urpx.price/marginal-unit-rate sum semantics: WF-NBC Exemption (-0.00591), DWR-BC Exemption (0), CARE Surcharge Exemption (-0.00864), BSC Adjustment (-0.59630/day), and the 35% bill discount (urpx:multiplier -0.35 over each base's CARE-discountable subtotal). Eligibility predicate: 'Program Enrollment' = 'California Alternate Rates for Energy (CARE)'. applicableToRatePlan: 9 SDG&E residential bases (dr, dr-ses, ev-tou, ev-tou-2, ev-tou-5, tou-dr, tou-dr1, tou-dr2, tou-elec). Source: canonical Schedule E-CARE PDF via SDG&E Azure FDoor API (tarfKey 383)."

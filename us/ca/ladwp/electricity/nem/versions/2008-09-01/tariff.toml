@@ -62,10 +62,16 @@ Net-metering billing rule (in description prose):
 
 The actual NEM credit value depends on which base rate (R-1A or R-1B)
 the customer is on, what tier (R-1A's Z1/Z2 × Tier 1/2/3) or TOU
-period (R-1B's High Peak / Low Peak / Base), and what season. URPX
-has no primitive for "compute credit at the base rate's applicable
-energy price" — same family of vocabulary gap as the bill-percentage-
-discount issue tracked at urpx-org/urpx discussion #34 (CARE/FERA modifiers).
+period (R-1B's High Peak / Low Peak / Base), and what season. Naming
+that base price is itself expressible: urpx:basedOnPrice is
+constrained only to resolve to a urpx:Price or urpx:PriceSummary in
+the validated graph, with nothing scoping it to the referring
+document. What we have not found is a way to scope a per-base-plan
+credit to the plan it mirrors. Mirroring each base price with its own
+credit validates, but the R-1(B) credits go active with nothing to
+resolve against when the rider composes against R-1(A), and the R-1(A)
+credits do the same the other way round. Tracked at urpx-org/urpx
+discussion #63 (the several-base-plans scoping question).
 
 For SHACL conformance, the modifier carries one PriceDefinition
 (NEM Net Metering Credit, chargeType creditEnergy) with a placeholder
@@ -73,12 +79,15 @@ Price unitPrice="0". Consumers (price-server) computing actual credits
 must reference the customer's base rate at billing time. Description
 prose documents the rule clearly.
 
-A future filing version will replace the placeholder Price with a
-structured PriceDefinition once URPX adds vocabulary for "computed at
-base rate" semantic. Will track via a comment on urpx-org/urpx discussion #34
-once that issue's modeling-direction outcome lands (the same primitive
-that resolves the percentage-of-bill discount may also resolve the
-NEM-style net-metering case).
+A future filing version will replace the placeholder Price with
+structured credits once discussion #63 settles how to scope them per
+base plan. Discussion #34, cited here previously, is the
+percentage-of-bill discount question, answered by urpx:multiplier over
+a urpx:basedOnPrice list read as candidate bases and shipped by the
+SCE and SDG&E CARE and FERA modifiers. That shape does not reach this
+case: each NEM credit is bound by construction to one specific base
+price, so listing R-1(B)'s prices as alternative candidates for an
+R-1(A) credit would assert a correspondence that does not exist.
 
 ## Cross-utility consistency
 
@@ -108,4 +117,4 @@ deferrals = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "First LADWP RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, single Price. The Price is a placeholder (unitPrice='0') because URPX has no 'computed at base rate' primitive — same family of vocabulary gap as the percentage-of-bill discount issue at urpx-org/urpx discussion #34. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."
+notes = "First LADWP RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, single Price. The Price is a placeholder (unitPrice='0') not because the reference to the base price is inexpressible but because we have found no way to scope a per-base-plan credit to the plan it mirrors across the rider's two bases (r-1a, r-1b) — tracked at urpx-org/urpx discussion #63. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."
