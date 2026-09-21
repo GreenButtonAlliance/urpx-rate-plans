@@ -98,10 +98,44 @@ def t2_literal_iris(doc, log):
         log(f"T2 {n} literal IRI value(s) rebased")
 
 
+# urpx:regulatoryFiling belonged to the retired 10-member PublicationTypeValue
+# and is not a member of v0.5.1's 8-member SourcePublicationTypeValue. Upstream
+# answered the successor question in its own v0.5.1 test case, which models the
+# SAME node (pge:al-7846-e, PG&E Advice Letter 7846-E) as a SourcePublication
+# with publicationType urpx:tariffSupplement. We follow their modelling of our
+# own node rather than inventing a parallel one.
+PUBLICATION_TYPE_SUCCESSOR = {"urpx:regulatoryFiling": "urpx:tariffSupplement"}
+
+# SourcePublicationShape is CLOSED and does not admit hasRatePlan or
+# hasRatePlanModifier. Those pointers are redundant anyway: the URPXPackage that
+# encloses the publication already holds the same plans.
+PUBLICATION_DROPPED = ("urpx:hasRatePlan", "urpx:hasRatePlanModifier")
+
+
 def t5_split_publication(doc, log):
-    if find_all(doc, lambda d: d.get("@type") == "urpx:TariffPublication"):
-        raise Migrate("T5 (TariffPublication split) is not implemented; "
-                      "required from wave 4 (PG&E). Refusing rather than skipping.")
+    n = 0
+    def visit(d):
+        nonlocal n
+        if d.get("@type") != "urpx:TariffPublication":
+            return
+        d["@type"] = "urpx:SourcePublication"
+        pt = d.get("urpx:publicationType")
+        if isinstance(pt, dict) and "@id" in pt:
+            old = pt["@id"]
+            if old in PUBLICATION_TYPE_SUCCESSOR:
+                pt["@id"] = PUBLICATION_TYPE_SUCCESSOR[old]
+            elif not old.startswith("urpx:"):
+                raise Migrate(f"unrecognised publicationType {old!r}")
+            else:
+                raise Migrate(f"publicationType {old!r} has no recorded v0.5.1 "
+                              f"successor; add one to PUBLICATION_TYPE_SUCCESSOR "
+                              f"rather than letting it through")
+        for k in PUBLICATION_DROPPED:
+            d.pop(k, None)
+        n += 1
+    walk(doc, visit)
+    if n:
+        log(f"T5 {n} TariffPublication -> SourcePublication (tariffSupplement)")
 
 
 def t3_package(doc, log):
@@ -119,29 +153,32 @@ def t3_package(doc, log):
 
 
 def t4_synthesize_package(doc, path, log):
-    """Wrap a bare @graph filing in a URPXPackage.
+    """Insert a URPXPackage INTO a bare @graph, matching upstream's own pattern.
 
-    Nine filings were left mid-way through an abandoned wrapper migration and
-    carry a bare @graph. v0.5.1 requires targetURPXVersion on the package, so
-    these have nowhere to declare the version they target without one.
+    Upstream's v0.5.1 pge-e-tou-c test case is a bare @graph holding a
+    URPXPackage as ONE entry alongside other top-level entities, not a wrapper
+    that swallows the document. That matters here: URPXPackageShape is closed and
+    admits neither ProgramEnrollment nor RateCase, both of which PG&E filings
+    carry as @graph siblings. Collapsing everything into a wrapper would make
+    those nodes unplaceable; leaving them as siblings is both valid and what
+    upstream does.
+
+    The package takes the plans and modifiers inline and they leave the top level,
+    because a URPXPackage exists precisely to declare targetURPXVersion over them.
     """
     if doc.get("@type") in ("urpx:URPXPackage", "urpx:URPXDocument"):
         return
     graph = doc.get("@graph")
     if graph is None:
         raise Migrate("no @graph and no wrapper; unrecognised document shape")
+    if any(e.get("@type") == "urpx:URPXPackage" for e in graph):
+        return
 
     plans = [e for e in graph if e.get("@type") == "urpx:RatePlan"]
     mods = [e for e in graph if e.get("@type") == "urpx:RatePlanModifier"]
-    other = [e for e in graph if e.get("@type") not in ("urpx:RatePlan", "urpx:RatePlanModifier")]
-    if other:
-        raise Migrate(f"@graph holds {[e.get('@type') for e in other]}, which T4 "
-                      f"does not know where to put in a URPXPackage")
     if not plans and not mods:
-        raise Migrate("@graph holds no RatePlan or RatePlanModifier")
+        raise Migrate("@graph holds no RatePlan or RatePlanModifier to package")
 
-    # <utility>:doc-<schedule>-<date>, matching the convention the already-wrapped
-    # filings use (e.g. ladwp:doc-r-1a-2026-04-01).
     date = path.parent.name
     schedule = path.parent.parent.parent.name
     utility = corpus.utility_of(path)
@@ -155,11 +192,11 @@ def t4_synthesize_package(doc, path, log):
     if mods:
         pkg["urpx:hasRatePlanModifier"] = mods[0] if len(mods) == 1 else mods
 
-    ctx = doc["@context"]
-    doc.clear()
-    doc["@context"] = ctx
-    doc.update(pkg)
-    log(f"T4 synthesized URPXPackage over {len(plans)} plan(s) + {len(mods)} modifier(s)")
+    siblings = [e for e in graph if e not in plans and e not in mods]
+    doc["@graph"] = [pkg] + siblings
+    kept = sorted({str(e.get("@type")) for e in siblings})
+    log(f"T4 URPXPackage over {len(plans)} plan(s) + {len(mods)} modifier(s); "
+        f"{len(siblings)} sibling(s) kept at @graph level: {', '.join(kept)}")
 
 
 def t6_flatten_tariff_book_ref(doc, log):
@@ -227,10 +264,28 @@ def t8_org_identity(doc, ctx, log):
         log(f"T8 {n} Organization eiaId -> identity chain")
 
 
-def t9_count_supersedes(doc, log):
-    n = len(find_all(doc, lambda d: "urpx:supersedes" in d))
+def t9_supersedes(doc, log):
+    """Remove urpx:supersedes from version nodes; it is not admitted there.
+
+    v0.5.1's RatePlanVersionShape and RatePlanModifierVersionShape are sh:closed
+    and do not list supersedes, so leaving it is a hard ClosedConstraint
+    violation. Upstream carries lineage on urpx:TariffFiling instead (four ConEd
+    statement filings do exactly this) and on PricingModel, neither of which this
+    corpus models yet.
+
+    So the link is dropped rather than re-homed, and the lineage it recorded is
+    temporarily unexpressed. That is deliberate and tracked as URPXT-ask1: the
+    placement being removed is the one upstream issue #16 explicitly instructed
+    on 2026-05-01, and v0.5.0 reversed it without a recorded discussion.
+    """
+    n = 0
+    def visit(d):
+        nonlocal n
+        if d.get("@type") in VERSION_TYPES and "urpx:supersedes" in d:
+            d.pop("urpx:supersedes"); n += 1
+    walk(doc, visit)
     if n:
-        log(f"T9 {n} supersedes left in place (upstream ask URPXT-ask1)")
+        log(f"T9 {n} supersedes dropped from version node(s); lineage pending URPXT-ask1")
 
 
 def t10_back_links(doc, log):
@@ -279,22 +334,48 @@ def t10_back_links(doc, log):
         log(f"T10 {n} version back-link(s)")
 
 
-def t11_coverage_claim(doc, complete: bool, log):
-    n = 0
+def t11_coverage_claim(doc, complete: bool, filing_date: str, log):
+    """One version, one CoverageClaim, one verdict.
+
+    A claim describes the VERSION, not the filing, and upstream names it after
+    the version it describes (pge:cc-e-elec-2026-01-01 for version
+    pge:e-elec-2026-01-01). tariff.toml's [modeling].complete describes the
+    FILING, so deriving a per-version claim from it in every filing that embeds
+    that version is a category error: pge:e-tou-c-vintage-pcia-2026-03-01 is
+    carried by two filings whose manifests disagree (complete False and True),
+    which produced one @id with two completenessResults and a MaxCount violation
+    in the merged graph.
+
+    So the full claim is authored only in the filing where the version is
+    PRIMARY, meaning its date matches that filing's own version directory.
+    Elsewhere the version references the same claim by @id, and the two unify in
+    the merged graph exactly as every other cross-file reference does.
+    """
+    inlined = referenced = 0
     def visit(d):
-        nonlocal n
+        nonlocal inlined, referenced
         if d.get("@type") not in VERSION_TYPES or "urpx:hasCoverageClaim" in d:
             return
-        d["urpx:hasCoverageClaim"] = {
-            "@id": f"{d.get('@id', 'urn:anon')}-coverage",
-            "@type": "urpx:CoverageClaim",
-            "urpx:completenessResult": {"@id": "urpx:complete" if complete else "urpx:partial"},
-            "urpx:selfContained": True,
-        }
-        n += 1
+        vid = d.get("@id")
+        if not vid:
+            raise Migrate("version node has no @id, so no CoverageClaim can be named for it")
+        prefix, _, localname = vid.partition(":")
+        claim_id = f"{prefix}:cc-{localname}"
+        if vid.endswith(filing_date):
+            d["urpx:hasCoverageClaim"] = {
+                "@id": claim_id,
+                "@type": "urpx:CoverageClaim",
+                "urpx:completenessResult": {"@id": "urpx:complete" if complete else "urpx:partial"},
+                "urpx:selfContained": True,
+            }
+            inlined += 1
+        else:
+            d["urpx:hasCoverageClaim"] = {"@id": claim_id}
+            referenced += 1
     walk(doc, visit)
-    if n:
-        log(f"T11 {n} CoverageClaim ({'complete' if complete else 'partial'})")
+    if inlined or referenced:
+        log(f"T11 {inlined} CoverageClaim authored ({'complete' if complete else 'partial'})"
+            + (f", {referenced} referenced by @id" if referenced else ""))
 
 
 def t12_meter_count(doc, log):
@@ -314,7 +395,8 @@ class Migrate(Exception):
 
 # Predicates the transforms are allowed to add or remove. Anything outside this
 # signature aborts the file, which is the point of the self-check.
-EXPECTED_REMOVED = {"hasTariffBookReference", "publishedBy", "eiaId", "numberOfMeters"}
+EXPECTED_REMOVED = {"hasTariffBookReference", "publishedBy", "eiaId", "numberOfMeters",
+                    "supersedes", "hasRatePlan", "hasRatePlanModifier"}
 EXPECTED_ADDED = {"offeredBy", "hasIdentity", "hasName", "name", "hasIdentifier", "scheme",
                   # T4 only: a synthesized URPXPackage introduces the wrapper's
                   # own predicates, which no other transform can produce.
@@ -359,9 +441,9 @@ def migrate_file(path: Path, complete: bool, dry_run: bool) -> bool:
         t6_flatten_tariff_book_ref(doc, log)
         t7_offered_by(doc, log)
         t8_org_identity(doc, doc["@context"], log)
-        t9_count_supersedes(doc, log)
+        t9_supersedes(doc, log)
         t10_back_links(doc, log)
-        t11_coverage_claim(doc, complete, log)
+        t11_coverage_claim(doc, complete, path.parent.name, log)
         t12_meter_count(doc, log)
     except Migrate as e:
         print(f"  REFUSED {path.name}: {e}", file=sys.stderr)
