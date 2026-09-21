@@ -68,10 +68,15 @@ when customer is enrolled in CARE):
  DWR-BC Exemption: -$0.00000/kWh (currently zero;
  tracked for future use)
  CARE Surcharge Exemption: -$0.00864/kWh (All Other Residential
- CARE Schedules rate;
- different rate for
- DM/EV-TOU not modeled
- in this corpus)
+ CARE Schedules rate).
+ KNOWN WRONG for sdge:ev-tou, which Sheet 2 puts in a
+ separate column at $0.01062/kWh: its footnote enumerating
+ 'All Other' omits EV-TOU. sdge:ev-tou IS in this corpus and IS
+ in applicableToRatePlan, so those customers carry a credit off
+ by $0.00198/kWh. Not fixable at v0.5.1: PriceShape puts its
+ value-bearing properties under sh:xone, so a Price may carry a
+ flat unitPrice OR a basedOnPrice that selects per base plan,
+ never both, and nothing else scopes a line item to one base)
  BSC Adjustment: -$0.59630/day (Standard $0.79343 →
  CARE $0.19713;
  ~75% reduction)
