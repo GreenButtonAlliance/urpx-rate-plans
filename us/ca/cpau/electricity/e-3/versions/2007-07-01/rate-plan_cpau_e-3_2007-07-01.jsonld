@@ -55,7 +55,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "cpau:doc-e-3-2007-07-01",
@@ -1145,7 +1148,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-3-2007-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Both published buyback tables are represented: Section C.1 for facilities without an interval meter, at $0.07902 per kWh in summer and $0.07831 in winter with a $4.32 per kW-month capacity credit available to firm power only, and Section C.2 for facilities with an interval meter, all five time-of-use energy cells plus the peak-period firm capacity credit in each season. Section C.3 is not represented. It lets a facility rated above 1 MW request a market-based buyback instead, equal to the City's average cost of electricity at the PG&E City Gate for energy and capacity purchased at the first of the month together with daily market prices for that month, bounded at $2.00 to $10.00 per kW-month and $0.03 to $0.20 per kWh for firm power and at $0.03 to $0.20 per kWh with no capacity component for non-firm. Neither that reference price nor its bounds appear anywhere in the filing, so a consumer pricing a facility above 1 MW that has elected it will find only the Section C.1 or C.2 rate here. Two further provisions publish no number to model: Section D sets transmission rates site by site on a case by case basis, and Section E.2 requires the quantity of power delivered to be adjusted for losses and for administrative costs without stating a factor. Section E.3's settlement rule is not represented either. Under it the generation credit computed from these rates is applied against the customer's own monthly charge for electric service, and the utility pays the customer the balance in the months when credits exceed that charge; this filing prices the buyback and carries no netting or cash-out step. Section E.5 is out of scope rather than missing: the utility reserves the right to charge for facilities it holds on standby for the customer's load, but places that charge in the customer's service contract rather than in this schedule, so there is no published rate to model.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

@@ -43,7 +43,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "smud:doc-eapr-2023-09-22",
@@ -268,7 +271,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-eapr-2023-09-22-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Schedule EAPR grants residential customers two discounts and this filing models the smaller one. Section III.1, a $10 per month System Infrastructure Fixed Charge discount, is represented. Section III.2 is not: a 100 percent reduction in electricity usage cost per kWh up to a monthly maximum that steps with the household's federal poverty level, $60 at 0 to 50 percent, $32 above 50 to 100 percent, $10 above 100 to 150 percent and $0 above 150 to 200 percent. Nor is Section III.3, the EAPR Rate Stabilization Fund discount, a further $0 to $35 per month available only at 0 to 50 percent of the federal poverty level, its amount set each year by SMUD's Accountant from whatever discretionary non-retail revenue is available and fixed before the year it applies. The effect on a consumer depends entirely on which income tier a customer sits in: between 150 and 200 percent of the federal poverty level the usage cap is $0 and the modeled $10 is the whole benefit, while at 0 to 50 percent the two unmodeled components are worth up to $95 a month more than what this filing carries. Section VIII is also unrepresented: the fixed-charge discount is prorated against 30 days for billing periods shorter than 27 days, while the maximum usage discount is expressly not prorated. Sections IV and V are out of scope rather than missing. They cover nonprofit organizations and Commercial and Industrial customers: the nonprofit eligibility tests, including the requirement that at least 75 percent of an associated daytime-services facility's square footage serve the qualifying functions, and the Commercial and Industrial discounts of 15 percent on usage, maximum demand, site infrastructure and summer peak demand charges with a 35 percent System Infrastructure Fixed Charge discount on CI-TOD1 and 15 percent on CI-TOD2 through CI-TOD4. This filing is scoped to residential service.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

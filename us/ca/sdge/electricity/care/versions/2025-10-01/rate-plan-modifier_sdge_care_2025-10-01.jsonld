@@ -43,7 +43,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sdge:doc-care-2025-10-01",
@@ -417,7 +420,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-care-2025-10-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries the four line-item pieces of the CARE benefit that are per-unit amounts: the Wildfire Fund Charge exemption ($0.00591 per kWh), the Department of Water Resources Bond Charge exemption (currently $0.00000), the CARE Surcharge exemption ($0.00864 per kWh) and the Base Services Charge reduction from $0.79343 to $0.19713 per day. The largest part of the benefit is missing. Sheet 1 sets the residential CARE discount at 35 percent as a fixed line-item discount pursuant to D.24-05-028, and Sheet 2 states it as 0.35000 applied to the total bill less applicable exemptions, minimum bill and base services charge; a URPX price is a per-unit dollar amount, and there is no way in this vocabulary to state a percentage of a computed bill, so nothing in the graph reflects it. Four further published provisions are absent. The alternative form of benefit (b) on Sheet 1, a 50 percent minimum bill in place of a reduced base services charge, which is the form the benefit takes on Schedule EV-TOU, a plan this overlay declares itself applicable to and which has a minimum bill rather than a base services charge. The $0.01062 per kWh CARE Surcharge for the DM and EV-TOU schedules, which is the rate Schedule EV-TOU takes under Sheet 2 note 2 (that note's 'All Other Residential CARE Schedules' list, which carries the $0.00864 rate modeled here, names DR, DS, DT, DT-RV, DR-SES, TOU-DR, EV-TOU-2, EV-TOU-5, TOU-DR1, TOU-DR2 and TOU-ELEC, and does not include EV-TOU). The Non-Residential CARE structure on Sheet 2, with its own 0.35000 discount and its own exemption list. And the Medical Baseline co-benefits that Sheet 2 extends to CARE Medical Baseline customers under Schedule E-MEDICAL, for which no filing exists in this corpus. Eligibility is expressed as residential customer kind plus enrollment in the CARE program, so the Special Condition 4 income table ($42,300 for a one or two person household rising to $108,300 for eight, plus $11,000 for each additional person) is not present as data. The remaining special conditions are out of scope rather than missing: application and recertification (2), commencement (3), verification (5), backbilling (6), notice of change (7), the above-400-percent-of-baseline documentation and 600 percent retention conditions (9), and the facility certification rules for non-profit group living, Homekey and agricultural employee housing (14 through 17) are program-administration procedures rather than rates.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

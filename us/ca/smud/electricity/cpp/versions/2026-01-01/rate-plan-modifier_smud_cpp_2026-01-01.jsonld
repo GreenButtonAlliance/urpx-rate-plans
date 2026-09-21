@@ -49,7 +49,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "smud:doc-cpp-2026-01-01",
@@ -378,7 +381,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-cpp-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries the three price components the CPP rate overlays on its Time-of-Day base plan: the Event Price of $0.5000 per kWh and the summer Mid-Peak and Off-Peak discounts of $0.0200 per kWh each. What is not represented is the machinery around them. Section I.C.3 limits Events to between one and four hours, not more than one per day, callable in any hour of a summer day including weekends and holidays, up to 50 hours per summer, and Section I.C.4 requires a day-ahead announcement except in a system emergency; the only structural gate this filing puts on the Event Price is that the month be June through September, with the rest of the trigger carried as prose on a price update rule, so nothing in the graph distinguishes an Event hour from an ordinary summer hour and a consumer must apply SMUD's event calendar itself. Section II.C.4 compensates energy exported to the grid during an Event at the same Event Price; the charge here is modeled in the consuming direction only, with the export side left in prose. Section I.C.2's cap of 30,000 enrolled customers and Section I.C.1's mandatory enrollment for customers who have accepted a storage incentive under certain SMUD Solar and Storage incentive programs both sit in the eligibility rule's description; its condition expression tests only that the customer is residential and carries a free-text 'Program Enrollment' of 'CPP'. That free-text predicate is itself forced: URPX's list of program types is closed and has no value for critical peak pricing, so no typed program enrollment can be attached. One provision is outside the tariff document rather than missing from the model: Section II.C.5 puts the Event Price and the discount on smud.org, updated annually at SMUD's discretion, so the values here are those posted at the retrieval date and each annual update needs a new version.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

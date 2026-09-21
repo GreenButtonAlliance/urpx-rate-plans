@@ -40,7 +40,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "pge:doc-e-tou-c-baseline-tier-2026-03-01",
@@ -3411,7 +3414,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "pge:cc-e-tou-c-baseline-tier-2026-03-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This modifier carries the Special Condition 1 baseline quantities for all ten baseline territories in both Code B (basic) and Code H (all-electric) form across both seasons, with the Baseline Credit of $0.08140 per kWh on within-baseline usage and the Conservation Incentive Adjustment at a $0.02786 credit within baseline and a $0.05354 charge above it. Three provisions bearing on those quantities are not represented. Special Condition 5's standard medical quantities, Code M (basic plus medical) and Code S (all-electric plus medical), which are added to the Special Condition 1 quantity to raise the ceiling on usage billed at baseline rates, with further quantities available under Rule 19 for both the primary and additional meters. URPX v0.5.1 states a service bracket's bounds as absolute numbers and offers no way to carry an allowance that shifts an existing bound, so representing Code M and Code S means recomputing every one of the forty territory, code and season cells rather than stating the addition once; they are therefore absent rather than approximated. Special Condition 4's seasonal proration, under which a bill spanning the June 1 or October 1 changeover multiplies each season's daily baseline quantity by the number of days of that season in the billing period: the published quantities are kWh per day, and the brackets here carry those figures as plain kWh bounds with no daily basis, so a consumer must scale them to the billing period itself. Special Conditions 3 and 6 on dwellings served by more than one meter, under which the all-electric quantities are allocated only to the meter the customer designates as primary and an additional meter receives only the basic, or basic plus medical, quantity; the matrix here prices a single meter.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

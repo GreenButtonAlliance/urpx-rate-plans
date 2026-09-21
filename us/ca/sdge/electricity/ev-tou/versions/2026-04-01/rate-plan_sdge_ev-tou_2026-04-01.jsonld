@@ -70,7 +70,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sdge:doc-ev-tou-2026-04-01",
@@ -1262,7 +1265,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-ev-tou-2026-04-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Schedule EV-TOU has no Base Services Charge; it uses a Minimum Bill of $0.413 per day, and the Sheet 2 Minimum Bill prose halves that to $0.207 per day for CARE, Medical Baseline and Family Electric Rate Assistance customers. This filing models the $0.413 standard rate only and carries the halved rate nowhere as a price. Its own price definition for the Minimum Bill states that the discounted rate is captured in the relevant modifier filings, and it is not: the SDG&E CARE and FERA overlay filings, both of which list this schedule among the plans they apply to, deliver a Base Services Charge adjustment, which is a charge this schedule does not have. A consumer composing those overlays onto this plan gets the wrong answer for the fixed portion of a low-income customer's bill. Three further provisions are absent. The Franchise Fee Differential of 5.78 percent for customers within the corporate limits of the City of San Diego. The Direct Access and Community Choice Aggregation bill path of Special Condition 7.b, which credits back the EECC and DWR-BC components and adds the applicable Cost Responsibility Surcharge; the modeled EECC is the bundled rate, which per Special Condition 9 already embeds the Power Charge Indifference Adjustment. And the Special Condition 4 bar on returning to the schedule for one year after leaving, where the twelve-month minimum stay from the same condition is recorded. Two provisions are out of scope rather than missing: Special Condition 6 Optional Billing, under which the utility may bill the lower of this schedule and the customer's otherwise applicable non-TOU schedule for three months, is solely at the utility's option and obligates it to nothing, and the Special Condition 2 requirement that the EV charging or CNG refueling facilities be separately metered is a metering arrangement rather than a rate.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

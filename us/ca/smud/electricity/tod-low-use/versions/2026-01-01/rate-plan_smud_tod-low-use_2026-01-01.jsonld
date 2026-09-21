@@ -58,7 +58,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "smud:doc-tod-low-use-2026-01-01",
@@ -638,7 +641,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-tod-low-use-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries the RTL1 prices of the January 1, 2026 column, a $17.00 System Infrastructure Fixed Charge and five time-of-day usage prices, and shares the unrepresented provisions of the Rate Schedule R-TOD document it is taken from. Section IV.D Standby Service Option, $8.855 per kW of Contract Capacity per month effective January 1, 2026, for customers whose on-site generation has a combined nameplate rating under 100 kW, waived only for qualifying renewable generation under Schedules NEM1 and SSR. Section IV.H Residential Three-Phase Service Option, $57.95 per month in Special Facilities fees effective January 1, 2026, in addition to the System Infrastructure Fixed Charge. Section III.A Hydro Generation Adjustment, a surcharge on all kWh under a separate Rate Schedule HGA not carried in this corpus. Section IV.F SMUD Renewable Energy Option, whose charge the schedule does not state, publishing it on smud.org. Two gaps sit inside what is modeled: the eleven holidays that Section V.A prices as Off-Peak are approximated with weekday and weekend day types and no holiday calendar, so a holiday falling on a weekday, such as Labor Day, resolves to Peak or Mid-Peak; and the Section VI.A proration of the monthly System Infrastructure Fixed Charge against 30 days for billing periods shorter than 27 days has no representation, the charge being carried as a flat monthly amount. Eligibility is the place where this rate differs from its RT02 sibling, and it is the weakest part of the model: Section I.B makes a service panel of 125 amps or less a hard requirement, and that requirement is stated in prose while the condition expression tests only that the customer is residential. The eligibility rule's own prose describes the rate election as an encoded predicate, but no such operand is present in the graph: nothing in the condition expression distinguishes an RTL1 customer from any other residential customer. The schedule's other qualifier, that the rate is for customers who 'use a low amount energy,' is left unquantified in the source, so nothing is modeled from it. Section IV.G Special Metering Charge is out of scope rather than missing: it is a service fee for nonstandard customer-purchased metering equipment, billed under Rule and Regulation 2 Section IV, and carries no published amount.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

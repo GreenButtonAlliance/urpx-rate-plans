@@ -46,7 +46,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sdge:doc-nbt-2025-01-27",
@@ -94731,7 +94734,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-nbt-2025-01-27-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "The per-hour export compensation surface is complete: 5,760 prices covering five vintages and both the generation and delivery components. What is missing is everything that settles over a period longer than one bill, plus one price that the source does not publish. The ACC Plus adder is declared as two price definitions, for the Residential and the Low Income Customer tiers, and carries no values; Special Condition 3.f refers to 'the ACC Plus credit' when describing what is excluded from the true-up comparison, but this composite PDF states no rate for it anywhere, so the gap is in the source as much as in the filing. The Relevant Period machinery of Special Conditions 3.d through 3.f is absent: twelve monthly billing cycles running from Permission To Operate and each anniversary, unused generation and delivery credits carried forward within that period, and excess export credits (ACC Plus excluded) zeroed out at true-up. Special Condition 6 Net Surplus Compensation is absent, both its energy value (net surplus kWh times SDG&E's Default Load Aggregation Point price, a rolling twelve-month average of DLAP prices from 7 a.m. to 5 p.m. updated monthly) and the Renewable Attribute Adder paid when the customer certifies REC ownership, obtains CEC Renewables Portfolio Standard certification and transfers the certificates. The Special Condition 3.c limits on what credits may offset are also unrepresented: export credits may not offset monthly minimum charges, customer, meter, facilities or basic service charges, demand charges, non-bypassable charges or any fixed charge, and generation credits may offset only volumetric generation charges while delivery credits may offset only volumetric delivery charges. Three sub-schedule variants are out of scope here rather than missing, each being a distinct arrangement expected to be filed on its own: NBT Aggregation (Special Condition 12), NBT Paired Storage (Special Condition 8) and Multiple Tariff Facilities (Special Condition 5), as is the separately filed Schedule NBT-V for multi-tenant properties. So are the provisions that are not rates at all: the interconnection application forms and dates (4), the disaster provisions (10), the prevailing-wage obligations that attach to the installing contractor from the interconnection application onward (11), the consumer protection disclosure (9), and the Plug-in Electric Vehicle submetering exclusion (13).",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

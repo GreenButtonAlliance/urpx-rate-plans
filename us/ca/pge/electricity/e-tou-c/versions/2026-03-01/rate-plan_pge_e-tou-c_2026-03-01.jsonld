@@ -67,7 +67,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@graph": [
     {
@@ -1292,7 +1295,16 @@
             "urpx:completenessResult": {
               "@id": "urpx:partial"
             },
-            "urpx:selfContained": true
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-e-tou-c-2026-03-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "Five parts of the published Schedule E-TOU-C are not represented in this filing. The Special Condition 8 bill protection, which for twelve months after enrollment credits the customer the difference between what it paid on this schedule and what it would have paid on the tiered non-time-of-use Schedule E-1, with its own exclusions (customers on Schedules NEM2, NEM2V or NEM2VMSH who start or transfer service on or after October 1, 2020, customers opting in from another time-of-use plan, and customers requesting enrollment after May 4, 2022) and a parallel twelve-month version on Sheet 9 covering the non-generation charges of community choice aggregation and direct access customers. The Wildfire Fund Charge exemption: Sheet 1 states that customers receiving a medical baseline allowance do not pay this charge and Special Condition 11 excludes CARE and medical baseline sales from it, but the filing carries the $0.00591 per kWh charge with no applicability condition, so it is priced for every customer. The Sheet 4 unbundling of the base services charge into its Distribution, Public Purpose Program, Nuclear Decommissioning and New System Generation components for each income tier; only the three daily totals ($0.19713, $0.39688 and $0.79343) are modeled. The second qualification path for Income Tier 2, an affordable rental unit in a property listed in the California Housing Partnership's database and restricted to residents at or below 80 percent of Area Median Income; only the FERA path is modeled, so a customer qualifying through affordable housing alone resolves to the Tier 3 charge. And the Sheet 1 instruction that time-of-use period usage be assigned to baseline tiers pro rata, so that a customer with twenty percent of its usage in the peak period has twenty percent of the usage in each tier treated as on-peak: this filing carries the time-of-use dimension and the sibling baseline-tier modifier carries the tier dimension, but nothing states how the two combine. Three things are out of scope rather than missing. The standby reservation charges the Applicability section imports from Schedule S Special Conditions 1 through 6 for customers partly supplied from a nonutility source are charges of another schedule, and with them go the Special Condition 9 and 10 exemptions for sub-megawatt non-exporting solar and for distributed energy resources. Special Condition 6's designation of a primary meter and additional meters, and Special Condition 7's one-time option for a separately metered common-area account to move to a general service schedule, are customer-service procedures and not rates.",
+              "urpx:evaluatedOn": "2026-09-21T00:00:00"
+            }
           }
         },
         "urpx:ratePlanUniqueIdentifier": "E-TOU-C"
@@ -2470,7 +2482,16 @@
             "urpx:completenessResult": {
               "@id": "urpx:partial"
             },
-            "urpx:selfContained": true
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-e-tou-c-vintage-pcia-2026-03-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This modifier carries the eighteen vintage Power Charge Indifference Adjustment rates published on Sheet 8, from $0.02973 per kWh for the 2009 vintage to a credit of $0.01011 per kWh for the 2025 and 2026 vintages, gated on a residential customer taking generation service through community choice aggregation, direct access or transitional bundled service. What it does not carry is the other half of the same instruction. Sheet 8 states that these customers pay every charge in the Unbundling of Total Rates except the Bundled Power Charge Indifference Adjustment and the generation charge, but the base filing's bundled adjustment (a credit of $0.01011 per kWh) and its four seasonal generation energy prices carry no condition excluding them, and this modifier records the replacement only in its description prose, so a consumer applying the base plan together with this modifier will charge a departed customer both the bundled and the vintaged adjustment as well as PG&E generation. Three further charges Sheet 8 directs the same customers to are absent because they live in other schedules: the franchise fee surcharge under Schedule E-FFS for community choice aggregation and direct access customers, the short-term commodity prices under Schedule TBCC for transitional bundled service customers, and the exemptions set out in Schedules DA CRS and CCA CRS, including those for medical baseline customers and for continuous direct access service.",
+              "urpx:evaluatedOn": "2026-09-21T00:00:00"
+            }
           }
         },
         "urpx:modifierUniqueIdentifier": "E-TOU-C-VPCIA"

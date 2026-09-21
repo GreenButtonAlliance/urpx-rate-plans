@@ -46,7 +46,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "smud:doc-fixed-2026-01-01",
@@ -368,7 +371,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-fixed-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Rate Schedule R publishes two rate categories and this filing models one. The Fixed Rate (RF01) is complete for the January 1, 2026 column: a $27.00 System Infrastructure Fixed Charge per meter per month and flat usage charges of $0.2189 per kWh in summer and $0.1371 per kWh in the non-summer season. Sections I.C and II.B of the same schedule carry Master-Metered Multifamily Accommodation and Mobile Home Park Billing (rate category RSMM), closed to new customers but still served, with its own published prices of $27.00 per unit per month, $0.1740 per kWh in summer and $0.1520 per kWh in the non-summer season, and its own billing method under which consumption is the master meter's total kWh divided by the number of occupied single-family accommodations. None of that is modeled. Four charges the schedule provides for are also absent: Section IV.E Standby Service Option at $8.855 per kW of Contract Capacity per month effective January 1, 2026, for on-site generation under 100 kW combined nameplate and waived only for qualifying renewable generation under Schedules NEM1 and SSR; Section IV.J Residential Three-Phase Service Option at $57.95 per month in Special Facilities fees effective January 1, 2026; Section III.A Hydro Generation Adjustment, a surcharge on all kWh set by a separate Rate Schedule HGA that this corpus does not carry; and Section IV.G SMUD Renewable Energy Option, for which the schedule states no amount, publishing it on smud.org. The Section V proration table is likewise unrepresented: the fixed charge is carried as a flat monthly amount, where the schedule prorates it against 30 days when the billing period is shorter than 27 days and prorates kWh both for that case and for periods longer than 34 days. Section IV.H Special Metering Charge is out of scope rather than missing, being a monthly service fee for nonstandard customer-purchased data-collection equipment billed under Rule and Regulation 2 Section IV with no amount published in the tariff. One weakness is worth naming: the Section I.A rules that decide who may take the Fixed Rate at all, which bar customers with NEM1 generation approved on or after January 1, 2018, any SSR generation, storage without an associated generating facility, or a master meter on RSMM, are described in the eligibility rule's prose while its condition expression tests only that the customer is residential.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

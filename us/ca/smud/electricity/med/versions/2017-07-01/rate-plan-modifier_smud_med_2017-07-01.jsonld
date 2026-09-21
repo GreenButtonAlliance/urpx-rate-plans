@@ -43,7 +43,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "smud:doc-med-2017-07-01",
@@ -267,7 +270,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-med-2017-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Schedule MED grants a single benefit, a $15.00 per month discount applied to the electricity usage portion of the bill, and this filing carries it, but not at the granularity the schedule states. It is modeled as a per-day credit of $0.4931, being $15.00 divided by an average month of 30.4 days, so it reproduces the stated amount only for a billing period of exactly that length. SMUD's residential schedules define a month as a billing period of 27 to 34 days, which puts the modeled credit between roughly $13.31 and $16.77 against a schedule amount that does not vary with the length of the period. The credit is also carried as a flat per-meter amount rather than one scoped to the electricity usage portion of the bill, which is where Section II places it. Section III, under which a customer qualified for both this program and the Energy Assistance Program Rate receives both discounts, is stated in this filing's prose but not as a structured relationship to the EAPR modifier. The Section IV conditions are out of scope rather than missing: the application and the certification by a qualified health professional, the definition of that term and the list of qualifying devices and medical conditions that SMUD maintains on its website rather than in the schedule, and the Section IV.C invitation to contact SMUD when the discount does not meet a household's needs are enrollment and customer-service procedures rather than rate components, as are the Section V rules fixing when enrollment and cancellation take effect.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }
