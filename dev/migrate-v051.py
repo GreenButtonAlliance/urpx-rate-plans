@@ -118,11 +118,48 @@ def t3_package(doc, log):
         log(f"T3 {changed} URPXDocument -> URPXPackage")
 
 
-def t4_synthesize_package(doc, log):
-    if doc.get("@type") not in ("urpx:URPXPackage", "urpx:URPXDocument") and "@graph" in doc:
-        raise Migrate("T4 (synthesize a wrapper for a bare @graph filing) is not "
-                      "implemented; required for the 3 CPAU wrapper-less filings. "
-                      "Refusing rather than skipping.")
+def t4_synthesize_package(doc, path, log):
+    """Wrap a bare @graph filing in a URPXPackage.
+
+    Nine filings were left mid-way through an abandoned wrapper migration and
+    carry a bare @graph. v0.5.1 requires targetURPXVersion on the package, so
+    these have nowhere to declare the version they target without one.
+    """
+    if doc.get("@type") in ("urpx:URPXPackage", "urpx:URPXDocument"):
+        return
+    graph = doc.get("@graph")
+    if graph is None:
+        raise Migrate("no @graph and no wrapper; unrecognised document shape")
+
+    plans = [e for e in graph if e.get("@type") == "urpx:RatePlan"]
+    mods = [e for e in graph if e.get("@type") == "urpx:RatePlanModifier"]
+    other = [e for e in graph if e.get("@type") not in ("urpx:RatePlan", "urpx:RatePlanModifier")]
+    if other:
+        raise Migrate(f"@graph holds {[e.get('@type') for e in other]}, which T4 "
+                      f"does not know where to put in a URPXPackage")
+    if not plans and not mods:
+        raise Migrate("@graph holds no RatePlan or RatePlanModifier")
+
+    # <utility>:doc-<schedule>-<date>, matching the convention the already-wrapped
+    # filings use (e.g. ladwp:doc-r-1a-2026-04-01).
+    date = path.parent.name
+    schedule = path.parent.parent.parent.name
+    utility = corpus.utility_of(path)
+    pkg = {
+        "@id": f"{utility}:doc-{schedule}-{date}",
+        "@type": "urpx:URPXPackage",
+        "urpx:targetURPXVersion": NEW_TARGET,
+    }
+    if plans:
+        pkg["urpx:hasRatePlan"] = plans[0] if len(plans) == 1 else plans
+    if mods:
+        pkg["urpx:hasRatePlanModifier"] = mods[0] if len(mods) == 1 else mods
+
+    ctx = doc["@context"]
+    doc.clear()
+    doc["@context"] = ctx
+    doc.update(pkg)
+    log(f"T4 synthesized URPXPackage over {len(plans)} plan(s) + {len(mods)} modifier(s)")
 
 
 def t6_flatten_tariff_book_ref(doc, log):
@@ -197,20 +234,47 @@ def t9_count_supersedes(doc, log):
 
 
 def t10_back_links(doc, log):
-    """Version nodes gain forRatePlan / forRatePlanModifier. Nesting is KEPT:
-    hasRatePlanVersion was re-admitted at sh:minCount 0."""
+    """Version nodes gain forRatePlan / forRatePlanModifier.
+
+    Walks PARENT to CHILD. An earlier version searched the document for a node
+    of the parent type and took the first one, which silently misattributed
+    every version in a multi-source filing: CPAU e-1 holds three modifiers, so
+    two of its modifier versions were linked to the wrong parent. The merged
+    graph caught it as a MaxCount violation because the same version IRI then
+    carried two different back-links across files. A predicate set-difference
+    cannot see that, which is exactly why the gate is a merged graph.
+
+    Nesting is KEPT: hasRatePlanVersion was re-admitted at sh:minCount 0.
+    """
     n = 0
-    def visit(d):
+    NEST = {"urpx:RatePlan": ("urpx:hasRatePlanVersion", "urpx:forRatePlan"),
+            "urpx:RatePlanModifier": ("urpx:hasRatePlanModifierVersion", "urpx:forRatePlanModifier")}
+
+    def visit(parent):
         nonlocal n
-        for vtype, backprop in VERSION_TYPES.items():
-            if d.get("@type") != vtype or backprop in d:
+        spec = NEST.get(parent.get("@type"))
+        if not spec:
+            return
+        nest_prop, back_prop = spec
+        pid = parent.get("@id")
+        if not pid:
+            raise Migrate(f"{parent.get('@type')} has no @id to point back at")
+        versions = parent.get(nest_prop)
+        if versions is None:
+            return
+        for vnode in (versions if isinstance(versions, list) else [versions]):
+            if not isinstance(vnode, dict) or back_prop in vnode:
                 continue
-            parent = find_all(doc, lambda x, t=PARENT_OF[vtype]: x.get("@type") == t)
-            if not parent or not parent[0].get("@id"):
-                raise Migrate(f"{vtype} {d.get('@id')} has no {PARENT_OF[vtype]} to point at")
-            d[backprop] = {"@id": parent[0]["@id"]}
+            vnode[back_prop] = {"@id": pid}
             n += 1
+
     walk(doc, visit)
+
+    orphans = [d.get("@id") for d in find_all(doc, lambda x: x.get("@type") in VERSION_TYPES)
+               if VERSION_TYPES[d["@type"]] not in d]
+    if orphans:
+        raise Migrate(f"version node(s) not reachable from a parent, so no back-link "
+                      f"could be attributed: {orphans}")
     if n:
         log(f"T10 {n} version back-link(s)")
 
@@ -252,6 +316,9 @@ class Migrate(Exception):
 # signature aborts the file, which is the point of the self-check.
 EXPECTED_REMOVED = {"hasTariffBookReference", "publishedBy", "eiaId", "numberOfMeters"}
 EXPECTED_ADDED = {"offeredBy", "hasIdentity", "hasName", "name", "hasIdentifier", "scheme",
+                  # T4 only: a synthesized URPXPackage introduces the wrapper's
+                  # own predicates, which no other transform can produce.
+                  "targetURPXVersion", "hasRatePlan", "hasRatePlanModifier",
                   "notation", "forRatePlan", "forRatePlanModifier", "hasCoverageClaim",
                   "completenessResult", "selfContained", "meterCount",
                   "pageStart", "pageEnd", "leafStart", "leafEnd", "sheetNumber",
@@ -288,7 +355,7 @@ def migrate_file(path: Path, complete: bool, dry_run: bool) -> bool:
         t2_literal_iris(doc, log)
         t5_split_publication(doc, log)      # before T3/T4
         t3_package(doc, log)
-        t4_synthesize_package(doc, log)
+        t4_synthesize_package(doc, path, log)
         t6_flatten_tariff_book_ref(doc, log)
         t7_offered_by(doc, log)
         t8_org_identity(doc, doc["@context"], log)
