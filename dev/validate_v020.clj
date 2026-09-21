@@ -62,6 +62,32 @@
 ;; CPAU E-1 are non-TOU.
 (def probe-instant (ZonedDateTime/of 2026 7 15 17 0 0 0 la))
 
+;; A refusal is not a failure when the refusal IS the right answer. Both of
+;; these mean "nothing here is priced per kWh at this instant", and clj-urpx
+;; refuses rather than returning 0, which would read as free:
+;;
+;;   :no-energy-ledger         nothing resolved carries a summable
+;;                             measurementKind. CPAU E-14 and E-16 price only
+;;                             per-lamp, per-fixture and per-month charges.
+;;   :all-energy-tiers-excluded  an energy ledger resolved but every tier in it
+;;                             is event-driven (urpx:hasDynamicPricing) or
+;;                             recurring, so there is no non-event rate to
+;;                             report. CPAU E-14 composed with E-HRA is this:
+;;                             the only per-kWh thing in the composition is a
+;;                             hydroelectric adjustment that applies under
+;;                             generation conditions, not continuously.
+;;
+;; Accepting these is safe in the direction that matters: a refusal can never be
+;; mistaken for a price, which is the failure this gate exists to catch. What it
+;; would hide is a regression where EVERYTHING starts refusing, so -main refuses
+;; outright if no filing produces a marginal rate at all.
+(def legitimate-refusals #{:no-energy-ledger :all-energy-tiers-excluded})
+
+(def refusal-tally (atom {}))
+(def marginal-count (atom 0))
+
+(defn- note-refusal! [reason] (swap! refusal-tally update reason (fnil inc 0)))
+
 (defn pad [s n] (let [s (str s)] (str s (apply str (repeat (max 0 (- n (count s))) " ")))))
 
 (defn- name-width [filings] (apply max (map (comp count second) filings)))
@@ -114,25 +140,25 @@
       (do
         (print "load+coerce ✓ ")
         (flush)
-        ;; A plan that prices nothing per kWh has no marginal unit rate, and
-        ;; clj-urpx refuses rather than returning 0 (which read as "free").
-        ;; That refusal is the correct answer for CPAU E-14 and E-16, which
-        ;; price only per-lamp, per-fixture and per-month charges, so it is
-        ;; reported as a pass with the ledger count rather than as a failure.
-        ;; Any other refusal is still a failure.
+        ;; See `legitimate-refusals`: a refusal with one of those reasons is the
+        ;; right answer, not a failure. Any other refusal still fails.
         (let [ok (try
                    (let [resolved (price/resolve-prices plan probe-instant)
                          ledger-count (count (:urpx.resolved/ledgers resolved))
                          marginal (price/marginal-unit-rate resolved)]
+                     (swap! marginal-count inc)
                      (print (format "resolve ✓  (%d ledgers, marginal=%s)"
                                     ledger-count marginal))
                      true)
                    (catch Exception e
-                     (if (= :no-energy-ledger (:reason (ex-data e)))
-                       (do (print "resolve ✓  (no energy ledger; prices nothing per kWh)")
-                           true)
-                       (do (print (format "resolve ✗  %s" (.getMessage e)))
-                           false))))]
+                     (let [reason (:reason (ex-data e))]
+                       (if (legitimate-refusals reason)
+                         (do (note-refusal! reason)
+                             (print (format "resolve ✓  (%s; nothing priced per kWh here)"
+                                            (name reason)))
+                             true)
+                         (do (print (format "resolve ✗  %s" (.getMessage e)))
+                             false)))))]
           (println)
           ok))
       (do
@@ -143,18 +169,30 @@
 
 (defn- compose-modifier-with-base
   "Compose `modifier` into the latest version of `base-kw`'s base RatePlan
-   filing. Returns a map: :status ∈ #{:ok :no-corpus-base :error},
-   plus :ledgers + :marginal on success, or :error on failure."
+   filing. Returns a map: :status ∈ #{:ok :refused :no-corpus-base :error},
+   plus :ledgers + :marginal on :ok, or :reason on :refused, or :error.
+
+   :refused is a PASS. A composition can legitimately price nothing per kWh:
+   CPAU E-14 is street lighting, and composing the hydroelectric adjustment
+   onto it contributes one energy ledger whose every tier is event-driven. See
+   `legitimate-refusals` for why accepting these does not make the gate
+   vacuous."
   [modifier base-kw base-iri-lookup]
   (if-let [base-info (get base-iri-lookup base-kw)]
-    (try
-      (let [base     (-> (:path base-info) core/load-rate-plan coerce/coerce-rate-plan)
-            resolved (price/resolve-prices-with-modifiers base [modifier] probe-instant)]
-        {:status   :ok
-         :ledgers  (count (:urpx.resolved/ledgers resolved))
-         :marginal (price/marginal-unit-rate resolved)})
-      (catch Exception e
-        {:status :error :error (.getMessage e)}))
+    (let [base (-> (:path base-info) core/load-rate-plan coerce/coerce-rate-plan)]
+      (try
+        (let [resolved (price/resolve-prices-with-modifiers base [modifier] probe-instant)
+              marginal (price/marginal-unit-rate resolved)]
+          (swap! marginal-count inc)
+          {:status   :ok
+           :ledgers  (count (:urpx.resolved/ledgers resolved))
+           :marginal marginal})
+        (catch Exception e
+          (let [reason (:reason (ex-data e))]
+            (if (legitimate-refusals reason)
+              (do (note-refusal! reason)
+                  {:status :refused :reason reason})
+              {:status :error :error (.getMessage e)})))))
     {:status :no-corpus-base}))
 
 (defn- validate-rate-plan-modifier [path pairings base-iri-lookup]
@@ -179,15 +217,22 @@
                                        :base %)
                                base-kws)
                 ok       (filterv #(= :ok (:status %)) results)
-                failures (filterv #(not= :ok (:status %)) results)
+                refused  (filterv #(= :refused (:status %)) results)
+                failures (filterv #(not (#{:ok :refused} (:status %))) results)
                 total    (count results)]
             (if (empty? failures)
               (do
-                (println (format "compose ✓ × %d (e.g. %s → %d ledgers, marginal=%s)"
+                (println (format "compose ✓ × %d (%s%s)"
                                  total
-                                 (kw->iri (:base (first ok)))
-                                 (:ledgers (first ok))
-                                 (:marginal (first ok))))
+                                 (if (seq ok)
+                                   (format "e.g. %s → %d ledgers, marginal=%s"
+                                           (kw->iri (:base (first ok)))
+                                           (:ledgers (first ok))
+                                           (:marginal (first ok)))
+                                   "no base prices anything per kWh")
+                                 (if (seq refused)
+                                   (format "; %d priced nothing per kWh" (count refused))
+                                   "")))
                 true)
               (do
                 (println (format "compose %d/%d" (count ok) total))
@@ -226,5 +271,19 @@
         failed          (count (remove true? results))
         total           (count results)]
     (println)
+    (when (seq @refusal-tally)
+      (println (format "marginal rate refused (correctly) on %d of %d checks: %s"
+                       (reduce + (vals @refusal-tally))
+                       (+ @marginal-count (reduce + (vals @refusal-tally)))
+                       (str/join ", " (for [[r n] (sort-by key @refusal-tally)]
+                                        (format "%d %s" n (name r)))))))
+    ;; The one way accepting refusals could go vacuous: a change that makes
+    ;; EVERYTHING refuse would otherwise report green.
+    (when (zero? @marginal-count)
+      (println)
+      (println "REFUSED: not one filing or composition produced a marginal unit rate.")
+      (println "         Every check refused, so this run proves nothing. Refusing to")
+      (println "         report it as a pass.")
+      (System/exit 3))
     (println (format "%d/%d passed" (- total failed) total))
     (System/exit (if (zero? failed) 0 1))))
