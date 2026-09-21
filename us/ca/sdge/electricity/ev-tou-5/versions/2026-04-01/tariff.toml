@@ -1,0 +1,118 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "ev-tou-5"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=930"
+sha256        = "58d4df17546f10ae924900c4b8d3a12f39cdd95abad277cec2a2dd71abed2454"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "D.25-09-006 / Advice Letter 4791-E + 4791-E-A supplement"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Source pattern shared with TOU-DR1 / DR / TOU-DR2 — see
+us/ca/sdge/electricity/utility.toml for the SDG&E tariff-portal URL convention.
+
+Filing details (6-page PDF):
+  Sheet 1 (APPLICABILITY + RATES standard) — AL 4791-E-A, Sheet 64667-E
+  Sheet 2 (RATES — CARE + MB variants) — AL 4791-E-A, Sheet 64668-E
+  Sheet 3 (UDC sub-component breakdown) — AL 4791-E
+  Sheet 4 (Special Conditions, Time Periods table) — AL 4791-E
+  Sheets 5-6 — Special Conditions continued
+
+## TOU period definitions (Sheet 4)
+
+Same TOU windows as TOU-DR1:
+  TOU Period      Weekday Summer/Winter         Weekend/Holiday Summer/Winter
+  ───────────     ───────────────────────       ──────────────────────────────
+  On-Peak         4 PM - 9 PM                   4 PM - 9 PM
+  Off-Peak        all other hours               all other hours
+  Super Off-Peak  Midnight - 6 AM AND 10 AM - 2 PM   Midnight - 2 PM
+
+Seasons: Summer Jun 1 - Oct 31 (5 months); Winter Nov 1 - May 31.
+
+## Modeling structure
+
+Bill = UDC + (DWR-BC + WF-NBC) + EECC. Distinguishing structural
+features vs TOU-DR1:
+
+  - UDC Transmission and Distribution components are TOU-VARYING
+    (designed to incentivize overnight EV charging):
+      Transmission: $0.10067 on-peak/off-peak; $0.00000 super-off-peak
+      Distribution: $0.21102 on-peak/off-peak; $0.02601 super-off-peak
+    Each modeled as a single PriceDefinition with 6 Prices keyed by
+    touPeriodNumber 1-6 — same pattern as TOU-DR2's TRAC.
+  - UDC TRAC is ZERO across all periods on EV-TOU-5 (vs $0.06762 flat
+    in TOU-DR1, $0.06564-$0.07211 TOU-varying in TOU-DR2).
+  - 5 other UDC sub-components (PPP, ND, CTC, LGC, RS) are flat with
+    values identical to TOU-DR1.
+  - EECC values are HIGHER on-peak (Summer On-Peak $0.47019 vs
+    TOU-DR1's $0.34920 — reflects cost-based pricing for high-load
+    EV households) but lower super-off-peak.
+  - NO Baseline Adjustment Credit (vs $-0.10892 in TOU-DR1).
+  - Same Base Services Charge $0.79343/day for standard customers.
+  - Same DWR-BC + WF-NBC: $0.00000 + $0.00591 = $0.00591/kWh.
+
+## Eligibility
+
+Per Sheet 1, EV-TOU-5 is restricted to one of:
+  1. Customers with a registered BEV (battery-electric vehicle) or
+     PHEV (plug-in hybrid), recharged via a recharging outlet at the
+     customer's premises. Both map to urpx:evChargingDER.
+  2. Customers with a natural-gas vehicle (NGV) refueled via a home
+     refueling appliance (HRA). Modeled as a CustomOperandNode since
+     URPX has no NGV-specific vocabulary.
+  3. Customers enrolled on Schedule NBT (Net Billing Tariff) for whom
+     EV-TOU-5 is the otherwise-applicable schedule (OAS). MANDATORY
+     for new solar customers since 2023 — primary growth path.
+
+Conventional HEVs (charge-sustaining hybrids without grid charging)
+are explicitly excluded.
+
+3-way OR EligibilityRule modeled (vs SCE TOU-D-PRIME's 4-way OR which
+also includes battery-storage and heat-pump as qualifying technologies
+— EV-TOU-5 is narrower in that respect, EV/NGV/NBT only).
+
+## Modeling deferrals
+
+Same as TOU-DR1:
+  - PCIA (Special Condition 11) for CCA-served customers.
+  - Franchise Fee Differential 5.78% within City of San Diego.
+  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers
+    (grid-coordination/urpx-tariffs#13 secondary epic).
+  - EV-TOU-5-P (Critical Peak Pricing variant; grid-coordination/urpx-tariffs#13).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "care",
+  "drah",
+  "fera",
+  "nbt",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Fourth and final SDG&E primary-epic schedule. Pattern reference: us/ca/sce/electricity/tou-d-prime/versions/2025-11-15/ for solar/EV/NBT eligibility rule shape (3-way OR for SDG&E vs 4-way OR for SCE PRIME — SCE includes storage and heat-pump as qualifying technologies, SDG&E does not). 16 PriceDefinitions: 6 EECC (TOU-varying generation) + 2 TOU-varying UDC (Trans, Distr — each with 6 Prices keyed by touPeriodNumber, but only 2 unique values per component) + 6 flat UDC sub-components + DWR-BC + WF-NBC + BSC. 27 Prices total: 6 EECC + 6 Trans + 6 Distr + 7 flat-UDC + 1 BSC + 1 DWR-BC + 1 WF-NBC. Distinguishing modeling pattern: TOU-varying UDC components (vs TOU-DR1's all-flat UDC) — heavily reduced/zeroed in super-off-peak to incentivize overnight EV charging."

@@ -1,0 +1,127 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "fera"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=330"
+sha256        = "efe6cad3a9cd445c75d13004880f06658f22012921671ed3cbe37f3217bea7d7"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 25-09-006 (Sheet 1, AL 4791-E, eff Apr 1, 2026)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+First filing of SDG&E Schedule FERA in this corpus (URPXT-65v.2).
+Sourced via the SDG&E Azure FDoor tariff API (recipe documented in
+us/ca/sdge/electricity/utility.toml [scrape_notes]). Companion to us/ca/sdge/
+care/2025-10-01/.
+
+Per the SDG&E convention (most-recent per-sheet date), this filing
+is dated to 2026-04-01 — Sheet 1's effective date under AL 4791-E.
+
+Per-sheet effective dates:
+  Sheet 1 (Applicability + Discount + Special Condition 1 income
+    eligibility table) — 2026-04-01 (AL 4791-E, 64381-E)
+    *** newest, drives filing date ***
+  Sheet 2 (Special Conditions 2-8: Application, recertification,
+    Billing for UDC/DA/CCA paths) — 2022-06-01 (AL 3994-E, 36062-E)
+  Sheet 3 (Special Condition 9: EV Submetering for FERA) —
+    2024-02-12 (AL 4385-E, 61753-E)
+
+## Modifier shape
+
+Modeled as urpx:RatePlanModifier (sibling pattern to URPXT-cah.7
+SCE FERA and the just-completed URPXT-65v.1 SDG&E CARE). Eligibility
+predicate: customer's 'Program Enrollment' = 'Family Electric Rate
+Assistance (FERA)' (CustomOperandNode), matching the SCE/cross-utility
+naming.
+
+FERA customer benefits per Sheet 1 'Discount' section:
+  (a) 50% minimum bill OR reduced Base Services Charge (relative to
+      standard residential customers)
+  (b) 18% line-item bill discount on the total bill (less any minimum
+      bill amount or base services charge), as calculated for bundled
+      service customers
+
+## What this modifier captures
+
+Single line-item credit (overlay onto any SDG&E residential base
+RatePlan when customer is enrolled in FERA):
+
+  BSC Adjustment: -$0.39655/day (Standard $0.79343 → FERA $0.39688;
+                                  exactly 50% reduction per Sheet 1
+                                  prose 'a 50% minimum bill or a
+                                  reduced base services charge')
+
+  Source for BSC values: SDG&E TOU-DR1 base rate sheet (Sheet 1
+  'Total Rates' table, row 'Base Services Charge – FERA'). Same
+  numerical values appear consistently across the SDG&E residential
+  bases.
+
+Unlike SDG&E CARE, FERA does NOT include WF-NBC, DWR-BC, or CARE
+Surcharge exemptions. The FERA prose only mentions the BSC adjustment
+and the 18% discount.
+
+## What this modifier does NOT capture (deferred)
+
+  1. **18% line-item bill discount** — URPX has no percentage-of-bill
+     primitive (urpx-org/urpx#24, OPEN). Same upstream-vocabulary gap
+     as SCE FERA (URPXT-cah.7), SCE CARE (URPXT-cah.6), SDG&E CARE
+     (URPXT-65v.1), and PG&E CARE/FERA. The 18% discount is the bulk
+     of the customer's FERA benefit; the BSC adjustment modeled here
+     covers the fixed-charge component only.
+
+  2. **FERA Medical Baseline customer co-benefits** — Sheet 1 prose:
+     'FERA Medical Baseline customers taking electric service will
+     also receive applicable benefits associated with Medical Baseline
+     Program participation pursuant to D.25-09-006.' Those benefits
+     live in Schedule E-MEDICAL, blocked on urpx-org/urpx#32 OPEN.
+
+  3. **EV Submetering provision** (Sheet 3, Special Condition 9) —
+     FERA discounts apply to both primary-meter load and submetered
+     EV load when EV submetering is in use. This is more of an
+     applicability extension than a separate Price; not modeled
+     because base SDG&E filings don't separately track EV submeter
+     load.
+
+## Eligibility — Lower-Middle Income tier
+
+Sheet 1 Special Condition 1 defines 'Lower-Middle Income Household'
+as the eligibility band: total annual gross income within the
+$42,301-$135,375 range (depending on household size, 1-2 through 8
+persons). Income bracket is between 200% (CARE upper limit) + $1
+through 250% of the Federal Poverty Limit. Updated annually by CPUC.
+Required: 3 or more persons living in the household. NOT applicable
+to customers receiving CARE or DM service.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "18% line-item bill discount — URPX has no percentage-of-bill primitive (urpx-org/urpx#24, OPEN)",
+  "FERA Medical Baseline co-benefits via Schedule E-MEDICAL — blocked on urpx-org/urpx#32 (additive baseline allowance, OPEN)",
+  "EV Submetering applicability (Sheet 3 SC 9) — base SDG&E filings don't separately track EV submeter load",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-65v.2 — first filing of SDG&E Schedule FERA. Modeled as urpx:RatePlanModifier (sibling to URPXT-65v.1 SDG&E CARE and URPXT-cah.7 SCE FERA). Single PriceDefinition: BSC Adjustment -$0.39655/day (Standard $0.79343 → FERA $0.39688, exactly 50% reduction). 18% percentage discount deferred to URPX upstream #24. Eligibility predicate: 'Program Enrollment' = 'Family Electric Rate Assistance (FERA)'. applicableToRatePlan: 9 SDG&E residential bases (dr, dr-ses, ev-tou, ev-tou-2, ev-tou-5, tou-dr, tou-dr1, tou-dr2, tou-elec). Source: canonical Schedule FERA PDF via SDG&E Azure FDoor API (tarfKey 330)."

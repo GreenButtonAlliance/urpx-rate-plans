@@ -33,7 +33,7 @@ from dataclasses import dataclass, field
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ESTIMATES_PATH = REPO_ROOT / "dev" / "coverage-estimates.toml"
 REPORT_PATH = REPO_ROOT / "reports" / "coverage.md"
-CORPUS_ROOT = REPO_ROOT / "ca"
+CORPUS_ROOT = REPO_ROOT / "us"
 
 
 @dataclass

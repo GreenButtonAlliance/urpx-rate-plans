@@ -52,21 +52,15 @@ record() {
     return 0
 }
 
-# Map a repo-relative path to its utility by matching a known utility directory
-# name anywhere in the path. Deliberately not positional: the pending restructure
-# moves ca/<class>/<utility>/ to us/<subdivision>/<utility>/<carrier>/.
+# Utilities present in the corpus, via the shared discovery module.
 utilities_all() {
     python3 - <<'PY'
-from pathlib import Path
 import sys
 sys.path.insert(0, "dev")
-root = Path(".")
-names = set()
-for f in root.glob("ca/**/rate-plan*.jsonld"):
-    names.add(f.parts[2])
-for f in root.glob("us/**/rate-plan*.jsonld"):
-    names.add(f.parts[2])
-print(" ".join(sorted(names)))
+import corpus
+files = corpus.all_filing_jsonld()
+corpus.require_nonempty(files, "rate-plan filings")
+print(" ".join(sorted({corpus.utility_of(f) for f in files})))
 PY
 }
 

@@ -1,0 +1,124 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "tou-dr1"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=898"
+sha256        = "4a1d3026c8ebfa29f935a523eee6f120578a6766c7f15363f664fb17afa8bb0d"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "D.25-09-006 / Advice Letter 4791-E + 4791-E-A supplement"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+First SDG&E filing in the corpus. Source URL is the customer-facing
+SDG&E tariff-viewer (a Next.js SPA at tariffsprd.sdge.com). The viewer
+asynchronously fetches the underlying PDF from an Azure Front Door
+microservice; raw PDF retrievable via:
+
+  https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=898
+
+with required header X-Azure-FDID: bd4def74-b0e9-45ec-aa3e-5dac6c8aa90e
+(reverse-engineered from the SDG&E tariff-viewer JS bundle —
+documented in us/ca/sdge/electricity/utility.toml). The bytes from this Azure
+endpoint are the tariff PDF committed in this directory.
+
+Filing details (8-page PDF):
+  Sheet 1 (APPLICABILITY) — AL 4791-E, P.U.C. Sheet 64382-E
+  Sheet 2 (RATES — standard + CARE) — AL 4791-E-A supplement, Sheet 64669-E
+  Sheet 3 (RATES — MB) — AL 4791-E-A supplement, Sheet 64642-E
+  Sheet 4 (UDC sub-component breakdown) — AL 4791-E-A, Sheet 64670-E
+  Sheets 5-8 — Special Conditions, AL 4791-E original
+
+The supplement (AL 4791-E-A) was filed 28 days after the original
+(Mar 30 vs Mar 2, 2026) — likely a numerical correction. Both share
+the same effective date (Apr 1, 2026).
+
+## Modeling structure
+
+Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
+  - UDC (Utility Distribution Company) is FLAT $0.34061/kWh across all
+    six (season, period) combinations. Decomposed into 8 sub-components
+    (Trans, Distr, PPP, ND, CTC, LGC, RS, TRAC) per Sheet 4 — modeled as
+    8 separate flat-rate PriceDefinitions for transparency.
+  - DWR-BC + WF-NBC: DWR-BC = $0.00000, WF-NBC = $0.00591, total $0.00591
+    flat. Modeled as 2 separate flat PriceDefinitions.
+  - EECC (Electric Energy Commodity Cost) is the TOU-varying generation
+    component, applicable to BUNDLED customers only (CCA customers pay
+    their CCA's generation rate plus PCIA per Special Condition 16 —
+    PCIA modeling deferred). 6 distinct (season, period) values.
+  - Baseline Adjustment Credit: $-0.10892/kWh applies to consumption up
+    to 130% of CPUC baseline allocation (both seasons). Single
+    PriceDefinition + Price; the 130%-of-baseline threshold is a
+    customer-specific allocation noted in description but not encoded
+    as a urpx:ServiceTier (deferred — the CPUC baseline allocation
+    matrix by climate zone × season × all-electric flag is complex
+    enough to merit its own modeling pass).
+  - Base Services Charge: $0.79343/day for standard customers. Reduced
+    BSCs for CARE / FERA / DRAH variants modeled as RatePlanModifiers
+    in the grid-coordination/urpx-tariffs#13 secondary epic.
+
+## TOU period definitions (Sheet 5)
+
+  TOU Period      Weekday Summer/Winter         Weekend/Holiday Summer/Winter
+  ───────────     ───────────────────────       ──────────────────────────────
+  On-Peak         4 PM – 9 PM                   4 PM – 9 PM
+  Off-Peak        all other hours               all other hours
+  Super Off-Peak  Midnight – 6 AM AND 10 AM – 2 PM   Midnight – 2 PM
+
+Seasons: Summer June 1 – October 31 (5 months — different from
+SCE/PG&E 4-month Jun-Sep); Winter November 1 – May 31.
+
+## Modeling deferrals
+
+  - PCIA (Power Charge Indifference Adjustment) for CCA-served customers
+    — Special Condition 16. Tracked as a future RatePlanModifier issue.
+  - Franchise Fee Differential 5.78% within City of San Diego corporate
+    limits — applies as a multiplier on monthly billings. Tracked as a
+    future modeling issue.
+  - 130%-of-baseline threshold for Baseline Adjustment Credit — currently
+    encoded as a flat credit applicable to all kWh; correct semantics
+    require a urpx:ServiceTier with the customer's baseline-allocation-
+    dependent threshold. Tracked as a future modeling issue.
+  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers — Sheets 2-4
+    publish reduced rates for these customer classes; modeled as
+    standalone RatePlanModifiers in the grid-coordination/urpx-tariffs#13 secondary epic per
+    cross-utility-consistency convention.
+  - Reduce-Your-Use event-day handling — does NOT apply to TOU-DR1
+    (only to TOU-DR-P / EV-TOU-5-P variants in grid-coordination/urpx-tariffs#13).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "PCIA modeling per Special Condition 16 (CCA-served customers)",
+  "0.78% City of San Diego corporate-limits surcharge",
+]
+applicable_modifiers = [
+  "care",
+  "drah",
+  "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "First SDG&E schedule modeled. Pattern reference: us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/ for TOU structure (3 TOU tiers, 6 periods); us/ca/pge/electricity/e-tou-c/versions/2026-03-01/ for component-level UDC decomposition. 17 PriceDefinitions: 6 EECC (TOU-varying generation) + 8 UDC sub-components (flat across periods/seasons) + DWR-BC + WF-NBC + Baseline Credit + BSC. 17 Prices total. Unique to SDG&E vs SCE/PG&E: (1) summer is 5 months (Jun-Oct, not Jun-Sep), (2) on-peak is all-days at 4-9pm (no weekday/weekend distinction unlike SCE TOU-D-4-9PM), (3) Super Off-Peak windows differ between weekdays (split midnight-6am + 10am-2pm) and weekends (continuous midnight-2pm), (4) UDC delivery cost is FLAT across all periods (not per-period like SCE/PG&E), (5) baseline credit applies to 130% of baseline (not 100% like SCE / 400% like PG&E)."

@@ -1,0 +1,89 @@
+# Identity --------------------------------------------------------------------
+utility        = "sce"
+schedule       = "deed-restricted"
+effective_date = "2026-03-20"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256        = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SCE-AL-5771-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 26-03-013 (TOU-D Sheet 21) / Resolution E-5217 (Deed-Restricted value on rate tables Sheets 2/3 + 4/5 + 6/7)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+Re-sourced from the live tariff-book SharePoint folder (URPXT-cah.8) —
+the prior 2025-11-15 filing was sourced from the historical-rates
+archive (year-suffixed ELECTRIC_SCHEDULES_TOU-D_2025.pdf) and has been
+superseded.
+
+The Deed-Restricted BSC Adjustment is a cross-cutting modifier
+referenced in every SCE residential schedule's headline rate table.
+There is no separate per-modifier PDF (no "Schedule D-DR"); the
+canonical source is the line "BSC Adjustment - Deed Restricted -
+$/Meter/Day" on the rate tables of each affected base schedule.
+This filing cites the value as it appears on TOU-D Sheet 2 (Option
+4-9 PM headline rates), effective Jan 1, 2026 (AL 5725-E, 90937-E).
+The same value appears on TOU-D Sheets 4 / 6 (other Options) and
+Schedule D Sheets 2/3, all effective the same date under the same AL.
+
+Per the SCE convention documented in us/ca/sce/electricity/utility.toml, this
+filing is dated to the most recent per-sheet effective date in the
+document (2026-03-20).
+
+Substantive deltas vs the prior 2025-11-15 filing:
+
+  BSC Adjustment - Deed Restricted: -0.334 → -0.332/meter/day
+    (-0.002, less generous credit by 1/5 of a cent per day)
+
+  Net BSC for deed-restricted customers:
+    base 0.794 - 0.334 = 0.460  →  base 0.794 - 0.332 = 0.462
+    (a 0.2¢/meter/day net increase in BSC for deed-restricted
+    customers)
+
+## Source-vs-prose discrepancy (Schedule D Sheet 6)
+
+Note that Schedule D Sheet 6 Special Condition 4 (Billing Calculation,
+DRAH paragraph) still reads "$(0.334) per meter per day" — that sheet
+is dated 2025-11-15 (AL 5654-E) and was NOT re-issued under AL 5725-E.
+The headline rate tables on Sheets 2-3 (AL 5725-E, Jan 1 2026) carry
+the updated $(0.332) value. Same pattern as URPXT-cah.7 (FERA): the
+operative billing values are on the AL-5725-E rate tables, while the
+cross-cutting prose lags. SCE will presumably reconcile this in a
+future AL.
+
+Modeling notes (unchanged):
+  - Eligibility encoding: customer-state property
+    `housingDeedRestricted` (boolean) modeled as a CustomOperandNode
+    — there is no URPX-native vocabulary for property-level
+    eligibility flags. Verification of deed-restriction status
+    (recorded deed lookup) is operational, not billing-time.
+  - A customer can be both deed-restricted-eligible AND CARE/FERA-
+    eligible simultaneously; discounts stack independently.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-cah.8 — re-sourced from live tariff-book TOU-D PDF rate tables. Single price refreshed: BSC Adjustment -0.334 → -0.332 ($-0.002/meter/day, less generous credit). Per-version IRIs date-suffixed per the URPXT-cah.2 pattern (1 Price + 1 PriceDefinition with blank-node CalculationMethod + EligibilityRule subtree). RatePlanModifierVersion @id sce:deed-restricted-2026-03-20 supersedes sce:deed-restricted-2025-11-15. Documented Schedule D Sheet 6 cross-cutting prose still shows the older $(0.334) value (same kind of stale-prose discrepancy as URPXT-cah.7 FERA) — operative billing value is the rate-table line on AL 5725-E sheets."

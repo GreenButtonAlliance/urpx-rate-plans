@@ -91,12 +91,12 @@ Modeling work on this corpus surfaced a set of upstream issues + discussions awa
 
 | Utility | Class | Path | Base RatePlans | RatePlanModifiers |
 |---|---|---|---|---|
-| Pacific Gas & Electric (PG&E) | IOU | `ca/iou/pge/` | E-1, E-TOU-C (×2 reissue), E-TOU-D, EV2, E-ELEC (×2 reissue) | E-TOU-C Baseline-Tier, NBT (Net Billing Tariff), E-RSMART (SmartRate) |
-| Southern California Edison (SCE) | IOU | `ca/iou/sce/` | TOU-D-4-9PM (×2 reissue), TOU-D-5-8PM (×2 reissue), TOU-D-PRIME (×2 reissue), Schedule D (×2 reissue) | CARE (×2 reissue), FERA (×2 reissue), Deed-Restricted (×2 reissue), DA-CRS, CCA-CRS, PRIME-CPP, Medical Baseline, NBT (Net Billing Tariff — 5,088 RIN-tagged Prices, Generation derived from MIDAS SCSC−SCXX) |
-| San Diego Gas & Electric (SDG&E) | IOU | `ca/iou/sdge/` | TOU-DR1, TOU-DR, TOU-DR2, DR, DR-SES, EV-TOU, EV-TOU-2, EV-TOU-5, TOU-ELEC | CARE, FERA, DRAH, NBT (Net Billing Tariff — 5,760 RIN-tagged Prices) |
-| Los Angeles Department of Water and Power (LADWP) | POU | `ca/pou/ladwp/` | R-1A, R-1B | NEM, EZ-Save, Lifeline |
-| Sacramento Municipal Utility District (SMUD) | POU | `ca/pou/smud/` | TOD-5-8pm, TOD-Low-Use, Fixed | SSR, NEM1, PEV Credit, MED, EAPR, CPP |
-| City of Palo Alto Utilities (CPAU) | POU | `ca/pou/cpau/` | E-1 (×2 multi-source), E-1-TOU, E-2, E-3, E-4, E-4-TOU, E-7, E-7-TOU, E-14, E-16 | E-2-G, E-4-G, E-7-G, E-HRA, E-EEC-1, E-NSE-1 |
+| Pacific Gas & Electric (PG&E) | IOU | `us/ca/pge/` | E-1, E-TOU-C (×2 reissue), E-TOU-D, EV2, E-ELEC (×2 reissue) | E-TOU-C Baseline-Tier, NBT (Net Billing Tariff), E-RSMART (SmartRate) |
+| Southern California Edison (SCE) | IOU | `us/ca/sce/` | TOU-D-4-9PM (×2 reissue), TOU-D-5-8PM (×2 reissue), TOU-D-PRIME (×2 reissue), Schedule D (×2 reissue) | CARE (×2 reissue), FERA (×2 reissue), Deed-Restricted (×2 reissue), DA-CRS, CCA-CRS, PRIME-CPP, Medical Baseline, NBT (Net Billing Tariff — 5,088 RIN-tagged Prices, Generation derived from MIDAS SCSC−SCXX) |
+| San Diego Gas & Electric (SDG&E) | IOU | `us/ca/sdge/` | TOU-DR1, TOU-DR, TOU-DR2, DR, DR-SES, EV-TOU, EV-TOU-2, EV-TOU-5, TOU-ELEC | CARE, FERA, DRAH, NBT (Net Billing Tariff — 5,760 RIN-tagged Prices) |
+| Los Angeles Department of Water and Power (LADWP) | POU | `us/ca/ladwp/` | R-1A, R-1B | NEM, EZ-Save, Lifeline |
+| Sacramento Municipal Utility District (SMUD) | POU | `us/ca/smud/` | TOD-5-8pm, TOD-Low-Use, Fixed | SSR, NEM1, PEV Credit, MED, EAPR, CPP |
+| City of Palo Alto Utilities (CPAU) | POU | `us/ca/cpau/` | E-1 (×2 multi-source), E-1-TOU, E-2, E-3, E-4, E-4-TOU, E-7, E-7-TOU, E-14, E-16 | E-2-G, E-4-G, E-7-G, E-HRA, E-EEC-1, E-NSE-1 |
 
 ### Outstanding work
 
@@ -125,6 +125,6 @@ In summary:
 
 - **Rate-plan JSON-LD serializations, manifests (`tariff.toml`, `utility.toml`), JSON Schemas, prose documentation (`README.md`, `LAYOUT.md`, `CONTRIBUTING.md`), and code (`dev/*.clj`, `dev/*.py`)** — [Community Data License Agreement — Permissive — Version 2.0](https://cdla.dev/permissive-2-0/) (`CDLA-Permissive-2.0`), Copyright (c) 2026 Clark Communications Corporation.
 - **Committed source tariff PDFs** — `LicenseRef-PublicRecord`. These are utility tariff filings and published rate schedules, filed with a public regulator or adopted by city ordinance (CPUC advice letters, municipal-utility rate schedules). They are vendored here as source documents for the serializations extracted from them. **This repository claims no copyright in them.** The `SPDX-FileCopyrightText` names the issuing utility for provenance only. Where copyright subsists, if it does, it rests with the filer; this repository makes no determination either way. The identifier and its text follow [`urpx-org/urpx`](https://github.com/urpx-org/urpx/blob/main/LICENSES/LicenseRef-PublicRecord.txt), which uses the same one for the same class of document, so scanners classify mixed checkouts consistently.
-- **`ca/iou/pge/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld`** — same `CDLA-Permissive-2.0`, with copyright held jointly by `Flux Tailor LLC` (originator of the upstream v0.1.x test-case fixture in `urpx-org/urpx`) and Clark Communications Corporation (the v0.2.0 migration in this repo).
+- **`us/ca/pge/electricity/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld`** — same `CDLA-Permissive-2.0`, with copyright held jointly by `Flux Tailor LLC` (originator of the upstream v0.1.x test-case fixture in `urpx-org/urpx`) and Clark Communications Corporation (the v0.2.0 migration in this repo).
 
 CDLA-Permissive-2.0 is the same license URPX uses for its test-case dataset content (`urpx-org/urpx/test-cases/`) — so files can flow between the two repos without license conversion.

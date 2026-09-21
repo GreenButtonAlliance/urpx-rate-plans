@@ -1,0 +1,149 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "eapr"
+effective_date = "2023-09-22"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_EAPR.ashx"
+sha256        = "39980a1cb5363f5af762ab584856d8385091ba14bf2b1305665879be90b8da47"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "resolution"
+filing_id     = "SMUD-Resolution-23-09-09"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "SMUD Board Resolution 23-09-09 adopted September 21, 2023"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+First filing of SMUD Schedule EAPR (Energy Assistance Program Rate)
+in this corpus (URPXT-b5j.2). Sourced via the SMUD .ashx asset URL
+pattern documented in us/ca/smud/electricity/utility.toml [scrape_notes].
+
+Per the SMUD convention (most-recent per-sheet date in source PDF),
+this filing is dated to 2023-09-22 — Resolution 23-09-09 adopted
+September 21, 2023, effective September 22, 2023.
+
+## Modifier shape
+
+Modeled as urpx:RatePlanModifier — SMUD's CARE-equivalent income-
+qualified bill discount. Eligibility predicate: customer's "Program
+Enrollment" = "Energy Assistance Program (EAPR)" (CustomOperandNode),
+matching the cross-utility naming.
+
+EAPR customer benefits per Schedule EAPR Sec III (Residential):
+
+  (1) $10/month System Infrastructure Fixed Charge discount
+      (modelable as flat per-meter-day credit; modeled here as
+      -$0.3289/day = $10/30.4 days average month length)
+
+  (2) 100% reduction in electricity usage cost UP TO a maximum
+      monthly cap that varies by Federal Poverty Level (FPL) tier:
+        FPL tier         Maximum Electricity Usage Discount
+        ─────────        ──────────────────────────────────
+        0-50%            $60/month
+        >50-100%         $32/month
+        >100-150%        $10/month
+        >150-200%        $0/month
+
+      NOT MODELED. The "100% reduction up to $X cap" pattern is a
+      cap-on-credit semantic that URPX v0.2.0 does not directly
+      express. It's not a flat per-kWh credit (the discount evaporates
+      once the customer hits the monthly cap), and it's not a flat
+      per-month credit (the customer pays nothing if they're under
+      the cap, then resumes paying full rate). Same family as the
+      LADWP NEM and SMUD NEM1 "compute at upstream context" pattern,
+      tracked at urpx-org/urpx#24 (OPEN).
+
+  (3) ERSF (Rate Stabilization Fund) Additional Monthly Discount
+      (0-50% FPL only): $0-$35/month additional discount, determined
+      annually by SMUD Accountant based on available non-retail
+      revenue. NOT MODELED — value varies year-to-year by formula
+      not specified in the schedule, and applies only to the
+      smallest FPL tier.
+
+## What this modifier captures
+
+Single per-meter-per-day Price for the $10/month BSC discount
+(modeled as $-0.3289/day = $10/30.4 days). This represents one of
+the two main EAPR benefits and is the more straightforward of the
+two to model.
+
+For a typical EAPR customer in the 0-50% FPL tier with ~500 kWh/mo
+usage, the modeled $10/month discount captures roughly 14% of the
+total EAPR benefit; the other ~86% (the $60/mo usage cap + ERSF
+additional discount) is not captured. For higher-FPL-tier customers
+(150-200% FPL) where the usage cap is $0, the BSC discount is the
+ENTIRE EAPR benefit and the model is complete.
+
+## Eligibility specifics
+
+Per Schedule EAPR Sec II (Residential):
+  A. Total gross household income must conform to Income Guidelines
+     specified on the application (income tier 0-200% FPL).
+  B. Customer must NOT be claimed as a dependent on another person's
+     income tax return.
+  C. Service address on application must be customer's primary
+     residence.
+
+Sec IV-VI cover Nonprofit Organization eligibility — out of scope
+for residential modeling here.
+
+## Stacking with MED
+
+Customers eligible for both EAPR and MED receive BOTH discounts
+(per Schedule MED Sec III). When both modifiers compose against the
+same SMUD residential base, both per-month credits should apply.
+
+## What this modifier does NOT capture (deferred)
+
+  1. **Income-tier-conditional usage discount cap** ($60/$32/$10/$0
+     per month, depending on FPL tier) — primary EAPR benefit, not
+     modeled. URPX#24 territory (cap-on-credit / computed-from-
+     upstream-context). The $10/month BSC discount captured here is
+     the secondary EAPR benefit.
+
+  2. **ERSF Additional Monthly Discount** ($0-$35/month for 0-50%
+     FPL tier only, formulaic, year-by-year) — not modeled.
+
+  3. **Per-month CalculationMethod precision** — modeled as
+     $-0.3289/day (= $10/30.4 days). Same per-day-vs-per-month gap
+     as in MED.
+
+  4. **Nonprofit Organization eligibility paths** (Sec IV-VI) —
+     residential-focus filing; nonprofit eligibility out of scope.
+
+## applicableToRatePlan
+
+Applies to any SMUD residential base RatePlan — currently
+smud:tod-5-8pm and smud:fixed in this corpus. Per Schedule EAPR Sec
+I, applicable to "customers receiving service under residential or
+Commercial & Industrial rates" — residential subset captured here.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Income-tier-conditional usage discount cap ($60/$32/$10/$0 per FPL tier per month) — URPX#24 territory (cap-on-credit / computed-from-upstream-context); primary EAPR benefit, not modeled",
+  "ERSF Additional Monthly Discount ($0-$35/month for 0-50% FPL only, year-by-year formulaic) — not modeled",
+  "Per-month CalculationMethod precision — modeled as -$0.3289/day (=$10/30.4); URPX P1M intervalDuration support would let us model exact monthly billing",
+  "Nonprofit Organization eligibility paths (Sec IV-VI) — residential-focus filing; nonprofit out of scope",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-b5j.2 — first filing of SMUD EAPR. Single per-meter-per-day credit for the $10/month BSC discount (modeled as -$0.3289/day = $10/30.4 days). Income-tier usage-cap discount deferred (URPX#24). For 150-200% FPL customers (where usage cap = $0), the BSC discount is the ENTIRE EAPR benefit; for 0-50% FPL customers, modeled BSC discount captures ~14% of benefit. Eligibility predicate: 'Program Enrollment' = 'Energy Assistance Program (EAPR)'. applicableToRatePlan: 2 SMUD residential bases (tod-5-8pm, fixed). Stacks additively with MED."

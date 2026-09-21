@@ -43,12 +43,12 @@ Four PG&E residential tariffs, each as a single self-contained JSON-LD file:
 
 | Schedule | Effective | File | Lines | SHACL | clj-urpx |
 | --- | --- | --- | ---: | --- | --- |
-| **E-1** (default non-TOU) | 2026-03-01 | [`ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld`](../ca/iou/pge/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld) | 738 | ✓ | ✓ resolves |
-| **E-TOU-C** (default TOU, 4-9 p.m. all days) | 2026-03-01 | [`ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`](../ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld) | 1020 | ✓ | ✓ resolves |
-| **E-TOU-D** (alternative TOU, 5-8 p.m. weekday non-holiday) | 2026-03-27 | [`ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld`](../ca/iou/pge/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld) | 901 | ✓ | ✓ resolves |
-| **EV2** (residential plug-in EV) | 2026-03-27 | [`ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld`](../ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld) | 634 | ✓ | ✓ resolves |
+| **E-1** (default non-TOU) | 2026-03-01 | [`us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld`](../us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld) | 738 | ✓ | ✓ resolves |
+| **E-TOU-C** (default TOU, 4-9 p.m. all days) | 2026-03-01 | [`us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`](../us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld) | 1020 | ✓ | ✓ resolves |
+| **E-TOU-D** (alternative TOU, 5-8 p.m. weekday non-holiday) | 2026-03-27 | [`us/ca/pge/electricity/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld`](../us/ca/pge/electricity/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld) | 901 | ✓ | ✓ resolves |
+| **EV2** (residential plug-in EV) | 2026-03-27 | [`us/ca/pge/electricity/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld`](../us/ca/pge/electricity/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld) | 634 | ✓ | ✓ resolves |
 
-Each filing also carries a [`tariff.toml`](../ca/iou/pge/e-tou-c/versions/2026-03-01/tariff.toml) provenance manifest (canonical PDF URL, sha256, advice letter, regulatory authority, validation metadata) and a [`README.md`](../ca/iou/pge/e-tou-c/versions/2026-03-01/README.md) describing the URPX shape used and any known limitations.
+Each filing also carries a [`tariff.toml`](../us/ca/pge/electricity/e-tou-c/versions/2026-03-01/tariff.toml) provenance manifest (canonical PDF URL, sha256, advice letter, regulatory authority, validation metadata) and a [`README.md`](../us/ca/pge/electricity/e-tou-c/versions/2026-03-01/README.md) describing the URPX shape used and any known limitations.
 
 ### Conventions we landed on
 
@@ -66,7 +66,7 @@ $ source ~/env/py/p3newa/bin/activate
 $ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
           -e ../urpx/ontology/urpx-ontology.ttl \
           -df json-ld \
-          ca/iou/pge/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld
+          us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld
 Validation Report
 Conforms: True
 ```
@@ -179,7 +179,7 @@ This is the single biggest leverage point we found. **Recommendation**: prioriti
 1. `IntervalAlignmentValue` isn't exposed on `Condition` or `MetricSpecification` (no place to attach "rolling 12 months" formally).
 2. There's no `percentOfBaseline` in `urpx:UnitOfMeasureValue`, nor a generic "as percentage of <reference>" relation.
 
-**Workaround**: An informal `urpx:Condition` with `conditionType: "annualUsageCapAsPercentOfBaseline"` (free string), `operator: lessThanOrEqualOperator`, `conditionValue: "800"`, full prose in `description`, and `hasMetricSpecification` pointing at the kWh energy metric. SHACL conforms. The conditionType string is the contract for any consumer that wants to interpret it. From [`ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld`](../ca/iou/pge/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld):
+**Workaround**: An informal `urpx:Condition` with `conditionType: "annualUsageCapAsPercentOfBaseline"` (free string), `operator: lessThanOrEqualOperator`, `conditionValue: "800"`, full prose in `description`, and `hasMetricSpecification` pointing at the kWh energy metric. SHACL conforms. The conditionType string is the contract for any consumer that wants to interpret it. From [`us/ca/pge/electricity/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld`](../us/ca/pge/electricity/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld):
 
 ```jsonld
 { "@type": "urpx:Condition", "@id": "pge:condition-annual-usage-cap",

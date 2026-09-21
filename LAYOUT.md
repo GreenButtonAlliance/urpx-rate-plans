@@ -53,11 +53,11 @@ The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_co
 Example:
 
 ```
-ca/iou/pge/utility.toml                            # per-utility discovery manifest (§5)
-ca/iou/pge/e-tou-c/versions/2026-03-01/            # per-filing directory (§4, §6, §7)
-ca/iou/pge/e-tou-c/versions/2025-09-01/
-ca/pou/cpau/utility.toml
-ca/pou/cpau/e-1/versions/2025-07-01/
+us/ca/pge/electricity/utility.toml                            # per-utility discovery manifest (§5)
+us/ca/pge/electricity/e-tou-c/versions/2026-03-01/            # per-filing directory (§4, §6, §7)
+us/ca/pge/electricity/e-tou-c/versions/2025-09-01/
+us/ca/cpau/electricity/utility.toml
+us/ca/cpau/electricity/e-1/versions/2025-07-01/
 ```
 
 ### Why this nesting
@@ -153,7 +153,7 @@ landing_page  = "https://www.paloalto.gov/.../Residential-Rates"
   # ... one [source.<name>] block per source document
 ```
 
-Sub-table names are free-form (`base`, `modifier_e_eec_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `ca/pou/cpau/e-1/versions/2025-09-01/tariff.toml` for a working example.
+Sub-table names are free-form (`base`, `modifier_e_eec_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `us/ca/cpau/electricity/e-1/versions/2025-09-01/tariff.toml` for a working example.
 
 ### Per-document regulator metadata in multi-source filings
 
@@ -264,8 +264,8 @@ ca/<class>/<utility>/<schedule>/versions/<date>/<utility>_<schedule>_<date>.pdf
 
 Examples:
 ```
-ca/iou/pge/e-tou-c/versions/2026-03-01/pge_e-tou-c_2026-03-01.pdf
-ca/iou/pge/e-tou-d/versions/2026-03-27/pge_e-tou-d_2026-03-27.pdf
+us/ca/pge/electricity/e-tou-c/versions/2026-03-01/pge_e-tou-c_2026-03-01.pdf
+us/ca/pge/electricity/e-tou-d/versions/2026-03-27/pge_e-tou-d_2026-03-27.pdf
 ```
 
 The URPX `urpx:hasDataSourceReference` block in each JSON-LD retains the canonical published URL via `urpx:accessURL` and the publisher's filename via `urpx:fileName`:
@@ -311,7 +311,7 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 
 ## 10. Future considerations
 
-- **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `ca/iou/pge/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
-- **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `ca/iou/pge/a-1/`). The class-level split is by utility class, not by customer class.
+- **Tariff modifiers** (`urpx:RatePlanModifier`, e.g. CARE discount, NEM credit) can stand alone at `versions/` paths under their own pseudo-schedule directory, e.g. `us/ca/pge/electricity/e-care/versions/...` — they share the same packaging. Cross-references to the base RatePlan use IRIs.
+- **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `us/ca/pge/electricity/a-1/`). The class-level split is by utility class, not by customer class.
 - **Lineage tracking** (this version supersedes that one) is captured by `urpx:supersedes` inside the JSON-LD, not by directory layout. Per [urpx-org/urpx#16](https://github.com/urpx-org/urpx/issues/16), the value must point to an existing `RatePlanVersion` IRI; cross-file resolution is verified by `dev/validate-with-base.py --utility <slug>`, which merges a whole utility so the referent is in the same graph. Adopted in [#3](https://github.com/grid-coordination/urpx-tariffs/issues/3) starting with PG&E E-TOU-C 2026-03-27 → 2026-03-01.
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.

@@ -1,0 +1,169 @@
+# Identity --------------------------------------------------------------------
+utility        = "sce"
+schedule       = "tou-d-prime"
+effective_date = "2026-03-20"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256        = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SCE-AL-5771-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 26-03-013 (Sheet 21) / Resolution E-5217 + Decision 24-05-028 (rate sheets and Special Conditions)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+Source PDF is the LIVE SCE tariff-book Schedule TOU-D — the complete
+current tariff, 26 sheets including Special Conditions 1-6 (Sheets
+12-17). Re-sourced from the live tariff-book SharePoint folder
+(URPXT-cah.5) — the prior 2025-11-15 filing was sourced from the
+historical-rates archive (year-suffixed ELECTRIC_SCHEDULES_TOU-D_2025
+.pdf) and has been superseded.
+
+Per the SCE convention documented in us/ca/sce/electricity/utility.toml, this
+filing is dated to the most recent per-sheet effective date in the
+document (2026-03-20).
+
+Per-sheet effective dates relevant to the PRIME filing:
+  Sheet 6 (Option PRIME headline rates) — 2026-01-01 (AL 5725-E,
+    90941-E)  *** rates we model here ***
+  Sheet 7 (Option PRIME Delivery Service breakdown) — 2026-01-01
+    (AL 5725-E, 90942-E)  *** rates we model here ***
+  Sheet 12 (Special Condition 1: TOU period definitions, including
+    PRIME) — 2022-06-01
+    *** unblocks Sheet 12 sourcing for PRIME TOU windows ***
+  Sheet 13 (Special Condition 2: Option PRIME eligibility) —
+    2025-06-02
+    *** unblocks PRIME eligibility-rule sourcing — was previously
+        described in prose only based on the customer-facing page ***
+  Sheet 14 (Special Condition 3: Billing Calculation, DWREC, PCIA)
+    — 2025-06-02
+  Sheet 15 (Special Condition 4: Baseline Allocation / Pre-Statement
+    Part H reference) — 2022-06-01 (note: PRIME does not provide a
+    Baseline Credit, but Sheet 15 still applies for HPWH allocation
+    extensions referenced from the EV Meter Credit context)
+  Sheet 18 (Special Conditions 7-9: Change of Rate, CARE, FERA,
+    Climate Credit, Medical Baseline) — 2026-01-01
+  Sheet 21 — 2026-03-20 (newest sheet, drives the filing date)
+
+The full per-sheet inventory for the 26-sheet PDF is documented in
+the sibling 4-9 PM filing's tariff.toml (URPXT-cah.3).
+
+Substantive deltas vs the prior 2025-11-15 filing (PRIME rates):
+
+(a) RATE REFRESH — AL 5725-E updated all energy-charge components
+    effective 2026-01-01:
+
+    Generation (UG) $/kWh:
+      Summer On-Peak         0.33489 → 0.29667  (-0.03822)
+      Summer Mid-Peak        0.11918 → 0.10558  (-0.01360)
+      Summer Off-Peak        0.07957 → 0.07049  (-0.00908)
+      Winter Mid-Peak        0.29281 → 0.26489  (-0.02792)
+      Winter Off-Peak        0.06725 → 0.05958  (-0.00767)
+      Winter Super-Off-Peak  0.06725 → 0.05958  (-0.00767)
+
+    Distribution $/kWh:
+      Summer On-Peak         0.24216 → 0.24922  (+0.00706)
+      Summer Mid-Peak        0.24216 → 0.24922  (+0.00706)
+      Summer Off-Peak        0.15019 → 0.15101  (+0.00082)
+      Winter Mid-Peak        0.24746 → 0.25455  (+0.00709)
+      Winter Off-Peak        0.14117 → 0.14149  (+0.00032)
+      Winter Super-Off-Peak  0.14117 → 0.14149  (+0.00032)
+
+    Other delivery surcharges $/kWh:
+      Transmission           0.02351 → 0.02586  (+0.00235)
+      NSGC                   0.00989 → 0.00829  (-0.00160)
+      NDC                   -0.00001 → 0.00003  (+0.00004)
+      PPPC                   0.01060 → 0.00527  (-0.00533)
+      WFC                    0.00595 → 0.00591  (-0.00004)
+      PUCRF                  0.00080 → 0.00100  (+0.00020)
+
+    Bundled adjustments $/kWh:
+      Fixed Recovery Charge  0.00198 → 0.00619  (+0.00421)
+      MCAM                   0.00160 → 0.00223  (+0.00063)
+
+    Other ($/meter/day except Climate Credit):
+      BSC                    0.794   → 0.794    (unchanged)
+      BSC Adj Deed-Restr     -0.334  → -0.332   (+0.002)
+      EV Meter Credit        -0.446  → -0.451   (-0.005)
+      EV Submeter Credit     -0.152  → -0.152   (unchanged)
+      Climate Credit ($/hh)  -56.00  → -36.00   (+20.00)
+
+    PRIME does NOT have a Baseline Credit (consistent with
+    higher-usage targeting); CIA stays 0.
+
+(b) NEW LINE ITEMS — Sheets 6 and 7 add two rate components that were
+    not displayed on the 2025 reissuance:
+      Generation→DWREC (DWR Energy Credit) — 0.00000 $/kWh (Sheet 6)
+      Delivery→DWRA (DWR Refund) — 0.00000 $/kWh (Sheet 7)
+    Both currently zero but explicit columns on the rate sheets.
+
+(c) TOU PERIOD SOURCE — Sheet 12 (Special Condition 1) is now in the
+    source PDF; PRIME TOU windows are now cited from the regulatory
+    sheet instead of the customer-facing rate-plans page. Modeled
+    values unchanged (4 p.m.-9 p.m. on-peak, same as the 4-9 PM
+    option).
+
+(d) PRIME ELIGIBILITY SOURCE — Sheet 13 (Special Condition 2: Option
+    PRIME eligibility) is now in the source PDF; the 4-way OR
+    EligibilityRule (storage / EV / heat-pump / NBT enrollment)
+    now has a regulatory-sheet citation. Modeled values unchanged.
+
+Modeling deferrals (tracked as siblings under URPXT-cah):
+  - HPWH baseline allocation modifier — URPXT-bqg, partly unblocked
+    by Sheet 15 + Pre-Statement Part H now being available.
+  - Vintage PCIA / DA-CRS / CCA-CRS RatePlanModifiers — URPXT-cah.9,
+    unblocked by Sheet 14.
+  - Option PRIME-CPP variant — URPXT-cah.10, now sourceable from
+    Sheet 13 (PRIME-CPP eligibility) + Sheet 12 (CPP event windows).
+    Sheet 6 carries CPP Event Energy Charge ($0.80000/kWh), Summer
+    On-Peak Non-Event Credit ($-0.15170/kWh), Maximum Available
+    Credit (-$0.58794/kWh). Not modeled here.
+  - Medical Line Item Discount RatePlanModifier — URPXT-cah.11,
+    sourceable from Sheet 6 + Sheet 18 + Schedule MB-E.
+  - Conditional applicability of EV Meter Credit (only for Separately
+    Metered EV Option) and EV Submeter Credit (only when EV submeter
+    used) — currently encoded as standalone PriceDefinitions;
+    EligibilityRule / ApplicabilityRule refinement deferred.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured (URPXT-bqg, source now staged)",
+  "Option PRIME-CPP variant — CPP event charges + non-event credits not yet modeled (URPXT-cah.10)",
+  "100% Medical Line Item Discount RatePlanModifier (URPXT-cah.11)",
+  "Conditional applicability of EV Meter Credit / EV Submeter Credit — EligibilityRule / ApplicabilityRule refinement deferred",
+]
+applicable_modifiers = [
+  "care",
+  "cca-crs",
+  "da-crs",
+  "deed-restricted",
+  "fera",
+  "hpwh-baseline",
+  "medical-baseline",
+  "nbt",
+  "tou-d-prime-cpp",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-cah.5 — re-sourced from live tariff-book TOU-D PDF. 25 of 25 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. EV Meter Credit decreased from -0.446 to -0.451 (more credit). Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 6/7. Sheet 12 (TOU period definitions) and Sheet 13 (PRIME eligibility) now both cited from regulatory source instead of customer-facing page (modeled values unchanged). Per-version IRIs date-suffixed per the URPXT-cah.2 pattern, including the 4-way OR EligibilityRule subtree for qualifying technology (storage / EV / heat-pump / NBT). PRIME has 3 PriceDefinitions with blank-node CalculationMethod that needed date-suffixing (sce:pd-base-services-charge, sce:pd-ev-meter-credit, sce:pd-ev-submeter-credit) — anything per-meter-per-day or per-day with a CalculationMethod blank node hits the SHACL maxCount issue documented in URPXT-cah.2. RatePlanVersion @id sce:tou-d-prime-2026-03-20 supersedes sce:tou-d-prime-2025-11-15."

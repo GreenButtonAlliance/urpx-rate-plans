@@ -28,6 +28,10 @@ import subprocess
 import sys
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus
+
 REPO = Path(__file__).resolve().parent.parent
 
 
@@ -63,7 +67,7 @@ def validate_schema() -> tuple[bool, str]:
     schema = json.loads((REPO / "schema" / "tariff-manifest.schema.json").read_text())
     errors: list[str] = []
     count = 0
-    for tp in sorted(REPO.glob("ca/*/*/*/versions/*/tariff.toml")):
+    for tp in corpus.tariff_tomls():
         count += 1
         with tp.open("rb") as fp:
             data = tomli.load(fp)

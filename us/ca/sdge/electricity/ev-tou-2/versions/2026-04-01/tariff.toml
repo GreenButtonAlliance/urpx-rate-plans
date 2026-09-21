@@ -1,0 +1,139 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "ev-tou-2"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=18"
+sha256        = "013541f42bd0603d722a882611df3b1b86f4e6b1e0802ff175734d8353ef6376"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E-A"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Advice Letter 4791-E (Sheets 4-5, eff Apr 1 2026) + 4791-E-A supplement (Sheets 1-3, eff Apr 1 2026)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual + script-derivation from sdge:ev-tou-5"
+extracted_on  = "2026-05-04"
+notes         = """
+First filing of SDG&E Schedule EV-TOU-2 in this corpus (URPXT-65v.6).
+Sourced via the SDG&E Azure FDoor tariff API (recipe documented in
+us/ca/sdge/electricity/utility.toml [scrape_notes]).
+
+Schedule EV-TOU-2 is the middle-vintage EV-charging-targeted
+residential TOU schedule — predecessor to EV-TOU-5, successor to
+EV-TOU. Per Sheet 1 applicability prose, 'specifically limited to
+customers who require service for charging of a currently registered
+Motor Vehicle'.
+
+Per the SDG&E convention (most-recent per-sheet date), this filing
+is dated 2026-04-01 — Sheets 1-2 carry that effective date under
+AL 4791-E or AL 4791-E-A.
+
+## Per-sheet effective dates
+
+  Sheet 1 (Applicability + Total Rates table) —
+    2026-04-01 (AL 4791-E-A, 64666-E)  *** newest ***
+  Sheet 2 (UDC Rates per-component breakdown) —
+    2026-04-01 (AL 4791-E-A, 64374-E)
+  Sheet 3 (TOU period table + Special Conditions 1-5) —
+    2026-04-01 (AL 4791-E, 64375-E)
+  Sheet 4 (Special Conditions 6-9: Optional Billing, Billing
+    paths, Other Applicable Tariffs) — 2026-04-01 (AL 4791-E)
+  Sheet 5 (Special Condition 10: PCIA Recovery) —
+    earlier dating (Jan 1 2023 era under AL 4129-E)
+
+## Structural relationship to EV-TOU and EV-TOU-5
+
+EV-TOU-2 sits between EV-TOU and EV-TOU-5 chronologically and
+structurally. Same TOU window structure as both (and TOU-DR1) —
+on-peak 4-9pm every day, weekday/weekend split super-off-peak.
+
+Like EV-TOU-5 (and unlike EV-TOU):
+  - Has the modern Base Services Charge structure with DRAH/FERA/
+    CARE BSC variants ($0.79343/$0.39688/$0.39688/$0.19713/day).
+  - PPP $0.01515 (matches EV-TOU-5 and TOU-DR1; differs from
+    EV-TOU's $0.01713).
+  - LGC $0.00000 (matches EV-TOU-5 and TOU-DR1; differs from
+    EV-TOU's $0.01235).
+  - TRAC $0.00000 (matches all three).
+
+Like EV-TOU (and unlike EV-TOU-5):
+  - Transmission FLAT at $0.10067 (no TOU signal — EV-TOU-5 has
+    Transmission TOU-varying with 0 in super-off-peak).
+
+Distribution is TOU-varying with VALUES UNIQUE to EV-TOU-2:
+  - On-Peak/Off-Peak: $0.19763 (vs EV-TOU $0.25679 / EV-TOU-5
+    $0.21102)
+  - Super-Off-Peak: $0.05666 (vs EV-TOU $0.10014 / EV-TOU-5
+    $0.02601)
+
+EECC values IDENTICAL to EV-TOU and EV-TOU-5 (Summer 0.47019/
+0.17311/0.08147; Winter 0.19990/0.14337/0.07410).
+
+Net effect: EV-TOU-2's UDC Total ($0.31343/$0.17246) is BETWEEN
+EV-TOU's ($0.38692/$0.23027) and EV-TOU-5's ($0.32721/$0.13211 —
+note these are computed from EV-TOU-5's per-component prices which
+include TOU-varying Transmission). All-in rates land between the
+other two siblings as a function of period.
+
+## Eligibility specifics
+
+  - BEV/PHEV at premises OR NGV refueled via HRA (no HEVs).
+  - Unlike EV-TOU, NO requirement for separate metering of EV
+    charging facilities (Special Condition 3 just says utility
+    supplies/owns/maintains all meters; no separate-meter
+    requirement).
+  - 12-month minimum stay rule (Special Condition 5).
+  - Welder Service provision (Special Condition 2 — service may
+    be supplied to welders ≤2.9 Kva at 240 V or ≤0.5 Kva at 120 V).
+
+## Modifier compose extensions
+
+CARE/FERA/DRAH applicableToRatePlan lists extended to include
+sdge:ev-tou-2 (in-place; same approach as TOU-DR + EV-TOU additions).
+
+## Modeling deferrals
+
+  - PCIA recovery for CCA-served customers (Special Condition 10);
+    same deferral as other SDG&E filings.
+  - Optional Billing - Utility Option (Special Condition 7).
+  - Climate Credit $(49.36) per Schedule GHG-ARR semi-annually —
+    referenced in Sheet 1 prose but not modeled as a per-month
+    Price (would require an ApplicabilityRule on month).
+  - Franchise Fee Differential 5.78% for City of San Diego customers.
+  - Welder Service provision (Special Condition 2) — niche
+    eligibility detail, not a billing-time rate component.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "PCIA recovery for CCA-served customers (Special Condition 10) — same deferral as other SDG&E filings",
+  "Optional Billing - Utility Option (Special Condition 7)",
+  "Climate Credit $(49.36) per Schedule GHG-ARR semi-annually — not modeled as a per-month Price",
+  "Franchise Fee Differential 5.78% for City of San Diego customers",
+]
+applicable_modifiers = [
+  "care",
+  "drah",
+  "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-65v.6 — first filing of SDG&E Schedule EV-TOU-2 (closed-to-new EV-charging-targeted residential TOU; predecessor to EV-TOU-5, successor to EV-TOU). Script-derived from sdge:ev-tou-5 with: (a) UDC sub-component values updated (Transmission flat 0.10067 like EV-TOU instead of TOU-varying like EV-TOU-5; Distribution unique 0.19763/0.05666); (b) EECC values unchanged from EV-TOU-5; (c) BSC structure preserved unchanged from EV-TOU-5. Same TOU window structure as TOU-DR1/EV-TOU/EV-TOU-5. RatePlanVersion @id sdge:ev-tou-2-2026-04-01. CARE/FERA/DRAH modifiers extended to compose against the new base."

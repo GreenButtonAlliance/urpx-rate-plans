@@ -1,0 +1,96 @@
+# Identity --------------------------------------------------------------------
+utility        = "sce"
+schedule       = "care"
+effective_date = "2025-11-15"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_TOU-D_2025.pdf"
+sha256        = "1280046520b8324fab86fe5145737b967cc438261aee4e798d1493ead7bcfc7a"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SCE-AL-5654-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 24-05-028 / Resolution E-5356 (CARE program terms inherited from Schedule D-CARE)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+First RatePlanModifier filing in the SCE corpus. Source-of-record for
+the per-line-item credit values is the SCE TOU-D consolidated PDF
+(same bytes committed alongside the base TOU-D-4-9PM/-5-8PM/-PRIME
+filings); Sheet 18 contains Special Conditions 8 (CARE) which
+articulates the exemption + discount values.
+
+The CARE program itself is defined in SCE Schedule D-CARE — a
+separate schedule that is the canonical CPUC-mandated source of CARE
+eligibility and discount terms. The TOU-D-2025 PDF used as source
+here restates the same numerical values via Special Condition 8.
+A future filing may pin Schedule D-CARE directly as the source-of-
+record once that PDF is fetched and committed to the corpus.
+
+## What this modifier captures
+
+Line-item credits applied as overlays to any SCE residential base
+rate plan when the customer is enrolled in CARE:
+
+  WFC Exemption:           -$0.00595/kWh        (cancels base WFC)
+  FRC Exemption:           -$0.00198/kWh        (cancels base FRC)
+  BSC Surcharge Exemption: -$0.063/meter/day    (cancels BSC Surcharge)
+  BSC Discount:            -$0.153/meter/day    (additional reduction)
+  ─────────────────────────────────────────────────────────────────
+  Net per-kWh:             -$0.00793/kWh
+  Net per-meter-per-day:   -$0.216/meter/day
+
+## What this modifier does NOT capture (deferred)
+
+  1. 32.5% bill-subtotal percentage discount — URPX has no
+     percentage-of-bill primitive (urpx:Price.unitPrice is
+     xsd:decimal in $-per-unit). The 32.5% discount applies to the
+     pre-PUCRF / pre-tax subtotal across all base PriceDefinitions,
+     not to any single PriceDefinition. Tracked as upstream URPX
+     vocabulary gap.
+
+  2. CARE Surcharge $0.212/meter/day exemption — Special Condition 8
+     references this surcharge that non-CARE customers pay to fund
+     the CARE program. The surcharge is NOT itemized in the SCE
+     TOU-D base rate-sheet line items as currently modeled in this
+     corpus, so the exemption credit has no base item to cancel.
+     Modeling deferred until base rate plans separately track the
+     CARE Surcharge as a non-CARE-only line item.
+
+For a CARE customer on TOU-D-4-9PM with average residential usage,
+the modeled line-item credits capture roughly half the actual CARE
+benefit; the other half is the 32.5% percentage discount.
+
+## Cross-utility consistency
+
+CARE is a CPUC-mandated program implemented by all three CA IOUs
+(PG&E, SCE, SDG&E). PG&E and SDG&E equivalents not yet modeled in
+this corpus — when filed, they should follow this same modifier shape
+with utility-specific exemption + discount values.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "CARE-customer exemption from a non-CARE-funded surcharge — not modeled until base rate plans track this surcharge as a non-CARE-only line item",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "First SCE RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure (URPXDocument wrapper + RatePlanModifier + RatePlanModifierVersion + EligibilityRule + PlanElements + PriceDefinitions + Prices). 4 PriceDefinitions: WFC exemption, FRC exemption, BSC Surcharge exemption, BSC Discount. 4 Prices. Bill-subtotal 32.5% discount deferred (URPX vocabulary gap). CARE Surcharge $0.212/meter/day exemption deferred (base TOU-D modeling doesn't track the surcharge). Highest-customer-impact modifier filing in the corpus — overlays SCE residential base rate plans for ~30% of SCE residential customers (~1.5M)."

@@ -6,8 +6,8 @@ and identical Domestic-class values per PCIA vintage. The two filings differ
 only in modifier identity and eligibility-program label.
 
 Output:
-  ca/iou/sce/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld
-  ca/iou/sce/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld
+  us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld
+  us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld
 
 Source values: ELECTRIC_SCHEDULES_DA-CRS.pdf and ELECTRIC_SCHEDULES_CCA-CRS.pdf
 in the live SCE tariff-book Other Rates folder, AL 5725-E equivalents
@@ -358,7 +358,7 @@ DA_DESCRIPTION = (
     "Customer-subgroup exemption table on Sheet 3 distinguishes DA, PC-TBS, "
     "GTSR-GR, GTSR-CR — only the default DA subgroup is captured by the "
     "Eligibility Rule here. Sibling Schedule CCA-CRS (modeled at "
-    "ca/iou/sce/cca-crs/) carries identical Domestic-class PCIA values "
+    "us/ca/sce/electricity/cca-crs/) carries identical Domestic-class PCIA values "
     "for CCA-Service customers."
 )
 
@@ -418,8 +418,8 @@ def main() -> None:
         description=CCA_DESCRIPTION,
     )
 
-    da_path = repo / "ca/iou/sce/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld"
-    cca_path = repo / "ca/iou/sce/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld"
+    da_path = repo / "us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld"
+    cca_path = repo / "us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld"
     da_path.write_text(json.dumps(da, indent=2, ensure_ascii=False) + "\n")
     cca_path.write_text(json.dumps(cca, indent=2, ensure_ascii=False) + "\n")
 

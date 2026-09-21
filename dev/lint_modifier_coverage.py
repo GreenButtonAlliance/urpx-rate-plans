@@ -34,6 +34,10 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus
+
 import tomli
 
 REPO = Path(__file__).resolve().parent.parent
@@ -93,7 +97,7 @@ def build_modifier_index() -> dict[tuple[str, str], dict]:
     """
     idx: dict[tuple[str, str], dict] = {}
     # Directory-name matches first (preferred)
-    for d in REPO.glob("ca/*/*/*/versions/*"):
+    for d in corpus.filing_dirs():
         if not is_modifier_dir(d):
             continue
         utility = d.relative_to(REPO).parts[2]
@@ -110,8 +114,8 @@ def build_modifier_index() -> dict[tuple[str, str], dict]:
     # filename slug differs from their directory (e.g. an inline file in the
     # base's directory), and (2) modifiers packaged inline inside a base
     # rate-plan_*.jsonld @graph (e.g. PG&E vintage-PCIA).
-    inline_paths = list(REPO.glob("ca/*/*/*/versions/*/rate-plan-modifier_*.jsonld"))
-    inline_paths += list(REPO.glob("ca/*/*/*/versions/*/rate-plan_*.jsonld"))
+    inline_paths = corpus.modifier_files()
+    inline_paths += corpus.rate_plan_files()
     for jp in inline_paths:
         utility = jp.relative_to(REPO).parts[2]
         d = jp.parent
@@ -232,7 +236,7 @@ def find_asymmetries(bases: list[dict], by_modifier: dict[str, dict]) -> list[di
 def collect_bases() -> list[dict]:
     """One record per (utility, schedule, version-date) base RatePlan filing."""
     out = []
-    for d in sorted(REPO.glob("ca/*/*/*/versions/*")):
+    for d in corpus.filing_dirs():
         if not is_base_rate_plan_dir(d):
             continue
         parts = d.relative_to(REPO).parts

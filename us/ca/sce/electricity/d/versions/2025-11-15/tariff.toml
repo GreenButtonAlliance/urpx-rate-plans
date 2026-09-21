@@ -1,0 +1,84 @@
+# Identity --------------------------------------------------------------------
+utility        = "sce"
+schedule       = "d"
+effective_date = "2025-11-15"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://library.sce.com/content/dam/sce-doclib/public/regulatory/tariff/2025/electric/electric-schedules/ELECTRIC_SCHEDULES_D_2025.pdf"
+sha256        = "78fc8c0060f8be7add8a73170a0a21bec1c66078068738c1df96c9e76bdd2c94"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SCE-AL-5654-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 24-05-028 / Resolution E-5356"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Source PDF is SCE's consolidated Schedule D tariff book — 15 pages bundling
+per-sheet revisions across 2025. Per the SCE convention documented in
+us/ca/sce/electricity/utility.toml, this filing is dated to the most recent per-sheet
+effective date (2025-11-15).
+
+Per-sheet effective dates within the source PDF (most recent revision per
+sheet):
+  Sheet 2 (headline rates) — 2025-11-15 (AL 5654-E, leaf 90634-E)
+  Sheet 3 (Delivery Service breakdown) — 2025-11-15 (AL 5654-E, leaf 90635-E)
+  Sheet 7 (Special Conditions 4-6: Billing Calculation w/ CARE+FERA,
+    Climate Credit, Change of Rate Schedule) — 2025-11-15 (AL 5654-E,
+    leaf 90639-E)
+
+Sheets 4-6 (Special Conditions 1-3) are not in this consolidated PDF —
+same gap pattern as TOU-D. Special Conditions content needed
+for billing calculation specifics, baseline allocation tables, and
+DA/CCA delivery clauses.
+
+The fetch path is documented in us/ca/sce/electricity/utility.toml — canonical
+PDFs live in the SCE library.sce.com CDN at the URL listed in [source.url],
+discovered by browsing the historical-rates portal page through to the
+'Residential Rates' SharePoint folder. fetch-sce-tariffs.py (in the
+shadow repo) automates the SharePoint enumeration + download.
+
+Modeling deferrals (shared with TOU-D filings, tracked separately):
+  - CARE/FERA discount RatePlanModifiers (Special Condition 4 on Sheet 7
+    — 32.5% / 18% discounts plus BSC surcharge exemption + BSC
+    discount adjustments + CARE Surcharge / WFC / FRC exemptions).
+    Modeled at us/ca/sce/electricity/care/ and us/ca/sce/electricity/fera/.
+  - Deed-Restricted BSC discount ($-0.334/meter/day) — described in
+    plan prose, not yet modeled as an EligibilityRule or modifier.
+    Tracked at grid-coordination/urpx-tariffs#14.
+  - Vintage PCIA / DA-CRS / CCA-CRS RatePlanModifiers — delivery-service
+    Total varies for Direct Access / CCA customers (subject to DWRBC
+    adjustments via Schedule DA-CRS / CCA-CRS). Not yet captured.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "care",
+  "cca-crs",
+  "da-crs",
+  "deed-restricted",
+  "fera",
+  "medical-baseline",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Third SCE schedule modeled. Structurally distinct from TOU-D options: no TOU schedule (flat all-day rates), 2 ServiceTiers (baseline / nonbaseline) implemented via tier-varying CIA charge (-$0.03845/kWh credit baseline, +$0.06604/kWh charge nonbaseline; the 10.449¢ swing matches the Baseline Credit modeled in SCE TOU-D). Generation, distribution, and other surcharges are flat across tiers and seasons. Pattern reference: PG&E E-1 (also tiered, also uses urpx:hasServiceTiers + serviceTierNumber on per-tier Price entries). 13 PriceDefinitions: 1 generation, 1 distribution, 6 flat delivery surcharges (Trans/NSGC/NDC/PPPC/WFC/PUCRF), 1 tier-varying CIA, 2 bundled adjustments (FRC/MCAM), 1 BSC, 1 climate credit. 14 Prices (CIA has 2 — one per tier)."

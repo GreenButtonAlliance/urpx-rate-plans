@@ -21,6 +21,10 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus
+
 REPO = Path(__file__).resolve().parent.parent
 
 
@@ -92,12 +96,12 @@ def collect() -> tuple[dict[str, dict], dict[str, list[str]]]:
 
     # Pass 1: dedicated rate-plan-modifier_* files claim canonical filing
     # pointers for the modifiers they contain.
-    for jp in sorted(REPO.glob("ca/*/*/*/versions/*/rate-plan-modifier_*.jsonld")):
+    for jp in corpus.modifier_files():
         absorb(jp)
     # Pass 2: base rate-plan_* files contribute inline modifiers (those without
     # a dedicated filing) and add their applicable_to declarations to existing
     # entries.
-    for jp in sorted(REPO.glob("ca/*/*/*/versions/*/rate-plan_*.jsonld")):
+    for jp in corpus.rate_plan_files():
         absorb(jp)
 
     by_base_sorted = {k: sorted(v) for k, v in by_base.items()}

@@ -135,22 +135,23 @@ def shapes_target_any(data_graph: rdflib.Graph, shapes_graph: rdflib.Graph) -> b
 
 
 # --- corpus discovery -------------------------------------------------------
-# One place, so the pending restructure to us/<subdivision>/<utility>/<carrier>/
-# changes this function and nothing else.
-CORPUS_ROOT = "ca"
-_UTILITY_PATH_INDEX = 2   # ca/<class>/<utility>/...
+# Delegated to dev/corpus.py so a restructure changes one module, not fourteen
+# globs across nine files.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus  # noqa: E402
 
 
 def corpus_files(utility: str | None = None) -> list[Path]:
     """Every rate-plan filing, optionally narrowed to one utility."""
-    files = sorted(REPO_ROOT.glob(f"{CORPUS_ROOT}/**/rate-plan*.jsonld"))
+    files = corpus.all_filing_jsonld()
+    corpus.require_nonempty(files, "rate-plan filings")
     if utility is None:
         return files
     return [f for f in files if utility_of(f) == utility]
 
 
 def utility_of(path: Path) -> str:
-    return path.relative_to(REPO_ROOT).parts[_UTILITY_PATH_INDEX]
+    return corpus.utility_of(path)
 
 
 def utilities() -> list[str]:

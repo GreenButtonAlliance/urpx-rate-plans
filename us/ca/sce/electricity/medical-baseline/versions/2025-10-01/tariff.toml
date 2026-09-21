@@ -1,0 +1,145 @@
+# Identity --------------------------------------------------------------------
+utility        = "sce"
+schedule       = "medical-baseline"
+effective_date = "2025-10-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_MB-E.pdf"
+sha256        = "349d0bed8da54cc21a393184509053a6967b4b2f96a6244e2a63cb666a101212"
+retrieved_on  = "2026-05-04"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SCE-AL-5642-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "Decision 25-09-030 (single-sheet Schedule MB-E reissue under AL 5642-E)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-04"
+notes         = """
+First filing of Schedule MB-E (Medical Baseline - Exemption) in this
+corpus (URPXT-cah.11). Sourced from canonical Schedule MB-E PDF in
+the live tariff-book Residential Rates folder. Single sheet (90597-E,
+AL 5642-E, eff Oct 1, 2025) — extremely terse for a residential
+schedule. The full Schedule MB-E text:
+
+  > Customers receiving medical baseline allocation shall be billed
+  > in accordance with the terms and conditions of their Otherwise
+  > Applicable Tariff (OAT), except that the Wildfire Fund Non-
+  > Bypassable Charge (WFC) shall not apply, and the effective
+  > Minimum Charge will be $5.00.
+
+Per the SCE convention documented in us/ca/sce/electricity/utility.toml, this
+filing is dated to the most recent per-sheet effective date in the
+source PDF (2025-10-01). Note that the current base SCE residential
+filings (URPXT-cah.{2,3,4,5}) are dated 2026-03-20; the MB-E source
+schedule pre-dates them and hasn't been re-issued since. This is
+fine: the MB-E exemption is dynamic — defined as "the WFC shall not
+apply", whatever value WFC currently has. Modeled WFC exemption
+value (-$0.00591/kWh) reflects the current base WFC (post-AL 5725-E,
+effective 2026-01-01); when WFC changes again, this filing's value
+would need re-syncing to the base.
+
+## Modifier shape
+
+Modeled as urpx:RatePlanModifier (sibling pattern to CARE / FERA /
+Deed-Restricted). Eligibility predicate: customer's "Program
+Enrollment" = "Medical Baseline" (CustomOperandNode), matching the
+CARE/FERA naming pattern.
+
+applicableToRatePlan: all 4 currently-modeled SCE residential bases
+(Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Schedule MB-E
+applies to ANY OAT a Medical Baseline customer is on — the exemption
+is OAT-agnostic.
+
+1 PriceDefinition + 1 Price:
+  WFC Exemption: -$0.00591/kWh (cancels base WFC)
+
+The modeled credit value matches the current base WFC ($0.00591 per
+kWh, AL 5725-E eff 2026-01-01); these net to zero on the customer's
+bill (as intended — Medical Baseline customers don't pay WFC).
+
+## Why "Medical Baseline" (not "Medical Line Item Discount")
+
+The original modeling-deferral note in tou-d-prime/2025-11-15/
+tariff.toml referred to this as "100% Medical Line Item Discount
+RatePlanModifier" based on the "Medical Baseline Credit - %Discount
+100.00" line on TOU-D Sheet 6 (Option PRIME). On closer inspection,
+that 100% value is just confirming "the Medical Baseline benefit
+applies in full on this Option" — it points to whatever the Medical
+Baseline benefit is in Schedule MB-E.
+
+The actual schedule is "Schedule MB-E: Medical Baseline -
+Exemption", and the modeled benefit is the WFC exemption documented
+there. Schedule slug is `medical-baseline`. Updating the
+applicable_modifiers references in the base tariff.tomls accordingly
+(replacing the old `medical-line-item-discount` placeholder).
+
+## Asymmetry: Medical Baseline Credit listed only on PRIME Sheets 6/7
+
+PRIME Sheets 6 and 7 explicitly list "Medical Baseline Credit -
+%Discount 100.00" as a customer-applicable line item. TOU-D Sheets
+2/3 (Option 4-9 PM) and Sheets 4/5 (Option 5-8 PM) do NOT list
+Medical Baseline Credit at all. Schedule D headline rate sheet
+(Schedule D Sheet 2) also doesn't list it.
+
+The reason for this asymmetry isn't documented in the source PDFs.
+Possible explanations: (a) PRIME's customer base (electric-tech
+adopters, often higher-medical-equipment users) more frequently
+overlaps with Medical Baseline enrollment, so SCE highlights the
+benefit explicitly; (b) historical artifact of how Sheet 6 was
+drafted. Either way, the modeled Medical Baseline benefit (Schedule
+MB-E WFC exemption) applies to ALL 4 SCE residential bases per
+Schedule MB-E's "any OAT" applicability statement; the per-base
+listing on PRIME is informational, not exclusive.
+
+## Modeling deferrals
+
+  1. **$5.00 effective Minimum Charge**: Schedule MB-E says "the
+     effective Minimum Charge will be $5.00". URPX has chargeType
+     `urpx:minimumBill` but the per-day vs per-month minimum-charge
+     mechanic for residential isn't a standard primitive. The base
+     SCE residential filings don't currently model a Minimum Charge
+     (the BSC effectively replaced the older Basic Charge + Minimum
+     Charge structure per Decision 24-05-028). Deferred until base
+     filings model Minimum Charge OR until URPX vocabulary clarifies
+     the per-day-vs-monthly minimum-charge shape.
+
+  2. **Medical Baseline allocation extension** (extra kWh in the
+     baseline tier per Preliminary Statement Part H): Sheet MB-E
+     references "medical baseline allocation" but the kWh values
+     are in Pre-Statement Part H. Same vocabulary gap as the
+     URPXT-bqg HPWH baseline modifier — URPX has no allocation-
+     extension primitive. Deferred.
+
+  3. **Closed-schedule Minimum Charge reduction**: TOU-D Sheets 8/9
+     (closed Option A) and Sheets 10/11 (closed Option B) have
+     "Minimum Charge (Medical Baseline) 50% reduction"
+     ($0.346 → $0.173 per meter per day). Not applicable to active
+     residential bases; modeled here only conceptually for
+     completeness. Closed-schedule grandfather paths deferred.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-04"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = false
+deferrals = [
+  "$5.00 effective Minimum Charge floor (Schedule MB-E quotes this) — URPX vocabulary for per-day vs per-month minimum-charge mechanic isn't a standard primitive; base SCE filings don't currently model Minimum Charge",
+  "Medical Baseline allocation extension (extra kWh in baseline tier per Preliminary Statement Part H) — same vocabulary gap as URPXT-bqg HPWH baseline modifier; deferred until URPX adds allocation-extension primitive",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "URPXT-cah.11 — first filing of Schedule MB-E (Medical Baseline). Modeled as urpx:RatePlanModifier (sibling pattern to CARE / FERA). 1 PriceDefinition + 1 Price: WFC Exemption -$0.00591/kWh (matches current base WFC). Eligibility predicate: 'Program Enrollment' = 'Medical Baseline'. applicableToRatePlan: 4 SCE residential bases (D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Source: canonical Schedule MB-E PDF (single sheet, AL 5642-E eff 2025-10-01). Schedule slug `medical-baseline` (more accurate than the placeholder `medical-line-item-discount` previously used in tou-d-prime tariff.tomls; the placeholder reference is being updated)."

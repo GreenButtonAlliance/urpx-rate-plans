@@ -1,7 +1,7 @@
 #!/bin/bash
 # Pre-commit hook: regenerate derived reports when tariff filings change.
 #
-# When any ca/**/*.toml or ca/**/*.jsonld is staged, re-runs the report
+# When any us/**/*.toml or us/**/*.jsonld is staged, re-runs the report
 # generators (the list lives in dev/check_all.py) and stages any resulting reports/ changes into the
 # same commit. Docs-only commits (README, LAYOUT, etc.) skip the hook
 # and don't slow down.
@@ -29,7 +29,7 @@
 set -euo pipefail
 
 # Only run when tariff content is staged
-if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(ca/.*\.(toml|jsonld)|dev/(coverage|list_modifier_base_pairings|lint_modifier_coverage|list_ready_for_use|backfill_modeling|lint_consistency|check_all|validate-with-base)\.py|dev/gate\.sh|dev/validate_v020\.clj)$'; then
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(us/.*\.(toml|jsonld)|dev/(coverage|list_modifier_base_pairings|lint_modifier_coverage|list_ready_for_use|backfill_modeling|lint_consistency|check_all|validate-with-base)\.py|dev/gate\.sh|dev/validate_v020\.clj)$'; then
     exit 0
 fi
 

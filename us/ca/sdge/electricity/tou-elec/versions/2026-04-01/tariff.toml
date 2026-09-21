@@ -1,0 +1,153 @@
+# Identity --------------------------------------------------------------------
+utility        = "sdge"
+schedule       = "tou-elec"
+effective_date = "2026-04-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1065"
+sha256        = "ec1950f1d69352c25aa18b63bf9c04984369049fbe7969977aaae64eb7a2a9e4"
+retrieved_on  = "2026-04-30"
+media_type    = "application/pdf"
+filing_type   = "advice-letter"
+filing_id     = "SDGE-AL-4791-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "puc"
+docket        = "D.25-09-006 / Advice Letter 4791-E + 4791-E-A supplement"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-04-30"
+notes         = """
+Schedule TOU-ELEC is SDG&E's electrification-targeted residential
+time-of-use rate, available on a voluntary basis to residential
+customers with at least one of: a battery-electric or plug-in hybrid
+vehicle (BEV/PHEV); a natural-gas vehicle (NGV) with home refueling
+appliance (HRA); a behind-the-meter energy storage device per Electric
+Rule 21; or an electric heat pump for water heating or climate control.
+
+Filing details (6-page PDF):
+  Sheet 1 (APPLICABILITY + Standard Rates) — AL 4791-E-A supplement,
+    P.U.C. Sheet 64673-E
+  Sheet 2 (CARE + MB Rates) — AL 4791-E-A, Sheet 64674-E
+  Sheet 3 (UDC Rates sub-component breakdown) — AL 4791-E, Sheet 64396-E
+  Sheet 4 (BSC explanation, Rate Components, Franchise Fee, TOU Periods,
+    Seasons) — AL 4791-E, Sheet 64397-E
+  Sheets 5-6 — Special Conditions, AL 4791-E original (Sheet 5) +
+    AL prior cycle (Sheet 6 effective Oct 1, 2025)
+
+Source URL retrieval pattern is identical to TOU-DR1 — see
+us/ca/sdge/electricity/utility.toml for the Azure Front Door bypass pattern.
+
+## Modeling structure
+
+Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
+  - UDC (Utility Distribution Company) is FLAT $0.26288/kWh across all
+    six (season, period) combinations — same flat-UDC structure as
+    TOU-DR1 (NOT TOU-varying like EV-TOU-5). Decomposed into 8
+    sub-components (Trans 0.10067, Distr 0.14708, PPP 0.01515, ND 0,
+    CTC -0.00007, LGC 0, RS 0.00005, TRAC 0). Modeled as 8 separate
+    flat-rate PriceDefinitions for transparency. Note: TOU-ELEC's
+    Distribution component ($0.14708) is lower than TOU-DR1's ($0.15719)
+    and TRAC is zero on TOU-ELEC vs $0.06762 on TOU-DR1 — these
+    differences encode the electrification-incentive subsidy.
+  - DWR-BC + WF-NBC: DWR-BC = $0.00000, WF-NBC = $0.00591, total $0.00591
+    flat. Modeled as 2 separate flat PriceDefinitions.
+  - EECC (Electric Energy Commodity Cost) is the TOU-varying generation
+    component, applicable to BUNDLED customers only. 6 distinct
+    (season, period) values:
+      Summer:  On-Peak $0.45690 / Off-Peak $0.12945 / Super Off-Peak $0.08637
+      Winter:  On-Peak $0.24311 / Off-Peak $0.11774 / Super Off-Peak $0.07856
+  - Base Services Charge: $0.79343/day for standard customers. Reduced
+    BSCs for CARE ($0.19713) / FERA ($0.39688) / DRAH ($0.39688)
+    variants documented on Sheets 1-2; modeled as RatePlanModifiers in
+    the grid-coordination/urpx-tariffs#13 secondary epic per cross-utility-consistency
+    convention.
+
+Notable absences vs TOU-DR1:
+  - NO Baseline Adjustment Credit on TOU-ELEC. TOU-DR1 has $-0.10892/kWh
+    up to 130% of CPUC baseline allocation; TOU-ELEC eliminates the
+    baseline-credit mechanism entirely (the discount is built into the
+    lower UDC instead — TOU-ELEC UDC $0.26288 vs TOU-DR1 UDC $0.34061).
+
+## TOU period definitions (Sheet 4)
+
+  TOU Period      Weekday Summer/Winter         Weekend/Holiday Summer/Winter
+  ───────────     ───────────────────────       ──────────────────────────────
+  On-Peak         4 PM – 9 PM                   4 PM – 9 PM
+  Off-Peak        all other hours               all other hours
+  Super Off-Peak  Midnight – 6 AM AND 10 AM – 2 PM   Midnight – 2 PM
+
+Identical TOU windows to TOU-DR1 and EV-TOU-5.
+
+Seasons: Summer June 1 – October 31 (5 months); Winter November 1 – May 31.
+
+## Special Conditions
+
+  - SC 1 (Voltage): Standard lighting voltage.
+  - SC 2 (Welder Service): ≤2.9 Kva at 240V or ≤0.5 Kva at 120V.
+  - SC 3 (Metering): Utility-supplied bidirectional metering for
+    qualifying customers; load research metering may be installed.
+  - SC 4 (Terms of Service): 12-month minimum stay. Customers electing
+    to discontinue cannot return for 12 consecutive months. One-time
+    exception per D.22-11-022 for first-year-of-offering enrollees
+    (Feb 1, 2023 – Jan 31, 2024).
+  - SC 5 (Medical Baseline): Refers to Schedule E-MEDICAL.
+  - SC 6 (Qualification): Customer attestation of qualifying technology
+    ownership + acquisition date.
+  - SC 7 (Billing): UDC Bundled / DA / CCA billing rules; CRS for
+    DA/CCA per Schedule DA-CRS / CCA-CRS.
+  - SC 8 (Other Tariffs): Rules 21, 23 and Schedule E-DEPART for
+    customers with generators; Schedules NEM, NEM-BIO, NEM-FC for
+    NEM customers.
+  - SC 9 (PCIA): Bundled EECC includes Power Charge Indifference
+    Adjustment for above-market generation portfolio recovery.
+  - SC 10 (Enrollment Cap): 10,000-customer cap; first-come-first-served
+    after cap reached, no queue maintained.
+  - SC 11 (DRAH): Deed-Restricted Affordable Housing definition for
+    BSC-DRAH eligibility.
+
+## Modeling deferrals
+
+  - PCIA (Power Charge Indifference Adjustment) for CCA-served customers
+    — Special Condition 9. Tracked as a future RatePlanModifier issue.
+  - Franchise Fee Differential 5.78% within City of San Diego corporate
+    limits — applies as a multiplier on monthly billings. Tracked as a
+    future modeling issue.
+  - 12-month minimum-stay clause (SC 4) — described in prose; not
+    encoded as a structured rule. URPX has no vocabulary for
+    minimum-stay-duration billing constraints.
+  - 10,000-customer enrollment cap (SC 10) — described in prose; not
+    encoded structurally. URPX has no vocabulary for program-level
+    enrollment caps.
+  - California Climate Credit (semi-annual $-49.36 per Schedule
+    GHG-ARR) — applies to all eligible TOU-ELEC customers; modeled
+    in a future cross-utility GHG-ARR modifier issue.
+  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers — Sheets
+    1-2 publish reduced rates for these customer classes; modeled as
+    standalone RatePlanModifiers in the grid-coordination/urpx-tariffs#13 secondary epic.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-04-30"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+applicable_modifiers = [
+  "care",
+  "drah",
+  "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "Second SDG&E electrification-targeted schedule modeled (after EV-TOU-5). Pattern reference: us/ca/sdge/electricity/tou-dr1/versions/2026-04-01/ for the flat-UDC structure (TOU-DR1 and TOU-ELEC both have flat-across-periods UDC, unlike EV-TOU-5 which has TOU-varying transmission/distribution); us/ca/sdge/electricity/ev-tou-5/versions/2026-04-01/ for the multi-way-OR EligibilityRule pattern (extended here from 3-way to 4-way: BEV/PHEV via urpx:evChargingDER, NGV+HRA via CustomOperandNode, Rule-21 storage via urpx:storageDER, electric heat pump via CustomOperandNode). 16 PriceDefinitions: 6 EECC (TOU-varying generation) + 8 UDC sub-components (flat across periods/seasons) + DWR-BC + WF-NBC + BSC. NO Baseline Adjustment Credit (vs 1 in TOU-DR1). 16 Prices total. Distinguishing structural feature vs TOU-DR1: lower UDC ($0.26288 vs $0.34061) reflecting electrification-incentive subsidy via Distr ($0.14708 vs $0.15719) and TRAC ($0.00000 vs $0.06762)."

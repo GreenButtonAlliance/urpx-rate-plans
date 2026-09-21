@@ -33,6 +33,10 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # Fields whose values must be byte-identical across all RatePlanVersions
@@ -77,7 +81,7 @@ def normalize(value):
 def collect_filings():
     """Return {schedule_dir: [(path, rateplan_node), ...]}."""
     out = defaultdict(list)
-    for jsonld in ROOT.glob("ca/*/*/*/versions/*/rate-plan_*.jsonld"):
+    for jsonld in corpus.rate_plan_files():
         try:
             doc = json.loads(jsonld.read_text())
         except Exception as e:

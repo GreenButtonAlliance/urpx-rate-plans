@@ -18,6 +18,10 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus
+
 REPO = Path(__file__).resolve().parent.parent
 
 # ---------------------------------------------------------------------------
@@ -177,7 +181,7 @@ ADDITIONAL_APPLICABLE: dict[tuple[str, str], list[str]] = {
 def find_filings() -> list[tuple[str, str, str, Path]]:
     """Return (utility, schedule, date, dir_path) for every tariff.toml directory."""
     out = []
-    for tp in sorted(REPO.glob("ca/*/*/*/versions/*/tariff.toml")):
+    for tp in corpus.tariff_tomls():
         # ca/<class>/<utility>/<schedule>/versions/<date>/tariff.toml
         parts = tp.relative_to(REPO).parts
         utility = parts[2]

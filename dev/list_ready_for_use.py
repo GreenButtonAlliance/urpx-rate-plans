@@ -18,6 +18,10 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus
+
 import tomli
 
 REPO = Path(__file__).resolve().parent.parent
@@ -37,7 +41,7 @@ def collect() -> tuple[list[dict], int]:
     """Return (ready_filings, total_filings)."""
     ready: list[dict] = []
     total = 0
-    for tp in sorted(REPO.glob("ca/*/*/*/versions/*/tariff.toml")):
+    for tp in corpus.tariff_tomls():
         total += 1
         with tp.open("rb") as fp:
             data = tomli.load(fp)

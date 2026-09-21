@@ -1,0 +1,153 @@
+# Identity --------------------------------------------------------------------
+utility        = "smud"
+schedule       = "ssr"
+effective_date = "2022-03-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url           = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_SSR.ashx"
+sha256        = "8fcbf9446a7a99605019b5447d7c6aecf39f2d654ef567d5d604c705e691be37"
+retrieved_on  = "2026-05-01"
+media_type    = "application/pdf"
+filing_type   = "tariff-schedule"
+filing_id     = "SMUD-Resolution-21-09-07"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority     = "board"
+docket        = "SMUD Resolution No. 21-09-07 adopted September 16, 2021"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool          = "manual"
+extracted_on  = "2026-05-01"
+notes         = """
+First SMUD RatePlanModifier filing in the corpus. SMUD's Solar and
+Storage Rate (Rate Schedule SSR) is the post-March-2022 customer-
+generation framework, replacing NEM1 for new residential
+interconnections. Existing NEM1 customers approved before
+March 1, 2022 are grandfathered through 2030 (modeled separately
+at us/ca/smud/electricity/nem1/versions/2021-01-01/).
+
+Filing details (3 effective pages + 1 blank, 4-page PDF):
+  Sheet SSR-1 (APPLICABILITY, TRANSITIONAL CONDITIONS, GENERATOR
+    STANDBY CHARGES) — Resolution 21-09-07, Sheet SSR-1
+  Sheet SSR-2 (CONDITIONS OF SERVICE — Eligibility 7-item list,
+    METERING, EXPORT COMPENSATION RATE, PAYMENTS) — Sheet SSR-2
+  Sheet SSR-3 (STORAGE INCENTIVES) — Sheet SSR-3
+  Sheet 4 — blank
+
+URL convention: SMUD's newer rate schedules use the `01_NAME.ashx`
+prefix (vs older `1-NAME.ashx`); see us/ca/smud/electricity/utility.toml for
+the dual-prefix discovery pattern.
+
+## What this modifier captures
+
+Eligibility (Sheet 2.IV.A):
+  - Facility on customer's premises
+  - Operates in parallel with SMUD's distribution
+  - Meets Rule and Regulation 21
+  - Sized to ≤110% of customer's own consumption
+  - Single metering point
+  - Residential customers must be on Rate Schedule R-TOD
+  - Generating capacity ≤3,000 kW (CEC-AC for PV; nameplate AC otherwise)
+
+Renewable fuel sources (Sheet 1.I): photovoltaic, wind, biomass, solar
+thermal, geothermal, fuel cells using renewable fuels, small
+hydroelectric (with environmental conditions), digester gas, municipal
+solid waste conversion, landfill gas, ocean wave, ocean thermal,
+tidal current — defined per the CEC's RPS Eligibility Guidebook.
+Storage facilities qualify regardless of date of approval (per Sheet 1
+asterisk note).
+
+Reverse-flow MetricInput (kWh exported to SMUD).
+
+Export Compensation Rate (Sheet 2.VI):
+  - $0.0740/kWh effective March 1, 2022
+  - Updated by Board every 4 years starting 2026, bounded by ±30% per
+    cycle, using publicly-available local indices and SMUD actual costs
+  - Updates published on www.smud.org and applied to all SSR customers
+  - Next update window: 2026 (verified against published PDF on
+    2026-05-01 — no Board update yet posted; if a 2026 update lands
+    later this year, file a new version directory)
+
+Compensation mechanism (Sheet 2.VII):
+  - Electricity supplied by SMUD billed at customer's retail rate
+    (R-TOD for residential)
+  - Electricity exported to SMUD credited at $0.0740/kWh
+  - Export credit only offsets electricity-usage charges (NOT the
+    System Infrastructure Fixed Charge, demand charges, or program
+    fees)
+  - Remaining credit carries over to subsequent billing periods
+
+Storage Incentives (Sheet 3): Customers receiving a SMUD storage
+incentive must be on SSR. Customers with storage-only (no associated
+generation) who receive a SMUD storage incentive must be on SSR.
+
+Generator Standby Charges (Sheet 1.III): Waived for the portion of
+customer load served by the SSR-eligible facility.
+
+## Modeling notes
+
+Cleanly fits the export-compensation-modifier pattern. Concrete export
+rate ($0.0740/kWh) — modeled as a standard PriceDefinition + Price
+with chargeType=urpx:creditEnergy, sign convention -0.07400 (negative
+unitPrice for a credit, mirroring CPAU E-EEC-1's pattern).
+
+NOT a vocabulary gap (unlike LADWP NEM and SMUD NEM1 which use a
+'computed at customer's base rate' semantic). SSR's flat per-kWh
+export rate is concrete and fully expressible in URPX v0.2.0.
+
+## Modeling deferrals
+
+  - 'Residential customer must be on R-TOD' constraint (Sheet 2.IV.A.6)
+    — described in prose only. URPX has no vocabulary for cross-
+    RatePlan eligibility (i.e., 'this modifier requires the customer
+    to also be on RatePlan X'). Consumer (price-server) handles SSR+R-TOD
+    composition at billing time.
+  - 110%-of-own-consumption sizing constraint (Sheet 2.IV.A.4) —
+    described in prose. Captures the customer-design constraint at
+    interconnection time, not a per-bill applicability rule.
+  - Post-March-1-2022 cutoff (Sheet 1.I) — described in prose. URPX has
+    no vocabulary for 'customer must have been approved on/after date X'
+    enrollment-history conditions. Consumer determines SSR-vs-NEM1
+    placement based on customer interconnection-approval date.
+  - Generator standby charge waiver (Sheet 1.III) — Standby Charge
+    is published in the base R-TOD schedule (Sheet R-TOD-3 / R-3);
+    the SSR waiver applies at composition time. Modeling deferred.
+  - Annual settlement / monetary payment for net surplus generation —
+    not part of the SSR rate schedule (NEM1 has this; SSR uses
+    monthly carryover only).
+  - 4-year Board update cycle (next 2026) — verify before authoring
+    a successor filing; current filing reflects the 2022-03-01 rate.
+
+## Cross-utility consistency
+
+SMUD's SSR is the analog of:
+  - LADWP Service Rider NEM (different mechanism — 'credit at base
+    rate' vs SSR's flat $0.0740/kWh)
+  - PG&E/SCE/SDG&E NBT (different mechanism — TOU-varying export
+    compensation; not yet modeled in the corpus)
+  - CPAU E-EEC-1 Export Electricity Compensation (closest pattern —
+    flat per-kWh credit; CPAU's value is $-0.12060)
+
+Of the ~13 publicly-listed CA customer-generation programs, SSR is
+the cleanest to model in URPX v0.2.0 because it has a concrete flat
+export rate (no 'computed at base rate' vocab gap).
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed   = true
+validator      = "pyshacl + clj-urpx"
+validated_on   = "2026-05-01"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete  = true
+deferrals = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status        = "draft"
+notes         = "First SMUD RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the export-compensation-modifier shape (flat per-kWh credit with reverse-flow MetricInput); us/ca/ladwp/electricity/nem/versions/2008-09-01/ for the NEM-style customer-generation overlay structure. Three EligibilityRules: residential customer + 4-way OR over qualifying renewable DER types (solar / wind / storage / hydro + custom-other-renewable for biomass / geothermal / fuel cells / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current) + capacity ≤3,000 kW. Single PriceDefinition + Price (export compensation rate -$0.07400/kWh, sign convention matching CPAU E-EEC-1). HIGHEST-FIDELITY customer-generation modifier in the corpus to date — concrete flat rate, no vocab gap. ~60K SMUD residential solar/storage customers — second-highest customer count in the electrification effort."

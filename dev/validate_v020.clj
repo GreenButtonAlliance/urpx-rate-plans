@@ -25,7 +25,7 @@
            [java.time ZoneId ZonedDateTime]))
 
 (defn discover-filings
-  "Walk the ca/ corpus and return [[kind label path] ...] for every
+  "Walk the us/ corpus and return [[kind label path] ...] for every
    rate-plan and rate-plan-modifier JSON-LD, sorted by path.
 
    kind ∈ #{:rate-plan :rate-plan-modifier} — derived from the filename
@@ -34,10 +34,12 @@
    `pge_e-tou-c-baseline-tier` doesn't collide with its base
    `pge_e-tou-c`). path is the relative POSIX path from the repo root."
   []
-  (->> (file-seq (io/file "ca"))
+  (->> (file-seq (io/file "us"))
        (filter #(.isFile ^File %))
        (map #(.getPath ^File %))
-       (filter #(re-matches #"ca/[^/]+/[^/]+/[^/]+/versions/[^/]+/rate-plan(?:-modifier)?_.+\.jsonld" %))
+       ;; Depth-independent: matches on the versions/<date>/ segment rather than
+       ;; on a fixed prefix depth, so a restructure does not silently match zero.
+       (filter #(re-matches #"us/.*/versions/[^/]+/rate-plan(?:-modifier)?_.+\.jsonld" %))
        sort
        (mapv (fn [path]
                ;; Filename: rate-plan{,-modifier}_<utility>_<slug>_<date>.jsonld
@@ -203,6 +205,11 @@
 (defn -main [& _]
   (println "Probe instant:" probe-instant)
   (println)
+  (when (empty? filings)
+    (println "ERROR: corpus discovery found no filings under us/. The tree moved")
+    (println "       and this script was not updated, or this is not the repo root.")
+    (println "       Refusing to report 0/0 as success.")
+    (System/exit 3))
   (let [w               (inc (name-width filings))
         pairings        (read-pairings)
         base-iri-lookup (build-base-iri-lookup filings)
