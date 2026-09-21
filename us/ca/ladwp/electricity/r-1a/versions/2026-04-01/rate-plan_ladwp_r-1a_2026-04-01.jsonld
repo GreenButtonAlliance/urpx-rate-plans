@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "ladwp": "https://rate-plans.grid-coordination.energy/ladwp/",
@@ -54,11 +54,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "ladwp:doc-r-1a-2026-04-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlan": {
     "@type": "urpx:RatePlan",
     "@id": "ladwp:r-1a",
@@ -69,15 +70,6 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "ladwp:r-1a-2026-04-01",
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-ladwp",
-        "urpx:legalName": "Los Angeles Department of Water and Power",
-        "urpx:eiaId": "11208",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
-      },
       "urpx:description": "LADWP's standard residential rate (the default for ~95% of LADWP residential customers, ~1.34M of 1.41M). Three-tier inclining-block structure with zone-specific tier breakpoints (Zone 1 coastal: 350/1050 kWh boundaries; Zone 2 inland: 500/1500 kWh boundaries) and season-specific Tier 3 rates (high-season Tier 3 rate $0.21702/kWh; low-season Tier 3 collapses to Tier 2 rate $0.13001/kWh). Power Access Charge varies by tier ($2.30/$7.90/$22.70 per month for Tier 1/2/3 respectively) — same per-tier value across both zones. Customer-facing all-in $/kWh = energy charge (this snapshot) + sum of seven pass-through Adjustment Factors (ECA + ESA + RCA + IRCA + VEA + CRPSEA + VRPSEA, refreshed quarterly by LADWP). The factors captured here are the Apr-Jun 2026 quarterly values; subsequent quarterly refreshes will be filed as new RatePlanVersions. Base rates derive from LADWP's 2019-07-01 Electric Rate Summary, which has not changed since (rate evolution is captured via the quarterly factors). Modifiers not included: EZ-Save Lifeline subsidy (income-qualified credit, see grid-coordination/urpx-rate-plans#16), NEM Service Rider (net energy metering for solar customers), REO Service Rider (Renewable Energy Option Green Power program). Minimum Charge ($10/month, plus ECA + ESA + RCA per Special Conditions) modeled as a flat per-month service charge; bill resolution decides whether it applies (minimum-bill semantics).",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
       "urpx:changeReason": {
@@ -105,11 +97,8 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 1
-        }
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 1
       },
       "urpx:hasEligibilityRule": [
         {
@@ -863,6 +852,42 @@
             ]
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-ladwp",
+        "urpx:legalName": "Los Angeles Department of Water and Power",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-ladwp-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-ladwp-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Los Angeles Department of Water and Power"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-ladwp-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "11208"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "ladwp:r-1a"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "ladwp:r-1a-2026-04-01-coverage",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:complete"
+        },
+        "urpx:selfContained": true
       }
     }
   }
