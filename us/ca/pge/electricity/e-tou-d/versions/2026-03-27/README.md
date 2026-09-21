@@ -55,7 +55,7 @@ A consuming application that recognizes these rule strings (or maps them to date
 ## Validation
 
 ```
-# Run from the urpx-tariffs project root:
+# Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \

@@ -34,7 +34,7 @@ The `@graph` contains:
 ## Validation
 
 ```
-# Run from the urpx-tariffs project root:
+# Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \
@@ -46,4 +46,4 @@ End-to-end via clj-urpx (load + coerce + resolve): clean. See [`../../../../../.
 
 ## Provenance note
 
-This filing was discovered while implementing the PDF-commit policy reversal: re-fetching the canonical URL on 2026-04-28 returned a different sha256 from our 2026-04-26 retrieval, and the diff isolated to Sheet 2. See [grid-coordination/urpx-tariffs#5](https://github.com/grid-coordination/urpx-tariffs/issues/5) for the discovery context and LAYOUT.md §6 for the broader policy reversal.
+This filing was discovered while implementing the PDF-commit policy reversal: re-fetching the canonical URL on 2026-04-28 returned a different sha256 from our 2026-04-26 retrieval, and the diff isolated to Sheet 2. See [grid-coordination/urpx-rate-plans#5](https://github.com/grid-coordination/urpx-rate-plans/issues/5) for the discovery context and LAYOUT.md §6 for the broader policy reversal.

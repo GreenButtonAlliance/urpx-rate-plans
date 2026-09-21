@@ -4,7 +4,7 @@
 **Date**: 2026-04-27
 **Subject**: Initial-use experience with URPX, ahead of public launch
 **Repos**:
-- [grid-coordination/urpx-tariffs](https://github.com/grid-coordination/urpx-tariffs) — this report and the four PG&E filings
+- [grid-coordination/urpx-rate-plans](https://github.com/grid-coordination/urpx-rate-plans) — this report and the four PG&E filings
 - [urpx-org/urpx](https://github.com/urpx-org/urpx) — the URPX ontology, SHACL shapes, and test cases
 - [grid-coordination/clj-urpx](https://github.com/grid-coordination/clj-urpx) — the Clojure consumer library used to parse + resolve URPX rate plans
 
@@ -23,7 +23,7 @@ The chain of artifacts:
 ```
 PG&E PDF tariff (CPUC sheet)
     │
-    ▼  (this repo: urpx-tariffs)
+    ▼  (this repo: urpx-rate-plans)
 URPX JSON-LD filing
     │
     ▼  (sibling repo: grid-coordination/clj-urpx)
@@ -165,7 +165,7 @@ This is the single biggest leverage point we found. **Recommendation**: prioriti
 
 ### 4.2 Rolling-window aggregation + percent-of-baseline UoM in Conditions
 
-> **v0.2.0 update — partial closure.** v0.2.0 attached `urpx:intervalAlignment` (with values like `urpx:rollingAligned`) and `urpx:intervalDuration` to `MetricSpecification`. EV2's cap rule now references a `MetricInput` (`pge:mi-energy-annual-rolling`) whose MetricSpecification carries `intervalDuration: P1Y` + `intervalAlignment: urpx:rollingAligned`. The percent-of-baseline UoM is still missing — the right-side `800` represents *800% of baseline* informally; full formalization remains a follow-up. Tracked at [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4).
+> **v0.2.0 update — partial closure.** v0.2.0 attached `urpx:intervalAlignment` (with values like `urpx:rollingAligned`) and `urpx:intervalDuration` to `MetricSpecification`. EV2's cap rule now references a `MetricInput` (`pge:mi-energy-annual-rolling`) whose MetricSpecification carries `intervalDuration: P1Y` + `intervalAlignment: urpx:rollingAligned`. The percent-of-baseline UoM is still missing — the right-side `800` represents *800% of baseline* informally; full formalization remains a follow-up. Tracked at [#4](https://github.com/grid-coordination/urpx-rate-plans/issues/4).
 
 
 **Tariff text** (PG&E EV2, Sheet 1):
@@ -293,7 +293,7 @@ What we'd do next, if scope expands:
 - **CA POUs**: SMUD, LADWP, CPAU. Different regulatory posture (city council instead of CPUC), different filing cadence, but the URPX core should fit.
 - **Tariff modifiers** (NEM successor tariff, SmartRate, Medical Baseline, climate credit details): each is small individually but introduces URPX features we haven't yet exercised (probably `RatePlanModifier` patterns at scale).
 
-We're happy to keep the [grid-coordination/urpx-tariffs](https://github.com/grid-coordination/urpx-tariffs) corpus growing as URPX evolves, and to keep contributing real-world feedback like this report — whatever's most useful to the team.
+We're happy to keep the [grid-coordination/urpx-rate-plans](https://github.com/grid-coordination/urpx-rate-plans) corpus growing as URPX evolves, and to keep contributing real-world feedback like this report — whatever's most useful to the team.
 
 Sincere thanks to the URPX core team and [Fluxtailor](https://fluxtailor.com) for the early access, the careful design of the ontology and shapes, and the quick collaboration on issues during this window. URPX is the standard this domain has needed, and we're rooting for the launch.
 

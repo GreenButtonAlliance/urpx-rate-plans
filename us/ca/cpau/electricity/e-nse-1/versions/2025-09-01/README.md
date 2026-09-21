@@ -12,7 +12,7 @@ A standalone `urpx:RatePlanModifier` filing applicable to eligible residential a
 
 ## Provenance
 
-Originally DCJ-authored, contributed to `urpx-org/urpx/test-cases/` via PR #7 (cpau-rate-plans branch). Brought into urpx-tariffs. Carved out of the existing CPAU E-1 2025-09-01 multi-source filing's `@graph` into a standalone modifier filing on 2026-04-30 by `shadow-repo/scripts/extract-cpau-modifiers-tdk.py`.
+Originally DCJ-authored, contributed to `urpx-org/urpx/test-cases/` via PR #7 (cpau-rate-plans branch). Brought into urpx-rate-plans. Carved out of the existing CPAU E-1 2025-09-01 multi-source filing's `@graph` into a standalone modifier filing on 2026-04-30 by `shadow-repo/scripts/extract-cpau-modifiers-tdk.py`.
 
 The extracted modifier subtree:
 - Has `urpx:applicableToRatePlan` and `urpx:applicableToRatePlanVersion` **stripped** — same standalone-modifier cross-graph identity workaround as the green-power filings (E-2-G / E-4-G / E-7-G), pending [`urpx-org/urpx#23`](https://github.com/urpx-org/urpx/issues/23).

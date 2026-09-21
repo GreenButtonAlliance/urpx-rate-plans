@@ -1,4 +1,4 @@
-# Contributing to urpx-tariffs
+# Contributing to urpx-rate-plans
 
 Thanks for your interest in contributing! This repo is a corpus of [URPX](https://github.com/urpx-org/urpx) rate-plan serializations of California utility tariffs, plus the source PDFs they were extracted from. The first BHAG (see [README.md](./README.md)) is to model all California residential tariffs in customer-count priority order.
 
@@ -8,7 +8,7 @@ We are URPX newbies (see the [Disclaimer](./README.md#disclaimer) in the README)
 
 ### Discussions
 
-Use [Discussions](https://github.com/grid-coordination/urpx-tariffs/discussions) for:
+Use [Discussions](https://github.com/grid-coordination/urpx-rate-plans/discussions) for:
 
 - Questions about how a particular rate plan or modifier was modeled (and why)
 - Modeling judgment calls — "is this the right URPX shape?" / "is this `chargeType` correct?"
@@ -20,7 +20,7 @@ Discussions are open-ended — a good place to think out loud or scope something
 
 ### Issues
 
-Use [Issues](https://github.com/grid-coordination/urpx-tariffs/issues) for actionable changes:
+Use [Issues](https://github.com/grid-coordination/urpx-rate-plans/issues) for actionable changes:
 
 - Confirmed modeling errors (wrong unit price, misused class, eligibility predicate that doesn't match the source PDF)
 - Missing rate plans for utilities the corpus is supposed to cover

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SHACL-validate the urpx-tariffs corpus against a pinned URPX revision.
+"""SHACL-validate the urpx-rate-plans corpus against a pinned URPX revision.
 
 The gate unit is a MERGED graph per utility, not a per-file run. Cross-file
 references (`urpx:applicableToRatePlan`, `urpx:supersedes`) only resolve when the
@@ -33,7 +33,7 @@ Exit codes: 0 conforming, 1 violations or a new baseline key, 2 a baseline key
 is gone (an improvement, refresh deliberately), 3 refused (the harness cannot produce a
 meaningful answer, e.g. the data and the shapes share no vocabulary).
 
-Run from the urpx-tariffs project root with the ../urpx checkout adjacent.
+Run from the urpx-rate-plans project root with the ../urpx checkout adjacent.
 """
 from __future__ import annotations
 

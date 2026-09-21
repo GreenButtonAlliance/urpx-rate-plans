@@ -48,15 +48,15 @@ Sheet 1 specifies an annual usage cap: customers cannot exceed 800% of their ann
 
 Modeled as `pge:er-annual-usage-cap` (a third `urpx:EligibilityRule` on the RatePlanVersion alongside `pge:er-residential` and `pge:er-qualifying-equipment`; multiple rules imply AND). Its `urpx:ConditionExpression` is rooted at a `urpx:ComparisonNode` (`urpx:lessThanOrEqualOperator`):
 
-- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling` — a new `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned` (URPX v0.2.0 vocabulary, partial closure of [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4)).
+- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling` — a new `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned` (URPX v0.2.0 vocabulary, partial closure of [#4](https://github.com/grid-coordination/urpx-rate-plans/issues/4)).
 - `urpx:rightOperand`: `urpx:DatatypeOperandNode` with `urpx:integerValue: 800`.
 
-The right-side `800` represents *800% of baseline*, not 800 kWh — URPX has no percent-of-baseline UoM yet. The rule's `urpx:description` carries the prose. Tracked at [#4](https://github.com/grid-coordination/urpx-tariffs/issues/4) for the follow-up that tightens this filing once URPX adds the percent-of-baseline UoM.
+The right-side `800` represents *800% of baseline*, not 800 kWh — URPX has no percent-of-baseline UoM yet. The rule's `urpx:description` carries the prose. Tracked at [#4](https://github.com/grid-coordination/urpx-rate-plans/issues/4) for the follow-up that tightens this filing once URPX adds the percent-of-baseline UoM.
 
 ## Validation
 
 ```
-# Run from the urpx-tariffs project root:
+# Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \

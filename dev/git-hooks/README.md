@@ -1,4 +1,4 @@
-# Git hooks for urpx-tariffs
+# Git hooks for urpx-rate-plans
 
 Versioned pre-commit hook(s) that keep derived artifacts (reports/, etc.) in sync with tariff filings.
 

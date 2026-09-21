@@ -1,4 +1,4 @@
-# urpx-tariffs
+# urpx-rate-plans
 
 A corpus of utility electric **tariff documents** (the regulatory PDFs) and **URPX rate-plan serializations** (the structured JSON-LD extracted from them).
 
@@ -100,7 +100,7 @@ Modeling work on this corpus surfaced a set of upstream issues + discussions awa
 
 ### Outstanding work
 
-Tracked in [Issues](https://github.com/grid-coordination/urpx-tariffs/issues) and the local `bd` (beads) issue tracker. Highlights:
+Tracked in [Issues](https://github.com/grid-coordination/urpx-rate-plans/issues) and the local `bd` (beads) issue tracker. Highlights:
 
 - SCE TOU-D HPWH (Heat Pump Water Heater) baseline-allocation modifier, PG&E Code M / Code S medical baseline modeling, and SDG&E E-MEDICAL — all blocked on [urpx-org/urpx discussion #32](https://github.com/urpx-org/urpx/discussions/32) (additive baseline allowance vocabulary). Three CA IOUs hitting the same shape; the +1.9 / +2.6 / +3.0 kWh/day SCE HPWH extension structure documented in SCE Preliminary Statement Part H; URPX vocabulary path TBD.
 - PG&E CARE/FERA modifiers — same shape as the SCE/SDG&E modifiers; deferred for utility-coverage breadth.
@@ -111,8 +111,8 @@ Tracked in [Issues](https://github.com/grid-coordination/urpx-tariffs/issues) an
 
 Issues, Discussions, and pull requests are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for the workflow. In short:
 
-- **Modeling questions, ideas, suggestions** → [Discussions](https://github.com/grid-coordination/urpx-tariffs/discussions)
-- **Confirmed modeling errors, missing tariffs, manifest schema bugs** → [Issues](https://github.com/grid-coordination/urpx-tariffs/issues)
+- **Modeling questions, ideas, suggestions** → [Discussions](https://github.com/grid-coordination/urpx-rate-plans/discussions)
+- **Confirmed modeling errors, missing tariffs, manifest schema bugs** → [Issues](https://github.com/grid-coordination/urpx-rate-plans/issues)
 - **Patches** → pull requests; please open a Discussion or Issue first for non-trivial changes (new utilities, new modifier shapes, manifest-schema changes)
 
 If you have URPX modeling expertise and would like to review what we have, please get in touch — the [Disclaimer](#disclaimer) above is not aspirational, we genuinely could use the help.

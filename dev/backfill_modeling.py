@@ -150,7 +150,7 @@ ADDITIONAL_APPLICABLE: dict[tuple[str, str], list[str]] = {
     ("sce",   "tou-d-5-8pm"):     ["hpwh-baseline"],
     ("sce",   "tou-d-prime"):     ["medical-line-item-discount"],
     # SDG&E: CARE/FERA/DRAH explicitly referenced in dr/tou-dr1 prose as
-    # "modeled as RatePlanModifiers in grid-coordination/urpx-tariffs#13"
+    # "modeled as RatePlanModifiers in grid-coordination/urpx-rate-plans#13"
     ("sdge",  "dr"):              ["care", "fera", "drah"],
     ("sdge",  "tou-dr1"):         ["care", "fera", "drah"],
     ("sdge",  "tou-dr2"):         ["care", "fera", "drah"],

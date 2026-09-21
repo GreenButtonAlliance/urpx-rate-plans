@@ -39,12 +39,12 @@ The 15 kWh/day baseline is per-day, prorated by meter-reading days in the billin
 
 ## Provenance
 
-DCJ-authored. Original v0.1.x conversion contributed to `urpx-org/urpx` via [PR #7](https://github.com/urpx-org/urpx/pull/7) on 2026-03-03; brought home to `urpx-tariffs` and migrated to v0.2.0 on 2026-04-28 from PR head `e8ed4f0` (after Una's same-day SHACL-compliance push).
+DCJ-authored. Original v0.1.x conversion contributed to `urpx-org/urpx` via [PR #7](https://github.com/urpx-org/urpx/pull/7) on 2026-03-03; brought home to `urpx-rate-plans` and migrated to v0.2.0 on 2026-04-28 from PR head `e8ed4f0` (after Una's same-day SHACL-compliance push).
 
 ## Validation
 
 ```
-# Run from the urpx-tariffs project root:
+# Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \

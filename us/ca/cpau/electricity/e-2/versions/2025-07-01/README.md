@@ -39,7 +39,7 @@ Sheet E-2-2's "Maximum Demand Meter" clause (a customer exceeding 8,000 kWh for 
 
 ## NEW URPX modeling territory
 
-Several patterns are exercised here for the first time in the urpx-tariffs corpus. The vocabulary supports all of them — the work was just verifying via SPARQL against the URPX SHACL shapes:
+Several patterns are exercised here for the first time in the urpx-rate-plans corpus. The vocabulary supports all of them — the work was just verifying via SPARQL against the URPX SHACL shapes:
 
 1. **`urpx:nonResidentialKind` eligibility** — first commercial filing in the corpus.
 2. **`urpx:appliesInSeason` on `PriceDefinition`** — non-TOU seasonal applicability. PG&E filings use TOU + `ApplicabilityRule.month`; CPAU E-1-TOU uses TOU + Season via the TOUPeriod chain. CPAU E-2 is the simplest case: just Season, no TOU. Each PD points at the right `urpx:Season` (declared under `PlanElements.hasSeasons`) with its `month` list.
@@ -65,7 +65,7 @@ DCJ-authored, generated from scratch (not migrated from any prior fixture) by `s
 ## Validation
 
 ```
-# Run from the urpx-tariffs project root:
+# Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \

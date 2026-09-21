@@ -24,12 +24,12 @@ This is a **snapshot filing** — the base E-1 rates did NOT change between [`..
 
 ## Provenance
 
-DCJ-authored. Original v0.1.x conversions of all four documents contributed to `urpx-org/urpx` via [PR #7](https://github.com/urpx-org/urpx/pull/7) on 2026-03-03; brought home to `urpx-tariffs` and migrated to v0.2.0 on 2026-04-28.
+DCJ-authored. Original v0.1.x conversions of all four documents contributed to `urpx-org/urpx` via [PR #7](https://github.com/urpx-org/urpx/pull/7) on 2026-03-03; brought home to `urpx-rate-plans` and migrated to v0.2.0 on 2026-04-28.
 
 ## Validation
 
 ```
-# Run from the urpx-tariffs project root:
+# Run from the urpx-rate-plans project root:
 pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
         -e ../urpx/ontology/urpx-ontology.ttl \
         -df json-ld \
