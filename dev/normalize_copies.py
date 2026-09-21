@@ -46,7 +46,13 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 #                           provenance and stays there.
 #   hasIdentity             the utility's own identity block. 83 of 84
 #                           Organization nodes carry it.
-SHARED_PROPERTIES = ("urpx:hasDataSourceReference", "urpx:hasIdentity")
+#   hasDynamicPricing       how a price is updated. A price that is reset
+#                           annually by council action is that kind of price
+#                           wherever it is serialized, so a copy omitting it
+#                           shows a materially incomplete picture of a price
+#                           whose whole point is that it moves.
+SHARED_PROPERTIES = ("urpx:hasDataSourceReference", "urpx:hasIdentity",
+                     "urpx:hasDynamicPricing")
 
 
 def node_type(d):
@@ -97,11 +103,24 @@ def prefixes_used(value) -> set[str]:
 
 
 def owns(path: Path, iri: str) -> bool:
-    """Is this filing the authoritative home of `iri`?"""
+    """Is this filing the authoritative home of `iri`?
+
+    A version node's local part IS `<schedule>-<date>`, and since the scoping
+    pass in LAYOUT.md section 6 every subordinate resource is named
+    `<owning-version-local>-<descriptor>`. So the same prefix test answers both,
+    and `cpau:e-hra-2023-01-01-price-25-75-gen-lt319` resolves to the e-hra
+    filing rather than to whichever filing happens to inline it.
+
+    Without the prefix case a subordinate node has no owner at all, and the
+    majority rule then decides: three inlined copies lacking a property would
+    outvote the one authoritative copy that has it, and the fix would run
+    backwards, deleting from the original instead of filling in the copies.
+    """
     local = iri.split(":", 1)[-1]
     schedule = path.parts[len(path.parts) - 4]
     date = path.parent.name
-    return local == f"{schedule}-{date}"
+    stem = f"{schedule}-{date}"
+    return local == stem or local.startswith(stem + "-")
 
 
 def collect(files):
