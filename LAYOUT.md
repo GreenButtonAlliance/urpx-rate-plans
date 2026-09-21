@@ -283,6 +283,22 @@ There is deliberately no ordinal in the scheme. An ordinal would depend on array
 
 `dev/name_blank_nodes.py --check` runs in both gate modes and fails on a blank node in scope. This covers `urpx:PlanElements`, `urpx:Prices`, `urpx:BillingModel`, `urpx:CalculationMethod`, `urpx:AlternativeDimensions` and the three operand node types. `urpx:BillingModel` is in scope purely by closure: nothing points at one twice, but `PlanElementsShape` puts `sh:maxCount 1` on `urpx:hasBillingModel`, so naming `PlanElements` without it would trade five violations for five others.
 
+## 6b. Percentage-of-bill discounts
+
+CARE and FERA discount a percentage of the bill rather than a per-unit rate, so they are modeled as a subtotal plus a multiplier rather than as a price.
+
+**The subtotal lives in the base plan filing**, as a `urpx:PriceSummary` hung off the `PriceSet` holding most of that plan's line items, with `urpx:includesPrice` naming the discountable ones. It belongs there because it sums that plan's own prices. **The discount lives in the modifier**, as a `urpx:Price` carrying `urpx:multiplier` (the negative discount rate) and `urpx:basedOnPrice` pointing at the subtotal. It belongs there because the discount is a property of the program, and the base plan also serves customers not enrolled in it.
+
+**Multiple `urpx:basedOnPrice` values are candidates, read disjunctively.** A modifier applying to nine base plans names all nine subtotals on one discount Price; composing it with any one plan leaves the other eight absent, and the one present is used. This is what avoids either reusing an `@id` across plans or minting a discount per plan. Zero resolvable candidates is still an error, so a typo stays loud. URPX itself says nothing about multiplicity; this reading is clj-urpx's, and the case for it is that disjunctive fails loudly when nothing resolves while conjunctive would fail quietly when everything does, silently summing nine unrelated subtotals.
+
+**One subtotal per plan, not per TOU period.** Summary members are gated to the instant being resolved by the same season, month and TOU predicates that gate a tier, so a subtotal naming every discountable line item is correct in every period. Authoring per period would mean roughly 200 summaries instead of 26.
+
+**Whether the two programs share a subtotal depends on the tariff, not on convenience.** SCE excludes the same two items from both (the PUCRF, and the Climate Credit, which Special Condition 12 applies after the taxes the discount precedes), so CARE and FERA share one subtotal and differ only in rate. SDG&E carves the fixed charge out of both and CARE additionally excludes the charges it is exempt from, so FERA pays the DWR Bond Charge and the Wildfire Fund NBC that CARE does not, and the same plan needs two subtotals with different members.
+
+`dev/lint_discount_summaries.py` re-derives each subtotal from the tariff rule and runs in the gate, because a price added to a plan but not to its subtotal makes the discount too small while every other check stays green.
+
+**Two properties that are optional in the shapes but load-bearing here**, neither visible to SHACL. A `urpx:Price` with no `urpx:startDate` is dropped from resolution silently, though one inside a `PriceSet` inherits the set's date, so the omission only bites in a loose `hasPrice` list. And a `urpx:Ledger` with no `urpx:referencesMetricInput` keeps its tiers but falls out of the marginal-rate aggregate, which then returns `0` rather than erroring: a legal price, so nothing signals it.
+
 ## 7. Source PDF referencing
 
 Each filing's source PDF is **committed alongside the JSON-LD** at:
