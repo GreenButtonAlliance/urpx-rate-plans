@@ -78,8 +78,14 @@ fi
 fi
 
 echo "pre-commit: running dev/gate.sh --fast..."
-if ! dev/gate.sh --fast > /tmp/pre-commit-gate.log 2>&1; then
-    gate_rc=$?
+# Capture the status OUTSIDE the negation. Inside `if ! cmd; then`, $? is the
+# status of the negated expression, which is 0 whenever the branch is taken, so
+# the hook exited 0 and git committed anyway. It printed "gate failed (exit 0)"
+# on every failure and the zero went unread. The hook could not block from the
+# day it was written until 2026-09-21, which is the whole reason it exists.
+gate_rc=0
+dev/gate.sh --fast > /tmp/pre-commit-gate.log 2>&1 || gate_rc=$?
+if [ "$gate_rc" -ne 0 ]; then
     cat /tmp/pre-commit-gate.log
     echo "pre-commit: gate failed (exit $gate_rc) - commit aborted."
     echo "pre-commit: fix it, or bypass deliberately with 'git commit --no-verify'."
