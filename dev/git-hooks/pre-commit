@@ -29,7 +29,13 @@
 set -euo pipefail
 
 # Only run when tariff content is staged
-if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(us/.*\.(toml|jsonld)|dev/(coverage|name_blank_nodes|list_modifier_base_pairings|lint_modifier_coverage|list_ready_for_use|backfill_modeling|lint_consistency|lint_iri_scope|rescope_iris|normalize_copies|check_all|validate-with-base)\.py|dev/gate\.sh|dev/validate_v020\.clj)$'; then
+# Any corpus data, or any dev script at all. This used to name each script
+# individually, which is the same hand-maintained second list the comment above
+# blames for backfill_modeling.py going uncommitted: every script added since has
+# had to be remembered here, and fix_file_urls.py was already missing. Matching
+# the whole directory cannot drift. The cost is that editing an unrelated dev
+# script runs the gate, which is a couple of minutes and the safe direction.
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(us/.*\.(toml|jsonld)|dev/[^/]+\.(py|sh|clj))$'; then
     exit 0
 fi
 
