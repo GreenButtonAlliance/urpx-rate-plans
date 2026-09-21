@@ -114,6 +114,12 @@
       (do
         (print "load+coerce ✓ ")
         (flush)
+        ;; A plan that prices nothing per kWh has no marginal unit rate, and
+        ;; clj-urpx refuses rather than returning 0 (which read as "free").
+        ;; That refusal is the correct answer for CPAU E-14 and E-16, which
+        ;; price only per-lamp, per-fixture and per-month charges, so it is
+        ;; reported as a pass with the ledger count rather than as a failure.
+        ;; Any other refusal is still a failure.
         (let [ok (try
                    (let [resolved (price/resolve-prices plan probe-instant)
                          ledger-count (count (:urpx.resolved/ledgers resolved))
@@ -122,8 +128,11 @@
                                     ledger-count marginal))
                      true)
                    (catch Exception e
-                     (print (format "resolve ✗  %s" (.getMessage e)))
-                     false))]
+                     (if (= :no-energy-ledger (:reason (ex-data e)))
+                       (do (print "resolve ✓  (no energy ledger; prices nothing per kWh)")
+                           true)
+                       (do (print (format "resolve ✗  %s" (.getMessage e)))
+                           false))))]
           (println)
           ok))
       (do
@@ -174,12 +183,12 @@
                 total    (count results)]
             (if (empty? failures)
               (do
-               (println (format "compose ✓ × %d (e.g. %s → %d ledgers, marginal=%s)"
-                               total
-                               (kw->iri (:base (first ok)))
-                               (:ledgers (first ok))
-                               (:marginal (first ok))))
-               true)
+                (println (format "compose ✓ × %d (e.g. %s → %d ledgers, marginal=%s)"
+                                 total
+                                 (kw->iri (:base (first ok)))
+                                 (:ledgers (first ok))
+                                 (:marginal (first ok))))
+                true)
               (do
                 (println (format "compose %d/%d" (count ok) total))
                 (doseq [f failures]
