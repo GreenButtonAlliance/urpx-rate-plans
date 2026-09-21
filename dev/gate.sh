@@ -89,6 +89,18 @@ case "$MODE" in
 --fast)
     run_clojure_gate
 
+    # In --fast too, not only --full. This is the check a NEW filing trips, and
+    # a new filing is exactly what the pre-commit gate sees. Catching it at the
+    # next audit instead is how 509 of these accumulated.
+    note "IRI scope"
+    if python3 dev/lint_iri_scope.py > /tmp/gate-iriscope.log 2>&1; then
+        tail -1 /tmp/gate-iriscope.log
+    else
+        rc=$?
+        cat /tmp/gate-iriscope.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -121,6 +133,15 @@ case "$MODE" in
     python3 dev/validate-with-base.py --per-file 2>/dev/null | tail -1
     echo "  Cross-file references are unresolved in this mode, so failures here"
     echo "  are expected and do not affect the exit code."
+
+    note "IRI scope"
+    if python3 dev/lint_iri_scope.py > /tmp/gate-iriscope.log 2>&1; then
+        tail -1 /tmp/gate-iriscope.log
+    else
+        rc=$?
+        cat /tmp/gate-iriscope.log
+        record $rc
+    fi
 
     note "Version-dispatch negative fixtures"
     if python3 dev/test_dispatch.py > /tmp/gate-dispatch.log 2>&1; then

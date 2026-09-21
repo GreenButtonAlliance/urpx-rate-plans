@@ -245,21 +245,27 @@ Subjects are minted in per-utility CURIE prefixes bound in each filing's `@conte
 
 These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpau-e-1`, `urpx:cpau-e-1-2025-07-01`). Lowercase, hyphenated, no spaces.
 
-### Cross-version IRI scoping (when adopting `urpx:supersedes`)
+### Scoping subordinate IRIs
 
-URI identity says **one IRI denotes one resource**. When a `RatePlanVersion` adds `urpx:supersedes` pointing to a prior version, both versions get loaded into the same merged graph at validation time (`dev/validate-with-base.py --utility <slug>`, the gate unit). Subordinate resources whose **content differs between versions** must therefore use **version-distinct IRIs**, otherwise the merged graph violates property cardinality (e.g., `urpx:rootNode maxCount=1` collides when two ConditionExpressions share an IRI).
+URI identity says **one IRI denotes one resource**. Every filing of a utility is loaded into one merged graph at validation time (`dev/validate-with-base.py --utility <slug>`, the gate unit), so a subordinate resource that two filings both mint becomes a single node carrying both filings' values.
 
-Convention: prepend `<schedule>-<date>-` to the descriptor for each colliding subordinate. Example from PG&E E-ELEC 2026-03-27:
+**Every subordinate resource takes the IRI of the version that owns it, followed by its descriptor:**
 
-| Stable across versions (keep shared IRI) | Diverged content (version-suffix) |
-| --- | --- |
-| `pge:program-care` (ProgramEnrollment) | `pge:e-elec-2026-03-27-cn-nbt` (ComparisonNode w/ different operands) |
-| `pge:e-elec` (RatePlan) | `pge:e-elec-2026-03-27-price-public-purpose` (Price w/ updated unitPrice) |
-| `pge:al-7846-e` (TariffPublication) | `pge:e-elec-2026-03-27-er-residential` (EligibilityRule transitively differs) |
+```
+<utility>:<owning-version-local-part>-<descriptor>
+```
 
-Apply only to the IRIs that actually collide on content; resources unchanged across versions stay shared. Cascades transitively: an ancestor whose child references change is itself a content-divergence and needs the suffix.
+The owning version is the nearest enclosing `urpx:RatePlanVersion` or `urpx:RatePlanModifierVersion`, and its own local part is already `<schedule>-<date>`, so the result reads `pge:e-elec-2026-03-27-price-public-purpose`.
 
-Earlier versions in the corpus (e.g., `pge:e-elec-2026-01-01`'s subordinates) keep their unscoped IRIs as the canonical "old" forms — only the newer reissue takes the version-suffix treatment.
+Take the scope from the **owning version, not the directory**. They differ wherever a filing inlines another schedule's subtree: CPAU's `e-1` inlines the whole `cpau:e-hra` modifier, and PG&E inlines a per-plan PCIA modifier into five base filings. Scoping by directory would rename `cpau:e-hra-2023-01-01-price-25-75-gen-480-642` three different ways and mint three copies of one real modifier. Scoping by owner gives it the same IRI in all three files, which is correct, because it is one resource.
+
+Apply it to every subordinate resource, not only to ones observed to collide. An earlier revision of this section said to apply it "only to the IRIs that actually collide on content", and the result was 509 subordinate IRIs minted by more than one schedule, with `sce:price-gen-summer-on-peak-2026-03-20` carrying three different unit prices at once. Content that happens to agree today is not a reason to share an IRI; the next rate case moves one value and the collision appears with nothing to announce it.
+
+**Kept shared, deliberately.** The identity layer names entities that genuinely span a utility's schedules, and scoping those would mint duplicates of one real thing: `urpx:Organization` and its identity/name/identifier nodes, `urpx:RateCase`, `urpx:RatePlan`, `urpx:RatePlanModifier`, `urpx:SourcePublication`, `urpx:TariffPublication`, `urpx:ProgramEnrollment`. Version nodes carry `<schedule>-<date>` already. Two subordinate types also stay shared: `urpx:MetricSpecification`, and `urpx:CoverageClaim`, which has its own form `<utility>:cc-<schedule>-<date>`.
+
+Whether a type may stay shared is decided by **closure, not by how utility-level the concept feels**: a shared IRI is safe only if every `sh:maxCount 1` value it carries is a literal, or an IRI that is itself kept shared. A parent that passes a one-level check still breaks once its children are scoped, because it then holds one child per schedule. `urpx:Season` is the instructive case for the other direction. All 24 in the corpus agree today, but `SeasonShape` sets no `sh:maxCount` on `urpx:month` and all 72 corpus Seasons are month-based, so a future divergence would silently union the months and leave the gate green. CPAU is the one utility whose schedules disagree on season boundaries, and the one that already mints per-schedule Seasons.
+
+`dev/lint_iri_scope.py` enforces this and runs in the gate, so the convention no longer depends on someone noticing. `dev/rescope_iris.py` applies it.
 
 ## 7. Source PDF referencing
 

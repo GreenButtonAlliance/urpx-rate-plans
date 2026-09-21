@@ -99,7 +99,7 @@
               "urpx:operandNodes": [
                 {
                   "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:cn-residential",
+                  "@id": "cpau:e-1-tou-2026-01-01-cn-residential",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
                   },
@@ -118,7 +118,7 @@
                 },
                 {
                   "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:cn-single-family",
+                  "@id": "cpau:e-1-tou-2026-01-01-cn-single-family",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
                   },
@@ -133,7 +133,7 @@
                 },
                 {
                   "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:cn-separately-metered",
+                  "@id": "cpau:e-1-tou-2026-01-01-cn-separately-metered",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
                   },
@@ -816,7 +816,7 @@
           "urpx:hasMetricInput": [
             {
               "@type": "urpx:MetricInput",
-              "@id": "cpau:hra-mi-energy",
+              "@id": "cpau:e-hra-2023-01-01-mi-energy",
               "urpx:name": "Energy Consumption",
               "urpx:metricInputType": {
                 "@id": "urpx:measuredMetricInput"
@@ -841,20 +841,20 @@
             "urpx:hasLedger": [
               {
                 "@type": "urpx:Ledger",
-                "@id": "cpau:hra-ledger-adjustment",
+                "@id": "cpau:e-hra-2023-01-01-ledger-adjustment",
                 "urpx:name": "Hydro Rate Adjustment",
                 "urpx:ledgerType": {
                   "@id": "urpx:bundledLedger"
                 },
                 "urpx:referencesMetricInput": {
-                  "@id": "cpau:hra-mi-energy"
+                  "@id": "cpau:e-hra-2023-01-01-mi-energy"
                 }
               }
             ],
             "urpx:hasPriceDefinition": [
               {
                 "@type": "urpx:PriceDefinition",
-                "@id": "cpau:hra-pd-adjustment",
+                "@id": "cpau:e-hra-2023-01-01-pd-adjustment",
                 "urpx:name": "Hydro Rate Adjustment",
                 "urpx:description": "Surcharge or discount per kWh determined by a matrix of Hydro Stabilization Reserve level (4 rows) vs. projected hydro generation relative to average (4 columns). Value ranges from ($0.066) credit to $0.048 surcharge. One value from the matrix is in effect at any given time, set annually by staff and approved by Council.",
                 "urpx:chargeType": {
@@ -867,7 +867,7 @@
                   "@id": "urpx:supplyPortion"
                 },
                 "urpx:referencesLedger": {
-                  "@id": "cpau:hra-ledger-adjustment"
+                  "@id": "cpau:e-hra-2023-01-01-ledger-adjustment"
                 }
               }
             ]
@@ -878,17 +878,17 @@
           "urpx:hasPriceSet": [
             {
               "@type": "urpx:PriceSet",
-              "@id": "cpau:hra-ps-reserve-above-max",
+              "@id": "cpau:e-hra-2023-01-01-ps-reserve-above-max",
               "urpx:name": "Hydro Adjustment — Reserve Above Maximum",
               "urpx:startDate": "2023-01-01",
               "urpx:hasApplicabilityRule": {
                 "@type": "urpx:ApplicabilityRule",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:hra-ps-reserve-above-max-cx",
+                  "@id": "cpau:e-hra-2023-01-01-ps-reserve-above-max-cx",
                   "urpx:rootNode": {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:hra-cond-reserve-above-max",
+                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-above-max",
                     "urpx:operator": {
                       "@id": "urpx:greaterThanOperator"
                     },
@@ -906,9 +906,9 @@
               "urpx:hasPrice": [
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-above-max-gen-lt319",
+                  "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve Above Max / Generation < 319 GWh",
                   "urpx:unitPrice": "0.000",
@@ -916,10 +916,10 @@
                     "@type": "urpx:ApplicabilityRule",
                     "urpx:hasConditionExpression": {
                       "@type": "urpx:ConditionExpression",
-                      "@id": "cpau:hra-price-above-max-gen-lt319-cx",
+                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319-cx",
                       "urpx:rootNode": {
                         "@type": "urpx:ComparisonNode",
-                        "@id": "cpau:hra-price-above-max-gen-lt319-cn",
+                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-lt319-cn",
                         "urpx:operator": {
                           "@id": "urpx:lessThanOperator"
                         },
@@ -937,9 +937,9 @@
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-above-max-gen-319-480",
+                  "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve Above Max / Generation 319–480 GWh",
                   "urpx:unitPrice": "-0.024",
@@ -947,10 +947,10 @@
                     "@type": "urpx:ApplicabilityRule",
                     "urpx:hasConditionExpression": {
                       "@type": "urpx:ConditionExpression",
-                      "@id": "cpau:hra-price-above-max-gen-319-480-cx",
+                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480-cx",
                       "urpx:rootNode": {
                         "@type": "urpx:ComparisonNode",
-                        "@id": "cpau:hra-price-above-max-gen-319-480-cn",
+                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-319-480-cn",
                         "urpx:operator": {
                           "@id": "urpx:betweenOperator"
                         },
@@ -968,9 +968,9 @@
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-above-max-gen-480-642",
+                  "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve Above Max / Generation 480–642 GWh",
                   "urpx:unitPrice": "-0.024",
@@ -978,10 +978,10 @@
                     "@type": "urpx:ApplicabilityRule",
                     "urpx:hasConditionExpression": {
                       "@type": "urpx:ConditionExpression",
-                      "@id": "cpau:hra-price-above-max-gen-480-642-cx",
+                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642-cx",
                       "urpx:rootNode": {
                         "@type": "urpx:ComparisonNode",
-                        "@id": "cpau:hra-price-above-max-gen-480-642-cn",
+                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-480-642-cn",
                         "urpx:operator": {
                           "@id": "urpx:betweenOperator"
                         },
@@ -999,9 +999,9 @@
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-above-max-gen-gt642",
+                  "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve Above Max / Generation > 642 GWh",
                   "urpx:unitPrice": "-0.066",
@@ -1009,10 +1009,10 @@
                     "@type": "urpx:ApplicabilityRule",
                     "urpx:hasConditionExpression": {
                       "@type": "urpx:ConditionExpression",
-                      "@id": "cpau:hra-price-above-max-gen-gt642-cx",
+                      "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642-cx",
                       "urpx:rootNode": {
                         "@type": "urpx:ComparisonNode",
-                        "@id": "cpau:hra-price-above-max-gen-gt642-cn",
+                        "@id": "cpau:e-hra-2023-01-01-price-above-max-gen-gt642-cn",
                         "urpx:operator": {
                           "@id": "urpx:greaterThanOperator"
                         },
@@ -1032,17 +1032,17 @@
             },
             {
               "@type": "urpx:PriceSet",
-              "@id": "cpau:hra-ps-reserve-75-100",
+              "@id": "cpau:e-hra-2023-01-01-ps-reserve-75-100",
               "urpx:name": "Hydro Adjustment — Reserve 75%–100%",
               "urpx:startDate": "2023-01-01",
               "urpx:hasApplicabilityRule": {
                 "@type": "urpx:ApplicabilityRule",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:hra-ps-reserve-75-100-cx",
+                  "@id": "cpau:e-hra-2023-01-01-ps-reserve-75-100-cx",
                   "urpx:rootNode": {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:hra-cond-reserve-75-100",
+                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-75-100",
                     "urpx:operator": {
                       "@id": "urpx:betweenOperator"
                     },
@@ -1060,36 +1060,36 @@
               "urpx:hasPrice": [
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-75-100-gen-lt319",
+                  "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-lt319",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 75–100% / Generation < 319 GWh",
                   "urpx:unitPrice": "0.000"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-75-100-gen-319-480",
+                  "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-319-480",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 75–100% / Generation 319–480 GWh",
                   "urpx:unitPrice": "0.000"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-75-100-gen-480-642",
+                  "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-480-642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 75–100% / Generation 480–642 GWh",
                   "urpx:unitPrice": "-0.024"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-75-100-gen-gt642",
+                  "@id": "cpau:e-hra-2023-01-01-price-75-100-gen-gt642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 75–100% / Generation > 642 GWh",
                   "urpx:unitPrice": "-0.048"
@@ -1098,17 +1098,17 @@
             },
             {
               "@type": "urpx:PriceSet",
-              "@id": "cpau:hra-ps-reserve-25-75",
+              "@id": "cpau:e-hra-2023-01-01-ps-reserve-25-75",
               "urpx:name": "Hydro Adjustment — Reserve 25%–75%",
               "urpx:startDate": "2023-01-01",
               "urpx:hasApplicabilityRule": {
                 "@type": "urpx:ApplicabilityRule",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:hra-ps-reserve-25-75-cx",
+                  "@id": "cpau:e-hra-2023-01-01-ps-reserve-25-75-cx",
                   "urpx:rootNode": {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:hra-cond-reserve-25-75",
+                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-25-75",
                     "urpx:operator": {
                       "@id": "urpx:betweenOperator"
                     },
@@ -1126,36 +1126,36 @@
               "urpx:hasPrice": [
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-25-75-gen-lt319",
+                  "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-lt319",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 25–75% / Generation < 319 GWh",
                   "urpx:unitPrice": "0.000"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-25-75-gen-319-480",
+                  "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-319-480",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 25–75% / Generation 319–480 GWh",
                   "urpx:unitPrice": "0.000"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-25-75-gen-480-642",
+                  "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-480-642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 25–75% / Generation 480–642 GWh",
                   "urpx:unitPrice": "0.000"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-25-75-gen-gt642",
+                  "@id": "cpau:e-hra-2023-01-01-price-25-75-gen-gt642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve 25–75% / Generation > 642 GWh",
                   "urpx:unitPrice": "0.000"
@@ -1164,17 +1164,17 @@
             },
             {
               "@type": "urpx:PriceSet",
-              "@id": "cpau:hra-ps-reserve-below-25",
+              "@id": "cpau:e-hra-2023-01-01-ps-reserve-below-25",
               "urpx:name": "Hydro Adjustment — Reserve 25% and Below",
               "urpx:startDate": "2023-01-01",
               "urpx:hasApplicabilityRule": {
                 "@type": "urpx:ApplicabilityRule",
                 "urpx:hasConditionExpression": {
                   "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:hra-ps-reserve-below-25-cx",
+                  "@id": "cpau:e-hra-2023-01-01-ps-reserve-below-25-cx",
                   "urpx:rootNode": {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:hra-cond-reserve-below-25",
+                    "@id": "cpau:e-hra-2023-01-01-cond-reserve-below-25",
                     "urpx:operator": {
                       "@id": "urpx:lessThanOrEqualOperator"
                     },
@@ -1192,36 +1192,36 @@
               "urpx:hasPrice": [
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-below-25-gen-lt319",
+                  "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-lt319",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve ≤25% / Generation < 319 GWh",
                   "urpx:unitPrice": "0.048"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-below-25-gen-319-480",
+                  "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-319-480",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve ≤25% / Generation 319–480 GWh",
                   "urpx:unitPrice": "0.024"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-below-25-gen-480-642",
+                  "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-480-642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve ≤25% / Generation 480–642 GWh",
                   "urpx:unitPrice": "0.000"
                 },
                 {
                   "@type": "urpx:Price",
-                  "@id": "cpau:hra-price-below-25-gen-gt642",
+                  "@id": "cpau:e-hra-2023-01-01-price-below-25-gen-gt642",
                   "urpx:referencesPriceDefinition": {
-                    "@id": "cpau:hra-pd-adjustment"
+                    "@id": "cpau:e-hra-2023-01-01-pd-adjustment"
                   },
                   "urpx:name": "Reserve ≤25% / Generation > 642 GWh",
                   "urpx:unitPrice": "0.000"
@@ -1309,21 +1309,21 @@
         "urpx:hasEligibilityRule": [
           {
             "@type": "urpx:EligibilityRule",
-            "@id": "cpau:nse-er-nem-surplus",
+            "@id": "cpau:e-nse-1-2025-09-01-er-nem-surplus",
             "urpx:description": "Eligible residential and small commercial customers",
             "urpx:hasConditionExpression": {
               "@type": "urpx:ConditionExpression",
-              "@id": "cpau:nse-er-nem-surplus-cx",
+              "@id": "cpau:e-nse-1-2025-09-01-er-nem-surplus-cx",
               "urpx:rootNode": {
                 "@type": "urpx:BooleanOperationNode",
-                "@id": "cpau:nse-er-nem-surplus-bn-and",
+                "@id": "cpau:e-nse-1-2025-09-01-er-nem-surplus-bn-and",
                 "urpx:operator": {
                   "@id": "urpx:andOperator"
                 },
                 "urpx:operandNodes": [
                   {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:nse-cn-nem-election-a",
+                    "@id": "cpau:e-nse-1-2025-09-01-cn-nem-election-a",
                     "urpx:operator": {
                       "@id": "urpx:equalsOperator"
                     },
@@ -1338,7 +1338,7 @@
                   },
                   {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:nse-cn-net-surplus",
+                    "@id": "cpau:e-nse-1-2025-09-01-cn-net-surplus",
                     "urpx:operator": {
                       "@id": "urpx:equalsOperator"
                     },
@@ -1353,7 +1353,7 @@
                   },
                   {
                     "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:nse-cn-nem-successor",
+                    "@id": "cpau:e-nse-1-2025-09-01-cn-nem-successor",
                     "urpx:operator": {
                       "@id": "urpx:notEqualsOperator"
                     },
@@ -1376,7 +1376,7 @@
           "urpx:hasMetricInput": [
             {
               "@type": "urpx:MetricInput",
-              "@id": "cpau:nse-mi-energy-net-surplus",
+              "@id": "cpau:e-nse-1-2025-09-01-mi-energy-net-surplus",
               "urpx:name": "Net Surplus Energy",
               "urpx:metricInputType": {
                 "@id": "urpx:measuredMetricInput"
@@ -1401,20 +1401,20 @@
             "urpx:hasLedger": [
               {
                 "@type": "urpx:Ledger",
-                "@id": "cpau:nse-ledger-surplus-compensation",
+                "@id": "cpau:e-nse-1-2025-09-01-ledger-surplus-compensation",
                 "urpx:name": "Net Surplus Electricity Compensation",
                 "urpx:ledgerType": {
                   "@id": "urpx:bundledLedger"
                 },
                 "urpx:referencesMetricInput": {
-                  "@id": "cpau:nse-mi-energy-net-surplus"
+                  "@id": "cpau:e-nse-1-2025-09-01-mi-energy-net-surplus"
                 }
               }
             ],
             "urpx:hasPriceDefinition": [
               {
                 "@type": "urpx:PriceDefinition",
-                "@id": "cpau:nse-pd-surplus-compensation",
+                "@id": "cpau:e-nse-1-2025-09-01-pd-surplus-compensation",
                 "urpx:name": "Net Surplus Electricity Compensation Rate",
                 "urpx:description": "Applied to net surplus kWh at end of annual settlement period (Rule 29). Customer must elect monetary compensation on the net surplus electricity election form.",
                 "urpx:chargeType": {
@@ -1427,7 +1427,7 @@
                   "@id": "urpx:bundledPortion"
                 },
                 "urpx:referencesLedger": {
-                  "@id": "cpau:nse-ledger-surplus-compensation"
+                  "@id": "cpau:e-nse-1-2025-09-01-ledger-surplus-compensation"
                 }
               }
             ]
@@ -1438,9 +1438,9 @@
           "urpx:hasPrice": [
             {
               "@type": "urpx:Price",
-              "@id": "cpau:nse-price-surplus-compensation",
+              "@id": "cpau:e-nse-1-2025-09-01-price-surplus-compensation",
               "urpx:referencesPriceDefinition": {
-                "@id": "cpau:nse-pd-surplus-compensation"
+                "@id": "cpau:e-nse-1-2025-09-01-pd-surplus-compensation"
               },
               "urpx:startDate": "2025-09-01",
               "urpx:name": "Net Surplus Electricity Compensation Rate",

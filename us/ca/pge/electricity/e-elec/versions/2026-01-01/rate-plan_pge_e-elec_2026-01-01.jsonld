@@ -110,15 +110,15 @@
       "urpx:hasEligibilityRule": [
         {
           "@type": "urpx:EligibilityRule",
-          "@id": "pge:er-residential",
+          "@id": "pge:e-elec-2026-01-01-er-residential",
           "urpx:name": "Residential customer",
           "urpx:description": "Available to PG&E residential customers (individually-metered, whole-house service).",
           "urpx:hasConditionExpression": {
             "@type": "urpx:ConditionExpression",
-            "@id": "pge:cx-residential",
+            "@id": "pge:e-elec-2026-01-01-cx-residential",
             "urpx:rootNode": {
               "@type": "urpx:ComparisonNode",
-              "@id": "pge:cn-residential",
+              "@id": "pge:e-elec-2026-01-01-cn-residential",
               "urpx:operator": {
                 "@id": "urpx:equalsOperator"
               },
@@ -154,7 +154,7 @@
               "urpx:operandNodes": [
                 {
                   "@type": "urpx:ComparisonNode",
-                  "@id": "pge:cn-storage",
+                  "@id": "pge:e-elec-2026-01-01-cn-storage",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
                   },
@@ -173,7 +173,7 @@
                 },
                 {
                   "@type": "urpx:ComparisonNode",
-                  "@id": "pge:cn-ev-charging",
+                  "@id": "pge:e-elec-2026-01-01-cn-ev-charging",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
                   },
@@ -192,7 +192,7 @@
                 },
                 {
                   "@type": "urpx:ComparisonNode",
-                  "@id": "pge:cn-heat-pump",
+                  "@id": "pge:e-elec-2026-01-01-cn-heat-pump",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
                   },
@@ -234,7 +234,7 @@
         "urpx:hasSeasons": [
           {
             "@type": "urpx:Season",
-            "@id": "pge:season-summer",
+            "@id": "pge:e-elec-2026-01-01-season-summer",
             "urpx:seasonName": "Summer",
             "urpx:month": [
               "--06",
@@ -245,7 +245,7 @@
           },
           {
             "@type": "urpx:Season",
-            "@id": "pge:season-winter",
+            "@id": "pge:e-elec-2026-01-01-season-winter",
             "urpx:seasonName": "Winter",
             "urpx:month": [
               "--10",
@@ -262,7 +262,7 @@
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
-            "@id": "pge:mi-energy",
+            "@id": "pge:e-elec-2026-01-01-mi-energy",
             "urpx:name": "kWh Energy Consumption Prices",
             "urpx:metricInputType": {
               "@id": "urpx:measuredMetricInput"
@@ -280,7 +280,7 @@
           },
           {
             "@type": "urpx:MetricInput",
-            "@id": "pge:mi-meter-count",
+            "@id": "pge:e-elec-2026-01-01-mi-meter-count",
             "urpx:name": "Per Meter Prices",
             "urpx:metricInputType": {
               "@id": "urpx:profileMetricInput"
@@ -291,7 +291,7 @@
           },
           {
             "@type": "urpx:MetricInput",
-            "@id": "pge:mi-household-count",
+            "@id": "pge:e-elec-2026-01-01-mi-household-count",
             "urpx:name": "Per Household Prices",
             "urpx:metricInputType": {
               "@id": "urpx:profileMetricInput"
@@ -305,14 +305,14 @@
           "@type": "urpx:BillingModel",
           "urpx:hasTOUSchedule": {
             "@type": "urpx:TOUSchedule",
-            "@id": "pge:tou-e-elec",
+            "@id": "pge:e-elec-2026-01-01-tou-e-elec",
             "urpx:referencesMetricInput": {
-              "@id": "pge:mi-energy"
+              "@id": "pge:e-elec-2026-01-01-mi-energy"
             },
             "urpx:hasTOUTier": [
               {
                 "@type": "urpx:TOUTier",
-                "@id": "pge:tou-tier-peak",
+                "@id": "pge:e-elec-2026-01-01-tou-tier-peak",
                 "urpx:tierSourceName": "Peak",
                 "urpx:touTierStandardName": {
                   "@id": "urpx:peakTier"
@@ -321,17 +321,17 @@
                 "urpx:hasTOUPeriod": [
                   {
                     "@type": "urpx:TOUPeriod",
-                    "@id": "pge:tou-period-summer-peak",
+                    "@id": "pge:e-elec-2026-01-01-tou-period-summer-peak",
                     "urpx:name": "Summer Peak Period",
                     "urpx:touPeriodNumber": 1,
                     "urpx:hasTimeBracket": [
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-summer-peak",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-summer-peak",
                         "urpx:startTime": "16:00:00",
                         "urpx:endTime": "21:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-summer"
+                          "@id": "pge:e-elec-2026-01-01-season-summer"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -341,17 +341,17 @@
                   },
                   {
                     "@type": "urpx:TOUPeriod",
-                    "@id": "pge:tou-period-winter-peak",
+                    "@id": "pge:e-elec-2026-01-01-tou-period-winter-peak",
                     "urpx:name": "Winter Peak Period",
                     "urpx:touPeriodNumber": 2,
                     "urpx:hasTimeBracket": [
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-winter-peak",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-winter-peak",
                         "urpx:startTime": "16:00:00",
                         "urpx:endTime": "21:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-winter"
+                          "@id": "pge:e-elec-2026-01-01-season-winter"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -363,7 +363,7 @@
               },
               {
                 "@type": "urpx:TOUTier",
-                "@id": "pge:tou-tier-part-peak",
+                "@id": "pge:e-elec-2026-01-01-tou-tier-part-peak",
                 "urpx:tierSourceName": "Part-Peak",
                 "urpx:touTierStandardName": {
                   "@id": "urpx:midPeakTier"
@@ -372,17 +372,17 @@
                 "urpx:hasTOUPeriod": [
                   {
                     "@type": "urpx:TOUPeriod",
-                    "@id": "pge:tou-period-summer-part-peak",
+                    "@id": "pge:e-elec-2026-01-01-tou-period-summer-part-peak",
                     "urpx:name": "Summer Part-Peak Period",
                     "urpx:touPeriodNumber": 3,
                     "urpx:hasTimeBracket": [
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-summer-part-peak-1",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-summer-part-peak-1",
                         "urpx:startTime": "15:00:00",
                         "urpx:endTime": "16:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-summer"
+                          "@id": "pge:e-elec-2026-01-01-season-summer"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -390,11 +390,11 @@
                       },
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-summer-part-peak-2",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-summer-part-peak-2",
                         "urpx:startTime": "21:00:00",
                         "urpx:endTime": "00:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-summer"
+                          "@id": "pge:e-elec-2026-01-01-season-summer"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -404,17 +404,17 @@
                   },
                   {
                     "@type": "urpx:TOUPeriod",
-                    "@id": "pge:tou-period-winter-part-peak",
+                    "@id": "pge:e-elec-2026-01-01-tou-period-winter-part-peak",
                     "urpx:name": "Winter Part-Peak Period",
                     "urpx:touPeriodNumber": 4,
                     "urpx:hasTimeBracket": [
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-winter-part-peak-1",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-winter-part-peak-1",
                         "urpx:startTime": "15:00:00",
                         "urpx:endTime": "16:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-winter"
+                          "@id": "pge:e-elec-2026-01-01-season-winter"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -422,11 +422,11 @@
                       },
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-winter-part-peak-2",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-winter-part-peak-2",
                         "urpx:startTime": "21:00:00",
                         "urpx:endTime": "00:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-winter"
+                          "@id": "pge:e-elec-2026-01-01-season-winter"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -438,7 +438,7 @@
               },
               {
                 "@type": "urpx:TOUTier",
-                "@id": "pge:tou-tier-off-peak",
+                "@id": "pge:e-elec-2026-01-01-tou-tier-off-peak",
                 "urpx:tierSourceName": "Off-Peak",
                 "urpx:touTierStandardName": {
                   "@id": "urpx:offPeakTier"
@@ -447,17 +447,17 @@
                 "urpx:hasTOUPeriod": [
                   {
                     "@type": "urpx:TOUPeriod",
-                    "@id": "pge:tou-period-summer-off-peak",
+                    "@id": "pge:e-elec-2026-01-01-tou-period-summer-off-peak",
                     "urpx:name": "Summer Off-Peak Period",
                     "urpx:touPeriodNumber": 5,
                     "urpx:hasTimeBracket": [
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-summer-off-peak",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-summer-off-peak",
                         "urpx:startTime": "00:00:00",
                         "urpx:endTime": "15:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-summer"
+                          "@id": "pge:e-elec-2026-01-01-season-summer"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -467,17 +467,17 @@
                   },
                   {
                     "@type": "urpx:TOUPeriod",
-                    "@id": "pge:tou-period-winter-off-peak",
+                    "@id": "pge:e-elec-2026-01-01-tou-period-winter-off-peak",
                     "urpx:name": "Winter Off-Peak Period",
                     "urpx:touPeriodNumber": 6,
                     "urpx:hasTimeBracket": [
                       {
                         "@type": "urpx:TimeBracket",
-                        "@id": "pge:time-bracket-winter-off-peak",
+                        "@id": "pge:e-elec-2026-01-01-time-bracket-winter-off-peak",
                         "urpx:startTime": "00:00:00",
                         "urpx:endTime": "15:00:00",
                         "urpx:appliesInSeason": {
-                          "@id": "pge:season-winter"
+                          "@id": "pge:e-elec-2026-01-01-season-winter"
                         },
                         "urpx:dayType": {
                           "@id": "urpx:allDays"
@@ -492,64 +492,64 @@
           "urpx:hasLedger": [
             {
               "@type": "urpx:Ledger",
-              "@id": "pge:ledger-energy-supply",
+              "@id": "pge:e-elec-2026-01-01-ledger-energy-supply",
               "urpx:name": "Energy Supply Prices",
               "urpx:ledgerType": {
                 "@id": "urpx:supplyLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "pge:mi-energy"
+                "@id": "pge:e-elec-2026-01-01-mi-energy"
               }
             },
             {
               "@type": "urpx:Ledger",
-              "@id": "pge:ledger-energy-delivery",
+              "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery",
               "urpx:name": "Energy Delivery Prices",
               "urpx:ledgerType": {
                 "@id": "urpx:deliveryLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "pge:mi-energy"
+                "@id": "pge:e-elec-2026-01-01-mi-energy"
               }
             },
             {
               "@type": "urpx:Ledger",
-              "@id": "pge:ledger-adjustments",
+              "@id": "pge:e-elec-2026-01-01-ledger-adjustments",
               "urpx:name": "Adjustment Prices",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "pge:mi-energy"
+                "@id": "pge:e-elec-2026-01-01-mi-energy"
               }
             },
             {
               "@type": "urpx:Ledger",
-              "@id": "pge:ledger-service",
+              "@id": "pge:e-elec-2026-01-01-ledger-service",
               "urpx:name": "Service Price",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "pge:mi-meter-count"
+                "@id": "pge:e-elec-2026-01-01-mi-meter-count"
               }
             },
             {
               "@type": "urpx:Ledger",
-              "@id": "pge:ledger-climate-credit",
+              "@id": "pge:e-elec-2026-01-01-ledger-climate-credit",
               "urpx:name": "California Climate Credit",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "pge:mi-household-count"
+                "@id": "pge:e-elec-2026-01-01-mi-household-count"
               }
             }
           ],
           "urpx:hasPriceDefinition": [
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-gen-summer-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-gen-summer-peak",
               "urpx:name": "Generation Summer Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -562,12 +562,12 @@
               },
               "urpx:touPeriodNumber": 1,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-gen-summer-part-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-gen-summer-part-peak",
               "urpx:name": "Generation Summer Part-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -580,12 +580,12 @@
               },
               "urpx:touPeriodNumber": 3,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-gen-summer-off-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-gen-summer-off-peak",
               "urpx:name": "Generation Summer Off-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -598,12 +598,12 @@
               },
               "urpx:touPeriodNumber": 5,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-gen-winter-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-gen-winter-peak",
               "urpx:name": "Generation Winter Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -616,12 +616,12 @@
               },
               "urpx:touPeriodNumber": 2,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-gen-winter-part-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-gen-winter-part-peak",
               "urpx:name": "Generation Winter Part-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -634,12 +634,12 @@
               },
               "urpx:touPeriodNumber": 4,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-gen-winter-off-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-gen-winter-off-peak",
               "urpx:name": "Generation Winter Off-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -652,12 +652,12 @@
               },
               "urpx:touPeriodNumber": 6,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-pcia",
+              "@id": "pge:e-elec-2026-01-01-pd-pcia",
               "urpx:name": "Bundled PCIA",
               "urpx:chargeType": {
                 "@id": "urpx:adjustmentPowerCost"
@@ -669,12 +669,12 @@
                 "@id": "urpx:adjustment"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-supply"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-supply"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-dist-summer-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-dist-summer-peak",
               "urpx:name": "Distribution Summer Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -687,12 +687,12 @@
               },
               "urpx:touPeriodNumber": 1,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-dist-summer-part-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-dist-summer-part-peak",
               "urpx:name": "Distribution Summer Part-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -705,12 +705,12 @@
               },
               "urpx:touPeriodNumber": 3,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-dist-summer-off-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-dist-summer-off-peak",
               "urpx:name": "Distribution Summer Off-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -723,12 +723,12 @@
               },
               "urpx:touPeriodNumber": 5,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-dist-winter-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-dist-winter-peak",
               "urpx:name": "Distribution Winter Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -741,12 +741,12 @@
               },
               "urpx:touPeriodNumber": 2,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-dist-winter-part-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-dist-winter-part-peak",
               "urpx:name": "Distribution Winter Part-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -759,12 +759,12 @@
               },
               "urpx:touPeriodNumber": 4,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-dist-winter-off-peak",
+              "@id": "pge:e-elec-2026-01-01-pd-dist-winter-off-peak",
               "urpx:name": "Distribution Winter Off-Peak",
               "urpx:chargeType": {
                 "@id": "urpx:usageCharge"
@@ -777,12 +777,12 @@
               },
               "urpx:touPeriodNumber": 6,
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-new-sys-gen",
+              "@id": "pge:e-elec-2026-01-01-pd-new-sys-gen",
               "urpx:name": "New System Generation Charge",
               "urpx:chargeType": {
                 "@id": "urpx:generation"
@@ -794,12 +794,12 @@
                 "@id": "urpx:deliveryPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-transmission",
+              "@id": "pge:e-elec-2026-01-01-pd-transmission",
               "urpx:name": "Transmission",
               "urpx:chargeType": {
                 "@id": "urpx:transmission"
@@ -811,12 +811,12 @@
                 "@id": "urpx:deliveryPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-transmission-adj",
+              "@id": "pge:e-elec-2026-01-01-pd-transmission-adj",
               "urpx:name": "Transmission Rate Adjustments",
               "urpx:chargeType": {
                 "@id": "urpx:transmission"
@@ -828,12 +828,12 @@
                 "@id": "urpx:deliveryPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-reliability",
+              "@id": "pge:e-elec-2026-01-01-pd-reliability",
               "urpx:name": "Reliability Services",
               "urpx:chargeType": {
                 "@id": "urpx:reliabilityCharge"
@@ -845,12 +845,12 @@
                 "@id": "urpx:deliveryPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-energy-delivery"
+                "@id": "pge:e-elec-2026-01-01-ledger-energy-delivery"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-public-purpose",
+              "@id": "pge:e-elec-2026-01-01-pd-public-purpose",
               "urpx:name": "Public Purpose Programs",
               "urpx:chargeType": {
                 "@id": "urpx:publicBenefits"
@@ -862,12 +862,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-nuclear",
+              "@id": "pge:e-elec-2026-01-01-pd-nuclear",
               "urpx:name": "Nuclear Decommissioning",
               "urpx:chargeType": {
                 "@id": "urpx:environmentalFunding"
@@ -879,12 +879,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-ctc",
+              "@id": "pge:e-elec-2026-01-01-pd-ctc",
               "urpx:name": "Competition Transition Charges",
               "urpx:chargeType": {
                 "@id": "urpx:transitionCharge"
@@ -896,12 +896,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-energy-cost-recovery",
+              "@id": "pge:e-elec-2026-01-01-pd-energy-cost-recovery",
               "urpx:name": "Energy Cost Recovery Amount",
               "urpx:chargeType": {
                 "@id": "urpx:recoverySurcharge"
@@ -913,12 +913,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-wildfire-fund",
+              "@id": "pge:e-elec-2026-01-01-pd-wildfire-fund",
               "urpx:name": "Wildfire Fund Charge",
               "urpx:chargeType": {
                 "@id": "urpx:environmentalFunding"
@@ -930,12 +930,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-wildfire-hardening",
+              "@id": "pge:e-elec-2026-01-01-pd-wildfire-hardening",
               "urpx:name": "Wildfire Hardening Charge",
               "urpx:chargeType": {
                 "@id": "urpx:environmentalFunding"
@@ -947,12 +947,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-recovery-bond",
+              "@id": "pge:e-elec-2026-01-01-pd-recovery-bond",
               "urpx:name": "Recovery Bond Charge",
               "urpx:chargeType": {
                 "@id": "urpx:recoverySurcharge"
@@ -964,12 +964,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-recovery-bond-credit",
+              "@id": "pge:e-elec-2026-01-01-pd-recovery-bond-credit",
               "urpx:name": "Recovery Bond Credit",
               "urpx:chargeType": {
                 "@id": "urpx:creditMisc"
@@ -981,12 +981,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-adjustments"
+                "@id": "pge:e-elec-2026-01-01-ledger-adjustments"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-base-charge",
+              "@id": "pge:e-elec-2026-01-01-pd-base-charge",
               "urpx:name": "Base Services Charge",
               "urpx:chargeType": {
                 "@id": "urpx:minimumBill"
@@ -1003,12 +1003,12 @@
                 "urpx:intervalDuration": "P1D"
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-service"
+                "@id": "pge:e-elec-2026-01-01-ledger-service"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-climate-credit",
+              "@id": "pge:e-elec-2026-01-01-pd-climate-credit",
               "urpx:name": "California Climate Credit",
               "urpx:chargeType": {
                 "@id": "urpx:creditEnergy"
@@ -1028,7 +1028,7 @@
                 ]
               },
               "urpx:referencesLedger": {
-                "@id": "pge:ledger-climate-credit"
+                "@id": "pge:e-elec-2026-01-01-ledger-climate-credit"
               }
             }
           ]
@@ -1039,9 +1039,9 @@
         "urpx:hasPrice": [
           {
             "@type": "urpx:Price",
-            "@id": "pge:price-climate-credit",
+            "@id": "pge:e-elec-2026-01-01-price-climate-credit",
             "urpx:referencesPriceDefinition": {
-              "@id": "pge:pd-climate-credit"
+              "@id": "pge:e-elec-2026-01-01-pd-climate-credit"
             },
             "urpx:startDate": "2026-01-01",
             "urpx:name": "California Climate Credit",
@@ -1051,7 +1051,7 @@
             "@type": "urpx:Price",
             "@id": "pge:price-base-charge",
             "urpx:referencesPriceDefinition": {
-              "@id": "pge:pd-base-charge"
+              "@id": "pge:e-elec-2026-01-01-pd-base-charge"
             },
             "urpx:startDate": "2026-01-01",
             "urpx:name": "Base Services Charge",
@@ -1061,68 +1061,68 @@
         "urpx:hasPriceSet": [
           {
             "@type": "urpx:PriceSet",
-            "@id": "pge:ps-generation-charges",
+            "@id": "pge:e-elec-2026-01-01-ps-generation-charges",
             "urpx:startDate": "2026-01-01",
             "urpx:hasPrice": [
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-gen-summer-peak",
+                "@id": "pge:e-elec-2026-01-01-price-gen-summer-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-gen-summer-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-gen-summer-peak"
                 },
                 "urpx:name": "Generation Summer Peak",
                 "urpx:unitPrice": "0.26299"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-gen-summer-part-peak",
+                "@id": "pge:e-elec-2026-01-01-price-gen-summer-part-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-gen-summer-part-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-gen-summer-part-peak"
                 },
                 "urpx:name": "Generation Summer Part-Peak",
                 "urpx:unitPrice": "0.16388"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-gen-summer-off-peak",
+                "@id": "pge:e-elec-2026-01-01-price-gen-summer-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-gen-summer-off-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-gen-summer-off-peak"
                 },
                 "urpx:name": "Generation Summer Off-Peak",
                 "urpx:unitPrice": "0.11878"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-gen-winter-peak",
+                "@id": "pge:e-elec-2026-01-01-price-gen-winter-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-gen-winter-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-gen-winter-peak"
                 },
                 "urpx:name": "Generation Winter Peak",
                 "urpx:unitPrice": "0.10086"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-gen-winter-part-peak",
+                "@id": "pge:e-elec-2026-01-01-price-gen-winter-part-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-gen-winter-part-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-gen-winter-part-peak"
                 },
                 "urpx:name": "Generation Winter Part-Peak",
                 "urpx:unitPrice": "0.08089"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-gen-winter-off-peak",
+                "@id": "pge:e-elec-2026-01-01-price-gen-winter-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-gen-winter-off-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-gen-winter-off-peak"
                 },
                 "urpx:name": "Generation Winter Off-Peak",
                 "urpx:unitPrice": "0.06754"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-pcia",
+                "@id": "pge:e-elec-2026-01-01-price-pcia",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-pcia"
+                  "@id": "pge:e-elec-2026-01-01-pd-pcia"
                 },
                 "urpx:name": "Bundled PCIA",
                 "urpx:unitPrice": "-0.01011"
@@ -1131,95 +1131,95 @@
           },
           {
             "@type": "urpx:PriceSet",
-            "@id": "pge:ps-distribution-charges",
+            "@id": "pge:e-elec-2026-01-01-ps-distribution-charges",
             "urpx:startDate": "2026-01-01",
             "urpx:hasPrice": [
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-dist-summer-peak",
+                "@id": "pge:e-elec-2026-01-01-price-dist-summer-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-dist-summer-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-dist-summer-peak"
                 },
                 "urpx:name": "Distribution Summer Peak",
                 "urpx:unitPrice": "0.23076"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-dist-summer-part-peak",
+                "@id": "pge:e-elec-2026-01-01-price-dist-summer-part-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-dist-summer-part-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-dist-summer-part-peak"
                 },
                 "urpx:name": "Distribution Summer Part-Peak",
                 "urpx:unitPrice": "0.16799"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-dist-summer-off-peak",
+                "@id": "pge:e-elec-2026-01-01-price-dist-summer-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-dist-summer-off-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-dist-summer-off-peak"
                 },
                 "urpx:name": "Distribution Summer Off-Peak",
                 "urpx:unitPrice": "0.15641"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-dist-winter-peak",
+                "@id": "pge:e-elec-2026-01-01-price-dist-winter-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-dist-winter-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-dist-winter-peak"
                 },
                 "urpx:name": "Distribution Winter Peak",
                 "urpx:unitPrice": "0.16137"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-dist-winter-part-peak",
+                "@id": "pge:e-elec-2026-01-01-price-dist-winter-part-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-dist-winter-part-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-dist-winter-part-peak"
                 },
                 "urpx:name": "Distribution Winter Part-Peak",
                 "urpx:unitPrice": "0.15925"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-dist-winter-off-peak",
+                "@id": "pge:e-elec-2026-01-01-price-dist-winter-off-peak",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-dist-winter-off-peak"
+                  "@id": "pge:e-elec-2026-01-01-pd-dist-winter-off-peak"
                 },
                 "urpx:name": "Distribution Winter Off-Peak",
                 "urpx:unitPrice": "0.15874"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-new-sys-gen",
+                "@id": "pge:e-elec-2026-01-01-price-new-sys-gen",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-new-sys-gen"
+                  "@id": "pge:e-elec-2026-01-01-pd-new-sys-gen"
                 },
                 "urpx:name": "New System Generation Charge",
                 "urpx:unitPrice": "0.00792"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-transmission",
+                "@id": "pge:e-elec-2026-01-01-price-transmission",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-transmission"
+                  "@id": "pge:e-elec-2026-01-01-pd-transmission"
                 },
                 "urpx:name": "Transmission",
                 "urpx:unitPrice": "0.04638"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-transmission-adj",
+                "@id": "pge:e-elec-2026-01-01-price-transmission-adj",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-transmission-adj"
+                  "@id": "pge:e-elec-2026-01-01-pd-transmission-adj"
                 },
                 "urpx:name": "Transmission Rate Adjustments",
                 "urpx:unitPrice": "0.00315"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-reliability",
+                "@id": "pge:e-elec-2026-01-01-price-reliability",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-reliability"
+                  "@id": "pge:e-elec-2026-01-01-pd-reliability"
                 },
                 "urpx:name": "Reliability Services",
                 "urpx:unitPrice": "0.00013"
@@ -1228,77 +1228,77 @@
           },
           {
             "@type": "urpx:PriceSet",
-            "@id": "pge:ps-adjustment-charges",
+            "@id": "pge:e-elec-2026-01-01-ps-adjustment-charges",
             "urpx:startDate": "2026-01-01",
             "urpx:hasPrice": [
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-public-purpose",
+                "@id": "pge:e-elec-2026-01-01-price-public-purpose",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-public-purpose"
+                  "@id": "pge:e-elec-2026-01-01-pd-public-purpose"
                 },
                 "urpx:name": "Public Purpose Programs",
                 "urpx:unitPrice": "0.02829"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-nuclear",
+                "@id": "pge:e-elec-2026-01-01-price-nuclear",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-nuclear"
+                  "@id": "pge:e-elec-2026-01-01-pd-nuclear"
                 },
                 "urpx:name": "Nuclear Decommissioning",
                 "urpx:unitPrice": "-0.00002"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-ctc",
+                "@id": "pge:e-elec-2026-01-01-price-ctc",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-ctc"
+                  "@id": "pge:e-elec-2026-01-01-pd-ctc"
                 },
                 "urpx:name": "Competition Transition Charges",
                 "urpx:unitPrice": "0.00027"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-energy-cost-recovery",
+                "@id": "pge:e-elec-2026-01-01-price-energy-cost-recovery",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-energy-cost-recovery"
+                  "@id": "pge:e-elec-2026-01-01-pd-energy-cost-recovery"
                 },
                 "urpx:name": "Energy Cost Recovery Amount",
                 "urpx:unitPrice": "0.00002"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-wildfire-fund",
+                "@id": "pge:e-elec-2026-01-01-price-wildfire-fund",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-wildfire-fund"
+                  "@id": "pge:e-elec-2026-01-01-pd-wildfire-fund"
                 },
                 "urpx:name": "Wildfire Fund Charge",
                 "urpx:unitPrice": "0.00591"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-wildfire-hardening",
+                "@id": "pge:e-elec-2026-01-01-price-wildfire-hardening",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-wildfire-hardening"
+                  "@id": "pge:e-elec-2026-01-01-pd-wildfire-hardening"
                 },
                 "urpx:name": "Wildfire Hardening Charge",
                 "urpx:unitPrice": "0.00339"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-recovery-bond",
+                "@id": "pge:e-elec-2026-01-01-price-recovery-bond",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-recovery-bond"
+                  "@id": "pge:e-elec-2026-01-01-pd-recovery-bond"
                 },
                 "urpx:name": "Recovery Bond Charge",
                 "urpx:unitPrice": "0.00778"
               },
               {
                 "@type": "urpx:Price",
-                "@id": "pge:price-recovery-bond-credit",
+                "@id": "pge:e-elec-2026-01-01-price-recovery-bond-credit",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "pge:pd-recovery-bond-credit"
+                  "@id": "pge:e-elec-2026-01-01-pd-recovery-bond-credit"
                 },
                 "urpx:name": "Recovery Bond Credit",
                 "urpx:unitPrice": "-0.00778"

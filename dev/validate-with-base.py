@@ -374,7 +374,13 @@ def write_baseline(*, rdfs: bool = False) -> int:
         "note": ("Accepted violations at this URPX revision. Compared as SETS, not "
                  "counts: a count is invariant under one violation being traded for "
                  "another, which is what a migration produces. Per-file mode is "
-                 "excluded because its keys are not comparable."),
+                 "excluded because its keys are not comparable. "
+                 "The 'cross-filing-iri-reuse' triage counts focus nodes asserted in "
+                 "more than one file. What that means changed once subordinate @ids "
+                 "were scoped to their owning version: it no longer covers one "
+                 "descriptor minted by several schedules (dev/lint_iri_scope.py now "
+                 "refuses that outright), and every remaining key is a node DEFINED "
+                 "twice, which is a different defect tracked separately."),
         "triage": triage,
         "unexplained_single_file_keys": unexplained,
         "modes": modes,

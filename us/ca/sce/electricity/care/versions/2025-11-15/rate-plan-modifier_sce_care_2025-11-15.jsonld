@@ -162,7 +162,7 @@
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
-            "@id": "sce:care-mi-energy",
+            "@id": "sce:care-2025-11-15-mi-energy",
             "urpx:name": "kWh Energy Consumption (for line-item kWh credits)",
             "urpx:metricInputType": {
               "@id": "urpx:measuredMetricInput"
@@ -180,7 +180,7 @@
           },
           {
             "@type": "urpx:MetricInput",
-            "@id": "sce:care-mi-meter-count",
+            "@id": "sce:care-2025-11-15-mi-meter-count",
             "urpx:name": "Per Meter (for daily $/meter credits)",
             "urpx:metricInputType": {
               "@id": "urpx:profileMetricInput"
@@ -195,31 +195,31 @@
           "urpx:hasLedger": [
             {
               "@type": "urpx:Ledger",
-              "@id": "sce:care-ledger-energy-credits",
+              "@id": "sce:care-2025-11-15-ledger-energy-credits",
               "urpx:name": "CARE per-kWh Line-Item Credits",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "sce:care-mi-energy"
+                "@id": "sce:care-2025-11-15-mi-energy"
               }
             },
             {
               "@type": "urpx:Ledger",
-              "@id": "sce:care-ledger-bsc-credits",
+              "@id": "sce:care-2025-11-15-ledger-bsc-credits",
               "urpx:name": "CARE Base Services Charge Adjustments",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "sce:care-mi-meter-count"
+                "@id": "sce:care-2025-11-15-mi-meter-count"
               }
             }
           ],
           "urpx:hasPriceDefinition": [
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "sce:care-pd-wfc-exemption",
+              "@id": "sce:care-2025-11-15-pd-wfc-exemption",
               "urpx:name": "CARE Wildfire Fund Non-Bypassable Charge Exemption (cancels base WFC of $0.00595/kWh)",
               "urpx:chargeType": {
                 "@id": "urpx:creditEnergy"
@@ -231,12 +231,12 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "sce:care-ledger-energy-credits"
+                "@id": "sce:care-2025-11-15-ledger-energy-credits"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "sce:care-pd-frc-exemption",
+              "@id": "sce:care-2025-11-15-pd-frc-exemption",
               "urpx:name": "CARE Fixed Recovery Charge Exemption (cancels base FRC of $0.00198/kWh)",
               "urpx:chargeType": {
                 "@id": "urpx:creditEnergy"
@@ -248,7 +248,7 @@
                 "@id": "urpx:bundledPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "sce:care-ledger-energy-credits"
+                "@id": "sce:care-2025-11-15-ledger-energy-credits"
               }
             },
             {
@@ -270,7 +270,7 @@
                 "urpx:intervalDuration": "P1D"
               },
               "urpx:referencesLedger": {
-                "@id": "sce:care-ledger-bsc-credits"
+                "@id": "sce:care-2025-11-15-ledger-bsc-credits"
               }
             },
             {
@@ -292,7 +292,7 @@
                 "urpx:intervalDuration": "P1D"
               },
               "urpx:referencesLedger": {
-                "@id": "sce:care-ledger-bsc-credits"
+                "@id": "sce:care-2025-11-15-ledger-bsc-credits"
               }
             }
           ]
@@ -305,7 +305,7 @@
             "@type": "urpx:Price",
             "@id": "sce:care-price-wfc-exemption",
             "urpx:referencesPriceDefinition": {
-              "@id": "sce:care-pd-wfc-exemption"
+              "@id": "sce:care-2025-11-15-pd-wfc-exemption"
             },
             "urpx:startDate": "2025-11-15",
             "urpx:name": "CARE WFC Exemption Credit",
@@ -315,7 +315,7 @@
             "@type": "urpx:Price",
             "@id": "sce:care-price-frc-exemption",
             "urpx:referencesPriceDefinition": {
-              "@id": "sce:care-pd-frc-exemption"
+              "@id": "sce:care-2025-11-15-pd-frc-exemption"
             },
             "urpx:startDate": "2025-11-15",
             "urpx:name": "CARE FRC Exemption Credit",

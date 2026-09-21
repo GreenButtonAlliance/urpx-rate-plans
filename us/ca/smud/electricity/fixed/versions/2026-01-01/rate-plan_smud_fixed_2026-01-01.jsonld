@@ -129,7 +129,7 @@
         "urpx:hasSeasons": [
           {
             "@type": "urpx:Season",
-            "@id": "smud:season-summer",
+            "@id": "smud:fixed-2026-01-01-season-summer",
             "urpx:seasonName": "Summer",
             "urpx:month": [
               "--06",
@@ -140,7 +140,7 @@
           },
           {
             "@type": "urpx:Season",
-            "@id": "smud:season-non-summer",
+            "@id": "smud:fixed-2026-01-01-season-non-summer",
             "urpx:seasonName": "Non-Summer",
             "urpx:month": [
               "--10",
@@ -157,7 +157,7 @@
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
-            "@id": "smud:mi-energy",
+            "@id": "smud:fixed-2026-01-01-mi-energy",
             "urpx:name": "kWh Energy Consumption Prices",
             "urpx:metricInputType": {
               "@id": "urpx:measuredMetricInput"
@@ -175,7 +175,7 @@
           },
           {
             "@type": "urpx:MetricInput",
-            "@id": "smud:mi-meter-count",
+            "@id": "smud:fixed-2026-01-01-mi-meter-count",
             "urpx:name": "Per Meter Prices",
             "urpx:metricInputType": {
               "@id": "urpx:profileMetricInput"
@@ -190,24 +190,24 @@
           "urpx:hasLedger": [
             {
               "@type": "urpx:Ledger",
-              "@id": "smud:ledger-energy",
+              "@id": "smud:fixed-2026-01-01-ledger-energy",
               "urpx:name": "Electricity Usage Charge (season-varying, non-TOU)",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "smud:mi-energy"
+                "@id": "smud:fixed-2026-01-01-mi-energy"
               }
             },
             {
               "@type": "urpx:Ledger",
-              "@id": "smud:ledger-system-infrastructure",
+              "@id": "smud:fixed-2026-01-01-ledger-system-infrastructure",
               "urpx:name": "System Infrastructure Fixed Charge",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
               "urpx:referencesMetricInput": {
-                "@id": "smud:mi-meter-count"
+                "@id": "smud:fixed-2026-01-01-mi-meter-count"
               }
             }
           ],
@@ -235,7 +235,7 @@
                 ]
               },
               "urpx:referencesLedger": {
-                "@id": "smud:ledger-energy"
+                "@id": "smud:fixed-2026-01-01-ledger-energy"
               }
             },
             {
@@ -265,12 +265,12 @@
                 ]
               },
               "urpx:referencesLedger": {
-                "@id": "smud:ledger-energy"
+                "@id": "smud:fixed-2026-01-01-ledger-energy"
               }
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "smud:pd-system-infrastructure-fixed-charge",
+              "@id": "smud:fixed-2026-01-01-pd-system-infrastructure-fixed-charge",
               "urpx:name": "System Infrastructure Fixed Charge — flat per meter per month",
               "urpx:chargeType": {
                 "@id": "urpx:facilities"
@@ -287,7 +287,7 @@
                 "urpx:intervalDuration": "P1M"
               },
               "urpx:referencesLedger": {
-                "@id": "smud:ledger-system-infrastructure"
+                "@id": "smud:fixed-2026-01-01-ledger-system-infrastructure"
               }
             }
           ]
@@ -318,9 +318,9 @@
           },
           {
             "@type": "urpx:Price",
-            "@id": "smud:price-system-infrastructure-fixed-charge",
+            "@id": "smud:fixed-2026-01-01-price-system-infrastructure-fixed-charge",
             "urpx:referencesPriceDefinition": {
-              "@id": "smud:pd-system-infrastructure-fixed-charge"
+              "@id": "smud:fixed-2026-01-01-pd-system-infrastructure-fixed-charge"
             },
             "urpx:startDate": "2026-01-01",
             "urpx:name": "System Infrastructure Fixed Charge",
