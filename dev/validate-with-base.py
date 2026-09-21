@@ -179,6 +179,54 @@ def violation_keys(results_graph: rdflib.Graph) -> list[tuple[str, str, str]]:
     return sorted(keys)
 
 
+# --- version dispatch ---------------------------------------------------------
+# During the per-utility migration waves the corpus carries TWO vocabularies at
+# once. Each file declares which one it uses via its @context urpx binding, and
+# the shape set is selected from that rather than from a global flag.
+#
+# A FILE is indivisible: urpx:hasCoverageClaim is sh:minCount 1 on two sh:closed
+# shapes, so a half-migrated file matches neither shape set. The CORPUS is not
+# indivisible, which is what makes staged waves legal at all.
+#
+# The gate unit is a merged graph, so a mixed-vocabulary SET is refused rather
+# than guessed at: validating it against either shape set would silently exempt
+# half the files.
+URPX_NAMESPACE_REVS = {
+    "https://urpx-org.github.io/urpx/ontology/": "v0.2.1",
+    "https://urpx.org/ns/ontology/": "origin/v0.5.1-candidate",
+}
+
+
+def declared_namespace(jsonld: Path) -> str | None:
+    """The urpx: binding a file declares in its @context, without parsing RDF."""
+    ctx = json.loads(jsonld.read_text(encoding="utf-8")).get("@context")
+    if isinstance(ctx, dict):
+        return ctx.get("urpx")
+    if isinstance(ctx, list):
+        for part in ctx:
+            if isinstance(part, dict) and "urpx" in part:
+                return part["urpx"]
+    return None
+
+
+def dispatch_rev(files: list[Path]) -> tuple[str | None, str | None]:
+    """Return (revision, error). Refuses a mixed-vocabulary file set."""
+    seen: dict[str, list[Path]] = {}
+    for f in files:
+        ns = declared_namespace(f)
+        seen.setdefault(str(ns), []).append(f)
+    if len(seen) > 1:
+        lines = [f"    {ns}  ({len(fs)} file(s))" for ns, fs in sorted(seen.items())]
+        return None, ("mixed URPX vocabularies in one graph:\n" + "\n".join(lines) +
+                      "\n    Validating a mixed set against either shape set would exempt "
+                      "half the files. Migrate a whole utility at a time.")
+    ns = next(iter(seen))
+    rev = URPX_NAMESPACE_REVS.get(ns)
+    if rev is None:
+        return None, f"unknown urpx namespace {ns!r}; no shape revision is mapped to it"
+    return rev, None
+
+
 def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
                    verbose: bool = True, show_keys: bool = False):
     """Validate `files` as ONE merged graph. Returns (status, keys)."""
@@ -191,16 +239,21 @@ def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
               f"an empty graph.", file=sys.stderr)
         return REFUSED, []
 
+    rev, err = dispatch_rev(files)
+    if err:
+        print(f"REFUSED  {label}: {err}", file=sys.stderr)
+        return REFUSED, []
+
     g = rdflib.Graph()
     for f in files:
         g.parse(f, format="json-ld")
 
-    shapes = load_graph(SHAPES_PATH)
-    ontology = load_graph(ONTOLOGY_PATH)
+    shapes = load_graph(SHAPES_PATH, rev)
+    ontology = load_graph(ONTOLOGY_PATH, rev)
 
     if not shapes_target_any(g, shapes):
         print(f"REFUSED  {label}: no shape targets any class asserted in these "
-              f"{len(files)} file(s) at URPX {URPX_REV}. Validation would pass "
+              f"{len(files)} file(s) at URPX {rev}. Validation would pass "
               f"vacuously. Check the urpx: namespace binding against the pinned "
               f"revision, or pass --urpx-rev.", file=sys.stderr)
         return REFUSED, []

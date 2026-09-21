@@ -122,6 +122,14 @@ case "$MODE" in
     echo "  Cross-file references are unresolved in this mode, so failures here"
     echo "  are expected and do not affect the exit code."
 
+    note "Version-dispatch negative fixtures"
+    if python3 dev/test_dispatch.py > /tmp/gate-dispatch.log 2>&1; then
+        tail -1 /tmp/gate-dispatch.log
+    else
+        cat /tmp/gate-dispatch.log
+        record 1
+    fi
+
     note "REUSE licensing"
     if command -v reuse >/dev/null 2>&1; then
         if reuse lint > /tmp/gate-reuse.log 2>&1; then

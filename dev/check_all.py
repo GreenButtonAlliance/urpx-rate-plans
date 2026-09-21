@@ -47,6 +47,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
+    ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
 ]
 
 
