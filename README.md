@@ -23,16 +23,16 @@ Each filing directory's `tariff.toml` documents what's modeled, what's deferred,
 See [LAYOUT.md](./LAYOUT.md) for the full conventions. In short:
 
 ```
-ca/<class>/<utility>/<schedule>/versions/<effective-date>/
+us/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/
   <utility>_<schedule>_<date>.pdf                             # source tariff document
   tariff.toml                                                 # per-filing provenance manifest
   rate-plan_<utility>_<schedule>_<date>.jsonld                # URPX rate-plan serialization, OR
   rate-plan-modifier_<utility>_<schedule>_<date>.jsonld       # for standalone rider/overlay rate plans
 ```
 
-`<class>` is one of `iou`, `pou`, `coop`, `cca`. Source tariff PDFs are committed alongside each rate plan — see [LAYOUT.md §7](./LAYOUT.md#7-source-pdf-referencing) for the rationale (canonical URLs alone are not durable provenance; PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place between two retrievals two days apart).
+`<carrier>` is the commodity, currently always `electricity`; it sits below `<utility>` because PG&E and SDG&E supply both gas and electricity, and a utility's offerings should stay adjacent. It mirrors `urpx:commodity`, which each filing also carries. Source tariff PDFs are committed alongside each rate plan — see [LAYOUT.md §7](./LAYOUT.md#7-source-pdf-referencing) for the rationale (canonical URLs alone are not durable provenance; PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place between two retrievals two days apart).
 
-Each `<class>/<utility>/` directory also carries a `utility.toml` discovery manifest listing the URLs where the utility publishes its tariffs ([LAYOUT.md §5](./LAYOUT.md#5-per-utility-discovery-manifest-utilitytoml)).
+Each `<country>/<subdivision>/<utility>/` directory also carries a `utility.toml` discovery manifest listing the URLs where the utility publishes its tariffs ([LAYOUT.md §5](./LAYOUT.md#5-per-utility-discovery-manifest-utilitytoml)).
 
 ### Reading the JSON-LD: cross-resource relationships
 

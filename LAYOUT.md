@@ -24,12 +24,14 @@ This hybrid pattern was chosen over the alternatives because:
 ## 2. File packaging: one self-contained file per filing
 
 Each filing is serialized as a single JSON-LD file containing both:
+
 - the (stable) `urpx:RatePlan` declaration, and
-- the (filing-specific) `urpx:RatePlanVersion` nested via `urpx:hasRatePlanVersion`.
+- the (filing-specific) `urpx:RatePlanVersion`, which points back with `urpx:forRatePlan` and is also still nested via `urpx:hasRatePlanVersion` (re-admitted at `sh:minCount 0` in v0.5.x, so both links are carried).
 
 This mirrors the convention used by the URPX test cases (e.g. `test-cases/cpau-e-1-2025-07-01/data/urpx-rate-plan_cpau_e-1_2025-07-01.jsonld`).
 
 Rationale:
+
 - Each filing artifact is self-contained, portable, and can be cited or distributed in isolation.
 - RDF graph merge handles the overlap cleanly: every file describes the same `urpx:RatePlan` IRI with consistent properties — merging multiple files yields a single RatePlan with all its versions linked.
 - The duplicated RatePlan-level boilerplate (~15 lines) is small and lint-checkable.
@@ -39,13 +41,15 @@ The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_co
 ## 3. Directory hierarchy
 
 ```
-<jurisdiction>/<class>/<utility>/<schedule>/versions/<effective-date>/
+<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/
 ```
 
 | Segment | Values | Notes |
 | --- | --- | --- |
-| `<jurisdiction>` | `ca` | Two-letter state code. Future: `or`, `wa`, etc. |
-| `<class>` | `iou`, `pou`, `coop`, `cca` | Investor-owned utility, publicly-owned utility, cooperative, community choice aggregator. Filing rules and regulators differ by class. |
+| `<country>` | `us` | ISO 3166-1 alpha-2. Explicit because a bare `ca` reads as either California or Canada. |
+| `<subdivision>` | `ca` | ISO 3166-2 subdivision code, here the state. Future: `or`, `wa`, etc. |
+| `<utility>` | e.g. `pge` | See below. A utility sits above the carrier because PG&E and SDG&E supply both gas and electricity. |
+| `<carrier>` | `electricity` | The commodity, mirroring `urpx:commodity` on the filing itself. Present so gas or water can be added later without moving anything. |
 | `<utility>` | e.g. `pge`, `sce`, `sdge`, `cpau`, `smud`, `ladwp` | Lowercase short name. Match the EIA short name where one exists. |
 | `<schedule>` | e.g. `e-tou-c`, `e-1`, `ev2`, `e-care` | Lowercase, hyphenated form of the schedule code. |
 | `versions/<effective-date>` | ISO 8601 date, e.g. `2026-03-01` | The date this filing becomes effective, as published. |
@@ -206,7 +210,7 @@ The lint that consumes `applicable_modifiers` lives at `dev/lint_modifier_covera
 
 ## 5. Per-utility discovery manifest: `utility.toml`
 
-Each `ca/<class>/<utility>/` directory contains a `utility.toml` pointing at where the utility publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
+Each `us/<subdivision>/<utility>/` directory contains a `utility.toml` pointing at where the utility publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
 
 ```toml
 utility           = "pge"
@@ -229,12 +233,15 @@ The schema is intentionally minimal. Richer fields (per-schedule URL templates, 
 
 ## 6. IRI naming conventions
 
+Subjects are minted in per-utility CURIE prefixes bound in each filing's `@context`, never in `urpx:`. The `urpx:` prefix names URPX vocabulary terms and enumeration members only. Every prefix resolves under the identity base `https://rate-plans.grid-coordination.energy/`.
+
 | Resource | IRI shape | Example |
 | --- | --- | --- |
-| Utility (`urpx:Organization`) | `urpx:utility-<utility>` | `urpx:utility-pge` |
-| RatePlan | `urpx:<utility>-<schedule>` | `urpx:pge-e-tou-c` |
-| RatePlanVersion | `urpx:<utility>-<schedule>-<date>` | `urpx:pge-e-tou-c-2026-03-01` |
-| Subordinate resources (eligibility rules, ledgers, prices, etc.) | `urpx:<utility>-<short>-<descriptor>` | `urpx:pge-er-residential`, `urpx:pge-ledger-commodity` |
+| Utility (`urpx:Organization`) | `org:utility-<utility>` | `org:utility-pge` |
+| RatePlan | `<utility>:<schedule>` | `pge:e-tou-c` |
+| RatePlanVersion | `<utility>:<schedule>-<date>` | `pge:e-tou-c-2026-03-01` |
+| CoverageClaim | `<utility>:cc-<schedule>-<date>` | `pge:cc-e-tou-c-2026-03-01` |
+| Subordinate resources (eligibility rules, ledgers, prices, etc.) | `<utility>:<short>-<descriptor>` | `pge:er-residential`, `urpx:pge-ledger-commodity` |
 
 These mirror the convention used in the existing URPX test cases (e.g. `urpx:cpau-e-1`, `urpx:cpau-e-1-2025-07-01`). Lowercase, hyphenated, no spaces.
 
@@ -259,10 +266,11 @@ Earlier versions in the corpus (e.g., `pge:e-elec-2026-01-01`'s subordinates) ke
 Each filing's source PDF is **committed alongside the JSON-LD** at:
 
 ```
-ca/<class>/<utility>/<schedule>/versions/<date>/<utility>_<schedule>_<date>.pdf
+us/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<date>/<utility>_<schedule>_<date>.pdf
 ```
 
 Examples:
+
 ```
 us/ca/pge/electricity/e-tou-c/versions/2026-03-01/pge_e-tou-c_2026-03-01.pdf
 us/ca/pge/electricity/e-tou-d/versions/2026-03-27/pge_e-tou-d_2026-03-27.pdf
@@ -300,7 +308,7 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 ## 9. Workflow: adding a new filing
 
 1. Identify a new tariff PDF (utility website, CPUC e-filing, regulator portal).
-2. Create the directory: `ca/<class>/<utility>/<schedule>/versions/<effective-date>/`.
+2. Create the directory: `us/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/`.
 3. Write `tariff.toml` with `source.url`, `source.sha256` (compute locally), `retrieved_on`, and `extraction.tool`.
 4. Run extraction (e.g. `mineru -p source.pdf -o extracted/ -b pipeline`).
 5. Convert to URPX JSON-LD as `rate-plan_<utility>_<schedule>_<date>.jsonld`.

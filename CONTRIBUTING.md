@@ -44,11 +44,11 @@ Pull requests are welcome.
 The end-to-end workflow for adding a single new rate plan is documented in [LAYOUT.md §11](./LAYOUT.md#11-adding-a-new-filing). In short:
 
 1. Pick a pattern reference — an existing rate plan whose structure most closely matches the new one (e.g. another utility's residential TOU rate, another modifier with the same compensation mechanism).
-2. Create the filing directory: `ca/<class>/<utility>/<schedule>/versions/<effective-date>/`.
+2. Create the filing directory: `us/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/`, for example `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/`.
 3. Commit the source tariff PDF alongside the JSON-LD; record its `sha256` and the canonical retrieval URL in `tariff.toml`.
-4. Author the JSON-LD (using the URPX ontology), making the rate plan self-contained (`urpx:URPXDocument` wrapper).
-5. Run `pyshacl` against the URPX SHACL shapes (`../urpx/shacl/urpx-shacl.ttl`) with the ontology as extra graph (`../urpx/ontology/urpx-ontology.ttl`) to verify SHACL conformance.
-6. Add the rate plan to `dev/validate_v020.clj` and run `clojure -M -m validate-v020` for end-to-end load → coerce → resolve verification.
+4. Author the JSON-LD (using the URPX ontology), making the rate plan self-contained. Wrap it in a `urpx:URPXPackage` carrying `urpx:targetURPXVersion`. (`urpx:URPXDocument` was retired at URPX v0.3.0.) A filing that also carries standalone `@graph` siblings such as `urpx:ProgramEnrollment` or `urpx:RateCase` keeps them beside the package rather than inside it, since `URPXPackageShape` is closed and does not admit them.
+5. Run `python3 dev/validate-with-base.py --utility <slug>` to SHACL-validate. The gate unit is a MERGED graph per utility, not a single file: cross-file references (`urpx:applicableToRatePlan`, `urpx:supersedes`) only resolve when the referent is in the same graph. Shapes are read from an adjacent `../urpx` checkout at a pinned revision and are deliberately not vendored here; the script tells you what to do if that checkout is missing. Single-file mode exists but is a labelled diagnostic, not a gate.
+6. Run `clojure -M:validate` for end-to-end load, coerce, resolve verification through the clj-urpx consumer. Filings are discovered automatically; there is no list to add to.
 7. Update `dev/coverage-estimates.toml` if this is a new utility or significantly shifts a utility's per-tariff residential share.
 8. Document what's modeled, what's deferred, and any URPX vocabulary gaps in `tariff.toml [extraction.notes]`.
 
