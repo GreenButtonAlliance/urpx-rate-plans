@@ -167,6 +167,41 @@ def main() -> int:
 
         pfx = f"{u}:{slug}"
         sums = []
+
+        # SCE excludes the same two items for both programs (the PUCRF and the
+        # Climate Credit, both applied after the discount), so CARE and FERA have
+        # identical members and one subtotal serves both, with the programs
+        # differing only in multiplier. SDG&E carves out the fixed charge and,
+        # for CARE alone, the exemptions, so there the member lists genuinely
+        # differ and two summaries are required.
+        if care == fera:
+            sid = summary_id(pfx, date, "discountable")
+            sums.append({
+                "@type": "urpx:PriceSummary",
+                "@id": sid,
+                "urpx:name": _name(u, slug, "shared", len(care)),
+                "urpx:includesPrice": [{"@id": m} for m in care],
+            })
+            made["care"].append(sid)
+            made["fera"].append(sid)
+            placed = [0]
+
+            def place_shared(d, _ctx):
+                if d.get("@id") == host:
+                    d["urpx:hasPriceSummary"] = sums
+                    placed[0] += 1
+
+            walk(doc, place_shared)
+            if placed[0] != 1:
+                raise SystemExit(f"REFUSED: {path.name} host {host} matched {placed[0]}")
+            if not args.dry_run:
+                with path.open("w", encoding="utf-8") as fh:
+                    json.dump(doc, fh, indent=2, ensure_ascii=False)
+                    fh.write("\n")
+            print(f"  {slug:12s} {date}  shared subtotal {len(care):3d} members "
+                  f"-> {host.split(':')[-1]}")
+            continue
+
         for program, members in (("care", care), ("fera", fera)):
             if len(members) < 2:
                 print(f"  SKIP {slug} {program}: only {len(members)} member(s); "
@@ -209,6 +244,14 @@ def main() -> int:
 
 
 def _name(u: str, slug: str, program: str, n: int) -> str:
+    if program == "shared":
+        return (f"Discountable subtotal for {slug.upper()}. The {n} bill components "
+                f"the CARE and FERA percentage discounts both apply to. Schedule "
+                f"D-CARE Sheet 1 applies the discount before the PUCRF, user fees, "
+                f"taxes and late payment charges, so the PUCRF is excluded, and the "
+                f"California Climate Credit is excluded because Special Condition 12 "
+                f"applies it after those taxes. Both programs discount the same "
+                f"components and differ only in rate, so one subtotal serves both.")
     p = program.upper()
     if u == "sce":
         return (f"{p}-discountable subtotal for {slug.upper()}. The {n} bill "

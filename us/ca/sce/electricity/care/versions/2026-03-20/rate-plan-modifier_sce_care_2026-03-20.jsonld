@@ -46,6 +46,9 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -223,6 +226,17 @@
               "urpx:referencesMetricInput": {
                 "@id": "sce:care-2026-03-20-mi-meter-count"
               }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:care-2026-03-20-ledger-bill-discount",
+              "urpx:name": "CARE Percentage Bill Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:care-2026-03-20-mi-energy"
+              }
             }
           ],
           "urpx:hasPriceDefinition": [
@@ -305,6 +319,23 @@
               "urpx:referencesLedger": {
                 "@id": "sce:care-2026-03-20-ledger-bsc-credits"
               }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:care-2026-03-20-pd-bill-discount",
+              "urpx:name": "CARE 32.5 percent discount on the discountable bill subtotal",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:care-2026-03-20-ledger-bill-discount"
+              }
             }
           ]
         }
@@ -352,6 +383,42 @@
             "urpx:startDate": "2026-01-01",
             "urpx:name": "CARE BSC Discount",
             "urpx:unitPrice": "-0.155"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:care-price-bill-discount-2026-03-20",
+            "urpx:name": "CARE 32.5 percent bill discount applied to the discountable subtotal of whichever SCE residential base plan the customer is on",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:care-2026-03-20-pd-bill-discount"
+            },
+            "urpx:startDate": "2026-03-20",
+            "urpx:multiplier": "-0.325",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sce:d-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:d-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-prime-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-03-20-summary-discountable"
+              }
+            ]
           }
         ]
       },

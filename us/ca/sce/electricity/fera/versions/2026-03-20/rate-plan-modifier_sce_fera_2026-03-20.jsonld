@@ -46,6 +46,9 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -178,6 +181,24 @@
             "urpx:profileMetricProperty": {
               "@id": "urpx:numberOfMeters"
             }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:fera-2026-03-20-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:fera-2026-03-20-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
           }
         ],
         "urpx:hasBillingModel": {
@@ -193,6 +214,17 @@
               },
               "urpx:referencesMetricInput": {
                 "@id": "sce:fera-2026-03-20-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:fera-2026-03-20-ledger-bill-discount",
+              "urpx:name": "FERA Percentage Bill Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:fera-2026-03-20-mi-energy"
               }
             }
           ],
@@ -242,6 +274,23 @@
               "urpx:referencesLedger": {
                 "@id": "sce:fera-2026-03-20-ledger-bsc-credits"
               }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:fera-2026-03-20-pd-bill-discount",
+              "urpx:name": "FERA 18.0 percent discount on the discountable bill subtotal",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:fera-2026-03-20-ledger-bill-discount"
+              }
             }
           ]
         }
@@ -269,6 +318,42 @@
             "urpx:startDate": "2026-01-01",
             "urpx:name": "FERA BSC Credit Adjustment",
             "urpx:unitPrice": "-0.201"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:fera-price-bill-discount-2026-03-20",
+            "urpx:name": "FERA 18.0 percent bill discount applied to the discountable subtotal of whichever SCE residential base plan the customer is on",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:fera-2026-03-20-pd-bill-discount"
+            },
+            "urpx:startDate": "2026-03-20",
+            "urpx:multiplier": "-0.18",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sce:d-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:d-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-prime-2025-11-15-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-03-20-summary-discountable"
+              }
+            ]
           }
         ]
       },
