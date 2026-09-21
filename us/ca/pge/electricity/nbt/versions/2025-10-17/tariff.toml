@@ -109,13 +109,13 @@ gating ConditionExpression). Total 4,610 urpx:Price entries on the
 RatePlanModifier — the largest single filing in the corpus by Price
 count to date.
 
-Per-cell Prices loaded by the generator via the two-stage shadow-repo
+Per-cell Prices loaded by the generator via the two-stage
 script pipeline:
- 1. shadow-repo/scripts/extract-nbt-eec-values.py — extracts the 4 per-
+ 1. scripts/extract-nbt-eec-values.py — extracts the 4 per-
  vintage PDFs from pge.com/energyexportcredit's PGE-EEC-Price-Sheets.zip
  (pdfplumber + pypdf multi-extractor fallback handles per-vintage PDF
  styling quirks)
- 2. shadow-repo/scripts/build-pge-nbt-prices-2025-10-17.py — emits 4,608
+ 2. scripts/build-pge-nbt-prices-2025-10-17.py — emits 4,608
  Price entities into urpx:hasPrice[] with first-use inline TOUPeriods
  and ApplicabilityRules, then deduplicated @id references
 
@@ -191,7 +191,7 @@ validated_on = "2026-09-20"
 # Generation Component Prices (2,304 of them) are NOT RIN-tagged — PG&E
 # doesn't publish Generation EEC via MIDAS (USCA-XXPG family contains only
 # SGIP and Flex entries). Same pattern as SCE.
-# Tagging tool: shadow-repo/scripts/tag-pge-nbt-prices-with-midas-rins.py
+# Tagging tool: scripts/tag-pge-nbt-prices-with-midas-rins.py
 # (idempotent — re-running detects and skips already-tagged Prices)
 
 # Modeling -------------------------------------------------------------------

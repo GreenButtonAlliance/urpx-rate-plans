@@ -60,7 +60,7 @@ The per-cell Export Compensation Rate Prices use a `urpx:TOUPeriod` chain: `Pric
 
 Per the tariff Sheet 10 methodology step 2, the published Delivery component is system-averaged across PG&E climate zones (no per-zone variability in the published data), so the cell count is per-vintage not per-zone-vintage.
 
-Source: `pge.com/energyexportcredit` redirects to a ZIP containing per-vintage PDFs. Extraction + emission scripts at `shadow-repo/urpx-tariffs/scripts/extract-nbt-eec-values.py` and `build-pge-nbt-prices-2025-10-17.py`. The extractor handles per-vintage PDF styling quirks (2026 has bold-overstrike text breaking pdfplumber; 2025 has whitespace collapsing breaking pypdf) by trying both libraries and using whichever yields a clean 48-row parse. The build script is idempotent — preserves the ACC Plus Prices and replaces the per-cell layer on each run.
+Source: `pge.com/energyexportcredit` redirects to a ZIP containing per-vintage PDFs. Extraction + emission scripts at `scripts/extract-nbt-eec-values.py` and `build-pge-nbt-prices-2025-10-17.py`. The extractor handles per-vintage PDF styling quirks (2026 has bold-overstrike text breaking pdfplumber; 2025 has whitespace collapsing breaking pypdf) by trying both libraries and using whichever yields a clean 48-row parse. The build script is idempotent — preserves the ACC Plus Prices and replaces the per-cell layer on each run.
 
 ## Cross-references
 

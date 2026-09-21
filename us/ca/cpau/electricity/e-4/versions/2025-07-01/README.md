@@ -58,7 +58,7 @@ The following sections of the published Schedule E-4 are **not modeled in this f
 
 ## Provenance
 
-DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-4-2025-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi (Chrome120 TLS impersonation; paloalto.gov rejects standard urllib/requests with 403).
+DCJ-authored, generated from scratch by `scripts/build-cpau-e-4-2025-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi (Chrome120 TLS impersonation; paloalto.gov rejects standard urllib/requests with 403).
 
 ## Validation
 

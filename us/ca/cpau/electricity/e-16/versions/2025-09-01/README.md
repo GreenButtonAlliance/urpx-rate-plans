@@ -24,7 +24,7 @@ The cross-schedule reference question parallels [`urpx-org/urpx#23`](https://git
 
 ## Provenance
 
-DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-16-2025-09-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
+DCJ-authored, generated from scratch by `scripts/build-cpau-e-16-2025-09-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
 
 ## Validation
 

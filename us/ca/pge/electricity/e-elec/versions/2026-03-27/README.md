@@ -35,7 +35,7 @@ Both `urpx:TariffPublication` entities (`pge:al-7869-e` and `pge:al-7846-e`) are
 
 ## Derivation
 
-This filing was derived from the 2026-01-01 sibling by `shadow-repo/scripts/derive-e-elec-2026-03-27.py` rather than re-extracted from scratch — same pattern as the E-TOU-C 2026-03-01 → 2026-03-27 derivation. The script:
+This filing was derived from the 2026-01-01 sibling by `scripts/derive-e-elec-2026-03-27.py` rather than re-extracted from scratch — same pattern as the E-TOU-C 2026-03-01 → 2026-03-27 derivation. The script:
 
 1. Adds 5 `urpx:ProgramEnrollment` instances (CARE, FERA, CCA, DA, TBS) referenced by the income-tier `ProfileAlternative` ConditionExpressions
 2. Adds the new `urpx:RateCase` `pge:rc-d-26-03-013` and the two `urpx:TariffPublication`s

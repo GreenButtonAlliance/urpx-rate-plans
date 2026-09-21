@@ -96,7 +96,7 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 - Each ZIP contains a CSV in CEC MIDAS upload format (RIN, RateName, DateStart/End in UTC, DayStart/End 1-7 + 8 for Holiday, ValueName as Month + Weekday/Weekend + HSn, Value, Unit)
 - CSV is a flat unrolled 20-year hourly time-series per CPUC Resolution E-5301; within each vintage's 9-year lock-in period the per-cell value is constant — first occurrence is used as the canonical lock-in value
 - NBT00 has no lock-in; current-year values are the "actual effective rates" (illustrative beyond that)
-- Pipeline: `shadow-repo/.../scripts/extract-sdge-nbt-eec-values.py` + `build-sdge-nbt-prices-2025-01-27.py`
+- Pipeline: `scripts/extract-sdge-nbt-eec-values.py` + `build-sdge-nbt-prices-2025-01-27.py`
 
 ## Cross-references
 

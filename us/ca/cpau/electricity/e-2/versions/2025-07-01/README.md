@@ -60,7 +60,7 @@ Two of these (E-EEC-1, E-NSE-1) became effective 2025-09-01, after the base E-2 
 
 ## Provenance
 
-DCJ-authored, generated from scratch (not migrated from any prior fixture) by `shadow-repo/scripts/build-cpau-e-2-2025-07-01.py` on 2026-04-29. Source PDF retrieved from paloalto.gov via curl_cffi (Chrome120 TLS impersonation; paloalto.gov rejects standard urllib/requests with 403).
+DCJ-authored, generated from scratch (not migrated from any prior fixture) by `scripts/build-cpau-e-2-2025-07-01.py` on 2026-04-29. Source PDF retrieved from paloalto.gov via curl_cffi (Chrome120 TLS impersonation; paloalto.gov rejects standard urllib/requests with 403).
 
 ## Validation
 

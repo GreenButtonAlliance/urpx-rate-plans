@@ -96,6 +96,9 @@ def check_shadow_refs() -> None:
     hits: list[str] = []
     for f in tracked():
         p = REPO / f
+        # This file names the pattern it searches for, so it always matches itself.
+        if f == "dev/publication_gate.py":
+            continue
         if not p.is_file() or p.suffix in (".pdf", ".png", ".jpg", ".svg"):
             continue
         try:

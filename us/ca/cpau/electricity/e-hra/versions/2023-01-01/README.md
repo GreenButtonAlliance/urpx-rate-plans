@@ -12,7 +12,7 @@ A standalone `urpx:RatePlanModifier` filing applicable to all customers receivin
 
 ## Provenance
 
-Originally DCJ-authored, contributed to `urpx-org/urpx/test-cases/` via PR #7 (cpau-rate-plans branch). Brought into urpx-rate-plans. Carved out of the existing CPAU E-1 2025-09-01 multi-source filing's `@graph` into a standalone modifier filing on 2026-04-30 by `shadow-repo/scripts/extract-cpau-modifiers-tdk.py`.
+Originally DCJ-authored, contributed to `urpx-org/urpx/test-cases/` via PR #7 (cpau-rate-plans branch). Brought into urpx-rate-plans. Carved out of the existing CPAU E-1 2025-09-01 multi-source filing's `@graph` into a standalone modifier filing on 2026-04-30 by `scripts/extract-cpau-modifiers-tdk.py`.
 
 The extracted modifier subtree:
 - Has `urpx:applicableToRatePlan` and `urpx:applicableToRatePlanVersion` **stripped** — same standalone-modifier cross-graph identity workaround as the green-power filings (E-2-G / E-4-G / E-7-G), pending [`urpx-org/urpx#23`](https://github.com/urpx-org/urpx/issues/23).
@@ -23,7 +23,7 @@ The extracted modifier subtree:
 
 This is part of the second set of standalone modifier filings in the corpus (alongside CPAU E-2-G / E-4-G / E-7-G filed earlier today). Top-level entity is `urpx:RatePlanModifier`; JSON-LD filename uses the `rate-plan-modifier_*` convention.
 
-The modifier's relationship to its base RatePlan(s) is captured in the `RatePlanModifierVersion.description` text only — the structural link via `urpx:applicableToRatePlan` / `urpx:applicableToRatePlanVersion` is omitted pending [`urpx-org/urpx#23`](https://github.com/urpx-org/urpx/issues/23). Once that resolves, retrofit via `shadow-repo/scripts/retrofit-modifier-options-9qp.py` (or its successor).
+The modifier's relationship to its base RatePlan(s) is captured in the `RatePlanModifierVersion.description` text only — the structural link via `urpx:applicableToRatePlan` / `urpx:applicableToRatePlanVersion` is omitted pending [`urpx-org/urpx#23`](https://github.com/urpx-org/urpx/issues/23). Once that resolves, retrofit via `scripts/retrofit-modifier-options-9qp.py` (or its successor).
 
 ## Validation
 

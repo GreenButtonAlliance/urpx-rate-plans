@@ -45,7 +45,7 @@ Two URPX-team / clj-urpx threads were in flight while building this filing:
 
 ## Provenance
 
-DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-4-g-2025-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
+DCJ-authored, generated from scratch by `scripts/build-cpau-e-4-g-2025-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
 
 ## Validation
 

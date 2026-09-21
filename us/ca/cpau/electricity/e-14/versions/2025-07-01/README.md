@@ -22,7 +22,7 @@ Flat per-fixture-per-month rates for street and highway lighting installations a
 
 ## Provenance
 
-DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-14-2025-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
+DCJ-authored, generated from scratch by `scripts/build-cpau-e-14-2025-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
 
 ## Validation
 

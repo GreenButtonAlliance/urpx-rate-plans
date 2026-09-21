@@ -27,7 +27,7 @@ Buyback rates the utility **pays** to customers operating their own (non-NEM-eli
 
 ## Provenance
 
-DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-3-2007-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
+DCJ-authored, generated from scratch by `scripts/build-cpau-e-3-2007-07-01.py` on 2026-04-30. Source PDF retrieved from paloalto.gov via curl_cffi.
 
 ## Validation
 

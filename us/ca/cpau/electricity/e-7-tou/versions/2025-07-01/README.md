@@ -58,7 +58,7 @@ Same site-aggregation feature as E-7. URPX has no native vocabulary; noted but n
 
 ## Provenance
 
-DCJ-authored, generated from scratch by `shadow-repo/scripts/build-cpau-e-7-tou-2025-07-01.py` on 2026-04-30 (templatized from the E-4 TOU build script). Source PDF retrieved from paloalto.gov via curl_cffi.
+DCJ-authored, generated from scratch by `scripts/build-cpau-e-7-tou-2025-07-01.py` on 2026-04-30 (templatized from the E-4 TOU build script). Source PDF retrieved from paloalto.gov via curl_cffi.
 
 ## Validation
 

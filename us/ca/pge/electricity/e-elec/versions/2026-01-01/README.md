@@ -46,7 +46,7 @@ The Sheet 4 vintage-PCIA table (2009–2026) from the source PDF is NOT yet in t
 
 ## Provenance
 
-Authored by the URPX team (Flux Tailor — Una Smith-Simon et al.) and present in the `urpx-org/urpx` repo since the initial v0.1.1 pre-draft commit (`12eaa7f`, 2026-01); subsequent updates by Una and Klaartje De Schepper carried it through to URPX v0.2.0. The earlier `urpx-org/urpx` v0.2.0 fixture (test-cases/pge-e-elec-2026-01-01/) used an intermediate vocabulary that was subsequently superseded (ConditionLogic / ObjectTerminalNode / CustomTerminalNode → ConditionExpression / ObjectOperandNode / CustomOperandNode per Decisions #097/098). Brought into `urpx-rate-plans` and migrated to the current v0.2.0 form on 2026-04-29 via `shadow-repo/scripts/migrate-pge-e-elec-v020.py`.
+Authored by the URPX team (Flux Tailor — Una Smith-Simon et al.) and present in the `urpx-org/urpx` repo since the initial v0.1.1 pre-draft commit (`12eaa7f`, 2026-01); subsequent updates by Una and Klaartje De Schepper carried it through to URPX v0.2.0. The earlier `urpx-org/urpx` v0.2.0 fixture (test-cases/pge-e-elec-2026-01-01/) used an intermediate vocabulary that was subsequently superseded (ConditionLogic / ObjectTerminalNode / CustomTerminalNode → ConditionExpression / ObjectOperandNode / CustomOperandNode per Decisions #097/098). Brought into `urpx-rate-plans` and migrated to the current v0.2.0 form on 2026-04-29 via `scripts/migrate-pge-e-elec-v020.py`.
 
 ## URL-mutation note
 
