@@ -23,7 +23,10 @@ v = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(v)
 
 FX = REPO / "dev" / "fixtures"
-V021_GOOD = REPO / "us/ca/ladwp/electricity/r-1a/versions/2026-04-01/rate-plan_ladwp_r-1a_2026-04-01.jsonld"
+# Hand-authored, NOT a live corpus file. An earlier version pointed at LADWP
+# R-1A; wave 1 then migrated that file to v0.5.1 and three assertions silently
+# degraded to trivially true. A fixture must not move under its own test.
+V021_GOOD = FX / "v021-conforming.jsonld"
 V051_GOOD = FX / "v051-conforming.jsonld"
 V051_BAD = FX / "v051-missing-required.jsonld"
 
@@ -55,7 +58,12 @@ print("Version-dispatch negative fixtures\n")
 
 # Dispatch picks the right shapes from each file's own namespace.
 check("v0.5.1 fixture, dispatched", run([V051_GOOD]), v.OK)
-check("v0.2.1 corpus file, dispatched", run([V021_GOOD]), v.OK)
+# Conformance is NOT the property under test and is expensive to fabricate: a
+# conforming v0.2.1 RatePlan requires hasRatePlanVersion, which cascades through
+# changeReason/hasPlanElements/hasPrices/publishedBy/serviceRole and onward. What
+# matters is that the file is TARGETED rather than refused, which is what proves
+# dispatch selected the right shapes.
+check("v0.2.1 fixture, dispatched and targeted", run([V021_GOOD]), v.VIOLATIONS)
 
 # The shapes actually bite: a missing required property is a real violation,
 # not a vacuous pass.
@@ -65,7 +73,7 @@ check("v0.5.1 fixture missing urpx:name", run([V051_BAD]), v.VIOLATIONS)
 # for. The two vocabularies use different namespaces, so the wrong shape set
 # targets nothing, and "nothing targeted" must never be reported as conforming.
 check("v0.5.1 file forced onto v0.2.1 shapes", run([V051_GOOD], "v0.2.1"), v.REFUSED)
-check("v0.2.1 file forced onto v0.5.1 shapes",
+check("v0.2.1 fixture forced onto v0.5.1 shapes",
       run([V021_GOOD], "origin/v0.5.1-candidate"), v.REFUSED)
 
 # A mixed-vocabulary merged graph is refused rather than validated against

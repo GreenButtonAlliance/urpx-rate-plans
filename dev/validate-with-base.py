@@ -306,13 +306,24 @@ def collect_modes(*, rdfs: bool = False) -> dict:
 
     Per-file is deliberately excluded: it produces 248 violations over only 162
     distinct keys, so its keys are not comparable with the merged schema.
+
+    MID-MIGRATION: while the waves are running the corpus carries two
+    vocabularies, so the whole-corpus merged mode legitimately cannot run. That
+    mode is recorded as unavailable and the per-utility modes still collect,
+    because those ARE homogeneous (a wave migrates a whole utility at once).
+    Refusal for any OTHER reason still aborts: only mixedness is tolerated, and
+    only for the one mode that spans utilities.
     """
     modes: dict[str, dict] = {}
-    status, keys = validate_files(corpus_files(), "corpus (merged)",
-                                  rdfs=rdfs, verbose=False)
-    if status == REFUSED:
-        return {}
-    modes["corpus"] = {"count": len(keys), "keys": [list(k) for k in keys]}
+    _, mixed_err = dispatch_rev(corpus_files())
+    if mixed_err and mixed_err.startswith("mixed"):
+        modes["corpus"] = {"unavailable": "mixed vocabularies during migration"}
+    else:
+        status, keys = validate_files(corpus_files(), "corpus (merged)",
+                                      rdfs=rdfs, verbose=False)
+        if status == REFUSED:
+            return {}
+        modes["corpus"] = {"count": len(keys), "keys": [list(k) for k in keys]}
     for u in utilities():
         st, ks = validate_files(corpus_files(u), f"{u} (merged)",
                                 rdfs=rdfs, verbose=False)
@@ -322,8 +333,14 @@ def collect_modes(*, rdfs: bool = False) -> dict:
     return modes
 
 
-def baseline_path(rev: str) -> Path:
-    return BASELINE_DIR / f"urpx-{rev.replace('/', '-')}.json"
+def baseline_path(rev: str | None = None) -> Path:
+    """One file, not one per revision.
+
+    Dispatch makes the shape revision a per-FILE property, so during the waves a
+    single baseline legitimately spans two vocabularies. Naming it after one of
+    them would be a lie.
+    """
+    return BASELINE_DIR / "corpus.json"
 
 
 def write_baseline(*, rdfs: bool = False) -> int:
@@ -335,7 +352,12 @@ def write_baseline(*, rdfs: bool = False) -> int:
     idx = subject_index()
     triage: dict[str, int] = {}
     unexplained: list[list[str]] = []
-    for k in modes["corpus"]["keys"]:
+    if "keys" in modes["corpus"]:
+        triage_keys = modes["corpus"]["keys"]
+    else:
+        seen = {tuple(k) for m, d in modes.items() if m != "corpus" for k in d["keys"]}
+        triage_keys = [list(k) for k in sorted(seen)]
+    for k in triage_keys:
         n = len(declaring_files(k[0], idx))
         if n > 1:
             triage["cross-filing-iri-reuse"] = triage.get("cross-filing-iri-reuse", 0) + 1
@@ -345,7 +367,7 @@ def write_baseline(*, rdfs: bool = False) -> int:
 
     BASELINE_DIR.mkdir(parents=True, exist_ok=True)
     out = {
-        "urpx_rev": URPX_REV,
+        "note_rev": "Shape revision is per-file, dispatched from each file's @context urpx binding.",
         "note": ("Accepted violations at this URPX revision. Compared as SETS, not "
                  "counts: a count is invariant under one violation being traded for "
                  "another, which is what a migration produces. Per-file mode is "
@@ -354,11 +376,12 @@ def write_baseline(*, rdfs: bool = False) -> int:
         "unexplained_single_file_keys": unexplained,
         "modes": modes,
     }
-    path = baseline_path(URPX_REV)
+    path = baseline_path()
     path.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"wrote {path.relative_to(REPO_ROOT)}")
     for m, d in sorted(modes.items()):
-        print(f"  {m:8s} {d['count']:4d}")
+        print(f"  {m:8s} {d['count']:4d}" if "count" in d
+              else f"  {m:8s}    - ({d['unavailable']})")
     print(f"  triage: {triage}")
     if unexplained:
         print(f"  WARNING: {len(unexplained)} key(s) whose focus node is asserted in "
@@ -368,7 +391,7 @@ def write_baseline(*, rdfs: bool = False) -> int:
 
 
 def check_baseline(*, rdfs: bool = False, only: str | None = None) -> int:
-    path = baseline_path(URPX_REV)
+    path = baseline_path()
     if not path.exists():
         print(f"REFUSED  no baseline at {path.relative_to(REPO_ROOT)}; "
               f"run --write-baseline first.", file=sys.stderr)
@@ -394,6 +417,9 @@ def check_baseline(*, rdfs: bool = False, only: str | None = None) -> int:
 
     new_keys, gone_keys = 0, 0
     for mode in sorted(set(recorded) | set(current)):
+        if "unavailable" in recorded.get(mode, {}) or "unavailable" in current.get(mode, {}):
+            print(f"SKIP {mode:8s} unavailable (mixed vocabularies during migration)")
+            continue
         was = {tuple(k) for k in recorded.get(mode, {}).get("keys", [])}
         now = {tuple(k) for k in current.get(mode, {}).get("keys", [])}
         added, removed = now - was, was - now
