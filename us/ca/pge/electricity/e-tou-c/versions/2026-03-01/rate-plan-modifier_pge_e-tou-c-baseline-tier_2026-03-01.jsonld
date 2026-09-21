@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "pge": "https://rate-plans.grid-coordination.energy/pge/",
@@ -41,9 +41,9 @@
       "@type": "xsd:anyURI"
     }
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "pge:doc-e-tou-c-baseline-tier-2026-03-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlanModifier": {
     "@type": "urpx:RatePlanModifier",
     "@id": "pge:e-tou-c-baseline-tier",
@@ -67,14 +67,6 @@
       },
       "urpx:serviceRole": {
         "@id": "urpx:bundledServiceRole"
-      },
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-pge",
-        "urpx:legalName": "Pacific Gas & Electric Company",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
       },
       "urpx:applicableToRatePlan": [
         {
@@ -3300,6 +3292,25 @@
             "urpx:serviceTierNumber": 3
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-pge",
+        "urpx:legalName": "Pacific Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "pge:e-tou-c-baseline-tier"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "pge:cc-e-tou-c-baseline-tier-2026-03-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }

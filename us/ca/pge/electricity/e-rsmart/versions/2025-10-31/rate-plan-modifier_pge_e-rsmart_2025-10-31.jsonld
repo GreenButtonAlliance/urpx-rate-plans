@@ -1,25 +1,50 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "pge": "https://rate-plans.grid-coordination.energy/pge/",
-    "urpx:unitPrice": { "@type": "xsd:decimal" },
-    "urpx:effectiveDate": { "@type": "xsd:date" },
-    "urpx:effectiveDateTime": { "@type": "xsd:dateTime" },
-    "urpx:initialEffectiveDate": { "@type": "xsd:date" },
-    "urpx:startDate": { "@type": "xsd:date" },
-    "urpx:url": { "@type": "xsd:anyURI" },
-    "urpx:month": { "@type": "xsd:gMonth" },
-    "urpx:pageStart": { "@type": "xsd:integer" },
-    "urpx:pageEnd": { "@type": "xsd:integer" },
-    "urpx:accessURL": { "@type": "xsd:anyURI" },
-    "urpx:dateRetrieved": { "@type": "xsd:date" },
-    "urpx:targetURPXVersion": { "@type": "xsd:anyURI" }
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "pge:doc-e-rsmart-2025-10-31",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlanModifier": {
     "@type": "urpx:RatePlanModifier",
     "@id": "pge:e-rsmart",
@@ -32,40 +57,50 @@
       "@id": "pge:e-rsmart-2025-10-31",
       "urpx:version": "2025-10-31",
       "urpx:modifierVersionNumber": "2025-10-31",
-      "urpx:changeReason": { "@id": "urpx:rateCase" },
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
       "urpx:description": "Residential SmartRate Program (customer-facing 'SmartRate'), a voluntary Critical Peak Pricing overlay for PG&E Bundled-Service single-family residential customers. Pays a small per-kWh credit on non-event-window kWh in exchange for accepting a +$0.60/kWh adder on the 4-9pm window during 9-15 SmartDay event days per calendar year. PG&E's residential analog of SCE TOU-D-PRIME-CPP. SmartDays are called day-ahead by 4pm based on a temperature-forecast trigger (98°F weekdays / 105°F holidays-weekends, averaged across San Jose / Concord / Red Bluff / Sacramento / Fresno) or CAISO Flex Alerts. Available on FIVE base RatePlans (Sheet 1 APPLICABILITY): E-1, E-ELEC, E-TOU-C, E-TOU-D, EV2 — first multi-base modifier in this corpus. NBT-compatible (NBT + SmartRate stack for solar+battery+EMS customers). Modeling follows PRIME-CPP pattern: 3 PriceDefinitions on 3 Ledgers — SmartDay High-Price Period Charge ($+0.60000/kWh; hasDynamicPricing + criticalPeakPricing + PriceUpdateRule), SmartRate Non-High-Price Period Credit ($-0.00636/kWh per-event rate; N_SmartDays bill-period multiplier consumer-side), SmartRate Participation Credit ($-0.00167/kWh per-event rate; same N_SmartDays multiplier semantic). Eligibility: single CustomOperandNode predicate 'SmartRate Election' = 'true' — mirrors PRIME-CPP's single-predicate 'CPP Election' eligibility. The 4-9pm window is descriptive prose in the PriceUpdateRule, not a structurally-encoded TOUPeriod — same approach PRIME-CPP relies on. Bill Protection (first full Summer Season vs OAS), grandfathered SmartAC dual-enrollment exception, and customer-onboarding mechanics are deferred — year-long-window / process concerns that don't fit per-bill modifier shape.",
       "urpx:effectiveDateTime": "2025-10-31T00:00:00",
       "urpx:priceCurrency": "USD",
-      "urpx:commodity": { "@id": "urpx:electricity" },
-      "urpx:serviceRole": { "@id": "urpx:bundledServiceRole" },
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-pge",
-        "urpx:legalName": "Pacific Gas & Electric Company",
-        "urpx:eiaId": "14328",
-        "urpx:organizationType": { "@id": "urpx:utilityOrganization" }
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
       },
       "urpx:applicableToRatePlan": [
-        { "@id": "pge:e-1" },
-        { "@id": "pge:e-elec" },
-        { "@id": "pge:e-tou-c" },
-        { "@id": "pge:e-tou-d" },
-        { "@id": "pge:ev2" }
+        {
+          "@id": "pge:e-1"
+        },
+        {
+          "@id": "pge:e-elec"
+        },
+        {
+          "@id": "pge:e-tou-c"
+        },
+        {
+          "@id": "pge:e-tou-d"
+        },
+        {
+          "@id": "pge:ev2"
+        }
       ],
       "urpx:hasDataSourceReference": {
         "@type": "urpx:DataSourceReference",
         "urpx:fileName": "ELEC_SCHEDS_E-RSMART.pdf",
-        "urpx:mediaType": { "@id": "urpx:applicationPdf" },
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
         "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-RSMART.pdf",
         "urpx:dateRetrieved": "2026-05-29",
-        "urpx:dataSourceType": { "@id": "urpx:utilityWebsiteSource" },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 5,
-          "urpx:leafStart": "60485-E",
-          "urpx:leafEnd": "52877-E"
-        }
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 5,
+        "urpx:leafStart": "60485-E",
+        "urpx:leafEnd": "52877-E"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -78,7 +113,9 @@
             "urpx:rootNode": {
               "@type": "urpx:ComparisonNode",
               "@id": "pge:e-rsmart-2025-10-31-cn-elected",
-              "urpx:operator": { "@id": "urpx:equalsOperator" },
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
               "urpx:leftOperand": {
                 "@type": "urpx:CustomOperandNode",
                 "urpx:customConditionProperty": "SmartRate Election"
@@ -98,12 +135,18 @@
             "@type": "urpx:MetricInput",
             "@id": "pge:e-rsmart-mi-energy",
             "urpx:name": "kWh Energy Consumption (import)",
-            "urpx:metricInputType": { "@id": "urpx:measuredMetricInput" },
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
             "urpx:hasMetricSpecification": {
               "@type": "urpx:MetricSpecification",
               "@id": "pge:e-rsmart-ms-energy",
-              "urpx:measurementKind": { "@id": "urpx:energy" },
-              "urpx:unitOfMeasure": { "@id": "urpx:kWh" }
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
             }
           }
         ],
@@ -114,22 +157,34 @@
               "@type": "urpx:Ledger",
               "@id": "pge:e-rsmart-ledger-smartday-charge",
               "urpx:name": "SmartDay High-Price Period Charge",
-              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-              "urpx:referencesMetricInput": { "@id": "pge:e-rsmart-mi-energy" }
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-rsmart-mi-energy"
+              }
             },
             {
               "@type": "urpx:Ledger",
               "@id": "pge:e-rsmart-ledger-non-high-price-credit",
               "urpx:name": "SmartRate Non-High-Price Period Credit",
-              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-              "urpx:referencesMetricInput": { "@id": "pge:e-rsmart-mi-energy" }
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-rsmart-mi-energy"
+              }
             },
             {
               "@type": "urpx:Ledger",
               "@id": "pge:e-rsmart-ledger-participation-credit",
               "urpx:name": "SmartRate Participation Credit",
-              "urpx:ledgerType": { "@id": "urpx:bundledLedger" },
-              "urpx:referencesMetricInput": { "@id": "pge:e-rsmart-mi-energy" }
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-rsmart-mi-energy"
+              }
             }
           ],
           "urpx:hasPriceDefinition": [
@@ -137,28 +192,52 @@
               "@type": "urpx:PriceDefinition",
               "@id": "pge:e-rsmart-pd-smartday-charge",
               "urpx:name": "SmartDay High-Price Period Charge — applies during 4:00-9:00 PM PT on SmartDay event days",
-              "urpx:chargeType": { "@id": "urpx:adjustmentPowerCost" },
-              "urpx:chargeCategory": { "@id": "urpx:adjustment" },
-              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
-              "urpx:referencesLedger": { "@id": "pge:e-rsmart-ledger-smartday-charge" }
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-rsmart-ledger-smartday-charge"
+              }
             },
             {
               "@type": "urpx:PriceDefinition",
               "@id": "pge:e-rsmart-pd-non-high-price-credit",
               "urpx:name": "SmartRate Non-High-Price Period Credit — per-event rate; multiplied by N_SmartDays in bill period at billing time",
-              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
-              "urpx:chargeCategory": { "@id": "urpx:discount" },
-              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
-              "urpx:referencesLedger": { "@id": "pge:e-rsmart-ledger-non-high-price-credit" }
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-rsmart-ledger-non-high-price-credit"
+              }
             },
             {
               "@type": "urpx:PriceDefinition",
               "@id": "pge:e-rsmart-pd-participation-credit",
               "urpx:name": "SmartRate Participation Credit — per-event rate; multiplied by N_SmartDays in bill period at billing time",
-              "urpx:chargeType": { "@id": "urpx:creditEnergy" },
-              "urpx:chargeCategory": { "@id": "urpx:discount" },
-              "urpx:billPortion": { "@id": "urpx:bundledPortion" },
-              "urpx:referencesLedger": { "@id": "pge:e-rsmart-ledger-participation-credit" }
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-rsmart-ledger-participation-credit"
+              }
             }
           ]
         }
@@ -169,16 +248,24 @@
           {
             "@type": "urpx:Price",
             "@id": "pge:e-rsmart-price-smartday-charge-2025-10-31",
-            "urpx:referencesPriceDefinition": { "@id": "pge:e-rsmart-pd-smartday-charge" },
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-rsmart-pd-smartday-charge"
+            },
             "urpx:startDate": "2025-10-31",
             "urpx:name": "SmartDay High-Price Period Charge",
             "urpx:unitPrice": "0.60000",
             "urpx:hasDynamicPricing": {
               "@type": "urpx:DynamicPricing",
               "@id": "pge:e-rsmart-2025-10-31-dp-smartday-charge",
-              "urpx:dynamicPricingType": { "@id": "urpx:criticalPeakPricing" },
-              "urpx:priceSource": { "@id": "urpx:wholesaleMarketSource" },
-              "urpx:updateFrequency": { "@id": "urpx:eventTriggeredUpdates" },
+              "urpx:dynamicPricingType": {
+                "@id": "urpx:criticalPeakPricing"
+              },
+              "urpx:priceSource": {
+                "@id": "urpx:wholesaleMarketSource"
+              },
+              "urpx:updateFrequency": {
+                "@id": "urpx:eventTriggeredUpdates"
+              },
               "urpx:hasPriceUpdateRule": {
                 "@type": "urpx:PriceUpdateRule",
                 "@id": "pge:e-rsmart-2025-10-31-pur-smartday-trigger",
@@ -190,7 +277,9 @@
           {
             "@type": "urpx:Price",
             "@id": "pge:e-rsmart-price-non-high-price-credit-2025-10-31",
-            "urpx:referencesPriceDefinition": { "@id": "pge:e-rsmart-pd-non-high-price-credit" },
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-rsmart-pd-non-high-price-credit"
+            },
             "urpx:startDate": "2025-10-31",
             "urpx:name": "SmartRate Non-High-Price Period Credit — per-event rate",
             "urpx:unitPrice": "-0.00636",
@@ -204,7 +293,9 @@
                 "urpx:rootNode": {
                   "@type": "urpx:ComparisonNode",
                   "@id": "pge:e-rsmart-2025-10-31-cn-non-high-price-credit",
-                  "urpx:operator": { "@id": "urpx:equalsOperator" },
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "urpx:customConditionProperty": "SmartRate Credit Applicable"
@@ -220,7 +311,9 @@
           {
             "@type": "urpx:Price",
             "@id": "pge:e-rsmart-price-participation-credit-2025-10-31",
-            "urpx:referencesPriceDefinition": { "@id": "pge:e-rsmart-pd-participation-credit" },
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-rsmart-pd-participation-credit"
+            },
             "urpx:startDate": "2025-10-31",
             "urpx:name": "SmartRate Participation Credit — per-event rate",
             "urpx:unitPrice": "-0.00167",
@@ -234,7 +327,9 @@
                 "urpx:rootNode": {
                   "@type": "urpx:ComparisonNode",
                   "@id": "pge:e-rsmart-2025-10-31-cn-participation-credit",
-                  "urpx:operator": { "@id": "urpx:equalsOperator" },
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "urpx:customConditionProperty": "SmartRate Credit Applicable"
@@ -248,6 +343,42 @@
             }
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-pge",
+        "urpx:legalName": "Pacific Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-pge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-pge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Pacific Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-pge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "14328"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "pge:e-rsmart"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "pge:cc-e-rsmart-2025-10-31",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }
