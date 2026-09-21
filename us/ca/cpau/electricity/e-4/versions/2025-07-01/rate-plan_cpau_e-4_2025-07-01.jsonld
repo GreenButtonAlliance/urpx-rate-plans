@@ -46,7 +46,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "cpau:doc-e-4-2025-07-01",
@@ -768,7 +771,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-4-2025-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Three sections of the published Schedule E-4 are not represented in this filing. Section D.5 Primary Voltage Discount, a 2.5 percent discount for customers taking service at the supply line voltage above 2 kV. Section D.6 Standby Charge, per-kW summer and winter charges for customers with non-utility on-site generation, with net-energy-metering exemptions. Section D.3 Thermal Energy Storage carve-out, under which billing demand for TES customers is computed from the noon to 6 PM weekday window rather than all hours; this filing models the default all-hours calculation. Two further D.3 provisions are out of scope rather than missing: the demand-meter installation rule is a metering operation and not a rate, and the 5-minute interval option is at the City's discretion, so the default 15-minute interval is what is modeled.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

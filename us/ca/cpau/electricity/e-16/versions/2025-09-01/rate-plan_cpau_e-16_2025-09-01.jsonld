@@ -37,7 +37,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "cpau:doc-e-16-2025-09-01",
@@ -224,7 +227,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-16-2025-09-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Three parts of the published Schedule E-16 are carried as prose rather than structurally. Section C.2 publishes the energy charge as \"using Electric Rate Schedule E-2 plus all applicable riders\", a cross-schedule reference for which no structural URPX pattern was found; a consumer needing a complete E-16 bill must combine this filing with cpau:e-2 and whichever riders apply to the customer. The Section D estimation method for unmetered customers, where kWh is estimated from total wattage times annual operating hours, is performed per customer by the operator from a customer-supplied equipment inventory. The Section E miscellaneous fees for conduit usage, pole attachments and communication equipment mounting are annual rather than monthly and attach to physical infrastructure rather than to energy service.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }
