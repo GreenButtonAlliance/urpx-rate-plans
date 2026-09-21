@@ -19,162 +19,19 @@ Status glyphs:
   - present and complete: 47
   - present but incomplete: 97
   - missing: 40
-- Asymmetries between modifier-side and base-side declarations: **144**
+- Asymmetries between modifier-side and base-side declarations: **1**
 
 ## Asymmetries
 
 Cross-checks the two declarations of base ↔ modifier pairing: `urpx:applicableToRatePlan` on each `RatePlanModifierVersion` (modifier side) and `[modeling].applicable_modifiers` in each base's `tariff.toml` (base side). These should agree.
 
-### Base lists modifier, but modifier doesn't claim base
+### Modifier claims base, but base doesn't list modifier
 
-Base's `[modeling].applicable_modifiers` lists this slug, the slug resolves to an existing modifier in the corpus, but the modifier's `applicableToRatePlan` doesn't include this base's IRI. Likely fix: extend the modifier's `applicableToRatePlan` array — or remove the slug from the base if the pairing was speculative.
+Modifier's `applicableToRatePlan` declares it applies to this base, but the base's `[modeling].applicable_modifiers` doesn't include the modifier's slug. Likely fix: add the slug to the base's `applicable_modifiers` array.
 
-| Base | Slug claims | Modifier filing |
-|---|---|---|
-| `us/ca/cpau/electricity/e-1/versions/2025-07-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-1/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-1/versions/2025-07-01` | `e-nse-1` | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-1/versions/2025-09-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-1/versions/2025-09-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-1/versions/2025-09-01` | `e-nse-1` | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-1-tou/versions/2026-01-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-1-tou/versions/2026-01-01` | `e-nse-1` | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-14/versions/2025-07-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-14/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-16/versions/2025-09-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-16/versions/2025-09-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-2/versions/2025-07-01` | `e-2-g` | `us/ca/cpau/electricity/e-2-g/versions/2025-07-01/rate-plan-modifier_cpau_e-2-g_2025-07-01.jsonld` |
-| `us/ca/cpau/electricity/e-2/versions/2025-07-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-2/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-2/versions/2025-07-01` | `e-nse-1` | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-3/versions/2007-07-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-3/versions/2007-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-4/versions/2025-07-01` | `e-4-g` | `us/ca/cpau/electricity/e-4-g/versions/2025-07-01/rate-plan-modifier_cpau_e-4-g_2025-07-01.jsonld` |
-| `us/ca/cpau/electricity/e-4/versions/2025-07-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-4/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-4-tou/versions/2025-07-01` | `e-4-g` | `us/ca/cpau/electricity/e-4-g/versions/2025-07-01/rate-plan-modifier_cpau_e-4-g_2025-07-01.jsonld` |
-| `us/ca/cpau/electricity/e-4-tou/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-7/versions/2025-07-01` | `e-7-g` | `us/ca/cpau/electricity/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld` |
-| `us/ca/cpau/electricity/e-7/versions/2025-07-01` | `e-eec-1` | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld` |
-| `us/ca/cpau/electricity/e-7/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/cpau/electricity/e-7-tou/versions/2025-07-01` | `e-7-g` | `us/ca/cpau/electricity/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld` |
-| `us/ca/cpau/electricity/e-7-tou/versions/2025-07-01` | `e-hra` | `us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld` |
-| `us/ca/ladwp/electricity/r-1a/versions/2026-04-01` | `ez-save` | `us/ca/ladwp/electricity/ez-save/versions/2008-09-01/rate-plan-modifier_ladwp_ez-save_2008-09-01.jsonld` |
-| `us/ca/ladwp/electricity/r-1a/versions/2026-04-01` | `lifeline` | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01/rate-plan-modifier_ladwp_lifeline_2008-09-01.jsonld` |
-| `us/ca/ladwp/electricity/r-1a/versions/2026-04-01` | `nem` | `us/ca/ladwp/electricity/nem/versions/2008-09-01/rate-plan-modifier_ladwp_nem_2008-09-01.jsonld` |
-| `us/ca/ladwp/electricity/r-1b/versions/2026-04-01` | `ez-save` | `us/ca/ladwp/electricity/ez-save/versions/2008-09-01/rate-plan-modifier_ladwp_ez-save_2008-09-01.jsonld` |
-| `us/ca/ladwp/electricity/r-1b/versions/2026-04-01` | `lifeline` | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01/rate-plan-modifier_ladwp_lifeline_2008-09-01.jsonld` |
-| `us/ca/ladwp/electricity/r-1b/versions/2026-04-01` | `nem` | `us/ca/ladwp/electricity/nem/versions/2008-09-01/rate-plan-modifier_ladwp_nem_2008-09-01.jsonld` |
-| `us/ca/pge/electricity/e-1/versions/2026-03-01` | `e-1-vintage-pcia` | `us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld` |
-| `us/ca/pge/electricity/e-1/versions/2026-03-01` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/e-elec/versions/2026-01-01` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/e-elec/versions/2026-01-01` | `nbt` | `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` |
-| `us/ca/pge/electricity/e-elec/versions/2026-03-27` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/e-elec/versions/2026-03-27` | `nbt` | `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` | `e-tou-c-baseline-tier` | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` | `e-tou-c-vintage-pcia` | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27` | `e-tou-c-baseline-tier` | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27` | `e-tou-c-vintage-pcia` | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld` |
-| `us/ca/pge/electricity/e-tou-d/versions/2026-03-27` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/e-tou-d/versions/2026-03-27` | `e-tou-d-vintage-pcia` | `us/ca/pge/electricity/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld` |
-| `us/ca/pge/electricity/ev2/versions/2026-03-27` | `e-rsmart` | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld` |
-| `us/ca/pge/electricity/ev2/versions/2026-03-27` | `ev2-vintage-pcia` | `us/ca/pge/electricity/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld` |
-| `us/ca/sce/electricity/d/versions/2025-11-15` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/d/versions/2025-11-15` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/d/versions/2025-11-15` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/d/versions/2025-11-15` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/d/versions/2025-11-15` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/d/versions/2025-11-15` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/d/versions/2026-03-20` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/d/versions/2026-03-20` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/d/versions/2026-03-20` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/d/versions/2026-03-20` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/d/versions/2026-03-20` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/d/versions/2026-03-20` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2026-03-20` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2026-03-20` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2026-03-20` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2026-03-20` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2026-03-20` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-4-9pm/versions/2026-03-20` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2026-03-20` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2026-03-20` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2026-03-20` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2026-03-20` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2026-03-20` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-5-8pm/versions/2026-03-20` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `nbt` | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2025-11-15` | `tou-d-prime-cpp` | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/rate-plan-modifier_sce_tou-d-prime-cpp_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `care` | `us/ca/sce/electricity/care/versions/2025-11-15/rate-plan-modifier_sce_care_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `cca-crs` | `us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `da-crs` | `us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `deed-restricted` | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15/rate-plan-modifier_sce_deed-restricted_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `fera` | `us/ca/sce/electricity/fera/versions/2025-11-15/rate-plan-modifier_sce_fera_2025-11-15.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `medical-baseline` | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01/rate-plan-modifier_sce_medical-baseline_2025-10-01.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `nbt` | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` |
-| `us/ca/sce/electricity/tou-d-prime/versions/2026-03-20` | `tou-d-prime-cpp` | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/rate-plan-modifier_sce_tou-d-prime-cpp_2026-03-20.jsonld` |
-| `us/ca/sdge/electricity/dr/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/dr/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/dr/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/dr-ses/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/dr-ses/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/dr-ses/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-2/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-2/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-2/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-5/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-5/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-5/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/ev-tou-5/versions/2026-04-01` | `nbt` | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` |
-| `us/ca/sdge/electricity/tou-dr/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr1/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr1/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr1/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr2/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr2/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-dr2/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-elec/versions/2026-04-01` | `care` | `us/ca/sdge/electricity/care/versions/2025-10-01/rate-plan-modifier_sdge_care_2025-10-01.jsonld` |
-| `us/ca/sdge/electricity/tou-elec/versions/2026-04-01` | `drah` | `us/ca/sdge/electricity/drah/versions/2026-04-01/rate-plan-modifier_sdge_drah_2026-04-01.jsonld` |
-| `us/ca/sdge/electricity/tou-elec/versions/2026-04-01` | `fera` | `us/ca/sdge/electricity/fera/versions/2026-04-01/rate-plan-modifier_sdge_fera_2026-04-01.jsonld` |
-| `us/ca/smud/electricity/fixed/versions/2026-01-01` | `eapr` | `us/ca/smud/electricity/eapr/versions/2023-09-22/rate-plan-modifier_smud_eapr_2023-09-22.jsonld` |
-| `us/ca/smud/electricity/fixed/versions/2026-01-01` | `med` | `us/ca/smud/electricity/med/versions/2017-07-01/rate-plan-modifier_smud_med_2017-07-01.jsonld` |
-| `us/ca/smud/electricity/fixed/versions/2026-01-01` | `nem1` | `us/ca/smud/electricity/nem1/versions/2021-09-17/rate-plan-modifier_smud_nem1_2021-09-17.jsonld` |
-| `us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01` | `cpp` | `us/ca/smud/electricity/cpp/versions/2026-01-01/rate-plan-modifier_smud_cpp_2026-01-01.jsonld` |
-| `us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01` | `eapr` | `us/ca/smud/electricity/eapr/versions/2023-09-22/rate-plan-modifier_smud_eapr_2023-09-22.jsonld` |
-| `us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01` | `med` | `us/ca/smud/electricity/med/versions/2017-07-01/rate-plan-modifier_smud_med_2017-07-01.jsonld` |
-| `us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01` | `nem1` | `us/ca/smud/electricity/nem1/versions/2021-09-17/rate-plan-modifier_smud_nem1_2021-09-17.jsonld` |
-| `us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01` | `pev-credit` | `us/ca/smud/electricity/pev-credit/versions/2025-06-20/rate-plan-modifier_smud_pev-credit_2025-06-20.jsonld` |
-| `us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01` | `ssr` | `us/ca/smud/electricity/ssr/versions/2022-03-01/rate-plan-modifier_smud_ssr_2022-03-01.jsonld` |
-| `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` | `eapr` | `us/ca/smud/electricity/eapr/versions/2023-09-22/rate-plan-modifier_smud_eapr_2023-09-22.jsonld` |
-| `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` | `med` | `us/ca/smud/electricity/med/versions/2017-07-01/rate-plan-modifier_smud_med_2017-07-01.jsonld` |
-| `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` | `nem1` | `us/ca/smud/electricity/nem1/versions/2021-09-17/rate-plan-modifier_smud_nem1_2021-09-17.jsonld` |
-| `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` | `pev-credit` | `us/ca/smud/electricity/pev-credit/versions/2025-06-20/rate-plan-modifier_smud_pev-credit_2025-06-20.jsonld` |
-| `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` | `ssr` | `us/ca/smud/electricity/ssr/versions/2022-03-01/rate-plan-modifier_smud_ssr_2022-03-01.jsonld` |
+| Modifier | Missing from base |
+|---|---|
+| `smud:cpp` | `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` |
 
 ## Missing modifiers, ranked by frequency
 
@@ -197,7 +54,7 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 
 ### CPAU
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-1` @ 2025-07-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -205,7 +62,7 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 | `e-nse-1` | ✓ present-complete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-1` @ 2025-09-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -213,14 +70,14 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 | `e-nse-1` | ✓ present-complete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-1-tou` @ 2026-01-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 | `e-nse-1` | ✓ present-complete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-14` @ 2025-07-01  &nbsp; base: ~
 
 Base deferrals:
 - Interim-rate provision for lamps not on the schedule (prose-only in source)
@@ -230,7 +87,7 @@ Base deferrals:
 | `e-eec-1` | ✓ present-complete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-16` @ 2025-09-01  &nbsp; base: ~
 
 Base deferrals:
 - Section E miscellaneous rates (license fees: conduit usage, utility pole attachments, communication-equipment mounting; CPI-indexed annually per Section F)
@@ -240,7 +97,7 @@ Base deferrals:
 | `e-eec-1` | ✓ present-complete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-2` @ 2025-07-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -249,7 +106,7 @@ Base deferrals:
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 | `e-nse-1` | ✓ present-complete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-3` @ 2007-07-01  &nbsp; base: ~
 
 Base deferrals:
 - Section C interval-meter TOU buyback (range pricing — open URPX vocabulary question)
@@ -259,7 +116,7 @@ Base deferrals:
 | `e-eec-1` | ✓ present-complete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-4` @ 2025-07-01  &nbsp; base: ~
 
 Base deferrals:
 - Section D — not modeled in v1
@@ -270,7 +127,7 @@ Base deferrals:
 | `e-eec-1` | ✓ present-complete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-4-tou` @ 2025-07-01  &nbsp; base: ~
 
 Base deferrals:
 - Section D — not modeled in v1
@@ -280,7 +137,7 @@ Base deferrals:
 | `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2025-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-7` @ 2025-07-01  &nbsp; base: ~
 
 Base deferrals:
 - Section D — not modeled in v1
@@ -292,7 +149,7 @@ Base deferrals:
 | `e-eec-1` | ✓ present-complete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-7-tou` @ 2025-07-01  &nbsp; base: ~
 
 Base deferrals:
 - Section D — not modeled in v1
@@ -304,7 +161,7 @@ Base deferrals:
 
 ### LADWP
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `r-1a` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -312,7 +169,7 @@ Base deferrals:
 | `lifeline` | ~ present-incomplete | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01` |
 | `nem` | ~ present-incomplete | `us/ca/ladwp/electricity/nem/versions/2008-09-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `r-1b` @ 2026-04-01  &nbsp; base: ~
 
 Base deferrals:
 - $0.025/kWh EV-conditional rate — separate RatePlanModifier
@@ -326,7 +183,7 @@ Base deferrals:
 
 ### PGE
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-1` @ 2026-03-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -336,7 +193,7 @@ Base deferrals:
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-elec` @ 2026-01-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -346,7 +203,7 @@ Base deferrals:
 | `medical-baseline` | ✗ missing | — |
 | `nbt` | ~ present-incomplete | `us/ca/pge/electricity/nbt/versions/2025-10-17` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-elec` @ 2026-03-27  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -356,10 +213,10 @@ Base deferrals:
 | `medical-baseline` | ✗ missing | — |
 | `nbt` | ~ present-incomplete | `us/ca/pge/electricity/nbt/versions/2025-10-17` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `e-tou-c` @ 2026-03-01  &nbsp; base: ~
 
 Base deferrals:
-- Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in sibling baseline-tier modifier; tracked in the project issue tracker)
+- Code M / Code S medical baseline allowances per Rule 19 + Preliminary Statement Part A (in the sibling baseline-tier modifier)
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -370,7 +227,7 @@ Base deferrals:
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-tou-c` @ 2026-03-27  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -381,7 +238,7 @@ Base deferrals:
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `e-tou-d` @ 2026-03-27  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -391,7 +248,7 @@ Base deferrals:
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `ev2` @ 2026-03-27  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -403,44 +260,44 @@ Base deferrals:
 
 ### SCE
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `d` @ 2025-11-15  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `d` @ 2026-03-20  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-d-4-9pm` @ 2025-11-15  &nbsp; base: ~
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-d-4-9pm` @ 2026-03-20  &nbsp; base: ~
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
@@ -448,30 +305,30 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-d-5-8pm` @ 2025-11-15  &nbsp; base: ~
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-d-5-8pm` @ 2026-03-20  &nbsp; base: ~
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
@@ -479,15 +336,15 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-d-prime` @ 2025-11-15  &nbsp; base: ~
 
 Base deferrals:
 - 100% Medical Line Item Discount RatePlanModifier
@@ -495,17 +352,17 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 | `medical-line-item-discount` | ✗ missing | — |
 | `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-d-prime` @ 2026-03-20  &nbsp; base: ~
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
@@ -515,11 +372,11 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2025-11-15` |
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-03-20` |
 | `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-03-20` |
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
-| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2025-11-15` |
-| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2025-11-15` |
+| `deed-restricted` | ✓ present-complete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
 | `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 | `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
@@ -527,7 +384,7 @@ Base deferrals:
 
 ### SDGE
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `dr` @ 2026-04-01  &nbsp; base: ~
 
 Base deferrals:
 - PCIA modeling per Special Condition 11 (CCA-served customers)
@@ -538,7 +395,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `dr-ses` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -546,7 +403,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `ev-tou` @ 2026-04-01  &nbsp; base: ~
 
 Base deferrals:
 - PCIA recovery for CCA-served customers (Special Condition 9) — same deferral as other SDG&E filings
@@ -560,7 +417,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `ev-tou-2` @ 2026-04-01  &nbsp; base: ~
 
 Base deferrals:
 - PCIA recovery for CCA-served customers (Special Condition 10) — same deferral as other SDG&E filings
@@ -574,7 +431,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `ev-tou-5` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -583,7 +440,7 @@ Base deferrals:
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 | `nbt` | ~ present-incomplete | `us/ca/sdge/electricity/nbt/versions/2025-01-27` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-dr` @ 2026-04-01  &nbsp; base: ~
 
 Base deferrals:
 - PCIA recovery for CCA-served customers — not currently modeled (same deferral as sdge:tou-dr1)
@@ -595,7 +452,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tou-dr1` @ 2026-04-01  &nbsp; base: ~
 
 Base deferrals:
 - PCIA modeling per Special Condition 16 (CCA-served customers)
@@ -607,7 +464,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `tou-dr2` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -615,7 +472,7 @@ Base deferrals:
 | `drah` | ✓ present-complete | `us/ca/sdge/electricity/drah/versions/2026-04-01` |
 | `fera` | ~ present-incomplete | `us/ca/sdge/electricity/fera/versions/2026-04-01` |
 
-#### `electricity` @ versions  &nbsp; base: ✓
+#### `tou-elec` @ 2026-04-01  &nbsp; base: ✓
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -625,7 +482,7 @@ Base deferrals:
 
 ### SMUD
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `fixed` @ 2026-01-01  &nbsp; base: ~
 
 Base deferrals:
 - Plug-In EV Credit modifier
@@ -642,7 +499,7 @@ Base deferrals:
 | `standby` | ✗ missing | — |
 | `three-phase` | ✗ missing | — |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tod-5-8pm` @ 2026-01-01  &nbsp; base: ~
 
 Base deferrals:
 - Hydro Generation Adjustment (HGA)
@@ -663,7 +520,7 @@ Base deferrals:
 | `standby` | ✗ missing | — |
 | `three-phase` | ✗ missing | — |
 
-#### `electricity` @ versions  &nbsp; base: ~
+#### `tod-low-use` @ 2026-01-01  &nbsp; base: ~
 
 Base deferrals:
 - Hydro Generation Adjustment (HGA)

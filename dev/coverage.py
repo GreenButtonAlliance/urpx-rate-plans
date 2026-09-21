@@ -33,6 +33,9 @@ from dataclasses import dataclass, field
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ESTIMATES_PATH = REPO_ROOT / "dev" / "coverage-estimates.toml"
 REPORT_PATH = REPO_ROOT / "reports" / "coverage.md"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus  # noqa: E402
+
 CORPUS_ROOT = REPO_ROOT / "us"
 
 
@@ -65,13 +68,14 @@ def discover_modeled_tariffs() -> dict[tuple[str, str], ModeledTariff]:
     """Walk ca/.../versions/.../rate-plan_*.jsonld; return {(util, sched): info}."""
     found: dict[tuple[str, str], ModeledTariff] = {}
     for jsonld in CORPUS_ROOT.rglob("rate-plan*_*.jsonld"):
-        parts = jsonld.relative_to(CORPUS_ROOT).parts
-        # parts: (class, utility, schedule, "versions", date, filename)
-        if len(parts) < 6 or parts[3] != "versions":
+        # Anchored on the `versions` segment. These indices used to be counted
+        # from CORPUS_ROOT against the pre-`us/` layout, so the guard rejected
+        # every file in the corpus and this generator reported 0.0% coverage
+        # while exiting 0.
+        try:
+            util, sched, date = corpus.parse_filing_path(jsonld)
+        except ValueError:
             continue
-        util = parts[1]
-        sched = parts[2]
-        date = parts[4]
         is_modifier = jsonld.name.startswith("rate-plan-modifier_")
         key = (util, sched)
         if key not in found:
@@ -79,6 +83,12 @@ def discover_modeled_tariffs() -> dict[tuple[str, str], ModeledTariff]:
         found[key].versions.append(date)
     for tariff in found.values():
         tariff.versions.sort()
+    # A generator that matches nothing must refuse, not exit 0. This function
+    # returned {} for months after the us/ restructure moved the segments its
+    # indices counted on, and every signal downstream agreed: the report said
+    # 0.0% coverage, check_all.py reported success on exit status, and the
+    # pre-commit hook printed a tick because the empty output never changed.
+    corpus.require_nonempty(found, "modeled tariffs (coverage discovery)")
     return found
 
 

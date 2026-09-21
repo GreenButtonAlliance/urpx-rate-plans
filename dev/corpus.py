@@ -62,10 +62,33 @@ def utility_tomls() -> list[Path]:
     return _glob("*/*/utility.toml")
 
 
+def parse_filing_path(path: Path) -> tuple[str, str, str]:
+    """(utility, schedule, date) for any path inside a filing directory.
+
+    Anchored on the `versions` segment rather than counted from either end:
+        …/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<date>/…
+
+    Positional indices are how this broke. The restructure that added the `us/`
+    level left four callers reading `parts[2]`, `parts[3]`, `parts[5]` against
+    the old shape, so they silently read the carrier as the schedule and the
+    literal string "versions" as the date, and `coverage.py`'s guard rejected
+    every file in the corpus while its generator exited 0. The globs in this
+    module were made depth-independent after a restructure broke fourteen of
+    them; the indices never were.
+    """
+    parts = path.resolve().relative_to(REPO).parts
+    try:
+        i = parts.index("versions")
+    except ValueError:
+        raise ValueError(f"not inside a filing directory (no 'versions' segment): {path}")
+    if i < 3 or i + 1 >= len(parts):
+        raise ValueError(f"malformed filing path: {path}")
+    return parts[i - 3], parts[i - 1], parts[i + 1]
+
+
 def utility_of(path: Path) -> str:
-    """The utility slug for a corpus path: <country>/<subdivision>/<utility>/…"""
-    rel = path.resolve().relative_to(REPO)
-    return rel.parts[2]
+    """The utility slug for a corpus path."""
+    return parse_filing_path(path)[0]
 
 
 def require_nonempty(items, what: str) -> None:

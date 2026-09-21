@@ -58,9 +58,11 @@ DEFERRALS: dict[tuple[str, str, str], list[str]] = {
     ("sce",   "care",            "2025-11-15"): [
         "CARE-customer exemption from a non-CARE-funded surcharge — not modeled until base rate plans track this surcharge as a non-CARE-only line item",
     ],
-    ("sce",   "fera",            "2025-11-15"): [
-        "20% bill discount on the pre-tax subtotal — URPX has no percentage-of-bill primitive (same upstream-vocabulary gap as the CARE modifier)",
-    ],
+    # The 18% bill discount used to sit here as a deferral claiming URPX had no
+    # percentage-of-bill primitive. It is modeled: urpx:multiplier -0.18 over a
+    # urpx:PriceSummary. A deferral entry means a part deliberately NOT modeled,
+    # so the right correction is removal, not rewording.
+    ("sce",   "fera",            "2025-11-15"): [],
     ("sce",   "deed-restricted", "2025-11-15"): [],
     # SDG&E
     ("sdge",  "dr",              "2026-04-01"): [
@@ -182,12 +184,15 @@ def find_filings() -> list[tuple[str, str, str, Path]]:
     """Return (utility, schedule, date, dir_path) for every tariff.toml directory."""
     out = []
     for tp in corpus.tariff_tomls():
-        # ca/<class>/<utility>/<schedule>/versions/<date>/tariff.toml
-        parts = tp.relative_to(REPO).parts
-        utility = parts[2]
-        schedule = parts[3]
-        date = parts[5]
+        # Anchored on the `versions` segment; these indices were written
+        # against the pre-`us/` layout and read schedule="electricity" and
+        # date="versions" for every filing, so every lookup missed and the
+        # generator skipped the whole corpus while exiting 0.
+        utility, schedule, date = corpus.parse_filing_path(tp)
         out.append((utility, schedule, date, tp.parent))
+    # See coverage.py: a generator matching nothing must refuse rather than
+    # skip the corpus and exit 0, which is what this did for months.
+    corpus.require_nonempty(out, "filings (backfill discovery)")
     return out
 
 
@@ -233,7 +238,7 @@ def render_modeling_block(
     """Render a [modeling] TOML block. applicable_modifiers=None means omit (modifier filings)."""
     lines = ["# Modeling -------------------------------------------------------------------",
              "[modeling]",
-             f"complete  = {'true' if complete else 'false'}"]
+             f"complete = {'true' if complete else 'false'}"]
 
     if not deferrals:
         lines.append("deferrals = []")
@@ -241,7 +246,7 @@ def render_modeling_block(
         lines.append("deferrals = [")
         for d in deferrals:
             esc = d.replace("\\", "\\\\").replace('"', '\\"')
-            lines.append(f'  "{esc}",')
+            lines.append(f' "{esc}",')
         lines.append("]")
 
     if applicable_modifiers is not None:
@@ -250,7 +255,7 @@ def render_modeling_block(
         else:
             lines.append("applicable_modifiers = [")
             for m in applicable_modifiers:
-                lines.append(f'  "{m}",')
+                lines.append(f' "{m}",')
             lines.append("]")
 
     return "\n".join(lines) + "\n"

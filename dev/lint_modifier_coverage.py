@@ -100,8 +100,7 @@ def build_modifier_index() -> dict[tuple[str, str], dict]:
     for d in corpus.filing_dirs():
         if not is_modifier_dir(d):
             continue
-        utility = d.relative_to(REPO).parts[2]
-        slug = d.relative_to(REPO).parts[3]
+        utility, slug, _ = corpus.parse_filing_path(d)
         modeling = load_modeling(d / "tariff.toml") or {}
         idx[(utility, slug)] = {
             "dir": str(d.relative_to(REPO)),
@@ -117,7 +116,7 @@ def build_modifier_index() -> dict[tuple[str, str], dict]:
     inline_paths = corpus.modifier_files()
     inline_paths += corpus.rate_plan_files()
     for jp in inline_paths:
-        utility = jp.relative_to(REPO).parts[2]
+        utility = corpus.utility_of(jp)
         d = jp.parent
         modeling = load_modeling(d / "tariff.toml") or {}
         for slug in extract_modifier_iri_suffixes(jp):
@@ -239,10 +238,7 @@ def collect_bases() -> list[dict]:
     for d in corpus.filing_dirs():
         if not is_base_rate_plan_dir(d):
             continue
-        parts = d.relative_to(REPO).parts
-        utility = parts[2]
-        schedule = parts[3]
-        date = parts[5]
+        utility, schedule, date = corpus.parse_filing_path(d)
         modeling = load_modeling(d / "tariff.toml") or {}
         out.append({
             "utility": utility,
