@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "smud": "https://rate-plans.grid-coordination.energy/smud/",
@@ -57,11 +57,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "smud:doc-tod-low-use-2026-01-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlan": {
     "@type": "urpx:RatePlan",
     "@id": "smud:tod-low-use",
@@ -72,15 +73,6 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "smud:tod-low-use-2026-01-01",
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-smud",
-        "urpx:legalName": "Sacramento Municipal Utility District",
-        "urpx:eiaId": "16534",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
-      },
       "urpx:description": "SMUD Time-of-Day (Low Use) Rate (rate category RTL1) — an optional residential TOU rate available as of January 1, 2026 for customers with constrained electrical service and low usage. Eligibility (per Schedule R-TOD Sec I.B): customer must have panel size ≤ 125 amps AND must be a low-usage customer (typical threshold ≤ 270 kWh/month per the URPXT-b5j epic notes; specific usage cap not enumerated in the source PDF — eligibility is by SMUD review). Estimated ~12K SMUD residential customers (~2% of the residential base). Same TOU window structure as the default Time-of-Day (5-8 p.m.) Rate (RT02) — Peak 5-8 p.m. weekdays non-holiday, Mid-Peak surrounding-summer hours, Off-Peak overnight + weekends + holidays + non-summer. Different rate VALUES from RT02: lower System Infrastructure Fixed Charge ($17/month vs RT02's $27/month) but HIGHER per-kWh prices across all TOU periods (Peak Summer $0.4154 vs RT02's $0.3765, etc.). The fixed-vs-variable trade-off is designed to be advantageous for genuinely low-usage customers — break-even point is around 270 kWh/month, above which RT02 (or the Schedule R Fixed Rate) would be cheaper. Same source PDF (1-R-TOD.ashx) and same Board Resolution (25-06-15 adopted June 19 2025) as the RT02 and RTC1 sub-rates that share the R-TOD schedule umbrella. PCIA / Cost Responsibility Surcharges N/A — SMUD is a vertically-integrated municipal utility, not a CPUC IOU. Plug-In Electric Vehicle Credit (-$0.0150/kWh midnight to 6 a.m. for residential EV-owners) applies via the smud:pev-credit modifier (Sec II.D of source PDF — applies to RT02, RTL1, and RTC1).",
       "urpx:effectiveDateTime": "2026-01-01T00:00:00",
       "urpx:changeReason": {
@@ -108,13 +100,10 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 5,
-          "urpx:leafStart": "R-TOD-1",
-          "urpx:leafEnd": "R-TOD-5"
-        }
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 5,
+        "urpx:leafStart": "R-TOD-1",
+        "urpx:leafEnd": "R-TOD-5"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -608,6 +597,42 @@
             ]
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-smud-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-smud-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Sacramento Municipal Utility District"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-smud-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16534"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "smud:tod-low-use"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "smud:tod-low-use-2026-01-01-coverage",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }
