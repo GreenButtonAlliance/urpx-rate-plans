@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "sce": "https://rate-plans.grid-coordination.energy/sce/",
@@ -57,11 +57,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "sce:doc-tou-d-prime-2026-03-20",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlan": {
     "@type": "urpx:RatePlan",
     "@id": "sce:tou-d-prime",
@@ -72,15 +73,6 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sce:tou-d-prime-2026-03-20",
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-sce",
-        "urpx:legalName": "Southern California Edison Company",
-        "urpx:eiaId": "17609",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
-      },
       "urpx:description": "Voluntary residential time-of-use schedule for customers with qualifying load-modifying electric technologies: electric vehicles (EVs/PHEVs), behind-the-meter (BTM) energy storage, or electric heat pumps for water or space heating. Mandatory for new solar customers under the Net Billing Tariff (NBT) since 2023. Summer on-peak 4:00 p.m.-9:00 p.m. weekdays — same windows as TOU-D-4-9PM, but with no Baseline Credit and a different rate-component structure tuned for higher-usage customers. Customers with separately-metered EV load receive an EV Meter Credit of $(0.446)/meter/day; customers using a submeter for EV load receive an EV Submeter Credit of $(0.152)/meter/day. Replaces the prior Basic Charge + Minimum Charge structure with an income-graduated Base Services Charge (BSC) of $0.794/meter/day per Decision 24-05-028, with a Deed-Restricted discount of $(0.332)/meter/day. CARE/FERA discounts (32.5% / 18%) and the related BSC surcharge exemption + BSC discount adjustments are documented in Special Conditions and modeled separately as RatePlanModifiers at ca/iou/sce/care/ and ca/iou/sce/fera/; the Deed-Restricted discount referenced above is modeled at ca/iou/sce/deed-restricted/. The 100% Medical Line Item Discount is documented in Special Conditions but its RatePlanModifier is not yet modeled (deferred). Climate Credit ($-36.00/household, semi-annually) is applied per Special Conditions.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
       "urpx:changeReason": {
@@ -108,13 +100,10 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 6,
-          "urpx:pageEnd": 7,
-          "urpx:leafStart": "90941-E",
-          "urpx:leafEnd": "90942-E"
-        }
+        "urpx:pageStart": 6,
+        "urpx:pageEnd": 7,
+        "urpx:leafStart": "90941-E",
+        "urpx:leafEnd": "90942-E"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -1346,8 +1335,41 @@
           }
         ]
       },
-      "urpx:supersedes": {
-        "@id": "sce:tou-d-prime-2025-11-15"
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sce-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sce-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Southern California Edison Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sce-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "17609"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "sce:tou-d-prime"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sce:cc-tou-d-prime-2026-03-20",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "sce": "https://rate-plans.grid-coordination.energy/sce/",
@@ -36,11 +36,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "sce:doc-medical-baseline-2025-10-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlanModifier": {
     "@type": "urpx:RatePlanModifier",
     "@id": "sce:medical-baseline",
@@ -64,15 +65,6 @@
       },
       "urpx:serviceRole": {
         "@id": "urpx:bundledServiceRole"
-      },
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-sce",
-        "urpx:legalName": "Southern California Edison Company",
-        "urpx:eiaId": "17609",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
       },
       "urpx:applicableToRatePlan": [
         {
@@ -99,13 +91,10 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 1,
-          "urpx:leafStart": "90597-E",
-          "urpx:leafEnd": "90597-E"
-        }
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 1,
+        "urpx:leafStart": "90597-E",
+        "urpx:leafEnd": "90597-E"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -206,6 +195,42 @@
             "urpx:unitPrice": "-0.00591"
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sce-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sce-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Southern California Edison Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sce-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "17609"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "sce:medical-baseline"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sce:cc-medical-baseline-2025-10-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }
