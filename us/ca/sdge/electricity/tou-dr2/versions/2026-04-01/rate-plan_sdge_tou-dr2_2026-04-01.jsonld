@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "sdge": "https://rate-plans.grid-coordination.energy/sdge/",
@@ -66,11 +66,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "sdge:doc-tou-dr2-2026-04-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlan": {
     "@type": "urpx:RatePlan",
     "@id": "sdge:tou-dr2",
@@ -81,15 +82,6 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sdge:tou-dr2-2026-04-01",
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-sdge",
-        "urpx:legalName": "San Diego Gas & Electric Company",
-        "urpx:eiaId": "16609",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
-      },
       "urpx:description": "SDG&E's alternate residential time-of-use schedule. Two-period TOU (On-Peak 4pm-9pm all days; Off-Peak all other hours — no Super Off-Peak unlike TOU-DR1). Voluntary opt-in alternative to the TOU-DR1 default. Estimated ~10% of SDG&E residential = ~140K customers. Bill structure same as TOU-DR1 (UDC + DWR-BC + WF-NBC + EECC) with two structural differences: (1) 4 EECC values (2 periods x 2 seasons) vs 6, and (2) the TRAC sub-component of UDC IS TOU-varying for this schedule — Summer On-Peak TRAC $0.07211, Summer Off-Peak TRAC $0.06564, Winter $0.06762 both periods. Other 7 UDC sub-components (Trans/Distr/PPP/ND/CTC/LGC/RS) are flat across periods/seasons with values identical to TOU-DR1. Baseline Adjustment Credit $-0.10892/kWh applies to consumption up to 130% of CPUC baseline allocation (both seasons). Same Base Services Charge $0.79343/day for standard customers; CARE/FERA/DRAH variants modeled as RatePlanModifiers in grid-coordination/urpx-rate-plans#13 secondary epic.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
       "urpx:changeReason": {
@@ -117,13 +109,10 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 8,
-          "urpx:leafStart": "64388-E",
-          "urpx:leafEnd": "64672-E"
-        }
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 8,
+        "urpx:leafStart": "64388-E",
+        "urpx:leafEnd": "64672-E"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -877,6 +866,42 @@
             ]
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sdge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sdge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "San Diego Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sdge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16609"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "sdge:tou-dr2"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sdge:cc-tou-dr2-2026-04-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:complete"
+        },
+        "urpx:selfContained": true
       }
     }
   }

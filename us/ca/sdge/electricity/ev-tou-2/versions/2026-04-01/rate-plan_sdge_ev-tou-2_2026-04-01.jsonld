@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "sdge": "https://rate-plans.grid-coordination.energy/sdge/",
@@ -69,11 +69,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "sdge:doc-ev-tou-2-2026-04-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlan": {
     "@type": "urpx:RatePlan",
     "@id": "sdge:ev-tou-2",
@@ -84,15 +85,6 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sdge:ev-tou-2-2026-04-01",
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-sdge",
-        "urpx:legalName": "San Diego Gas & Electric Company",
-        "urpx:eiaId": "16609",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
-      },
       "urpx:description": "SDG&E's middle-vintage EV-charging-targeted residential TOU schedule (predecessor to EV-TOU-5; successor to EV-TOU). Per Sheet 1 applicability prose, EV-TOU-2 is 'specifically limited to customers who require service for charging of a currently registered Motor Vehicle... 1) a battery electric vehicle (BEV) or plug-in hybrid electric vehicle (PHEV) recharged via a recharging outlet at the customer's premises; or 2) a natural gas vehicle (NGV) refueled via a home refueling appliance (HRA) at the customer's premises.' Unlike EV-TOU, EV-TOU-2 does NOT require separate metering of EV charging — customer's whole-premise consumption is billed on this rate. Same TOU window structure as TOU-DR1/EV-TOU/EV-TOU-5 (on-peak 4-9pm every day; super-off-peak weekday split midnight-6am + 10am-2pm, weekend continuous midnight-2pm). Has the modern Base Services Charge structure (standard $0.79343/day, DRAH/FERA $0.39688, CARE $0.19713) — same as TOU-DR1 and EV-TOU-5. UDC Total has TOU signal: $0.31343/kWh on-peak/off-peak (Distribution component $0.19763); $0.17246/kWh super-off-peak (Distribution $0.05666). UDC sub-components: Transmission $0.10067 (flat — like EV-TOU; unlike EV-TOU-5 which has Transmission TOU-varying), Distribution $0.19763/$0.05666 (TOU-varying), PPP $0.01515, ND $0.00000, CTC -$0.00007, LGC $0.00000, RS $0.00005, TRAC $0.00000. EECC values match EV-TOU and EV-TOU-5 exactly: Summer On-Peak $0.47019, Off-Peak $0.17311, Super-Off-Peak $0.08147; Winter On-Peak $0.19990, Off-Peak $0.14337, Super-Off-Peak $0.07410. NO Baseline Adjustment Credit (consistent with EV-TOU and EV-TOU-5). Climate Credit $(49.36) per Schedule GHG-ARR semi-annually (mentioned in Sheet 1 prose; not modeled here as a per-period Price). 12-month minimum stay rule (Special Condition 5). PCIA recovery in bundled EECC rates (Special Condition 10). CCA-served customers pay UDC + DWR-BC + WF-NBC + their CCA's generation rate. Franchise Fee Differential of 5.78% applies to City of San Diego customers.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
       "urpx:minimumTenure": "P12M",
@@ -121,13 +113,10 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 5,
-          "urpx:leafStart": "64666-E",
-          "urpx:leafEnd": "37014-E"
-        }
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 5,
+        "urpx:leafStart": "64666-E",
+        "urpx:leafEnd": "37014-E"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -1226,6 +1215,42 @@
             ]
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sdge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sdge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "San Diego Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sdge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16609"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "sdge:ev-tou-2"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sdge:cc-ev-tou-2-2026-04-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }

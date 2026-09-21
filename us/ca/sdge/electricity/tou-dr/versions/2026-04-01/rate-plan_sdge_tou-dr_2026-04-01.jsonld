@@ -1,6 +1,6 @@
 {
   "@context": {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
     "sdge": "https://rate-plans.grid-coordination.energy/sdge/",
@@ -66,11 +66,12 @@
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
-    }
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": "urpx:URPXDocument",
+  "@type": "urpx:URPXPackage",
   "@id": "sdge:doc-tou-dr-2026-04-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
   "urpx:hasRatePlan": {
     "@type": "urpx:RatePlan",
     "@id": "sdge:tou-dr",
@@ -81,15 +82,6 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sdge:tou-dr-2026-04-01",
-      "urpx:publishedBy": {
-        "@type": "urpx:Organization",
-        "@id": "org:utility-sdge",
-        "urpx:legalName": "San Diego Gas & Electric Company",
-        "urpx:eiaId": "16609",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        }
-      },
       "urpx:description": "SDG&E's older 3-period residential time-of-use schedule (predecessor pattern to TOU-DR1; remains optionally available per Sheet 1 prose). Same TOU window structure as TOU-DR1 (on-peak 4 p.m.-9 p.m. every day; super-off-peak weekday split midnight-6 a.m. + 10 a.m.-2 p.m., weekend continuous midnight-2 p.m.) and identical UDC sub-component values (Transm 0.10067, Distr 0.15719, PPP 0.01515, ND 0.00000, CTC -0.00007, LGC 0.00000, RS 0.00005, TRAC 0.06762; UDC Total 0.34061/kWh) — what differs between TOU-DR and TOU-DR1 is the EECC (Electric Energy Commodity Cost) values. TOU-DR's EECC is uniformly LOWER than TOU-DR1's in summer on-peak (0.22895 vs 0.34920 — about 12¢/kWh lower) and HIGHER in super-off-peak (0.11457 vs 0.04121, ~7¢/kWh higher); the other periods are within 1¢/kWh of each other. Net effect: TOU-DR has a flatter EECC profile (smaller TOU-period spread) than TOU-DR1, making it more attractive for customers with less ability to shift load away from on-peak. Bill structure identical to TOU-DR1: UDC Total + DWR-BC + WF-NBC + EECC + Baseline Adjustment Credit (-0.10892/kWh up to 130% of CPUC baseline allocation). Base Services Charge $0.79343/day for standard customers; reduced BSCs apply for CARE ($0.19713) / FERA ($0.39688) / DRAH-deed-restricted ($0.39688) — modeled as RatePlanModifiers at ca/iou/sdge/{care,fera,drah}/. Source PDF carries TOU-DR-LI and TOU-DR-MB rate columns (CARE and Medical Baseline customer-specific Total Effective Rates) as illustrative reference, but the canonical CARE/MB modeling lives in the standalone modifier filings (CARE: ca/iou/sdge/care/; Medical Baseline blocked on urpx-org/urpx#32). CCA-served customers pay UDC + DWR-BC + WF-NBC + their CCA's generation rate plus PCIA per Special Condition. Franchise Fee Differential of 5.78% applies to customers within City of San Diego corporate limits (modeling deferred — affects bill total but not per-component rates).",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
       "urpx:changeReason": {
@@ -117,13 +109,10 @@
         "urpx:dataSourceType": {
           "@id": "urpx:utilityWebsiteSource"
         },
-        "urpx:hasTariffBookReference": {
-          "@type": "urpx:TariffBookReference",
-          "urpx:pageStart": 1,
-          "urpx:pageEnd": 7,
-          "urpx:leafStart": "64655-E",
-          "urpx:leafEnd": "64346-E"
-        }
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 7,
+        "urpx:leafStart": "64655-E",
+        "urpx:leafEnd": "64346-E"
       },
       "urpx:hasEligibilityRule": [
         {
@@ -1064,6 +1053,42 @@
             ]
           }
         ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:Organization",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sdge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sdge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "San Diego Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sdge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16609"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "sdge:tou-dr"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sdge:cc-tou-dr-2026-04-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true
       }
     }
   }
