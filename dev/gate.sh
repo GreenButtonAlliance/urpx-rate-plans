@@ -110,6 +110,15 @@ case "$MODE" in
         record $rc
     fi
 
+    note "Copy agreement"
+    if python3 dev/normalize_copies.py --check > /tmp/gate-copies.log 2>&1; then
+        tail -1 /tmp/gate-copies.log
+    else
+        rc=$?
+        cat /tmp/gate-copies.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -158,6 +167,15 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-blank.log
+        record $rc
+    fi
+
+    note "Copy agreement"
+    if python3 dev/normalize_copies.py --check > /tmp/gate-copies.log 2>&1; then
+        tail -1 /tmp/gate-copies.log
+    else
+        rc=$?
+        cat /tmp/gate-copies.log
         record $rc
     fi
 
