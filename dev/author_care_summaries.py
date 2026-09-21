@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Clark Communications Corporation
+# SPDX-License-Identifier: CDLA-Permissive-2.0
+"""Author the CARE and FERA discountable subtotals and their discount Prices.
+
+The headline percentage discount is the largest single thing this corpus did not
+model: SCE CARE at 32.5 percent, SDG&E CARE at 35 and SDG&E FERA at 18, together
+roughly 2.28M customers. Only the line-item exemptions were modeled, so a consumer
+computing a CARE customer's bill got the undiscounted one.
+
+THE SHAPE. A urpx:PriceSummary in the BASE PLAN filing, hung off the PriceSet
+holding most of its line items, whose urpx:includesPrice names the discountable
+ones. A urpx:Price in the MODIFIER filing carrying urpx:multiplier (the negative
+discount rate) and urpx:basedOnPrice naming EVERY candidate base summary. The
+summary belongs with the prices it sums; the discount belongs to the program.
+
+MULTIPLE basedOnPrice VALUES ARE DISJUNCTIVE: candidate bases, exactly one of
+which is present in the documents a caller passes. Composing the modifier with
+base X, the summaries of the other eight are simply absent and the one present is
+used. This is what lets ONE discount Price serve nine base plans without reusing
+an @id or minting a discount per plan. Zero resolvable candidates is still an
+error, so a typo stays loud.
+
+ONE SUMMARY PER PLAN, NOT PER TOU PERIOD. Summary members are gated to the instant
+being resolved by the same season, month and TOU predicates that gate a tier, so a
+summary naming every discountable line item is correct in every period: only the
+members in effect are summed.
+
+WHAT EACH TARIFF EXCLUDES, which is why the member lists differ:
+  SCE (D-CARE Sheet 1): the discount applies "prior to the application of the
+    PUCRF and any applicable user fees, taxes, and late payment charges", so only
+    PUCRF and the California Climate Credit fall outside. The Climate Credit is
+    excluded because it "is applied after the calculation of city and county
+    utility users' taxes", and the discount is applied before them.
+  SDG&E CARE (E-CARE Sheet 1): "less any applicable exemptions, minimum bill
+    amount and base services charge".
+  SDG&E FERA (Schedule FERA Sheet 1): "less any minimum bill amount or base
+    services charge". FERA grants no exemptions, so it pays the DWR Bond Charge
+    and the Wildfire Fund NBC and CARE does not. Same plan, different members.
+
+Usage:
+    python3 dev/author_care_summaries.py [--utility sdge] [--dry-run]
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from collections import Counter
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "dev"))
+import corpus  # noqa: E402
+
+# Excluded from both programs: the fixed charge each tariff carves out by name.
+# sdge:ev-tou prices a Minimum Bill where the other eight price a Base Services
+# Charge, and both tariffs name both.
+EXCLUDE_BOTH = re.compile(r"(base-services-charge|minimum-bill)")
+# Excluded from CARE only, as "any applicable exemptions": the charges a CARE
+# customer does not pay. FERA grants no exemptions, so these stay in its base.
+EXCLUDE_CARE_ONLY = re.compile(r"(dwr-bc|wf-nbc)")
+# Excluded from both on SCE: named by the tariff as applied after the discount.
+EXCLUDE_SCE = re.compile(r"(price-pucrf|price-climate-credit)")
+
+PROGRAMS = {
+    "care": {"sdge": "-0.35", "sce": "-0.325"},
+    "fera": {"sdge": "-0.18", "sce": "-0.18"},
+}
+
+
+def node_type(d):
+    t = d.get("@type")
+    if isinstance(t, str):
+        return t
+    if isinstance(t, list) and t:
+        return t[0]
+    return None
+
+
+def walk(node, fn, ctx=None):
+    if isinstance(node, dict):
+        fn(node, ctx)
+        t = node_type(node)
+        here = node.get("@id") if t in ("urpx:PriceSet", "urpx:PriceSetAlternative") else ctx
+        for k, v in node.items():
+            if k == "@context":
+                continue
+            walk(v, fn, here)
+    elif isinstance(node, list):
+        for v in node:
+            walk(v, fn, ctx)
+
+
+def plan_members(path: Path, utility: str):
+    """Return (care_members, fera_members, host_price_set_id)."""
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    prices: list[tuple[str, str | None]] = []
+    counts: Counter = Counter()
+
+    def visit(d, ps):
+        if node_type(d) == "urpx:Price" and d.get("@id"):
+            prices.append((d["@id"], ps))
+            counts[ps] += 1
+
+    walk(doc, visit)
+    if not prices:
+        raise SystemExit(f"REFUSED: {path.name} has no Price nodes")
+
+    def keep(pid, program):
+        if EXCLUDE_BOTH.search(pid):
+            return False
+        if utility == "sce" and EXCLUDE_SCE.search(pid):
+            return False
+        if program == "care" and utility == "sdge" and EXCLUDE_CARE_ONLY.search(pid):
+            return False
+        return True
+
+    care = [p for p, _ in prices if keep(p, "care")]
+    fera = [p for p, _ in prices if keep(p, "fera")]
+    host = counts.most_common(1)[0][0]
+    if host is None:
+        raise SystemExit(f"REFUSED: {path.name} has no PriceSet to host a summary")
+    return care, fera, host, doc
+
+
+def summary_id(plan_slug: str, date: str, program: str) -> str:
+    return f"{plan_slug}-{date}-summary-{program}-discountable"
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--utility", default="sdge")
+    ap.add_argument("--dry-run", action="store_true")
+    args = ap.parse_args()
+    u = args.utility
+
+    bases = sorted(
+        p for p in corpus.all_filing_jsonld()
+        if f"/{u}/" in str(p) and "/rate-plan_" in str(p)
+    )
+    # Only plans the modifiers actually apply to.
+    applicable: set[str] = set()
+    for mod in ("care", "fera"):
+        for m in corpus.all_filing_jsonld():
+            if f"/{u}/electricity/{mod}/" not in str(m):
+                continue
+            doc = json.loads(Path(m).read_text(encoding="utf-8"))
+
+            def visit(d, _ctx):
+                v = d.get("urpx:applicableToRatePlan")
+                for y in (v if isinstance(v, list) else [v]):
+                    if isinstance(y, dict) and y.get("@id"):
+                        applicable.add(y["@id"])
+
+            walk(doc, visit)
+
+    made: dict[str, list[str]] = {"care": [], "fera": []}
+    for b in bases:
+        path = Path(b)
+        slug = path.parts[len(path.parts) - 4]
+        if f"{u}:{slug}" not in applicable:
+            continue
+        date = path.parent.name
+        care, fera, host, doc = plan_members(path, u)
+
+        pfx = f"{u}:{slug}"
+        sums = []
+        for program, members in (("care", care), ("fera", fera)):
+            if len(members) < 2:
+                print(f"  SKIP {slug} {program}: only {len(members)} member(s); "
+                      f"includesPrice is sh:minCount 2, so reference the Price "
+                      f"directly instead of wrapping it", file=sys.stderr)
+                continue
+            sid = summary_id(pfx, date, program)
+            sums.append({
+                "@type": "urpx:PriceSummary",
+                "@id": sid,
+                "urpx:name": _name(u, slug, program, len(members)),
+                "urpx:includesPrice": [{"@id": m} for m in members],
+            })
+            made[program].append(sid)
+
+        placed = [0]
+
+        def place(d, _ctx):
+            if d.get("@id") == host:
+                d["urpx:hasPriceSummary"] = sums
+                placed[0] += 1
+
+        walk(doc, place)
+        if placed[0] != 1:
+            raise SystemExit(f"REFUSED: {path.name} host PriceSet {host} matched "
+                             f"{placed[0]} times")
+        if not args.dry_run:
+            with path.open("w", encoding="utf-8") as fh:
+                json.dump(doc, fh, indent=2, ensure_ascii=False)
+                fh.write("\n")
+        print(f"  {slug:10s} CARE {len(care):3d}  FERA {len(fera):3d}  -> {host.split(':')[-1]}")
+
+    print(f"\n{len(made['care'])} CARE and {len(made['fera'])} FERA summaries "
+          f"{'would be ' if args.dry_run else ''}written for {u}")
+    out = REPO / "dev" / f"care-summaries-{u}.json"
+    if not args.dry_run:
+        out.write_text(json.dumps(made, indent=2) + "\n", encoding="utf-8")
+        print(f"candidate lists written to {out.relative_to(REPO)}")
+    return 0
+
+
+def _name(u: str, slug: str, program: str, n: int) -> str:
+    p = program.upper()
+    if u == "sce":
+        return (f"{p}-discountable subtotal for {slug.upper()}. The {n} bill "
+                f"components the {p} percentage discount applies to. Schedule "
+                f"D-CARE Sheet 1 applies the discount before the PUCRF, user fees, "
+                f"taxes and late payment charges, so the PUCRF is excluded; the "
+                f"California Climate Credit is excluded because it is applied "
+                f"after those taxes and so falls outside the discounted subtotal.")
+    if program == "care":
+        return (f"CARE-discountable subtotal for {slug.upper()}. The {n} bill "
+                f"components the CARE percentage discount applies to, which "
+                f"Schedule E-CARE Sheet 1 defines as the bill less any applicable "
+                f"exemptions, minimum bill amount and base services charge. "
+                f"Excludes the fixed charge, and excludes the DWR Bond Charge and "
+                f"the California Wildfire Fund Non-Bypassable Charge because a "
+                f"CARE customer is exempt from both.")
+    return (f"FERA-discountable subtotal for {slug.upper()}. The {n} bill "
+            f"components the FERA percentage discount applies to, which Schedule "
+            f"FERA Sheet 1 defines as the bill less any minimum bill amount or "
+            f"base services charge. Excludes the fixed charge only. Unlike CARE, "
+            f"FERA grants no charge exemptions, so the DWR Bond Charge and the "
+            f"California Wildfire Fund Non-Bypassable Charge are inside this "
+            f"subtotal.")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -46,6 +46,9 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -193,6 +196,24 @@
             "urpx:profileMetricProperty": {
               "@id": "urpx:numberOfMeters"
             }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:fera-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sdge:fera-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
           }
         ],
         "urpx:hasBillingModel": {
@@ -208,6 +229,17 @@
               },
               "urpx:referencesMetricInput": {
                 "@id": "sdge:fera-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:fera-ledger-bill-discount",
+              "urpx:name": "FERA Percentage Bill Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:fera-mi-energy"
               }
             }
           ],
@@ -234,6 +266,23 @@
               "urpx:referencesLedger": {
                 "@id": "sdge:fera-ledger-bsc-adjustment"
               }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:fera-pd-bill-discount",
+              "urpx:name": "FERA 18 percent discount on the discountable bill subtotal",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:fera-ledger-bill-discount"
+              }
             }
           ]
         }
@@ -251,6 +300,45 @@
             "urpx:startDate": "2026-04-01",
             "urpx:name": "FERA BSC Adjustment Credit",
             "urpx:unitPrice": "-0.39655"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:fera-price-bill-discount-2026-04-01",
+            "urpx:name": "FERA 18 percent bill discount applied to the Schedule DR discountable subtotal, per Schedule FERA Sheet 1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:fera-pd-bill-discount"
+            },
+            "urpx:multiplier": "-0.18",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sdge:dr-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-04-01-summary-fera-discountable"
+              }
+            ],
+            "urpx:startDate": "2026-04-01"
           }
         ]
       },

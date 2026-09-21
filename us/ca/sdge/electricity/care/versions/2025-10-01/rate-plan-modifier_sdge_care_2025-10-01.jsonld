@@ -46,6 +46,9 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -260,6 +263,17 @@
               "urpx:referencesMetricInput": {
                 "@id": "sdge:care-mi-meter-count"
               }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:care-ledger-bill-discount",
+              "urpx:name": "CARE Percentage Bill Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:care-mi-energy"
+              }
             }
           ],
           "urpx:hasPriceDefinition": [
@@ -336,6 +350,23 @@
               "urpx:referencesLedger": {
                 "@id": "sdge:care-ledger-bsc-adjustment"
               }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:care-pd-bill-discount",
+              "urpx:name": "CARE 35 percent discount on the discountable bill subtotal",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:care-ledger-bill-discount"
+              }
             }
           ]
         }
@@ -383,6 +414,45 @@
             "urpx:startDate": "2025-10-01",
             "urpx:name": "CARE BSC Adjustment Credit",
             "urpx:unitPrice": "-0.59630"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:care-price-bill-discount-2025-10-01",
+            "urpx:name": "CARE 35 percent bill discount applied to the Schedule DR discountable subtotal, per Schedule E-CARE Sheet 1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:care-pd-bill-discount"
+            },
+            "urpx:multiplier": "-0.35",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sdge:dr-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-04-01-summary-care-discountable"
+              }
+            ],
+            "urpx:startDate": "2025-10-01"
           }
         ]
       },
