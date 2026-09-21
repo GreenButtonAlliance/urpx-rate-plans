@@ -77,9 +77,9 @@ filings. The split shifts $0.001/day from one line item to the
 other.
 
 Modeling deferrals (unchanged from 2025-11-15):
- - 18.0% bill-subtotal percentage discount — URPX has no
- percentage-of-bill primitive (same upstream-vocabulary gap as
- the CARE modifier).
+ - 18.0% bill-subtotal percentage discount. URPX v0.5.1 CAN express this, via a urpx:PriceSummary over the
+ discountable line items with a urpx:Price carrying urpx:multiplier
+ and urpx:basedOnPrice. Not yet modeled; the shape is settled.
 """
 
 # Validation ------------------------------------------------------------------
@@ -92,7 +92,7 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "20% bill discount on the pre-tax subtotal — URPX has no percentage-of-bill primitive (same upstream-vocabulary gap as the CARE modifier)",
+ "18.0% bill discount, per Special Condition 9 of the source rate sheet. URPX v0.5.1 can express this: a urpx:PriceSummary over the discountable line items with a urpx:Price carrying urpx:multiplier and urpx:basedOnPrice. Not yet modeled; the shape is settled and the work is scoped",
 ]
 
 # Review ----------------------------------------------------------------------

@@ -43,7 +43,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-care-2025-11-15",
@@ -386,7 +389,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-care-2025-11-15-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Special Condition 8 of Schedule TOU-D, the California Alternate Rates for Energy Discount, carries one benefit that dominates all the others and that this filing does not represent: a 32.5 percent discount taken off the customer's bill before the Public Utilities Commission Reimbursement Fee and any applicable user fees, taxes and late payment charges. What is modeled is the set of per-line-item exemptions the same Special Condition grants, namely the Wildfire Fund Non-Bypassable Charge of $0.00595 per kWh, the Fixed Recovery Charge of $0.00198 per kWh, the Base Services Charge Surcharge of $0.063 per meter per day, and a Base Services Charge Discount of $(0.153) per meter per day. Special Condition 8 also exempts CARE customers from the CARE Surcharge of $0.212 per meter per day; that surcharge is not itemized on any SCE residential rate sheet in this corpus, so there is no base line item for the exemption to cancel and it is absent here. Because the unmodeled percentage applies to the whole bill while the modeled credits are fixed per-kWh and per-meter-per-day line items, a typical CARE household's modeled credits fall well short of the actual benefit. Two further provisions of Special Condition 8 are out of scope rather than missing: the application and eligibility declaration, and the rebilling of periods in which the customer did not qualify, are enrollment and billing-administration procedures rather than rates.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

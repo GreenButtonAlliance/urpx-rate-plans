@@ -46,7 +46,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-nbt-2025-04-23",
@@ -83895,7 +83898,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-nbt-2025-04-23-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries the per-cell Export Compensation Rates and the structural surface of Schedule NBT, and leaves four priced provisions of the published schedule unrepresented. The Avoided Cost Calculator Plus table in Rates section 3.b lists six Energy Export Credit vintage rows; only the 2025 row is priced here, at $0.024 per kWh for a Residential Non-Equity customer and $0.056 per kWh for a Residential Equity customer, so the 2023 ($0.040 and $0.093), 2024 ($0.032 and $0.074), 2026 ($0.016 and $0.037), 2027 ($0.008 and $0.019) and 2028-and-later (zero) rows are absent. Rates section 4, Net Surplus Compensation, is not modeled: its rate is a rolling twelve-month average of SCE hourly default load aggregation point prices for Hour Ending 08 through Hour Ending 17, recomputed monthly and posted on SCE's website, and it settles against Net Surplus Energy measured over the customer's twelve-month Relevant Period rather than against any one bill. Special Condition 4.e, the Annual True-Up Process, is likewise absent, including the Energy Export Credit Adjustment computed at the then posted Average Retail Export Compensation Rate and the forfeiture of unapplied Energy Export Credits at the end of the Relevant Period. Coverage of the 2026 interconnection vintage is partial: January through May are priced, at 240 Delivery and 240 Generation cells against the 576 and 576 carried for each earlier vintage, because the published hourly export rate data for that vintage did not yet extend past May. The aggregation, paired-storage and multiple-tariff sub-schedules (NBT-A, NBT-PS and NBT-MT) and the NBT-A billing service charges in Rates section 6 (a $25.00 account set-up fee and $20.00 per month for manually billed accounts, $16.00 and $2.70 for automated ones) are out of scope for a residential single-account filing, as are Special Condition 8 on Natural Disaster replacement of a generating facility, Special Condition 9 on Prevailing Wage, and the interconnection and metering requirements in Special Conditions 2 and 3, none of which sets a price.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

@@ -37,7 +37,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-medical-baseline-2025-10-01",
@@ -235,7 +238,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-medical-baseline-2025-10-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Schedule MB-E is a single sheet with a one-sentence Rates section, and it states two effects: the Wildfire Fund Non-Bypassable Charge shall not apply, and the effective Minimum Charge will be $5.00. This filing models the first as a credit of $(0.00591) per kWh cancelling the current base charge, and does not model the second. The $5.00 Minimum Charge is a floor on the bill rather than a per-unit price, and none of the SCE residential base rate plans in this corpus carries a Minimum Charge for it to reduce, the Base Services Charge having replaced the older Basic Charge and Minimum Charge structure. The Applicability sentence, which extends the schedule to all customers receiving a medical baseline allocation, also points at a benefit this filing does not carry: the additional baseline allocation itself, whose kilowatt-hour quantities live in Preliminary Statement Part H rather than on this sheet, and which would have to be expressed as an addition to the base allocation of whichever schedule the customer is on. Note that the modeled credit tracks whatever value the Wildfire Fund charge currently carries; it is stated here at the level effective January 1, 2026, which is later than this schedule's own effective date.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

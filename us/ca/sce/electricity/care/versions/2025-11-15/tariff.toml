@@ -50,11 +50,12 @@ rate plan when the customer is enrolled in CARE:
 
 ## What this modifier does NOT capture (deferred)
 
- 1. 32.5% bill-subtotal percentage discount — URPX has no
- percentage-of-bill primitive (urpx:Price.unitPrice is
- xsd:decimal in $-per-unit). The 32.5% discount applies to the
- pre-PUCRF / pre-tax subtotal across all base PriceDefinitions,
- not to any single PriceDefinition. Tracked as upstream URPX
+ 1. 32.5% bill-subtotal percentage discount, applying to the
+ pre-PUCRF / pre-tax subtotal across all base PriceDefinitions
+ rather than to any single one. URPX v0.5.1 CAN express this, via a urpx:PriceSummary over the
+ discountable line items with a urpx:Price carrying urpx:multiplier
+ and urpx:basedOnPrice. Not yet modeled; the shape is settled.
+ Formerly tracked as upstream URPX
  vocabulary gap.
 
  2. CARE Surcharge $0.212/meter/day exemption — Special Condition 8

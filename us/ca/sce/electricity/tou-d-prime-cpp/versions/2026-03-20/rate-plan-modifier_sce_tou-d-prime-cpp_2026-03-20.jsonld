@@ -40,7 +40,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-tou-d-prime-cpp-2026-03-20",
@@ -388,7 +391,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-tou-d-prime-cpp-2026-03-20-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries the three prices Schedule TOU-D publishes for Option PRIME-CPP (a CPP Event Energy Charge of $0.80000 per kWh, a Summer non-event on-peak energy credit of $(0.15170) per kWh, and a Summer Season Maximum Available Credit of $(0.58794) per kWh) and leaves two provisions of Special Condition 4 unrepresented. Special Condition 4.e, Bill Protection, guarantees that a customer on a CPP option is billed no more than they would have been on the corresponding option without CPP for up to the first twelve months of service, delivered as a one-time credit for the positive sum of CPP event charges and summer non-event credits measured over that period. It is not modeled, because it settles across a year of bills rather than within one. Special Condition 4 also states that no CPP credit is provided for exported generation, that is, for energy the customer's generating facility produces and exports during a non-event credit period; this filing's non-event credit applies to the metered quantity without distinguishing import from export, so it will over-credit a customer with behind-the-meter solar. Two further parts of Special Condition 4 are out of scope rather than missing: the event-calling criteria and notification duties in 4.a and 4.c, and the minimum of 12 and maximum of 15 events per calendar year in 4.b, describe how SCE operates the program rather than what a customer is charged. The ineligibility of Direct Access and Community Choice Aggregation customers stated in 4.d is likewise an enrollment restriction rather than a price.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

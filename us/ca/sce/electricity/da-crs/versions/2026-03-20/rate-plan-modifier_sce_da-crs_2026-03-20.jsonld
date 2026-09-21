@@ -37,7 +37,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-da-crs-2026-03-20",
@@ -1059,7 +1062,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-da-crs-2026-03-20-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing prices Schedule DA-CRS for a default Direct Access customer only, and the Applicability and Exemption table on Sheet 3 sets out eight customer groups whose component-level exemptions it does not represent. DA customers on Medical Baseline are exempt from the Wildfire Fund Non-Bypassable Charge; DA customers on CARE are exempt from that charge and from the Fixed Recovery Charge; DA customers on FERA are exempt from the Fixed Recovery Charge; Continuous DA customers are exempt from the Wildfire Fund charge and the Power Charge Indifference Adjustment; Returning Continuous DA customers are exempt from the Wildfire Fund charge. Applying this filing to any of those customers charges components the tariff exempts. The PCIA Vintage Methodology in Special Condition 1.c is not represented either: the filing treats the vintage year as a supplied customer attribute, whereas the tariff fixes Continuous DA customers at the 2001 vintage and derives every other customer's vintage from SCE's acceptance date of the Six-Month Notice to Switch to DA Service, with a determination date before July 1 setting the prior year and one on or after July 1 setting the current year. Special Condition 2, covering Green Rate customers on Schedules GTSR-GR and GTSR-CR whose vintage follows their subscription start date, and Special Condition 3, under which vintage and exemption status survive a switch between DA and CCA service, are also absent. The thirteen non-residential rate groups in the Sheet 4 through Sheet 10 tables are out of scope rather than missing: only the Domestic row belongs in a residential corpus.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

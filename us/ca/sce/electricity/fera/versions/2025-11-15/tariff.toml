@@ -46,10 +46,10 @@ customers continue to pay both at the standard rates.
 
 ## What this modifier does NOT capture (deferred)
 
- 1. 18.0% bill-subtotal percentage discount — same URPX vocabulary
- gap as the CARE modifier. URPX has no percentage-of-bill primitive.
- The 18.0% applies to the pre-tax subtotal across all base
- PriceDefinitions.
+ 1. 18.0% bill-subtotal percentage discount, applying to the pre-tax
+ subtotal across all base PriceDefinitions. URPX v0.5.1 CAN express this, via a urpx:PriceSummary over the
+ discountable line items with a urpx:Price carrying urpx:multiplier
+ and urpx:basedOnPrice. Not yet modeled; the shape is settled.
 
 For a FERA customer on a typical SCE residential schedule, the modeled
 BSC credits represent a small fraction of the actual FERA benefit;
@@ -73,7 +73,7 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "20% bill discount on the pre-tax subtotal — URPX has no percentage-of-bill primitive (same upstream-vocabulary gap as the CARE modifier)",
+ "18.0% bill discount, per Special Condition 9 of the source rate sheet. URPX v0.5.1 can express this: a urpx:PriceSummary over the discountable line items with a urpx:Price carrying urpx:multiplier and urpx:basedOnPrice. Not yet modeled; the shape is settled and the work is scoped",
 ]
 
 # Review ----------------------------------------------------------------------

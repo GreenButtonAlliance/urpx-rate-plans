@@ -37,7 +37,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-cca-crs-2026-03-20",
@@ -1059,7 +1062,16 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-cca-crs-2026-03-20-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing prices Schedule CCA-CRS for a default CCA or Community Aggregator customer only, and the Applicability and Exemption table on Sheet 3 distinguishes eight customer groups whose component-level exemptions it does not represent. CCA customers on Medical Baseline are exempt from the Wildfire Fund Non-Bypassable Charge; CCA customers on CARE are exempt from both that charge and the Fixed Recovery Charge; CCA customers on FERA are exempt from the Fixed Recovery Charge; Continuous DA/CCA customers are exempt from the Wildfire Fund charge and the Power Charge Indifference Adjustment; Returning Continuous DA customers are exempt from the Wildfire Fund charge. A consumer applying this filing to any of those customers will charge components the tariff exempts. The PCIA Vintage Methodology in Special Condition 1.c is likewise not represented: the filing takes the vintage year as a supplied customer attribute, while the tariff derives it from the Binding Notice of Intent date or the date of initial CCA service, with a vintage determination date before July 1 setting the prior year and one on or after July 1 setting the current year. Special Condition 3, which assigns 2004 vintage to City of Cerritos Community Aggregator customers until that aggregator's annual load reaches 110,000 megawatt-hours, and Special Condition 4, under which a customer switching between DA and CCA service retains the original vintage and exemption status, are also absent. The thirteen non-residential rate groups in the Sheet 4 through Sheet 10 tables are out of scope rather than missing: only the Domestic row belongs in a residential corpus.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }
