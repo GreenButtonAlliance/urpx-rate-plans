@@ -21,6 +21,22 @@ This hybrid pattern was chosen over the alternatives because:
 | One resource mutated over time | ✓ | ✗ — same IRI yields different content over time | ✗ |
 | **Hybrid (RatePlan + RatePlanVersion)** | ✓ | ✓ | ✓ |
 
+## 1b. Service arrangements: what a customer actually takes service under
+
+A **service arrangement** is a fully-determined selection over the plan space: one `urpx:RatePlanVersion`, plus zero or more `urpx:RatePlanModifierVersion`s applicable to it, plus one `urpx:ProfileAlternative` per dimension either of them leaves open. *Determined* means nothing remains to choose: it resolves to prices for any instant in its window with no further input. It is the thing a customer takes service under, and it is the unit an OpenADR 3 price server publishes as a program for an EMS to subscribe to.
+
+**URPX v0.5.1 has no term for it.** Every `owl:ObjectProperty` whose range is one of the four plan classes was enumerated: there are fifteen and none has a composition domain. `urpx:hasModifierOptions` states availability, `urpx:applicableToRatePlan` states compatibility, and `urpx:AccountServiceAgreement` is a stub whose own `skos:note` pushes account data out of scope. So the term is ours, and the enumeration is derived rather than serialized: nothing in `us/` carries a service arrangement as a node.
+
+**A `urpx:RatePlanVersion` is not a service arrangement.** It is the base plan's snapshot. PG&E E-TOU-D has one `urpx:RatePlan`, one current version of it, and eighteen MIDAS rate identifiers, one per overlay combination. Reading a version as the composition loses that entire dimension.
+
+**Identity is intrinsic.** An arrangement is identified by its own components: the base version IRI, the sorted modifier version IRIs, and the sorted alternative selections. A MIDAS RIN is an *optional external attestation*, attached only where it is confidently derivable, and it is never the identity. RIN mapping is straightforward in some cases and may be intractable in others, and MIDAS itself is incomplete.
+
+**A superseded version is not a service arrangement**, because nobody takes service under it. Supersession is derived from the data: a plan identity (the `urpx:forRatePlan` or `urpx:forRatePlanModifier` target) holding more than one distinct version `@id`, with all but the latest `urpx:effectiveDateTime` superseded. It is *not* derived from directory names. A directory count is not a version count: CPAU E-1 is filed at `versions/2025-07-01/` and again at `versions/2025-09-01/`, and both carry the one version node `cpau:e-1-2025-07-01`, because the base rates did not change and only the modifiers operative at the snapshot did. See also the lineage note in §10: nothing in the JSON-LD links a version to the one it replaces, so this ordering is all there is.
+
+**A version node can occur in more than one filing, and the copies are not always identical.** A base filing bundles the modifiers operative at its snapshot date, scoped to that base. The authoritative occurrence is the one in the version's own filing, the file named `<stem>_<utility>_<slug>_<date>.jsonld`, and `dev/arrangements.py` refuses rather than choosing when a bundled copy claims a base the authority does not.
+
+The enumeration lives in `dev/arrangements.py`; `dev/test_arrangements.py` fires each of its guards against a deliberately broken input.
+
 ## 2. File packaging: one self-contained file per filing
 
 Each filing is serialized as a single JSON-LD file containing both:
@@ -361,3 +377,20 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 - **Non-residential schedules** follow the same layout under their own schedule directories (e.g. `us/ca/pge/electricity/a-1/`). The class-level split is by utility class, not by customer class.
 - **Lineage tracking** (this version supersedes that one) is currently NOT expressed in the JSON-LD. Version ordering is readable from the `versions/<date>/` directory name and from `urpx:effectiveDateTime`; nothing links one version to the one it replaced. URPX v0.5.1 permits `urpx:supersedes` on `urpx:PricingModel` and `urpx:TariffFiling` only, and `RatePlanVersionShape` and `RatePlanModifierVersionShape` are both `sh:closed`, so neither can carry it even as an extension. `urpx:supersedes` skos:note states the reasoning directly: "Version classes carry no lifecycle of their own: a version's place in the timeline derives from the filing chain." This corpus models no `TariffFiling`, so restoring the lineage it once recorded needs a decision about whether to.
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.
+
+## 11. Reports: what each one measures
+
+Everything under `reports/` is generated. `dev/check_all.py` runs every generator and then fails if a tracked file drifted, so a report that disagrees with the corpus is a build failure rather than a stale file.
+
+The two questions these reports keep apart are **servability** (can a price server resolve this to a price?) and **completeness** (does this JSON-LD fully capture its source PDF?). §4.4 argues the general case: collapsing them into a single ready flag forces the modeler to pick one axis and lie about the other. They are also empirically independent in both directions: a filing can be incomplete over a demand-meter threshold that changes nobody's bill, and a filing can be `complete = true` while understating a marginal rate.
+
+| Report | Generator | Measures |
+| --- | --- | --- |
+| `service-arrangements.md` / `.edn` | `dev/list_service_arrangements.py` | Every service arrangement the corpus can express, over current versions, at the grain of one base version plus at most one modifier version, with servability read from `dev/baseline/marginal-rates.edn`. Three outcomes, plus one for what was not measured. |
+| `ready-for-use.md` / `.edn` | `dev/list_ready_for_use.py` | The same servability, rolled up to one row per `tariff.toml` directory, with `[modeling].complete` alongside it as a separate, separately labeled column. |
+| `coverage.md` | `dev/coverage.py` | How much of the statewide residential customer base the corpus reaches, from the estimates in `dev/coverage-estimates.toml`. |
+| `modifier-coverage.md` | `dev/lint_modifier_coverage.py` | Which modifiers a base RatePlan declares in `[modeling].applicable_modifiers` have a filing of their own (§4.4, Option A). A corpus-coverage gap report, not a servability one. |
+| `modifier-base-pairings.json` / `.edn` | `dev/list_modifier_base_pairings.py` | The compatibility graph, from `urpx:applicableToRatePlan`, at plan-identity grain. |
+| `midas-coverage.md` / `.json` | `scripts/build-midas-coverage-report.py` | Which CPUC MIDAS rate identifiers this corpus or the price server covers. Networked, credentialed and slow, so it is deliberately NOT in `check_all.py`'s step list; its age is printed on every full run instead. |
+
+Servability figures are always *as of the recorded baseline*. `dev/baseline/marginal-rates.edn` is not auto-generated: re-record it deliberately with `clojure -M:validate --record-baseline` and review the diff.

@@ -5,7 +5,8 @@ Useful as a pre-commit gate or in CI: catches the case where someone edited
 a tariff.toml or jsonld file but forgot to regenerate a derived report.
 
 Steps:
-  1. Run each generator (coverage, pairings export, ready-for-use list).
+  1. Run each generator (coverage, pairings export, service arrangements,
+     ready-for-use list).
   2. Run each lint (modifier coverage, cross-filing consistency).
   3. Validate every tariff.toml against schema/tariff-manifest.schema.json.
   4. After all of that, `git status --porcelain` should be empty: if any
@@ -50,13 +51,26 @@ REPO = Path(__file__).resolve().parent.parent
 # filing against its source PDF. So the script was reverting the authored answer
 # to whatever was true when its table was written, which is how the manifests
 # went stale while the models moved on. It was a one-time bootstrap; it has run.
+#
+# list_service_arrangements meets that same bar. It enumerates what the corpus
+# can serve and reads servability off the recorded baseline; it holds no table
+# of its own, deriving supersession, compatibility and the alternative
+# nominations from the corpus, from dev/baseline/marginal-rates.edn and from
+# dev/validate_v020.clj, and refusing rather than reporting when an input is
+# missing or a baseline row cannot be attributed. list_ready_for_use now reads
+# that same enumeration instead of carrying a second walk of its own.
+# test_arrangements sits beside them because a guard is worth nothing until it
+# has been made to fire, and that file fires every one of them against a
+# deliberately broken input.
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
+    ("list_service_arrangements",   ["python3", "dev/list_service_arrangements.py"]),
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
+    ("test_arrangements",           ["python3", "dev/test_arrangements.py"]),
 ]
 
 
