@@ -152,42 +152,53 @@
 ;;
 ;;   :compatibility  named-versions-add. Whether stating
 ;;                   applicableToRatePlanVersion NARROWS the compatibility
-;;                   applicableToRatePlan asserts, or ADDS to it. URPX settles
-;;                   neither and it is written up for the working group. Our
-;;                   own enumerator narrows, but its narrowing NEVER FIRES:
-;;                   4 of 37 authority-resolved modifier versions state the
-;;                   property and every one names a version of the only plan it
-;;                   names, so nothing is narrowed away and add and narrow are
-;;                   indistinguishable on this corpus. add is stated because it
-;;                   is the reading that survives RDF merge; narrow is
-;;                   non-monotonic, and merging a document can retract a
-;;                   compatibility under it.
+;;                   applicableToRatePlan asserts, or ADDS to it. The standard
+;;                   answers this, in the decision that introduced the property:
+;;                   Decision #090 records "Breaking Change: None - this is an
+;;                   additive enhancement" and says producers MAY continue using
+;;                   the document-level relationships. A property whose presence
+;;                   could retract plan-level compatibility would not be
+;;                   non-breaking, so add is the conformant reading and not
+;;                   merely the convenient one. It is also the reading that
+;;                   survives RDF merge; narrow is non-monotonic.
 ;;
-;;   :repeated-ids   repeated-ids-union. THIS ONE PAPERS OVER A KNOWN DEFECT and
-;;                   is stated anyway, with the reason recorded here rather than
-;;                   discovered later. Three version @ids in this corpus name
-;;                   more than one distinct snapshot. Two of them,
-;;                   cpau:e-eec-1-2025-09-01 and cpau:e-nse-1-2025-09-01, differ
-;;                   only in whether applicableToRatePlanVersion is present,
-;;                   which is arguably how bundled copies are written. The third,
-;;                   cpau:e-1-2025-07-01, is a defect on any reading: the union
-;;                   asserts that a version effective in July offered modifier
-;;                   VERSIONS dated September, which did not exist on its own
-;;                   effective date. Union makes it enumerable; it does not make
-;;                   it true. Tracked, and a modelling question rather than an
-;;                   implementation one. refuse is their default and is the
-;;                   honest setting once that is resolved.
+;;                   THIS CORPUS NO LONGER DISCRIMINATES THE TWO. Every node
+;;                   that states the property now names version(s) of the single
+;;                   plan it also names, so add and narrow coincide and all four
+;;                   policy combinations return the same count. The one node that
+;;                   discriminated them, a copy of cpau:e-nse-1-2025-09-01 that
+;;                   named one version of one of the three plans it applied to,
+;;                   was a copy-local artifact and was removed. So this pin now
+;;                   asserts the standard's reading; it is not a measurement this
+;;                   corpus can falsify. Do not read a passing gate as evidence
+;;                   for add. A fixture that forks on the policy belongs in
+;;                   clj-urpx, next to the policies themselves.
+;;
+;;                   Note dev/arrangements.py:555 still implements NARROW. It
+;;                   cannot fire, because nothing in the corpus states a version
+;;                   of a plan it does not otherwise name. It is latent
+;;                   non-conformance with Decision #090, not a live defect.
+;;
+;;   :repeated-ids   repeated-ids-refuse, which is clj-urpx's own default.
+;;                   A repeated version @id means one IRI names more than one
+;;                   snapshot, and refusing is the honest answer: union merges
+;;                   the two property by property and yields a node no filing
+;;                   contains. This was repeated-ids-union while three such @ids
+;;                   existed. All three are now gone: cpau:e-1-2025-07-01 and
+;;                   cpau:e-eec-1-2025-09-01 when the pre-composed CPAU E-1
+;;                   bundle was deleted, and cpau:e-nse-1-2025-09-01 with the
+;;                   copy-local property above. Under refuse a new one fires
+;;                   here instead of being silently merged, which is the point.
 ;;
 ;; Our side resolves a repeated @id by AUTHORITY, the definition in the version's
-;; own filing, which is a corpus-layout rule no library can implement. The two
-;; agree here because the authority definitions are silent on
-;; applicableToRatePlanVersion. If that ever stops holding, this gate fires,
-;; which is the point of it.
+;; own filing, which is a corpus-layout rule no library can implement. With no
+;; repeated @ids left, the two sides agree without either rule being exercised.
+;; If that ever stops holding, this gate fires, which is what it is for.
 (def ^:private opts
   {:at            (ZonedDateTime/parse at-literal)
    :combine       @(resolve 'urpx.arrangements/one-modifier-at-most)
    :compatibility @(resolve 'urpx.arrangements/named-versions-add)
-   :repeated-ids  @(resolve 'urpx.arrangements/repeated-ids-union)})
+   :repeated-ids  @(resolve 'urpx.arrangements/repeated-ids-refuse)})
 
 (def ^:private result
   (try (f documents opts)

@@ -15,7 +15,8 @@ A standalone `urpx:RatePlanModifier` filing applicable to eligible residential a
 Originally DCJ-authored, contributed to `urpx-org/urpx/test-cases/` via PR #7 (cpau-rate-plans branch). Brought into urpx-rate-plans. Carved out of the existing CPAU E-1 2025-09-01 multi-source filing's `@graph` into a standalone modifier filing on 2026-04-30 by `scripts/extract-cpau-modifiers-tdk.py`.
 
 The extracted modifier subtree:
-- Has `urpx:applicableToRatePlan` and `urpx:applicableToRatePlanVersion` **stripped** — same standalone-modifier cross-graph identity workaround as the green-power filings (E-2-G / E-4-G / E-7-G), pending [`urpx-org/urpx#23`](https://github.com/urpx-org/urpx/issues/23).
+- States `urpx:applicableToRatePlan` as `cpau:e-1`, `cpau:e-1-tou` and `cpau:e-2`. Both compatibility properties were stripped when this filing was carved out, as a workaround for [`urpx-org/urpx#23`](https://github.com/urpx-org/urpx/issues/23); that issue closed and the plan-level property was restored.
+- Does not state `urpx:applicableToRatePlanVersion`, deliberately. Stating it would have to name a version of each of the three plans above and be re-edited whenever any of them files a new version. URPX Decision #090 makes the property additive rather than restrictive, so leaving it unstated asserts nothing false; the version-level pairing a base filing needs is carried from the plan side by `urpx:hasModifierVersionOptions` on that base version.
 - Has its `DataSourceReference` updated to point at the canonical paloalto.gov URL (rather than the placeholder `file://` URI inherited from the URPX-team-authored source).
 - Carries the same modifier pricing, eligibility-rule (where present), and modeling shape as in the source multi-source filing.
 
