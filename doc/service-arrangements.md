@@ -16,19 +16,18 @@ A **service arrangement** is a fully determined selection over the plan space:
 graph TB
     RP["<b>RatePlan</b><br/>the plan identity<br/><i>no pricing content</i>"]
     V["<b>RatePlanVersion</b><br/>snapshot for a window"]
-    M1["<b>RatePlanModifierVersion</b><br/>e.g. a CARE discount"]
-    M2["<b>RatePlanModifierVersion</b><br/>e.g. a medical baseline"]
+    M["<b>RatePlanModifierVersion</b><br/>e.g. a CARE discount"]
     PA["<b>ProfileAlternative</b><br/>one per open dimension"]
-    C(["<b>service arrangement</b><br/>resolves to prices<br/><i>not a URPX class</i>"])
+    C(["<b>service arrangement</b><br/>resolves to the price<br/><i>not a URPX class</i>"])
 
-    V -->|forRatePlan| RP
-    M1 -->|applicableToRatePlan| RP
-    M2 -->|applicableToRatePlan| RP
+    RP -->|hasRatePlanVersion| V
+    V -->|hasModifierVersionOptions| M
     V -->|hasProfileAlternatives| PA
+    M -.-> C
     V -.->|no URPX property| C
-    M1 -.->|no URPX property| C
-    M2 -.->|no URPX property| C
-    PA -.->|no URPX property| C
+    PA -.-> C
+
+    style C fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
 ```
 
 The dotted edges are the point. URPX names every relationship above except the ones that assemble the result, which is why this document exists.
@@ -64,6 +63,10 @@ graph TB
     D --> A1
     D --> A2
     D --> A3
+
+    style A1 fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
+    style A2 fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
+    style A3 fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
 ```
 
 ## What makes two arrangements distinct
