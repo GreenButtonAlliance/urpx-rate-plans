@@ -33,7 +33,7 @@ graph TB
 
 The dotted edges are the point. URPX names every relationship above except the ones that assemble the result, which is why this document exists.
 
-*Fully determined* means nothing remains to choose. Given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one arrangement but several, and each of those is an arrangement in its own right.
+*Fully determined* means one free variable remains, the instant. An arrangement binds every other input to price resolution; give it an instant it covers and it returns the price. If a choice is still outstanding it is not one arrangement but several, and each of those is an arrangement in its own right.
 
 It is the thing a customer takes service under. A rate plan is what a utility publishes; an arrangement is what a particular customer is actually billed under, and a plan generally admits many.
 
