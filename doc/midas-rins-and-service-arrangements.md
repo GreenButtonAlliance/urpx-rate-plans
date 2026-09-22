@@ -7,7 +7,7 @@ California's Market Informed Demand Automation Server publishes electricity pric
 
 That distinction decides where a RIN can be recorded in a URPX document, and getting it wrong produces assertions that validate cleanly and are false. This note sets out the evidence, because the point is not obvious and we got it wrong ourselves first.
 
-Every figure below is derived from a snapshot of 5,207 MIDAS rate identifiers taken 2026-05-30, held at `reports/midas-coverage.json`.
+Every figure below is derived from a snapshot of the state's published feed: 5,207 rate identifiers as MIDAS served them on 2026-05-30, cached at `reports/midas-coverage.json`. **That is the whole of California, not this corpus.** This corpus cites 24 of them, all in three net-billing filings and all as free text rather than as identifiers, for the reasons set out below.
 
 ## A rate plan has many RINs
 
@@ -28,7 +28,25 @@ USCA-PGPG-0210-0000  E-TOU-D-Medical Baseline-CARE
 USCA-PGPG-0211-0000  E-TOU-D-Medical Baseline-FERA
 ```
 
-They are the cross product of four independent facts about the customer: supply arrangement, discount program (none, CARE or FERA), medical baseline status, and Smart Rate enrollment. Overlays stack up to three deep. CARE and FERA never co-occur, which is correct: the programs are mutually exclusive.
+```mermaid
+
+graph TB
+    RP["<b>one RatePlan</b><br/>pge:e-tou-d<br/><i>MIDAS rate_name on all 18</i>"]
+    B["<b>bundled</b> &nbsp;PGPG<br/>3 discount<br/>&times; 2 medical baseline<br/>&times; 2 Smart Rate"]
+    X["<b>CCA</b> &nbsp;PGXX<br/>3 discount<br/>&times; 2 medical baseline<br/><i>Smart Rate not offered</i>"]
+    N(["<b>18 service arrangements</b><br/>one MIDAS RIN each<br/><i>distinguished by alt_name</i>"])
+
+    RP -->|supply| B
+    RP -->|supply| X
+    B -->|12| N
+    X -->|6| N
+
+    style N fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
+```
+
+They vary along four facts about the customer: supply arrangement, discount program (none, CARE or FERA), medical baseline status, and Smart Rate enrollment. Not every combination is offered, which is why there are eighteen rather than twenty-four: Smart Rate appears on the bundled path only. Overlays stack up to three deep. CARE and FERA never co-occur, which is correct: the programs are mutually exclusive.
+
+MIDAS itself keeps the two levels apart, which is the whole point. `rate_name` is "E-TOU-D" on all eighteen records; `alt_name` is what distinguishes them.
 
 A regulator identifying the plan would have issued one RIN. Eighteen exist because the published price differs by customer, and the RIN names the customer's arrangement.
 
