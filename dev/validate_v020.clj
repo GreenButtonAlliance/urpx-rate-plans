@@ -196,6 +196,41 @@
 ;; outright if no filing produces a marginal rate at all.
 (def legitimate-refusals #{:no-energy-ledger :all-energy-tiers-excluded})
 
+;; :outside-version-window is NOT in that set either, and is admitted only when
+;; THE FILING ITSELF says so. clj-urpx puts the window it refused against into
+;; ex-data as :expires, read straight off the version's urpx:expirationDateTime,
+;; so a filing can only be excused here by carrying a bound that has passed.
+;; There is no list to maintain and nothing to forget to remove: delete the
+;; bound and the excuse disappears with it.
+;;
+;; The distinction that matters is expired versus not-yet-effective. A version
+;; that ended before the instant SHOULD refuse, and every superseded filing in
+;; the corpus now does. A version that has not started yet refuses for a
+;; different reason, and that one still fails, because at a probe instant in the
+;; corpus's own present it means a filing was dated wrong.
+(defn- ^java.time.LocalDateTime as-local
+  "A LocalDateTime from whichever java.time type clj-urpx hands back.
+
+   :expires is a LocalDateTime today, because urpx:expirationDateTime is naive
+   in every one of this corpus's 89 datetimes. It may become a ZonedDateTime:
+   the zone is available, as urpx:timezoneIdentifier on the urpx:RatePlan, and
+   all 72 filings carry one. Accept either so that change lands upstream
+   without this gate going quiet or throwing."
+  [x]
+  (cond
+    (instance? java.time.LocalDateTime x) x
+    (instance? java.time.ZonedDateTime x) (.toLocalDateTime ^java.time.ZonedDateTime x)
+    (instance? java.time.OffsetDateTime x) (.toLocalDateTime ^java.time.OffsetDateTime x)
+    :else nil))
+
+(defn- expired-before?
+  "True when ex-data names a window this instant is past the end of."
+  [data ^java.time.ZonedDateTime instant]
+  (let [expires (as-local (:expires data))]
+    (and (= (:reason data) :outside-version-window)
+         (some? expires)
+         (not (.isAfter expires (.toLocalDateTime instant))))))
+
 ;; :condition-gated-tier is NOT in that set, and is admitted only for the two
 ;; filings named below. clj-urpx refuses rather than summing a price whose
 ;; urpx:ConditionExpression it cannot evaluate, and that refusal answers two
@@ -340,8 +375,9 @@
          :ledgers (count (:urpx.resolved/ledgers resolved))
          :rate    (price/marginal-unit-rate resolved)})
       (catch Exception e
-        (let [reason (:reason (ex-data e))]
-          (if (legitimate-refusals reason)
+        (let [data   (ex-data e)
+              reason (:reason data)]
+          (if (or (legitimate-refusals reason) (expired-before? data instant))
             {:status :refused :reason reason}
             {:status :error :error (.getMessage e)}))))))
 
@@ -356,8 +392,11 @@
                                     (:ledgers r) (:rate r)))
                    true)
       :refused (do (note-refusal! (:reason r))
-                   (println (format "load+coerce ✓ resolve ✓  (%s; nothing priced per kWh here)"
-                                    (name (:reason r))))
+                   (println (format "load+coerce ✓ resolve ✓  (%s; %s)"
+                                    (name (:reason r))
+                                    (if (= (:reason r) :outside-version-window)
+                                      "this version had ended by the probe instant"
+                                      "nothing priced per kWh here")))
                    true)
       :error   (do (println (format "load+coerce ✓ resolve ✗  %s" (:error r)))
                    false))))
@@ -389,10 +428,12 @@
            :ledgers      (count (:urpx.resolved/ledgers resolved))
            :rate         (price/marginal-unit-rate resolved)})
         (catch Exception e
-          (let [reason   (:reason (ex-data e))
+          (let [data     (ex-data e)
+                reason   (:reason data)
                 mod-iri  (:jsonld/id modifier)
                 expected (get condition-gated-expected mod-iri)
                 ok?      (or (legitimate-refusals reason)
+                             (expired-before? data instant)
                              (and (= reason :condition-gated-tier) (some? expected)))]
             (if ok?
               {:status :refused :reason reason :base-version (:date base-info)}
