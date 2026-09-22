@@ -21,9 +21,12 @@ Identity is intrinsic: (base version IRI, sorted modifier version IRIs, sorted
 alternative selections). A MIDAS RIN is an optional external attestation, never
 the identity, and this module does not read or assign one.
 
-Two report generators consume this module, dev/list_service_arrangements.py and
-dev/list_ready_for_use.py. They share it rather than each carrying a walk,
-because the failure this repository keeps hitting is two lists that drift.
+Three report generators consume this module: dev/list_service_arrangements.py,
+dev/list_ready_for_use.py and dev/list_rate_identifiers.py. They share it rather
+than each carrying a walk, because the failure this repository keeps hitting is
+two lists that drift. dev/cross_check_arrangements.py consumes it too, for the
+opposite reason: it asserts that the enumeration clj-urpx arrives at
+independently has the same members as the one here.
 
 Nothing here is hand-maintained. Every number is derived from the corpus, from
 dev/baseline/marginal-rates.edn and from the nominations declared in
@@ -33,9 +36,11 @@ build() raises SystemExit rather than reporting a verdict over it.
 from __future__ import annotations
 
 import collections
+import datetime
 import json
 import pathlib
 import re
+import zoneinfo
 
 import corpus
 
@@ -51,6 +56,22 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 # dev/validate_v020.clj's `legitimate-refusals`; they are repeated here because
 # this module reads the recorded baseline, not the validator.
 NOT_PRICED_REASONS = {":no-energy-ledger", ":all-energy-tiers-excluded"}
+
+# Every urpx:effectiveDateTime in this corpus is written without an offset, and
+# every filing in it is Californian, so a naive value is read in this zone. A
+# value that carries its own offset is used as written.
+CORPUS_ZONE = zoneinfo.ZoneInfo("America/Los_Angeles")
+
+# The combining policy: which sets of modifier versions may sit on one base.
+# NOTHING IN URPX STATES ONE. urpx:applicableToRatePlan says a modifier version
+# is compatible with a base, and no property anywhere says two modifiers exclude
+# or combine with each other, so every enumeration of compositions is a caller's
+# policy rather than a reading of the documents. This one is base alone, or base
+# plus exactly one modifier. It is deliberately conservative and knowingly
+# INCOMPLETE: real customers hold several overlays at once. It is named so that
+# widening it fires as a decision in two repositories at once rather than as a
+# mystery diff; see dev/cross_check_arrangements.py.
+COMBINE_AT_MOST_ONE_MODIFIER = "at-most-one-modifier"
 
 SERVABLE = "servable"
 NOT_PRICED = "not-priced-per-kwh"
@@ -327,7 +348,31 @@ def collect_versions() -> dict[str, dict]:
     return versions
 
 
-def derive_supersession(versions: dict[str, dict]) -> set[str]:
+def effective_instant(version: dict) -> datetime.datetime:
+    """A version's urpx:effectiveDateTime as an aware instant."""
+    raw = version["effective"]
+    try:
+        parsed = datetime.datetime.fromisoformat(str(raw))
+    except ValueError:
+        raise Refuse(
+            f'{version["id"]} carries urpx:effectiveDateTime {raw!r}, which is '
+            f"not an ISO 8601 date-time, so it cannot be placed against an instant."
+        )
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=CORPUS_ZONE)
+
+
+def not_yet_effective(versions: dict[str, dict], at: datetime.datetime | None) -> set[str]:
+    """Versions whose urpx:effectiveDateTime is after `at`: filed, not in force.
+
+    Distinct from superseded, and neither is current. `at` of None applies no
+    instant at all, which is what the reports do.
+    """
+    if at is None:
+        return set()
+    return {vid for vid, v in versions.items() if effective_instant(v) > at}
+
+
+def derive_supersession(versions: dict[str, dict], at: datetime.datetime | None = None) -> set[str]:
     """A plan identity holding more than one distinct version @id: all but the
     latest urpx:effectiveDateTime are superseded.
 
@@ -335,9 +380,20 @@ def derive_supersession(versions: dict[str, dict]) -> set[str]:
     can hold one version node (CPAU E-1 is filed at 2025-07-01 and again at
     2025-09-01, both carrying cpau:e-1-2025-07-01 because the base rates did not
     change), so a directory count is not a version count.
+
+    `at` pins the instant supersession is judged at. With an instant, only
+    versions in force at it can supersede anything, and a version filed for a
+    later date does not yet displace the one in force; it is reported by
+    not_yet_effective instead. With None the latest version of each plan wins
+    regardless of date, which is what the reports have always done and what they
+    still do. The corpus carries no urpx:expirationDateTime, so a version's
+    window has no end bound here and currency is decided by succession alone.
     """
     by_plan: dict[str, list[dict]] = collections.defaultdict(list)
+    future = not_yet_effective(versions, at)
     for v in versions.values():
+        if v["id"] in future:
+            continue
         by_plan[v["plan"]].append(v)
 
     superseded: set[str] = set()
@@ -470,7 +526,82 @@ def load_nominations(text: str | None = None) -> dict[str, str]:
 # The enumeration
 # ---------------------------------------------------------------------------
 
+def pair_candidates(bases: dict[str, dict], modifiers: list[dict],
+                    combine: str = COMBINE_AT_MOST_ONE_MODIFIER):
+    """(base, modifier-or-None) for every composition the policy admits.
+
+    The one copy of the combining rule. build() and enumerate_pairs() both go
+    through it, so the reports and the cross-check against clj-urpx cannot come
+    to different answers about what composes with what.
+
+    A modifier version reaches a base when urpx:applicableToRatePlan names the
+    base's plan identity, narrowed by urpx:applicableToRatePlanVersion when that
+    is stated. Both are the documents talking. That at most one modifier at a
+    time is admitted is not: see COMBINE_AT_MOST_ONE_MODIFIER.
+    """
+    if combine != COMBINE_AT_MOST_ONE_MODIFIER:
+        raise Refuse(
+            f"unknown combining policy {combine!r}. This module implements "
+            f"{COMBINE_AT_MOST_ONE_MODIFIER!r} only; widening it is a change "
+            f"in both this repository and clj-urpx."
+        )
+    for base in sorted(bases.values(), key=lambda v: v["id"]):
+        yield base, None
+    for modifier in sorted(modifiers, key=lambda v: v["id"]):
+        for target in modifier["applies_to"]:
+            base = bases.get(target)
+            if base is None:
+                continue
+            if modifier["applies_to_versions"] and base["id"] not in modifier["applies_to_versions"]:
+                continue
+            yield base, modifier
+
+
+def enumerate_pairs(at: datetime.datetime | None,
+                    combine: str = COMBINE_AT_MOST_ONE_MODIFIER,
+                    versions: dict[str, dict] | None = None) -> dict:
+    """The set of (base version IRI, frozenset of modifier version IRIs) current
+    at `at`, with the versions excluded for getting there.
+
+    Open dimensions are left UNEXPANDED: a base plus a modifier over a
+    three-value dimension is one row here and three arrangements. That is the
+    membership claim two implementations can make identically; expanding is a
+    separate decision about whether a pending choice is one row or several.
+    """
+    if versions is None:
+        versions = collect_versions()
+    superseded = derive_supersession(versions, at=at)
+    future = not_yet_effective(versions, at)
+    current = {k: v for k, v in versions.items() if k not in superseded and k not in future}
+    bases = {v["plan"]: v for v in current.values() if v["kind"] == "plan"}
+    modifiers = [v for v in current.values() if v["kind"] == "modifier"]
+    when = "at any instant" if at is None else f"at {at.isoformat()}"
+    if not bases:
+        raise Refuse(f"no base urpx:RatePlanVersion is current {when}.")
+    pairs = {
+        (base["id"], frozenset([modifier["id"]] if modifier else []))
+        for base, modifier in pair_candidates(bases, modifiers, combine)
+    }
+    if not pairs:
+        raise Refuse(f"the corpus expresses no service arrangement {when}.")
+    return {
+        "pairs": pairs,
+        "at": at,
+        "combine": combine,
+        "superseded": sorted(superseded),
+        "not_yet_effective": sorted(future),
+        "versions": len(versions),
+    }
+
+
 def build() -> dict:
+    """The full enumeration the reports are generated from.
+
+    No instant: currency here is succession alone, the latest version of each
+    plan identity. The cross-check against clj-urpx pins an instant instead and
+    calls enumerate_pairs, because two implementations answering "current" as of
+    different moments would disagree for a reason that is not a disagreement.
+    """
     versions = collect_versions()
     superseded = derive_supersession(versions)
     baseline = load_baseline()
@@ -524,16 +655,8 @@ def build() -> dict:
             "reason": reason,
         })
 
-    for base in sorted(bases.values(), key=lambda v: v["id"]):
-        add(base, None)
-    for modifier in sorted(modifiers, key=lambda v: v["id"]):
-        for target in modifier["applies_to"]:
-            base = bases.get(target)
-            if base is None:
-                continue
-            if modifier["applies_to_versions"] and base["id"] not in modifier["applies_to_versions"]:
-                continue
-            add(base, modifier)
+    for base, modifier in pair_candidates(bases, modifiers):
+        add(base, modifier)
 
     if not arrangements:
         raise Refuse("the corpus expresses no service arrangement at all.")

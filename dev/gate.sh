@@ -224,6 +224,52 @@ case "$MODE" in
         record $rc
     fi
 
+    # Two implementations of one rule now exist: dev/arrangements.py here and
+    # urpx.arrangements in clj-urpx, each locally coherent and each reporting
+    # 144 (base, modifier-set) pairs over this corpus. Two plausible halves with
+    # nothing comparing them is the failure this repository keeps recording, so
+    # this compares the SET OF PAIRS in both directions. Counts are not compared:
+    # the clj-urpx side also reports 739 and 1728 with open ProfileAlternatives
+    # dimensions expanded, and comparing an unexpanded total against an expanded
+    # one would manufacture a mismatch out of a legitimate difference.
+    #
+    # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
+    #
+    # --at: 144 is 144 AT AN INSTANT. An arrangement is current when every one of
+    # its components is current, so the set is a property of the corpus AT A TIME
+    # and not of the corpus. A check enumerating at "now" would pass today and
+    # start failing the morning a version is superseded, with a diff that looks
+    # like an implementation disagreement and is not; worse, two sides both
+    # drifting to "now" can agree while answering a question neither intended.
+    #
+    # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
+    # STATES THIS. No property anywhere says two modifiers exclude or combine, so
+    # clj-urpx refuses to invent one and takes it as an argument; this repository
+    # names the same policy in COMBINE_AT_MOST_ONE_MODIFIER. It is deliberately
+    # conservative and knowingly INCOMPLETE, since real customers hold several
+    # overlays at once.
+    #
+    # CHANGING EITHER LITERAL IS A COORDINATED CHANGE ACROSS TWO REPOSITORIES,
+    # not an edit to this file. Both sides must move together or the comparison
+    # silently starts asserting nothing.
+    #
+    # Three states, not two. PENDING (clj-urpx does not ship the namespace yet)
+    # prints loudly and passes. ACTIVE must compare and agree: a load error, an
+    # empty result or a wrong shape FAILS, because "present but produced nothing"
+    # must never read as a pass. Namespace present with the var gone FAILS.
+    #
+    # Exit 1 a disagreement or a broken contract, 3 refused.
+    note "Service arrangements: clj-urpx cross-check"
+    if python3 dev/cross_check_arrangements.py \
+           --at 2026-07-15T17:00-07:00 \
+           --combine at-most-one-modifier > /tmp/gate-arrangements.log 2>&1; then
+        cat /tmp/gate-arrangements.log
+    else
+        rc=$?
+        cat /tmp/gate-arrangements.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -308,6 +354,52 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-rins.log
+        record $rc
+    fi
+
+    # Two implementations of one rule now exist: dev/arrangements.py here and
+    # urpx.arrangements in clj-urpx, each locally coherent and each reporting
+    # 144 (base, modifier-set) pairs over this corpus. Two plausible halves with
+    # nothing comparing them is the failure this repository keeps recording, so
+    # this compares the SET OF PAIRS in both directions. Counts are not compared:
+    # the clj-urpx side also reports 739 and 1728 with open ProfileAlternatives
+    # dimensions expanded, and comparing an unexpanded total against an expanded
+    # one would manufacture a mismatch out of a legitimate difference.
+    #
+    # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
+    #
+    # --at: 144 is 144 AT AN INSTANT. An arrangement is current when every one of
+    # its components is current, so the set is a property of the corpus AT A TIME
+    # and not of the corpus. A check enumerating at "now" would pass today and
+    # start failing the morning a version is superseded, with a diff that looks
+    # like an implementation disagreement and is not; worse, two sides both
+    # drifting to "now" can agree while answering a question neither intended.
+    #
+    # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
+    # STATES THIS. No property anywhere says two modifiers exclude or combine, so
+    # clj-urpx refuses to invent one and takes it as an argument; this repository
+    # names the same policy in COMBINE_AT_MOST_ONE_MODIFIER. It is deliberately
+    # conservative and knowingly INCOMPLETE, since real customers hold several
+    # overlays at once.
+    #
+    # CHANGING EITHER LITERAL IS A COORDINATED CHANGE ACROSS TWO REPOSITORIES,
+    # not an edit to this file. Both sides must move together or the comparison
+    # silently starts asserting nothing.
+    #
+    # Three states, not two. PENDING (clj-urpx does not ship the namespace yet)
+    # prints loudly and passes. ACTIVE must compare and agree: a load error, an
+    # empty result or a wrong shape FAILS, because "present but produced nothing"
+    # must never read as a pass. Namespace present with the var gone FAILS.
+    #
+    # Exit 1 a disagreement or a broken contract, 3 refused.
+    note "Service arrangements: clj-urpx cross-check"
+    if python3 dev/cross_check_arrangements.py \
+           --at 2026-07-15T17:00-07:00 \
+           --combine at-most-one-modifier > /tmp/gate-arrangements.log 2>&1; then
+        cat /tmp/gate-arrangements.log
+    else
+        rc=$?
+        cat /tmp/gate-arrangements.log
         record $rc
     fi
 

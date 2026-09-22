@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Clark Communications Corporation
+# SPDX-License-Identifier: CDLA-Permissive-2.0
+"""Assert that this repository and clj-urpx enumerate the SAME service
+arrangements, rather than the same NUMBER of them.
+
+Two implementations of one rule now exist: dev/arrangements.py here, and
+urpx.arrangements in clj-urpx. Each is locally coherent, both currently report
+144 (base, modifier-set) pairs over this corpus, and until this check nothing
+compared the members. Equal totals over different members is the failure this
+repository keeps hitting, and counting is what fails to catch it.
+
+WHAT IS COMPARED
+
+    #{[<base version IRI> #{<modifier version IRI> ...}] ...}
+
+Membership, reported in both directions separately. Open ProfileAlternatives
+dimensions are left UNEXPANDED on both sides: clj-urpx also reports 739 current
+and 1728 over all versions, which expand them, and comparing an unexpanded total
+against an expanded one would manufacture a mismatch out of a legitimate
+difference about whether a pending choice is one row or several.
+
+Our side comes from importing dev/arrangements.py and calling enumerate_pairs,
+not from reading reports/service-arrangements.edn. A report can be stale; the
+enumerator is the thing under test.
+
+TWO PINNED PARAMETERS, both passed in by dev/gate.sh and both required here.
+There is no default for either: a check that supplies its own instant is a check
+that can quietly answer a different question than its counterpart.
+
+  --at       the instant currency is judged at. 144 is 144 AT AN INSTANT, not a
+             property of the corpus. See dev/gate.sh.
+  --combine  the combining policy. Nothing in URPX states which modifier sets
+             may sit on one base, so both sides take it as an argument. See
+             COMBINE_AT_MOST_ONE_MODIFIER in dev/arrangements.py.
+
+THREE STATES, NOT TWO
+
+  var absent                     PENDING. urpx.arrangements is not released yet.
+                                 Prints loudly, names the pinned clj-urpx
+                                 version, says what would make it active, and
+                                 passes. This is today's state.
+  var present                    ACTIVE. The comparison MUST run and MUST agree.
+                                 A load error, an empty result or a wrong shape
+                                 is a FAILURE, never a pending.
+  namespace present, var absent  FAIL. Their API changed under a pinned version.
+
+Exit codes follow dev/gate.sh: 0 green, 1 a disagreement or a broken contract,
+3 refused (this side could not produce an answer at all).
+"""
+from __future__ import annotations
+
+import argparse
+import datetime
+import os
+import pathlib
+import shutil
+import subprocess
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import arrangements  # noqa: E402
+
+REPO = pathlib.Path(__file__).resolve().parent.parent
+PROBE = REPO / "dev" / "cross_check_arrangements.clj"
+
+# The one test hook. The ACTIVE arms cannot be exercised before clj-urpx
+# releases the namespace, so the negative tests put a stub on the classpath
+# through this. It only ADDS paths, and a run with it set announces itself in
+# the output, so it cannot disarm the check without saying so.
+EXTRA_PATHS_ENV = "URPX_CROSSCHECK_EXTRA_PATHS"
+
+REGRESSION, REFUSED = 1, 3
+
+
+class Refused(SystemExit):
+    def __init__(self, msg: str):
+        super().__init__(REFUSED)
+        self.msg = msg
+
+
+def fail(headline: str, *body: str) -> int:
+    print(f"  FAIL  {headline}")
+    for line in body:
+        print(f"        {line}")
+    return REGRESSION
+
+
+def refuse(headline: str, *body: str) -> int:
+    print(f"  REFUSING  {headline}")
+    for line in body:
+        print(f"            {line}")
+    return REFUSED
+
+
+def our_pairs(at: datetime.datetime, combine: str) -> dict:
+    """The pairs dev/arrangements.py enumerates, at the pinned instant."""
+    try:
+        return arrangements.enumerate_pairs(at, combine=combine)
+    except SystemExit as e:  # arrangements.Refuse
+        # arrangements.Refuse already prefixes "REFUSING: "; do not say it twice.
+        raise Refused(str(e).removeprefix("REFUSING: "))
+
+
+def run_probe(at: str, combine: str) -> tuple[list[str], str, int]:
+    """Ask clj-urpx, via dev/cross_check_arrangements.clj."""
+    if shutil.which("clojure") is None:
+        raise Refused("clojure is not on PATH, so the clj-urpx side cannot be asked.")
+    cmd = ["clojure"]
+    extra = os.environ.get(EXTRA_PATHS_ENV)
+    if extra:
+        paths = ["dev"] + [p for p in extra.split(os.pathsep) if p]
+        cmd += ["-Sdeps", "{:paths [" + " ".join(f'"{p}"' for p in paths) + "]}"]
+    cmd += ["-M", str(PROBE.relative_to(REPO)), at, combine]
+    proc = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
+    lines = [ln for ln in proc.stdout.splitlines() if ln.startswith("XC-")]
+    return lines, (proc.stderr or "").strip(), proc.returncode
+
+
+def parse_probe(lines: list[str]) -> tuple[str, str, set]:
+    state, detail, pairs = None, "", set()
+    end = None
+    for ln in lines:
+        if ln.startswith("XC-STATE "):
+            rest = ln[len("XC-STATE "):]
+            state, _, detail = rest.partition(" ")
+        elif ln.startswith("XC-PAIR\t"):
+            _, base, mods = ln.split("\t", 2)
+            pairs.add((base, frozenset(m for m in mods.split(",") if m)))
+        elif ln.startswith("XC-END "):
+            end = int(ln[len("XC-END "):])
+    if state == "pairs" and end is None:
+        # A truncated stream is not an agreement. Without the terminator there
+        # is no way to tell a short answer from a killed process.
+        state = "truncated"
+    return state or "no-state", detail, pairs
+
+
+def describe(tag: str, pairs: set, limit: int = 12) -> list[str]:
+    out = []
+    for base, mods in sorted(pairs, key=lambda p: (p[0], sorted(p[1])))[:limit]:
+        out.append(f"{tag} {base}  +  {', '.join(sorted(mods)) or '(base alone)'}")
+    if len(pairs) > limit:
+        out.append(f"{tag} ... and {len(pairs) - limit} more")
+    return out
+
+
+class Parser(argparse.ArgumentParser):
+    """A missing --at or --combine is a refusal, not argparse's exit 2. In this
+    repository's gate 2 means tracked-file drift, and a check invoked wrongly has
+    not measured drift; it has failed to run."""
+
+    def error(self, message):
+        sys.exit(refuse(f"{message}.", self.format_usage().strip()))
+
+
+def main() -> int:
+    ap = Parser(description=__doc__.splitlines()[0])
+    ap.add_argument("--at", required=True,
+                    help="ISO 8601 instant with an offset, e.g. 2026-07-15T17:00-07:00")
+    ap.add_argument("--combine", required=True,
+                    help="the combining policy, e.g. at-most-one-modifier")
+    args = ap.parse_args()
+
+    try:
+        at = datetime.datetime.fromisoformat(args.at)
+    except ValueError:
+        return refuse(f"--at {args.at!r} is not an ISO 8601 date-time.")
+    if at.tzinfo is None:
+        return refuse(
+            f"--at {args.at!r} carries no offset.",
+            "Both sides must mean the same moment; a naive literal does not.")
+
+    pinned = arrangements._pinned_clj_urpx_version()
+    print(f"  instant  {at.isoformat()}   (pinned; changing it is a change in two repositories)")
+    print(f"  policy   {args.combine}   (pinned; nothing in URPX states one)")
+    print(f"  clj-urpx {pinned}   (deps.edn)")
+    if os.environ.get(EXTRA_PATHS_ENV):
+        print(f"  SIMULATION: {EXTRA_PATHS_ENV}={os.environ[EXTRA_PATHS_ENV]} is on the classpath.")
+        print("  This run is a test of the check, not a measurement of the corpus.")
+
+    ours = our_pairs(at, args.combine)
+    mine = ours["pairs"]
+    if not mine:
+        return refuse("dev/arrangements.py enumerated no arrangement at all.")
+    over = sorted(f"{b} + {sorted(m)}" for b, m in mine if len(m) > 1)
+    if over:
+        return fail(
+            f"our own pairs violate the pinned policy {args.combine!r}: "
+            f"{len(over)} carry more than one modifier.",
+            *over[:5],
+            "The policy name no longer describes this enumerator. Settle it with clj-urpx.")
+    print(f"  ours     {len(mine)} pairs "
+          f"({sum(1 for _, m in mine if not m)} base alone, "
+          f"{sum(1 for _, m in mine if len(m) == 1)} base plus one modifier); "
+          f"{len(ours['superseded'])} versions superseded, "
+          f"{len(ours['not_yet_effective'])} not yet effective at this instant")
+
+    lines, stderr, rc = run_probe(args.at, args.combine)
+    state, detail, theirs = parse_probe(lines)
+
+    if state == "ns-absent":
+        # The dangerous arm: it is today's state and it passes. Loud enough that
+        # nobody reads the gate as having compared anything.
+        print()
+        print("  " + "=" * 68)
+        print("  PENDING: nothing was compared. urpx.arrangements is not on the classpath.")
+        print(f"  clj-urpx {pinned} (deps.edn) does not ship the namespace. The check is")
+        print("  armed and inert: it starts comparing by itself the moment a clj-urpx")
+        print("  release interns urpx.arrangements/arrangement-pairs and deps.edn moves to")
+        print("  it. Nobody has to remember to switch it on.")
+        print(f"  Until then this repository's {len(mine)} pairs are asserted by nothing outside it.")
+        print("  " + "=" * 68)
+        return 0
+
+    if state == "ns-load-error":
+        return fail(
+            f"urpx.arrangements IS on the classpath in clj-urpx {pinned} and threw while loading.",
+            detail,
+            "A namespace that exists and throws is active and broken, not pending.")
+    if state == "ns-present-var-absent":
+        return fail(
+            f"clj-urpx {pinned} ships urpx.arrangements WITHOUT arrangement-pairs.",
+            detail,
+            "The contract is the var, not the namespace. Their API moved; settle the",
+            "new entrypoint with clj-urpx and update dev/cross_check_arrangements.clj.")
+    if state == "documents-error":
+        return fail("the corpus would not load on the clj-urpx side.", detail)
+    if state == "call-error":
+        return fail(
+            f"urpx.arrangements/arrangement-pairs threw when called in clj-urpx {pinned}.",
+            detail,
+            "The document form this passes is an assumption of ours; see the comment in",
+            "dev/cross_check_arrangements.clj. Either way the comparison did not happen.")
+    if state == "shape-error":
+        return fail("arrangement-pairs did not return a set of [base #{modifiers}] pairs.", detail)
+    if state == "truncated":
+        return fail("the clj-urpx side started emitting pairs and did not finish.",
+                    f"exit {rc}", stderr[-400:] if stderr else "")
+    if state != "pairs":
+        return fail(
+            "the clj-urpx side produced no state at all, so nothing was compared.",
+            f"exit {rc}", stderr[-400:] if stderr else "(no stderr)")
+
+    # ACTIVE from here on: every path must either agree or fail.
+    if not theirs:
+        return fail(
+            "arrangement-pairs returned an empty set.",
+            "Present but producing nothing is a failure. An empty set agrees with",
+            "nothing and must never read as a pass.")
+    bad = sorted(f"{b} + {sorted(m)}" for b, m in theirs if len(m) > 1)
+    if bad:
+        return fail(
+            f"clj-urpx returned pairs that violate the pinned policy {args.combine!r}.",
+            *bad[:5],
+            "Either their default combining policy moved or the name no longer means",
+            "the same thing on both sides. That is a coordinated decision, not a diff.")
+
+    print(f"  theirs   {len(theirs)} pairs")
+    ours_only = mine - theirs
+    theirs_only = theirs - mine
+    if ours_only or theirs_only:
+        body = [f"ours only:   {len(ours_only)} (we enumerate them, clj-urpx does not)",
+                f"theirs only: {len(theirs_only)} (clj-urpx enumerates them, we do not)"]
+        body += describe("ours  ", ours_only)
+        body += describe("theirs", theirs_only)
+        return fail(
+            f"the two enumerations disagree ({len(mine)} ours, {len(theirs)} theirs).",
+            *body)
+    print(f"  agreed   {len(mine)} pairs, identical membership in both directions")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except Refused as e:
+        sys.exit(refuse(e.msg))
