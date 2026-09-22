@@ -136,13 +136,58 @@
           docs)))
     (catch Throwable t (emit "documents-error" (one-line t)))))
 
-;; :at is passed; :combine is NOT. The documented default is base alone or base
-;; plus exactly one modifier, which is the policy named on the command line, and
-;; guessing the keyword their option takes would throw on a value they never
-;; defined. The caller does not take our word for it either: it checks that
-;; every returned pair actually obeys the policy, which holds however the option
-;; is spelled.
-(def ^:private opts {:at (ZonedDateTime/parse at-literal)})
+;; ALL FOUR PARAMETERS ARE STATED, none defaulted, because matching on a default
+;; is agreement by coincidence rather than by assertion. Three are clj-urpx
+;; options; the instant is ours. What each one is doing, and what it costs:
+;;
+;;   :at             the pinned instant. An arrangement is current when every
+;;                   component is, so a pair count is a property of the corpus
+;;                   AT A TIME. Two sides both drifting to "now" can agree while
+;;                   both answering a different question.
+;;
+;;   :combine        one-modifier-at-most. A CALLER policy: nothing in URPX
+;;                   states exclusivity or combinability between modifiers.
+;;                   Knowingly incomplete, since real multi-overlay arrangements
+;;                   exist.
+;;
+;;   :compatibility  named-versions-add. Whether stating
+;;                   applicableToRatePlanVersion NARROWS the compatibility
+;;                   applicableToRatePlan asserts, or ADDS to it. URPX settles
+;;                   neither and it is written up for the working group. Our
+;;                   own enumerator narrows, but its narrowing NEVER FIRES:
+;;                   4 of 37 authority-resolved modifier versions state the
+;;                   property and every one names a version of the only plan it
+;;                   names, so nothing is narrowed away and add and narrow are
+;;                   indistinguishable on this corpus. add is stated because it
+;;                   is the reading that survives RDF merge; narrow is
+;;                   non-monotonic, and merging a document can retract a
+;;                   compatibility under it.
+;;
+;;   :repeated-ids   repeated-ids-union. THIS ONE PAPERS OVER A KNOWN DEFECT and
+;;                   is stated anyway, with the reason recorded here rather than
+;;                   discovered later. Three version @ids in this corpus name
+;;                   more than one distinct snapshot. Two of them,
+;;                   cpau:e-eec-1-2025-09-01 and cpau:e-nse-1-2025-09-01, differ
+;;                   only in whether applicableToRatePlanVersion is present,
+;;                   which is arguably how bundled copies are written. The third,
+;;                   cpau:e-1-2025-07-01, is a defect on any reading: the union
+;;                   asserts that a version effective in July offered modifier
+;;                   VERSIONS dated September, which did not exist on its own
+;;                   effective date. Union makes it enumerable; it does not make
+;;                   it true. Tracked, and a modelling question rather than an
+;;                   implementation one. refuse is their default and is the
+;;                   honest setting once that is resolved.
+;;
+;; Our side resolves a repeated @id by AUTHORITY, the definition in the version's
+;; own filing, which is a corpus-layout rule no library can implement. The two
+;; agree here because the authority definitions are silent on
+;; applicableToRatePlanVersion. If that ever stops holding, this gate fires,
+;; which is the point of it.
+(def ^:private opts
+  {:at            (ZonedDateTime/parse at-literal)
+   :combine       @(resolve 'urpx.arrangements/one-modifier-at-most)
+   :compatibility @(resolve 'urpx.arrangements/named-versions-add)
+   :repeated-ids  @(resolve 'urpx.arrangements/repeated-ids-union)})
 
 (def ^:private result
   (try (f documents opts)
