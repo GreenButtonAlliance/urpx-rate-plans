@@ -196,6 +196,34 @@ case "$MODE" in
         record $rc
     fi
 
+    # Every MIDAS identifier the corpus cites, checked against the party segments
+    # the snapshot actually publishes. Five were malformed for months and nothing
+    # looked: urpx:RatePlanIdentifier models skos:notation as a plain string, so
+    # a malformed notation validates exactly as a correct one does and no
+    # consumer can tell them apart. The grammar that can is derived from a
+    # California snapshot this repository holds, which is why the check lives
+    # here and not in clj-urpx. In --fast because a new filing citing a RIN is
+    # what the pre-commit gate sees.
+    #
+    # Fails ONLY on a component that appears in none of the snapshot's records,
+    # which is a statement about structure. An identifier that is well formed but
+    # absent from the snapshot is reported and does not fail: the snapshot is
+    # dated and cannot be refreshed (MIDAS returns 401), so failing on it would
+    # gate commits on the freshness of a file nobody can refresh.
+    #
+    # Exit 1 a malformed identifier, 3 refused. Refusals are collapsed
+    # denominators: no snapshot, a snapshot with no identifiers or no derivable
+    # segment structure, no filing directories, or a corpus that cites no
+    # identifier at all.
+    note "MIDAS rate identifiers"
+    if python3 dev/lint_rate_identifiers.py > /tmp/gate-rins.log 2>&1; then
+        head -1 /tmp/gate-rins.log
+    else
+        rc=$?
+        cat /tmp/gate-rins.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -271,6 +299,15 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-completeness.log
+        record $rc
+    fi
+
+    note "MIDAS rate identifiers"
+    if python3 dev/lint_rate_identifiers.py > /tmp/gate-rins.log 2>&1; then
+        head -1 /tmp/gate-rins.log
+    else
+        rc=$?
+        cat /tmp/gate-rins.log
         record $rc
     fi
 

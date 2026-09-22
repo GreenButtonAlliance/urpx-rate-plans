@@ -62,15 +62,26 @@ REPO = Path(__file__).resolve().parent.parent
 # test_arrangements sits beside them because a guard is worth nothing until it
 # has been made to fire, and that file fires every one of them against a
 # deliberately broken input.
+#
+# list_rate_identifiers meets the same bar. It tabulates the MIDAS identifiers
+# the corpus cites, keyed to the arrangements dev/arrangements.py enumerates,
+# and holds no list of identifiers of its own: the enumeration is whatever the
+# corpus asserts, the RIN grammar is read off reports/midas-coverage.json, and
+# it refuses when an input is missing or a citation is unattributable. It also
+# refuses if a RIN is ever lifted into a urpx:RatePlanIdentifier or
+# urpx:RatePlanModifierIdentifier, which is the decision that report records.
+# test_rate_identifiers fires every one of those guards against broken input.
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
     ("list_service_arrangements",   ["python3", "dev/list_service_arrangements.py"]),
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
+    ("list_rate_identifiers",       ["python3", "dev/list_rate_identifiers.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
     ("test_arrangements",           ["python3", "dev/test_arrangements.py"]),
+    ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),
 ]
 
 
