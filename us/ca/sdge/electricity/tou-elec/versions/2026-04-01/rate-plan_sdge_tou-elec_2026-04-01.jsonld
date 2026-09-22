@@ -28,6 +28,12 @@
     "urpx:endTime": {
       "@type": "xsd:time"
     },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
     "urpx:initialEffectiveDate": {
       "@type": "xsd:date"
     },
@@ -85,7 +91,7 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sdge:tou-elec-2026-04-01",
-      "urpx:description": "SDG&E's electrification-targeted residential time-of-use schedule for households with at least one of: a battery-electric or plug-in hybrid vehicle (BEV/PHEV) recharged via on-premises outlet, a natural-gas vehicle (NGV) refueled via a home refueling appliance (HRA), a behind-the-meter energy storage device interconnected per Electric Rule 21, or an electric heat pump for water heating or climate control. Estimated ~70K customers (capped at 10,000 enrollments per Special Condition 10 — but the cap has been raised over time and the schedule has substantial enrollment under the original cap plus subsequent expansions; precise count via SDG&E enrollment data). Three TOU periods (On-Peak / Off-Peak / Super Off-Peak); same TOU windows as TOU-DR1 and EV-TOU-5 (4-9pm peak all days; super-off-peak split midnight-6am + 10am-2pm weekdays / continuous midnight-2pm weekends/holidays). Distinguishing structural features vs TOU-DR1: (1) UDC Total is FLAT $0.26288/kWh across all periods (lower than TOU-DR1's flat $0.34061 — reflects subsidized delivery cost for electrification participants); the UDC Distribution component is $0.14708 vs TOU-DR1's $0.15719 and the TRAC component is $0.00000 vs TOU-DR1's $0.06762. (2) NO Baseline Adjustment Credit (vs TOU-DR1's $-0.10892/kWh up to 130% of baseline — the discount is built into lower UDC instead). (3) EECC values are higher in summer on-peak ($0.45690 vs $0.34920) and lower in summer super-off-peak ($0.08637 vs $0.04121 — wait, lower super-off-peak in TOU-DR1; TOU-ELEC's super-off-peak is HIGHER), reflecting cost-based per-kWh pricing for high-load electrification households. Same Base Services Charge $0.79343/day for standard customers; CARE/FERA/DRAH variants modeled as RatePlanModifiers in the grid-coordination/urpx-rate-plans#13 secondary epic. Special Condition 4 imposes a 12-month minimum-stay requirement — customers must remain on TOU-ELEC for at least 12 consecutive months before changing schedules, and customers who leave cannot return for 12 consecutive months (one-time exception for first-year-of-offering enrollees per D.22-11-022). Special Condition 10 caps enrollment at 10,000 customers; enrollment subject to availability and SDG&E does not maintain a queue if cap is reached.",
+      "urpx:description": "SDG&E's electrification-targeted residential time-of-use schedule for households with at least one of: a battery-electric or plug-in hybrid vehicle (BEV/PHEV) recharged via on-premises outlet, a natural-gas vehicle (NGV) refueled via a home refueling appliance (HRA), a behind-the-meter energy storage device interconnected per Electric Rule 21, or an electric heat pump for water heating or climate control. Estimated ~70K customers (capped at 10,000 enrollments per Special Condition 10 — but the cap has been raised over time and the schedule has substantial enrollment under the original cap plus subsequent expansions; precise count via SDG&E enrollment data). Three TOU periods (On-Peak / Off-Peak / Super Off-Peak); same TOU windows as TOU-DR1 and EV-TOU-5 (4-9pm peak all days; super-off-peak split midnight-6am + 10am-2pm weekdays / continuous midnight-2pm weekends/holidays). Distinguishing structural features vs TOU-DR1: (1) UDC Total is FLAT $0.26288/kWh across all periods (lower than TOU-DR1's flat $0.34061 — reflects subsidized delivery cost for electrification participants); the UDC Distribution component is $0.14708 vs TOU-DR1's $0.15719 and the TRAC component is $0.00000 vs TOU-DR1's $0.06762. (2) NO Baseline Adjustment Credit (vs TOU-DR1's $-0.10892/kWh up to 130% of baseline — the discount is built into lower UDC instead). (3) EECC values are higher in summer on-peak ($0.45690 vs $0.34920) and lower in summer super-off-peak ($0.08637 vs $0.04121 — wait, lower super-off-peak in TOU-DR1; TOU-ELEC's super-off-peak is HIGHER), reflecting cost-based per-kWh pricing for high-load electrification households. Same Base Services Charge $0.79343/day for standard customers; CARE/FERA/DRAH variants modeled as RatePlanModifiers in the grid-coordination/urpx-rate-plans#13 secondary epic. Special Condition 4 imposes a 12-month minimum-stay requirement — customers must remain on TOU-ELEC for at least 12 consecutive months before changing schedules, and customers who leave cannot return for 12 consecutive months (one-time exception for first-year-of-offering enrollees per D.22-11-022). Special Condition 10 caps enrollment at 10,000 customers; enrollment subject to availability and SDG&E does not maintain a queue if cap is reached. Holiday handling: the urpx:HolidayCalendar on this filing carries the eight Time-of-Use Holidays enumerated in SDG&E Electric Rule 1 (Definitions), Sheet 6, Cal. P.U.C. Sheet No. 61672-E. The weekday and the weekend/holiday shapes differ only over 6am-10am, which is Off-Peak on a weekday and Super Off-Peak on a weekend or holiday, so the calendar is applied by excluding holidays from the 6am-10am weekday Off-Peak bracket and adding a 6am-10am weekday Super Off-Peak bracket that admits holidays only. Rule 1 further directs that a Holiday falling on Sunday makes the following Monday a Holiday, with no change for one falling on Saturday. urpx:observanceRule has no value for a Sunday-only shift (its four are actualDateObservance, fridayIfWeekendObservance, mondayIfWeekendObservance and nearestWeekdayObservance), so that direction is carried as urpx:holidayRule text and is not machine-readable: the Monday after a Sunday-falling fixed-date holiday resolves here as an ordinary weekday, first on 2027-07-05.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
       "urpx:minimumTenure": "P12M",
       "urpx:changeReason": {
@@ -277,6 +283,60 @@
             ]
           }
         ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "sdge:tou-elec-2026-04-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-new-years-day",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-presidents-day",
+              "urpx:holidayName": "President's Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-memorial-day",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-veterans-day",
+              "urpx:holidayName": "Veterans Day",
+              "urpx:holidayRule": "November 11 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-thanksgiving-day",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-04-01-holiday-christmas-day",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            }
+          ]
+        },
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
@@ -316,6 +376,9 @@
             "@id": "sdge:tou-tou-elec",
             "urpx:referencesMetricInput": {
               "@id": "sdge:tou-elec-2026-04-01-mi-energy"
+            },
+            "urpx:hasCalendar": {
+              "@id": "sdge:tou-elec-2026-04-01-holidays"
             },
             "urpx:hasTOUTier": [
               {
@@ -394,7 +457,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -462,7 +527,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -566,6 +633,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekendDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-04-01-time-bracket-summer-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-04-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       }
                     ]
                   },
@@ -610,6 +691,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekendDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-04-01-time-bracket-winter-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-04-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       }
                     ]
                   }

@@ -72,13 +72,17 @@ off-peak). The Mid-Peak tier has only one period (summer). 5 PriceDefinitions
 for usage charges keyed by touPeriodNumber 1-5 + 1 PriceDefinition for
 SIFC. 6 Prices total.
 
-Holiday handling: SMUD lists 11 federal holidays in Sec V.A; off-peak
-applies on those days (full list in source PDF). Modeled here using
-urpx:weekdayDays for peak/mid-peak (with description noting holiday
-exclusion); urpx:weekendDays for off-peak weekend brackets (with
-description noting holidays receive same treatment as weekends).
-Explicit urpx:HolidayCalendar reference is deferred — same gap as the
-SCE TOU-D rate plans.
+Holiday handling: Sheet R-TOD-4 Sec V.A names eleven holidays that
+take Off-Peak pricing. All eleven are carried as a
+urpx:HolidayCalendar (smud:holidays-tod-5-8pm) on the plan elements.
+The peak and mid-peak brackets set includeHolidays false and
+includeNonHolidays true, and each off-peak period gains one weekday
+bracket over exactly the hours they give up (summer noon to midnight,
+non-summer 5pm to 8pm) with includeHolidays true and
+includeNonHolidays false. A holiday falling on a weekday therefore
+resolves to Off-Peak. The schedule gives each holiday's month and
+date and no rule for one falling on a weekend, so no
+urpx:observanceRule is modeled.
 
 ## Modeling deferrals
 
@@ -101,8 +105,6 @@ Deferred to other future modeling (not grid-coordination/urpx-rate-plans#15 scop
  - Hydro Generation Adjustment (HGA) — Sec III.A references separate
  Rate Schedule HGA. Likely an electricity-usage surcharge that
  fluctuates with hydro generation availability. Not yet modeled.
- - Holiday-aware billing semantics — currently approximated via
- weekday/weekend dayType.
 
 NEM1/SSR mandatory enrollment: Sec I.3 mandates customers with NEM1
 or SSR generation facilities approved on/after January 1, 2018 to
@@ -115,7 +117,7 @@ exclusion).
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]

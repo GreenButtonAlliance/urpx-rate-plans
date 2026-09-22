@@ -54,9 +54,17 @@ in the JSON-LD:
  (referenced in us/ca/sce/electricity/utility.toml) — confirms 4-9 PM on-peak.
 
 The customer-facing schedule graphics are authoritative for the TOU windows
-modeled here; the omitted regulatory Sheets 12-17 govern edge cases (holiday
-treatment specifics, baseline allocation tables, CCA/DA clauses) that are
-not yet captured.
+modeled here; the omitted regulatory Sheets 12-17 govern edge cases (baseline
+allocation tables, CCA/DA clauses) that are not yet captured.
+
+Holidays: this filing's source PDF carries no holiday statement, Sheet 13
+being one of the sheets the 2025 reissuance omits. The eight holidays and
+the observance sentence modeled here are from Schedule TOU-D Sheet 13
+(Cal. P.U.C. leaf 89841-E, AL 5497-E, effective 2025-06-02), read from the
+live tariff-book PDF staged with the 2026-03-20 filing; that sheet took
+effect before 2025-11-15 and was still current at the 2026-03-20 snapshot.
+Their day-type treatment is Sheet 12, Special Condition 1: holidays price
+in the Weekends-and-Holidays column.
 
 Modeling deferrals (filed as separate beads issues to track):
  - Heat Pump Water Heater additional baseline allocation modifier.
@@ -82,7 +90,7 @@ Modeling deferrals (filed as separate beads issues to track):
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
@@ -90,6 +98,7 @@ complete = false
 deferrals = [
  "100% Medical Line Item Discount RatePlanModifier",
  "Closed-schedule grandfather paths (TOU-D-A, TOU-D-B, TOU-D-T enrollees) beyond the four primary OR-paths",
+ "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
 ]
 applicable_modifiers = [
  "care",
@@ -106,4 +115,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Fourth SCE schedule, scaffolded from us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/. Same TOU windows as 4-9PM (4pm-9pm) but with structural differences: NO Baseline Credit (PRIME targets higher-usage customers with electric technologies); 2 NEW per-meter-per-day credits added (EV Meter Credit $-0.446 for Separately Metered EV Option, EV Submeter Credit $-0.152); 4-way OR EligibilityRule for qualifying technology (storage / EV / heat-pump / NBT enrollment) borrowed from PG&E E-ELEC's pattern. Sheet 6/7 of source PDF (leaves 90673-E and 90674-E). Generation rates differ markedly from 4-9PM (PRIME Summer On-Peak Gen UG 0.33489 vs 4-9PM 0.27519). Winter Off-Peak and Super-Off-Peak have IDENTICAL rates on PRIME (functionally collapsed). 25 PriceDefinitions (vs 24 for 4-9PM: -1 baseline-credit, +2 EV credits)."
+notes = "Fourth SCE schedule, scaffolded from us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/. Same TOU windows as 4-9PM (4pm-9pm) but with structural differences: NO Baseline Credit (PRIME targets higher-usage customers with electric technologies); 2 NEW per-meter-per-day credits added (EV Meter Credit $-0.446 for Separately Metered EV Option, EV Submeter Credit $-0.152); 4-way OR EligibilityRule for qualifying technology (storage / EV / heat-pump / NBT enrollment) borrowed from PG&E E-ELEC's pattern. Sheet 6/7 of source PDF (leaves 90673-E and 90674-E). Generation rates differ markedly from 4-9PM (PRIME Summer On-Peak Gen UG 0.33489 vs 4-9PM 0.27519). Winter Off-Peak and Super-Off-Peak have IDENTICAL rates on PRIME (functionally collapsed). 25 PriceDefinitions (vs 24 for 4-9PM: -1 baseline-credit, +2 EV credits). Adds the Schedule TOU-D holiday calendar: the eight holidays named on Sheet 13, with urpx:includeHolidays / urpx:includeNonHolidays on the summer peak window so a holiday falling on a summer weekday resolves to Mid-Peak. Labor Day now prices as a Saturday. Winter is unaffected because Sheet 12's winter weekday and weekend/holiday columns are identical."

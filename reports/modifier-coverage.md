@@ -286,6 +286,7 @@ Base deferrals:
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
+- SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -300,6 +301,7 @@ Base deferrals:
 #### `tou-d-4-9pm` @ 2026-03-20  &nbsp; base: ~
 
 Base deferrals:
+- SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 - Option 4-9 PM-CPP variant — CPP event charges + non-event credits not yet modeled
 
@@ -317,6 +319,7 @@ Base deferrals:
 
 Base deferrals:
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
+- SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -331,6 +334,7 @@ Base deferrals:
 #### `tou-d-5-8pm` @ 2026-03-20  &nbsp; base: ~
 
 Base deferrals:
+- SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 - Option 5-8 PM-CPP variant — CPP event charges + non-event credits not yet modeled
 
@@ -349,6 +353,7 @@ Base deferrals:
 Base deferrals:
 - 100% Medical Line Item Discount RatePlanModifier
 - Closed-schedule grandfather paths (TOU-D-A, TOU-D-B, TOU-D-T enrollees) beyond the four primary OR-paths
+- SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -365,6 +370,7 @@ Base deferrals:
 #### `tou-d-prime` @ 2026-03-20  &nbsp; base: ~
 
 Base deferrals:
+- SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs
 - Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured
 - Option PRIME-CPP variant — CPP event charges + non-event credits not yet modeled
 - 100% Medical Line Item Discount RatePlanModifier
@@ -445,6 +451,7 @@ Base deferrals:
 Base deferrals:
 - PCIA recovery for CCA-served customers — not currently modeled (same deferral as sdge:tou-dr1)
 - Franchise Fee Differential 5.78% for City of San Diego customers — affects bill total but not per-component rates
+- SDG&E Rule 1's Sunday-to-Monday holiday observance (Sheet 6, Cal. P.U.C. Sheet No. 61672-E) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the 6am-10am Super Off-Peak window is missed on the Monday after a Sunday-falling fixed-date holiday, first 2027-07-05
 
 | Modifier | Status | Filing |
 |---|---|---|

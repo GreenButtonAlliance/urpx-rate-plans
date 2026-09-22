@@ -48,8 +48,7 @@ def collect() -> tuple[list[dict], int]:
         m = data.get("modeling") or {}
         if m.get("complete") is not True:
             continue
-        parts = tp.relative_to(REPO).parts
-        utility, schedule, date = parts[2], parts[3], parts[5]
+        utility, schedule, date = corpus.parse_filing_path(tp)
         d = tp.parent
         has_base = any(d.glob("rate-plan_*.jsonld"))
         has_mod = any(d.glob("rate-plan-modifier_*.jsonld"))

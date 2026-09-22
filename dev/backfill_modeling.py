@@ -47,13 +47,16 @@ DEFERRALS: dict[tuple[str, str, str], list[str]] = {
     ("sce",   "d",               "2025-11-15"): [],
     ("sce",   "tou-d-4-9pm",     "2025-11-15"): [
         "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
+            "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
     ],
     ("sce",   "tou-d-5-8pm",     "2025-11-15"): [
         "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
+            "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
     ],
     ("sce",   "tou-d-prime",     "2025-11-15"): [
         "100% Medical Line Item Discount RatePlanModifier",
         "Closed-schedule grandfather paths (TOU-D-A, TOU-D-B, TOU-D-T enrollees) beyond the four primary OR-paths",
+            "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
     ],
     ("sce",   "care",            "2025-11-15"): [
         "CARE-customer exemption from a non-CARE-funded surcharge — not modeled until base rate plans track this surcharge as a non-CARE-only line item",

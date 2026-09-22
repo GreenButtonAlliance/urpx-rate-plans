@@ -28,6 +28,12 @@
     "urpx:endTime": {
       "@type": "xsd:time"
     },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
     "urpx:initialEffectiveDate": {
       "@type": "xsd:date"
     },
@@ -85,7 +91,7 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sdge:dr-ses-2026-04-01",
-      "urpx:description": "SDG&E's electrification-targeted residential time-of-use schedule for individually-metered residential customers with an on-premises Solar Energy System (1 kW – 5 MW capacity per CA Public Resources Code §§ 25780–25782 / California Solar Initiative). Estimated ~5K customers — niche but high-signal for the price-server's solar-adopter audience. Schedule DR-SES + Schedule NEM are billed in combination if applicable (Special Condition 9). 'Individually metered' refers to one meter per residence (single-family dwellings + flats), not separate metering of the PV system. Three TOU periods (On-Peak / Off-Peak / Super Off-Peak); same TOU windows as TOU-DR1, EV-TOU-5, and TOU-ELEC (4-9pm peak all days; super-off-peak split midnight-6am + 10am-2pm weekdays / continuous midnight-2pm weekends/holidays). Bill structure: flat UDC like TOU-DR1 ($0.27299/kWh, decomposed into 7 sub-components — Trans/Distr/PPP/ND/CTC/LGC/RS — TRAC is structurally EXCLUDED by Special Condition (note on Sheet 2: 'The UDC Total Rate applicable to eligible customers taking service under Schedule DR-SES shall exclude the TRAC or its successor rate'); EECC values match EV-TOU-5 exactly (Summer On-Peak $0.47019, Off-Peak $0.17311, Super Off-Peak $0.08147; Winter $0.19990 / $0.14337 / $0.07410); DWR-BC $0; WF-NBC $0.00591. NO Baseline Adjustment Credit. Same Base Services Charge $0.79343/day for standard customers; CARE/FERA/DRAH variants modeled as RatePlanModifiers in the grid-coordination/urpx-rate-plans#13 secondary epic. Special Condition 5 imposes a 12-month minimum-stay clause; current and future occupants of the premises must enter into a Rule 21 interconnection agreement. Special Condition 6 grants a 90-day opt-out window during the initial term of service. Special Condition 13 defines 'Solar Energy System' (1 kW – 5 MW AC, per CSI eligibility criteria). Customers may also qualify for semi-annual California Climate Credit ($-49.36 per Schedule GHG-ARR).",
+      "urpx:description": "SDG&E's electrification-targeted residential time-of-use schedule for individually-metered residential customers with an on-premises Solar Energy System (1 kW – 5 MW capacity per CA Public Resources Code §§ 25780–25782 / California Solar Initiative). Estimated ~5K customers — niche but high-signal for the price-server's solar-adopter audience. Schedule DR-SES + Schedule NEM are billed in combination if applicable (Special Condition 9). 'Individually metered' refers to one meter per residence (single-family dwellings + flats), not separate metering of the PV system. Three TOU periods (On-Peak / Off-Peak / Super Off-Peak); same TOU windows as TOU-DR1, EV-TOU-5, and TOU-ELEC (4-9pm peak all days; super-off-peak split midnight-6am + 10am-2pm weekdays / continuous midnight-2pm weekends/holidays). Bill structure: flat UDC like TOU-DR1 ($0.27299/kWh, decomposed into 7 sub-components — Trans/Distr/PPP/ND/CTC/LGC/RS — TRAC is structurally EXCLUDED by Special Condition (note on Sheet 2: 'The UDC Total Rate applicable to eligible customers taking service under Schedule DR-SES shall exclude the TRAC or its successor rate'); EECC values match EV-TOU-5 exactly (Summer On-Peak $0.47019, Off-Peak $0.17311, Super Off-Peak $0.08147; Winter $0.19990 / $0.14337 / $0.07410); DWR-BC $0; WF-NBC $0.00591. NO Baseline Adjustment Credit. Same Base Services Charge $0.79343/day for standard customers; CARE/FERA/DRAH variants modeled as RatePlanModifiers in the grid-coordination/urpx-rate-plans#13 secondary epic. Special Condition 5 imposes a 12-month minimum-stay clause; current and future occupants of the premises must enter into a Rule 21 interconnection agreement. Special Condition 6 grants a 90-day opt-out window during the initial term of service. Special Condition 13 defines 'Solar Energy System' (1 kW – 5 MW AC, per CSI eligibility criteria). Customers may also qualify for semi-annual California Climate Credit ($-49.36 per Schedule GHG-ARR). Holiday handling: the urpx:HolidayCalendar on this filing carries the eight Time-of-Use Holidays enumerated in SDG&E Electric Rule 1 (Definitions), Sheet 6, Cal. P.U.C. Sheet No. 61672-E. The weekday and the weekend/holiday shapes differ only over 6am-10am, which is Off-Peak on a weekday and Super Off-Peak on a weekend or holiday, so the calendar is applied by excluding holidays from the 6am-10am weekday Off-Peak bracket and adding a 6am-10am weekday Super Off-Peak bracket that admits holidays only. Rule 1 further directs that a Holiday falling on Sunday makes the following Monday a Holiday, with no change for one falling on Saturday. urpx:observanceRule has no value for a Sunday-only shift (its four are actualDateObservance, fridayIfWeekendObservance, mondayIfWeekendObservance and nearestWeekdayObservance), so that direction is carried as urpx:holidayRule text and is not machine-readable: the Monday after a Sunday-falling fixed-date holiday resolves here as an ordinary weekday, first on 2027-07-05.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
       "urpx:minimumTenure": "P12M",
       "urpx:changeReason": {
@@ -213,6 +219,60 @@
             ]
           }
         ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "sdge:dr-ses-2026-04-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-new-years-day",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-presidents-day",
+              "urpx:holidayName": "President's Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-memorial-day",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-veterans-day",
+              "urpx:holidayName": "Veterans Day",
+              "urpx:holidayRule": "November 11 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-thanksgiving-day",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:dr-ses-2026-04-01-holiday-christmas-day",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            }
+          ]
+        },
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
@@ -252,6 +312,9 @@
             "@id": "sdge:tou-dr-ses",
             "urpx:referencesMetricInput": {
               "@id": "sdge:dr-ses-2026-04-01-mi-energy"
+            },
+            "urpx:hasCalendar": {
+              "@id": "sdge:dr-ses-2026-04-01-holidays"
             },
             "urpx:hasTOUTier": [
               {
@@ -330,7 +393,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -398,7 +463,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -502,6 +569,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekendDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:dr-ses-2026-04-01-time-bracket-summer-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:dr-ses-2026-04-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       }
                     ]
                   },
@@ -546,6 +627,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekendDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:dr-ses-2026-04-01-time-bracket-winter-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:dr-ses-2026-04-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       }
                     ]
                   }

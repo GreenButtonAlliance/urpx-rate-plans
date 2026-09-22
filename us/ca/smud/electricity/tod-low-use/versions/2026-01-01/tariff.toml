@@ -112,6 +112,16 @@ This matches the existing smud:fixed ↔ smud:tod-5-8pm pattern
 (season + ledger + metric-input IRIs are shared; rate-specific PDs
 and Prices are distinct).
 
+## Holiday handling
+
+Same as RT02: the eleven holidays of Sheet R-TOD-4 Sec V.A are carried
+as a urpx:HolidayCalendar (smud:holidays-tod-low-use, with
+'-rtl1'-suffixed Holiday IRIs per the convention above) on the plan
+elements; the peak and mid-peak brackets set includeHolidays false and
+includeNonHolidays true, and each off-peak period gains one
+holiday-only weekday bracket over the hours they give up. No
+urpx:observanceRule is modeled, the schedule stating none.
+
 ## Modeling deferrals
 
 Deferred to grid-coordination/urpx-rate-plans#15 (SMUD secondary epic):
@@ -134,8 +144,6 @@ Deferred to grid-coordination/urpx-rate-plans#15 (SMUD secondary epic):
 Deferred to other future modeling (not scope):
  - Hydro Generation Adjustment (HGA) — Sec III.A references separate
  Rate Schedule HGA. Same gap as RT02.
- - Holiday-aware billing semantics — currently approximated via
- weekday/weekend dayType. Same gap as RT02.
  - Specific kWh usage-cap eligibility threshold — modeled prose-only
  in EligibilityRule description, not as a structural ConditionExpression
  operand (source PDF doesn't enumerate the threshold).
@@ -151,7 +159,7 @@ in EligibilityRule description prose.
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]

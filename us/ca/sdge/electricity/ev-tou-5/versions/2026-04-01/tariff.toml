@@ -93,13 +93,80 @@ Same as TOU-DR1:
  - CARE / Medical Baseline / FERA / DRAH RatePlanModifiers
  (grid-coordination/urpx-rate-plans#13 secondary epic).
  - EV-TOU-5-P (Critical Peak Pricing variant; grid-coordination/urpx-rate-plans#13).
+
+## Holiday calendar
+
+The Time Periods table on this filing's own sheet gives one column for
+Weekdays and one for Weekends and Holidays but names no holiday. Special
+Condition 4 sends the reader to Rule 1: "The Definitions of terms used in
+this Schedule are found either herein or in Rule 1." The set therefore comes
+from SDG&E Electric Rule 1 (DEFINITIONS), Sheet 6, Original Cal. P.U.C.
+Sheet No. 61672-E, AL 4375-E, D.23-12-037, effective Jul 1 2024, entry
+HOLIDAYS, quoted in full:
+
+ The Time-of-Use Holidays are New Year's Day (January 1), President's Day
+ (third Monday in February), Memorial Day (last Monday in May),
+ Independence Day (July 4), Labor Day (first Monday in September),
+ Veterans Day (November 11), Thanksgiving Day (fourth Thursday in
+ November), and Christmas Day (December 25). When a Holiday listed above
+ falls on Sunday, the following Monday shall be defined as a Holiday. No
+ change will be made for Holidays falling on Saturday.
+
+Eight holidays, and NOT the federal set: SDG&E omits Martin Luther King Jr.
+Day and Juneteenth, and its observance rule shifts only Sunday. Rule 1 is
+not committed to this directory; fetch it from the SDG&E tariff portal at
+tarfKey=77 via the Azure endpoint documented in
+us/ca/sdge/electricity/utility.toml.
+
+## How the calendar is applied
+
+Weekday and weekend/holiday differ in exactly one window. Weekday Super
+Off-Peak is midnight-6am plus 10am-2pm; weekend/holiday Super Off-Peak is a
+continuous midnight-2pm. On-Peak is 4pm-9pm on every day type, and the
+14:00-16:00 and 21:00-24:00 Off-Peak windows are common to both. So the only
+hours that disagree are 6am-10am, Off-Peak on a weekday and Super Off-Peak
+on a weekend or holiday.
+
+Both halves of the swap are modeled, because either half alone leaves a
+weekday-holiday morning resolving to the wrong tier or to nothing:
+
+ - the 6am-10am weekday Off-Peak bracket takes includeHolidays = false and
+ includeNonHolidays = true, so it no longer applies on a holiday;
+ - a new 6am-10am weekday Super Off-Peak bracket takes includeHolidays =
+ true and includeNonHolidays = false, so it applies only on a holiday.
+
+Weekend brackets carry no holiday flags and so keep covering a holiday that
+falls on a Saturday or Sunday, which is what Rule 1 directs (no shift for
+Saturday, and a Sunday holiday is a Sunday). The On-Peak 4pm-9pm bracket is
+urpx:allDays and likewise carries no flags, matching the tariff's identical
+On-Peak column for weekdays and for weekends and holidays.
+
+## Observance: what is not modeled
+
+Rule 1's shift is Sunday-only. urpx:ObservanceRuleValue in URPX v0.5.1 has
+four members (actualDateObservance, fridayIfWeekendObservance,
+mondayIfWeekendObservance and nearestWeekdayObservance) and none of them
+means "shift Sunday, leave Saturday alone". mondayIfWeekendObservance is the
+near miss and it is wrong in a way that costs real money: it would also move
+a Saturday holiday to the following Monday, pricing that Monday's 6am-10am
+as Super Off-Peak on a day the tariff says is an ordinary weekday.
+Independence Day 2026 falls on a Saturday, so that error would be live in
+the first summer this filing is effective.
+
+urpx:observanceRule is therefore left unset rather than set to a value the
+source contradicts, and the rule is carried as text in each fixed-date
+holiday's urpx:holidayRule. The cost of leaving it unset is the opposite and
+smaller error: the Monday after a Sunday-falling New Year's Day,
+Independence Day, Veterans Day or Christmas Day resolves as an ordinary
+weekday. The first such date after this filing's effective date is
+2027-07-05.
 """
 
 # Validation ------------------------------------------------------------------
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]

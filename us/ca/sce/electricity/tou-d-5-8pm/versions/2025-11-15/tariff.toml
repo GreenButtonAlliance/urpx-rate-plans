@@ -54,9 +54,17 @@ in the JSON-LD:
  (referenced in us/ca/sce/electricity/utility.toml) — confirms 4-9 PM on-peak.
 
 The customer-facing schedule graphics are authoritative for the TOU windows
-modeled here; the omitted regulatory Sheets 12-17 govern edge cases (holiday
-treatment specifics, baseline allocation tables, CCA/DA clauses) that are
-not yet captured.
+modeled here; the omitted regulatory Sheets 12-17 govern edge cases (baseline
+allocation tables, CCA/DA clauses) that are not yet captured.
+
+Holidays: this filing's source PDF carries no holiday statement, Sheet 13
+being one of the sheets the 2025 reissuance omits. The eight holidays and
+the observance sentence modeled here are from Schedule TOU-D Sheet 13
+(Cal. P.U.C. leaf 89841-E, AL 5497-E, effective 2025-06-02), read from the
+live tariff-book PDF staged with the 2026-03-20 filing; that sheet took
+effect before 2025-11-15 and was still current at the 2026-03-20 snapshot.
+Their day-type treatment is Sheet 12, Special Condition 1: holidays price
+in the Weekends-and-Holidays column.
 
 Modeling deferrals (filed as separate beads issues to track):
  - Heat Pump Water Heater additional baseline allocation modifier.
@@ -75,13 +83,14 @@ Modeling deferrals (filed as separate beads issues to track):
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
 complete = false
 deferrals = [
  "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
+ "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
 ]
 applicable_modifiers = [
  "care",
@@ -96,4 +105,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Second SCE schedule, scaffolded from us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/. Same structure (24 PriceDefinitions, 4 TOUTiers, 6 TOUPeriods); differs from 4-9PM only in: on-peak/mid-peak time windows (5pm-8pm vs 4pm-9pm), super-off-peak end (5pm vs 4pm), per-period rate values (Sheet 4/5 of source PDF, leaves 90671-E and 90672-E), and the description (alternate CPUC default for inland climate zones vs the 4-9PM coastal default). Flat-rate surcharges (Trans/NSGC/NDC/PPPC/CIA/WFC/PUCRF), Fixed Recovery, MCAM, BSC, BSC Deed-Restricted Discount, Baseline Credit, and Climate Credit values are all identical to 4-9PM."
+notes = "Second SCE schedule, scaffolded from us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/. Same structure (24 PriceDefinitions, 4 TOUTiers, 6 TOUPeriods); differs from 4-9PM only in: on-peak/mid-peak time windows (5pm-8pm vs 4pm-9pm), super-off-peak end (5pm vs 4pm), per-period rate values (Sheet 4/5 of source PDF, leaves 90671-E and 90672-E), and the description (alternate CPUC default for inland climate zones vs the 4-9PM coastal default). Flat-rate surcharges (Trans/NSGC/NDC/PPPC/CIA/WFC/PUCRF), Fixed Recovery, MCAM, BSC, BSC Deed-Restricted Discount, Baseline Credit, and Climate Credit values are all identical to 4-9PM. Adds the Schedule TOU-D holiday calendar: the eight holidays named on Sheet 13, with urpx:includeHolidays / urpx:includeNonHolidays on the summer peak window so a holiday falling on a summer weekday resolves to Mid-Peak. Labor Day now prices as a Saturday. Winter is unaffected because Sheet 12's winter weekday and weekend/holiday columns are identical."

@@ -98,6 +98,36 @@ def detect_drift() -> list[str]:
     return drifted
 
 
+MIDAS_REPORTS = [REPO / "reports" / "midas-coverage.json", REPO / "reports" / "midas-coverage.md"]
+MIDAS_STALE_DAYS = 30
+
+
+def report_midas_staleness() -> None:
+    """Print how old the MIDAS coverage report is. Never fails, never fetches.
+
+    scripts/build-midas-coverage-report.py is NOT in STEPS on purpose: it calls a
+    live API for roughly 2,500 rate identifiers, takes five to ten minutes, and
+    needs MIDAS_USERNAME and MIDAS_PASSWORD. Running that per commit would make
+    every commit slow, networked and credentialed.
+
+    But leaving it out entirely is how it went four months stale without anyone
+    noticing, which is the same silence the corpus-coverage generator sat in. So
+    the age is printed on every full run. Refresh deliberately:
+
+        MIDAS_USERNAME=... MIDAS_PASSWORD=... python3 scripts/build-midas-coverage-report.py
+    """
+    import datetime
+    print()
+    print("=== MIDAS coverage report age ===")
+    for f in MIDAS_REPORTS:
+        if not f.exists():
+            print(f"  MISSING  {f.relative_to(REPO)}")
+            continue
+        age = (datetime.datetime.now() - datetime.datetime.fromtimestamp(f.stat().st_mtime)).days
+        flag = "  STALE, refresh it" if age > MIDAS_STALE_DAYS else ""
+        print(f"  {age:4d} days  {f.relative_to(REPO)}{flag}")
+
+
 def main() -> int:
     generators_only = "--generators-only" in sys.argv
 
@@ -109,6 +139,9 @@ def main() -> int:
         print(f"  {marker} {name}")
         if not ok:
             failures.append((name, out, err))
+
+    if not generators_only:
+        report_midas_staleness()
 
     if generators_only:
         # The pre-commit hook's mode: regenerate derived artifacts so they can be

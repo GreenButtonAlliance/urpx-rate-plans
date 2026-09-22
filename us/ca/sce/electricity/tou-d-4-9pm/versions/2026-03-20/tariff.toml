@@ -48,11 +48,16 @@ per sheet, with Cal. P.U.C. sheet number):
  Sheet 7 (Option PRIME Delivery Service breakdown) — 2026-01-01
  Sheets 8-11 (Option A and Option B — closed schedules) — 2025-10-01
  Sheet 12 (Special Condition 1: TOU period definitions for all
- options) — 2022-06-01 (AL 4765-E, 89841-E)
+ options) — 2022-06-01 (AL 4765-E, 73726-E)
  *** unblocks Sheet 12 sourcing — TOU windows for 4-9 PM are now
  cited from the regulatory Sheet 12 instead of the
  customer-facing rate-plans page ***
- Sheet 13 (Special Condition 2: Option PRIME eligibility) — 2025-06-02
+ Sheet 13 (Special Condition 1 continued: CPP periods, the eight
+ named holidays and their observance rule, season boundaries;
+ Special Condition 2: Basic Charge definitions) — 2025-06-02
+ (AL 5497-E, 89841-E)
+ *** source of the urpx:HolidayCalendar. PRIME eligibility is
+ Special Condition 5 on Sheet 17, not here ***
  Sheet 14 (Special Condition 3: Billing Calculation, DWREC, PCIA
  recovery, DA-CRS / CCA-CRS cross-references) — 2025-06-02
  *** unblocks Vintage PCIA / DA-CRS / CCA-CRS modifier sourcing
@@ -143,12 +148,13 @@ Modeling deferrals (tracked as siblings under ):
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
 complete = false
 deferrals = [
+ "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
  "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
  "Option 4-9 PM-CPP variant — CPP event charges + non-event credits not yet modeled",
 ]
@@ -165,4 +171,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "re-sourced from live tariff-book TOU-D PDF. 24 of 24 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 2/3. Sheet 12 (TOU period definitions) is now in the source PDF — TOU windows are now sourced from the regulatory Sheet 12 instead of the customer-facing rate-plans page (modeled values unchanged). Per-version IRIs (Prices, PriceSets, EligibilityRule subtree, BSC PriceDefinition with its blank-node CalculationMethod) date-suffixed per the pattern so the validator can load both 2025-11-15 and 2026-03-20 simultaneously via urpx:supersedes without SHACL maxCount collisions. RatePlanVersion @id sce:tou-d-4-9pm-2026-03-20 supersedes sce:tou-d-4-9pm-2025-11-15."
+notes = "re-sourced from live tariff-book TOU-D PDF. 24 of 24 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 2/3. Sheet 12 (TOU period definitions) is now in the source PDF — TOU windows are now sourced from the regulatory Sheet 12 instead of the customer-facing rate-plans page (modeled values unchanged). Per-version IRIs (Prices, PriceSets, EligibilityRule subtree, BSC PriceDefinition with its blank-node CalculationMethod) date-suffixed per the pattern so the validator can load both 2025-11-15 and 2026-03-20 simultaneously via urpx:supersedes without SHACL maxCount collisions. RatePlanVersion @id sce:tou-d-4-9pm-2026-03-20 supersedes sce:tou-d-4-9pm-2025-11-15. Adds the Schedule TOU-D holiday calendar: the eight holidays named on Sheet 13, with urpx:includeHolidays / urpx:includeNonHolidays on the summer peak window so a holiday falling on a summer weekday resolves to Mid-Peak. Labor Day now prices as a Saturday. Winter is unaffected because Sheet 12's winter weekday and weekend/holiday columns are identical."

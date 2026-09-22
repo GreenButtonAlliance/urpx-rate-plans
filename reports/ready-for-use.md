@@ -10,57 +10,57 @@ A filing-directory qualifies iff `[modeling].complete = true` (per [LAYOUT.md §
 
 | Schedule | Effective | Type |
 |---|---|---|
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
+| `e-1` | 2026-03-01 | RatePlan |
+| `e-elec` | 2026-01-01 | RatePlan |
+| `e-elec` | 2026-03-27 | RatePlan |
+| `e-tou-c` | 2026-03-27 | RatePlan |
+| `e-tou-d` | 2026-03-27 | RatePlan |
+| `ev2` | 2026-03-27 | RatePlan |
 
 ### SCE (IOU) — 5
 
 | Schedule | Effective | Type |
 |---|---|---|
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlanModifier |
-| `electricity` | versions | RatePlanModifier |
-| `electricity` | versions | RatePlanModifier |
+| `d` | 2025-11-15 | RatePlan |
+| `d` | 2026-03-20 | RatePlan |
+| `deed-restricted` | 2025-11-15 | RatePlanModifier |
+| `deed-restricted` | 2026-03-20 | RatePlanModifier |
+| `fera` | 2025-11-15 | RatePlanModifier |
 
 ### SDG&E (IOU) — 5
 
 | Schedule | Effective | Type |
 |---|---|---|
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlanModifier |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
+| `dr-ses` | 2026-04-01 | RatePlan |
+| `drah` | 2026-04-01 | RatePlanModifier |
+| `ev-tou-5` | 2026-04-01 | RatePlan |
+| `tou-dr2` | 2026-04-01 | RatePlan |
+| `tou-elec` | 2026-04-01 | RatePlan |
 
 ### CPAU (POU) — 7
 
 | Schedule | Effective | Type |
 |---|---|---|
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlan |
-| `electricity` | versions | RatePlanModifier |
-| `electricity` | versions | RatePlanModifier |
-| `electricity` | versions | RatePlanModifier |
+| `e-1` | 2025-07-01 | RatePlan |
+| `e-1` | 2025-09-01 | RatePlan |
+| `e-1-tou` | 2026-01-01 | RatePlan |
+| `e-2` | 2025-07-01 | RatePlan |
+| `e-eec-1` | 2025-09-01 | RatePlanModifier |
+| `e-hra` | 2023-01-01 | RatePlanModifier |
+| `e-nse-1` | 2025-09-01 | RatePlanModifier |
 
 ### SMUD (POU) — 2
 
 | Schedule | Effective | Type |
 |---|---|---|
-| `electricity` | versions | RatePlanModifier |
-| `electricity` | versions | RatePlanModifier |
+| `pev-credit` | 2025-06-20 | RatePlanModifier |
+| `ssr` | 2022-03-01 | RatePlanModifier |
 
 ### LADWP (POU) — 1
 
 | Schedule | Effective | Type |
 |---|---|---|
-| `electricity` | versions | RatePlan |
+| `r-1a` | 2026-04-01 | RatePlan |
 
 ## Caveats
 

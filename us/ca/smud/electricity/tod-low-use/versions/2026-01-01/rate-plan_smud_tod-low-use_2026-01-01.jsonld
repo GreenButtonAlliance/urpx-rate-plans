@@ -55,6 +55,12 @@
     "urpx:dateRetrieved": {
       "@type": "xsd:date"
     },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
@@ -172,6 +178,78 @@
             ]
           }
         ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "smud:holidays-tod-low-use",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-new-years-day-rtl1",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-martin-luther-king-jr-day-rtl1",
+              "urpx:holidayName": "Martin Luther King Jr. Day",
+              "urpx:holidayRule": "Third Monday in January"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-presidents-day-rtl1",
+              "urpx:holidayName": "Presidents Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-memorial-day-rtl1",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-juneteenth-rtl1",
+              "urpx:holidayName": "Juneteenth National Independence Day",
+              "urpx:holidayRule": "June 19"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-independence-day-rtl1",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-labor-day-rtl1",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-indigenous-peoples-day-rtl1",
+              "urpx:holidayName": "Indigenous Peoples' Day/Columbus Day",
+              "urpx:holidayRule": "Second Monday in October"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-veterans-day-rtl1",
+              "urpx:holidayName": "Veterans Day",
+              "urpx:holidayRule": "November 11"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-thanksgiving-day-rtl1",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:holiday-christmas-day-rtl1",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25"
+            }
+          ]
+        },
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
@@ -238,7 +316,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       }
                     ]
                   },
@@ -258,7 +338,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       }
                     ]
                   }
@@ -289,7 +371,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -301,7 +385,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       }
                     ]
                   }
@@ -333,6 +419,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:time-bracket-summer-off-peak-weekday-holiday-rtl1",
+                        "urpx:startTime": "12:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -377,6 +477,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:time-bracket-non-summer-off-peak-weekday-holiday-rtl1",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2026-01-01-season-non-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -648,7 +762,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "This filing carries the RTL1 prices of the January 1, 2026 column, a $17.00 System Infrastructure Fixed Charge and five time-of-day usage prices, and shares the unrepresented provisions of the Rate Schedule R-TOD document it is taken from. Section IV.D Standby Service Option, $8.855 per kW of Contract Capacity per month effective January 1, 2026, for customers whose on-site generation has a combined nameplate rating under 100 kW, waived only for qualifying renewable generation under Schedules NEM1 and SSR. Section IV.H Residential Three-Phase Service Option, $57.95 per month in Special Facilities fees effective January 1, 2026, in addition to the System Infrastructure Fixed Charge. Section III.A Hydro Generation Adjustment, a surcharge on all kWh under a separate Rate Schedule HGA not carried in this corpus. Section IV.F SMUD Renewable Energy Option, whose charge the schedule does not state, publishing it on smud.org. Two gaps sit inside what is modeled: the eleven holidays that Section V.A prices as Off-Peak are approximated with weekday and weekend day types and no holiday calendar, so a holiday falling on a weekday, such as Labor Day, resolves to Peak or Mid-Peak; and the Section VI.A proration of the monthly System Infrastructure Fixed Charge against 30 days for billing periods shorter than 27 days has no representation, the charge being carried as a flat monthly amount. Eligibility is the place where this rate differs from its RT02 sibling, and it is the weakest part of the model: Section I.B makes a service panel of 125 amps or less a hard requirement, and that requirement is stated in prose while the condition expression tests only that the customer is residential. The eligibility rule's own prose describes the rate election as an encoded predicate, but no such operand is present in the graph: nothing in the condition expression distinguishes an RTL1 customer from any other residential customer. The schedule's other qualifier, that the rate is for customers who 'use a low amount energy,' is left unquantified in the source, so nothing is modeled from it. Section IV.G Special Metering Charge is out of scope rather than missing: it is a service fee for nonstandard customer-purchased metering equipment, billed under Rule and Regulation 2 Section IV, and carries no published amount.",
+          "urpx:description": "This filing carries the RTL1 prices of the January 1, 2026 column, a $17.00 System Infrastructure Fixed Charge and five time-of-day usage prices, and shares the unrepresented provisions of the Rate Schedule R-TOD document it is taken from. Section IV.D Standby Service Option, $8.855 per kW of Contract Capacity per month effective January 1, 2026, for customers whose on-site generation has a combined nameplate rating under 100 kW, waived only for qualifying renewable generation under Schedules NEM1 and SSR. Section IV.H Residential Three-Phase Service Option, $57.95 per month in Special Facilities fees effective January 1, 2026, in addition to the System Infrastructure Fixed Charge. Section III.A Hydro Generation Adjustment, a surcharge on all kWh under a separate Rate Schedule HGA not carried in this corpus. Section IV.F SMUD Renewable Energy Option, whose charge the schedule does not state, publishing it on smud.org. The eleven holidays that Section V.A prices as Off-Peak are carried as a holiday calendar on the plan elements, so a holiday falling on a weekday, such as Labor Day, resolves to Off-Peak rather than to Peak or Mid-Peak; the schedule states each holiday's month and date and no rule for one that falls on a weekend, so no observance rule is modeled. One gap sits inside what is modeled: the Section VI.A proration of the monthly System Infrastructure Fixed Charge against 30 days for billing periods shorter than 27 days has no representation, the charge being carried as a flat monthly amount. Eligibility is the place where this rate differs from its RT02 sibling, and it is the weakest part of the model: Section I.B makes a service panel of 125 amps or less a hard requirement, and that requirement is stated in prose while the condition expression tests only that the customer is residential. The eligibility rule's own prose describes the rate election as an encoded predicate, but no such operand is present in the graph: nothing in the condition expression distinguishes an RTL1 customer from any other residential customer. The schedule's other qualifier, that the rate is for customers who 'use a low amount energy,' is left unquantified in the source, so nothing is modeled from it. Section IV.G Special Metering Charge is out of scope rather than missing: it is a service fee for nonstandard customer-purchased metering equipment, billed under Rule and Regulation 2 Section IV, and carries no published amount.",
           "urpx:evaluatedOn": "2026-09-21T00:00:00"
         }
       }

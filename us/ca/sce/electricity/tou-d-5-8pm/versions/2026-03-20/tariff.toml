@@ -40,6 +40,10 @@ Per-sheet effective dates relevant to the 5-8 PM filing:
  (AL 5725-E, 90940-E) *** rates we model here ***
  Sheet 12 (Special Condition 1: TOU period definitions) — 2022-06-01
  *** unblocks Sheet 12 sourcing for 5-8 PM TOU windows ***
+ Sheet 13 (Special Condition 1 continued: the eight named holidays
+ and their observance rule; Special Condition 2: Basic Charge
+ definitions), effective 2025-06-02 (AL 5497-E, 89841-E)
+ *** source of the urpx:HolidayCalendar ***
  Sheet 14 (Special Condition 3: Billing Calculation, DWREC, PCIA)
  — 2025-06-02
  Sheet 15 (Special Condition 4: Baseline Allocation / Pre-Statement
@@ -116,12 +120,13 @@ Modeling deferrals (tracked as siblings under ):
 [validation]
 shacl_passed = true
 validator = "pyshacl + clj-urpx (URPX v0.5.1)"
-validated_on = "2026-09-20"
+validated_on = "2026-09-21"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
 complete = false
 deferrals = [
+ "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
  "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
  "Option 5-8 PM-CPP variant — CPP event charges + non-event credits not yet modeled",
 ]
@@ -138,4 +143,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "re-sourced from live tariff-book TOU-D PDF. 24 of 24 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 4/5. Sheet 12 (TOU period definitions) now cited from regulatory source instead of customer-facing page (modeled values unchanged). Per-version IRIs date-suffixed per the pattern. RatePlanVersion @id sce:tou-d-5-8pm-2026-03-20 supersedes sce:tou-d-5-8pm-2025-11-15."
+notes = "re-sourced from live tariff-book TOU-D PDF. 24 of 24 existing prices refreshed to AL 5725-E values (effective 2026-01-01); see [extraction.notes] for per-component deltas. Adds 2 new PriceDefinitions (Generation→DWREC, Delivery→DWRA) for explicit columns on Sheets 4/5. Sheet 12 (TOU period definitions) now cited from regulatory source instead of customer-facing page (modeled values unchanged). Per-version IRIs date-suffixed per the pattern. RatePlanVersion @id sce:tou-d-5-8pm-2026-03-20 supersedes sce:tou-d-5-8pm-2025-11-15. Adds the Schedule TOU-D holiday calendar: the eight holidays named on Sheet 13, with urpx:includeHolidays / urpx:includeNonHolidays on the summer peak window so a holiday falling on a summer weekday resolves to Mid-Peak. Labor Day now prices as a Saturday. Winter is unaffected because Sheet 12's winter weekday and weekend/holiday columns are identical."
