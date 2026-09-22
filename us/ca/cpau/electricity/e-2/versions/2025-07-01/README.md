@@ -48,15 +48,15 @@ Several patterns are exercised here for the first time in the urpx-rate-plans co
 
 The `appliesInSeason → Season.month` resolver path was added to clj-urpx in [](https://github.com/grid-coordination/clj-urpx/issues) (clj-urpx@86d109e) to support this pattern.
 
-## Modifiers (not yet integrated)
+## Modifiers
 
-CPAU E-2 customers are eligible for several rate-plan modifiers that are **not currently modeled in this filing's `@graph`**:
+CPAU E-2 customers are eligible for several rate-plan modifiers. Each is published as its own schedule and so has its own filing here; none is inlined into this filing's `@graph`, and all three name `cpau:e-2` in `urpx:applicableToRatePlan`:
 
 - **E-EEC-1** (Solar NEM 2 Export Compensation) — applies to small commercial customers
 - **E-NSE-1** (Solar NEM 1 Net Surplus Compensation) — applies to small commercial NEM 1 customers
 - **E-HRA** (Electric Hydro Rate Adjuster) — applies to all CPAU electric customers (currently zero-valued; "Inactive as of 7/1/2023")
 
-Two of these (E-EEC-1, E-NSE-1) became effective 2025-09-01, after the base E-2 effective date. A future multi-source snapshot filing at `versions/2025-09-01/` could embed all three modifier `RatePlanModifierVersion`s into the `@graph` (the same pattern used for [CPAU E-1 2025-09-01](../../e-1/versions/2025-09-01/)).
+Two of these (E-EEC-1, E-NSE-1) became effective 2025-09-01, after the base E-2 effective date. That does not call for a new E-2 filing: CPAU did not reissue E-2, so there is no 2025-09-01 E-2 schedule to convert, and a directory here corresponds to a published document. A reader composes a modifier with this base version at read time. A snapshot bundle pre-composing them was tried under `e-1/versions/2025-09-01/` and removed, because it gave version `@id`s a second definition that no PDF backed.
 
 ## Provenance
 

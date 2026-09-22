@@ -67,7 +67,11 @@ PY
 touched_utilities() {
     local all staged u out=""
     all=$(utilities_all)
-    staged=$(git diff --cached --name-only --diff-filter=ACMR || true)
+    # ACMRD, not ACMR: a commit that only DELETES a utility's filings still
+    # changes that utility's corpus, and excluding D skipped its baseline check
+    # entirely. Found when a deletion-only CPAU commit reported "no utility
+    # touched" over seven staged CPAU deletions.
+    staged=$(git diff --cached --name-only --diff-filter=ACMRD || true)
     for u in $all; do
         if printf '%s\n' "$staged" | grep -q "/$u/"; then out="$out $u"; fi
     done

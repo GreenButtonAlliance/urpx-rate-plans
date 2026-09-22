@@ -39,7 +39,10 @@ set -euo pipefail
 # at one level, so a commit touching ONLY dev/baseline/marginal-rates.edn skipped
 # the gate entirely. That is the one file whose whole purpose is to be compared
 # against, so a re-record could land unverified.
-if ! git diff --cached --name-only --diff-filter=ACMR | grep -qE '^(us/.*\.(toml|jsonld)|dev/[^/]+\.(py|sh|clj)|dev/baseline/.*\.(edn|json))$'; then
+# ACMRD, not ACMR: D is deletion. Removing a filing is a corpus change like any
+# other, and under ACMR a commit that only deleted filings matched nothing here
+# and skipped the gate outright.
+if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld)|dev/[^/]+\.(py|sh|clj)|dev/baseline/.*\.(edn|json))$'; then
     exit 0
 fi
 

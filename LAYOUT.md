@@ -154,26 +154,28 @@ Some filings package a base RatePlan and one or more `RatePlanModifier`s into a 
 
 ```toml
 [source]
-landing_page  = "https://www.paloalto.gov/.../Residential-Rates"
+landing_page = "https://www.paloalto.gov/.../Residential-Rates"
 
   [source.base]
-  url          = "https://www.paloalto.gov/.../e-1-effective-2025-07-01.pdf"
-  sha256       = "9c8ad3bd..."
-  retrieved_on = "2026-04-28"
+  url          = "https://www.paloalto.gov/.../e-1-tou-effective-2026-01-01.pdf"
+  sha256       = "e1253904..."
+  retrieved_on = "2026-03-03"
   media_type   = "application/pdf"
   filing_type  = "tariff-schedule"
 
-  [source.modifier_e_eec_1]
-  url          = "https://www.paloalto.gov/.../e-eec-1-effective-2025-09-01.pdf"
-  sha256       = "b2876440..."
-  retrieved_on = "2026-04-28"
+  [source.modifier_e_nse_1]
+  url          = "https://www.paloalto.gov/.../e-nse-1-effective-2025-09-01.pdf"
+  sha256       = "c07362c5..."
+  retrieved_on = "2026-04-30"
   media_type   = "application/pdf"
   filing_type  = "tariff-schedule"
 
   # ... one [source.<name>] block per source document
 ```
 
-Sub-table names are free-form (`base`, `modifier_e_eec_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `us/ca/cpau/electricity/e-1/versions/2025-09-01/tariff.toml` for a working example.
+Sub-table names are free-form (`base`, `modifier_e_nse_1`, etc.); they're for human readability — the schema validates structure, not naming. Each sub-table carries the same fields as a single-source `[source]` block. See `us/ca/cpau/electricity/e-1-tou/versions/2026-01-01/tariff.toml` for a working example; it declares three sources, because the filing inlines two modifiers and each traces to its own PDF.
+
+Inlining a modifier is a property of how the *publisher* wrote the schedule, not a packaging choice open to this corpus. Where a modifier is published as its own schedule it gets its own filing directory, and a base version that merely permits it says so with `urpx:applicableToRatePlan`. Assembling a pre-composed bundle that no single PDF corresponds to gives one version `@id` two definitions in the corpus, and a reader that loads both files then has to pick one.
 
 ### Per-document regulator metadata in multi-source filings
 

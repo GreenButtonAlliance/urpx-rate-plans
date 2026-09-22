@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **40**
+- Base RatePlan filings: **39**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **184**
-  - present and complete: 11
-  - present but incomplete: 133
+- Applicable-modifier slots across all bases: **181**
+  - present and complete: 10
+  - present but incomplete: 131
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **1**
 
@@ -59,18 +59,6 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 Base deferrals:
 - Tier 1 quantity is denominated per day and prorated: Sheet E-1-1 Section D.2, "a level of 15 kWh per day, prorated by Meter reading days of Service... for a 30-day bill, the Tier 1 level would be 450 kWh." cpau:tier-1-bracket carries upperBound 15 against cpau:ms-energy (unitOfMeasure urpx:kWh, no intervalDuration), and no tier name or description states the denomination, so the bound resolves as 15 kWh rather than 15 kWh/day. The per-day denomination IS expressible under v0.5.1 and was validated 2026-09-21: a daily-energy MetricInput whose MetricSpecification carries intervalDuration "P1D" and intervalType urpx:dailyInterval, pointed at by ServiceTiers.referencesMetricInput, conforms against the v0.5.1 shapes. It would be declarative at clj-urpx 0.25.0, whose ledger-metric-info (price.clj) surfaces only measurementKind, unitOfMeasure and flowDirection off a MetricSpecification. Work, not a blocker.
 - The proration arithmetic itself is not expressible: a Tier 1 bound of 15 kWh times the number of meter reading days (Sheet E-1-1 Section D.2, which refers the calculation to Rule and Regulation 11, a document not held in this corpus). ServiceBracketShape is sh:closed in v0.5.1 and lowerBound/upperBound are xsd:decimal literals with no formula or metric reference, so a bound that scales with billing-period length cannot be stated. Same class as urpx-org/urpx#32 (additive baseline allowance), open. Corpus-wide: pge/e-1, pge/e-tou-c, sce/d, sdge/dr and ladwp/r-1a all encode a daily allowance as a bare decimal on an undenominated kWh metric.
-
-| Modifier | Status | Filing |
-|---|---|---|
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
-| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
-| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
-
-#### `e-1` @ 2025-09-01  &nbsp; base: ~
-
-Base deferrals:
-- Tier 1 boundary is stated per day and modeled as a bare kWh bound. Sheet E-1-1 Section D.2 sets Tier 1 at 15 kWh per day, prorated by meter reading days of service, with the worked example that a 30-day bill has a Tier 1 level of 450 kWh. cpau:tier-1-bracket carries upperBound 15 on cpau:mi-energy, whose MetricSpecification declares unitOfMeasure urpx:kWh with no interval, so the per-day denominator survives only in the tier name. clj-urpx 0.25.0 surfaces :tier-upper-bound 15M on the commodity and distribution ledgers, so a consumer comparing a billing-period reading against 15 bills nearly the whole bill at Tier 2 (0.22944 rather than 0.20570). Declaring urpx:intervalDuration P1D on cpau:ms-energy validates under v0.5.1 and adds no new violation, but clj-urpx 0.25.0 does not surface it, and the proration itself (bound equals 15 times the meter reading days) has no expression: ServiceBracketShape is sh:closed over decimal bounds, their operators, appliesInSeason and referencesProfileAlternative, and a varying meter read interval rules out precomputing one absolute bound. The same encoding is used across the corpus (pge/e-1, pge/e-tou-c, sce/d, sdge/dr), so settle the convention once for the corpus rather than here alone.
-- Net surplus compensation settles annually and the model does not say so. Sheet E-NSE-1 Section C prices net surplus electricity at $0.1012 per kWh and Special Condition 1 applies it to the net surplus determined at the end of an annual settlement period under Rule 29. cpau:e-nse-1-2025-09-01-pd-surplus-compensation carries no hasCalculationMethod, so nothing distinguishes the credit from a monthly per-kWh credit. Expressible now as urpx:intervalDuration P1Y on a CalculationMethod under that PriceDefinition, the same shape cpau:pd-customer-charge already uses with P1M, and clj-urpx 0.25.0 does surface intervalDuration. Rule 29 is not in this corpus, so the settlement mechanics beyond the period length are a source gap.
 
 | Modifier | Status | Filing |
 |---|---|---|

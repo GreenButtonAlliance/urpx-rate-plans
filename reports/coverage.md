@@ -60,7 +60,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Schedule | Type | Versions |
 |---|---|---|---|
-| cpau | e-1 | rate-plan | 2025-07-01, 2025-09-01 |
+| cpau | e-1 | rate-plan | 2025-07-01 |
 | cpau | e-1-tou | rate-plan | 2026-01-01 |
 | cpau | e-14 | rate-plan | 2025-07-01 |
 | cpau | e-16 | rate-plan | 2025-09-01 |
