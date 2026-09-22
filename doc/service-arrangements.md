@@ -11,6 +11,28 @@ A **service arrangement** is a fully determined selection over the plan space:
 
 > one `urpx:RatePlanVersion`, plus every `urpx:RatePlanModifierVersion` that applies to it and that the customer has, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open.
 
+```mermaid
+
+graph TB
+    RP["<b>RatePlan</b><br/>the plan identity<br/><i>no pricing content</i>"]
+    V["<b>RatePlanVersion</b><br/>snapshot for a window"]
+    M1["<b>RatePlanModifierVersion</b><br/>e.g. a CARE discount"]
+    M2["<b>RatePlanModifierVersion</b><br/>e.g. a medical baseline"]
+    PA["<b>ProfileAlternative</b><br/>one per open dimension"]
+    C(["<b>service arrangement</b><br/>resolves to prices<br/><i>not a URPX class</i>"])
+
+    V -->|forRatePlan| RP
+    M1 -->|applicableToRatePlan| RP
+    M2 -->|applicableToRatePlan| RP
+    V -->|hasProfileAlternatives| PA
+    V -.->|no URPX property| C
+    M1 -.->|no URPX property| C
+    M2 -.->|no URPX property| C
+    PA -.->|no URPX property| C
+```
+
+The dotted edges are the point. URPX names every relationship above except the ones that assemble the result, which is why this document exists.
+
 *Fully determined* means nothing remains to choose. Given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one arrangement but several, and each of those is an arrangement in its own right.
 
 It is the thing a customer takes service under. A rate plan is what a utility publishes; an arrangement is what a particular customer is actually billed under, and a plan generally admits many.
@@ -28,6 +50,21 @@ So an arrangement is not derivable from a customer record the corpus does not ho
 **Which alternative per open dimension.** `urpx:PlanElementsShape.hasProfileAlternatives` is `min 0 max 1`, so a version reaches at most one container, but `urpx:AlternativeDimensionsShape.hasAlternativeDimension` is `min 1 max None`, so one container holds several dimensions and the `urpx:ProfileAlternative` members are the cells of their cross product. A `urpx:PriceDefinition` may reference several alternatives (`referencesProfileAlternative`, `min 0 max None`) while a `urpx:PriceSetAlternative` references exactly one (`min 1 max 1`).
 
 An open dimension is what turns one enumerated combination into several arrangements. A base plus a modifier over a three-value dimension is three arrangements, not one.
+
+```mermaid
+
+graph TB
+    B["<b>one combination</b><br/>base version + one modifier version"]
+    D["<b>open dimension</b><br/>three ProfileAlternatives"]
+    A1(["arrangement 1<br/><i>alternative A selected</i>"])
+    A2(["arrangement 2<br/><i>alternative B selected</i>"])
+    A3(["arrangement 3<br/><i>alternative C selected</i>"])
+
+    B --> D
+    D --> A1
+    D --> A2
+    D --> A3
+```
 
 ## What makes two arrangements distinct
 
