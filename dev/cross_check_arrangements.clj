@@ -80,14 +80,34 @@
              (count (ns-publics 'urpx.arrangements)) " public vars: "
              (str/join ", " (sort (map str (keys (ns-publics 'urpx.arrangements))))))))
 
-;; The corpus, as documents. urpx.core/load-graph is the general loader (a
-;; vector of top-level entities per file); load-rate-plan and
-;; load-rate-plan-modifier are the narrow ones, and a base filing here bundles
-;; modifiers in an @graph, so the general one is what a whole-corpus enumerator
-;; wants. THIS IS OUR ASSUMPTION about what `documents` means, not something the
-;; clj-urpx author stated. If arrangement-pairs rejects it, this reports
-;; call-error and fails the gate: the document form then has to be settled with
-;; them, and a failure saying so is the point.
+;; The corpus, as documents. Four steps, all load-bearing, given by the clj-urpx
+;; author after an earlier three-step form of this probe was measured against
+;; their enumerator and found wrong:
+;;
+;;   mapcat load-graph              NOT mapv. load-graph returns a VECTOR of
+;;                                  top-level entities per file, so mapv yields a
+;;                                  seq of vectors. That survives by accident,
+;;                                  because the enumerator walks with tree-seq,
+;;                                  which is why the wrong form returned a number
+;;                                  rather than an error.
+;;   mapcat expand-document-entities  descend a urpx:URPXPackage wrapper.
+;;   keep coerce-doc                THE ONE THAT BITES. load-graph returns parsed
+;;                                  but UNTYPED entities: urpx:effectiveDateTime
+;;                                  is still the string "2026-03-20", not a
+;;                                  LocalDateTime, so every version-window
+;;                                  comparison throws ClassCastException.
+;;
+;; Measured by them at the pinned enumerator over this corpus: the old form with
+;; no instant returned 202 pairs, a plausible wrong number rather than a
+;; rejection, because with no :at their enumerator answers over the whole
+;; expressed space and never touches a date, so uncoerced documents sail
+;; through. With an instant it threw. The correct form gives 84 coerced docs and
+;; 144 pairs.
+;;
+;; That failure is the same shape as the one this gate found on our side: a
+;; number that agrees or disagrees for a reason unrelated to the question. They
+;; are adding an uncoerced-document guard to arrangements so a future wrong form
+;; is refused with a named reason rather than answered.
 (def ^:private documents
   (try
     (require '[urpx.core :as core])
@@ -99,7 +119,21 @@
                      vec)]
       (when (empty? paths)
         (emit "documents-error" "no filing JSON-LD under us/"))
-      (mapv (resolve 'urpx.core/load-graph) paths))
+      (require '[urpx.coerce :as coerce])
+      (let [load-graph (resolve 'urpx.core/load-graph)
+            expand     (resolve 'urpx.core/expand-document-entities)
+            coerce-doc (resolve 'urpx.coerce/coerce-doc)]
+        (when-not (and load-graph expand coerce-doc)
+          (emit "documents-error"
+                (str "pinned clj-urpx lacks one of the loaders this probe needs: "
+                     "core/load-graph=" (some? load-graph)
+                     " core/expand-document-entities=" (some? expand)
+                     " coerce/coerce-doc=" (some? coerce-doc))))
+        (let [docs (->> paths (mapcat load-graph) (mapcat expand) (keep coerce-doc) vec)]
+          (when (empty? docs)
+            (emit "documents-error"
+                  (str (count paths) " filing path(s) yielded zero coerced documents")))
+          docs)))
     (catch Throwable t (emit "documents-error" (one-line t)))))
 
 ;; :at is passed; :combine is NOT. The documented default is base alone or base
