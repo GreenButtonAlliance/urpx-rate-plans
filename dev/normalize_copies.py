@@ -51,8 +51,30 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 #                           wherever it is serialized, so a copy omitting it
 #                           shows a materially incomplete picture of a price
 #                           whose whole point is that it moves.
+#   applicableToRatePlan    which base plans a modifier can attach to. That is
+#                           intrinsic to the modifier, not to the filing that
+#                           bundles it: a modifier does not become compatible
+#                           with fewer plans by being inlined somewhere. Note
+#                           this is NOT applicableToRatePlanVersion, which IS a
+#                           per-filing fact and stays out, per the note above.
+#                           Added because dev/arrangements.py already refuses
+#                           when copies disagree on this property while this
+#                           script did not check it, so two tools in this repo
+#                           answered the same question differently.
+# hasModifierOptions and hasModifierVersionOptions are DELIBERATELY NOT here,
+# and the reason is a modelling question this script must not settle by
+# overwriting. cpau:e-1-2025-07-01 lists one option in its own July filing and
+# three in the September one, and BOTH ARE CORRECT FOR THEIR OWN DATE:
+# cpau:e-eec-1 and cpau:e-nse-1 are themselves 2025-09-01 versions and did not
+# exist in July. So the corpus models "same base rates, more modifiers available
+# later" by reusing one version @id across two filings, which makes the option
+# list time-varying while the @id is not. Aligning to the authority would delete
+# the September availability. The defect is upstream of the copy disagreement:
+# either that version needs its own @id in the later filing, or the option list
+# is a per-filing fact like applicableToRatePlanVersion. Tracked; not decided
+# here.
 SHARED_PROPERTIES = ("urpx:hasDataSourceReference", "urpx:hasIdentity",
-                     "urpx:hasDynamicPricing")
+                     "urpx:hasDynamicPricing", "urpx:applicableToRatePlan")
 
 
 def node_type(d):
