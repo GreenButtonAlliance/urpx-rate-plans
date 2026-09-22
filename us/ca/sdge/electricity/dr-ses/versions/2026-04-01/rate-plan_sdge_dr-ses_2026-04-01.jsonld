@@ -10,6 +10,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -300,7 +303,7 @@
               "@id": "urpx:profileMetricInput"
             },
             "urpx:profileMetricProperty": {
-              "@id": "urpx:numberOfMeters"
+              "@id": "urpx:meterCount"
             }
           }
         ],
@@ -1239,7 +1242,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-sdge",
         "urpx:legalName": "San Diego Gas & Electric Company",
         "urpx:organizationType": {
@@ -1270,9 +1273,18 @@
         "@id": "sdge:cc-dr-ses-2026-04-01",
         "@type": "urpx:CoverageClaim",
         "urpx:completenessResult": {
-          "@id": "urpx:complete"
+          "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-dr-ses-2026-04-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Franchise Fee Differential of 5.78 percent on the monthly billings calculated under this schedule, for customers inside the corporate limits of the City of San Diego. Source: Sheet 2, Revised Cal. P.U.C. Sheet No. 64348-E, AL 4791-E, under the heading Franchise Fee Differential. Not a vocabulary gap under v0.5.1: express it as a Price carrying urpx:multiplier 0.0578 and urpx:basedOnPrice naming a urpx:PriceSummary over this filing's own charges, chargeType urpx:taxMunicipal, gated on urpx:hasMunicipality in a ConditionExpression. This filing already carries two working PriceSummary nodes for the CARE and FERA discounts, so the subtotal machinery exists. Unbuilt: no SDG&E filing in this corpus prices it. Before building it, note that clj-urpx 0.25.0 evaluates no ConditionExpression and does not flag one, so an ungated 5.78 percent would be applied to every DR-SES customer, most of whom are outside the city; that trades a known omission for a confident wrong number. (2) Medical Baseline customers are exempt from the California Wildfire Fund Non-Bypassable Charge, so the $0.00591 per kWh WF-NBC this filing carries is not billed to them. Source: Sheet 1, Revised Cal. P.U.C. Sheet No. 64657-E, footnote (3), 'DWR-BC and WF-NBC charges do not apply to CARE or Medical Baseline customers'; the DWR-BC half is moot because its rate is 0.00000. Expressible now and already precedented in this corpus: the SDG&E CARE overlay at us/ca/sdge/electricity/care/versions/2025-10-01/ carries sdge:care-price-wf-nbc-exemption-2025-10-01 at -0.00591 and lists sdge:dr-ses in urpx:applicableToRatePlan, so the identical shape works for Medical Baseline. Unbuilt because this corpus holds no SDG&E Medical Baseline overlay at all (SCE has one at us/ca/sce/electricity/medical-baseline/; SDG&E has none) and Schedule E-MEDICAL, which Special Condition 16 cites, is not in this repo. Note that DR-SES publishes no reduced Medical Baseline energy or BSC rates: Sheet 1 footnote. (5) says the Medical Baseline program provides no BSC discount, so this exemption is the whole of the Medical Baseline gap on this schedule. (3) SDG&E Electric Rule 1 makes the Monday after a Sunday-falling fixed-date holiday a Time-of-Use Holiday, and this filing does not resolve that Monday as one. The shift is priced: the weekday and weekend/holiday columns on Sheet 2 differ only over 6 AM to 10 AM, which is Off-Peak on a weekday and Super Off-Peak on a holiday, a difference of $0.09164 per kWh in summer (total 0.45201 against 0.36037) and $0.06927 in winter (0.42227 against 0.35300). Verified against clj-urpx 0.25.0: Monday 2027-07-05 resolves to TOU period 2, Summer Off-Peak, EECC 0.17311, exactly as the ordinary Monday 2027-07-12 does, where it should resolve to period 3, Super Off-Peak, EECC 0.08147. urpx:observanceRule has no Sunday-only member and mondayIfWeekendObservance is wrong here because it would also move a Saturday holiday, but the shift is expressible without it: keep each fixed-date Holiday and its urpx:holidayRule text, and add one further urpx:Holiday carrying urpx:holidayName plus an explicit urpx:holidayDate for each Monday the rule creates. Over a fifteen-year horizon those are 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12, computed from the four fixed-date holidays in Rule 1. Unbuilt: urpx:holidayDate appears in zero filings in this corpus, and the enumeration is per year, so it has to cover whatever horizon is wanted correct. (4) Sheet 1's second rate table decomposes the Base Services Charge into UDC sub-components (Distr 0.63391 + PPP 0.02913 + LGC 0.13039 = 0.79343 standard; 0.06674 + 0.00000 + 0.13039 = 0.19713 CARE; 0.23736 + 0.02913 + 0.13039 = 0.39688 DRAH and FERA). The model carries only the 0.79343 total, while decomposing the energy UDC into all 7 published sub-components on the same table. The billed amount is unaffected, so this costs no accuracy today; it costs the ability to answer what share of the fixed charge is distribution. Trivially expressible (three more PriceDefinitions and Prices on the existing BSC ledger). Recorded here because it is real, but it is a corpus-wide convention rather than a DR-SES decision: all 8 SDG&E base plans with a BSC ledger carry exactly one PriceDefinition on it, so settle it once for SDG&E rather than eight times. (5) Special Condition 5 bars re-entry after leaving and the model records the wrong thing. Verbatim: \"If a customer elects to discontinue service on Schedule DR-SES, the customer will not be permitted to return to Schedule DR-SES for a period of 12 consecutive months.\" The RatePlanVersion carries urpx:minimumTenure P12M, which the v0.5.1 ontology defines as \"The minimum duration a customer must remain enrolled in a rate plan, program, or service offering\". DR-SES imposes no such commitment, so the re-entry bar is unmodeled and the property that is set asserts something the schedule does not say. The sibling ev-tou and ev-tou-2 filings both record this provision; this one records nothing, and its deferrals array is empty.",
+          "urpx:evaluatedOn": "2026-09-22T00:00:00"
+        }
       }
     }
   }

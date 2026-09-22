@@ -10,6 +10,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -289,7 +292,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-smud",
         "urpx:legalName": "Sacramento Municipal Utility District",
         "urpx:organizationType": {
@@ -320,9 +323,18 @@
         "@id": "smud:cc-pev-credit-2025-06-20",
         "@type": "urpx:CoverageClaim",
         "urpx:completenessResult": {
-          "@id": "urpx:complete"
+          "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-pev-credit-2025-06-20-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Section II.D states the credit's eligibility in one sentence and the model encodes a wider predicate. Verbatim: \"This credit is for residential customers who have a licensed passenger battery electric plug-in or plug-in hybrid electric vehicle.\" The model's two EligibilityRules are residential customer kind and derType = evChargingDER; urpx:DERTypeValue has nine members with no BEV or PHEV distinction and no vehicle-licensing or passenger-class term, so the narrowing is unexpressible at v0.5.1 and is a blocked deferral. It is currently recorded only in [extraction].notes prose, and the deferrals array is empty on a filing flagged complete = true. (2) Section II.D heads the credit \"Plug-In Electric Vehicle Credit (rate categories RT02, RTL1 and RTC1)\" and the model reaches two of the three. applicableToRatePlan names smud:tod-5-8pm and smud:tod-low-use; RTC1 is modeled as smud:cpp, a urpx:RatePlanModifier, and RatePlanModifierVersionShape constrains applicableToRatePlan with sh:class urpx:RatePlan, so the third category cannot be named. The corpus's own R-TOD (Low Use) manifest says the credit applies \"to RT02, RTL1, AND RTC1\".",
+          "urpx:evaluatedOn": "2026-09-22T00:00:00"
+        }
       }
     }
   }

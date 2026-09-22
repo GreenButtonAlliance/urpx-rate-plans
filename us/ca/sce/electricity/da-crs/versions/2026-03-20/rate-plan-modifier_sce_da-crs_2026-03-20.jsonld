@@ -40,6 +40,9 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:gYearValue": {
+      "@type": "xsd:gYear"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -60,7 +63,7 @@
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },
-      "urpx:description": "Schedule DA-CRS — Direct Access Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers who have elected Direct Access (DA) service from a third-party Energy Service Provider (ESP). Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh, Wildfire Fund Non-Bypassable Charge), CTC ($0.00014/kWh, Competition Transition Charge), FRC ($0.00619/kWh, Fixed Recovery Charge), and PCIA (Power Charge Indifference Adjustment, vintage-discriminated by customer's DA enrollment year — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 vintages (credits, where DA customers' departing-load is below market price) to $0.02624 for 2023 vintage). Per-Price hasApplicabilityRule on each PCIA vintage gates on customer's `DA Vintage Year` CustomOperandNode property. Per the Otherwise Applicable Tariff (OAT) reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, DA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service before billing-determinant multiplication; this OAT-side adjustment is NOT modeled here (would require itemizing DWRBC as a separate PriceDefinition in the base TOU-D / Schedule D filings). Customer-subgroup exemption table on Sheet 3 distinguishes DA, PC-TBS, GTSR-GR, GTSR-CR — only the default DA subgroup is captured by the Eligibility Rule here. Sibling Schedule CCA-CRS (modeled at ca/iou/sce/cca-crs/) carries identical Domestic-class PCIA values for CCA-Service customers.",
+      "urpx:description": "Schedule DA-CRS — Direct Access Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers who have elected Direct Access (DA) service from a third-party Energy Service Provider (ESP). Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh, Wildfire Fund Non-Bypassable Charge), CTC ($0.00014/kWh, Competition Transition Charge), FRC ($0.00619/kWh, Fixed Recovery Charge), and PCIA (Power Charge Indifference Adjustment, vintage-discriminated by customer's DA enrollment year — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 vintages (credits, where DA customers' departing-load is below market price) to $0.02624 for 2023 vintage). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `pciaVintageYear` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the Otherwise Applicable Tariff (OAT) reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, DA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service before billing-determinant multiplication; this OAT-side adjustment is NOT modeled here (would require itemizing DWRBC as a separate PriceDefinition in the base TOU-D / Schedule D filings). Customer-subgroup exemption table on Sheet 3 distinguishes DA, PC-TBS, GTSR-GR, GTSR-CR — only the default DA subgroup is captured by the Eligibility Rule here. Sibling Schedule CCA-CRS (modeled at ca/iou/sce/cca-crs/) carries identical Domestic-class PCIA values for CCA-Service customers.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
@@ -151,6 +154,629 @@
             }
           }
         ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "sce:da-crs-2026-03-20-pa-pcia-vintage",
+          "urpx:name": "PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "sce:da-crs-2026-03-20-pa-pcia-vintage-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "sce:da-crs-2026-03-20-ad-pcia-vintage",
+                "urpx:dimensionDisplayName": "PCIA Vintage Year",
+                "urpx:customDimensionProperty": "pciaVintageYear",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "2001",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2004",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2009",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2010",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2011",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2012",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2013",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2014",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2015",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2016",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2017",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2018",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2019",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2020",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2021",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2022",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2023",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2024",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2025",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2026",
+                      "@type": "xsd:gYear"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2001",
+              "urpx:name": "PCIA vintage 2001",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2001",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2001",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2001-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2001-right-operand",
+                    "urpx:gYearValue": "2001"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2004",
+              "urpx:name": "PCIA vintage 2004",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2004",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2004",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2004-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2004-right-operand",
+                    "urpx:gYearValue": "2004"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2009",
+              "urpx:name": "PCIA vintage 2009",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2009",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2009",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2009-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2009-right-operand",
+                    "urpx:gYearValue": "2009"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2010",
+              "urpx:name": "PCIA vintage 2010",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2010",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2010",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2010-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2010-right-operand",
+                    "urpx:gYearValue": "2010"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2011",
+              "urpx:name": "PCIA vintage 2011",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2011",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2011",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2011-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2011-right-operand",
+                    "urpx:gYearValue": "2011"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2012",
+              "urpx:name": "PCIA vintage 2012",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2012",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2012",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2012-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2012-right-operand",
+                    "urpx:gYearValue": "2012"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2013",
+              "urpx:name": "PCIA vintage 2013",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2013",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2013",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2013-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2013-right-operand",
+                    "urpx:gYearValue": "2013"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2014",
+              "urpx:name": "PCIA vintage 2014",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2014",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2014",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2014-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2014-right-operand",
+                    "urpx:gYearValue": "2014"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2015",
+              "urpx:name": "PCIA vintage 2015",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2015",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2015",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2015-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2015-right-operand",
+                    "urpx:gYearValue": "2015"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2016",
+              "urpx:name": "PCIA vintage 2016",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2016",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2016",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2016-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2016-right-operand",
+                    "urpx:gYearValue": "2016"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2017",
+              "urpx:name": "PCIA vintage 2017",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2017",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2017",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2017-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2017-right-operand",
+                    "urpx:gYearValue": "2017"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2018",
+              "urpx:name": "PCIA vintage 2018",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2018",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2018",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2018-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2018-right-operand",
+                    "urpx:gYearValue": "2018"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2019",
+              "urpx:name": "PCIA vintage 2019",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2019",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2019",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2019-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2019-right-operand",
+                    "urpx:gYearValue": "2019"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2020",
+              "urpx:name": "PCIA vintage 2020",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2020",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2020",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2020-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2020-right-operand",
+                    "urpx:gYearValue": "2020"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2021",
+              "urpx:name": "PCIA vintage 2021",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2021",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2021",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2021-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2021-right-operand",
+                    "urpx:gYearValue": "2021"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2022",
+              "urpx:name": "PCIA vintage 2022",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2022",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2022",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2022-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2022-right-operand",
+                    "urpx:gYearValue": "2022"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2023",
+              "urpx:name": "PCIA vintage 2023",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2023",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2023",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2023-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2023-right-operand",
+                    "urpx:gYearValue": "2023"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2024",
+              "urpx:name": "PCIA vintage 2024",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2024",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2024",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2024-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2024-right-operand",
+                    "urpx:gYearValue": "2024"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2025",
+              "urpx:name": "PCIA vintage 2025",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2025",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2025",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2025-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2025-right-operand",
+                    "urpx:gYearValue": "2025"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-03-20-pa-vintage-2026",
+              "urpx:name": "PCIA vintage 2026",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-03-20-cx-pa-vintage-2026",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2026",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2026-left-operand",
+                    "urpx:customConditionProperty": "pciaVintageYear"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-03-20-cn-pa-vintage-2026-right-operand",
+                    "urpx:gYearValue": "2026"
+                  }
+                }
+              }
+            }
+          ]
+        },
         "urpx:hasBillingModel": {
           "@type": "urpx:BillingModel",
           "@id": "sce:da-crs-2026-03-20-plan-elements-billing-model",
@@ -305,731 +931,403 @@
             "urpx:startDate": "2026-01-01",
             "urpx:name": "Fixed Recovery Charge",
             "urpx:unitPrice": "0.00619"
-          },
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": [
           {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2001-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
+            "@type": "urpx:PriceSetAlternatives",
+            "@id": "sce:da-crs-2026-03-20-psa-pcia-by-vintage",
+            "urpx:name": "PCIA, varies by PCIA vintage year",
+            "urpx:referencesProfileAlternatives": {
+              "@id": "sce:da-crs-2026-03-20-pa-pcia-vintage"
             },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2001 Vintage",
-            "urpx:unitPrice": "0.00009",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2001",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2001",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2001",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2001",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2001-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2001-right-operand",
-                    "urpx:stringValue": "2001"
+            "urpx:hasPriceSetAlternative": [
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2001",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2001"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2001-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2001 Vintage",
+                    "urpx:unitPrice": "0.00009"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2004-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2004 Vintage",
-            "urpx:unitPrice": "0.00009",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2004",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2004",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2004",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2004",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2004-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2004-right-operand",
-                    "urpx:stringValue": "2004"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2004",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2004"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2004-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2004 Vintage",
+                    "urpx:unitPrice": "0.00009"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2009-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2009 Vintage",
-            "urpx:unitPrice": "0.01742",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2009",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2009",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2009",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2009",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2009-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2009-right-operand",
-                    "urpx:stringValue": "2009"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2009",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2009"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2009-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2009 Vintage",
+                    "urpx:unitPrice": "0.01742"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2010-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2010 Vintage",
-            "urpx:unitPrice": "0.02077",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2010",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2010",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2010",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2010",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2010-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2010-right-operand",
-                    "urpx:stringValue": "2010"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2010",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2010"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2010-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2010 Vintage",
+                    "urpx:unitPrice": "0.02077"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2011-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2011 Vintage",
-            "urpx:unitPrice": "0.02508",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2011",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2011",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2011",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2011",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2011-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2011-right-operand",
-                    "urpx:stringValue": "2011"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2011",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2011"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2011-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2011 Vintage",
+                    "urpx:unitPrice": "0.02508"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2012-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2012 Vintage",
-            "urpx:unitPrice": "0.02563",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2012",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2012",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2012",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2012",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2012-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2012-right-operand",
-                    "urpx:stringValue": "2012"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2012",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2012"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2012-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2012 Vintage",
+                    "urpx:unitPrice": "0.02563"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2013-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2013 Vintage",
-            "urpx:unitPrice": "0.02608",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2013",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2013",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2013",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2013",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2013-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2013-right-operand",
-                    "urpx:stringValue": "2013"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2013",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2013"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2013-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2013 Vintage",
+                    "urpx:unitPrice": "0.02608"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2014-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2014 Vintage",
-            "urpx:unitPrice": "0.02443",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2014",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2014",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2014",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2014",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2014-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2014-right-operand",
-                    "urpx:stringValue": "2014"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2014",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2014"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2014-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2014 Vintage",
+                    "urpx:unitPrice": "0.02443"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2015-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2015 Vintage",
-            "urpx:unitPrice": "0.02367",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2015",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2015",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2015",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2015",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2015-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2015-right-operand",
-                    "urpx:stringValue": "2015"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2015",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2015"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2015-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2015 Vintage",
+                    "urpx:unitPrice": "0.02367"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2016-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2016 Vintage",
-            "urpx:unitPrice": "0.02321",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2016",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2016",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2016",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2016",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2016-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2016-right-operand",
-                    "urpx:stringValue": "2016"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2016",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2016"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2016-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2016 Vintage",
+                    "urpx:unitPrice": "0.02321"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2017-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2017 Vintage",
-            "urpx:unitPrice": "0.02322",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2017",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2017",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2017",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2017",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2017-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2017-right-operand",
-                    "urpx:stringValue": "2017"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2017",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2017"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2017-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2017 Vintage",
+                    "urpx:unitPrice": "0.02322"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2018-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2018 Vintage",
-            "urpx:unitPrice": "0.02311",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2018",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2018",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2018",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2018",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2018-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2018-right-operand",
-                    "urpx:stringValue": "2018"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2018",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2018"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2018-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2018 Vintage",
+                    "urpx:unitPrice": "0.02311"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2019-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2019 Vintage",
-            "urpx:unitPrice": "0.02141",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2019",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2019",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2019",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2019",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2019-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2019-right-operand",
-                    "urpx:stringValue": "2019"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2019",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2019"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2019-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2019 Vintage",
+                    "urpx:unitPrice": "0.02141"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2020-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2020 Vintage",
-            "urpx:unitPrice": "0.02015",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2020",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2020",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2020",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2020",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2020-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2020-right-operand",
-                    "urpx:stringValue": "2020"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2020",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2020"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2020-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2020 Vintage",
+                    "urpx:unitPrice": "0.02015"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2021-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2021 Vintage",
-            "urpx:unitPrice": "0.02007",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2021",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2021",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2021",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2021",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2021-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2021-right-operand",
-                    "urpx:stringValue": "2021"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2021",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2021"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2021-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2021 Vintage",
+                    "urpx:unitPrice": "0.02007"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2022-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2022 Vintage",
-            "urpx:unitPrice": "0.02419",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2022",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2022",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2022",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2022",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2022-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2022-right-operand",
-                    "urpx:stringValue": "2022"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2022",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2022"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2022-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2022 Vintage",
+                    "urpx:unitPrice": "0.02419"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2023-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2023 Vintage",
-            "urpx:unitPrice": "0.02624",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2023",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2023",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2023",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2023",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2023-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2023-right-operand",
-                    "urpx:stringValue": "2023"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2023",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2023"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2023-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2023 Vintage",
+                    "urpx:unitPrice": "0.02624"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2024-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2024 Vintage",
-            "urpx:unitPrice": "0.01175",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2024",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2024",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2024",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2024",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2024-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2024-right-operand",
-                    "urpx:stringValue": "2024"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2024",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2024"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2024-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2024 Vintage",
+                    "urpx:unitPrice": "0.01175"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2025-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2025 Vintage",
-            "urpx:unitPrice": "-0.00644",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2025",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2025",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2025",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2025",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2025-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2025-right-operand",
-                    "urpx:stringValue": "2025"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2025",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2025"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2025-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2025 Vintage",
+                    "urpx:unitPrice": "-0.00644"
                   }
-                }
-              }
-            }
-          },
-          {
-            "@type": "urpx:Price",
-            "@id": "sce:da-crs-price-pcia-v2026-2026-03-20",
-            "urpx:referencesPriceDefinition": {
-              "@id": "sce:da-crs-pd-pcia"
-            },
-            "urpx:startDate": "2026-01-01",
-            "urpx:name": "PCIA — 2026 Vintage",
-            "urpx:unitPrice": "-0.00644",
-            "urpx:hasApplicabilityRule": {
-              "@type": "urpx:ApplicabilityRule",
-              "@id": "sce:da-crs-2026-03-20-ar-pcia-v2026",
-              "urpx:name": "Applies when customer's DA Vintage Year = 2026",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "sce:da-crs-2026-03-20-cx-pcia-v2026",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "sce:da-crs-2026-03-20-cn-pcia-v2026",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2026-left-operand",
-                    "urpx:customConditionProperty": "DA Vintage Year"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "sce:da-crs-2026-03-20-cn-pcia-v2026-right-operand",
-                    "urpx:stringValue": "2026"
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-03-20-psa-pcia-v2026",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-03-20-pa-vintage-2026"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2026-2026-03-20",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-01-01",
+                    "urpx:name": "PCIA — 2026 Vintage",
+                    "urpx:unitPrice": "-0.00644"
                   }
-                }
+                ]
               }
-            }
+            ]
           }
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-sce",
         "urpx:legalName": "Southern California Edison Company",
         "urpx:organizationType": {

@@ -34,7 +34,8 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "Interim-rate provision for lamps not on the schedule (prose-only in source)",
+ "Section D.2 (Sheet E-14-2) gates the $2.50 per month switching surcharge twice, and the model prices it unconditionally. CPAU switches at no charge where each separately switched circuit carries at least 10 kW of lamp load, counting all lamps on the circuit whether or not served under E-14, and the charge is waived again where the switching installation is made for CPAU's convenience. The $2.50 is modeled (cpau:e14-price-switching-surcharge) but neither gate is: the 10 kW threshold survives only in the urpx:name of cpau:e14-mi-switching-circuit-count and the convenience waiver only in the urpx:description of cpau:e14-pd-switching-surcharge. Expressible under v0.5.1 as urpx:hasApplicabilityRule on the Price or the PriceDefinition with CustomOperandNode predicates; a candidate carrying both gates conforms against the v0.5.1 shapes, and CPAU E-3 already hangs hasApplicabilityGroup off a PriceDefinition. This is work, not a blocker. Before building it, note that clj-urpx 0.25.0 evaluates no ConditionExpression and does not flag one, so a gated $2.50 fires on every circuit; the fix is worth making for correctness of the record, not for the pinned consumer's arithmetic.",
+ "Section D.5 interim rate for lamps not represented on this Rate Schedule: where a customer installs an unlisted lamp rating, CPAU prepares an interim rate from its own estimated costs and bills at it until the rating is added, so the published price list is not exhaustive. Prose only in the model.",
 ]
 applicable_modifiers = [
  "e-eec-1",

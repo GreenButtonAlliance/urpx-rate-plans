@@ -94,7 +94,7 @@ Percentage discount (one Price over a subtotal, not a line item):
  composes against whichever base the customer is on.
 
  Each of those urpx:PriceSummary nodes is the CARE-discountable
- subtotal Sheet 1 defines as the bill less applicable
+ subtotal Sheet 2 defines as the total bill less any applicable
  exemptions, minimum bill amount and base services charge: it
  names the base's energy, delivery and surcharge Prices, and
  excludes the fixed charge, the DWR-BC and the WF-NBC. 10
@@ -102,7 +102,7 @@ Percentage discount (one Price over a subtotal, not a line item):
 
 ## What this modifier does NOT capture (deferred)
 
- 1. **CARE Medical Baseline customer co-benefits** — Sheet 1 prose:
+ 1. **CARE Medical Baseline customer co-benefits** — Sheet 2 prose:
  'CARE Medical Baseline customers taking electric service will
  also receive applicable benefits associated with Medical
  Baseline Program participation pursuant to D.25-09-006.' Those
@@ -110,13 +110,20 @@ Percentage discount (one Price over a subtotal, not a line item):
  the same upstream allocation-extension question as SCE HPWH /
  PG&E Code M/S — urpx-org/urpx#32, OPEN). Not modeled here.
 
- 2. **Non-Residential CARE** — Sheet 1 lists separate eligibility
+ 2. **Non-Residential CARE** — Sheet 2 lists separate eligibility
  and exemption structure (e.g., DWR-BC + WF-NBC exemptions are
  explicit there). Not in scope for this residential-focused
  filing; would be modeled in a separate non-residential CARE
  filing if ever needed.
 
- 3. **CARE Surcharge value variance** — Sheet 2 distinguishes two
+ 3. **PEV Submetering provision** (Sheet 8, Special Condition 20).
+ The CARE discount applies to both primary-meter load and
+ submetered PEV load when PEV submetering is in use, per
+ D.22-08-024. Not modeled, for the same reason as the FERA
+ twin of this condition: base SDG&E filings don't separately
+ track PEV submeter load.
+
+ 4. **CARE Surcharge value variance** — Sheet 2 distinguishes two
  CARE Surcharge rates: $0.00864/kWh for "All Other Residential
  CARE Schedules" (DR, DS, DT, DT-RV, DR-SES, TOU-DR, EV-TOU-2,
  EV-TOU-5, TOU-DR1, TOU-DR2, TOU-ELEC) and $0.01062/kWh for
@@ -144,9 +151,13 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "CARE Medical Baseline co-benefits via Schedule E-MEDICAL — blocked on urpx-org/urpx#32 (additive baseline allowance, OPEN)",
- "Non-Residential CARE structure (separate exemption list) — out of scope for residential-focused filing",
- "CARE Surcharge $0.01062/kWh variant for DM & EV-TOU CARE Schedules — those bases aren't currently in our corpus",
+ "Sheet 1 DISCOUNT 1)(b) prices the fixed-charge benefit as either a 50 percent minimum bill or a reduced base services charge. The model carries only the reduced-BSC form, as an ungated flat -$0.59630/day credit (DR Sheet 2: BSC $0.79343 less BSC-CARE $0.19713) applied to all nine plans in applicableToRatePlan. Schedule EV-TOU has no base services charge: its Sheet 2 prices \"the minimum bill charge of $0.413 per day times the number of days in the billing cycle with a 50% discount applied for CARE, Medical Baseline, or Family Electric Rate Assistance Program (FERA) customers resulting in a minimum bill of $0.207 per day\", so an EV-TOU CARE bill as modeled comes to 0.413 - 0.59630 = -$0.1833/day where the schedule says $0.207/day. Expressible at v0.5.1 and unbuilt: a second Price carrying multiplier -0.5 with basedOnPrice naming sdge:ev-tou-2026-04-01-price-base-services-charge (which exists and holds 0.413, misleadingly named). Building it is not sufficient on its own: the existing flat -0.59630 must also stop reaching EV-TOU, or both fire and the bill goes to -$0.2065/day. The same defect sits on sdge:fera, whose flat -$0.39655/day resolves $0.01645/day against a filed $0.207/day.",
+ "Sheet 2 applies the line-item discount to the total bill \"less any applicable exemptions, minimum bill amount and base services charge\", so the CARE Surcharge comes out before the 35 percent. The model instead delivers the -$0.00864/kWh exemption as a sibling line item while multiplier -0.35 resolves against a summary that still contains it, over-crediting by 0.35 x 0.00864 = $0.003024/kWh on every base and every TOU period. Checked against SDG&E's own published Total Effective CARE Rate, 4 for 4: DR Sheet 1 summer tier 1 (0.41443 - 0.00864) x 0.65 = 0.26376 against the model's 0.26074; DR above 130 percent 0.33456 against 0.33154; TOU-DR1 Sheet 2 summer on-peak 0.44276 against 0.43974; summer off-peak 0.29933 against 0.29630. Expressible at v0.5.1 with no base restructuring: urpx:adder is a PriceShape property (xsd:decimal, maxCount 1) and is not one of the five sh:xone value branches, and its skos:note reads \"Applied after multiplication for final price\", so multiplier + basedOnPrice + adder computes (base x multiplier) + adder. An adder of 0.003024 on the existing discount Price gives (0.41443 x -0.35) + 0.003024 = -0.1420265, which is exactly -0.35 x (0.41443 - 0.00864) and reproduces the published effective rate. Declarative only at the pin: clj-urpx 0.25.0 carries :urpx/adder in schema.clj and emits it, but price.clj never reads it (its ten \"adder\" matches are all the word ladder), and zero filings in this corpus use it.",
+ "Sheet 2 note 2 puts Schedule EV-TOU in the $0.01062/kWh CARE Surcharge column, not the $0.00864/kWh \"All Other Residential CARE Schedules\" column, whose list is DR, DS, DT, DT-RV, DR-SES, TOU-DR, EV-TOU-2, EV-TOU-5, TOU-DR1, TOU-DR2 and TOU-ELEC. sdge:ev-tou is in this corpus and is named in applicableToRatePlan, so EV-TOU CARE customers carry an exemption credit $0.00198/kWh too small. One Price cannot serve both values, since PriceShape's sh:xone admits exactly one of amount, basePrice, basedOnPrice, currentPrice and unitPrice. The fix needs two Prices, each scoped to its own set of bases by naming only those bases' Prices through basedOnPrice; a basedOnPrice naming one base resolves there and returns a clean :unresolved-reference elsewhere, so this scopes without restructuring the bases. Supporting evidence for where the surcharge sits, which the source does not publish directly: EV-TOU Sheet 2 gives LI-PPP $0.01175/kWh and DR Sheet 3 gives $0.00976/kWh, a difference of $0.00199 that matches the $0.00198 surcharge difference to one rounding unit.",
+ "Sheet 2 section 2) prices a 0.35000 Non-Residential CARE line-item discount on all customer demand and energy charges plus exemptions from the CARE Surcharge, WF-NBC and DWR-BC, and five of the seven cells in the Sheet 2 CARE Surcharges table are non-residential ($0.01062/kWh for Small Commercial, Medium Commercial and Large C&I Secondary, Primary and Secondary Substation, Primary Substation and Transmission; $0.00 per kW for that last class). None of it is modeled: the EligibilityRule gates on hasCustomerKind = residentialKind, and this corpus holds no SDG&E non-residential base plan for the 0.35000 to compose against. The five surcharge values are carryable as data today, but carry them with the gate caveat: clj-urpx 0.25.0 evaluates no ConditionExpression, so this modifier's own residentialKind gate is already inert and five added non-residential Prices would fire on every residential CARE customer it is composed with. The discount is blocked on corpus scope, not on vocabulary.",
+ "Sheet 1 APPLICABILITY enumerates five customer types and the EligibilityRule encodes one. Verbatim: \"1) Customers residing in a permanent single-family accommodation, separately metered by the Utility. 2) Multi-family dwelling units and mobile home parks supplied through one meter on a single premises where the individual unit is submetered. 3) Non-profit group living facilities. 4) Agricultural employee housing facilities. 5) Homekey housing facilities, administered by the California Department of Housing and Community Development (HCD)\". The model's ConditionExpression is residential customer kind AND Program Enrollment = CARE.",
+ "Special Condition 4's income table (from $42,300 for one to two persons up to $108,300 for eight, plus $11,000 per additional person) and Special Condition 9's retention conditions are this schedule's substantive eligibility content and are in no ConditionExpression. Special Condition 9 verbatim: \"CARE program participants with electric usage above 400% of baseline allowance must provide proof of qualifying household income, including IRS Tax Return Transcripts, agree to participate in the Energy Savings Assistance program, and keep their usage below 600% of baseline allowance to remain enrolled in CARE.\" This filing's own CoverageClaim cites the income table as a reason the claim stays partial; the assessment ruled it out of scope, which is the reading being corrected.",
+ "Special Condition 20 (Sheet 8) states which load the modeled discount reaches: \"Utility will apply the CARE discount to both the load measured at the primary meter and the submetered load if the tariffs allow for CARE enrollment.\" The model's single MetricSpecification is an undifferentiated kWh input with no submeter distinction. The shipped deferral \"PEV Submetering applicability (Sheet 8 SC 20)\" records this and should be kept, not dropped.",
 ]
 
 # Review ----------------------------------------------------------------------

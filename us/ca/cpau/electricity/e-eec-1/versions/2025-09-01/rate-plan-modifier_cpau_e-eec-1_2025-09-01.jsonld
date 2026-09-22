@@ -8,6 +8,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -257,7 +260,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-cpau",
         "urpx:legalName": "City of Palo Alto Utilities",
         "urpx:organizationType": {
@@ -288,9 +291,18 @@
         "@id": "cpau:cc-e-eec-1-2025-09-01",
         "@type": "urpx:CoverageClaim",
         "urpx:completenessResult": {
-          "@id": "urpx:complete"
+          "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-eec-1-2025-09-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. One part is deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Section A bars concurrent time-of-use service (\"This Rate Schedule may not apply in conjunction with any time-of-use Rate Schedule\"). The model carries this only as urpx:description prose; its two EligibilityRules hold three ComparisonNodes (Customer-Generator, a notEqualsOperator NEM test, bidirectional meter) and no time-of-use predicate. The NEM test in the same file shows the exclusion shape is expressible.",
+          "urpx:evaluatedOn": "2026-09-22T00:00:00"
+        }
       }
     },
     "urpx:modifierUniqueIdentifier": "E-EEC-1"

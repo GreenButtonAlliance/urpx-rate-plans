@@ -54,8 +54,11 @@ validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete = true
-deferrals = []
+complete = false
+deferrals = [
+ "Sheet E-1-TOU-2 Section D.2 (SEASONAL RATE CHANGES) provides that when a billing period includes use in both the Summer and Winter periods, 'usage will be prorated based on the number of days in each seasonal period, and the Charges based on the applicable rates therein' (further discussion at CPAU Rule and Regulation 11, which is not in this corpus). The model carries both Seasons and all six seasonal commodity rates but nothing that allocates a straddling period's usage between them, so a consumer must supply the day-count split itself, and a consumer that instead assigns each metered interval to the season of its timestamp gets a different bill. urpx:prorationMethod (xsd:string, 0..1 on BillingModelShape) can carry the provision declaratively; it is used by no filing in this corpus and read by no function in clj-urpx 0.25.0, and the allocation arithmetic itself has no computable form in v0.5.1.",
+ "Section A excludes Net Energy Metered customers (\"This Rate Schedule is not available to Net Energy Metered (NEM) customers and is provided at the sole discretion of CPAU\"). The model quotes the sentence in a description; cpau:er-residential-tou carries four ComparisonNodes (residential kind, single-family, separately metered, AMI) and no NEM predicate. Expressible: cpau:e-nse-1-2025-09-01-cn-nem-successor is a notEqualsOperator NEM test in this same corpus.",
+]
 applicable_modifiers = [
  "e-hra",
  "e-nse-1",

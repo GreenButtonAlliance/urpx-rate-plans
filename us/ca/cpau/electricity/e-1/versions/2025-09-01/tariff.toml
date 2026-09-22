@@ -64,8 +64,11 @@ validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete = true
-deferrals = []
+complete = false
+deferrals = [
+ "Tier 1 boundary is stated per day and modeled as a bare kWh bound. Sheet E-1-1 Section D.2 sets Tier 1 at 15 kWh per day, prorated by meter reading days of service, with the worked example that a 30-day bill has a Tier 1 level of 450 kWh. cpau:tier-1-bracket carries upperBound 15 on cpau:mi-energy, whose MetricSpecification declares unitOfMeasure urpx:kWh with no interval, so the per-day denominator survives only in the tier name. clj-urpx 0.25.0 surfaces :tier-upper-bound 15M on the commodity and distribution ledgers, so a consumer comparing a billing-period reading against 15 bills nearly the whole bill at Tier 2 (0.22944 rather than 0.20570). Declaring urpx:intervalDuration P1D on cpau:ms-energy validates under v0.5.1 and adds no new violation, but clj-urpx 0.25.0 does not surface it, and the proration itself (bound equals 15 times the meter reading days) has no expression: ServiceBracketShape is sh:closed over decimal bounds, their operators, appliesInSeason and referencesProfileAlternative, and a varying meter read interval rules out precomputing one absolute bound. The same encoding is used across the corpus (pge/e-1, pge/e-tou-c, sce/d, sdge/dr), so settle the convention once for the corpus rather than here alone.",
+ "Net surplus compensation settles annually and the model does not say so. Sheet E-NSE-1 Section C prices net surplus electricity at $0.1012 per kWh and Special Condition 1 applies it to the net surplus determined at the end of an annual settlement period under Rule 29. cpau:e-nse-1-2025-09-01-pd-surplus-compensation carries no hasCalculationMethod, so nothing distinguishes the credit from a monthly per-kWh credit. Expressible now as urpx:intervalDuration P1Y on a CalculationMethod under that PriceDefinition, the same shape cpau:pd-customer-charge already uses with P1M, and clj-urpx 0.25.0 does surface intervalDuration. Rule 29 is not in this corpus, so the settlement mechanics beyond the period length are a source gap.",
+]
 applicable_modifiers = [
  "e-eec-1",
  "e-hra",

@@ -379,9 +379,16 @@ def t11_coverage_claim(doc, complete: bool, filing_date: str, log):
 
 
 def t12_meter_count(doc, log):
+    # The term is the VALUE of an @id under urpx:profileMetricProperty, not a
+    # key. An earlier version of this transform tested `"urpx:numberOfMeters"
+    # in d`, which asks about keys, so it matched nothing in 37 files and said
+    # nothing, because the log line below is guarded by `if n`.
     n = 0
     def visit(d):
         nonlocal n
+        pmp = d.get("urpx:profileMetricProperty")
+        if isinstance(pmp, dict) and pmp.get("@id") == "urpx:numberOfMeters":
+            pmp["@id"] = "urpx:meterCount"; n += 1
         if "urpx:numberOfMeters" in d:
             d["urpx:meterCount"] = d.pop("urpx:numberOfMeters"); n += 1
     walk(doc, visit)

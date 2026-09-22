@@ -55,7 +55,10 @@
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
   },
   "@type": "urpx:URPXPackage",
   "@id": "sce:doc-d-2026-03-20",
@@ -193,7 +196,7 @@
               "@id": "urpx:profileMetricInput"
             },
             "urpx:profileMetricProperty": {
-              "@id": "urpx:numberOfMeters"
+              "@id": "urpx:meterCount"
             }
           },
           {
@@ -822,7 +825,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-sce",
         "urpx:legalName": "Southern California Edison Company",
         "urpx:organizationType": {
@@ -853,9 +856,18 @@
         "@id": "sce:cc-d-2026-03-20",
         "@type": "urpx:CoverageClaim",
         "urpx:completenessResult": {
-          "@id": "urpx:complete"
+          "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-d-2026-03-20-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "Two priced provisions of the source document are not represented in this filing, and they are why this claim is partial. Special Condition 8 on Sheet 8 grants Customers participating in the San Joaquin Valley Disadvantaged Communities Pilot Projects, and entering into the associated service agreement, a 10-year Bill Protection Discount beginning after the first electric appliance is installed in a participant's home and one full billing cycle has concluded: 20 percent in years 1 through 5 of SJV Pilot participation, and 10 percent or 20 percent in years 6 through 10, the choice between the two settled by an SCE evaluation of participants' total energy cost savings. Special Condition 9 on Sheet 9 grants the same participants a 20 percent Transitional Community Solar monthly bill credit for the same 10-year bill protection period, when neither the Community Solar-Green Tariff nor the Disadvantaged Communities-Green Tariff is available to them. Both are gated on SJV Pilot participation under a service agreement, and this filing carries no condition on pilot participation to gate a price on, so neither discount is in the graph. Both sheets are new here: the superseded 2025-11-15 source for this Schedule is a rate-table archive that mentions neither program. A third provision is unrepresented for a different reason. Special Condition 5 on Sheet 7 states that any California Climate Credit not consumed in the billing period in which the credit is applied will roll over to each subsequent billing period until the credit is fully consumed. The credit itself is carried, as a per-household price of $(36.00), but that carry-forward is behavior across billing periods rather than a price, and nothing in this filing expresses it, so a consumer whose bill is smaller than the credit will drop the remainder rather than apply it to the next bill. Everything else the document prices is in the graph. The Sheets 2 and 3 rate table is carried as sixteen urpx:Price values: the nine components of Total Delivery Service, priced at ten values because the Conservation Incentive Adjustment differs by tier, which sum to the $0.18482 per kWh printed for Baseline Service and the $0.28590 printed for Over Baseline Service in both seasons; the two Generation components, $0.11761 per kWh for UG and $0.00000 for the DWR Energy Credit; the Fixed Recovery Charge at $0.00619 per kWh; the MCAM Charge at $0.00223 per kWh; the Base Services Charge at $0.794 per meter per day; and the California Climate Credit at $(36.00). The summer and winter seasons defined by Special Condition 1, and the Baseline and Over Baseline tiers the rate table splits on, are modeled with it. Four lines of the document are cross-references to other schedules, each filed in this corpus as its own RatePlanModifier naming sce:d: the Deed Restricted BSC Discount of $(0.332) per meter per day printed on Sheets 2 and 3, the 32.5 percent CARE discount and the 18.0 percent FERA discount of Special Condition 4 on Sheet 7, and the Direct Access and CCA Service billing paths of Special Condition 4(b) and 4(c), which send those customers to Schedules DA-CRS and CCA-CRS. One detail of those two paths is worth a reader's attention: footnote 1 on Sheet 2 says DA and CCA Service Customers are not subject to the DWRBC rate component of this Schedule, while footnote 9 on Sheet 3 says the same of the WFC rate component, and the Sheet 3 breakdown itemizes the WFC but no DWRBC at all, so only one of the two named subtractions has a component here to work against. The remaining Special Conditions carry no price. The eight holidays listed in Special Condition 1 have no rate consequence on this Schedule, whose components vary by season and by baseline tier but not by day. Special Condition 2's annual contract requirement for seasonal service, Special Condition 3's direction of customer-owned generating facilities to Schedules NEM, NEM-ST, NBT and S, Special Condition 6's limit on rate schedule changes, and the application, commencement and rebilling rules of the CARE and FERA paragraphs are eligibility and account administration rather than rates. Special Condition 7 states that the Power Charge Indifference Adjustment is recovered inside the Generation charge, which is priced here, so this Schedule carries no separate PCIA line; Special Condition 10 likewise explains the Fixed Recovery Charge whose rate is carried.",
+          "urpx:evaluatedOn": "2026-09-21T00:00:00"
+        }
       }
     }
   }

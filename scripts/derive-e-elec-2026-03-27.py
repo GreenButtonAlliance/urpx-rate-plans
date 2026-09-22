@@ -56,7 +56,7 @@ UNBUNDLED_RATES = {
     "pge:pd-ctc":                       "0.00027",
     "pge:pd-energy-cost-recovery":      "0.00002",
     "pge:pd-wildfire-fund":             "0.00591",
-    "pge:pd-new-system-generation":     "0.00000",
+    "pge:pd-new-sys-gen":               "0.00000",
     "pge:pd-wildfire-hardening":        "0.00391",
     "pge:pd-recovery-bond":             "0.00857",
     "pge:pd-recovery-bond-credit":      "-0.00857",
@@ -171,11 +171,23 @@ def main():
 
     # ── 3. Update energy rate values (loop over Prices in PriceSets) ─────────
     prices = rpv["urpx:hasPrices"]
+    applied = set()
     for ps in prices.get("urpx:hasPriceSet", []):
         for p in ps.get("urpx:hasPrice", []):
             pd_ref = p.get("urpx:referencesPriceDefinition", {}).get("@id")
             if pd_ref in UNBUNDLED_RATES:
                 p["urpx:unitPrice"] = UNBUNDLED_RATES[pd_ref]
+                applied.add(pd_ref)
+    # A key that matches no PriceDefinition leaves the source filing's value in
+    # place and says nothing. That is how New System Generation shipped at the
+    # 2026-01-01 value of $0.00792 when Sheet 3 prices $0.00000: the key read
+    # "pge:pd-new-system-generation" and the PriceDefinition is
+    # "pge:pd-new-sys-gen", so 24 of 25 updates applied and the 25th was silent.
+    unapplied = sorted(set(UNBUNDLED_RATES) - applied)
+    if unapplied:
+        raise RuntimeError(
+            "these UNBUNDLED_RATES keys matched no PriceDefinition, so their "
+            "Sheet 3 values were not applied: " + ", ".join(unapplied))
 
     # ── 4. Drop California Climate Credit ────────────────────────────────────
     # 4a. Drop top-level Price

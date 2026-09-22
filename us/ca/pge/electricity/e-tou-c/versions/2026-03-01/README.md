@@ -7,7 +7,7 @@ This filing is the worked example for the conventions in [`/LAYOUT.md`](../../..
 - `pge_e-tou-c_2026-03-01.pdf` — source PDF (sha256 in `tariff.toml`; PG&E updated the canonical URL in place between our 2026-04-26 retrieval and 2026-04-28 — the committed copy is the original we extracted from)
 - `tariff.toml` — provenance, source URL + sha256, regulator, validation status
 - `rate-plan_pge_e-tou-c_2026-03-01.jsonld` — URPX serialization of the base RatePlan + Vintage-PCIA modifier (single self-contained file with `@graph`)
-- `rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld` — sibling RatePlanModifier carrying the 40-cell baseline-credit + Conservation Incentive Adjustment matrix (10 territories × 2 codes × 2 seasons), wired via `urpx:applicableToRatePlan` to the base file's `pge:e-tou-c`
+- `rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld` — sibling RatePlanModifier carrying the 40-cell Conservation Incentive Adjustment matrix (10 territories × 2 codes × 2 seasons), wired via `urpx:applicableToRatePlan` to the base file's `pge:e-tou-c`
 
 ## What's in the JSON-LD
 

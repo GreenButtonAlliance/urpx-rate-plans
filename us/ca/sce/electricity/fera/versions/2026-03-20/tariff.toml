@@ -57,8 +57,9 @@ Jan 1 2026 CARE values directly. FERA presents a different situation:
  Schedule D Sheet 7 (91033-E, AL 5771-E, eff Mar 20, 2026) —
  re-states the same updated values as TOU-D Sheet 18.
 
-AL 5725-E updated the FERA values in the cross-cutting prose (TOU-D
-Sheet 18, Schedule D Sheet 7) but did NOT re-issue D-FERA Sheet 1.
+AL 5725-E updated the FERA values on TOU-D Sheet 18 and AL 5771-E
+restated them on Schedule D Sheet 7, but neither re-issued D-FERA
+Sheet 1.
 Switching this filing to D-FERA-as-source would force us to either
 (a) cite stale values that don't match SCE's billing system, or
 (b) cite values that aren't literally on the cited page. Neither is
@@ -76,10 +77,11 @@ no per-meter-day difference between the 2025-11-15 and 2026-03-20
 filings. The split shifts $0.001/day from one line item to the
 other.
 
-Modeling deferrals (unchanged from 2025-11-15):
- - 18.0% bill-subtotal percentage discount. URPX v0.5.1 CAN express this, via a urpx:PriceSummary over the
- discountable line items with a urpx:Price carrying urpx:multiplier
- and urpx:basedOnPrice. Not yet modeled; the shape is settled.
+The 18.0% bill-subtotal percentage discount is modeled, as a
+urpx:Price carrying urpx:multiplier -0.18 and urpx:basedOnPrice
+over the discountable urpx:PriceSummary of each base plan this
+modifier applies to. Nothing Special Condition 9 prices is
+deferred.
 """
 
 # Validation ------------------------------------------------------------------
@@ -92,10 +94,14 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "18.0% bill discount, per Special Condition 9 of the source rate sheet. URPX v0.5.1 can express this: a urpx:PriceSummary over the discountable line items with a urpx:Price carrying urpx:multiplier and urpx:basedOnPrice. Not yet modeled; the shape is settled and the work is scoped",
+ "18.0 percent discount base excludes the PUC Reimbursement Fee without warrant in FERA's own text. Schedule TOU-D Sheet 18 Special Condition 9, restated in Schedule D Sheet 7, applies the discount to the bill \"prior to the application of any applicable taxes and late payment charges\" and carves out no PUCRF; Special Condition 8 does carve it out for CARE and requires CARE customers to pay it in full. The -0.18 Price here is based on the shared sce:<plan>-<date>-summary-discountable, which excludes the PUCRF (0.00100 $/kWh on Schedule D at this date) and whose name asserts CARE and FERA discount the same components. On the plain text the modeled discount is short by 18 percent of the PUCRF. The fix is expressible under v0.5.1 and is already the SDG&E pattern in this corpus: add a FERA-specific PriceSummary including the PUCRF to each of the four SCE base plans at each date and repoint basedOnPrice at those eight. Not built. Confirm against SCE billing practice before building, since only the tariff text has been read.",
+ "Whether the 18.0 percent applies to the adjusted Base Services Charge is unresolved and the model assumes it does not. Special Condition 9 discounts \"their bill\", on which the $0.794 per meter per day BSC appears, and separately reduces that BSC \"In addition\" by the $0.064 surcharge exemption and the $(0.201) credit adjustment carried here. The model applies the percentage only to the per-kWh subtotal, leaving the adjusted $0.529 per meter per day undiscounted. Neither SCE PDF decides it; SDG&E's Schedule FERA Sheet 1 excludes the base services charge from its own discount base, which supports the current treatment but is another utility's language. If the answer turns out to be yes, it is expressible under v0.5.1: urpx:includesPrice requires at least two members, so build a PriceSummary per base plan and date holding the base's BSC Price plus this filing's two credits (all three $/day, so unit-homogeneous) and add a second -0.18 Price based on it. Pointing basedOnPrice at the BSC Price alone would not validate and would use the unadjusted $0.794.",
+ "Special Condition 9 (Sheet 18, Cal. P.U.C. Sheet 90943-E) states four conditions of service the model does not carry. Verbatim: \"An application and eligibility declaration is required for service under this Special Condition. Eligible Customers shall be billed on this Special Condition commencing no later than one billing period after receipt and approval of the Customer's application by SCE. Customers may be rebilled for periods in which they do not meet the eligibility requirements for the CARE Discount. Customers receiving service under the CARE Discount Special Condition of this Schedule are not eligible to take service under this Special Condition.\" The EligibilityRule is residential customer kind AND Program Enrollment = FERA, with no CARE-exclusion predicate.",
+ "Special Condition 9 defines the beneficiary by reference to Schedule D-FERA, which is in no PDF in this corpus, so the household definition behind the modeled -0.18 multiplier is unsourced in the filing.",
+ "Special Condition 10 Arrearage Management Plan (Sheet 19), in this filing's own PDF, is gated on CARE or FERA enrollment and forgives 1/12 of an eligible Customer's arrearage after each on-time payment, the remainder after 12, up to $8,000 per instance of enrollment, with a 12-month waiting period before re-enrollment. It changes what a FERA customer owes and is not in the model.",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "re-sourced from live tariff-book TOU-D PDF Sheet 18. 2 of 2 prices refreshed to AL 5725-E values (effective 2026-01-01); the two adjustments offset (Surcharge exemption deeper by 0.001, Credit Adjustment shallower by 0.001) for net-zero per-meter-day change. NOT switched to canonical Schedule D-FERA because D-FERA Sheet 1 still shows the older AL 5654-E values (D-FERA wasn't re-issued under AL 5725-E even though TOU-D Sheet 18 and Schedule D Sheet 7 were); see [extraction.notes] 'Source choice' for the full explanation. Per-version IRIs date-suffixed per the pattern. RatePlanModifierVersion @id sce:fera-2026-03-20 supersedes sce:fera-2025-11-15."
+notes = "re-sourced from live tariff-book TOU-D PDF Sheet 18. 2 of 2 prices refreshed to AL 5725-E values (effective 2026-01-01); the two adjustments offset (Surcharge exemption deeper by 0.001, Credit Adjustment shallower by 0.001) for net-zero per-meter-day change. NOT switched to canonical Schedule D-FERA because D-FERA Sheet 1 still shows the older AL 5654-E values (D-FERA wasn't re-issued under AL 5725-E even though TOU-D Sheet 18 and Schedule D Sheet 7 were); see [extraction.notes] 'Source choice' for the full explanation. Per-version IRIs date-suffixed per the pattern (3 Prices + 3 PriceDefinitions). RatePlanModifierVersion @id sce:fera-2026-03-20 supersedes sce:fera-2025-11-15."

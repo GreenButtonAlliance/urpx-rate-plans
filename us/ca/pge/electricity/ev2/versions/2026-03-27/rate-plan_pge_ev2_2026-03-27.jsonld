@@ -10,6 +10,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -113,7 +116,10 @@
             "urpx:pageStart": 1,
             "urpx:pageEnd": 7,
             "urpx:leafStart": "61255-E",
-            "urpx:leafEnd": "61261-E"
+            "urpx:leafEnd": "61261-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7869-e"
+            }
           },
           "urpx:hasEligibilityRule": [
             {
@@ -1496,7 +1502,7 @@
             "@id": "pge:ev2-vintage-pcia-2026-03-27"
           },
           "urpx:offeredBy": {
-            "@type": "urpx:Organization",
+            "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",
             "urpx:legalName": "Pacific Gas & Electric Company",
             "urpx:organizationType": {
@@ -1527,9 +1533,18 @@
             "@id": "pge:cc-ev2-2026-03-27",
             "@type": "urpx:CoverageClaim",
             "urpx:completenessResult": {
-              "@id": "urpx:complete"
+              "@id": "urpx:partial"
             },
-            "urpx:selfContained": true
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-ev2-2026-03-27-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 7 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) DA, CCA and TBS customers are still charged the generation and Bundled PCIA components they are exempt from. Sheets 4 and 5 (Special Condition 4, BILLING) say these customers pay every charge in the Unbundling of Total Rates 'except for the Bundled Power Charge Indifference Adjustment and the generation charge', substituting their Vintaged PCIA. The vintage-PCIA modifier in this package adds the vintage rate but nothing removes the six generation Prices or the bundled-PCIA Price, so composing the pair overstates a CCA or DA summer-peak bill by $0.17819 per kWh (generation $0.18830 plus bundled PCIA -$0.01011) and correspondingly in all six TOU cells. Expressible under v0.5.1 as seven modifier Prices carrying urpx:multiplier -1 with urpx:basedOnPrice naming each base Price; PriceShape's sh:xone admits basedOnPrice with no unitPrice, and six corpus files already ship this shape. Work, not a blocker. (2) Income Tier 2's second qualifying branch is not modeled. Sheet 2 places a customer in Tier 2 under either (a) FERA-level income or (b) residence in an affordable rental unit listed in the California Housing Partnership's database and restricted to residents at or below 80 percent of Area Median Income. The model gates Tier 2 on FERA program enrollment alone and defines Tier 3 as 'not CARE and not FERA', so a branch (b) customer who is not FERA-enrolled resolves the Tier 3 base services charge of $0.79343 per day instead of $0.39688, about $145 per year too high. Expressible as a second operand under an orOperator using a CustomOperandNode with customConditionProperty, the same device this file already uses for departure vintage. Work, not a blocker. (3) The Wildfire Fund Charge is not excluded for CARE and Medical Baseline customers. Sheet 6, Special Condition 7, says the charge 'applies to all retail sales, excluding CARE and Medical Baseline sales'. The $0.00591 per kWh Wildfire Fund Price carries no applicability condition, so those customers are charged it, and PG&E has no CARE or Medical Baseline filing in this corpus to carry the exclusion instead. Expressible as urpx:hasApplicabilityRule on the Price, a pattern more than twenty corpus files already use. Note that clj-urpx 0.25.0 evaluates no ConditionExpression, so the gate would be declarative until the consumer is upgraded. (4) The Base Services Charge is carried only as a total, not unbundled. Sheet 3 prices it by component for each income tier: Distribution $(0.10751) / $(0.02710) / $0.36945, Public Purpose Program $0.19131 / $0.31065 / $0.31065, Nuclear Decommissioning $0.00000 for all three, New System Generation Charge $0.11333 for all three. The model carries only the three Sheet 2 totals. The twelve components sum exactly to those totals so no bill is wrong, but the schedule prices these values and the energy side of this same filing is modeled component-wise. (5) The New System Generation Charge per-kWh line has no Price. Sheet 3 lists it at $0.00000 as the thirteenth all-usage energy component, and it is the only unbundled energy component missing from the model. No dollar is misbilled; the line item is absent. The corpus carries it where it is nonzero, at $0.00792 per kWh on pge/e-elec 2026-03-27. (6) The annual usage cap is encoded against the wrong unit and currently asserts an 800 kWh cap. Sheet 1 caps a customer at 800 percent of their annual baseline allowance over a rolling 12 months. pge:er-annual-usage-cap compares pge:mi-energy-annual-rolling, whose MetricSpecification declares urpx:unitOfMeasure urpx:kWh, against integerValue 800. The rule's own description and the filing README attribute this to URPX lacking a percent-of-baseline unit, which is wrong as written: urpx:percent and urpx:ratio are UnitOfMeasureValue members in v0.5.1 and were already members at v0.2.1, and measurementKind is optional on MetricSpecificationShape. What is genuinely missing upstream is a standard named metric for 'annual baseline allowance' as the denominator. This is an eligibility provision rather than a price, but the model asserts something the schedule does not say. (7) Charges priced by reference to schedules this corpus does not hold, recorded once so the exclusion is stated rather than silent. Sheet 1 sends a customer regularly supplied in part by a nonutility source to 'monthly reservation charges as specified under Section 1 of Schedule S', with Special Conditions 5 and 6 on Sheet 6 exempting non-exporting solar of one megawatt or less that has not elected NEM, and Electric Rule 1 distributed energy resources. Sheet 5 Special Condition 4 sends DA and CCA customers to Schedule E-FFS for the franchise fee surcharge, and Sheet 4 sends TBS customers to Schedule TBCC for short-term commodity prices. None of the three schedules is committed here. These are other schedules' pricing and are out of scope for this filing under the same ruling the sibling pge:e-elec@2026-03-27 applies to the identical cross-references. Recorded rather than dropped because Special Conditions 5 and 6 are this schedule's own text.",
+              "urpx:evaluatedOn": "2026-09-22T00:00:00"
+            }
           }
         },
         "urpx:ratePlanUniqueIdentifier": "EV2"
@@ -1573,7 +1588,10 @@
             "urpx:pageStart": 5,
             "urpx:pageEnd": 5,
             "urpx:leafStart": "61259-E",
-            "urpx:leafEnd": "61259-E"
+            "urpx:leafEnd": "61259-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7869-e"
+            }
           },
           "urpx:hasEligibilityRule": [
             {
@@ -2677,7 +2695,7 @@
             "@id": "pge:ev2-2026-03-27"
           },
           "urpx:offeredBy": {
-            "@type": "urpx:Organization",
+            "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",
             "urpx:legalName": "Pacific Gas & Electric Company",
             "urpx:organizationType": {

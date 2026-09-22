@@ -5,7 +5,7 @@ Useful as a pre-commit gate or in CI: catches the case where someone edited
 a tariff.toml or jsonld file but forgot to regenerate a derived report.
 
 Steps:
-  1. Run each generator (pairings export, modeling backfill, ready-for-use list).
+  1. Run each generator (coverage, pairings export, ready-for-use list).
   2. Run each lint (modifier coverage, cross-filing consistency).
   3. Validate every tariff.toml against schema/tariff-manifest.schema.json.
   4. After all of that, `git status --porcelain` should be empty: if any
@@ -40,10 +40,19 @@ REPO = Path(__file__).resolve().parent.parent
 # because two lists drift: this one carried backfill_modeling and lint_consistency
 # that the hook lacked, while the hook carried coverage.py that this one lacked,
 # which is why backfill output had never been committed.
+#
+# backfill_modeling is NOT here, and must not be added back. Everything in this
+# list tabulates: it reads the corpus and writes a report. backfill_modeling is
+# the one script that carried a judgment, a hand-written table of per-filing
+# deferrals, and it stamped that table over the [modeling] block in 45 of the 72
+# manifests every time this ran. LAYOUT.md 4.4 and the add-a-filing workflow at
+# step 7 put that assessment in tariff.toml, authored by whoever modeled the
+# filing against its source PDF. So the script was reverting the authored answer
+# to whatever was true when its table was written, which is how the manifests
+# went stale while the models moved on. It was a one-time bootstrap; it has run.
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
-    ("backfill_modeling",           ["python3", "dev/backfill_modeling.py"]),
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),

@@ -10,6 +10,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -173,7 +176,7 @@
               "@id": "urpx:profileMetricInput"
             },
             "urpx:profileMetricProperty": {
-              "@id": "urpx:numberOfMeters"
+              "@id": "urpx:meterCount"
             }
           }
         ],
@@ -237,7 +240,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-sce",
         "urpx:legalName": "Southern California Edison Company",
         "urpx:organizationType": {
@@ -268,9 +271,18 @@
         "@id": "sce:cc-deed-restricted-2026-03-20",
         "@type": "urpx:CoverageClaim",
         "urpx:completenessResult": {
-          "@id": "urpx:complete"
+          "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-deed-restricted-2026-03-20-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) DRAH exemption from the Base Services Charge Surcharge is not modeled. Schedule TOU-D Sheet 20 Special Condition 11 (Cal. P.U.C. Sheet 90676-E, Advice 5654-E, effective 2025-11-15) and Schedule D Sheet 6 Special Condition 4 both read: \"DRAH Customers or tenants are exempt from the Base Services Charge Surcharge of $0.063 per meter per day and are provided a Base Services Charge Discount of $(0.334) per meter per day to reduce the Base Services Charge.\" Those are two separate reductions, in the same two-clause form SC 8 uses for CARE and SC 9 for FERA; at the clause's own vintage they sum to $0.397, exactly half the $0.794 BSC. This filing models only the second, as the rate-table line \"BSC Adjustment - Deed Restricted\" at $-0.332/meter/day (Sheets 2-7, Advice 5725-E, effective 2026-01-01), so a DRAH customer resolves $0.064/meter/day short of the schedule and the model's own description wrongly states a net BSC of $0.462 where the schedule gives $0.398. Expressible now, not blocked: the base plans carry the BSC as one undifferentiated $0.794 Price, so the exemption has to be a second credit Price here, and sce/care 2026-03-20 already ships exactly that shape (sce:care-price-bsc-surcharge-exemption-2026-03-20, unitPrice -0.064, chargeType urpx:creditMisc, CalculationMethod intervalDuration P1D). A candidate adding the matching PriceDefinition and Price introduces no new pyshacl violation against the v0.5.1 shapes. Decide the value before building: the Special Condition prose says $0.063, while the current rate-table footnote on Sheets 3/5/7 says \"BSC Surcharge of $0.064/meter/day\"; the footnote is the operative figure and the prose lags, the same lag this filing already documents for $(0.334) versus $(0.332). (2) Schedule TOU-D Sheet 20 Special Condition 11 (Cal. P.U.C. Sheet 90676-E), in this filing's own PDF, states how DRAH status is established, and the model states something else. Verbatim: \"DRAH will be identified by the California Housing Partnership database. For properties with less than 80 percent of units identified as DRAH, Customers or tenants must contact SCE or visit www.sce.com and self-attest to living in a DRAH to qualify for the DRAH discount to reduce their Base Services Charge.\" The EligibilityRule tests a CustomOperandNode customConditionProperty \"housingDeedRestricted\" equal to true, and its description asserts a recorded-deed-restriction test with LIHTC, state Multifamily Housing Program and local inclusionary-housing funding sources \"verified by recorded deed lookup\", which is not the source's mechanism. Two distinct items belong here: the identification mechanism is unmodeled, and the description asserts an unsourced one.",
+          "urpx:evaluatedOn": "2026-09-22T00:00:00"
+        }
       }
     }
   }

@@ -1,12 +1,30 @@
 #!/usr/bin/env python3
-"""Backfill [modeling] blocks into every tariff.toml in the corpus.
+"""Regenerate the derived half of each tariff.toml [modeling] block.
 
-Within-filing axis (`complete` + `deferrals`) is derived from a per-filing
-deferral inventory hand-curated below from a prose scan of the JSON-LD.
+WHAT THIS WRITES, and what it must never write again.
 
-Corpus-coverage axis (`applicable_modifiers`, base RatePlan filings only) is
-bootstrapped from the existing modifier filings' urpx:applicableToRatePlan
-reverse mapping, augmented with prose-mentioned but not-yet-modeled modifiers.
+`applicable_modifiers` is DERIVED: a reverse map over every modifier filing's
+urpx:applicableToRatePlan, augmented with modifiers the source PDFs name but the
+corpus has not yet modeled. That is tabulation, it is recomputable from the
+corpus, and regenerating it is this script's job.
+
+`complete` and `deferrals` are a JUDGMENT: they answer whether the JSON-LD
+captures what its source PDF prices, which can only be settled by reading both.
+LAYOUT.md 4.4 defines the block and the add-a-filing workflow at step 7 puts that
+call on whoever models the filing, recorded in tariff.toml. This script used to
+stamp them from the DEFERRALS table below, a one-time inventory lifted from
+rdfs:comment prose when the convention was introduced. Wired into
+dev/check_all.py, it then rewrote 45 of the 72 manifests on every full gate,
+silently reverting any assessment authored after that table was frozen. That is
+how the manifests went stale while the models moved on: between the v0.2.1 and
+v0.5.1 migrations, filings gained vocabulary that closed their deferrals and the
+table did not know. So `complete` and `deferrals` are now PRESERVED from the
+manifest, and the table is kept only as the historical record of what was
+deferred at bootstrap.
+
+The agreement between the manifest, the filing's urpx:CoverageClaim and the
+filing itself is enforced by dev/lint_completeness_agreement.py, which reports a
+disagreement rather than overwriting one side of it.
 
 Run from repo root:  python3 dev/backfill_modeling.py
 """
@@ -45,6 +63,15 @@ DEFERRALS: dict[tuple[str, str, str], list[str]] = {
     ("pge",   "e-elec",          "2026-03-27"): [],
     # SCE
     ("sce",   "d",               "2025-11-15"): [],
+    # Sheets 8-9 of the live tariff book carry Special Conditions 8 and 9, which
+    # the 2025-11-15 rate-table archive does not have at all. Both grant a
+    # percentage bill discount and neither is in the graph, so this filing is
+    # partial and was recorded as complete with no evaluation until 2026-09-21.
+    ("sce",   "d",               "2026-03-20"): [
+        "SJV Pilot Bill Protection Discount (Sheet 8, Special Condition 8): 20 percent in pilot years 1 through 5 and 10 or 20 percent in years 6 through 10; not modeled, because the filing carries no condition on SJV Pilot participation to gate a price on",
+        "Transitional Community Solar Discount (Sheet 9, Special Condition 9): 20 percent monthly bill credit over the same 10-year bill protection period; same pilot-participation gate",
+        "California Climate Credit carry-forward (Sheet 7, Special Condition 5): the $(36.00) credit is priced, but the roll-over of any portion not consumed in a billing period to subsequent periods is not expressed",
+    ],
     ("sce",   "tou-d-4-9pm",     "2025-11-15"): [
         "Heat Pump Water Heater (HPWH) baseline allocation per Preliminary Statement Part H — baseline credit modifier not yet captured",
             "SCE's Sunday-to-Monday holiday observance rule (Sheet 13) matches no urpx:ObservanceRuleValue in URPX v0.5.1, so each holiday resolves on its actual date; the Monday after an Independence Day falling on a Sunday prices On-Peak rather than the Mid-Peak Sheet 12 directs",
@@ -232,6 +259,24 @@ def reverse_modifier_map() -> dict[tuple[str, str], list[str]]:
 # TOML formatting
 # ---------------------------------------------------------------------------
 
+def read_authored_modeling(toml_path: Path) -> tuple[bool, list[str]] | None:
+    """The modeler's own complete/deferrals, or None if the block does not exist yet.
+
+    Parsed rather than regex-scraped so a malformed block raises here instead of
+    being silently replaced by the bootstrap table's answer.
+    """
+    if not toml_path.exists():
+        return None
+    try:
+        import tomllib
+    except ModuleNotFoundError:
+        import tomli as tomllib
+    block = tomllib.loads(toml_path.read_text()).get("modeling")
+    if block is None or "complete" not in block:
+        return None
+    return bool(block["complete"]), list(block.get("deferrals") or [])
+
+
 def render_modeling_block(
     *,
     complete: bool,
@@ -306,8 +351,16 @@ def main() -> int:
             skipped += 1
             continue
 
-        deferrals = DEFERRALS[key]
-        complete = not deferrals
+        # complete/deferrals are the modeler's call, read back from the manifest
+        # and written out unchanged. DEFERRALS is consulted only to decide
+        # whether this filing predates the convention and has no block yet.
+        authored = read_authored_modeling(dir_path / "tariff.toml")
+        if authored is None:
+            deferrals = DEFERRALS[key]
+            complete = not deferrals
+            print(f"  seeding [modeling] from the bootstrap table: {dir_path.relative_to(REPO)}")
+        else:
+            complete, deferrals = authored
 
         # applicable_modifiers only on base RatePlan filings
         applicable: list[str] | None

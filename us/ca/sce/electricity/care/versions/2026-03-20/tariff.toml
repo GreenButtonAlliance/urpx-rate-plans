@@ -82,10 +82,12 @@ Substantive deltas vs the prior 2025-11-15 filing:
  Schedule D-CARE rather than the cross-cutting TOU-D Sheet 18.
  Same numerical values, cleaner attribution.
 
+The 32.5% bill-subtotal percentage discount is modeled, as a
+urpx:Price carrying urpx:multiplier -0.325 and urpx:basedOnPrice
+over the discountable urpx:PriceSummary of each base plan this
+modifier applies to.
+
 Modeling deferrals (unchanged from 2025-11-15):
- - 32.5% bill-subtotal percentage discount. URPX v0.5.1 CAN express this, via a urpx:PriceSummary over the
- discountable line items with a urpx:Price carrying urpx:multiplier
- and urpx:basedOnPrice. Not yet modeled; the shape is settled.
  - CARE Surcharge $0.208/meter/day exemption — not itemized in
  base SCE residential rate plans currently modeled, so the
  exemption credit has no base item to cancel. Modeling deferred
@@ -103,10 +105,15 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "CARE-customer exemption from a non-CARE-funded surcharge — not modeled until base rate plans track this surcharge as a non-CARE-only line item",
+ "CARE Surcharge exemption (Sheet 1, RATES, Cal. P.U.C. Sheet 90844-E): CARE customers are exempt from the CARE Surcharge of $0.208 per meter per day. Expressible now, and expressible before the migration: it is the same per-meter-per-day credit shape as the $(0.064) Base Services Charge Surcharge exemption this filing already carries. Unbuilt, not blocked. The reason previously recorded here, that no base item exists for the credit to cancel, does not hold. Schedule D Sheet 3 footnote 5 places the California Alternate Rates for Energy Surcharge inside the Public Purpose Programs Charge, and the only per-meter-per-day PPPC on that sheet is the $0.370 component of the $0.794 Base Services Charge that sce:d, sce:tou-d-4-9pm, sce:tou-d-5-8pm and sce:tou-d-prime each model as a single price. What this corpus does not hold is SCE's decomposition of that $0.370, so the credit cannot be reconciled against a published figure before it is added.",
+ "San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (Sheet 6, Special Condition 14, Cal. P.U.C. Sheet 90647-E): 20 percent of the monthly bill in pilot years 1 through 5, and 10 percent or 20 percent in years 6 through 10, the choice settled by an SCE evaluation of participants' total energy cost savings. Expressible now as a Price carrying urpx:multiplier over the base plan's discountable PriceSummary, gated by urpx:hasApplicabilityRule on SJV Pilot participation. Unbuilt because clj-urpx 0.25.0 reads applicability rules for urpx:month only and defers all urpx:hasConditionExpression evaluation (price.clj lines 726 to 741), so a gated discount would apply to every CARE customer and would not be flagged. The same provision is Schedule D Special Condition 8 and is already recorded as a deferral on sce:d.",
+ "Transitional Community Solar Discount (Sheet 6, Special Condition 15, Cal. P.U.C. Sheet 90647-E): a 20 percent monthly bill credit to SJV Pilot participants over the same 10 year bill protection period, payable when neither the Community Solar-Green Tariff nor the Disadvantaged Communities-Green Tariff is available to them. Same price shape and same pilot-participation gate as Special Condition 14, and unbuilt for the same consumer reason. The same provision is Schedule D Special Condition 9 and is already recorded as a deferral on sce:d.",
+ "Sheet 1 APPLICABILITY (Cal. P.U.C. Sheet 90844-E) states two eligibility predicates the model does not carry. Verbatim: \"Applicable to domestic service to California Alternate Rates for Energy (CARE) households residing in a permanent Single-Family Accommodation or Multifamily Accommodation where the customer meets all the Special Conditions of this Schedule. Customers enrolled in the CARE program are not eligible for the Family Electric Rate Assistance (FERA) program.\" The EligibilityRule carries residential customer kind AND Program Enrollment = CARE, and neither the accommodation-type predicate nor the FERA exclusion. The exclusion is expressible: cpau:e-nse-1-2025-09-01-cn-nem-successor is a notEqualsOperator test of the same shape.",
+ "Special Condition 4 (application), Special Condition 5 (commencement), Special Condition 7 (verification, with the 400 percent and 600 percent of baseline usage conditions) and Special Condition 9 (rebilling) are conditions of service on this Schedule's own sheets, unmodeled and unrecorded. Special Condition 2's income table (from $42,300 at one to two persons up to $108,300 at eight, plus $11,000 per additional person, effective June 1, 2025) and Special Condition 3's Group Living Facility definition are the substantive eligibility content the EligibilityRule's description paraphrases without encoding.",
+ "Special Condition 13, Arrearage Management Plan (Sheet 5, Cal. P.U.C. Sheet 91034-E): forgiveness of 1/12 of an eligible Customer's arrearage after each on-time payment, the remainder forgiven after 12 on-time payments, capped at $8,000 per instance of enrollment. It changes what the customer owes and is stated on this filing's own sheet; it is not in the model. The corpus's existing treatment of it as \"enrollment and account administration rather than price\" is the reading LAYOUT.md section 4.4 does not support.",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "re-sourced to canonical Schedule D-CARE PDF (was TOU-D Sheet 18 before). 4 of 4 prices refreshed to AL 5725-E values (effective 2026-01-01); FRC exemption credit deepens significantly (-0.00198 → -0.00619) tracking the underlying FRC base-rate increase. Per-version IRIs date-suffixed per the pattern (4 Prices + 2 PriceDefinitions for BSC adjustments which carry blank-node CalculationMethod). RatePlanModifierVersion @id sce:care-2026-03-20 supersedes sce:care-2025-11-15."
+notes = "re-sourced to canonical Schedule D-CARE PDF (was TOU-D Sheet 18 before). 4 of 4 prices refreshed to AL 5725-E values (effective 2026-01-01); FRC exemption credit deepens significantly (-0.00198 → -0.00619) tracking the underlying FRC base-rate increase. Per-version IRIs date-suffixed per the pattern (5 Prices + 2 PriceDefinitions for BSC adjustments which carry blank-node CalculationMethod). RatePlanModifierVersion @id sce:care-2026-03-20 supersedes sce:care-2025-11-15."

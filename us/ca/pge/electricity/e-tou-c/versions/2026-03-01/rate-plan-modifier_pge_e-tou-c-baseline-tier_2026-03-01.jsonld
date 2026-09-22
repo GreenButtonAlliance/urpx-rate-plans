@@ -51,7 +51,7 @@
   "urpx:hasRatePlanModifier": {
     "@type": "urpx:RatePlanModifier",
     "@id": "pge:e-tou-c-baseline-tier",
-    "urpx:name": "E-TOU-C Baseline Credit + Conservation Incentive Adjustment",
+    "urpx:name": "E-TOU-C Conservation Incentive Adjustment (baseline-tier matrix)",
     "urpx:modifierUniqueIdentifier": "E-TOU-C-BASELINE-TIER",
     "urpx:initialEffectiveDate": "2026-03-01",
     "urpx:timezoneIdentifier": "America/Los_Angeles",
@@ -63,7 +63,7 @@
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },
-      "urpx:description": "Baseline Credit and Conservation Incentive Adjustment for PG&E Schedule E-TOU-C, modeled per the territory × code × season baseline allowance matrix (10 territories × 2 codes × 2 seasons = 40 cells). The Baseline Credit (-$0.08140/kWh) applies to Tier 1 (within baseline) usage only; the CIA applies to all usage with two values: -$0.02786/kWh on Tier 1 and +$0.05354/kWh on Tier 2 + Tier 2 Continued (over baseline). Tier boundaries are baseline-allowance-keyed and vary per cell; the Tier 2 cap is 4× the Tier 1 baseline per Special Condition 1. Cell selection is structural via urpx:ProfileAlternatives (territory + code dimensions); each urpx:ServiceTiers container references the matching urpx:ProfileAlternative. Code M / Code S medical baseline allowances are NOT modeled here — they require Rule 19 + Preliminary Statement Part A extraction.",
+      "urpx:description": "Conservation Incentive Adjustment for PG&E Schedule E-TOU-C, modeled per the territory × code × season baseline allowance matrix (10 territories × 2 codes × 2 seasons = 40 cells). Sheet 3 prices the CIA at -$0.02786/kWh on Tier 1 (within baseline) and +$0.05354/kWh on Tier 2 + Tier 2 Continued (over baseline). Sheet 2 states the same money as a single Baseline Credit of ($0.08140) applied to baseline usage only, which is exactly the difference between the two Sheet 3 CIA rates; the base filing is built from the Sheet 3 unbundling, so pricing a separate Baseline Credit here would subtract it twice and is deliberately absent. Tier boundaries are baseline-allowance-keyed and vary per cell; the Tier 2 cap is 4× the Tier 1 baseline per Special Condition 1. Cell selection is structural via urpx:ProfileAlternatives (territory + code dimensions); each urpx:ServiceTiers container references the matching urpx:ProfileAlternative. Code M / Code S medical baseline allowances are NOT modeled here — they require Rule 19 + Preliminary Statement Part A extraction.",
       "urpx:effectiveDateTime": "2026-03-01T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
@@ -121,17 +121,6 @@
           "urpx:hasLedger": [
             {
               "@type": "urpx:Ledger",
-              "@id": "pge:ledger-baseline-credit",
-              "urpx:name": "Baseline Credit",
-              "urpx:ledgerType": {
-                "@id": "urpx:bundledLedger"
-              },
-              "urpx:referencesMetricInput": {
-                "@id": "pge:mi-energy-baseline"
-              }
-            },
-            {
-              "@type": "urpx:Ledger",
               "@id": "pge:e-tou-c-baseline-tier-2026-03-01-ledger-cia",
               "urpx:name": "Conservation Incentive Adjustment",
               "urpx:ledgerType": {
@@ -143,23 +132,6 @@
             }
           ],
           "urpx:hasPriceDefinition": [
-            {
-              "@type": "urpx:PriceDefinition",
-              "@id": "pge:pd-baseline-credit",
-              "urpx:name": "Baseline Credit",
-              "urpx:chargeType": {
-                "@id": "urpx:creditEnergy"
-              },
-              "urpx:chargeCategory": {
-                "@id": "urpx:adjustment"
-              },
-              "urpx:billPortion": {
-                "@id": "urpx:bundledPortion"
-              },
-              "urpx:referencesLedger": {
-                "@id": "pge:ledger-baseline-credit"
-              }
-            },
             {
               "@type": "urpx:PriceDefinition",
               "@id": "pge:e-tou-c-baseline-tier-2026-03-01-pd-cia",
@@ -3340,16 +3312,6 @@
         "urpx:hasPrice": [
           {
             "@type": "urpx:Price",
-            "@id": "pge:price-baseline-credit",
-            "urpx:referencesPriceDefinition": {
-              "@id": "pge:pd-baseline-credit"
-            },
-            "urpx:name": "Baseline Credit — Tier 1 (within baseline)",
-            "urpx:unitPrice": "-0.08140",
-            "urpx:serviceTierNumber": 1
-          },
-          {
-            "@type": "urpx:Price",
             "@id": "pge:price-cia-t1",
             "urpx:referencesPriceDefinition": {
               "@id": "pge:e-tou-c-baseline-tier-2026-03-01-pd-cia"
@@ -3381,7 +3343,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-pge",
         "urpx:legalName": "Pacific Gas & Electric Company",
         "urpx:organizationType": {
@@ -3421,7 +3383,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "This modifier carries the Special Condition 1 baseline quantities for all ten baseline territories in both Code B (basic) and Code H (all-electric) form across both seasons, with the Baseline Credit of $0.08140 per kWh on within-baseline usage and the Conservation Incentive Adjustment at a $0.02786 credit within baseline and a $0.05354 charge above it. Three provisions bearing on those quantities are not represented. Special Condition 5's standard medical quantities, Code M (basic plus medical) and Code S (all-electric plus medical), which are added to the Special Condition 1 quantity to raise the ceiling on usage billed at baseline rates, with further quantities available under Rule 19 for both the primary and additional meters. URPX v0.5.1 states a service bracket's bounds as absolute numbers and offers no way to carry an allowance that shifts an existing bound, so representing Code M and Code S means recomputing every one of the forty territory, code and season cells rather than stating the addition once; they are therefore absent rather than approximated. Special Condition 4's seasonal proration, under which a bill spanning the June 1 or October 1 changeover multiplies each season's daily baseline quantity by the number of days of that season in the billing period: the published quantities are kWh per day, and the brackets here carry those figures as plain kWh bounds with no daily basis, so a consumer must scale them to the billing period itself. Special Conditions 3 and 6 on dwellings served by more than one meter, under which the all-electric quantities are allocated only to the meter the customer designates as primary and an additional meter receives only the basic, or basic plus medical, quantity; the matrix here prices a single meter.",
+          "urpx:description": "This modifier carries the Special Condition 1 baseline quantities for all ten baseline territories in both Code B (basic) and Code H (all-electric) form across both seasons, with the Conservation Incentive Adjustment at a $0.02786 credit within baseline and a $0.05354 charge above it. Sheet 2’s Baseline Credit of ($0.08140) on baseline usage is the difference between those two Sheet 3 rates and is not priced separately here. Three provisions bearing on those quantities are not represented. Special Condition 5's standard medical quantities, Code M (basic plus medical) and Code S (all-electric plus medical), which are added to the Special Condition 1 quantity to raise the ceiling on usage billed at baseline rates, with further quantities available under Rule 19 for both the primary and additional meters. URPX v0.5.1 states a service bracket's bounds as absolute numbers and offers no way to carry an allowance that shifts an existing bound, so representing Code M and Code S means recomputing every one of the forty territory, code and season cells rather than stating the addition once; they are therefore absent rather than approximated. Special Condition 4's seasonal proration, under which a bill spanning the June 1 or October 1 changeover multiplies each season's daily baseline quantity by the number of days of that season in the billing period: the published quantities are kWh per day, and the brackets here carry those figures as plain kWh bounds with no daily basis, so a consumer must scale them to the billing period itself. Special Conditions 3 and 6 on dwellings served by more than one meter, under which the all-electric quantities are allocated only to the meter the customer designates as primary and an additional meter receives only the basic, or basic plus medical, quantity; the matrix here prices a single meter.",
           "urpx:evaluatedOn": "2026-09-21T00:00:00"
         }
       }

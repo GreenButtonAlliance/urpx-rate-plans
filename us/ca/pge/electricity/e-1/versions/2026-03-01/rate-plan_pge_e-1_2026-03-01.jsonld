@@ -10,6 +10,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -110,7 +113,10 @@
             "urpx:pageStart": 1,
             "urpx:pageEnd": 6,
             "urpx:leafStart": "61096-E",
-            "urpx:leafEnd": "61101-E"
+            "urpx:leafEnd": "61101-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7846-e"
+            }
           },
           "urpx:hasEligibilityRule": [
             {
@@ -1103,7 +1109,7 @@
             "@id": "pge:e-1-vintage-pcia-2026-03-01"
           },
           "urpx:offeredBy": {
-            "@type": "urpx:Organization",
+            "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",
             "urpx:legalName": "Pacific Gas & Electric Company",
             "urpx:organizationType": {
@@ -1134,9 +1140,18 @@
             "@id": "pge:cc-e-1-2026-03-01",
             "@type": "urpx:CoverageClaim",
             "urpx:completenessResult": {
-              "@id": "urpx:complete"
+              "@id": "urpx:partial"
             },
-            "urpx:selfContained": true
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-e-1-2026-03-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 9 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Baseline tier bounds: Special Condition 2, Sheet 4 (Cal. P.U.C. Sheet 61099-E) prices a matrix of 10 baseline territories x 2 codes (B basic, H all-electric) x 2 seasons = 40 kWh/day values. The model carries one cell, Territory P Code B (summer 13.5, winter 11.0), so tier boundaries are wrong for nine of ten territories and for every all-electric customer, shifting kWh between the -0.04052 and +0.04089 Conservation Incentive Adjustment rates. Expressible under v0.5.1 and already built for this identical PG&E table at us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld, which ships 120 brackets using ServiceBracket.appliesInSeason plus ServiceBracket.referencesProfileAlternative against a 20-member baselineTerritory x baselineCode ProfileAlternatives hosted on a sibling modifier version. The blocker recorded in this filing's README (PlanElements.hasProfileAlternatives maxCount 1, upstream discussion #31) is stale: maxCount 1 is per PlanElements, and hosting the second dimension on a modifier version is the corpus workaround. This is work, not a blocker. Note that clj-urpx 0.25.0 reads only the first ServiceBracket per ServiceTier, so the full matrix will be correct data before it is a correct resolution. (2) Season is absent from the machine-readable data. Sheet 4 (61099-E) gives separate summer and winter bounds and Special Condition 6 (Sheet 5, 61100-E) defines summer as June 1 through September 30. The two urpx:Season nodes in this file are declared and referenced by nothing: no ServiceBracket and no Price carries appliesInSeason. The six tiers are therefore overlapping unqualified brackets over one kWh metric, so 12 kWh/day matches both summer tier 1 (0 to 13.5) and winter tier 2 (11.0 to 44.0) with no discriminator, and the season survives only inside urpx:name strings. appliesInSeason is 0..n on both ServiceBracketShape and PriceShape at v0.5.1. (3) Wildfire Fund Charge exemption not modeled. Sheet 1 (61247-E) states that customers receiving a medical baseline allowance shall not pay the Wildfire Fund Charge, and Special Condition 12 (Sheet 7, 61102-E) states the charge applies to all retail sales excluding CARE and Medical Baseline sales. The model prices it unconditionally at 0.00591 per kWh in pge:e-1-2026-03-01-ps-adjustment-charges, so CARE customers are overcharged. The CARE case is expressible with machinery already in this file: add a second PriceSetAlternatives over the existing income-tier ProfileAlternatives giving 0.00591 for Income Tiers 2 and 3 and 0 for Tier 1; the selection layer is read by clj-urpx 0.25.0. The Medical Baseline case is a second dimension and PG&E has no medical-baseline filing in this corpus. (4) Direct Access, CCA and Transitional Bundled Service customers do not pay the generation charge or the Bundled Power Charge Indifference Adjustment (Special Condition 9, Sheet 6, 61101-E), but nothing in the model removes them. The pge:e-1-vintage-pcia modifier adds the vintaged replacement rate and asserts the substitution only in urpx:description prose, so composing the base plan with the modifier bills a CCA customer 0.12855 per kWh of PG&E generation on top of their vintaged PCIA. Expressible as modifier Prices carrying multiplier -1 with basedOnPrice naming pge:price-generation and pge:e-1-2026-03-01-price-bundled-pcia; that pattern resolves at clj-urpx 0.25.0. (5) Income Tier 2 is under-specified. Sheet 1 (61247-E) defines it as either (a) FERA-enrolled or (b) a resident of an affordable rental unit listed in the California Housing Partnership database and restricted to incomes at or below 80 percent of Area Median Income. The model gates Income Tier 2 only on enrollment in pge:program-fera and defines Income Tier 3 as not-CARE and not-FERA, so a branch (b) customer resolves to Tier 3 and is billed 0.79343 per day instead of 0.39688, roughly double. Expressible and precedented in this same file: the vintage-PCIA modifier already uses CustomOperandNode with customConditionProperty for an unnamed predicate. (6) Base Services Charge is modeled only as the three income-tier totals (0.19713, 0.39688, 0.79343). Sheet 3 (61098-E) also prices it by component, 4 components x 3 income tiers = 12 values in dollars per customer per day: Distribution (-0.10751 / -0.02710 / 0.36945), Public Purpose Program (0.19131 / 0.31065 / 0.31065), Nuclear Decommissioning (0.00000 x3) and New System Generation Charge (0.11333 x3). None of the 12 appears in the model. The totals are right and the components sum to them, so no bill is wrong, but the published unbundling is absent while the energy rates are fully unbundled. (7) Standard medical quantities are not modeled. Special Condition 7 (Sheet 5, 61100-E) adds Code M and Code S quantities to the Special Condition 2 baseline, raising the usage billed at Tier 1 rates. Two obstacles. The quantities are not stated in this PDF and additional quantities are 'as provided in Rule 19', which is not committed to this corpus, so it is partly a source gap. And an additive allowance is not expressible as a delta under v0.5.1: ServiceBracketShape is sh:closed with xsd:decimal bounds and upstream urpx-org/urpx #32 is open on whether an additive quantity is meant to be representable; precomputing absolute bounds per cell would work. Sibling us/ca/pge/electricity/e-tou-c records this identical provision as its one deferral. (8) Seasonal changeover proration not modeled. Special Condition 6 (Sheet 5, 61100-E) requires bills that include the June 1 or October 1 changeover to multiply the applicable daily baseline quantity for each season by the number of days in each season. Nothing in the model expresses this. The only slot is urpx:prorationMethod, and it is settled rather than unconfirmed: BillingModelShape gives it sh:datatype xsd:string with sh:maxCount 1 and no sh:in, so it is free text with no allowed-value list to establish (verified against abdfb521). It is used by zero filings in this corpus and read by no function in clj-urpx 0.25.0, and its own skos:note scopes it to service starting or ending mid-period rather than to a season boundary, so it would carry this provision as prose at best. The allocation arithmetic itself has no computable form in v0.5.1. (9) New System Generation Charge, energy component, 0.00000 per kWh (Sheet 2, 61097-E) has no PriceDefinition and no Price. Zero-valued today so no bill is affected, but the schedule's line item is unrepresented and a future nonzero value would be silently missing. Minor; listed so the Sheet 2 enumeration is complete.",
+              "urpx:evaluatedOn": "2026-09-22T00:00:00"
+            }
           }
         },
         "urpx:ratePlanUniqueIdentifier": "E-1"
@@ -1180,7 +1195,10 @@
             "urpx:pageStart": 5,
             "urpx:pageEnd": 5,
             "urpx:leafStart": "61100-E",
-            "urpx:leafEnd": "61100-E"
+            "urpx:leafEnd": "61100-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7846-e"
+            }
           },
           "urpx:hasEligibilityRule": [
             {
@@ -2281,7 +2299,7 @@
             "@id": "pge:e-1-2026-03-01"
           },
           "urpx:offeredBy": {
-            "@type": "urpx:Organization",
+            "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",
             "urpx:legalName": "Pacific Gas & Electric Company",
             "urpx:organizationType": {

@@ -41,24 +41,23 @@ rate plan when the customer is enrolled in FERA:
  ─────────────────────────────────────────────
  Net per-meter-per-day: -$0.265/meter/day
 
+Plus the 18.0% bill-subtotal percentage discount, modeled as a
+urpx:Price carrying urpx:multiplier -0.18 and urpx:basedOnPrice
+over the discountable urpx:PriceSummary of each base plan this
+modifier applies to.
+
 Unlike CARE, FERA does NOT include WFC or FRC exemptions — FERA
 customers continue to pay both at the standard rates.
 
-## What this modifier does NOT capture (deferred)
+## What this modifier does NOT capture
 
- 1. 18.0% bill-subtotal percentage discount, applying to the pre-tax
- subtotal across all base PriceDefinitions. URPX v0.5.1 CAN express this, via a urpx:PriceSummary over the
- discountable line items with a urpx:Price carrying urpx:multiplier
- and urpx:basedOnPrice. Not yet modeled; the shape is settled.
-
-For a FERA customer on a typical SCE residential schedule, the modeled
-BSC credits represent a small fraction of the actual FERA benefit;
-the bulk is the 18.0% percentage discount.
+Nothing. Special Condition 9 prices the percentage discount and the
+two BSC adjustments, and all three are here.
 
 ## Why the structure is simpler than CARE
 
-CARE has 4 line-item adjustments + 1 deferred percentage discount.
-FERA has only 2 line-item adjustments + 1 deferred percentage discount.
+CARE has 4 line-item adjustments + the percentage discount.
+FERA has only 2 line-item adjustments + the percentage discount.
 FERA's narrower scope reflects its policy positioning as a
 moderate-income tier vs CARE's deeper low-income tier.
 """
@@ -71,10 +70,15 @@ validated_on = "2026-09-20"
 
 # Modeling -------------------------------------------------------------------
 [modeling]
-complete = true
-deferrals = []
+complete = false
+deferrals = [
+ "The 18.0 percent discount's base is inferred from CARE, not read from FERA's own text. Sheet 18 Special Condition 9 (source PDF page 46, Cal. P.U.C. Sheet 90675-E) says the discount applies to \"their bill prior to the application of any applicable taxes and late payment charges\" and carves out nothing else. The model multiplies -0.18 against each base plan's summary-discountable PriceSummary, which excludes the Base Services Charge ($0.794 per meter per day) and the PUC Reimbursement Fee ($0.00080 per kWh). Those summaries name Schedule D-CARE Sheet 1 as their authority, which governs Special Condition 8, not 9; SC 8 does carve out the PUCRF and user fees, SC 9 does not. Excluding the Base Services Charge is worth roughly $4.30 on a 30-day bill. This is a source gap rather than a vocabulary gap: Schedule D-FERA, which SC 9 names, is not in this corpus, and Schedule TOU-D's Billing Calculation Special Condition sits on Sheets 12 through 17, which this year-suffixed reissuance omits (it holds Sheets 2 through 11 and Sheet 18 only). Resolve by fetching Schedule D-FERA and the full TOU-D book from the live tariff-book folder in us/ca/sce/utility.toml.",
+ "The 18.0 percent discount does not reach TOU-D Options A and B. Their rate sheets carry the line \"Family Electric Rate Assistance Discount - % 100.00\" (source PDF pages 31 and 34, Sheets 8 and 9, Option A; pages 37 and 40, Sheets 10 and 11, Option B), so Special Condition 9 prices the discount for them exactly as it does for Options 4-9 PM, 5-8 PM and PRIME. The corpus models no Option A or Option B rate plan, so this modifier's applicableToRatePlan and basedOnPrice can name neither and a FERA customer on either Option gets no discount from this filing. The two Base Services Charge credits correctly do not extend to them: their in-effect revisions are the January 1, 2025 sheets, which price a Basic Charge and a Minimum Charge rather than a Base Services Charge. The vocabulary is not the obstacle; the same multiplier and basedOnPrice pattern already used here would carry it once Options A and B exist as base filings.",
+ "Special Condition 9 (Sheet 18, Cal. P.U.C. Sheet 90675-E) states four conditions of service that the model carries only as description prose. Verbatim: \"An application and eligibility declaration is required for service under this Special Condition. Eligible Customers shall be billed on this Special Condition commencing no later than one billing period after receipt and approval of the Customer's application by SCE. Customers may be rebilled for periods in which they do not meet the eligibility requirements for the CARE Discount. Customers receiving service under the CARE Discount Special Condition of this Schedule are not eligible to take service under this Special Condition.\" The EligibilityRule carries residential customer kind AND Program Enrollment = FERA and no CARE-exclusion predicate, although notEqualsOperator exclusions ship elsewhere in this corpus. Note the sheet's own copy-paste artifact: the rebilling clause names the CARE Discount inside Special Condition 9.",
+ "Special Condition 9 fixes who the discount reaches by reference to a schedule this filing does not commit: \"Customers who meet the definition of a FERA household, as defined in Schedule D-FERA, may qualify for an 18.0 percent discount\". Schedule D-FERA is in no PDF in this corpus, so the household definition behind the modeled -0.18 is unsourced.",
+]
 
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Second SCE RatePlanModifier filing. Same structural pattern as us/ca/sce/electricity/care/versions/2025-11-15/ — standalone modifier, source PDF (TOU-D-2025) Sheet 18 Special Condition 9. 2 PriceDefinitions (BSC Surcharge Exemption, BSC Credit Adjustment), 2 Prices. Bill-subtotal 18.0% discount deferred (URPX vocabulary gap shared with CARE). FERA customer share ~5-10% of SCE residential."
+notes = "Second SCE RatePlanModifier filing. Same structural pattern as us/ca/sce/electricity/care/versions/2025-11-15/ — standalone modifier, source PDF (TOU-D-2025) Sheet 18 Special Condition 9. 3 PriceDefinitions (BSC Surcharge Exemption, BSC Credit Adjustment, bill discount), 3 Prices. Bill-subtotal 18.0% discount modeled as a urpx:multiplier over the discountable PriceSummary. FERA customer share ~5-10% of SCE residential."

@@ -172,6 +172,30 @@ case "$MODE" in
         record $rc
     fi
 
+    # Completeness is asserted in three places: the urpx:CoverageClaim, the
+    # [modeling] table in tariff.toml, and the filing itself. Nothing compared
+    # them, and they drift in one direction: somebody models a gap, and the
+    # sentence that said it was unmodeled stays. Six CARE and FERA filings were
+    # in exactly that state, every one corrected by the commit that added the
+    # discount as a urpx:multiplier and not one of the six evaluations revised.
+    # In --fast because a new or edited filing is what the pre-commit gate sees,
+    # and this is the check such a filing trips.
+    #
+    # Exit 1 a disagreement, 3 refused. Refusals are collapsed denominators: no
+    # filings, no manifests, no coverage claims, no urpx:multiplier anywhere in
+    # the corpus, no manifest carrying a Modeling deferrals section, a partial
+    # claim carrying no evaluation prose, a deferrals section whose body yields
+    # no readable item, or a presence claim pointing at a directory that holds
+    # no filing. Each leaves the comparison with no second side.
+    note "Completeness agreement"
+    if python3 dev/lint_completeness_agreement.py > /tmp/gate-completeness.log 2>&1; then
+        tail -1 /tmp/gate-completeness.log
+    else
+        rc=$?
+        cat /tmp/gate-completeness.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -238,6 +262,15 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-discounts.log
+        record $rc
+    fi
+
+    note "Completeness agreement"
+    if python3 dev/lint_completeness_agreement.py > /tmp/gate-completeness.log 2>&1; then
+        tail -1 /tmp/gate-completeness.log
+    else
+        rc=$?
+        cat /tmp/gate-completeness.log
         record $rc
     fi
 

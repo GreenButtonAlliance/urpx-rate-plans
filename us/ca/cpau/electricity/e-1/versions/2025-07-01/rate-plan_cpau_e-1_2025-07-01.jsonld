@@ -8,6 +8,9 @@
     "urpx:effectiveDate": {
       "@type": "xsd:date"
     },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
@@ -488,7 +491,7 @@
         "@id": "cpau:e-hra-2023-01-01"
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-cpau",
         "urpx:legalName": "City of Palo Alto Utilities",
         "urpx:organizationType": {
@@ -519,9 +522,18 @@
         "@id": "cpau:cc-e-1-2025-07-01",
         "@type": "urpx:CoverageClaim",
         "urpx:completenessResult": {
-          "@id": "urpx:complete"
+          "@id": "urpx:partial"
         },
-        "urpx:selfContained": true
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-1-2025-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Tier 1 quantity is denominated per day and prorated: Sheet E-1-1 Section D.2, \"a level of 15 kWh per day, prorated by Meter reading days of Service... for a 30-day bill, the Tier 1 level would be 450 kWh.\" cpau:tier-1-bracket carries upperBound 15 against cpau:ms-energy (unitOfMeasure urpx:kWh, no intervalDuration), and no tier name or description states the denomination, so the bound resolves as 15 kWh rather than 15 kWh/day. The per-day denomination IS expressible under v0.5.1 and was validated 2026-09-21: a daily-energy MetricInput whose MetricSpecification carries intervalDuration \"P1D\" and intervalType urpx:dailyInterval, pointed at by ServiceTiers.referencesMetricInput, conforms against the v0.5.1 shapes. It would be declarative at clj-urpx 0.25.0, whose ledger-metric-info (price.clj) surfaces only measurementKind, unitOfMeasure and flowDirection off a MetricSpecification. Work, not a blocker. (2) The proration arithmetic itself is not expressible: a Tier 1 bound of 15 kWh times the number of meter reading days (Sheet E-1-1 Section D.2, which refers the calculation to Rule and Regulation 11, a document not held in this corpus). ServiceBracketShape is sh:closed in v0.5.1 and lowerBound/upperBound are xsd:decimal literals with no formula or metric reference, so a bound that scales with billing-period length cannot be stated. Same class as urpx-org/urpx#32 (additive baseline allowance), open. Corpus-wide: pge/e-1, pge/e-tou-c, sce/d, sdge/dr and ladwp/r-1a all encode a daily allowance as a bare decimal on an undenominated kWh metric.",
+          "urpx:evaluatedOn": "2026-09-22T00:00:00"
+        }
       }
     },
     "urpx:ratePlanUniqueIdentifier": "E-1"
@@ -2407,7 +2419,7 @@
         ]
       },
       "urpx:offeredBy": {
-        "@type": "urpx:Organization",
+        "@type": "urpx:UtilityOperator",
         "@id": "org:utility-cpau",
         "urpx:legalName": "City of Palo Alto Utilities",
         "urpx:organizationType": {

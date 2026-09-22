@@ -67,6 +67,7 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 # filings, so renaming these would also break that linter.
 IDENTITY_TYPES = {
     "urpx:Organization",
+    "urpx:UtilityOperator",
     "urpx:OrganizationIdentity",
     "urpx:OrganizationName",
     "urpx:OrganizationIdentifier",

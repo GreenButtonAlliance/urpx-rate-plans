@@ -196,6 +196,31 @@
 ;; outright if no filing produces a marginal rate at all.
 (def legitimate-refusals #{:no-energy-ledger :all-energy-tiers-excluded})
 
+;; A filing that states mutually exclusive alternatives cannot be resolved
+;; without choosing one, and clj-urpx refuses with :unselected-alternatives
+;; rather than summing them. That refusal is NOT in `legitimate-refusals` on
+;; purpose. Accepting it would drop the filing out of the recorded baseline
+;; entirely, which is how a gate goes quiet on exactly the filings that most
+;; need watching: SCE CCA-CRS and DA-CRS each state twenty PCIA vintages, of
+;; which one applies to any customer, and summing them reported 0.95664 for
+;; TOU-D-PRIME against a true range of 0.59423 to 0.62691.
+;;
+;; So the harness NOMINATES a cell, here, in the open, and records the rate that
+;; nomination produces. A filing that gains alternatives without an entry below
+;; fails the gate and forces someone to decide, which is the behaviour we want:
+;; there is no defensible default, and picking one silently would assert a
+;; customer attribute the corpus does not know.
+;;
+;; The nominated vintage is the earliest SCE files, 2001. Any cell would
+;; exercise the selection path equally; the earliest is chosen because it is
+;; stable (SCE adds vintages forward, so a new filing does not move it) and
+;; because a moving nomination would show up as a baseline diff that means
+;; nothing. This records one of twenty cells: the sweep that checked all 1520
+;; per-vintage cells is a one-time verification, not a per-commit gate.
+(def profile-alternative-nominations
+  {"sce:cca-crs-2026-03-20-pa-pcia-vintage" "sce:cca-crs-2026-03-20-pa-vintage-2001"
+   "sce:da-crs-2026-03-20-pa-pcia-vintage"  "sce:da-crs-2026-03-20-pa-vintage-2001"})
+
 (def refusal-tally (atom {}))
 (def marginal-count (atom 0))
 
@@ -283,7 +308,8 @@
     ;; See `legitimate-refusals`: a refusal with one of those reasons is the
     ;; right answer, not a failure. Any other refusal still fails.
     (try
-      (let [resolved (price/resolve-prices (load-plan! path) instant)]
+      (let [resolved (price/resolve-prices (load-plan! path) instant
+                                           {:profile-alternatives profile-alternative-nominations})]
         {:status  :ok
          :ledgers (count (:urpx.resolved/ledgers resolved))
          :rate    (price/marginal-unit-rate resolved)})
@@ -330,7 +356,8 @@
   (if-let [base-info (get base-iri-lookup base-kw)]
     (let [base (load-plan! (:path base-info))]
       (try
-        (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant)]
+        (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant
+                                                            {:profile-alternatives profile-alternative-nominations})]
           {:status       :ok
            :base-version (:date base-info)
            :ledgers      (count (:urpx.resolved/ledgers resolved))
