@@ -196,6 +196,32 @@
 ;; outright if no filing produces a marginal rate at all.
 (def legitimate-refusals #{:no-energy-ledger :all-energy-tiers-excluded})
 
+;; :condition-gated-tier is NOT in that set, and is admitted only for the two
+;; filings named below. clj-urpx refuses rather than summing a price whose
+;; urpx:ConditionExpression it cannot evaluate, and that refusal answers two
+;; very different situations:
+;;
+;;   a MODELING DEFECT, where the gated set is mutually exclusive and the filing
+;;   should have stated a selection instead. SCE CCA-CRS filed twenty PCIA
+;;   vintages this way and summing them reported 0.95664 for TOU-D-PRIME against
+;;   a true 0.59423 to 0.62691. Blanket-accepting the refusal would have hidden
+;;   that, which is the whole reason to keep the class out of the set.
+;;
+;;   a GENUINE PREDICATE, where the price depends on a fact no document can
+;;   carry: whether an event was called on the day being priced. Nothing models
+;;   its way out of that, and refusing is the correct answer.
+;;
+;; So the two filings whose gates are genuine predicates are named here, with
+;; the count they are expected to carry. A filing that acquires a
+;; condition-gated refusal without an entry FAILS, which forces the modeling
+;; defect and the genuine predicate to be told apart by a person rather than
+;; absorbed by a set membership.
+(def condition-gated-expected
+  {"pge:e-rsmart"        {:prices 2
+                          :why "SmartDay event credits. Sheet 2 footnote * confines the $0.60000 to SmartDays and footnote ** applies the credits to usage on days NOT declared SmartDays, so both sides turn on whether an event was called. Sheet 4 publishes only bounds, nine to fifteen per year, and a 4pm day-ahead notification, never dates."}
+   "sce:tou-d-prime-cpp" {:prices 2
+                          :why "CPP event credits, gated on whether a Critical Peak Pricing event is called that day and on a grandfathered-customer attribute. Summing them made the composed marginal negative, -0.13897 at summer peak, which says a customer is paid to consume."}})
+
 ;; A filing that states mutually exclusive alternatives cannot be resolved
 ;; without choosing one, and clj-urpx refuses with :unselected-alternatives
 ;; rather than summing them. That refusal is NOT in `legitimate-refusals` on
@@ -363,8 +389,12 @@
            :ledgers      (count (:urpx.resolved/ledgers resolved))
            :rate         (price/marginal-unit-rate resolved)})
         (catch Exception e
-          (let [reason (:reason (ex-data e))]
-            (if (legitimate-refusals reason)
+          (let [reason   (:reason (ex-data e))
+                mod-iri  (:jsonld/id modifier)
+                expected (get condition-gated-expected mod-iri)
+                ok?      (or (legitimate-refusals reason)
+                             (and (= reason :condition-gated-tier) (some? expected)))]
+            (if ok?
               {:status :refused :reason reason :base-version (:date base-info)}
               {:status :error :error (.getMessage e) :base-version (:date base-info)})))))
     {:status :no-corpus-base}))
