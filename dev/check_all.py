@@ -80,6 +80,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("list_rate_identifiers",       ["python3", "dev/list_rate_identifiers.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
+    ("lint_copy_divergence",        ["python3", "dev/lint_copy_divergence.py"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
     ("test_arrangements",           ["python3", "dev/test_arrangements.py"]),
     ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),

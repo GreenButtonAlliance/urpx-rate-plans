@@ -167,6 +167,20 @@ case "$MODE" in
         record $rc
     fi
 
+    # The other half of copy agreement. normalize_copies compares a fixed list
+    # of properties and reconciles them; this compares EVERY property and
+    # reconciles nothing. cpau:e-nse-1-2025-09-01 carried a copy-local
+    # applicableToRatePlanVersion for five months and neither the copy gate nor
+    # any lint could see it, because that property is deliberately off the list.
+    note "Copy divergence"
+    if python3 dev/lint_copy_divergence.py > /tmp/gate-divergence.log 2>&1; then
+        tail -1 /tmp/gate-divergence.log
+    else
+        rc=$?
+        cat /tmp/gate-divergence.log
+        record $rc
+    fi
+
     note "Discount subtotals"
     if python3 dev/lint_discount_summaries.py > /tmp/gate-discounts.log 2>&1; then
         tail -1 /tmp/gate-discounts.log
@@ -331,6 +345,20 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-copies.log
+        record $rc
+    fi
+
+    # The other half of copy agreement. normalize_copies compares a fixed list
+    # of properties and reconciles them; this compares EVERY property and
+    # reconciles nothing. cpau:e-nse-1-2025-09-01 carried a copy-local
+    # applicableToRatePlanVersion for five months and neither the copy gate nor
+    # any lint could see it, because that property is deliberately off the list.
+    note "Copy divergence"
+    if python3 dev/lint_copy_divergence.py > /tmp/gate-divergence.log 2>&1; then
+        tail -1 /tmp/gate-divergence.log
+    else
+        rc=$?
+        cat /tmp/gate-divergence.log
         record $rc
     fi
 

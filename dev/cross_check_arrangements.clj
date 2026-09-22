@@ -192,7 +192,18 @@
 ;;                   whose version is named, leaving unnamed plans whole; (c)
 ;;                   fully exhaustive, retracting everything unnamed. Our
 ;;                   enumerator implemented (c) until it was aligned to (a).
-;;                   Nothing in #090 argues for (c).
+;;                   Nothing in #090 argues for (c), and the preserves-
+;;                   document-level line argues against it specifically.
+;;
+;;                   clj-urpx CONFIRMED ITS named-versions-narrow IS (c), by
+;;                   test on their side: a modifier naming plans P and Q with
+;;                   one version of P, asked about Q's version, returns []. So
+;;                   the policy we do NOT pin is the reading with the least
+;;                   support in the decision, and it is their shipped default.
+;;                   (b) is not shipped by either of us; their policy signature
+;;                   receives version @ids as strings and cannot tell which plan
+;;                   each belongs to, so (b) needs a richer signature rather
+;;                   than another function.
 ;;
 ;;                   THIS CORPUS DISTINGUISHES NONE OF THE THREE. The one node
 ;;                   that separated (a) from (c), a copy of
