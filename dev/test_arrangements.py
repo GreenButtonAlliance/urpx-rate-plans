@@ -291,6 +291,84 @@ expect("base-only arrangements match the current base count",
             if v["kind"] == "plan" and v["id"] not in REAL["superseded"]}))
 
 print()
+print("=== applicableToRatePlanVersion ADDS, it does not narrow (URPX Decision #090) ===")
+# The corpus CANNOT test this, which is the whole reason these fixtures exist.
+# Every node in it that states urpx:applicableToRatePlanVersion names version(s)
+# of the single plan it also names, so the additive and the narrowing readings
+# agree on every row and a green gate is evidence for neither. The one node that
+# did come apart, a copy of cpau:e-nse-1-2025-09-01 naming one version of one of
+# the three plans it applied to, was a copy-local artifact and was removed.
+#
+# So each case below asserts the additive answer AND asserts that the narrowing
+# reading would have given a different one. A fixture that both readings pass
+# discriminates nothing, and this file exists because that keeps happening here.
+
+
+def reached(bases, modifiers):
+    """Base version IRIs the modifier reaches, under the shipped reading."""
+    return {b["id"] for b, m in A.pair_candidates(bases, modifiers) if m is not None}
+
+
+def reached_if_narrowing(bases, modifiers):
+    """What this module did before Decision #090 settled the reading.
+
+    Kept only so the fixtures can prove they tell the two apart. If this ever
+    agrees with pair_candidates on every case below, the cases have stopped
+    discriminating and must be fixed rather than deleted.
+    """
+    out = set()
+    for m in modifiers:
+        for plan in m["applies_to"]:
+            b = bases.get(plan)
+            if b is None:
+                continue
+            if m["applies_to_versions"] and b["id"] not in m["applies_to_versions"]:
+                continue
+            out.add(b["id"])
+    return out
+
+
+def both(name, bases, modifiers, want, discriminating=True):
+    expect(name, reached(bases, modifiers), want)
+    narrow = reached_if_narrowing(bases, modifiers)
+    if discriminating:
+        expect(f"  ...and the narrowing reading would differ", narrow != want, True)
+    else:
+        expect(f"  ...and the narrowing reading agrees (control)", narrow == want, True)
+
+
+AB = {"x:a": {"id": "x:a-2", "plan": "x:a"}, "x:b": {"id": "x:b-1", "plan": "x:b"}}
+
+# Naming a version of ANOTHER plan must not withdraw compatibility with the plan
+# named at document level. SHACL does not even require the two lists to agree.
+both("naming another plan's version does not withdraw the plan-level compatibility",
+     AB, [{"id": "x:m", "applies_to": ["x:a"], "applies_to_versions": ["x:b-1"]}],
+     {"x:a-2", "x:b-1"})
+
+# Naming an OLDER version of the same plan must not un-apply the modifier from
+# that plan's current version. Under narrowing this silently reaches nothing,
+# which is the failure mode that would have bitten when CPAU files a second
+# E-1-TOU version.
+both("naming a superseded version does not un-apply the modifier from the current one",
+     {"x:a": {"id": "x:a-2", "plan": "x:a"}},
+     [{"id": "x:m", "applies_to": ["x:a"], "applies_to_versions": ["x:a-1"]}],
+     {"x:a-2"})
+
+# The shape the corpus actually has: one plan, and version(s) of that same plan.
+# Both readings agree, which is exactly why the corpus proves nothing.
+both("the corpus's own shape reads the same either way",
+     {"x:a": {"id": "x:a-1", "plan": "x:a"}},
+     [{"id": "x:m", "applies_to": ["x:a"], "applies_to_versions": ["x:a-1"]}],
+     {"x:a-1"}, discriminating=False)
+
+# Additive does not mean inventive: a named version that is not a current base
+# reaches nothing, or supersession would be undone by a compatibility statement.
+expect("a named version that is not a current base is not reached",
+       reached({"x:a": {"id": "x:a-1", "plan": "x:a"}},
+               [{"id": "x:m", "applies_to": [], "applies_to_versions": ["x:gone-1"]}]),
+       set())
+
+print()
 if failures:
     print(f"{len(failures)} assertion(s) failed: {', '.join(failures)}")
     sys.exit(1)

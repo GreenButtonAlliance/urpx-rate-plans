@@ -535,9 +535,25 @@ def pair_candidates(bases: dict[str, dict], modifiers: list[dict],
     to different answers about what composes with what.
 
     A modifier version reaches a base when urpx:applicableToRatePlan names the
-    base's plan identity, narrowed by urpx:applicableToRatePlanVersion when that
-    is stated. Both are the documents talking. That at most one modifier at a
-    time is admitted is not: see COMBINE_AT_MOST_ONE_MODIFIER.
+    base's plan identity, OR when urpx:applicableToRatePlanVersion names the
+    base version itself. The two ADD. Naming a version does not withdraw the
+    compatibility that naming a plan asserts.
+
+    That reading is the standard's, not a convenience. URPX Decision #090,
+    which introduced applicableToRatePlanVersion, records "Breaking Change:
+    None - this is an additive enhancement" and says producers may continue
+    using the document-level relationships: a property whose presence could
+    retract plan-level compatibility would not have been non-breaking. It is
+    also the only reading that survives RDF merge, since under narrowing
+    merging a document can retract a compatibility that held before.
+
+    This function narrowed until the reading was settled. The narrowing never
+    fired, because no node in this corpus names a version of a plan it does not
+    also name, which is exactly why the corpus cannot tell the two readings
+    apart. test_arrangements.py carries the fixture that can.
+
+    Both are the documents talking. That at most one modifier at a time is
+    admitted is not: see COMBINE_AT_MOST_ONE_MODIFIER.
     """
     if combine != COMBINE_AT_MOST_ONE_MODIFIER:
         raise Refuse(
@@ -547,14 +563,19 @@ def pair_candidates(bases: dict[str, dict], modifiers: list[dict],
         )
     for base in sorted(bases.values(), key=lambda v: v["id"]):
         yield base, None
+    by_version = {base["id"]: base for base in bases.values()}
     for modifier in sorted(modifiers, key=lambda v: v["id"]):
-        for target in modifier["applies_to"]:
-            base = bases.get(target)
-            if base is None:
-                continue
-            if modifier["applies_to_versions"] and base["id"] not in modifier["applies_to_versions"]:
-                continue
-            yield base, modifier
+        reached: dict[str, dict] = {}
+        for plan in modifier["applies_to"]:
+            base = bases.get(plan)
+            if base is not None:
+                reached[base["id"]] = base
+        for vid in modifier["applies_to_versions"]:
+            base = by_version.get(vid)
+            if base is not None:
+                reached[vid] = base
+        for vid in sorted(reached):
+            yield reached[vid], modifier
 
 
 def enumerate_pairs(at: datetime.datetime | None,

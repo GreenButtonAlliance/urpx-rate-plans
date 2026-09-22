@@ -174,10 +174,10 @@
 ;;                   for add. A fixture that forks on the policy belongs in
 ;;                   clj-urpx, next to the policies themselves.
 ;;
-;;                   Note dev/arrangements.py:555 still implements NARROW. It
-;;                   cannot fire, because nothing in the corpus states a version
-;;                   of a plan it does not otherwise name. It is latent
-;;                   non-conformance with Decision #090, not a live defect.
+;;                   dev/arrangements.py implements add too, and the two
+;;                   discriminating fixtures live in dev/test_arrangements.py
+;;                   because no filing can carry them: each asserts the additive
+;;                   answer AND that narrowing would have given a different one.
 ;;
 ;;   :repeated-ids   repeated-ids-refuse, which is clj-urpx's own default.
 ;;                   A repeated version @id means one IRI names more than one
