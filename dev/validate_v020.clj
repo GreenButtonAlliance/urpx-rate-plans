@@ -844,6 +844,38 @@
                        (+ @marginal-count (reduce + (vals @refusal-tally)))
                        (str/join ", " (for [[r n] (sort-by key @refusal-tally)]
                                         (format "%d %s" n (name r)))))))
+    ;; ZONE INVARIANCE. A ZonedDateTime denotes an INSTANT, so one moment spelled
+    ;; two ways must resolve to one answer. Nothing here asserted that, because
+    ;; every probe instant above is Pacific, and that blind spot hid a real
+    ;; defect: at clj-urpx 0.30.0 the caller's zone was discarded with
+    ;; .toLocalDateTime and compared against bounds naive in the PLAN's zone, so
+    ;; PG&E E-TOU-C returned 0.34586 at 10:00 Pacific and 0.46886 for the same
+    ;; instant written in UTC, 36% apart, with no error and no mark. Fixed in
+    ;; 0.31.0. This check is here so a Pacific-only probe set cannot hide its
+    ;; return: it re-asks every probe instant in UTC and in Asia/Tokyo, which
+    ;; are the same moments, and requires the same answers.
+    (let [zones ["UTC" "Asia/Tokyo"]
+          plans (->> filings (filter #(= :rate-plan (first %))) (map #(nth % 2)) sort (take 6))
+          mism  (atom [])]
+      (doseq [path plans
+              {:keys [id at]} probe-instants
+              z zones]
+        (let [other (.withZoneSameInstant ^java.time.ZonedDateTime at (java.time.ZoneId/of z))
+              answer (fn [zdt] (try (str (:rate (probe-plan path zdt)))
+                                    (catch Exception e (str "threw " (.getMessage e)))))
+              a (answer at) b (answer other)]
+          (when-not (= a b)
+            (swap! mism conj (format "%s @ %s: %s in %s, %s in %s"
+                                     path id a (str (.getZone ^java.time.ZonedDateTime at)) b z)))))
+      (if (seq @mism)
+        (do (println)
+            (println (format "REFUSED: %d resolution(s) depend on how the instant was SPELLED, not on the instant."
+                             (count @mism)))
+            (doseq [m (take 8 @mism)] (println "        " m))
+            (System/exit 1))
+        (println (format "zone invariance: %d plan(s) x %d instant(s) x %d zone(s) agree"
+                         (count plans) (count probe-instants) (count zones)))))
+
     ;; The one way accepting refusals could go vacuous: a change that makes
     ;; EVERYTHING refuse would otherwise report green.
     (when (zero? @marginal-count)
