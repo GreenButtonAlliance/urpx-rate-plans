@@ -152,32 +152,62 @@
 ;;
 ;;   :compatibility  named-versions-add. Whether stating
 ;;                   applicableToRatePlanVersion NARROWS the compatibility
-;;                   applicableToRatePlan asserts, or ADDS to it. The standard
-;;                   answers this, in the decision that introduced the property:
-;;                   Decision #090 records "Breaking Change: None - this is an
-;;                   additive enhancement" and says producers MAY continue using
-;;                   the document-level relationships. A property whose presence
-;;                   could retract plan-level compatibility would not be
-;;                   non-breaking, so add is the conformant reading and not
-;;                   merely the convenient one. It is also the reading that
-;;                   survives RDF merge; narrow is non-monotonic.
+;;                   applicableToRatePlan asserts, or ADDS to it.
 ;;
-;;                   THIS CORPUS NO LONGER DISCRIMINATES THE TWO. Every node
-;;                   that states the property now names version(s) of the single
-;;                   plan it also names, so add and narrow coincide and all four
-;;                   policy combinations return the same count. The one node that
-;;                   discriminated them, a copy of cpau:e-nse-1-2025-09-01 that
-;;                   named one version of one of the three plans it applied to,
-;;                   was a copy-local artifact and was removed. So this pin now
-;;                   asserts the standard's reading; it is not a measurement this
-;;                   corpus can falsify. Do not read a passing gate as evidence
-;;                   for add. A fixture that forks on the policy belongs in
-;;                   clj-urpx, next to the policies themselves.
+;;                   URPX Decision #090 introduced the property and is the only
+;;                   artifact evidence either implementation has found. IT
+;;                   SUPPORTS BOTH READINGS, a few lines apart, so both halves
+;;                   are quoted here rather than the half that suits this pin.
 ;;
-;;                   dev/arrangements.py implements add too, and the two
-;;                   discriminating fixtures live in dev/test_arrangements.py
-;;                   because no filing can carry them: each asserts the additive
-;;                   answer AND that narrowing would have given a different one.
+;;                   For ADD, from its Impact Assessment and its selected
+;;                   alternative: "Breaking Change: None - this is an additive
+;;                   enhancement", and it "Preserves the existing document-level
+;;                   properties for document-scoped relationships". The second
+;;                   is the stronger half, because it is about meaning; the
+;;                   first is a conformance claim, and adding an optional
+;;                   property cannot invalidate an existing document either way.
+;;
+;;                   For NARROW, from its Rationale: the new properties "avoid
+;;                   ambiguity where a modifier document is broadly applicable
+;;                   but only certain modifier versions are valid for a
+;;                   particular rate plan version". Broadly applicable, only
+;;                   certain valid, is narrowing described.
+;;
+;;                   The honest cost of add: under it this property can never
+;;                   change an answer that applicableToRatePlan did not already
+;;                   license, so a decision taken to add precision buys almost
+;;                   none. That is a real argument against this pin and it is
+;;                   recorded here rather than left out.
+;;                   The honest cost of narrow: it is non-monotonic. Merging a
+;;                   document can retract a compatibility that held before it,
+;;                   which RDF merge never does.
+;;
+;;                   THERE ARE THREE READINGS, NOT TWO, and the Rationale
+;;                   sentence above is about the third. It restricts which
+;;                   MODIFIER versions pair with a given base version, which is
+;;                   the mirror property hasModifierVersionOptions doing its
+;;                   job, and says nothing about whether naming a version of one
+;;                   plan withdraws a modifier from the other plans it names.
+;;                   So: (a) add, retracting nothing; (b) narrow within a plan
+;;                   whose version is named, leaving unnamed plans whole; (c)
+;;                   fully exhaustive, retracting everything unnamed. Our
+;;                   enumerator implemented (c) until it was aligned to (a).
+;;                   Nothing in #090 argues for (c).
+;;
+;;                   THIS CORPUS DISTINGUISHES NONE OF THE THREE. The one node
+;;                   that separated (a) from (c), a copy of
+;;                   cpau:e-nse-1-2025-09-01 naming one version of one of the
+;;                   three plans it applied to, was a copy-local artifact and
+;;                   was removed. (a) and (b) differ only when a modifier names
+;;                   version(s) of a plan without naming that plan's current
+;;                   version, and that occurs zero times here. So this pin
+;;                   asserts a reading; it is not a measurement this corpus can
+;;                   falsify, and a green gate is not evidence for it. The
+;;                   discriminating fixtures live in dev/test_arrangements.py.
+;;
+;;                   Filed for the working group: the decision text supports
+;;                   both readings and neither implementation can settle it by
+;;                   implementing one.
 ;;
 ;;   :repeated-ids   repeated-ids-refuse, which is clj-urpx's own default.
 ;;                   A repeated version @id means one IRI names more than one

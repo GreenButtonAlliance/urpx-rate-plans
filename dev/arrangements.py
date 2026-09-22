@@ -539,13 +539,23 @@ def pair_candidates(bases: dict[str, dict], modifiers: list[dict],
     base version itself. The two ADD. Naming a version does not withdraw the
     compatibility that naming a plan asserts.
 
-    That reading is the standard's, not a convenience. URPX Decision #090,
-    which introduced applicableToRatePlanVersion, records "Breaking Change:
-    None - this is an additive enhancement" and says producers may continue
-    using the document-level relationships: a property whose presence could
-    retract plan-level compatibility would not have been non-breaking. It is
-    also the only reading that survives RDF merge, since under narrowing
-    merging a document can retract a compatibility that held before.
+    That reading is ASSUMED, not settled, and the assumption is disclosed
+    rather than buried. URPX Decision #090, which introduced
+    applicableToRatePlanVersion, supports both readings a few lines apart. For
+    additive: its selected alternative "Preserves the existing document-level
+    properties for document-scoped relationships". For narrowing: its rationale
+    says the properties "avoid ambiguity where a modifier document is broadly
+    applicable but only certain modifier versions are valid for a particular
+    rate plan version".
+
+    Additive is pinned here because it is the only reading that survives RDF
+    merge: under narrowing, merging a document can retract a compatibility that
+    held before it. The cost, stated plainly, is that under additive this
+    property can never change an answer applicableToRatePlan did not already
+    license, so a decision taken to add precision buys almost none. The
+    working group should say which it meant; see the comment in
+    dev/cross_check_arrangements.clj for the full citation and the third
+    reading neither of these two is.
 
     This function narrowed until the reading was settled. The narrowing never
     fired, because no node in this corpus names a version of a plan it does not
