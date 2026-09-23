@@ -48,7 +48,7 @@ This mirrors the convention used by the URPX test cases (e.g. `test-cases/cpau-e
 
 Rationale:
 
-- Every **base rate plan** filing is self-contained, portable, and can be cited or distributed in isolation: all 40 of them validate standalone. A **modifier** filing cannot be, and is not: it names the base plans it applies to via `urpx:applicableToRatePlan`, and those live in their own filings. `dev/validate-with-base.py --per-file` reports 40 of 73 conforming for exactly this reason, and the 33 that do not are the 33 modifier filings. That mode is a diagnostic, not a gate; the gate unit is the merged graph, where those references resolve.
+- **A base rate plan filing is self-contained unless it inlines another schedule's subtree.** Most can be cited or distributed in isolation. A **modifier** filing never can: it names the base plans it applies to via `urpx:applicableToRatePlan`, and those live in their own filings. A base filing that inlines a modifier, as CPAU's `e-1` and `e-1-tou` do with `cpau:e-hra`, inherits the same cross-file references. `dev/validate-with-base.py --per-file` reported 35 of 72 conforming on 2026-09-23: every one of the 33 modifiers, plus those 4 base filings. That mode is a diagnostic, not a gate; the gate unit is the merged graph, where the references resolve.
 - RDF graph merge handles the overlap cleanly, but only because every node that two filings both carry is named. Blank nodes never merge, so before the naming pass in section 6 the merged graph held one blank child per filing under each shared parent and violated every `sh:maxCount 1` edge into it. `dev/name_blank_nodes.py --check` is what keeps this bullet true.
 - The duplicated RatePlan-level boilerplate (~15 lines) is small and lint-checkable.
 
@@ -494,18 +494,20 @@ every schedule a source names, which source named it, and when it was first seen
 
 **Sources are of two kinds, and the distinction is load-bearing.** An *inventory*
 source is authoritative about which schedules exist: PG&E's tariff book index
-lists its 104 electric schedules, and that list is the answer. An *observed*
+lists its electric schedules, and that list is the answer. An *observed*
 source names things it happened to see, at whatever granularity it uses. Only an
 inventory source creates a schedule; an observed name attaches to one it matches,
 and the match rule is recorded so the attachment can be checked.
 
 Three inventory sources exist, one per investor-owned utility, and they are of
-very different quality. SDG&E's is a JSON service with a stable contract that
+very different quality. The counts below are as of 2026-09-23; a utility adds and
+withdraws schedules, so each generated report carries its own as-of rather than
+relying on this prose. SDG&E's is a JSON service with a stable contract that
 states which schedules are closed. PG&E's is a regex over the href attributes of
 an index page. SCE publishes no enumerable page at all, so its schedules are read
 out of the SharePoint folders its hub page links, which is the fragile one: that
 listing is virtualized and pages at 30 rows, so scraping the rendered page
-returns 30 of Other Rates' 72 files and looks complete. Every SCE count is
+returned 30 of Other Rates' 72 files and looked complete. Every SCE count is
 checked against the folder's own `ItemCount` for that reason, and the adapter
 refuses on a mismatch rather than writing a short inventory.
 
@@ -524,10 +526,10 @@ both `20/20` and `20-20`. The builder records the collision and keeps the loser
 under `also_named` rather than silently overwriting it.
 
 Unioning the two over-counts badly, and the first draft did. PG&E's tariff book
-names 104 schedules and the MIDAS feed names 118 things, but only 12 are the same
+named 104 schedules and the MIDAS feed named 118 things (2026-09-23), but only 12 were the same
 schedule spelled differently (`A1` for `A-1`); 96 are rate options *within* a
 schedule (`A10P` is Primary under A-10); and 10 match nothing. Added together
-that is 216 schedules for a utility that publishes 104. Observed names that match
+that was 216 schedules for a utility publishing 104. Observed names that match
 nothing are kept in `unmatched` rather than dropped, because each is either a gap
 in the inventory or a name not yet understood.
 
@@ -562,7 +564,7 @@ directory with its own `tariff.toml`, which is where a source document belongs.
 
 Files are laid out `data/documents/<utility>/<filename>`. A publisher that puts
 the document's name in the URL keeps it (`ELEC_SCHEDS_E-TOU-C.pdf`); SDG&E puts
-nothing there, serving all 159 from `/tariff/` or `/historical/` with the
+nothing there, serving every one of them from `/tariff/` or `/historical/` with the
 identity in the query string, so those are named for the schedule and, where the
 URL names a year, the year. **No two documents may resolve to one path**, and
 that is checked rather than assumed: both naming defects here were this
@@ -581,8 +583,8 @@ serves only what is in force, so every closed schedule 404s there; `/historical/
 serves them, keyed by `tarfKey` and a year. A closed schedule is recorded at the
 last year it was published, which is the version that was in force when it
 closed, so the store holds one document per schedule exactly as it does for every
-other publisher. The full archive is larger: 404 schedule-year pairs for the
-closed schedules and 1,128 for the current ones, none of which is fetched.
+other publisher. The full archive is larger and none of it is fetched: 2026-09-23, 404 schedule-year
+pairs for the closed schedules and 1,128 for the current ones.
 
 `TARF_YEARS` is a lower bound rather than the whole range. DR-TOU lists 2000
 onward and 1999 returns a real tariff sheet; years genuinely outside the range
@@ -597,7 +599,7 @@ the copy actually held.
 
 This is computed only when the bytes differ from what is stored, so PG&E (which
 answers `304`) and SCE (whose bytes are stable once unwrapped) never pay for it.
-Without it every run would rewrite all 159 SDG&E documents and report each as
+Without it every run would rewrite every SDG&E document and report each as
 changed, and git would gain a full set of blobs each time. Extraction falls back
 to comparing bytes when `pdftotext` is absent or the text cannot be read, which
 over-reports change rather than silently under-reporting it.
@@ -615,7 +617,7 @@ Only one of the three publishers supports a conditional request. PG&E serves bot
 sends neither, and SharePoint's download endpoint has no usable validator either,
 so for those two a run re-downloads the bytes and compares the `sha256`. That is
 the cost of knowing whether a document changed: about 150MB of transfer per full
-run, against 104 cheap `304`s from PG&E.
+run, against PG&E's cheap `304`s.
 
 `retrieved_on` means when these bytes were first seen rather than when the URL
 was last checked, for the same reason given in section 10b.

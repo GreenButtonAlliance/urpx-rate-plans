@@ -10,7 +10,7 @@ Each rate plan is expressed in the [URPX ontology](https://github.com/urpx-org/u
 
 The initial motivation is to enable the [Grid Coordination Price Server](https://github.com/grid-coordination/price-server-user-guide) to ingest these URPX rate plans and publish [OpenADR 3](https://www.openadr.org/) programs and *computed* prices derived from the tariff structures. The price server is the consumer; this corpus is the source of truth for what the underlying tariffs say.
 
-**Current scope: California electricity.** Twenty organizations are catalogued: three investor-owned utilities, three publicly owned, and fourteen community choice aggregators. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring.
+**Current scope: California electricity.** Every organization selling electricity in the state is catalogued in [`reports/california-parties.md`](./reports/california-parties.md), which carries its own as-of date. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring.
 
 ## Disclaimer
 
@@ -53,7 +53,7 @@ Version order comes from each filing's `versions/<date>/` and `urpx:effectiveDat
 
 ## Status
 
-71 filings hold 72 rate plans: 39 base plans and 33 standalone modifiers. One directory, PG&E E-TOU-C 2026-03-01, packages a base with a sibling modifier, and four PG&E vintage-PCIA modifiers are bundled inline in their bases' `@graph`.
+As of 2026-09-23, 71 filings hold 72 rate plans: 39 base plans and 33 standalone modifiers. One directory, PG&E E-TOU-C 2026-03-01, packages a base with a sibling modifier, and four PG&E vintage-PCIA modifiers are bundled inline in their bases' `@graph`.
 
 Every filing serializes against URPX v0.5.1 and validates clean under both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/main/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx), which loads, coerces and resolves a price at a known instant.
 
@@ -71,8 +71,6 @@ Three levels, and the distinction is about whether a bill comes out right, not a
 - **Substantial economic effect deferred to prose.** Something a customer would notice on the bill is described in the filing's prose rather than computed: SMUD EAPR's income-tier usage discount, and event-day evaluation on the two CPP filings, which needs caller-supplied event state.
 - **Placeholder price.** LADWP NEM and SMUD NEM1 compensate exported energy at the customer's own applicable base-rate energy charge, which we have not found a way to express. Both carry a `Price` of `0` for SHACL conformance and a coverage claim saying that zero must not be read as a zero-value export. Asked upstream at [urpx-org/urpx discussion #63](https://github.com/urpx-org/urpx/discussions/63).
 
-The corpus holds 72 rate plans across 71 filings: 39 base plans and 33 modifiers.
-
 Rather than restate any of it here, where it goes stale:
 
 | Question | Where it is answered |
@@ -89,7 +87,7 @@ What this corpus cannot express in URPX v0.5.1, and what it has not yet converte
 
 ### Utilities covered
 
-Six utilities have filings: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Together they cover 63 schedules across 71 filings. Fifteen more organizations have a discovery manifest and no filing yet, fourteen community choice aggregators and one municipal utility; that is a normal state, not an incomplete one.
+Six utilities have filings: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Others have a discovery manifest and no filing yet, which is a normal state and not an incomplete one.
 
 [`reports/rate-plans-to-model.md`](./reports/rate-plans-to-model.md) has the per-schedule detail, including which of each utility's published schedules are still unmodeled. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization selling electricity in California.
 
