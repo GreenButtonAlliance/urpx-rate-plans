@@ -31,7 +31,7 @@ See [LAYOUT.md](./LAYOUT.md) for the full conventions. In short:
   rate-plan-modifier_<utility>_<schedule>_<date>.jsonld       # for standalone rider/overlay rate plans
 ```
 
-`<carrier>` is the commodity, currently always `electricity`, mirroring the `urpx:commodity` a filing carries, where it carries one: eight CPAU rate plans do not. The tariff document is committed beside the rate plan read from it ([LAYOUT.md §7](./LAYOUT.md#7-source-pdf-referencing)).
+`<carrier>` is the commodity, currently always `electricity`, mirroring `urpx:commodity`, which every rate plan carries. The tariff document is committed beside the rate plan read from it ([LAYOUT.md §7](./LAYOUT.md#7-source-pdf-referencing)).
 
 Each `<country>/<subdivision>/<utility>/` directory also carries a `utility.toml` discovery manifest listing the URLs where the utility publishes its tariffs ([LAYOUT.md §5](./LAYOUT.md#5-per-utility-discovery-manifest-utilitytoml)).
 
