@@ -409,6 +409,50 @@ The two tracked files are what lets a reader see what the feed contains, and
 `reports/midas-catalog.md` and `reports/california-parties.md` are generated
 from the untracked store. Regenerating either needs a mine first.
 
+### The `rate` table
+
+One table, one row per rate identifier, every column `TEXT` because MIDAS sends
+every value as a string and coercing on the way in would lose the distinction
+between absent and empty. The database is gitignored and rebuilt from the API,
+which is exactly why its schema is written down here.
+
+```sql
+CREATE TABLE rate (
+  rid               TEXT,   -- RateID.       The identifier. Primary key.
+  rate_name         TEXT,   -- RateName
+  alt_rate_name_1   TEXT,   -- AltRateName1
+  alt_rate_name_2   TEXT,   -- AltRateName2
+  rate_type         TEXT,   -- RateType.     TOU, RTP, T-D, ... (lookups/ratetype.json)
+  sector            TEXT,   -- Sector.       Res, Com, Ind    (lookups/sector.json)
+  end_use           TEXT,   -- EndUse                          (lookups/enduse.json)
+  rate_plan_url     TEXT,   -- RatePlan_Url. The utility's own document, where given
+  api_url           TEXT,   -- API_Url
+  signup_close_date TEXT,   -- SignupCloseDate
+  signal_type       TEXT,   -- SignalType
+  description       TEXT,   -- Description
+  last_updated      TEXT,   -- LastUpdated, FROM THE LISTING, not the detail response
+  fetched_at        TEXT,   -- ours: when this row was written, UTC
+  PRIMARY KEY (rid)
+);
+```
+
+`last_updated` is the change key and has to come from the listing: the detail
+response carries the field but leaves it null, so taking it from there would
+record every row as never updated and re-fetch the whole feed forever.
+`fetched_at` is ours and is not exported, because a timestamp that moves every
+run would destroy the export's idempotence.
+
+**`rid` is structured, and the structure is the reason a RIN is not a plan
+identifier.** It is four hyphen-separated fields: country and state (`USCA`), the
+party segment (`PGPG`), the rate code, and a location code. So
+`substr(rid,6,4)` is the party, which is how every report groups, and the same
+rate code recurs under several locations.
+
+The location field decodes through `lookups/location.json`: 70,214 rows are
+`0000` "All Areas", 1,867 are `TEST` "Used for upload testing", and the rest name
+a specific circuit (`PG&E OAKLAND D 1131`). The test rows are live in the feed
+and are not rate plans, so a count that includes them overstates by about 2.5%.
+
 **The store is idempotent and resumable, and both are testable.** Every row
 carries the `LastUpdated` MIDAS reported when it was fetched, and a run fetches
 only identifiers the store has never seen or whose `LastUpdated` has moved, so a
