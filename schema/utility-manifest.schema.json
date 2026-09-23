@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:grid-coordination:urpx-tariffs:schema:utility-manifest:v1",
   "title": "URPX Utility Discovery Manifest",
-  "description": "Per-utility manifest at ca/<class>/<utility>/utility.toml. Points to where the utility publishes its tariffs so that scrapers can discover unmodeled schedules and detect updates to modeled ones. Distinct from the per-filing tariff.toml: tariff.toml pins a specific snapshot (URL + sha256 + retrieval date), utility.toml points at the discovery surface where future snapshots can be found. Schema is intentionally minimal — richer fields (per-schedule URL patterns, AL-listing URLs, scrape strategy details) can be added once a real scraper is built and tells us what it needs.",
+  "description": "Per-utility manifest at <country>/<subdivision>/<utility>/utility.toml, e.g. us/ca/pge/utility.toml. Points to where the utility publishes its tariffs so that scrapers can discover unmodeled schedules and detect updates to modeled ones. Distinct from the per-filing tariff.toml: tariff.toml pins a specific snapshot (URL + sha256 + retrieval date), utility.toml points at the discovery surface where future snapshots can be found. Schema is intentionally minimal — richer fields (per-schedule URL patterns, AL-listing URLs, scrape strategy details) can be added once a real scraper is built and tells us what it needs.",
   "type": "object",
   "required": ["utility", "tariff_index_urls"],
   "additionalProperties": false,
@@ -10,7 +10,7 @@
     "utility": {
       "type": "string",
       "pattern": "^[a-z0-9-]+$",
-      "description": "Short utility identifier matching the directory name (e.g. 'pge', 'cpau')."
+      "description": "Short identifier matching the directory name (e.g. 'pge', 'cpau', 'sdcp'). dev/lint_utility_manifests.py enforces the match; this schema cannot, because it never sees where the file sits."
     },
     "tariff_index_urls": {
       "type": "array",
