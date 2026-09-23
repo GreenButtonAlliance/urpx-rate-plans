@@ -83,7 +83,7 @@ That is computable from the documents alone, stable across regeneration, and req
 
 An arrangement is current when every component of it is current.
 
-A version is current when no later version of the same plan identity has taken effect. Supersession is derived from `urpx:forRatePlan` / `urpx:forRatePlanModifier` together with `urpx:effectiveDateTime`, never from a filing's directory name: a directory count is not a version count, and this corpus contains two directories holding one version node.
+A version is current when no later version of the same plan identity has taken effect. Supersession is derived from `urpx:forRatePlan` / `urpx:forRatePlanModifier` together with `urpx:effectiveDateTime`, never from a filing's directory name: a directory count is not a version count. Three version nodes in this corpus appear under more than one directory, because a modifier version inlined into the filings that use it is one node written down in several places. `pge:e-tou-c-vintage-pcia-2026-03-01` sits in two directories of the same plan.
 
 `urpx:expirationDateTime` is admitted on both version shapes (`min 0 max 1`) and states when a version stopped being in force. It is the only end bound available to a publisher that files versions directly: `urpx:supersedes`, `urpx:replaces`, `urpx:replacedBy` and `urpx:cancelledBy` all carry domains of `urpx:PricingModel` or `urpx:TariffFiling` only, and are not admitted on either closed version shape. So such a publisher can say a version *ended* and cannot say *what ended it*; succession has to be inferred from the intervals touching.
 
@@ -105,9 +105,9 @@ Both are generated from the corpus and the recorded resolution baseline. Neither
 
 Whether arrangement enumeration belongs in a general URPX reader or stays corpus-side is unsettled. The three rules it needs — supersession from `forRatePlan` and `effectiveDateTime`, compatibility of a modifier version with a base version, and the open `ProfileAlternatives` dimensions — are URPX constructs with no jurisdiction in them, which argues for the former. Two implementations of one rule in different languages need a cross-check asserting they agree, which argues for deciding rather than drifting.
 
-The second implementation exists: `urpx.arrangements`, in the pinned clj-urpx 0.30.0. `dev/cross_check_arrangements.py` compares the set of (base version, modifier versions) pairs the two enumerate, in both directions, at a pinned instant and under named policies, and runs in `dev/gate.sh`. The two agree on 144.
+The second implementation exists: `urpx.arrangements`, in the pinned clj-urpx 0.31.0. `dev/cross_check_arrangements.py` compares the set of (base version, modifier versions) pairs the two enumerate, in both directions, at a pinned instant and under named policies, and runs in `dev/gate.sh`. The two agree on 144.
 
-One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships both readings and takes no position; this repository assumes the additive one.
+One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships both readings and takes no position between them; this repository assumes the additive one. Worth knowing for anyone reading this corpus with it: its default is the third reading below, the one nothing in the decision argues for.
 
 The decision that introduced the property, URPX Decision #090, is the only artifact evidence found so far, and **it supports both readings a few lines apart**. For additive, its selected alternative "Preserves the existing document-level properties for document-scoped relationships", and its impact is recorded as "Breaking Change: None - this is an additive enhancement". For narrowing, its rationale says the new properties "avoid ambiguity where a modifier document is broadly applicable but only certain modifier versions are valid for a particular rate plan version", which is narrowing described.
 
