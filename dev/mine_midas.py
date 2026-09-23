@@ -140,7 +140,13 @@ def main() -> int:
         return 3
 
     live = {r["RateID"]: r.get("LastUpdated") for r in rates}
-    todo = sorted(rid for rid, lu in live.items() if have.get(rid) != lu)
+    # An identifier the store has never seen is always fetched, whatever the
+    # listing says about it. Comparing have.get(rid) != lu alone silently
+    # excludes forever any row whose LastUpdated is null: None != None is
+    # False, so it never enters todo and no run ever picks it up. Exactly one
+    # row in the feed is like that, USCA-FLEX-ALRT-0000, and the shortfall read
+    # as a rounding difference between 74,097 and 74,096.
+    todo = sorted(rid for rid, lu in live.items() if rid not in have or have[rid] != lu)
     if args.limit:
         todo = todo[: args.limit]
 

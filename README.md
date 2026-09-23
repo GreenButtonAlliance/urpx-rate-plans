@@ -1,6 +1,6 @@
 # urpx-rate-plans
 
-A corpus of **URPX rate plans**, curated from electric utility tariff filings and kept with the tariff documents they were read from.
+A corpus of **URPX rate plans** curated from electric utility tariff filings, including the tariff documents themselves.
 
 Each rate plan is expressed in the [URPX ontology](https://github.com/urpx-org/urpx): a machine-readable, validatable statement of everything needed to calculate what a customer is charged. A filing directory holds the tariff document, a `tariff.toml` provenance manifest, and the rate plan itself, serialized as JSON-LD.
 

@@ -48,6 +48,7 @@ Those are the filings. The same strings are also written down outside the corpus
 | `us/ca/pge/electricity/nbt/versions/2025-10-17/tariff.toml` | 4 | 4 |
 | `dev/list_rate_identifiers.py` | 2 | 2 |
 | `LAYOUT.md` | 1 | 1 |
+| `dev/mine_midas.py` | 1 | 1 |
 | `scripts/build-sdge-nbt-prices-2025-01-27.py` | 1 | 1 |
 
 ## Provenance

@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import collections
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -55,11 +56,31 @@ KIND = {
     "Clean Power San Francisco":                   ("cleanpowersf", "cca", "PG&E"),
     "Marin Clean Energy":                          ("mce", "cca", "PG&E"),
 }
-KIND_LABEL = {"iou": "investor-owned", "pou": "publicly owned", "cca": "community choice"}
-# Research feeds and upload fixtures. Real rows, not parties.
-NOT_A_PARTY = {"CalFlexHub Research", "CalFlexHub", "Test", "HP-Flex Research",
-               "MIDAS FlexAlert Test Signal - Energy", "MIDAS FlexAlert Test Signal - Dist",
-               "MIDAS GHG Test Signal - Energy Code", "SGIP", "Unspecified"}
+KIND_LABEL = {"iou": "IOU", "pou": "POU", "cca": "CCA", "alert": "Alert", "ghg": "GHG"}
+
+# MIDAS carries signals that are not rates and have no seller. They are parties
+# in the feed all the same, so they are rows here rather than a footnote, with a
+# kind that says what they are. Keyed on SignalType, which is what actually
+# distinguishes them; the party lookup calls both "Test Signal", which they are
+# not: the Flex Alert is a production CAISO conservation call.
+SIGNAL_PARTY = {
+    "California Independent System Operator Flex Alert":
+        ("caiso", "alert", "California Independent System Operator", "https://www.caiso.com"),
+    "Greenhouse Gas Emissions":
+        ("sgip", "ghg", "SGIP realtime marginal emissions", "https://www.energy.ca.gov"),
+}
+# Research feeds and upload fixtures: real rows in the feed, not organizations.
+# Matched by pattern rather than by name. The first version listed names, and
+# missed "MIDAS FlexAlert Test Signal - Energy Code" because it knew only the
+# "- Energy" spelling; a rule that enumerates its exceptions keeps missing one.
+# Whatever this excludes is listed in the report, so the rule is never silent.
+NOT_A_PARTY_PATTERN = re.compile(r"\b(Test|Research|Signal|Unspecified)\b", re.I)
+# The residue the pattern cannot see: names that say nothing about being a feed.
+NOT_A_PARTY_NAMES = {"CalFlexHub", "SGIP"}
+
+
+def is_a_party(name: str) -> bool:
+    return bool(name) and name not in NOT_A_PARTY_NAMES and not NOT_A_PARTY_PATTERN.search(name)
 
 
 def main() -> int:
@@ -77,12 +98,28 @@ def main() -> int:
 
     agg = collections.defaultdict(lambda: {"segs": set(), "n": 0, "urls": set(), "site": ""})
     unknown = collections.Counter()
+    excluded = collections.Counter()
+
+    # MIDAS is not only a rate feed. It carries three signal types, and only one
+    # of them is rates: the other two are greenhouse-gas emissions and the CAISO
+    # Flex Alert, a voluntary conservation call. Excluding by signal type is the
+    # rule; excluding by party name was a proxy for it that kept missing cases.
+    signal_rows = []
+    other_signals = collections.Counter()
+    for st, n in c.execute("SELECT signal_type, COUNT(*) FROM rate "
+                           "WHERE signal_type IS NOT NULL AND signal_type != 'Electricity Rates' "
+                           "GROUP BY 1"):
+        other_signals[st] = n
+
     for seg, n, urls in c.execute(
-            "SELECT substr(rid,6,4), COUNT(*), COUNT(DISTINCT rate_plan_url) FROM rate GROUP BY 1"):
+            "SELECT substr(rid,6,4), COUNT(*), COUNT(DISTINCT rate_plan_url) FROM rate "
+            "WHERE signal_type = 'Electricity Rates' GROUP BY 1"):
         e = look["energy"].get(seg[2:], {})
         d = look["distribution"].get(seg[:2], {})
         name = (e.get("Description") or d.get("Description") or "").strip()
-        if not name or name in NOT_A_PARTY:
+        if not is_a_party(name):
+            if name:
+                excluded[name] += n
             continue
         if name not in KIND:
             unknown[name] += n
@@ -91,6 +128,17 @@ def main() -> int:
         a["segs"].add(seg)
         a["n"] += n
         a["site"] = a["site"] or (e.get("URL") or d.get("URL") or "").strip()
+    for st, (slug_, kind_, label, site) in SIGNAL_PARTY.items():
+        n = c.execute("SELECT COUNT(*) FROM rate WHERE signal_type = ?", (st,)).fetchone()[0]
+        if not n:
+            continue
+        segs = sorted({r[0] for r in c.execute(
+            "SELECT DISTINCT substr(rid,6,4) FROM rate WHERE signal_type = ?", (st,))})
+        signal_rows.append({"organization": label, "utility": slug_, "kind": kind_,
+                            "delivered_by": "not delivered", "segments": segs,
+                            "identifiers": n, "rate_links": 0, "site": site,
+                            "filings_modeled": False})
+
     for seg, url in c.execute("SELECT substr(rid,6,4), rate_plan_url FROM rate "
                               "WHERE rate_plan_url IS NOT NULL GROUP BY 1,2"):
         e = look["energy"].get(seg[2:], {})
@@ -109,7 +157,9 @@ def main() -> int:
                      "delivered_by": delivers, "segments": sorted(a["segs"]),
                      "identifiers": a["n"], "rate_links": len(a["urls"]),
                      "site": a["site"], "filings_modeled": slug in modeled})
-    rows.sort(key=lambda r: (r["kind"] != "iou", r["kind"] != "pou", -r["identifiers"]))
+    rows.extend(signal_rows)
+    order = {"iou": 0, "pou": 1, "cca": 2, "alert": 3, "ghg": 4}
+    rows.sort(key=lambda r: (order.get(r["kind"], 9), -r["identifiers"]))
 
     # MIDAS is a live feed, so every count here is point-in-time. The as-of
     # comes from when the rows were fetched, not from when this ran: re-running
@@ -125,8 +175,15 @@ def main() -> int:
          "appear, rename and withdraw, and identifier counts move daily.", ""]
     tot = sum(r["identifiers"] for r in rows)
     nm = sum(1 for r in rows if r["filings_modeled"])
-    o += [f"{len(rows)} organizations carrying {tot:,} rate identifiers. {nm} have filings in "
-          f"this corpus; {len(rows) - nm} have a directory and a discovery manifest only.", "",
+    sellers = [r for r in rows if r["kind"] in ("iou", "pou", "cca")]
+    signals = len(rows) - len(sellers)
+    o += [f"{len(sellers)} organizations sell electricity here: {nm} have filings in this corpus "
+          f"and {len(sellers) - nm} have a directory and a discovery manifest only. "
+          f"{signals} further rows are signals MIDAS carries that are not rates and have no "
+          f"seller, so they have no directory. Per-segment identifier counts and document "
+          f"links are in [midas-catalog.md](./midas-catalog.md). They are not a size ranking: an "
+          f"identifier names a composition, so a publisher that spells overlays into the name "
+          f"carries far more of them than one that does not.", "",
           "**Kind is asserted, not derived.** MIDAS carries no classification. It distinguishes "
           "these only accidentally, through whether the distribution half of a party segment "
           "names a utility or reads `XX` for unspecified, which is a good signal and not a "
@@ -134,19 +191,28 @@ def main() -> int:
           "A community choice aggregator sells generation over an investor-owned utility's "
           "wires, so one of its customers is billed a composition: the aggregator's generation "
           "rate with the utility's delivery. Both halves have to be modeled to price a bill.", "",
-          "| Kind | Organization | `utility` | Segment | Delivered by | Identifiers | Rate links | Filings |",
-          "|---|---|---|---|---|---:|---:|---|"]
+          "**IOU** investor-owned utility, **POU** publicly owned utility, "
+         "**CCA** community choice aggregator. **Alert** and **GHG** are signals "
+         "MIDAS carries that are not rates and have no seller.", "",
+         "| Organization | Kind | `utility` | Segment | Delivered by | Filings |",
+          "|---|---|---|---|---|---|"]
     for r in rows:
-        o.append(f"| {KIND_LABEL[r['kind']]} | [{r['organization']}]({r['site']}) | "
+        o.append(f"| [{r['organization']}]({r['site']}) | {KIND_LABEL[r['kind']]} | "
                  f"`{r['utility']}` | {', '.join('`'+s+'`' for s in r['segments'])} | "
-                 f"{r['delivered_by']} | {r['identifiers']:,} | {r['rate_links'] or '—'} | "
-                 f"{'yes' if r['filings_modeled'] else 'none yet'} |")
+                 f"{r['delivered_by']} | {'yes' if r['filings_modeled'] else 'none yet'} |")
+    if excluded:
+        o += ["", "## Excluded as not an organization", "",
+              "Party segments naming a research feed or an upload fixture rather than a "
+              "seller of electricity. Listed so the exclusion rule can be checked rather "
+              "than trusted.", ""]
+        for name, n in excluded.most_common():
+            o.append(f"- {name} ({n:,} identifier{'' if n == 1 else 's'})")
     if unknown:
         o += ["", "## In the feed, not yet classified", "",
               "Named organizations with no entry in the mapping. Each is a party this report "
               "cannot place, and the omission is listed rather than silently dropped.", ""]
         for name, n in unknown.most_common():
-            o.append(f"- {name} ({n:,} identifiers)")
+            o.append(f"- {name} ({n:,} identifier{'' if n == 1 else 's'})")
     (REPO / "reports" / "california-parties.md").write_text("\n".join(o) + "\n")
     print(f"wrote reports/california-parties.md: {len(rows)} organizations, {tot:,} identifiers, "
           f"{nm} with filings, {len(unknown)} unclassified")
