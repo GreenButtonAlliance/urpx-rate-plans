@@ -441,6 +441,74 @@ store's own fetch stamps rather than from the clock, so regenerating without
 re-mining does not silently restate the date. Figures quoted in prose, here and
 in a `utility.toml`, carry the mine date beside them for the same reason.
 
+## 10c. Schedule inventories: `data/inventories/`
+
+A filing says what a tariff charges. An inventory says which tariffs exist, which
+is the other half of knowing where the corpus stands, and it needs a different
+kind of source. `dev/build_inventory.py` writes one file per utility recording
+every schedule a source names, which source named it, and when it was first seen.
+
+**Sources are of two kinds, and the distinction is load-bearing.** An *inventory*
+source is authoritative about which schedules exist: PG&E's tariff book index
+lists its 104 electric schedules, and that list is the answer. An *observed*
+source names things it happened to see, at whatever granularity it uses. Only an
+inventory source creates a schedule; an observed name attaches to one it matches,
+and the match rule is recorded so the attachment can be checked.
+
+Unioning the two over-counts badly, and the first draft did. PG&E's tariff book
+names 104 schedules and the MIDAS feed names 118 things, but only 12 are the same
+schedule spelled differently (`A1` for `A-1`); 96 are rate options *within* a
+schedule (`A10P` is Primary under A-10); and 10 match nothing. Added together
+that is 216 schedules for a utility that publishes 104. Observed names that match
+nothing are kept in `unmatched` rather than dropped, because each is either a gap
+in the inventory or a name not yet understood.
+
+A utility with no inventory source still gets a file, and that file says
+`has_inventory_source: false`. Its schedules are observed names only, so the set
+is neither complete nor necessarily at schedule granularity, and no coverage
+percentage is computed from it.
+
+`first_seen` is never restamped, so a run that finds nothing new writes
+byte-identical files. A schedule that a source stops naming is retained and gains
+`last_absent`, because a withdrawn tariff is a fact and its filings stay valid for
+the window they covered. `--rebuild` drops retained rows instead, which is what
+undoes a run that wrote bad ones; only a person can tell those two cases apart.
+
+## 10d. Fetched documents: `data/documents/`
+
+`dev/fetch_tariff_documents.py` fetches the documents those sources link to and
+records provenance in the shape a filing's `tariff.toml` uses: `url`, `sha256`,
+`retrieved_on`, `media_type`. `data/documents.json` is that record.
+
+**The documents themselves are committed, and this is settled policy rather than a
+size tradeoff to revisit.** Source PDFs disappear from utility websites; this
+project has learned that the hard way, so keeping our own copies is not optional
+and git is the tool for it. PG&E compounds the problem by reissuing a schedule in
+place at the same URL, so even a document still reachable may no longer be the one
+we read. Keeping only the `sha256` would preserve the evidence that a document
+existed while losing the document itself.
+
+The cost is real and accepted: every in-place reissue adds a full copy that git
+keeps forever. When one of these is modeled, its PDF moves into the filing
+directory with its own `tariff.toml`, which is where a source document belongs.
+
+Files are laid out `data/documents/<utility>/<filename>`. Flat would collide:
+PG&E and SCE both name schedule documents with an `ELEC_SCHEDS`-style prefix, and
+the set of utilities here is meant to grow.
+
+**Every URL gets a row whatever happens to it.** Most of what the MIDAS feed
+links cannot be fetched at all, and that is a finding about the feed rather than
+an error to skip past: SMUD's three links redirect to a 404 page while still
+returning `200`, so content type decides rather than status or file extension,
+and SDG&E's `regarchive` host resolves but never accepts a connection. A prior
+successful copy is retained when a later fetch fails, so one bad day does not
+erase a document already in hand.
+
+Conditional requests work here, unlike the MIDAS metadata API: PG&E serves both
+`Last-Modified` and a strong `ETag` and answers `304`. `retrieved_on` means when
+these bytes were first seen rather than when the URL was last checked, for the
+same reason given in section 10b.
+
 ## 11. Reports: what each one measures
 
 Everything under `reports/` is generated. `dev/check_all.py` runs every generator and then fails if a tracked file drifted, so a report that disagrees with the corpus is a build failure rather than a stale file.
@@ -457,6 +525,7 @@ The two questions these reports keep apart are **servability** (can a price serv
 | `version-continuity.md` / `.edn` | `dev/list_version_continuity.py` | What periods the corpus can price, per plan identity, from `[effective, expiration)` spans laid end to end. Gaps are backlog (a rate change we never captured, recoverable from the utility's archive) and do not fail; overlaps are modeling errors and do. Carries how long since each filing's source was last checked, which is the number that predicts the next gap. |
 | `midas-catalog.md` / `.edn` | `dev/list_midas_catalog.py` | What the mined MIDAS feed contains: parties, rate types, sectors, and which rate-plan links point at a tariff document rather than a landing page. Reads `data/midas/`, which is gitignored (§10b), so it is not in `check_all.py`'s step list and refuses rather than writing an empty report when the store is absent. |
 | `california-parties.md` | `dev/list_california_parties.py` | Every organization selling electricity in the MIDAS feed, with its party segment, the `<utility>` slug this corpus assigns it, whether it is investor-owned, publicly owned or a community choice aggregator, and whether it has filings yet. Same gitignored dependency and the same refusal. The investor-owned / publicly owned / community choice classification is asserted in the generator, because MIDAS carries none. |
+| `tariffs-to-model.md` | `dev/list_tariffs_to_model.py` | The backlog: every schedule an inventory names, and whether this corpus models it. Keeps utilities with a real inventory apart from those known only through an observed feed, and computes a coverage percentage only for the former. Carries the document link and, where one has been fetched, says so. |
 | `midas-coverage.md` / `.json` | `scripts/build-midas-coverage-report.py` | Which CPUC MIDAS rate identifiers this corpus or the price server covers. Networked, credentialed and slow, so it is deliberately NOT in `check_all.py`'s step list; its age is printed on every full run instead. |
 
 Servability figures are always *as of the recorded baseline*. `dev/baseline/marginal-rates.edn` is not auto-generated: re-record it deliberately with `clojure -M:validate --record-baseline` and review the diff.

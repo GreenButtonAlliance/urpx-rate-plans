@@ -9,11 +9,21 @@ tariff_index_urls = [
  # pages and ultimately to the underlying tariff PDFs.
  "https://www.pge.com/en/account/rate-plans/rate-plans/learn-about-rate-plans.html",
 
- # The tariffs assets directory — composite per-schedule PDFs live here at
- # stable filenames like ELEC_SCHEDS_E-TOU-C.pdf. The PDF at a given URL
- # gets reissued in place when an advice letter takes effect (see the
- # E-TOU-C 03-01→03-27 and E-ELEC 01-01→03-27 URL-mutation incidents).
- # A scraper monitoring this directory needs to compare sha256s, not just URLs.
+ # PRIMARY (schedule inventory) — the tariff book index. This is the page
+ # that says which schedules exist: 104 electric schedules, 124 electric
+ # preliminary statements, 39 electric rules, plus the gas equivalents, 820
+ # documents in all. dev/build_inventory.py reads it. Start a coverage pass
+ # here.
+ "https://www.pge.com/tariffs/en.html",
+
+ # The tariffs assets directory. Composite per-schedule PDFs are SERVED from
+ # here at stable filenames like ELEC_SCHEDS_E-TOU-C.pdf, but the directory
+ # itself is not listable (it returns 404), so it cannot be enumerated and is
+ # not a discovery surface on its own: use the index above to learn the
+ # filenames, then fetch from here. The PDF at a given URL gets reissued in
+ # place when an advice letter takes effect (see the E-TOU-C 03-01→03-27 and
+ # E-ELEC 01-01→03-27 URL-mutation incidents), so a scraper has to compare
+ # sha256s rather than URLs.
  "https://www.pge.com/tariffs/assets/pdf/tariffbook/",
 ]
 
@@ -26,4 +36,9 @@ tariff.toml. Composite PDFs may also mix sheets at different revisions (e.g.
 2026-03-27 reissues advanced Sheet 2 only; Sheet 1 + Sheets 3-onward stayed at
 the prior advice letter — both publications declared in @graph). pge.com does
 NOT block standard urllib/requests, so vanilla retrieval works.
+
+PG&E serves Last-Modified and a strong ETag on these PDFs, so a conditional
+GET is answered 304 when nothing has changed. dev/fetch_tariff_documents.py
+uses both. That is better than MIDAS offers for its own metadata, where
+neither header is sent and conditional requests are answered 200.
 """
