@@ -40,7 +40,7 @@ sys.path.insert(0, str(REPO / "dev"))
 import corpus  # noqa: E402
 GAPS = REPO / "MODELING-GAPS.md"
 FIRST_LIST = "## We have not found a way to express these"
-SECOND_LIST = "## Expressible, not yet modeled"
+SECOND_LIST = "## Not yet modeled"
 
 # A deferral asserting the standard is short of something. Phrasings vary
 # because these are written by hand, one filing at a time; the set grew when

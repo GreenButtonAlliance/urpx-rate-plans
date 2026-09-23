@@ -79,9 +79,7 @@ Price unitPrice="0". Consumers (price-server) computing actual credits
 must reference the customer's base rate at billing time. Description
 prose documents the rule clearly.
 
-A future filing version will replace the placeholder Price with
-structured credits once discussion #63 settles how to scope them per
-base plan. Discussion #34, cited here previously, is the
+A future filing version will replace the placeholder Price with structured credits. Discussion #63 has settled how to scope them, one credit Price per base energy Price each naming a single urpx:basedOnPrice, so what remains is writing the 18 cells rather than waiting on an answer. Discussion #34, cited here previously, is the
 percentage-of-bill discount question, answered by urpx:multiplier over
 a urpx:basedOnPrice list read as candidate bases and shipped by the
 SCE and SDG&E CARE and FERA modifiers. That shape does not reach this
@@ -123,4 +121,4 @@ deferrals = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "First LADWP RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, single Price. The Price is a placeholder (unitPrice='0') not because the reference to the base price is inexpressible but because we have found no way to scope a per-base-plan credit to the plan it mirrors across the rider's two bases (r-1a, r-1b) — tracked at urpx-org/urpx discussion #63. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."
+notes = "First LADWP RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, single Price. The Price is a placeholder (unitPrice='0'), and the reason recorded here was wrong. It said we had found no way to scope a per-base-plan credit across the rider's two bases (r-1a, r-1b). Discussion #63 is CLOSED and settled the opposite way from what this note assumed: PriceShape's sh:xone admits a Price carrying urpx:basedOnPrice and urpx:multiplier with no urpx:unitPrice, and sce:care-price-bill-discount-2026-03-20 in this corpus already ships exactly that. One credit Price per base energy Price, each naming a single basedOnPrice, self-scopes: a credit written against the other base plan comes back as an unresolved reference rather than resolving to the wrong number. So this is unbuilt enumeration, not an unexpressible shape, and the placeholder stays only until someone writes the cells. 18 cells for this filing. It stays unbuilt and declared, not quietly reclassified as done. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."
