@@ -26,9 +26,38 @@ tariff_index_urls = [
  # current residential schedule with a per-schedule "view tariff" link
  # (parameterized by tarfKey).
  "https://tariffsprd.sdge.com/sdge/tariffs/?utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS&tarfRateGroup=Residential%20Rates",
+
+ # PRIMARY (schedule inventory) — the JSON service behind that portal. This is
+ # the best inventory surface of any utility here: a stable JSON contract, no
+ # browser, no cookie, no paging, and it states which schedules are closed.
+ # /history returns all 159 schedules ever published, /tariffs the 99 currently
+ # in force. dev/build_inventory.py reads both.
+ "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/history?utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS",
 ]
 
 scrape_notes = """
+## Schedule inventory
+
+The portal at tariffsprd.sdge.com is a Next.js SPA; the JSON service behind it
+is listed above and is what dev/build_inventory.py reads. Per row: TARF_ID is
+the schedule code, TARF_NAME the human name, TARF_KEY builds the document URL
+(.../tariff/?utilId=SDGE&bookId=ELEC&tarfKey=<N>), TARF_RATEGROUP the rate
+class, TARF_STATUS_CD Active or Retired.
+
+Take closed status from membership in /tariffs, NOT from TARF_STATUS_CD. The
+two disagree: 100 rows are marked Active while only 99 appear in /tariffs. The
+odd one is TOU-DR-E2 (tarfKey 865), Active yet absent from /tariffs and
+carrying TARF_RATEGROUP "Retired".
+
+Document responses carry neither Last-Modified nor ETag, so a conditional
+request buys nothing and change detection has to compare sha256.
+
+Two distinct schedules, 20/20 (tarfKey 345) and 20-20 (tarfKey 65), reduce to
+the same directory name. Both are retired. dev/build_inventory.py records the
+collision rather than letting one overwrite the other.
+
+## Regulatory
+
 SDG&E is a CPUC IOU like PG&E and SCE — Advice Letter / Resolution filing
 mechanism. tariff.toml [regulator] uses authority = "puc" (per the SCE
 filings precedent).

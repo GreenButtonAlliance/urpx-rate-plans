@@ -49,6 +49,7 @@ from __future__ import annotations
 import argparse
 import collections
 import datetime
+import http.cookiejar
 import json
 import re
 import sqlite3
@@ -113,6 +114,153 @@ def pge_tariff_book(offline: bool):
 pge_tariff_book.kind = "inventory"
 
 
+SCE_HUB = ("https://www.sce.com/regulatory/regulatory-information/"
+           "tariff-books/rates-pricing-choices")
+SCE_SITE = "https://edisonintl.sharepoint.com/teams/Public/TM2"
+
+
+def sce_tariff_book(offline: bool):
+    """SCE's live tariff book, enumerated from its SharePoint folders.
+
+    SCE publishes no HTML page listing its schedules: its own sitemap carries
+    neither a PDF nor a SharePoint URL. What it does publish is six anonymous
+    SharePoint share links on the hub page below, five of them rate-class
+    folders of per-schedule PDFs.
+
+    The folders are anonymously readable but not anonymously scrapable in the
+    obvious way. Following a `:f:` share link sets an anonymous FedAuth cookie
+    scoped to THAT share, and only then does the folder's file API answer. The
+    cookie jar therefore has to be fresh per share link; reusing one from
+    another share returns 403.
+
+    DO NOT ENUMERATE THIS FROM THE RENDERED PAGE. The SharePoint file list is
+    virtualized and pages at 30 rows. Scraping the DOM of the Other Rates folder
+    yields 30 of its 72 files, alphabetically A through E, and looks complete:
+    scrolling adds nothing, an 8000px viewport adds nothing, and sorting
+    descending returns a different 30. Every count here is checked against the
+    folder's own ItemCount for exactly that reason.
+
+    What this enumerates is DOCUMENTS, not rate plans. One PDF can carry several
+    plans this corpus models separately: ELECTRIC_SCHEDULES_TOU-D.pdf is the
+    source for tou-d-4-9pm, tou-d-5-8pm, tou-d-prime and tou-d-prime-cpp. So
+    SCE's inventory is coarser than the corpus, and the report's list of
+    schedules modeled but unnamed by any source is where that shows up.
+    """
+    if offline:
+        return
+    ua = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"}
+    hub = urllib.request.urlopen(
+        urllib.request.Request(SCE_HUB, headers=dict(ua)), timeout=60).read().decode(
+            "utf-8", "replace")
+    links = [(re.sub(r"<[^>]+>", "", m.group(2)).strip(), m.group(1)) for m in re.finditer(
+        r'<a[^>]*href="(https://edisonintl\.sharepoint\.com/:f:/t/Public/TM2/[^"]+)"[^>]*>(.*?)</a>',
+        hub, re.S | re.I)]
+    if not links:
+        print(f"REFUSING: {SCE_HUB} carried no SharePoint folder links. The page "
+              f"loaded, so the link shape changed; writing an empty inventory would "
+              f"read as 'SCE publishes nothing'.", file=sys.stderr)
+        raise SystemExit(3)
+
+    total = 0
+    for label, share in links:
+        op = urllib.request.build_opener(
+            urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+
+        def api(path, sel):
+            q = urllib.parse.quote(root, safe="/")
+            u = f"{SCE_SITE}/_api/web/GetFolderByServerRelativeUrl('{q}'){path}?$select={sel}&$top=5000"
+            return json.loads(op.open(urllib.request.Request(
+                u, headers={**ua, "Accept": "application/json;odata=nometadata"}),
+                timeout=60).read())
+
+        r = op.open(urllib.request.Request(share, headers=dict(ua)), timeout=60)
+        qs = urllib.parse.parse_qs(urllib.parse.urlparse(r.geturl()).query)
+        if "id" not in qs:
+            continue
+        root = qs["id"][0]
+        meta = api("", "ItemCount,Name")
+        files = api("/Files", "Name,ServerRelativeUrl")["value"]
+        if meta.get("ItemCount") is not None and meta["ItemCount"] != len(files):
+            print(f"REFUSING: folder '{label}' reports ItemCount "
+                  f"{meta['ItemCount']} but the file listing returned {len(files)}. "
+                  f"A partial listing is the failure mode this check exists for.",
+                  file=sys.stderr)
+            raise SystemExit(3)
+        for f in files:
+            m = re.match(r"^ELECTRIC_SCHEDULES_(.+)\.pdf$", f["Name"], re.I)
+            if not m:
+                continue
+            total += 1
+            yield "sce", slug(m.group(1)), {
+                "code": m.group(1),
+                "document_url": "https://edisonintl.sharepoint.com"
+                                + urllib.parse.quote(f["ServerRelativeUrl"]),
+                "rate_class": label,
+                "source": "sce-tariff-book",
+            }
+    if not total:
+        print("REFUSING: the SCE folders held no ELECTRIC_SCHEDULES_*.pdf files.",
+              file=sys.stderr)
+        raise SystemExit(3)
+
+
+sce_tariff_book.kind = "inventory"
+
+SDGE_API = ("https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/"
+            "scg-uofa-wpubtm-prd")
+
+
+def sdge_tariff_portal(offline: bool):
+    """SDG&E's regulatory tariff portal, read through the JSON API behind it.
+
+    tariffsprd.sdge.com is a single-page app; this is the service it calls. It
+    is the best of the three inventory surfaces in this file: a stable JSON
+    contract rather than a regex over href attributes, no browser, no cookie, no
+    paging, and it states which schedules are closed.
+
+    `history` returns every schedule ever published and `tariffs` only those
+    currently in force. Closed status is taken from membership in the latter
+    rather than from TARF_STATUS_CD, because the two disagree: 100 rows are
+    marked Active while only 99 appear in `tariffs`, the odd one being TOU-DR-E2,
+    which is Active and whose rate group is nonetheless "Retired".
+    """
+    if offline:
+        return
+
+    def get(path):
+        return json.loads(urllib.request.urlopen(urllib.request.Request(
+            f"{SDGE_API}/{path}", headers={"User-Agent": "urpx-tariffs/1.0",
+                                           "Accept": "application/json"}),
+            timeout=60).read())
+
+    q = "utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS"
+    history = get(f"history?{q}")
+    current = {r["TARF_ID"] for r in get(f"tariffs?{q}")}
+    if not history or not current:
+        print("REFUSING: the SDG&E tariff API returned nothing. Writing an empty "
+              "inventory would read as 'SDG&E publishes nothing'.", file=sys.stderr)
+        raise SystemExit(3)
+    for row in history:
+        code = (row.get("TARF_ID") or "").strip()
+        if not code:
+            continue
+        rec = {
+            "code": code,
+            "name": (row.get("TARF_NAME") or "").strip(),
+            "status": "current" if code in current else "closed",
+            "rate_class": (row.get("TARF_RATEGROUP") or "").strip(),
+            "source": "sdge-tariff-portal",
+        }
+        if row.get("TARF_KEY") is not None:
+            rec["document_url"] = (f"{SDGE_API}/tariff/?utilId=SDGE&bookId=ELEC"
+                                   f"&tarfKey={row['TARF_KEY']}")
+        yield "sdge", slug(code), rec
+
+
+sdge_tariff_portal.kind = "inventory"
+
+
 def midas(offline: bool):
     """Schedule names the CEC MIDAS feed carries, for the parties that name one.
 
@@ -158,7 +306,10 @@ def midas(offline: bool):
 midas.kind = "observed"
 
 
-SOURCES = {"pge-tariff-book": pge_tariff_book, "midas": midas}
+SOURCES = {"pge-tariff-book": pge_tariff_book,
+           "sce-tariff-book": sce_tariff_book,
+           "sdge-tariff-portal": sdge_tariff_portal,
+           "midas": midas}
 
 
 def main() -> int:
@@ -178,6 +329,7 @@ def main() -> int:
 
     inventory: dict[str, dict[str, dict]] = collections.defaultdict(dict)
     observed: dict[str, list[tuple[str, dict]]] = collections.defaultdict(list)
+    collisions: dict[str, list[dict]] = collections.defaultdict(list)
     ran: set[str] = set()
     for name in chosen:
         fn, produced = SOURCES[name], 0
@@ -187,7 +339,19 @@ def main() -> int:
             produced += 1
             if fn.kind == "inventory":
                 cur = inventory[util].setdefault(sch, {"schedule": sch, "sources": {}})
-                cur["sources"][rec.pop("source")] = rec
+                src = rec.pop("source")
+                held = cur["sources"].get(src)
+                # Two different schedule codes can slug to one directory name:
+                # SDG&E publishes both 20/20 and 20-20, and both become "20-20".
+                # Overwriting loses one silently, which is the failure this
+                # whole file is built to avoid, so the loser is kept alongside.
+                if held is not None and held.get("code") != rec.get("code"):
+                    collisions[util].append({"slug": sch, "source": src,
+                                             "codes": sorted({held.get("code"),
+                                                              rec.get("code")})})
+                    held.setdefault("also_named", []).append(rec)
+                else:
+                    cur["sources"][src] = rec
             else:
                 observed[util].append((sch, rec))
         if produced:
@@ -281,6 +445,12 @@ def main() -> int:
                         "feed, not a list this utility published, so the set is neither "
                         "complete nor guaranteed to be at schedule granularity."),
                "schedules": out}
+        if collisions.get(util):
+            doc["slug_collisions"] = collisions[util]
+            doc["slug_collisions_note"] = (
+                "Distinct schedule codes that reduce to the same directory name. "
+                "The first is the schedule row; the others are kept on it under "
+                "also_named so none is lost.")
         if unmatched.get(util):
             doc["unmatched"] = sorted(unmatched[util], key=lambda r: r["code"])
             doc["unmatched_note"] = ("Observed names that matched no schedule in the "
@@ -288,6 +458,7 @@ def main() -> int:
                                      "name this corpus does not yet understand.")
         path.write_text(json.dumps(doc, indent=2, sort_keys=True) + "\n")
         print(f"wrote {path.relative_to(REPO)}: {len(out)} schedule(s)"
+              + (f", {len(collisions[util])} slug collision(s)" if collisions.get(util) else "")
               + (f", {len(unmatched[util])} unmatched" if unmatched.get(util) else "")
               + ("" if has_inv else "  [no inventory source]"))
     print(f"{total_new} newly named schedule(s) across {len(inventory)} utility(ies)")

@@ -124,8 +124,42 @@ docket-specific authority. Part H (Baseline Service) is referenced
 by Schedule TOU-D Special Condition 4 and the HPWH baseline-allocation
 modifier.
 
+SCHEDULE INVENTORY
+------------------
+No plain HTML page on sce.com enumerates the electric schedules; the sitemap
+carries neither a PDF nor a SharePoint URL. What the hub page above does carry
+is six anonymous SharePoint share links, five of them rate-class folders.
+dev/build_inventory.py scrapes those, then reads each folder's file list,
+yielding 118 schedules: Residential 14, General Service/Industrial 18,
+Agricultural and Pumping 7, Street and Area Lighting/Traffic Control 7, Other
+Rates 72.
+
+Following a :f: share link sets an anonymous FedAuth cookie scoped to THAT
+share, after which the folder's file API answers:
+ <site>/_api/web/GetFolderByServerRelativeUrl('<path>')/Files
+The cookie jar must be FRESH PER SHARE LINK; one carried over from another
+share returns 403.
+
+DO NOT ENUMERATE FROM THE RENDERED PAGE. The file list is virtualized and
+pages at 30 rows. Scraping the DOM of Other Rates yields 30 of its 72 files,
+alphabetically A through E, and looks complete: scrolling adds nothing, an
+8000px viewport adds nothing, and sorting descending returns a different 30.
+Check every count against the folder's own ItemCount, which the API reports.
+
+This enumerates DOCUMENTS, not rate plans. One PDF can carry several plans
+this corpus models separately: ELECTRIC_SCHEDULES_TOU-D.pdf is the source for
+tou-d-4-9pm, tou-d-5-8pm, tou-d-prime, tou-d-prime-cpp, deed-restricted and
+fera. reports/tariffs-to-model.md resolves that by matching each filing's
+recorded [source] url against the document the inventory names.
+
 ANONYMOUS DOWNLOAD RECIPE
 -------------------------
+Both /_layouts/15/download.aspx?SourceUrl=<path> and the _api $value endpoint
+return HTTP 200 with the PDF wrapped in a multipart/form-data envelope: the
+bytes start with a boundary marker, not %PDF-. Strip the wrapper before
+hashing or the sha256 records the envelope. Fetching the rendered file path
+directly returns 403 even with the cookie.
+
 SharePoint anonymous-share folders use opaque share-token URLs in the
 :f:/t/Public/TM2/<token> form. Direct curl against the rendered file
 path returns 403 — the FedAuth cookie must first be established by

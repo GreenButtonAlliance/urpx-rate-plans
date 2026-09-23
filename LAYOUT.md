@@ -499,6 +499,30 @@ source names things it happened to see, at whatever granularity it uses. Only an
 inventory source creates a schedule; an observed name attaches to one it matches,
 and the match rule is recorded so the attachment can be checked.
 
+Three inventory sources exist, one per investor-owned utility, and they are of
+very different quality. SDG&E's is a JSON service with a stable contract that
+states which schedules are closed. PG&E's is a regex over the href attributes of
+an index page. SCE publishes no enumerable page at all, so its schedules are read
+out of the SharePoint folders its hub page links, which is the fragile one: that
+listing is virtualized and pages at 30 rows, so scraping the rendered page
+returns 30 of Other Rates' 72 files and looks complete. Every SCE count is
+checked against the folder's own `ItemCount` for that reason, and the adapter
+refuses on a mismatch rather than writing a short inventory.
+
+**An inventory names documents; the corpus models rate plans, and they are not
+the same grain.** One SCE PDF is the source for six directories here:
+`ELECTRIC_SCHEDULES_TOU-D.pdf` backs `tou-d-4-9pm`, `tou-d-5-8pm`, `tou-d-prime`,
+`tou-d-prime-cpp`, `deed-restricted` and `fera`. Matching a directory name
+against a schedule code would report all six as unmodeled and `tou-d` as missing.
+`dev/list_tariffs_to_model.py` instead matches each filing's recorded
+`[source] url` against the document the inventory names, which settles the
+attribution from what the corpus already records rather than from guessing at
+names.
+
+Distinct schedule codes can also reduce to one directory name: SDG&E publishes
+both `20/20` and `20-20`. The builder records the collision and keeps the loser
+under `also_named` rather than silently overwriting it.
+
 Unioning the two over-counts badly, and the first draft did. PG&E's tariff book
 names 104 schedules and the MIDAS feed names 118 things, but only 12 are the same
 schedule spelled differently (`A1` for `A-1`); 96 are rate options *within* a
@@ -536,9 +560,14 @@ The cost is real and accepted: every in-place reissue adds a full copy that git
 keeps forever. When one of these is modeled, its PDF moves into the filing
 directory with its own `tariff.toml`, which is where a source document belongs.
 
-Files are laid out `data/documents/<utility>/<filename>`. Flat would collide:
-PG&E and SCE both name schedule documents with an `ELEC_SCHEDS`-style prefix, and
-the set of utilities here is meant to grow.
+Files are laid out `data/documents/<utility>/<filename>`. The three publishers
+seen so far happen not to collide, each using a prefix of its own (`ELEC_SCHEDS_`
+for PG&E, `ELEC_ELEC-SCHEDS_` for SDG&E, `ELECTRIC_SCHEDULES_` for SCE), so this
+is not a collision already observed. It is that the prefix convention is an IOU
+habit and nothing more: SMUD's documents are named `1-GS-TOU1.ashx`, and a
+municipal utility or a community choice aggregator publishing
+`residential-rates.pdf` is the obvious next case. Namespacing by utility costs
+nothing and does not need the collision to arrive first.
 
 **Every URL gets a row whatever happens to it.** Most of what the MIDAS feed
 links cannot be fetched at all, and that is a finding about the feed rather than
