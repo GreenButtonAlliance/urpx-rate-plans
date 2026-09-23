@@ -33,7 +33,11 @@ All other "all usage" components (transmission, public-purpose, wildfire-fund, e
 
 The tier *boundaries* (in absolute kWh/day) come from a 10-territory × 2-code × 2-season matrix. This file models **one cell** — Territory P, Code B residential, summer 13.5 kWh/day / winter 11.0 kWh/day. The file is correct for Territory-P/Code-B customers and incorrect (wrong tier boundaries) for everyone else.
 
-Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-rate-plans/issues/18). It is enumeration work against existing vocabulary: `sh:maxCount 1` caps `urpx:ProfileAlternatives` containers per `PlanElements`, not dimensions within one, and a container's alternatives are the cross-product of its dimensions (`urpx:hasAlternativeDimension` carries the `skos:note` "Multiple dimensions create a matrix of alternatives"). The corpus ships that shape twice already, in the E-TOU-C baseline-tier modifier and CPAU E-HRA.
+Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-rate-plans/issues/18) and **is blocked**, on the consumer rather than on the vocabulary.
+
+The vocabulary is not the obstacle, and the data is not either. `sh:maxCount 1` caps `urpx:ProfileAlternatives` containers per `PlanElements`, not dimensions within one, and a container's alternatives are the cross-product of its dimensions; the corpus ships that shape twice, in the E-TOU-C baseline-tier modifier and CPAU E-HRA. All 40 kWh/day values were checked against Sheet 4 of this filing's own PDF on 2026-09-23, against the E-TOU-C overlay's 120 brackets: no disagreements.
+
+What blocks it is that clj-urpx resolves bounds from the first `urpx:ServiceBracket` on a tier and filters by neither season nor `urpx:ProfileAlternative`. This filing carries six tiers holding one bracket each, so winter's correct 11.0 kWh/day is present today as tier 4. Under a three-tier, forty-bracket overlay it would be absent entirely, so completing the data would cost a correct number. Losing a correct number is worse than leaving nineteen cells unmodeled, so this stays as it is until the consumer can select a bracket, tracked by the clj-urpx session as URPX-rng. `tariff.toml` carries the full reasoning and the measurements.
 
 ### Code H (all-electric), Code M / S (medical) — not modeled
 
