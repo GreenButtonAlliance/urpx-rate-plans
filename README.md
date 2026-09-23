@@ -10,7 +10,7 @@ Each rate plan is expressed in the [URPX ontology](https://github.com/urpx-org/u
 
 The initial motivation is to enable the [Grid Coordination Price Server](https://github.com/grid-coordination/price-server-user-guide) to ingest these URPX rate plans and publish [OpenADR 3](https://www.openadr.org/) programs and *computed* prices derived from the tariff structures. The price server is the consumer; this corpus is the source of truth for what the underlying tariffs say.
 
-**Current scope: California electricity.** Every organization selling electricity in the state is catalogued in [`reports/california-parties.md`](./reports/california-parties.md), which carries its own as-of date. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring.
+**Current focus & priority: California electricity.** Every organization selling electricity in the state is catalogued in [`reports/california-parties.md`](./reports/california-parties.md), which carries its own as-of date. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring.
 
 ## Disclaimer
 
@@ -59,7 +59,7 @@ Every filing serializes against URPX v0.5.1 and validates clean under both `pysh
 
 Statewide residential reach is in [`reports/coverage.md`](./reports/coverage.md).
 
-**Cross-corpus utility identification**: every filing's `publishedBy` Organization carries `urpx:eiaId` (PG&E 14328, SCE 17609, SDG&E 16609, LADWP 11208, SMUD 16534, CPAU 3203) — usable as a stable join key against the EIA-861 utility dataset without parsing legalName variants.
+**Cross-corpus utility identification**: every filing's `publishedBy` Organization carries `urpx:eiaId`, PG&E's being 14328. It is a stable join key against the [EIA-861 detailed data files](https://www.eia.gov/electricity/data/eia861/), which avoids matching on `legalName` variants.
 
 **SHACL-validating ≠ bill-calculation-complete.** All filings pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [MODELING-GAPS.md](./MODELING-GAPS.md) section below cross-references them.
 
