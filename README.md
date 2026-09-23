@@ -10,7 +10,7 @@ Each rate plan is expressed in the [URPX ontology](https://github.com/urpx-org/u
 
 The initial motivation is to enable the [Grid Coordination Price Server](https://github.com/grid-coordination/price-server-user-guide) to ingest these URPX rate plans and publish [OpenADR 3](https://www.openadr.org/) programs and *computed* prices derived from the tariff structures. The price server is the consumer; this corpus is the source of truth for what the underlying tariffs say.
 
-**Current scope: California electricity.** Twenty organizations are catalogued: three investor-owned utilities, three publicly owned, and fourteen community choice aggregators. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring. The country segment is spelled out because a bare `ca` reads as either California or Canada.
+**Current scope: California electricity.** Twenty organizations are catalogued: three investor-owned utilities, three publicly owned, and fourteen community choice aggregators. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring.
 
 ## Disclaimer
 
@@ -31,7 +31,7 @@ See [LAYOUT.md](./LAYOUT.md) for the full conventions. In short:
   rate-plan-modifier_<utility>_<schedule>_<date>.jsonld       # for standalone rider/overlay rate plans
 ```
 
-`<carrier>` is the commodity, currently always `electricity`; it sits below `<utility>` because PG&E and SDG&E supply both gas and electricity, and a utility's offerings should stay adjacent. It mirrors `urpx:commodity`, which each filing also carries. Source tariff PDFs are committed alongside each rate plan — see [LAYOUT.md §7](./LAYOUT.md#7-source-pdf-referencing) for the rationale (canonical URLs alone are not durable provenance; PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place between two retrievals two days apart).
+`<carrier>` is the commodity, currently always `electricity`, mirroring `urpx:commodity` on each filing. The tariff document is committed beside the rate plan read from it ([LAYOUT.md §7](./LAYOUT.md#7-source-pdf-referencing)).
 
 Each `<country>/<subdivision>/<utility>/` directory also carries a `utility.toml` discovery manifest listing the URLs where the utility publishes its tariffs ([LAYOUT.md §5](./LAYOUT.md#5-per-utility-discovery-manifest-utilitytoml)).
 
@@ -47,15 +47,17 @@ A rate plan is what a utility publishes. An arrangement is what a particular cus
 
 ### Reading more than one filing at a time
 
-A modifier filing names the base rate plans it applies to, and those live in their own filings. So the corpus is read as one graph rather than a file at a time: validating a modifier on its own reports unresolved references, which is the modifier doing its job, not a defect. [`reports/modifier-base-pairings.{json,edn}`](./reports/) gives those pairings as a flat map for anyone who wants the answer without walking the graph.
+A modifier filing names the base rate plans it applies to, and those live in their own filings, so the corpus is read as one graph rather than a file at a time. Validating a modifier alone reports unresolved references; that is the modifier working, not a defect. [`reports/modifier-base-pairings.{json,edn}`](./reports/) has the pairings as a flat map.
 
-Version order is carried by each filing's `versions/<date>/` and by `urpx:effectiveDateTime`. There is no link from a version to the one it replaced; [LAYOUT.md §10](./LAYOUT.md#10-future-considerations) explains why URPX v0.5.1 cannot carry one.
+Version order comes from each filing's `versions/<date>/` and `urpx:effectiveDateTime`, not from a link between versions ([LAYOUT.md §10](./LAYOUT.md#10-future-considerations)).
 
 ## Status
 
-73 filings landed (40 `urpx:RatePlan` + 33 standalone `urpx:RatePlanModifier`; one filing — PG&E E-TOU-C 2026-03-01 — packages a base alongside a sibling modifier in the same directory, plus 4 PG&E vintage-PCIA modifiers are bundled inline inside their bases' `@graph`). All filings serialize against URPX v0.5.1 and validate clean via both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/main/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx) (load → coerce → resolve a representative price for a known instant; see `dev/validate_v020.clj`).
+71 filings hold 72 rate plans: 39 base plans and 33 standalone modifiers. One directory, PG&E E-TOU-C 2026-03-01, packages a base with a sibling modifier, and four PG&E vintage-PCIA modifiers are bundled inline in their bases' `@graph`.
 
-**Statewide residential coverage**: ~91% (90.8%) of the 15M California residential customers tracked in `dev/coverage-estimates.toml` are served by a base RatePlan that is structurally modeled. Run `python dev/coverage.py` for the live breakdown.
+Every filing serializes against URPX v0.5.1 and validates clean under both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/main/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx), which loads, coerces and resolves a price at a known instant.
+
+Statewide residential reach is in [`reports/coverage.md`](./reports/coverage.md).
 
 **Cross-corpus utility identification**: every filing's `publishedBy` Organization carries `urpx:eiaId` (PG&E 14328, SCE 17609, SDG&E 16609, LADWP 11208, SMUD 16534, CPAU 3203) — usable as a stable join key against the EIA-861 utility dataset without parsing legalName variants.
 
