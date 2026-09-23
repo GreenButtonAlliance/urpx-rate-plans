@@ -34,12 +34,14 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import utilities  # noqa: E402
+
 REPO = Path(__file__).resolve().parent.parent
 STORE = REPO / "data" / "midas"
 
 # Party segments this corpus already models, by utility directory under us/ca/.
-MODELED = {"PGPG": "pge", "PGXX": "pge", "SCSC": "sce", "SCXX": "sce",
-           "SDSD": "sdge", "SDXX": "sdge", "LALA": "ladwp", "SMSM": "smud"}
+MODELED = utilities.segment_utility()
 # Research, test and signal segments: real rows, not tariffs to model.
 NOT_TARIFFS = {"CFCF", "TSTS", "TSXX", "HPHP", "FLEX"}
 

@@ -57,6 +57,9 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import utilities  # noqa: E402
+
 REPO = Path(__file__).resolve().parent.parent
 DB = REPO / "data" / "midas" / "midas.sqlite"
 OUT = REPO / "data" / "documents"
@@ -76,8 +79,7 @@ BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 IS_DOC = re.compile(r"\.(pdf|xlsx?|docx?|ashx)(\?|$)", re.I)
 
 # MIDAS party segment -> utility directory, for documents only MIDAS names.
-SEGMENT_UTILITY = {"PGPG": "pge", "PGXX": "pge", "SCSC": "sce", "SCXX": "sce",
-                   "SDSD": "sdge", "SDXX": "sdge", "LALA": "ladwp", "SMSM": "smud"}
+SEGMENT_UTILITY = utilities.segment_utility()
 
 
 SP_HOST = "edisonintl.sharepoint.com"

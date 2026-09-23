@@ -58,14 +58,17 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import utilities  # noqa: E402
+
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "inventories"
 UA = {"User-Agent": "urpx-tariffs/1.0 (+https://github.com/grid-coordination/urpx-rate-plans)"}
 
 # MIDAS party segment -> utility directory. Only segments whose feed names a
-# schedule rather than a composition appear here; see midas() for why.
-MIDAS_SEGMENTS = {"PGPG": "pge", "SCSC": "sce", "SDSD": "sdge",
-                  "LALA": "ladwp", "SMSM": "smud"}
+# schedule rather than a composition appear here; see midas() for why, and
+# dev/utilities.py for why that narrower view is a named accessor.
+MIDAS_SEGMENTS = utilities.bundled_segment_utility()
 
 
 def matchkey(code: str) -> str:

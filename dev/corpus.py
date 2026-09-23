@@ -91,6 +91,85 @@ def utility_of(path: Path) -> str:
     return parse_filing_path(path)[0]
 
 
+# Manifest filenames. Spelled in one place because three different files
+# spelled them, and a rename would have had to find all three.
+TARIFF_MANIFEST = "tariff.toml"
+UTILITY_MANIFEST = "utility.toml"
+
+# The carrier segment. Currently always electricity; it exists so that a second
+# commodity does not require a fourth spelling of the path shape.
+DEFAULT_CARRIER = "electricity"
+
+
+def utilities() -> list[str]:
+    """Every utility slug with a discovery manifest, filings or not."""
+    return sorted({p.parent.name for p in utility_tomls()})
+
+
+def utilities_with_filings() -> list[str]:
+    """Only the utilities that actually have a filing."""
+    return sorted(schedules_by_utility())
+
+
+def schedules_by_utility() -> dict[str, set[str]]:
+    """{utility slug -> every schedule slug it has a filing for}.
+
+    Promoted from dev/list_rate_plans_to_model.py, which had the only correct
+    copy. The other copy lived in scripts/build-midas-coverage-report.py and
+    walked a tree deleted on 2026-09-20, so it returned {} and reported success.
+    """
+    out: dict[str, set[str]] = {}
+    for jsonld in all_filing_jsonld():
+        util, sched, _ = parse_filing_path(jsonld)
+        out.setdefault(util, set()).add(sched)
+    require_nonempty(out, "schedules by utility")
+    return out
+
+
+def is_base_rate_plan_dir(d: Path) -> bool:
+    return any(d.glob("rate-plan_*.jsonld"))
+
+
+def is_modifier_dir(d: Path) -> bool:
+    return any(d.glob("rate-plan-modifier_*.jsonld"))
+
+
+def filing_dir(utility: str, schedule: str, date: str,
+               subdivision: str = "ca", country: str = "us",
+               carrier: str = DEFAULT_CARRIER) -> Path:
+    """Compose the path to one filing directory, and REFUSE if it is not there.
+
+    Composition is the one direction this module could not do. Decomposition
+    existed (parse_filing_path), so 29 call sites across 11 scripts spelled the
+    forward path by hand, every one of them still naming the pre-2026-09-20
+    `ca/<class>/<utility>/<schedule>/` shape.
+
+    The refusal is the point, not a convenience. Those scripts write with
+    `OUT.parent.mkdir(parents=True)`, so a stale path does not fail: it creates a
+    tree COUNTRY_ROOTS does not walk, writes the filing into it, and prints the
+    byte count. Every lint then passes over a corpus that quietly lost the file.
+    Resolving through here turns that silent success into a refusal.
+    """
+    d = REPO / country / subdivision / utility / carrier / schedule / "versions" / date
+    if not d.is_dir():
+        raise SystemExit(
+            f"ERROR: no filing directory at {d.relative_to(REPO)}. Refusing rather "
+            f"than creating it: a path the corpus does not already recognize is a "
+            f"stale path, and writing to it loses the filing silently."
+        )
+    return d
+
+
+def filing_path(utility: str, schedule: str, date: str, kind: str = "rate-plan",
+                **kw) -> Path:
+    """The JSON-LD file inside a filing directory. `kind` is rate-plan or
+    rate-plan-modifier, matching the two globs above."""
+    if kind not in ("rate-plan", "rate-plan-modifier"):
+        raise ValueError(f"kind must be rate-plan or rate-plan-modifier, got {kind!r}")
+    return filing_dir(utility, schedule, date, **kw) / \
+        f"{kind}_{utility}_{schedule}_{date}.jsonld"
+
+
 def require_nonempty(items, what: str) -> None:
     """Refuse to report a verdict over an empty corpus.
 

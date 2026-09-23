@@ -21,18 +21,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import arrangements as A
+import utilities  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 
-UTILITY_ORDER = ["pge", "sce", "sdge", "cpau", "smud", "ladwp"]
-UTILITY_LABEL = {
-    "pge": "PG&E (IOU)",
-    "sce": "SCE (IOU)",
-    "sdge": "SDG&E (IOU)",
-    "cpau": "CPAU (POU)",
-    "smud": "SMUD (POU)",
-    "ladwp": "LADWP (POU)",
-}
+# Order and labels come from dev/utilities.py. This block used to be a
+# byte-identical copy in two generators, and its roster was not checked against
+# the corpus, so a utility gaining filings dropped out of the report silently.
+UTILITY_ORDER = utilities.ORDER
+UTILITY_LABEL = utilities.labels()
 OUTCOME_LABEL = {
     A.SERVABLE: "servable",
     A.NOT_PRICED: "not priced per kWh",
