@@ -39,7 +39,7 @@ Those are the filings. The same strings are also written down outside the corpus
 | `reports/midas-coverage.json` | 5,225 | 5,225 |
 | `reports/midas-coverage.md` | 5,207 | 5,207 |
 | `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 2,304 | 4 |
-| `data/midas/rins.jsonl` | 274 | 274 |
+| `data/midas/rins.jsonl` | 915 | 915 |
 | `dev/test_rate_identifiers.py` | 31 | 7 |
 | `doc/midas-rins-and-service-arrangements.md` | 21 | 19 |
 | `scripts/tag-pge-nbt-prices-with-midas-rins.py` | 10 | 5 |
@@ -61,7 +61,7 @@ Those are the filings. The same strings are also written down outside the corpus
 
 **Derived is a resting state, not a defect.** An export compensation rate a utility does not publish as a single MIDAS series has to be computed from the ones it does, and the result is correct without being corroborable. The attestation records the arithmetic instead of claiming an identifier for the answer.
 
-**Unresolved is a statement about the snapshot, not about California.** `reports/midas-coverage.json` was generated 2026-05-30T19:44:16Z and holds 5,207 records. It cannot be refreshed at present: the MIDAS token endpoint returns 401 to the stored credentials, checked again when this report was first written. So unresolved means *not corroborated by a months-old snapshot*, never *does not exist*.
+**Unresolved is a statement about the snapshot, not about California.** `reports/midas-coverage.json` was generated 2026-05-30T19:44:16Z and holds 5,207 records, covering the six investor-owned-utility party segments rather than the state: the live feed carries 74,097 identifiers over 33 segments. So unresolved means *not corroborated by this snapshot*, never *does not exist*. The 401 that once blocked a refresh was a v1.0 artifact and not a credential problem; MIDAS v2.0 is unauthenticated, and `dev/mine_midas.py` reads it. This report still reads the cached snapshot until it is regenerated against the mined store.
 
 ## The attestations
 
