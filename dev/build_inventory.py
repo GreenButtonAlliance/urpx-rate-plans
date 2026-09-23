@@ -197,6 +197,10 @@ def sce_tariff_book(offline: bool):
                 "document_url": "https://edisonintl.sharepoint.com"
                                 + urllib.parse.quote(f["ServerRelativeUrl"]),
                 "rate_class": label,
+                # Recorded because the document is not fetchable without it: the
+                # share sets the anonymous cookie that authorizes the download.
+                "share_url": share,
+                "server_relative_url": f["ServerRelativeUrl"],
                 "source": "sce-tariff-book",
             }
     if not total:

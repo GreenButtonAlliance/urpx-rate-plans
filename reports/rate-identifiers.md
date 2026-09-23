@@ -34,6 +34,7 @@ Those are the filings. The same strings are also written down outside the corpus
 
 | File | Tokens | Distinct |
 |---|---:|---:|
+| `midas.json` | 72,310 | 72,266 |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 7,632 | 10 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5,760 | 10 |
 | `reports/midas-coverage.json` | 5,225 | 5,225 |

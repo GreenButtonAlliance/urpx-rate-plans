@@ -52,6 +52,11 @@ carrying TARF_RATEGROUP "Retired".
 Document responses carry neither Last-Modified nor ETag, so a conditional
 request buys nothing and change detection has to compare sha256.
 
+The /tariff/ endpoint serves only schedules currently in force: the 99 current
+ones fetch and all 59 closed ones return 404. Closed schedules are published
+through /historical/?utilId=SDGE&bookId=ELEC&tarfKey=<N>&tarfYear=<YYYY>, with
+the years available in each row's TARF_YEARS. Not wired up yet.
+
 Two distinct schedules, 20/20 (tarfKey 345) and 20-20 (tarfKey 65), reduce to
 the same directory name. Both are retired. dev/build_inventory.py records the
 collision rather than letting one overwrite the other.

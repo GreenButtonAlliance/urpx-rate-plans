@@ -569,6 +569,13 @@ municipal utility or a community choice aggregator publishing
 `residential-rates.pdf` is the obvious next case. Namespacing by utility costs
 nothing and does not need the collision to arrive first.
 
+**SDG&E's closed schedules are named but not yet held.** Its `/tariff/` endpoint
+serves only what is currently in force: all 99 current schedules fetch, and all
+59 closed ones return 404. The split is exactly along the status the inventory
+records, so nothing is unexplained. Their documents live behind a different
+endpoint, `/historical/` keyed by `tarfKey` and a year from the row's
+`TARF_YEARS`, which is not wired up yet.
+
 **Every URL gets a row whatever happens to it.** Most of what the MIDAS feed
 links cannot be fetched at all, and that is a finding about the feed rather than
 an error to skip past: SMUD's three links redirect to a 404 page while still
@@ -577,10 +584,25 @@ and SDG&E's `regarchive` host resolves but never accepts a connection. A prior
 successful copy is retained when a later fetch fails, so one bad day does not
 erase a document already in hand.
 
-Conditional requests work here, unlike the MIDAS metadata API: PG&E serves both
-`Last-Modified` and a strong `ETag` and answers `304`. `retrieved_on` means when
-these bytes were first seen rather than when the URL was last checked, for the
-same reason given in section 10b.
+Only one of the three publishers supports a conditional request. PG&E serves both
+`Last-Modified` and a strong `ETag` and answers `304`. SDG&E's document service
+sends neither, and SharePoint's download endpoint has no usable validator either,
+so for those two a run re-downloads the bytes and compares the `sha256`. That is
+the cost of knowing whether a document changed: about 150MB of transfer per full
+run, against 104 cheap `304`s from PG&E.
+
+`retrieved_on` means when these bytes were first seen rather than when the URL
+was last checked, for the same reason given in section 10b.
+
+**SCE's documents need two extra steps, and both are easy to get silently wrong.**
+Fetching the rendered file path returns 403 even holding the share cookie; the
+`_layouts/15/download.aspx` endpoint is what answers. What it answers with is the
+PDF inside a `multipart/form-data` envelope, so the bytes begin with a boundary
+marker rather than `%PDF-`. Hashing them unstripped would be worse than useless:
+the boundary is regenerated per response, so an unchanged document would hash
+differently on every fetch and every run would report a change. The envelope is
+stripped before hashing, and the fetcher refuses a payload that is still not a
+PDF afterwards.
 
 ## 11. Reports: what each one measures
 

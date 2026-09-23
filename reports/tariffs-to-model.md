@@ -132,117 +132,117 @@ Directories this corpus models under a name the publisher does not use, matched 
 
 | Schedule | Code | Document | Demand signal |
 |---|---|---|---:|
-| `al-2` | AL-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_AL-2.pdf) | 12 |
-| `ap-i` | AP_-_I | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_AP_-_I.pdf) | — |
-| `biomat` | BIOMAT | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BIOMAT.pdf) | — |
-| `bsc-imo` | BSC-IMO | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BSC-IMO.pdf) | — |
-| `btmm` | BTMM | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BTMM.pdf) | — |
-| `cbp` | CBP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CBP.pdf) | — |
-| `cbp-e` | CBP-E | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CBP-E.pdf) | — |
-| `cc-dsf` | CC-DSF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CC-DSF.pdf) | — |
-| `cca-info` | CCA-INFO | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-INFO.pdf) | — |
-| `cca-sf` | CCA-SF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-SF.pdf) | — |
-| `cgdl-crs` | CGDL-CRS | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CGDL-CRS.pdf) | — |
-| `chp` | CHP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CHP.pdf) | — |
-| `cisr-sf` | CISR-SF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CISR-SF.pdf) | — |
-| `cpp` | CPP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CPP.pdf) | — |
-| `crest` | CREST | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CREST.pdf) | — |
-| `crp` | CRP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CRP.pdf) | — |
-| `crpp` | CRPP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CRPP.pdf) | — |
-| `crtp` | CRTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CRTP.pdf) | — |
-| `cs-green-tariff` | CS-Green_Tariff | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CS-Green_Tariff.pdf) | — |
-| `d-fera` | D-FERA | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-FERA.pdf) | — |
-| `d-sdp` | D-SDP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-SDP.pdf) | — |
-| `da-lratc` | DA-LRATC | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DA-LRATC.pdf) | — |
-| `da-rcsc` | DA-RCSC | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DA-RCSC.pdf) | — |
-| `dac-green-tariff` | DAC-Green_Tariff | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DAC-Green_Tariff.pdf) | — |
-| `de` | DE | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DE.pdf) | — |
-| `dl-nbc` | DL-NBC | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DL-NBC.pdf) | — |
-| `dm` | DM | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DM.pdf) | — |
-| `dms-1` | DMS-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DMS-1.pdf) | — |
-| `dms-2` | DMS-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DMS-2.pdf) | — |
-| `dms-3` | DMS-3 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DMS-3.pdf) | — |
-| `dr-crpp` | DR-CRPP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DR-CRPP.pdf) | — |
-| `drp-sf` | DRP-SF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DRP-SF.pdf) | — |
-| `dwl` | DWL | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_DWL.pdf) | — |
-| `edr-a` | EDR-A | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EDR-A.pdf) | — |
-| `edr-e` | EDR-E | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EDR-E.pdf) | — |
-| `edr-r` | EDR-R | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EDR-R.pdf) | — |
-| `eite` | EITE | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EITE.pdf) | — |
-| `esc-oo` | ESC-OO | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_ESC-OO.pdf) | — |
-| `esp-dsf` | ESP-DSF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_ESP-DSF.pdf) | — |
-| `esp-ndsf` | ESP-NDSF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_ESP-NDSF.pdf) | — |
-| `fc-nem` | FC-NEM | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_FC-NEM.pdf) | — |
-| `gms` | GMS | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GMS.pdf) | — |
-| `gs-1` | GS-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_GS-1.pdf) | — |
-| `gs-2` | GS-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_GS-2.pdf) | — |
-| `gs-aps-e` | GS-APS-E | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_GS-APS-E.pdf) | — |
-| `gsn` | GSN | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GSN.pdf) | — |
-| `gtsr-cr` | GTSR-CR | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GTSR-CR.pdf) | — |
-| `gtsr-gr` | GTSR-GR | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GTSR-GR.pdf) | — |
-| `ls-1` | LS-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_LS-1.pdf) | — |
-| `ls-2` | LS-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_LS-2.pdf) | — |
-| `ls-3` | LS-3 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_LS-3.pdf) | — |
-| `mash-vnm` | MASH-VNM | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_MASH-VNM.pdf) | — |
-| `mash-vnm-st` | MASH-VNM-ST | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_MASH-VNM-ST.pdf) | — |
-| `me` | ME | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_ME.pdf) | — |
-| `mpmt` | MPMT | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_MPMT.pdf) | — |
-| `nbt-v` | NBT-V | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NBT-V.pdf) | — |
-| `nem` | NEM | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM.pdf) | — |
-| `nem-st` | NEM-ST | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM-ST.pdf) | — |
-| `nem-v` | NEM-V | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM-V.pdf) | — |
-| `nem-v-st` | NEM-V-ST | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM-V-ST.pdf) | — |
-| `nmdl` | NMDL | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NMDL.pdf) | — |
-| `nsec` | NSEC | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NSEC.pdf) | — |
-| `obf` | OBF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBF.pdf) | — |
-| `obf-2` | OBF-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBF-2.pdf) | — |
-| `obmc` | OBMC | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBMC.pdf) | — |
-| `obr` | OBR | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBR.pdf) | — |
-| `ol-1` | OL-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_OL-1.pdf) | — |
-| `pa-1` | PA-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_PA-1.pdf) | — |
-| `pa-2` | PA-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_PA-2.pdf) | — |
-| `parf` | PARF | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PARF.pdf) | — |
-| `pc-tbs` | PC-TBS | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PC-TBS.pdf) | — |
-| `pevsp-2` | PEVSP_2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PEVSP_2.pdf) | — |
-| `pvs` | PVS | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PVS.pdf) | — |
-| `pvs-2` | PVS-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PVS-2.pdf) | — |
-| `re-mat` | Re-MAT | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_Re-MAT.pdf) | — |
-| `res-bct` | RES-BCT | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_RES-BCT.pdf) | — |
-| `rf-e` | RF-E | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_RF-E.pdf) | — |
-| `s` | S | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_S.pdf) | — |
-| `sc` | SC | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SC.pdf) | — |
-| `sep` | SEP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_SEP.pdf) | — |
-| `slrp` | SLRP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SLRP.pdf) | — |
-| `somah-vnm` | SOMAH-VNM | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SOMAH-VNM.pdf) | — |
-| `spesd` | SPESD | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SPESD.pdf) | — |
-| `spss` | SPSS | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SPSS.pdf) | — |
-| `tc-1` | TC-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_TC-1.pdf) | — |
-| `tmdl` | TMDL | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_TMDL.pdf) | — |
-| `tou-8` | TOU-8 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8.pdf) | — |
-| `tou-8-rbu` | TOU-8-RBU | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-RBU.pdf) | — |
-| `tou-8-rtp` | TOU-8-RTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-RTP.pdf) | — |
-| `tou-8-rtp-s` | TOU-8-RTP-S | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-RTP-S.pdf) | — |
-| `tou-8-s` | TOU-8-S | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-S.pdf) | — |
-| `tou-bip` | TOU-BIP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-BIP.pdf) | — |
-| `tou-d-t` | TOU-D-T | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D-T.pdf) | — |
-| `tou-ev-7` | TOU-EV-7 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-EV-7.pdf) | — |
-| `tou-ev-8` | TOU-EV-8 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-EV-8.pdf) | — |
-| `tou-ev-9` | TOU-EV-9 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-EV-9.pdf) | — |
-| `tou-gs-1` | TOU-GS-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-1.pdf) | — |
-| `tou-gs-1-rtp` | TOU-GS-1-RTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-1-RTP.pdf) | — |
-| `tou-gs-2` | TOU-GS-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-2.pdf) | — |
-| `tou-gs-2-rtp` | TOU-GS-2-RTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-2-RTP.pdf) | — |
-| `tou-gs-3` | TOU-GS-3 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-3.pdf) | — |
-| `tou-gs-3-rtp` | TOU-GS-3-RTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-3-RTP.pdf) | — |
-| `tou-pa-2` | TOU-PA-2 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-2.pdf) | — |
-| `tou-pa-2-rtp` | TOU-PA-2-RTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-2-RTP.pdf) | — |
-| `tou-pa-3` | TOU-PA-3 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-3.pdf) | — |
-| `tou-pa-3-rtp` | TOU-PA-3-RTP | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-3-RTP.pdf) | — |
-| `uclt` | UCLT | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_UCLT.pdf) | — |
-| `v2g-pilot` | V2G_PILOT | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_V2G_PILOT.pdf) | — |
-| `water` | WATER | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WATER.pdf) | — |
-| `wi-fi-1` | WI-FI-1 | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WI-FI-1.pdf) | — |
-| `wtr` | WTR | [link](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WTR.pdf) | — |
+| `al-2` | AL-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_AL-2.pdf) | 12 |
+| `ap-i` | AP_-_I | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_AP_-_I.pdf) | — |
+| `biomat` | BIOMAT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BIOMAT.pdf) | — |
+| `bsc-imo` | BSC-IMO | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BSC-IMO.pdf) | — |
+| `btmm` | BTMM | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BTMM.pdf) | — |
+| `cbp` | CBP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CBP.pdf) | — |
+| `cbp-e` | CBP-E | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CBP-E.pdf) | — |
+| `cc-dsf` | CC-DSF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CC-DSF.pdf) | — |
+| `cca-info` | CCA-INFO | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-INFO.pdf) | — |
+| `cca-sf` | CCA-SF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-SF.pdf) | — |
+| `cgdl-crs` | CGDL-CRS | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CGDL-CRS.pdf) | — |
+| `chp` | CHP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CHP.pdf) | — |
+| `cisr-sf` | CISR-SF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CISR-SF.pdf) | — |
+| `cpp` | CPP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CPP.pdf) | — |
+| `crest` | CREST | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CREST.pdf) | — |
+| `crp` | CRP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CRP.pdf) | — |
+| `crpp` | CRPP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CRPP.pdf) | — |
+| `crtp` | CRTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CRTP.pdf) | — |
+| `cs-green-tariff` | CS-Green_Tariff | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CS-Green_Tariff.pdf) | — |
+| `d-fera` | D-FERA | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-FERA.pdf) | — |
+| `d-sdp` | D-SDP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-SDP.pdf) | — |
+| `da-lratc` | DA-LRATC | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DA-LRATC.pdf) | — |
+| `da-rcsc` | DA-RCSC | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DA-RCSC.pdf) | — |
+| `dac-green-tariff` | DAC-Green_Tariff | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DAC-Green_Tariff.pdf) | — |
+| `de` | DE | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DE.pdf) | — |
+| `dl-nbc` | DL-NBC | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DL-NBC.pdf) | — |
+| `dm` | DM | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DM.pdf) | — |
+| `dms-1` | DMS-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DMS-1.pdf) | — |
+| `dms-2` | DMS-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DMS-2.pdf) | — |
+| `dms-3` | DMS-3 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_DMS-3.pdf) | — |
+| `dr-crpp` | DR-CRPP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DR-CRPP.pdf) | — |
+| `drp-sf` | DRP-SF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DRP-SF.pdf) | — |
+| `dwl` | DWL | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_DWL.pdf) | — |
+| `edr-a` | EDR-A | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EDR-A.pdf) | — |
+| `edr-e` | EDR-E | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EDR-E.pdf) | — |
+| `edr-r` | EDR-R | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EDR-R.pdf) | — |
+| `eite` | EITE | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_EITE.pdf) | — |
+| `esc-oo` | ESC-OO | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_ESC-OO.pdf) | — |
+| `esp-dsf` | ESP-DSF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_ESP-DSF.pdf) | — |
+| `esp-ndsf` | ESP-NDSF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_ESP-NDSF.pdf) | — |
+| `fc-nem` | FC-NEM | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_FC-NEM.pdf) | — |
+| `gms` | GMS | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GMS.pdf) | — |
+| `gs-1` | GS-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_GS-1.pdf) | — |
+| `gs-2` | GS-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_GS-2.pdf) | — |
+| `gs-aps-e` | GS-APS-E | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_GS-APS-E.pdf) | — |
+| `gsn` | GSN | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GSN.pdf) | — |
+| `gtsr-cr` | GTSR-CR | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GTSR-CR.pdf) | — |
+| `gtsr-gr` | GTSR-GR | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_GTSR-GR.pdf) | — |
+| `ls-1` | LS-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_LS-1.pdf) | — |
+| `ls-2` | LS-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_LS-2.pdf) | — |
+| `ls-3` | LS-3 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_LS-3.pdf) | — |
+| `mash-vnm` | MASH-VNM | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_MASH-VNM.pdf) | — |
+| `mash-vnm-st` | MASH-VNM-ST | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_MASH-VNM-ST.pdf) | — |
+| `me` | ME | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_ME.pdf) | — |
+| `mpmt` | MPMT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_MPMT.pdf) | — |
+| `nbt-v` | NBT-V | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NBT-V.pdf) | — |
+| `nem` | NEM | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM.pdf) | — |
+| `nem-st` | NEM-ST | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM-ST.pdf) | — |
+| `nem-v` | NEM-V | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM-V.pdf) | — |
+| `nem-v-st` | NEM-V-ST | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NEM-V-ST.pdf) | — |
+| `nmdl` | NMDL | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NMDL.pdf) | — |
+| `nsec` | NSEC | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NSEC.pdf) | — |
+| `obf` | OBF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBF.pdf) | — |
+| `obf-2` | OBF-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBF-2.pdf) | — |
+| `obmc` | OBMC | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBMC.pdf) | — |
+| `obr` | OBR | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_OBR.pdf) | — |
+| `ol-1` | OL-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_OL-1.pdf) | — |
+| `pa-1` | PA-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_PA-1.pdf) | — |
+| `pa-2` | PA-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_PA-2.pdf) | — |
+| `parf` | PARF | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PARF.pdf) | — |
+| `pc-tbs` | PC-TBS | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PC-TBS.pdf) | — |
+| `pevsp-2` | PEVSP_2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PEVSP_2.pdf) | — |
+| `pvs` | PVS | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PVS.pdf) | — |
+| `pvs-2` | PVS-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_PVS-2.pdf) | — |
+| `re-mat` | Re-MAT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_Re-MAT.pdf) | — |
+| `res-bct` | RES-BCT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_RES-BCT.pdf) | — |
+| `rf-e` | RF-E | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_RF-E.pdf) | — |
+| `s` | S | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_S.pdf) | — |
+| `sc` | SC | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SC.pdf) | — |
+| `sep` | SEP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_SEP.pdf) | — |
+| `slrp` | SLRP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SLRP.pdf) | — |
+| `somah-vnm` | SOMAH-VNM | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SOMAH-VNM.pdf) | — |
+| `spesd` | SPESD | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SPESD.pdf) | — |
+| `spss` | SPSS | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_SPSS.pdf) | — |
+| `tc-1` | TC-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_TC-1.pdf) | — |
+| `tmdl` | TMDL | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_TMDL.pdf) | — |
+| `tou-8` | TOU-8 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8.pdf) | — |
+| `tou-8-rbu` | TOU-8-RBU | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-RBU.pdf) | — |
+| `tou-8-rtp` | TOU-8-RTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-RTP.pdf) | — |
+| `tou-8-rtp-s` | TOU-8-RTP-S | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-RTP-S.pdf) | — |
+| `tou-8-s` | TOU-8-S | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-8-S.pdf) | — |
+| `tou-bip` | TOU-BIP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-BIP.pdf) | — |
+| `tou-d-t` | TOU-D-T | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D-T.pdf) | — |
+| `tou-ev-7` | TOU-EV-7 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-EV-7.pdf) | — |
+| `tou-ev-8` | TOU-EV-8 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-EV-8.pdf) | — |
+| `tou-ev-9` | TOU-EV-9 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-EV-9.pdf) | — |
+| `tou-gs-1` | TOU-GS-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-1.pdf) | — |
+| `tou-gs-1-rtp` | TOU-GS-1-RTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-1-RTP.pdf) | — |
+| `tou-gs-2` | TOU-GS-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-2.pdf) | — |
+| `tou-gs-2-rtp` | TOU-GS-2-RTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-2-RTP.pdf) | — |
+| `tou-gs-3` | TOU-GS-3 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-3.pdf) | — |
+| `tou-gs-3-rtp` | TOU-GS-3-RTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/General%20Service%20%26%20Industrial%20Rates/ELECTRIC_SCHEDULES_TOU-GS-3-RTP.pdf) | — |
+| `tou-pa-2` | TOU-PA-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-2.pdf) | — |
+| `tou-pa-2-rtp` | TOU-PA-2-RTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-2-RTP.pdf) | — |
+| `tou-pa-3` | TOU-PA-3 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-3.pdf) | — |
+| `tou-pa-3-rtp` | TOU-PA-3-RTP | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_TOU-PA-3-RTP.pdf) | — |
+| `uclt` | UCLT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_UCLT.pdf) | — |
+| `v2g-pilot` | V2G_PILOT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_V2G_PILOT.pdf) | — |
+| `water` | WATER | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WATER.pdf) | — |
+| `wi-fi-1` | WI-FI-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WI-FI-1.pdf) | — |
+| `wtr` | WTR | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WTR.pdf) | — |
 
 <details><summary>51 observed name(s) matching no schedule</summary>
 
@@ -260,153 +260,153 @@ Modeled here, cited no document this inventory names: `care`, `drah`. Each is ei
 
 | Schedule | Code | Status | Document | Demand signal |
 |---|---|---|---|---:|
-| `vgi` | VGI | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=877) | 456 |
-| `al-tou-l` | AL-TOU-L | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=24) | 285 |
-| `dg-r-l` | DG-R-L | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=582) | 280 |
-| `al-tou2` | AL-TOU2 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=934) | 250 |
-| `tou-a` | TOU-A | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=777) | 129 |
-| `tou-m` | TOU-M | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=42) | 116 |
-| `tou-a2` | TOU-A2 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=920) | 103 |
-| `tou-a3` | TOU-A3 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=931) | 103 |
-| `a6-tou` | A6-TOU | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=29) | 93 |
-| `tou-pa3` | TOU-PA3 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=933) | 74 |
-| `pa-t-1` | PA-T-1 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=73) | 50 |
-| `ev-hp` | EV-HP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1018) | 47 |
-| `ol-tou` | OL-TOU | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=646) | 46 |
-| `tou-pa` | TOU-PA | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=779) | 40 |
-| `tou-pa2` | TOU-PA2 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=932) | 26 |
-| `ls-2-ad` | LS-2 AD | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=939) | 4 |
-| `20-20` | 20/20 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=345) | — |
-| `a` | A | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=21) | — |
-| `a-tc` | A-TC | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=22) | — |
-| `a-v1` | A-V1 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=30) | — |
-| `a-v2` | A-V2 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=31) | — |
-| `a-v3` | A-V3 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=32) | — |
-| `ac-saver` | AC SAVER | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=867) | — |
-| `ad` | AD | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=23) | — |
-| `afp` | AFP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=868) | — |
-| `al-tou-cp` | AL-TOU-CP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=216) | — |
-| `al-tou-der` | AL-TOU-DER | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=25) | — |
-| `al-tou-m` | AL-TOU-M | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1164) | — |
-| `ao-tou` | AO-TOU | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=28) | — |
-| `ay-tou` | AY-TOU | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=27) | — |
-| `biomat` | BIOMAT | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=855) | — |
-| `bip` | BIP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=61) | — |
-| `btmm` | BTMM | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1037) | — |
-| `cbp` | CBP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=511) | — |
-| `cca` | CCA | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=340) | — |
-| `cca-crs` | CCA-CRS | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=339) | — |
-| `cca-info` | CCA-INFO | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=341) | — |
-| `cgdl-crs` | CGDL-CRS | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=231) | — |
-| `chp` | CHP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=684) | — |
-| `cre` | CRE | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=617) | — |
-| `csgt` | CSGT | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=953) | — |
-| `d-smf` | D-SMF | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=15) | — |
-| `da` | DA | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=50) | — |
-| `da-crs` | DA-CRS | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=223) | — |
-| `dac-gt` | DAC-GT | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=952) | — |
-| `dbp` | DBP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=68) | — |
-| `dbp-da` | DBP-DA | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=763) | — |
-| `dbp-e` | DBP-E | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=386) | — |
-| `dbp2` | DBP2 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=724) | — |
-| `de` | DE | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=20) | — |
-| `derpp` | DERPP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1133) | — |
-| `dg-r-m` | DG-R-M | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1165) | — |
-| `dm` | DM | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=11) | — |
-| `dr-li` | DR-LI | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=9) | — |
-| `dr-tou` | DR-TOU | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=69) | — |
-| `dr-tou-2` | DR-TOU-2 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=70) | — |
-| `dr-tou-der` | DR-TOU-DER | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=16) | — |
-| `drwmp` | DRWMP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=676) | — |
-| `ds` | DS | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=12) | — |
-| `ds-dt-dt-rv` | DS, DT, DT-RV | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1159) | — |
-| `dt` | DT | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=13) | — |
-| `dt-rv` | DT-RV | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=14) | — |
-| `dwl` | DWL | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=41) | — |
-| `dwr-bc` | DWR-BC | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=219) | — |
-| `e-care` | E-CARE | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=383) | — |
-| `e-depart` | E-DEPART | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=52) | — |
-| `e-drp` | E-DRP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=848) | — |
-| `e-li` | E-LI | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=10) | — |
-| `e-medical` | E-MEDICAL | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1170) | — |
-| `e-pipp` | E-PIPP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1057) | — |
-| `e-puc` | E-PUC | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=53) | — |
-| `e-smop` | E-SMOP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=711) | — |
-| `ecr` | ECR | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=842) | — |
-| `ecr-pdt` | ECR-PDT | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=856) | — |
-| `edr` | EDR | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=985) | — |
-| `eecc` | EECC | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=51) | — |
-| `eecc-cpp-d` | EECC-CPP-D | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=376) | — |
-| `eecc-cpp-d-ag` | EECC-CPP-D-AG | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=785) | — |
-| `eecc-cpp-e` | EECC-CPP-E | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=354) | — |
-| `eecc-cpp-f` | EECC-CPP-F | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=229) | — |
-| `eecc-cpp-v` | EECC-CPP-V | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=228) | — |
-| `eecc-cpp-vol` | EECC-CPP-VOL | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=262) | — |
-| `eecc-ev-tou-5-p` | EECC-EV-TOU-5-P | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1084) | — |
-| `eecc-hpo` | EECC-HPO | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=193) | — |
-| `eecc-tbs` | EECC-TBS | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=261) | — |
-| `eecc-tou` | EECC-TOU | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=230) | — |
-| `eecc-tou-a-p` | EECC-TOU-A-P | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=778) | — |
-| `eecc-tou-dr-p` | EECC-TOU-DR-P | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=776) | — |
-| `eecc-tou-pa-p` | EECC-TOU-PA-P | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=780) | — |
-| `epev-x` | EPEV-X | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=663) | — |
-| `epev-y` | EPEV-Y | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=664) | — |
-| `epev-z` | EPEV-Z | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=665) | — |
-| `ev-tou-3` | EV-TOU-3 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=19) | — |
-| `fbd` | FBD | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=918) | — |
-| `fta` | FTA | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=43) | — |
-| `ghg-arr` | GHG-ARR | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=786) | — |
-| `gt` | GT | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=843) | — |
-| `i-3` | I-3 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=36) | — |
-| `ls-1` | LS-1 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=37) | — |
-| `ls-2` | LS-2 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=38) | — |
-| `ls-2-ds` | LS-2 DS | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=938) | — |
-| `ls-3` | LS-3 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=39) | — |
-| `mpl` | MPL | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=63) | — |
-| `mpmet` | MPMET | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1139) | — |
-| `nbt-v` | NBT-V | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1130) | — |
-| `nda` | NDA | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=59) | — |
-| `nem` | NEM | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=57) | — |
-| `nem-bio` | NEM-BIO | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=227) | — |
-| `nem-fc` | NEM-FC | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=306) | — |
-| `nem-st` | NEM-ST | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=871) | — |
-| `nem-v` | NEM-V | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=702) | — |
-| `nem-v-st` | NEM-V-ST | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=872) | — |
-| `nj` | NJ | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=34) | — |
-| `obmc` | OBMC | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=62) | — |
-| `ol-1` | OL-1 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=40) | — |
-| `ol-2` | OL-2 | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=649) | — |
-| `pa` | PA | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=45) | — |
-| `pa-tou` | PA-TOU | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=72) | — |
-| `peak-day-credit` | Peak Day Credit | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=344) | — |
-| `pevsp` | PEVSP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=802) | — |
-| `pevsp2` | PEVSP2 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=879) | — |
-| `pg` | PG | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=71) | — |
-| `plp` | PLP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=632) | — |
-| `ptr` | PTR | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=584) | — |
-| `public-gir` | PUBLIC GIR | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=937) | — |
-| `purpa` | PURPA | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1132) | — |
-| `rbrp` | RBRP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=67) | — |
-| `remat` | ReMAT | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=727) | — |
-| `res-bct` | RES-BCT | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=639) | — |
-| `rtp-2` | RTP-2 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=75) | — |
-| `s` | S | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=47) | — |
-| `s-i` | S-I | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=48) | — |
-| `se` | SE | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=49) | — |
-| `slrp` | SLRP | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=66) | — |
-| `spes` | SPES | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=908) | — |
-| `spss` | SPSS | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=515) | — |
-| `tou-dr-e1` | TOU-DR-E1 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=864) | — |
-| `tou-dr-e2` | TOU-DR-E2 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=865) | — |
-| `tou-dr-e3` | TOU-DR-E3 | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=866) | — |
-| `tta-credit` | TTA CREDIT | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=54) | — |
-| `um` | UM | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=413) | — |
-| `vdrp` | VDRP | closed | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=60) | — |
-| `vnem-somah` | VNEM-SOMAH | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=936) | — |
-| `vnm-a` | VNM-A | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=627) | — |
-| `vnm-a-st` | VNM-A-ST | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=873) | — |
-| `water` | WATER | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=553) | — |
-| `wf-nbc` | WF-NBC | current | [link](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1014) | — |
+| `vgi` | VGI | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=877) | 456 |
+| `al-tou-l` | AL-TOU-L | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=24) | 285 |
+| `dg-r-l` | DG-R-L | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=582) | 280 |
+| `al-tou2` | AL-TOU2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=934) | 250 |
+| `tou-a` | TOU-A | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=777) | 129 |
+| `tou-m` | TOU-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=42) | 116 |
+| `tou-a2` | TOU-A2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=920) | 103 |
+| `tou-a3` | TOU-A3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=931) | 103 |
+| `a6-tou` | A6-TOU | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=29) | 93 |
+| `tou-pa3` | TOU-PA3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=933) | 74 |
+| `pa-t-1` | PA-T-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=73) | 50 |
+| `ev-hp` | EV-HP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1018) | 47 |
+| `ol-tou` | OL-TOU | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=646) | 46 |
+| `tou-pa` | TOU-PA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=779) | 40 |
+| `tou-pa2` | TOU-PA2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=932) | 26 |
+| `ls-2-ad` | LS-2 AD | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=939) | 4 |
+| `20-20` | 20/20 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=345) | — |
+| `a` | A | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=21) | — |
+| `a-tc` | A-TC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=22) | — |
+| `a-v1` | A-V1 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=30) | — |
+| `a-v2` | A-V2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=31) | — |
+| `a-v3` | A-V3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=32) | — |
+| `ac-saver` | AC SAVER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=867) | — |
+| `ad` | AD | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=23) | — |
+| `afp` | AFP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=868) | — |
+| `al-tou-cp` | AL-TOU-CP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=216) | — |
+| `al-tou-der` | AL-TOU-DER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=25) | — |
+| `al-tou-m` | AL-TOU-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1164) | — |
+| `ao-tou` | AO-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=28) | — |
+| `ay-tou` | AY-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=27) | — |
+| `biomat` | BIOMAT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=855) | — |
+| `bip` | BIP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=61) | — |
+| `btmm` | BTMM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1037) | — |
+| `cbp` | CBP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=511) | — |
+| `cca` | CCA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=340) | — |
+| `cca-crs` | CCA-CRS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=339) | — |
+| `cca-info` | CCA-INFO | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=341) | — |
+| `cgdl-crs` | CGDL-CRS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=231) | — |
+| `chp` | CHP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=684) | — |
+| `cre` | CRE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=617) | — |
+| `csgt` | CSGT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=953) | — |
+| `d-smf` | D-SMF | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=15) | — |
+| `da` | DA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=50) | — |
+| `da-crs` | DA-CRS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=223) | — |
+| `dac-gt` | DAC-GT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=952) | — |
+| `dbp` | DBP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=68) | — |
+| `dbp-da` | DBP-DA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=763) | — |
+| `dbp-e` | DBP-E | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=386) | — |
+| `dbp2` | DBP2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=724) | — |
+| `de` | DE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=20) | — |
+| `derpp` | DERPP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1133) | — |
+| `dg-r-m` | DG-R-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1165) | — |
+| `dm` | DM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=11) | — |
+| `dr-li` | DR-LI | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=9) | — |
+| `dr-tou` | DR-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=69) | — |
+| `dr-tou-2` | DR-TOU-2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=70) | — |
+| `dr-tou-der` | DR-TOU-DER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=16) | — |
+| `drwmp` | DRWMP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=676) | — |
+| `ds` | DS | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=12) | — |
+| `ds-dt-dt-rv` | DS, DT, DT-RV | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1159) | — |
+| `dt` | DT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=13) | — |
+| `dt-rv` | DT-RV | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=14) | — |
+| `dwl` | DWL | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=41) | — |
+| `dwr-bc` | DWR-BC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=219) | — |
+| `e-care` | E-CARE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=383) | — |
+| `e-depart` | E-DEPART | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=52) | — |
+| `e-drp` | E-DRP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=848) | — |
+| `e-li` | E-LI | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=10) | — |
+| `e-medical` | E-MEDICAL | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1170) | — |
+| `e-pipp` | E-PIPP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1057) | — |
+| `e-puc` | E-PUC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=53) | — |
+| `e-smop` | E-SMOP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=711) | — |
+| `ecr` | ECR | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=842) | — |
+| `ecr-pdt` | ECR-PDT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=856) | — |
+| `edr` | EDR | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=985) | — |
+| `eecc` | EECC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=51) | — |
+| `eecc-cpp-d` | EECC-CPP-D | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=376) | — |
+| `eecc-cpp-d-ag` | EECC-CPP-D-AG | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=785) | — |
+| `eecc-cpp-e` | EECC-CPP-E | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=354) | — |
+| `eecc-cpp-f` | EECC-CPP-F | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=229) | — |
+| `eecc-cpp-v` | EECC-CPP-V | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=228) | — |
+| `eecc-cpp-vol` | EECC-CPP-VOL | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=262) | — |
+| `eecc-ev-tou-5-p` | EECC-EV-TOU-5-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1084) | — |
+| `eecc-hpo` | EECC-HPO | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=193) | — |
+| `eecc-tbs` | EECC-TBS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=261) | — |
+| `eecc-tou` | EECC-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=230) | — |
+| `eecc-tou-a-p` | EECC-TOU-A-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=778) | — |
+| `eecc-tou-dr-p` | EECC-TOU-DR-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=776) | — |
+| `eecc-tou-pa-p` | EECC-TOU-PA-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=780) | — |
+| `epev-x` | EPEV-X | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=663) | — |
+| `epev-y` | EPEV-Y | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=664) | — |
+| `epev-z` | EPEV-Z | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=665) | — |
+| `ev-tou-3` | EV-TOU-3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=19) | — |
+| `fbd` | FBD | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=918) | — |
+| `fta` | FTA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=43) | — |
+| `ghg-arr` | GHG-ARR | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=786) | — |
+| `gt` | GT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=843) | — |
+| `i-3` | I-3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=36) | — |
+| `ls-1` | LS-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=37) | — |
+| `ls-2` | LS-2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=38) | — |
+| `ls-2-ds` | LS-2 DS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=938) | — |
+| `ls-3` | LS-3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=39) | — |
+| `mpl` | MPL | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=63) | — |
+| `mpmet` | MPMET | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1139) | — |
+| `nbt-v` | NBT-V | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1130) | — |
+| `nda` | NDA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=59) | — |
+| `nem` | NEM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=57) | — |
+| `nem-bio` | NEM-BIO | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=227) | — |
+| `nem-fc` | NEM-FC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=306) | — |
+| `nem-st` | NEM-ST | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=871) | — |
+| `nem-v` | NEM-V | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=702) | — |
+| `nem-v-st` | NEM-V-ST | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=872) | — |
+| `nj` | NJ | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=34) | — |
+| `obmc` | OBMC | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=62) | — |
+| `ol-1` | OL-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=40) | — |
+| `ol-2` | OL-2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=649) | — |
+| `pa` | PA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=45) | — |
+| `pa-tou` | PA-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=72) | — |
+| `peak-day-credit` | Peak Day Credit | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=344) | — |
+| `pevsp` | PEVSP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=802) | — |
+| `pevsp2` | PEVSP2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=879) | — |
+| `pg` | PG | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=71) | — |
+| `plp` | PLP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=632) | — |
+| `ptr` | PTR | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=584) | — |
+| `public-gir` | PUBLIC GIR | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=937) | — |
+| `purpa` | PURPA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1132) | — |
+| `rbrp` | RBRP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=67) | — |
+| `remat` | ReMAT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=727) | — |
+| `res-bct` | RES-BCT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=639) | — |
+| `rtp-2` | RTP-2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=75) | — |
+| `s` | S | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=47) | — |
+| `s-i` | S-I | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=48) | — |
+| `se` | SE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=49) | — |
+| `slrp` | SLRP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=66) | — |
+| `spes` | SPES | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=908) | — |
+| `spss` | SPSS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=515) | — |
+| `tou-dr-e1` | TOU-DR-E1 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=864) | — |
+| `tou-dr-e2` | TOU-DR-E2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=865) | — |
+| `tou-dr-e3` | TOU-DR-E3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=866) | — |
+| `tta-credit` | TTA CREDIT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=54) | — |
+| `um` | UM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=413) | — |
+| `vdrp` | VDRP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=60) | — |
+| `vnem-somah` | VNEM-SOMAH | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=936) | — |
+| `vnm-a` | VNM-A | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=627) | — |
+| `vnm-a-st` | VNM-A-ST | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=873) | — |
+| `water` | WATER | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=553) | — |
+| `wf-nbc` | WF-NBC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1014) | — |
 
 <details><summary>9 observed name(s) matching no schedule</summary>
 

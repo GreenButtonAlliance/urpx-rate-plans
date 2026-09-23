@@ -42,10 +42,12 @@ import argparse
 import collections
 import datetime
 import hashlib
+import http.cookiejar
 import json
 import re
 import sqlite3
 import sys
+import threading
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -57,14 +59,85 @@ DB = REPO / "data" / "midas" / "midas.sqlite"
 OUT = REPO / "data" / "documents"
 MANIFEST = REPO / "data" / "documents.json"
 UA = {"User-Agent": "urpx-tariffs/1.0 (+https://github.com/grid-coordination/urpx-rate-plans)"}
+# SharePoint refuses the polite identifier; it serves a browser string.
+BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"}
 
-# Same rule the catalog uses, so the two reports cannot disagree about what
-# counts as a document.
+# Used ONLY on links this corpus is guessing about, which means MIDAS's
+# RatePlan_Url: most of those point at a landing page, so an extension is the
+# only signal that one is a document. It must NOT be applied to a URL an
+# inventory source supplied, because such a source has already asserted the URL
+# is that schedule's document, and SDG&E serves every one of its 158 documents
+# from an extensionless path (/tariff/?tarfKey=N). Applying this rule to those
+# excluded all 158 while the run still reported success.
 IS_DOC = re.compile(r"\.(pdf|xlsx?|docx?|ashx)(\?|$)", re.I)
 
 # MIDAS party segment -> utility directory, for documents only MIDAS names.
 SEGMENT_UTILITY = {"PGPG": "pge", "PGXX": "pge", "SCSC": "sce", "SCXX": "sce",
                    "SDSD": "sdge", "SDXX": "sdge", "LALA": "ladwp", "SMSM": "smud"}
+
+
+SP_HOST = "edisonintl.sharepoint.com"
+_sessions: dict[str, urllib.request.OpenerDirector] = {}
+_sessions_lock = threading.Lock()
+
+
+def sharepoint_session(share_url: str) -> urllib.request.OpenerDirector:
+    """An opener authorized for one SharePoint share.
+
+    Opening a `:f:` share link sets an anonymous FedAuth cookie scoped to that
+    share, and nothing under it is readable without one. The jar must be fresh
+    per share: a cookie from a different share returns 403. Cached per share so
+    that fetching a folder's files opens it once rather than once per file.
+    """
+    with _sessions_lock:
+        op = _sessions.get(share_url)
+        if op is not None:
+            return op
+    op = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+    op.open(urllib.request.Request(share_url, headers=dict(BROWSER_UA)), timeout=60).read()
+    with _sessions_lock:
+        _sessions[share_url] = op
+    return op
+
+
+def unwrap_multipart(body: bytes) -> bytes:
+    """SharePoint returns the file inside a multipart/form-data envelope.
+
+    Both the download endpoint and the file API answer 200 with bytes that begin
+    with a boundary marker rather than %PDF-. Hashing those would record the
+    envelope, and the envelope's boundary changes per response, so the sha256
+    would differ on every fetch of an unchanged document.
+    """
+    if body[:5] == b"%PDF-" or b"%PDF-" not in body[:4096]:
+        return body
+    start = body.find(b"%PDF-")
+    end = body.rfind(b"%%EOF")
+    if start < 0 or end < 0:
+        return body
+    return body[start:end + 5]
+
+
+def filename(url: str, target: dict, res: dict) -> str:
+    """What to call the file on disk.
+
+    Usually the URL's own basename, which is what a publisher meant it to be
+    called. SDG&E is the exception: every one of its documents is served from
+    the single path /tariff/, so the basename is "tariff" for all 158 and they
+    would overwrite each other. There the schedule the inventory attributes it
+    to is the name, which is also the more useful one.
+    """
+    name = Path(urllib.parse.unquote(urllib.parse.urlparse(url).path)).name
+    stem = Path(name).stem
+    if not stem or stem in ("tariff", "download", "index", "view", "file"):
+        sched = next((o.split(":", 1)[1] for o in target["segments"]
+                      if ":" in o and not o.startswith("midas:")), None)
+        if sched:
+            name = f"{sched}.pdf"
+    if "." not in name and (res.get("media_type") or "").endswith("pdf"):
+        name += ".pdf"
+    return re.sub(r"[^A-Za-z0-9._-]", "_", name) or "document"
 
 
 def owner(named_by: list[str]) -> str:
@@ -83,15 +156,20 @@ def owner(named_by: list[str]) -> str:
     return "unattributed"
 
 
-def normalize(url: str) -> tuple[str, str]:
+def normalize(url: str) -> tuple[str, str, str]:
     """Identity of the document behind a URL.
 
     PG&E publishes the same tariff at pge.com and www.pge.com, and escapes a
     space in some filenames and not others, so the raw URL over-counts.
+
+    The query string is part of the identity. SDG&E serves every schedule from
+    one path and distinguishes them only by tarfKey, so dropping the query
+    collapsed all 158 of its documents onto a single key and fetched one.
     """
     p = urllib.parse.urlparse(url.lower())
     return (p.netloc.removeprefix("www."),
-            urllib.parse.unquote(p.path).replace(" ", ""))
+            urllib.parse.unquote(p.path).replace(" ", ""),
+            urllib.parse.urlencode(sorted(urllib.parse.parse_qsl(p.query))))
 
 
 def _links():
@@ -100,14 +178,15 @@ def _links():
         c = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
         for rid, url in c.execute("SELECT rid, rate_plan_url FROM rate "
                                   "WHERE rate_plan_url IS NOT NULL AND rate_plan_url != ''"):
-            yield url, f"midas:{rid[5:9]}", 1
+            yield url, f"midas:{rid[5:9]}", 1, None, None
     inv = REPO / "data" / "inventories"
     for f in sorted(inv.glob("*.json")) if inv.exists() else []:
         d = json.loads(f.read_text())
         for sch, rec in d["schedules"].items():
             for src, body in rec.get("sources", {}).items():
                 if body.get("document_url"):
-                    yield body["document_url"], f"{d['utility']}:{sch}", 0
+                    yield (body["document_url"], f"{d['utility']}:{sch}", 0,
+                           body.get("share_url"), body.get("server_relative_url"))
 
 
 def load_targets() -> dict[str, dict]:
@@ -118,16 +197,34 @@ def load_targets() -> dict[str, dict]:
         raise SystemExit(3)
     seen: dict[str, dict] = {}
     groups: dict[tuple[str, str], str] = {}
-    for url, origin, weight in _links():
-        if not IS_DOC.search(url):
+    # Counted from the inventory files themselves, NOT from _links(), so that
+    # anything dropping documents anywhere in between is caught. Counting from
+    # the same pipeline being checked makes the guard vacuous: the first
+    # version did that and passed while 158 documents went missing.
+    named_by_inventory = collections.Counter()
+    inv = REPO / "data" / "inventories"
+    for f in sorted(inv.glob("*.json")) if inv.exists() else []:
+        d = json.loads(f.read_text())
+        named_by_inventory[d["utility"]] += sum(
+            1 for rec in d["schedules"].values()
+            for body in rec.get("sources", {}).values() if body.get("document_url"))
+
+    for url, origin, weight, share, srv in _links():
+        if weight and not IS_DOC.search(url):
+            # A guess, and it does not look like a document. Inventory-supplied
+            # URLs are never filtered here; see the note on IS_DOC.
             continue
         key = normalize(url)
         # Several URLs can name one document. Fetch the one the most identifiers
         # point at, and record the others as aliases rather than fetching twice.
         seen.setdefault(url, {"url": url, "identifiers": 0, "segments": set(),
-                              "key": key, "inventory": False})
+                              "key": key, "inventory": False,
+                              "share_url": share, "server_relative_url": srv})
         seen[url]["identifiers"] += weight
         seen[url]["segments"].add(origin)
+        if share and not seen[url].get("share_url"):
+            seen[url]["share_url"] = share
+            seen[url]["server_relative_url"] = srv
         if weight == 0:
             seen[url]["inventory"] = True
     # Prefer the spelling a utility's own tariff book uses as the one to fetch;
@@ -139,15 +236,32 @@ def load_targets() -> dict[str, dict]:
         d["canonical"] = groups[d["key"]]
         d["segments"] = sorted(d["segments"])
     if not seen:
-        print("REFUSING: the store holds no document links at all, which would "
-              "write an empty manifest that reads as 'the feed links nothing'.",
+        print("REFUSING: no source names a document at all, which would write an "
+              "empty manifest that reads as 'nothing publishes documents'.",
               file=sys.stderr)
         raise SystemExit(3)
+    # A utility whose inventory names documents must reach the fetch list. This
+    # exists because SDG&E's 158 silently did not, and the run still printed a
+    # success line naming a plausible total.
+    for util, n in named_by_inventory.items():
+        if not n:
+            # An inventory can legitimately name no document at all: SMUD's
+            # schedules come from an observed feed that carries no link.
+            continue
+        got = sum(1 for d in seen.values()
+                  if any(o.startswith(f"{util}:") for o in d["segments"]))
+        if not got:
+            print(f"REFUSING: {util}'s inventory names {n} document(s) and none "
+                  f"reached the fetch list. Continuing would report success "
+                  f"having fetched nothing for it.", file=sys.stderr)
+            raise SystemExit(3)
     return seen
 
 
-def fetch(url: str, prior: dict | None, recheck: bool) -> dict:
+def fetch(url: str, prior: dict | None, recheck: bool, target: dict | None = None) -> dict:
     """One document. Never raises: an unreachable host is a result, not a crash."""
+    if target and target.get("share_url") and SP_HOST in url:
+        return fetch_sharepoint(url, target)
     req = urllib.request.Request(url, headers=dict(UA))
     if prior and not recheck:
         if prior.get("etag"):
@@ -184,6 +298,37 @@ def fetch(url: str, prior: dict | None, recheck: bool) -> dict:
         return {"outcome": "unreachable", "note": f"{type(e).__name__}: {e}"}
 
 
+def fetch_sharepoint(url: str, target: dict) -> dict:
+    """A document behind a SharePoint anonymous share.
+
+    Fetching the rendered file path returns 403 even with the share cookie; the
+    download endpoint is what answers, and what it answers with is wrapped.
+    Neither Last-Modified nor ETag is usable here, so change detection is by
+    sha256 of the unwrapped bytes.
+    """
+    try:
+        op = sharepoint_session(target["share_url"])
+        srv = target.get("server_relative_url")
+        if not srv:
+            srv = urllib.parse.unquote(urllib.parse.urlparse(url).path)
+        dl = (f"https://{SP_HOST}/teams/Public/TM2/_layouts/15/download.aspx"
+              f"?SourceUrl={urllib.parse.quote(srv)}")
+        with op.open(urllib.request.Request(dl, headers=dict(BROWSER_UA)), timeout=120) as r:
+            body = unwrap_multipart(r.read())
+        if body[:5] != b"%PDF-":
+            return {"outcome": "not-a-document", "status": 200,
+                    "note": "the download endpoint answered 200 with something "
+                            "that is not a PDF even after unwrapping"}
+        return {"outcome": "fetched", "status": 200, "bytes": len(body),
+                "sha256": hashlib.sha256(body).hexdigest(),
+                "media_type": "application/pdf", "etag": None,
+                "last_modified": None, "final_url": None, "_body": body}
+    except urllib.error.HTTPError as e:
+        return {"outcome": "http-error", "status": e.code, "note": str(e.reason)}
+    except Exception as e:  # noqa: BLE001
+        return {"outcome": "unreachable", "note": f"{type(e).__name__}: {e}"}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -216,7 +361,7 @@ def main() -> int:
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         for url, res in zip(canonical, pool.map(
-                lambda u: fetch(u, prior.get(u), args.recheck), canonical)):
+                lambda u: fetch(u, prior.get(u), args.recheck, targets.get(u)), canonical)):
             t, p = targets[url], prior.get(url, {})
             body = res.pop("_body", None)
             # `state` is a fact about the document, not about this run: a row
@@ -246,9 +391,7 @@ def main() -> int:
                             src.replace(dst)
                         row["file"] = want
             elif res["outcome"] == "fetched":
-                name = Path(urllib.parse.unquote(urllib.parse.urlparse(url).path)).name
-                name = re.sub(r"[^A-Za-z0-9._-]", "_", name) or "document"
-                rel = f"{owner(t['segments'])}/{name}"
+                rel = f"{owner(t['segments'])}/{filename(url, t, res)}"
                 (OUT / rel).parent.mkdir(parents=True, exist_ok=True)
                 (OUT / rel).write_bytes(body)
                 row.update({"sha256": res["sha256"], "retrieved_on": today,
