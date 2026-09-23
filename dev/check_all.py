@@ -84,7 +84,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("lint_copy_divergence",        ["python3", "dev/lint_copy_divergence.py"]),
     ("lint_utility_manifests",      ["python3", "dev/lint_utility_manifests.py"]),
     ("lint_gaps_agree",             ["python3", "dev/lint_gaps_agree.py"]),
-    ("lint_consumer_version",       ["python3", "dev/lint_consumer_version.py"]),
+    ("lint_declared_versions",      ["python3", "dev/lint_declared_versions.py"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
     ("test_arrangements",           ["python3", "dev/test_arrangements.py"]),
     ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),

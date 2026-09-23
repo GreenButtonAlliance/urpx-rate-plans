@@ -208,7 +208,7 @@ def make_modifier(*, slug: str, slug_uppercase: str,
         "@context": CONTEXT,
         "@type": "urpx:URPXDocument",
         "@id": f"sce:doc-{slug}-{EFFECTIVE_DATE}",
-        "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.2.0/ontology/urpx-ontology.ttl",
+        "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
         "urpx:hasRatePlanModifier": {
             "@type": "urpx:RatePlanModifier",
             "@id": base_iri,
