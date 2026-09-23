@@ -64,20 +64,20 @@ The cross-filing consistency linter at [`dev/lint_consistency.py`](./dev/lint_co
 | --- | --- | --- |
 | `<country>` | `us` | ISO 3166-1 alpha-2. Explicit because a bare `ca` reads as either California or Canada. |
 | `<subdivision>` | `ca` | ISO 3166-2 subdivision code, here the state. Future: `or`, `wa`, etc. |
-| `<utility>` | e.g. `pge` | See below. A utility sits above the carrier because PG&E and SDG&E supply both gas and electricity. |
+| `<utility>` | e.g. `pge`, `sce`, `sdge`, `cpau`, `smud`, `sdcp`, `3ce` | Lowercase short name, the organization's own abbreviation where it has one. Sits above the carrier because PG&E and SDG&E supply both gas and electricity. Where an organization has renamed, the slug keeps the abbreviation its filings and customers still use: `pce` for WestLight Energy, `ebce` for Ava Community Energy. Every slug in use is listed in [reports/california-parties.md](reports/california-parties.md). |
 | `<carrier>` | `electricity` | The commodity, mirroring `urpx:commodity` on the filing itself. Present so gas or water can be added later without moving anything. |
-| `<utility>` | e.g. `pge`, `sce`, `sdge`, `cpau`, `smud`, `ladwp` | Lowercase short name. Match the EIA short name where one exists. |
 | `<schedule>` | e.g. `e-tou-c`, `e-1`, `ev2`, `e-care` | Lowercase, hyphenated form of the schedule code. |
 | `versions/<effective-date>` | ISO 8601 date, e.g. `2026-03-01` | The date this filing becomes effective, as published. |
 
 Example:
 
 ```
-us/ca/pge/electricity/utility.toml                            # per-utility discovery manifest (§5)
+us/ca/pge/utility.toml                                        # per-utility discovery manifest (§5)
 us/ca/pge/electricity/e-tou-c/versions/2026-03-01/            # per-filing directory (§4, §6, §7)
 us/ca/pge/electricity/e-tou-c/versions/2025-09-01/
-us/ca/cpau/electricity/utility.toml
+us/ca/cpau/utility.toml
 us/ca/cpau/electricity/e-1/versions/2025-07-01/
+us/ca/sdcp/utility.toml                                       # manifest only, no filing yet
 ```
 
 ### Why this nesting
@@ -247,7 +247,13 @@ paywalls, etc.
 
 Required fields are `utility` and `tariff_index_urls` (one or more discovery URLs). `scrape_notes` is optional but recommended — capture what a future scraper will need to know that isn't obvious from the URLs alone.
 
+`dev/lint_utility_manifests.py` runs in `check_all.py` and checks every manifest against the schema, that `utility` equals the directory it sits in, that no two directories claim the same utility, and that a directory holding filings also holds a manifest. The schema can state none of those four, because it never sees where a file sits or which files are absent.
+
+Three kinds of URL belong in `tariff_index_urls`, and they answer different questions. A **tariff library or book** is where a schedule's current document is fetched from. An **advice-letter listing** is what says a change happened. A **schedule inventory**, where the utility publishes one, is what says which schedules exist at all and which are grandfathered or closed; SCE's annual "Summary of Available Residential and Nonresidential Rates" is one. The third is the one that bounds a modeling backlog, because it is what distinguishes a schedule this corpus has not modeled from one no longer offered, and it is the easiest to overlook: it is often a PDF, which reads like a single document and is not.
+
 The schema is intentionally minimal. Richer fields (per-schedule URL templates, AL-listing endpoints, structured scrape recipes) can be added once a real scraper is built and tells us what it needs.
+
+**A `utility.toml` with no filing beside it is a normal shape, not an incomplete one.** It records that an organization sells electricity here, what it is called, and where its tariffs are published, which is what a modeler needs before any filing exists. Fifteen of the twenty-one directories are in that state, all community choice aggregators and one municipal utility. Nothing requires a filing: every generator and lint walks filings and finds none, and `coverage.py` counts customers only from filings, so such a directory contributes zero rather than distorting a figure.
 
 ## 6. IRI naming conventions
 
@@ -388,32 +394,52 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 ## 10b. Mined third-party metadata: `data/midas/`
 
 MIDAS is California's price server, not a tariff source, and none of its price
-series is stored here. What is stored is the metadata around a Rate
-Identification Number, mined by `dev/fetch_midas_metadata.py`, because it maps
-an identifier to a named utility, to a composition, and to the utility's own
-tariff document.
+series is stored here. What is mined by `dev/mine_midas.py` is the metadata
+around a Rate Identification Number, because it maps an identifier to a named
+party, to a composition, and sometimes to that party's own tariff document.
 
-| Path | Holds |
-| --- | --- |
-| `data/midas/rins.jsonl` | one record per identifier fetched: `RateName`, `AltRateName1/2`, `RateType`, `Sector`, `EndUse`, `RatePlan_Url`, `API_Url`, `SignupCloseDate`, `Description`, `LastUpdated`. Sorted by identifier, sorted keys, one per line. |
-| `data/midas/lookups/*.json` | the ten MIDAS reference tables. `distribution` and `energy` decode the two halves of a party segment into a named utility with a URL, which is how `XXSA` resolves to San Diego Community Power; `location` decodes the fourth field, where `0000` is All Areas. |
-| `data/midas/census.json` | the shape of the whole feed without storing it: identifier count, per-segment counts, sub-identifier counts, signal types, lookup-table sizes. |
+| Path | Tracked | Holds |
+| --- | --- | --- |
+| `data/midas/midas.sqlite` | no | the working store, one row per identifier, written in its own transaction as it arrives so an interrupted run loses at most the record in flight. |
+| `data/midas/rins.jsonl` | no | the full export, one JSON object per identifier, sorted by identifier with sorted keys. 31MB, and rebuildable from the store with `--export-only`, so it is not carried in git. |
+| `data/midas/lookups/*.json` | yes | the ten MIDAS reference tables. `distribution` and `energy` decode the two halves of a party segment into a named organization with a URL, which is how `XXSA` resolves to San Diego Community Power; `location` decodes the fourth field, where `0000` is All Areas. |
+| `data/midas/census.json` | yes | the shape of the whole feed without storing it: identifier count, per-segment counts, sub-identifier counts, signal types, lookup-table sizes. |
 
-**The store is idempotent and resumable, and both are testable.** Every record is
-keyed by identifier and re-fetched only when MIDAS reports a `LastUpdated` the
-store has not recorded, so a run that finds nothing new rewrites byte-identical
-files and `git diff` is empty. `--max-detail` bounds a run, so the store
-converges over several rather than attempting the whole feed at once.
+The two tracked files are what lets a reader see what the feed contains, and
+`reports/midas-catalog.md` and `reports/california-parties.md` are generated
+from the untracked store. Regenerating either needs a mine first.
+
+**The store is idempotent and resumable, and both are testable.** Every row
+carries the `LastUpdated` MIDAS reported when it was fetched, and a run fetches
+only identifiers the store has never seen or whose `LastUpdated` has moved, so a
+run that finds nothing new exports byte-identical bytes. `--limit` bounds a run,
+so the store can converge over several rather than attempting the whole feed at
+once.
 
 Idempotence rests on the payload's `LastUpdated` because nothing else is
 offered. Responses carry no `Last-Modified`, no `ETag` and no `Cache-Control`,
 and conditional requests are ignored: `If-Modified-Since` and `If-None-Match`
 are both answered `200` rather than `304`.
 
-Scope is deliberately not limited to the utilities this corpus models. The feed
-carries 74,097 identifiers over 33 party segments, most of them community choice
-aggregators, and mining them is how this corpus would learn what exists before
-modeling it.
+**Not every identifier in the feed is a rate.** As of the 2026-09-23 mine the
+listing reported 74,097 and the store holds 74,096. The one absent is
+`USCA-FLEX-ALRT-0000`, the CAISO Flex Alert status signal, which carries no
+`RateID` in its detail response because it is a grid signal rather than a rate.
+Several party segments are likewise test and research feeds rather than
+organizations, and `dev/list_california_parties.py` names the ones it excludes
+for that reason.
+
+Scope is deliberately not limited to the utilities this corpus models. As of the
+same mine the feed carried 74,097 identifiers over 33 party segments, most of
+them community choice aggregators, and mining them is how this corpus learns
+what exists before modeling it.
+
+**Every count drawn from this feed is point-in-time and has to say so.** MIDAS
+is live: parties appear, rename and withdraw, and identifier counts move daily.
+Both generated reports carry their as-of in the second line, read from the
+store's own fetch stamps rather than from the clock, so regenerating without
+re-mining does not silently restate the date. Figures quoted in prose, here and
+in a `utility.toml`, carry the mine date beside them for the same reason.
 
 ## 11. Reports: what each one measures
 
@@ -429,6 +455,8 @@ The two questions these reports keep apart are **servability** (can a price serv
 | `modifier-coverage.md` | `dev/lint_modifier_coverage.py` | Which modifiers a base RatePlan declares in `[modeling].applicable_modifiers` have a filing of their own (§4.4, Option A). A corpus-coverage gap report, not a servability one. |
 | `modifier-base-pairings.json` / `.edn` | `dev/list_modifier_base_pairings.py` | The compatibility graph, from `urpx:applicableToRatePlan`, at plan-identity grain. |
 | `version-continuity.md` / `.edn` | `dev/list_version_continuity.py` | What periods the corpus can price, per plan identity, from `[effective, expiration)` spans laid end to end. Gaps are backlog (a rate change we never captured, recoverable from the utility's archive) and do not fail; overlaps are modeling errors and do. Carries how long since each filing's source was last checked, which is the number that predicts the next gap. |
+| `midas-catalog.md` / `.edn` | `dev/list_midas_catalog.py` | What the mined MIDAS feed contains: parties, rate types, sectors, and which rate-plan links point at a tariff document rather than a landing page. Reads `data/midas/`, which is gitignored (§10b), so it is not in `check_all.py`'s step list and refuses rather than writing an empty report when the store is absent. |
+| `california-parties.md` | `dev/list_california_parties.py` | Every organization selling electricity in the MIDAS feed, with its party segment, the `<utility>` slug this corpus assigns it, whether it is investor-owned, publicly owned or a community choice aggregator, and whether it has filings yet. Same gitignored dependency and the same refusal. The investor-owned / publicly owned / community choice classification is asserted in the generator, because MIDAS carries none. |
 | `midas-coverage.md` / `.json` | `scripts/build-midas-coverage-report.py` | Which CPUC MIDAS rate identifiers this corpus or the price server covers. Networked, credentialed and slow, so it is deliberately NOT in `check_all.py`'s step list; its age is printed on every full run instead. |
 
 Servability figures are always *as of the recorded baseline*. `dev/baseline/marginal-rates.edn` is not auto-generated: re-record it deliberately with `clojure -M:validate --record-baseline` and review the diff.

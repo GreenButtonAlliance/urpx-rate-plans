@@ -23,6 +23,10 @@ __pycache__/
 # nREPL port file written by `clojure -M:nrepl`
 .nrepl-port
 
-# MIDAS working store: per-record SQLite, rebuilt from the API.
-# The committed artifact is data/midas/rins.jsonl, exported from it.
+# MIDAS working store and its per-identifier export. Both are rebuilt from
+# the API by dev/mine_midas.py; the export is 31MB of one line per identifier.
+# What IS committed from the mine is data/midas/census.json (the shape of the
+# whole feed) and data/midas/lookups/ (the ten reference tables), which are
+# small, and the reports generated from the store.
 data/midas/midas.sqlite*
+data/midas/rins.jsonl

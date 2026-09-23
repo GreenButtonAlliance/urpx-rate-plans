@@ -1,0 +1,24 @@
+# WestLight Energy utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §5.
+#
+# Seeded from the CEC MIDAS feed 2026-09-23. No tariff is modeled here yet.
+
+utility = "pce"
+
+tariff_index_urls = [
+ "https://www.westlightenergy.org",
+]
+
+scrape_notes = """
+NOT YET MODELED. This manifest records who publishes and where to look. No
+filing exists under this utility.
+
+MIDAS party segment XXPE, 3,618 rate identifiers as of 2026-09-23.
+WestLight Energy sells generation over PG&E's distribution network, so a customer's bill is a WestLight Energy generation rate composed with PG&E delivery. The PG&E half is modeled here under us/ca/pge.
+
+No per-schedule tariff document link is published: every identifier carries a null RatePlan_Url, so there is nothing to fetch from the feed and a scraper will have to find the rate sheets on the organization's own site.
+
+Per identifier the feed carries RateName, AltRateName1 naming the composition,
+RateType, Sector and EndUse. Mined metadata is in data/midas/ and every party
+is catalogued in reports/midas-catalog.md and reports/california-parties.md.
+"""

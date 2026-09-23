@@ -34,7 +34,6 @@ Those are the filings. The same strings are also written down outside the corpus
 
 | File | Tokens | Distinct |
 |---|---:|---:|
-| `data/midas/rins.jsonl` | 72,309 | 72,265 |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 7,632 | 10 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5,760 | 10 |
 | `reports/midas-coverage.json` | 5,225 | 5,225 |
@@ -48,6 +47,7 @@ Those are the filings. The same strings are also written down outside the corpus
 | `us/ca/pge/electricity/nbt/versions/2025-10-17/tariff.toml` | 4 | 4 |
 | `README.md` | 2 | 2 |
 | `dev/list_rate_identifiers.py` | 2 | 2 |
+| `LAYOUT.md` | 1 | 1 |
 | `scripts/build-sdge-nbt-prices-2025-01-27.py` | 1 | 1 |
 
 ## Provenance

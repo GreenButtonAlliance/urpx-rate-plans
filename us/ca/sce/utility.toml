@@ -1,5 +1,5 @@
 # SCE utility-level discovery manifest.
-# See schema/utility-manifest.schema.json and LAYOUT.md §10.
+# See schema/utility-manifest.schema.json and LAYOUT.md §5.
 
 utility = "sce"
 
@@ -50,9 +50,13 @@ tariff_index_urls = [
  # definitions modeled from regulatory sheets.
  "https://www.sce.com/save-money/rates-financing/residential-rate-plans",
 
- # ANCILLARY — annual rate-options summary PDF. Republished yearly
- # (filename includes the year). Authoritative overview of which
- # schedules are current vs grandfathered/closed.
+ # PRIMARY (schedule inventory) — annual rate-options summary PDF,
+ # republished yearly with the year in the filename. This is the one
+ # SCE document that states which schedules exist and which are
+ # grandfathered or closed, so it bounds the modeling work rather than
+ # describing one item of it: it is what says whether a schedule absent
+ # from this corpus is unmodeled or simply no longer offered. Start a
+ # coverage pass here, not at the tariff-book folder listing.
  "https://www.sce.com/sites/default/files/custom-files/PDF_Files/2025_Summary_of_Available_Residential_and_Nonresidential_Rates.pdf",
 ]
 
@@ -93,8 +97,13 @@ Verified omission: the ELECTRIC_SCHEDULES_TOU-D_2024.pdf and _2025.pdf
 reissuances both lack Sheets 12-17 because Special Conditions 1-6 were
 not re-filed in those years. This corpus's pre-2026-05-04 SCE filings
 were sourced from these reissuances and consequently had to fall back
-to SCE's customer-facing page for TOU period definitions; 
-re-sources from the live tariff book to fix this.
+to SCE's customer-facing page for TOU period definitions.
+
+Eight filings are still in that state, every one of them dated before
+2026-05-04: the seven 2025-11-15 residential filings, sourced from
+library.sce.com, and nbt/2025-04-23, sourced from www.sce.com. The eleven
+2026-03-20 filings come from the live tariff book. Re-sourcing the remaining
+eight is outstanding.
 
 Use the historical archive for time-series comparison or for citing
 what was effective during a historical window — NOT for current
