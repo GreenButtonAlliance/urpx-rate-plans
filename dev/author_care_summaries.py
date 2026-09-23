@@ -159,7 +159,7 @@ def main() -> int:
     made: dict[str, list[str]] = {"care": [], "fera": []}
     for b in bases:
         path = Path(b)
-        slug = path.parts[len(path.parts) - 4]
+        slug = corpus.parse_filing_path(path)[1]
         if f"{u}:{slug}" not in applicable:
             continue
         date = path.parent.name

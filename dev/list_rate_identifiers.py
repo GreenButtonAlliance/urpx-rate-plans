@@ -740,7 +740,11 @@ def scan_repo() -> list[dict]:
         if not hits:
             continue
         out.append({"file": rel, "tokens": len(hits), "distinct": len(set(hits)),
-                    "is_filing": rel.startswith("us/")})
+                    # COUNTRY_ROOTS rather than a literal "us/": that root is
+                    # dev/corpus.py's to know, and a second country added there
+                    # would otherwise have been classified as not-a-filing here.
+                    "is_filing": rel.startswith(
+                        tuple(f"{r}/" for r in corpus.COUNTRY_ROOTS))})
     if not out:
         raise Refuse(
             "no tracked file in the repository cites a rate identifier, which "

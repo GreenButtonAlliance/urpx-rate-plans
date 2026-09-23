@@ -36,9 +36,6 @@ REPORT_PATH = REPO_ROOT / "reports" / "coverage.md"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import corpus  # noqa: E402
 
-CORPUS_ROOT = REPO_ROOT / "us"
-
-
 @dataclass
 class ModeledRatePlan:
     utility: str
@@ -65,13 +62,13 @@ class UtilityCoverage:
 
 
 def discover_modeled_rate_plans() -> dict[tuple[str, str], ModeledRatePlan]:
-    """Walk ca/.../versions/.../rate-plan_*.jsonld; return {(util, sched): info}."""
+    """Every modeled base plan and modifier, as {(utility, schedule): info}."""
     found: dict[tuple[str, str], ModeledRatePlan] = {}
-    for jsonld in CORPUS_ROOT.rglob("rate-plan*_*.jsonld"):
-        # Anchored on the `versions` segment. These indices used to be counted
-        # from CORPUS_ROOT against the pre-`us/` layout, so the guard rejected
-        # every file in the corpus and this generator reported 0.0% coverage
-        # while exiting 0.
+    # Discovery and decomposition both through dev/corpus.py. This used to hold
+    # its own root and its own rglob, which is how it came to count path segments
+    # against the pre-`us/` layout: the guard then rejected every file in the
+    # corpus and this generator reported 0.0% coverage while exiting 0.
+    for jsonld in corpus.all_filing_jsonld():
         try:
             util, sched, date = corpus.parse_filing_path(jsonld)
         except ValueError:
@@ -80,6 +77,17 @@ def discover_modeled_rate_plans() -> dict[tuple[str, str], ModeledRatePlan]:
         key = (util, sched)
         if key not in found:
             found[key] = ModeledRatePlan(util, sched, is_modifier=is_modifier)
+        elif not is_modifier:
+            # A schedule is a base plan if it has a base plan, whatever else sits
+            # beside it. One directory holds both: PG&E E-TOU-C 2026-03-01 packages
+            # the base with its baseline-tier modifier. This flag used to be set by
+            # whichever of the two the walk reached first, so it was decided by
+            # filesystem order. That read as correct only because the order happened
+            # to favor the base; under any sorted order "rate-plan-modifier_" comes
+            # before "rate-plan_" ("-" sorts below "_"), the schedule was recorded as
+            # a modifier, and it dropped out of the coverage arithmetic: statewide
+            # 90.8% became 62.2% and PG&E 100% became 22%, with nothing failing.
+            found[key].is_modifier = False
         found[key].versions.append(date)
     for plan in found.values():
         plan.versions.sort()

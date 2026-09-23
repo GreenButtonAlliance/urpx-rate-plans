@@ -597,7 +597,7 @@ def corpus_dir_holds_filing(rel: str) -> bool:
     d = (REPO / rel).resolve()
     if REPO not in d.parents and d != REPO:
         return False  # a "../" escaped the corpus; not a location here
-    return d.is_dir() and any(d.glob("**/tariff.toml"))
+    return d.is_dir() and any(d.glob(f"**/{corpus.TARIFF_MANIFEST}"))
 
 
 def jsonld_text(d: Path) -> str | None:

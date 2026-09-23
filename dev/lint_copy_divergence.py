@@ -40,6 +40,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 VERSION_CONTAINERS = ("urpx:hasRatePlanVersion", "urpx:hasRatePlanModifierVersion")
@@ -69,7 +70,9 @@ def version_ids(value) -> set[str]:
 
 
 def main() -> int:
-    files = sorted(p for p in REPO.glob("us/**/*.jsonld"))
+    # corpus.all_filing_jsonld() rather than a glob rooted on "us": the root
+    # belongs to COUNTRY_ROOTS, and a second country would have been invisible here.
+    files = corpus.all_filing_jsonld()
     if not files:
         print("REFUSING: no filing JSON-LD under us/; nothing to compare.", file=sys.stderr)
         return 3

@@ -18,7 +18,11 @@ from __future__ import annotations
 
 import json
 import pathlib
+import sys
 from typing import Any
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import corpus  # noqa: E402
 
 # Per-vintage PCIA values for Domestic customer class. From DA-CRS Sheets 4-9
 # (identical values appear on CCA-CRS Sheets 4-9).
@@ -418,8 +422,11 @@ def main() -> None:
         description=CCA_DESCRIPTION,
     )
 
-    da_path = repo / "us/ca/sce/electricity/da-crs/versions/2026-03-20/rate-plan-modifier_sce_da-crs_2026-03-20.jsonld"
-    cca_path = repo / "us/ca/sce/electricity/cca-crs/versions/2026-03-20/rate-plan-modifier_sce_cca-crs_2026-03-20.jsonld"
+    # Composed by dev/corpus.py, which refuses when the directory is absent. Spelled
+    # out, these were two more copies of the layout, and a restructure would have
+    # turned them into a silent write to a tree nothing reads.
+    da_path = corpus.filing_path("sce", "da-crs", "2026-03-20", "rate-plan-modifier")
+    cca_path = corpus.filing_path("sce", "cca-crs", "2026-03-20", "rate-plan-modifier")
     da_path.write_text(json.dumps(da, indent=2, ensure_ascii=False) + "\n")
     cca_path.write_text(json.dumps(cca, indent=2, ensure_ascii=False) + "\n")
 

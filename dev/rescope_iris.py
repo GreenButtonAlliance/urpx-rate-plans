@@ -147,7 +147,10 @@ def node_type(d) -> str | None:
 
 
 def schedule_of(path: Path) -> str:
-    return path.parts[len(path.parts) - 4]
+    # Anchored on the `versions` segment via dev/corpus.py rather than counted
+    # from the end of the path. Counting survived the us/ restructure by luck,
+    # because the level was inserted at the front; the next one may not be.
+    return corpus.parse_filing_path(path)[1]
 
 
 def walk_owned(node, fn, owner=None):

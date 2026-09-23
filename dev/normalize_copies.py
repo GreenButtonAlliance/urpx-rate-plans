@@ -139,8 +139,7 @@ def owns(path: Path, iri: str) -> bool:
     backwards, deleting from the original instead of filling in the copies.
     """
     local = iri.split(":", 1)[-1]
-    schedule = path.parts[len(path.parts) - 4]
-    date = path.parent.name
+    schedule, date = corpus.parse_filing_path(path)[1:]
     stem = f"{schedule}-{date}"
     return local == stem or local.startswith(stem + "-")
 

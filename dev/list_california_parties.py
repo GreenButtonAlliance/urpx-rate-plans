@@ -30,6 +30,8 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "dev"))
+import corpus  # noqa: E402
 DB = REPO / "data" / "midas" / "midas.sqlite"
 LOOKUPS = REPO / "data" / "midas" / "lookups"
 
@@ -147,8 +149,11 @@ def main() -> int:
         if name in agg:
             agg[name]["urls"].add(url)
 
-    modeled = {p.name for p in (REPO / "us" / "ca").iterdir()
-               if p.is_dir() and (p / "electricity").exists()}
+    # Which utilities have filings. This tested for an `electricity/` directory
+    # under a hardcoded us/ca root, so it answered "has a carrier directory"
+    # rather than "has a filing", and a second country or commodity would not
+    # have been seen at all.
+    modeled = set(corpus.utilities_with_filings())
 
     rows = []
     for name, a in agg.items():
