@@ -385,6 +385,36 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 - **Lineage tracking** (this version supersedes that one) is still NOT expressed in the JSON-LD, though the *interval* now is: a superseded version carries `urpx:expirationDateTime`, so its span is `[effective, expiration)` and succession can be read off intervals that touch. What cannot be recorded is the link itself, which is the one thing the source actually states. A CPUC sheet says `Cancelling Revised Cal. P.U.C. Sheet No. 90634-E`; there is nowhere on a version to put that. URPX v0.5.1 permits `urpx:supersedes` on `urpx:PricingModel` and `urpx:TariffFiling` only, and `RatePlanVersionShape` and `RatePlanModifierVersionShape` are both `sh:closed`, so neither can carry it even as an extension. `urpx:supersedes` skos:note states the reasoning directly: "Version classes carry no lifecycle of their own: a version's place in the timeline derives from the filing chain." This corpus models no `TariffFiling`, so restoring the lineage it once recorded needs a decision about whether to.
 - **Splitting the file** (separating RatePlan from each RatePlanVersion) remains an option if the duplicated boilerplate ever becomes painful. It would not require renaming any existing files — only adding a `rate-plan.jsonld` alongside `versions/`.
 
+## 10b. Mined third-party metadata: `data/midas/`
+
+MIDAS is California's price server, not a tariff source, and none of its price
+series is stored here. What is stored is the metadata around a Rate
+Identification Number, mined by `dev/fetch_midas_metadata.py`, because it maps
+an identifier to a named utility, to a composition, and to the utility's own
+tariff document.
+
+| Path | Holds |
+| --- | --- |
+| `data/midas/rins.jsonl` | one record per identifier fetched: `RateName`, `AltRateName1/2`, `RateType`, `Sector`, `EndUse`, `RatePlan_Url`, `API_Url`, `SignupCloseDate`, `Description`, `LastUpdated`. Sorted by identifier, sorted keys, one per line. |
+| `data/midas/lookups/*.json` | the ten MIDAS reference tables. `distribution` and `energy` decode the two halves of a party segment into a named utility with a URL, which is how `XXSA` resolves to San Diego Community Power; `location` decodes the fourth field, where `0000` is All Areas. |
+| `data/midas/census.json` | the shape of the whole feed without storing it: identifier count, per-segment counts, sub-identifier counts, signal types, lookup-table sizes. |
+
+**The store is idempotent and resumable, and both are testable.** Every record is
+keyed by identifier and re-fetched only when MIDAS reports a `LastUpdated` the
+store has not recorded, so a run that finds nothing new rewrites byte-identical
+files and `git diff` is empty. `--max-detail` bounds a run, so the store
+converges over several rather than attempting the whole feed at once.
+
+Idempotence rests on the payload's `LastUpdated` because nothing else is
+offered. Responses carry no `Last-Modified`, no `ETag` and no `Cache-Control`,
+and conditional requests are ignored: `If-Modified-Since` and `If-None-Match`
+are both answered `200` rather than `304`.
+
+Scope is deliberately not limited to the utilities this corpus models. The feed
+carries 74,097 identifiers over 33 party segments, most of them community choice
+aggregators, and mining them is how this corpus would learn what exists before
+modeling it.
+
 ## 11. Reports: what each one measures
 
 Everything under `reports/` is generated. `dev/check_all.py` runs every generator and then fails if a tracked file drifted, so a report that disagrees with the corpus is a build failure rather than a stale file.
