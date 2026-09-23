@@ -60,13 +60,13 @@ TWO FINDINGS, DELIBERATELY NOT MERGED, because they are not equally strong:
           partial sample. The mined feed is a complete census, so absence from it
           is real evidence.
 
-          The authenticated path is still dead: midasapi.energy.ca.gov/api/Token
-          returns 401 to the stored credentials, verified 2026-09-23. That is no
-          longer a refresh blocker, because nothing here needs it. The listing
-          dev/mine_midas.py reads is unauthenticated (see its `get`, which sends
-          no Authorization header at all), and the store it builds matched the
-          live listing exactly when last compared. So the token being dead is a
-          fact about one endpoint, not about whether the reference can be current.
+          The old Token endpoint does return 401 (verified 2026-09-23), but that
+          is a withdrawn-version artifact and not a credential problem: Token
+          belongs to MIDAS v1.0, which was retired on 2026-06-22 when v2.0 went
+          live, and every v2.0 GET is public. That is why dev/mine_midas.py sends
+          no Authorization header at all, and why there is no refresh blocker
+          here: the reference can be current with no credentials in play.
+          doc/midas-rins-and-service-arrangements.md records the version history.
 
           What the absence is evidence OF is the limit: these strings are read
           out of a utility's own MIDAS-format upload, not composed here, so MIDAS

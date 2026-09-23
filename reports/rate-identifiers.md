@@ -35,10 +35,10 @@ Those are the filings. The same strings are also written down outside the corpus
 | File | Tokens | Distinct |
 |---|---:|---:|
 | `midas.json` | 72,310 | 72,266 |
+| `reports/midas-coverage.md` | 8,960 | 8,959 |
+| `reports/midas-coverage.json` | 8,959 | 8,959 |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 7,632 | 10 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5,760 | 10 |
-| `reports/midas-coverage.json` | 5,225 | 5,225 |
-| `reports/midas-coverage.md` | 5,207 | 5,207 |
 | `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 2,304 | 4 |
 | `dev/test_rate_identifiers.py` | 31 | 7 |
 | `doc/midas-rins-and-service-arrangements.md` | 21 | 19 |
@@ -49,6 +49,7 @@ Those are the filings. The same strings are also written down outside the corpus
 | `dev/list_rate_identifiers.py` | 2 | 2 |
 | `LAYOUT.md` | 1 | 1 |
 | `dev/mine_midas.py` | 1 | 1 |
+| `scripts/build-midas-coverage-report.py` | 1 | 1 |
 | `scripts/build-sdge-nbt-prices-2025-01-27.py` | 1 | 1 |
 
 ## Provenance
@@ -62,7 +63,7 @@ Those are the filings. The same strings are also written down outside the corpus
 
 **Derived is a resting state, not a defect.** An export compensation rate a utility does not publish as a single MIDAS series has to be computed from the ones it does, and the result is correct without being corroborable. The attestation records the arithmetic instead of claiming an identifier for the answer.
 
-**Unresolved is a statement about the snapshot, not about California.** `reports/midas-coverage.json` was generated 2026-05-30T19:44:16Z and holds 5,207 records, covering the six investor-owned-utility party segments rather than the state: the live feed carries 74,097 identifiers over 33 segments. So unresolved means *not corroborated by this snapshot*, never *does not exist*. The 401 that once blocked a refresh was a v1.0 artifact and not a credential problem; MIDAS v2.0 is unauthenticated, and `dev/mine_midas.py` reads it. This report still reads the cached snapshot until it is regenerated against the mined store.
+**Unresolved is a statement about the snapshot, not about California.** `reports/midas-coverage.json` was generated 2026-09-23T19:58:03Z and holds 8,959 records over 8 party segments, the utilities this corpus models rather than the state: the live feed carries 74,097 identifiers over 33 segments. So unresolved means *not corroborated by this snapshot*, never *does not exist*. The 401 on the old Token endpoint is a v1.0 artifact rather than a credential problem: MIDAS v2.0 went live 2026-06-22 and withdrew v1.0 the same day, and every v2.0 GET is public, which is why `dev/mine_midas.py` sends no Authorization header. The snapshot is now built from the mined feed.
 
 ## The attestations
 
@@ -168,25 +169,27 @@ What MIDAS publishes on each base schedule, against what the corpus asserts ther
 | Base schedule | MIDAS records naming it | of which export-related | asserted here |
 |---|---:|---:|---:|
 | `e-elec` | 100 | 80 | 4 |
-| `ev-tou-5` | 108 | 90 | 0 |
+| `ev-tou-5` | 109 | 90 | 0 |
 | `tou-d-prime` | 18 | 15 | 10 |
 
 - **`ev-tou-5`: the corpus asserts none of the 90 export-related identifiers the snapshot carries on this schedule.** They include `USCA-SDSD-0086-0000` 'EVTOU5NM NBT CY'; `USCA-SDSD-0087-0000` 'EVTOU5NM NBT CY - CARE'; `USCA-SDSD-0088-0000` 'EVTOU5NM NBT CY - Medical'; `USCA-SDSD-0089-0000` 'EVTOU5NM NBT CY - CARE + MED'. The snapshot covers this arrangement; it codes it differently from what the corpus cites.
 
 ## The provider segment, read off the snapshot
 
-Every claim here is a count over the 5,207 identifiers in the snapshot.
+Every claim here is a count over the 8,959 identifiers in the snapshot.
 
-- Provider segments observed: `PGPG` (306), `PGXX` (151), `SCSC` (471), `SCXX` (288), `SDSD` (2,689), `SDXX` (1,302).
-- First halves: `PG` (457), `SC` (759), `SD` (3,991).
-- Second halves: `PG` (306), `SC` (471), `SD` (2,689), `XX` (1,741).
-- 1,740 (utility, rate code) pairs appear under both `<UU><UU>` and `<UU>XX` carrying the same `rate_name`: the same rate published twice, differing only in the second half.
+- Provider segments observed: `LALA` (3,478), `PGPG` (423), `PGXX` (206), `SCSC` (471), `SCXX` (288), `SDSD` (2,700), `SDXX` (1,309), `SMSM` (84).
+- First halves: `LA` (3,478), `PG` (629), `SC` (759), `SD` (4,009), `SM` (84).
+- Second halves: `LA` (3,478), `PG` (423), `SC` (471), `SD` (2,700), `SM` (84), `XX` (1,803).
+- 1,795 (utility, rate code) pairs appear under both `<UU><UU>` and `<UU>XX` carrying the same `rate_name`: the same rate published twice, differing only in the second half.
 
 | First half | Records with second half `XX` | of which say CCA | Records with a utility second half | of which say CCA |
 |---|---:|---:|---:|---:|
-| `PG` | 151 | 99 | 306 | 0 |
+| `LA` | 0 | 0 | 3,478 | 0 |
+| `PG` | 206 | 154 | 423 | 0 |
 | `SC` | 288 | 0 | 471 | 0 |
-| `SD` | 1,302 | 0 | 2,689 | 0 |
+| `SD` | 1,309 | 0 | 2,700 | 0 |
+| `SM` | 0 | 0 | 84 | 0 |
 
 That is the structure: the four characters are two two-character provider codes, the distribution provider then the energy provider, and `XX` means *not the utility*. The mirrored rate codes carry most of that weight; the CCA column corroborates it wherever a utility says CCA in `alt_name` at all, which in this snapshot is one of the three.
 
@@ -198,7 +201,7 @@ Their 5 mirror-segment siblings, `USCA-SDXX-NB00-0000`, `USCA-SDXX-NB23-0000`, `
 
 The pair carries a distinction, and the corpus uses it consistently: the `XX`-first identifiers are cited only on `sdge:nbt-pd-export-rate-generation` and their siblings only on `sdge:nbt-pd-export-rate-delivery`. A transposition would not divide along the charge like that.
 
-On the segment itself: `XX` occupies the second half of 1,741 snapshot identifiers and the first half of none. Read against the structure above, a first-half `XX` means *this utility supplies the energy, someone else delivers it*, the exact mirror of the delivery-only code and the way a generation-only series would have to be written. Coherent under the grammar; unattested in this snapshot.
+On the segment itself: `XX` occupies the second half of 1,803 snapshot identifiers and the first half of none. Read against the structure above, a first-half `XX` means *this utility supplies the energy, someone else delivers it*, the exact mirror of the delivery-only code and the way a generation-only series would have to be written. Coherent under the grammar; unattested in this snapshot.
 
 The strings were not composed here. `scripts/extract-sdge-nbt-eec-values.py` reads them out of the `RIN` column of the utility's own MIDAS-format upload files and refuses if the column is not constant per vintage and component.
 

@@ -57,6 +57,9 @@ def midas_overlay_evidence() -> list[str]:
                 "what a real arrangement looks like could not be computed here."]
     rids = _json.loads(MIDAS.read_text()).get("rids") or []
     groups: dict[tuple[str, str], list[str]] = collections.defaultdict(list)
+    # Which of those plans this corpus actually models, taken from the coverage
+    # report's own urpx_match rather than re-deriving the name match here.
+    modeled_groups: set[tuple[str, str]] = set()
     for r in rids:
         name = r.get("rate_name")
         alt = r.get("alt_name")
@@ -67,12 +70,20 @@ def midas_overlay_evidence() -> list[str]:
         # rather than parsed into nonsense.
         if name and alt and (alt == name or alt.startswith(name + "-")):
             groups[(r.get("utility") or "", name)].append(alt)
+            if r.get("urpx_match"):
+                modeled_groups.add((r.get("utility") or "", name))
     groups = {k: v for k, v in groups.items() if len(v) > 1}
     if not groups:
         return ["`reports/midas-coverage.json` carries no named rate identifiers, so the external "
                 "evidence for what a real arrangement looks like could not be computed here."]
 
-    (utility, name), alts = max(groups.items(), key=lambda kv: len(kv[1]))
+    # Prefer a plan the corpus models, then the most overlays within that. Picking
+    # the global maximum instead made the exemplar follow whatever the coverage
+    # report happened to enumerate: widening its scope to LADWP and SMUD moved it
+    # onto PG&E B-1, a commercial schedule with no filing here, so the passage
+    # illustrated composition using a plan the reader cannot look up in this repo.
+    preferred = {k: v for k, v in groups.items() if k in modeled_groups} or groups
+    (utility, name), alts = max(preferred.items(), key=lambda kv: len(kv[1]))
     combos = []
     for alt in alts:
         rest = alt[len(name):].lstrip("-") if alt.startswith(name) else alt

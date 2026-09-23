@@ -29,41 +29,46 @@ Runtime: roughly 5-10 minutes (~2,500 RIDs × ~0.3s per metadata call with
 
 from __future__ import annotations
 
-import base64
 import json
-import os
 import re
+import sqlite3
 import sys
-import threading
 import time
-import urllib.error
-import urllib.request
 from collections import Counter, defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 REPO = Path(str(Path(__file__).resolve().parent.parent))
+# scripts/ is not on the path that reaches dev/, so nothing here could import the
+# shared discovery module. That is why this file carried its own corpus walk, and
+# why the walk went stale unnoticed.
+sys.path.insert(0, str(REPO / "dev"))
+import corpus  # noqa: E402
+import utilities  # noqa: E402
+
 OUT_JSON = REPO / "reports" / "midas-coverage.json"
 OUT_MD = REPO / "reports" / "midas-coverage.md"
 
-MIDAS_API = "https://midasapi.energy.ca.gov/api"
+# The mined feed. This report used to be built from ~2,500 live authenticated
+# calls taking 5-10 minutes; the same rows are already here, fetched by
+# dev/mine_midas.py from the UNauthenticated listing. Reading them locally is
+# reproducible, needs no credentials, and is not slower than the store is stale.
+STORE = REPO / "data" / "midas" / "midas.sqlite"
+LOOKUPS = REPO / "data" / "midas" / "lookups"
 
-# Enumeration spec: (distribution_code, energy_code, label)
-# Each combo surfaces a distinct rate scope.
-ENUMERATE = [
-    # PG&E
-    ("PG", "PG", "PG&E bundled"),
-    ("PG", "XX", "PG&E CCA-served (delivery-only)"),
-    ("XX", "PG", "PG&E CCA generation index"),
-    # SCE
-    ("SC", "SC", "SCE bundled"),
-    ("SC", "XX", "SCE CCA-served (delivery-only)"),
-    ("XX", "SC", "SCE CCA generation index"),
-    # SDG&E
-    ("SD", "SD", "SDG&E bundled"),
-    ("SD", "XX", "SDG&E CCA-served (delivery-only)"),
-    ("XX", "SD", "SDG&E CCA generation index"),
-]
+# Party segments in scope: every segment belonging to a utility this corpus
+# models, read from dev/utilities.py rather than spelled out here.
+#
+# This is wider than the list it replaces. That named only the three
+# investor-owned utilities, so LADWP and SMUD were absent from the report even
+# though both are modeled here, and their coverage had never been measured.
+#
+# It also drops three combos the old list carried: XXPG, XXSC and XXSD, the
+# "CCA generation index" for an investor-owned utility. Those are not omissions.
+# Each returns zero rows out of the whole 74,097-identifier feed, because an
+# XX-first segment names a generation-only seller and an investor-owned utility
+# sells its generation over its own wires. The 32 NB-code identifiers MIDAS does
+# carry on XX-first segments all belong to community choice aggregators.
+SEGMENT_UTILITY = utilities.segment_utility()
 
 # GridX feeds as published by the price server (per
 # ~/projects/grid/repo/price-server-user-guide/README.md as of 2026-05-29).
@@ -83,135 +88,98 @@ GRIDX_FEEDS = {
     ],
 }
 
-# Headers of URPX-modeled schedules per utility — derived from corpus
-# directory structure (ca/iou/{utility}/{schedule}/). Case-insensitive
-# substring match against RateName / AltRateName.
-URPX_SCHEDULES = {}
-
-
 def discover_urpx_schedules() -> dict[str, list[str]]:
-    """Walk ca/iou/ and ca/pou/ to find every modeled schedule slug per utility."""
-    out: dict[str, set[str]] = defaultdict(set)
-    for klass in ("iou", "pou"):
-        klass_root = REPO / "ca" / klass
-        if not klass_root.is_dir():
-            continue
-        for util in klass_root.iterdir():
-            if not util.is_dir():
-                continue
-            for sched in util.iterdir():
-                if sched.is_dir() and sched.name != "utility.toml":
-                    out[util.name.lower()].add(sched.name.lower())
-    return {k: sorted(v) for k, v in out.items()}
+    """Every modeled schedule slug per utility, from dev/corpus.py.
 
+    The previous version walked `ca/iou/` and `ca/pou/`, removed by the
+    2026-09-20 restructure. It did not fail. `if not klass_root.is_dir():
+    continue` swallowed the absence, so it returned {}, main() printed
+    "0 across 0 utilities", and classify() could then never reach covered-urpx:
+    a refresh would have silently erased 648 covered-urpx and 106 covered-both
+    rows while exiting 0. It was wrong by two levels, not one, since the
+    restructure also inserted the carrier segment.
 
-TOKEN_LIFETIME_SEC = 480  # refresh every 8 min (~80% of MIDAS's ~10-min lifetime)
-
-
-class TokenManager:
-    """Thread-safe token getter with auto-refresh. MIDAS tokens expire after
-    ~10 min; with the corpus at ~5,000 RIDs at ~7 req/s, runs exceed that —
-    the manager refreshes proactively before expiry, and on demand after a 401.
+    corpus.schedules_by_utility() refuses over an empty corpus instead.
     """
+    return {u: sorted(s) for u, s in corpus.schedules_by_utility().items()}
 
-    def __init__(self):
-        self._token = None
-        self._issued_at = 0
-        self._lock = threading.Lock()
 
-    def _refresh(self):
-        creds = base64.b64encode(
-            f"{os.environ['MIDAS_USERNAME']}:{os.environ['MIDAS_PASSWORD']}".encode()
-        ).decode()
-        req = urllib.request.Request(
-            f"{MIDAS_API}/Token", headers={"Authorization": f"Basic {creds}"}
+def lookup(name: str) -> dict[str, str]:
+    """A MIDAS lookup table as {UploadCode -> Description}, matched case-blind.
+
+    MIDAS emits sector codes rather than labels, so without this the status
+    strings degrade from `gap-commercial` to `gap-com` and stop being comparable
+    to earlier runs. Case-blind because the feed carries both `All` and `ALL`
+    while only `All` is a documented UploadCode.
+    """
+    path = LOOKUPS / f"{name}.json"
+    if not path.exists():
+        raise SystemExit(
+            f"ERROR: {path.relative_to(REPO)} is missing, so sector and rate-type "
+            f"codes cannot be resolved to labels and every status string would read "
+            f"as a raw code. Refusing rather than emitting one."
         )
-        with urllib.request.urlopen(req, timeout=30) as r:
-            self._token = r.headers.get("Token")
-        self._issued_at = time.time()
-
-    def get(self) -> str:
-        with self._lock:
-            if self._token is None or (time.time() - self._issued_at) > TOKEN_LIFETIME_SEC:
-                self._refresh()
-            return self._token
-
-    def force_refresh(self) -> str:
-        with self._lock:
-            self._refresh()
-            return self._token
+    return {str(r["UploadCode"]).lower(): r["Description"]
+            for r in json.loads(path.read_text()) if r.get("UploadCode")}
 
 
-_TM = TokenManager()
+def read_store() -> list[dict]:
+    """Every in-scope identifier and its metadata, from the mined feed.
 
-
-def get_token() -> str:
-    """Legacy single-shot accessor for the enumeration phase."""
-    return _TM.get()
-
-
-def list_rids(token: str, dist: str, enr: str) -> list[str]:
-    """Return unique RIDs from HistoricalList for one (distribution, energy)."""
-    req = urllib.request.Request(
-        f"{MIDAS_API}/HistoricalList?DistributionCode={dist}&EnergyCode={enr}",
-        headers={"Authorization": f"Bearer {token}"},
-    )
-    with urllib.request.urlopen(req, timeout=60) as r:
-        data = json.load(r)
-    return sorted({
-        e["RateID"] for e in data
-        if e.get("RateID", "").endswith("-0000")  # skip -TEST entries
-        and not e["RateID"].startswith(("USCA-FLEX-", "USCA-SGIP-"))  # exclude regulatory signals
-    })
-
-
-def fetch_meta(token_ignored, rid: str) -> dict:
-    """Get RateName/RateType/Sector for one RID with token auto-refresh.
-
-    The first parameter is unused; kept for call-site compatibility. Each
-    call goes through the shared TokenManager, which refreshes proactively
-    before expiry and on demand after a 401 retry.
+    Reproduces what the authenticated HistoricalList + ValueData pair returned,
+    from rows fetched by dev/mine_midas.py off the same endpoint. The two filters
+    are the originals: the `-0000` location suffix (the only other bulk suffix is
+    `-TEST`), and the two regulatory-signal prefixes. `signal_type` makes the
+    second one redundant for these segments, and it is kept anyway because it
+    costs nothing and states the intent.
     """
-    for attempt in range(2):
-        token = _TM.get() if attempt == 0 else _TM.force_refresh()
-        try:
-            req = urllib.request.Request(
-                f"{MIDAS_API}/ValueData?ID={rid}&QueryType=alldata",
-                headers={"Authorization": f"Bearer {token}"},
-            )
-            with urllib.request.urlopen(req, timeout=15) as r:
-                d = json.load(r)
-            return {
-                "rid": rid,
-                "RateName": d.get("RateName") or "",
-                "AltRateName1": d.get("AltRateName1") or "",
-                "AltRateName2": d.get("AltRateName2") or "",
-                "RateType": d.get("RateType") or "",
-                "Sector": d.get("Sector") or "",
-                "EndUse": d.get("EndUse") or "",
-            }
-        except urllib.error.HTTPError as e:
-            if e.code == 401 and attempt == 0:
-                continue
-            return {"rid": rid, "error": f"HTTP Error {e.code}: {e.reason}"}
-        except Exception as e:
-            return {"rid": rid, "error": str(e)[:120]}
-    return {"rid": rid, "error": "exhausted retries"}
+    if not STORE.exists():
+        raise SystemExit(
+            f"ERROR: no mined feed at {STORE.relative_to(REPO)}. Run "
+            f"dev/mine_midas.py first; refusing to report coverage over no rates."
+        )
+    sector_label, ratetype_label = lookup("sector"), lookup("ratetype")
+    segs = sorted(SEGMENT_UTILITY)
+    con = sqlite3.connect(f"file:{STORE}?mode=ro", uri=True)
+    rows = con.execute(
+        f"""SELECT rid, rate_name, alt_rate_name_1, alt_rate_name_2, rate_type,
+                   sector, end_use
+              FROM rate
+             WHERE substr(rid, 6, 4) IN ({",".join("?" * len(segs))})
+               AND rid LIKE '%-0000'
+               AND signal_type = 'Electricity Rates'
+               AND rid NOT LIKE 'USCA-FLEX-%'
+               AND rid NOT LIKE 'USCA-SGIP-%'
+             ORDER BY rid""", segs).fetchall()
+    out = [{"rid": r[0], "RateName": r[1] or "", "AltRateName1": r[2] or "",
+            "AltRateName2": r[3] or "",
+            "RateType": ratetype_label.get(str(r[4] or "").lower(), r[4] or ""),
+            "Sector": sector_label.get(str(r[5] or "").lower(), r[5] or ""),
+            "EndUse": r[6] or ""} for r in rows]
+    corpus.require_nonempty(out, "MIDAS identifiers in scope")
+    return out
+
 
 
 def utility_from_rid(rid: str) -> str:
-    """Map USCA-XXYY-... → utility tag based on distribution+energy code."""
+    """Map USCA-<segment>-... to a utility display name, or OTHER.
+
+    Keyed on the whole four-character segment, not a substring of it. The
+    previous version asked `"PG" in code`, which is the same answer for these
+    segments but would also claim any future segment merely containing those two
+    letters. The display form rather than the slug because `rids[].utility` is
+    read by two downstream generators in this spelling.
+    """
     parts = rid.split("-")
     if len(parts) < 3 or parts[0] != "USCA":
         return "OTHER"
-    code = parts[1]
-    if "PG" in code:
-        return "PG&E"
-    if "SC" in code:
-        return "SCE"
-    if "SD" in code:
-        return "SDG&E"
-    return "OTHER"
+    slug = SEGMENT_UTILITY.get(parts[1])
+    return utilities.BY_SLUG[slug].short_name if slug else "OTHER"
+
+
+# Display name back to slug, so classify() does not carry a third copy of the
+# utility list. Derived from the same table utility_from_rid() reads.
+SHORT_NAME_SLUG = {u.short_name: u.slug for u in utilities.BY_SLUG.values()}
 
 
 def _normalize(s: str) -> str:
@@ -250,7 +218,7 @@ def classify(meta: dict, urpx_schedules: dict[str, list[str]]) -> dict:
     utility = utility_from_rid(rid)
     sector = meta.get("Sector", "")
 
-    util_slug = {"PG&E": "pge", "SCE": "sce", "SDG&E": "sdge"}.get(utility, "")
+    util_slug = SHORT_NAME_SLUG.get(utility, "")
     urpx_corpus = urpx_schedules.get(util_slug, [])
 
     candidates = [
@@ -302,59 +270,38 @@ def classify(meta: dict, urpx_schedules: dict[str, list[str]]) -> dict:
 
 
 def main():
-    token = get_token()
     urpx_schedules = discover_urpx_schedules()
-    print(f"Discovered URPX-modeled schedules: {sum(len(v) for v in urpx_schedules.values())} across {len(urpx_schedules)} utilities")
+    print(f"URPX-modeled schedules: {sum(len(v) for v in urpx_schedules.values())} "
+          f"across {len(urpx_schedules)} utilities "
+          f"({', '.join(sorted(urpx_schedules))})")
 
-    # Enumerate RIDs
-    all_rids: list[tuple[str, str, str, str]] = []  # (rid, dist, enr, label)
-    for dist, enr, label in ENUMERATE:
-        rids = list_rids(token, dist, enr)
-        print(f"  {dist}-{enr} ({label}): {len(rids)} RIDs")
-        for rid in rids:
-            all_rids.append((rid, dist, enr, label))
+    metas = read_store()
+    by_seg = Counter(m["rid"][5:9] for m in metas)
+    print(f"In scope: {len(metas):,} identifiers over "
+          f"{len(SEGMENT_UTILITY)} party segment(s)")
+    for seg in sorted(SEGMENT_UTILITY):
+        print(f"  {seg} ({SEGMENT_UTILITY[seg]}): {by_seg.get(seg, 0):,}")
 
-    # Dedupe RIDs (HistoricalList can return duplicates across scopes)
-    unique_rids = sorted({r[0] for r in all_rids})
-    print(f"Total unique RIDs: {len(unique_rids)}")
+    classified = [classify(m, urpx_schedules) for m in metas]
+    print(f"Classified: {len(classified):,}")
 
-    # Fetch metadata concurrently
-    print("Fetching metadata...")
-    metas: dict[str, dict] = {}
-    t0 = time.time()
-    with ThreadPoolExecutor(max_workers=8) as ex:
-        futures = {ex.submit(fetch_meta, token, rid): rid for rid in unique_rids}
-        done = 0
-        for fut in as_completed(futures):
-            m = fut.result()
-            metas[m["rid"]] = m
-            done += 1
-            if done % 200 == 0:
-                elapsed = time.time() - t0
-                rate = done / elapsed
-                eta = (len(unique_rids) - done) / rate
-                print(f"  {done}/{len(unique_rids)} ({rate:.1f} req/s, ETA {eta:.0f}s)")
-    print(f"Fetched metadata for {len(metas)} RIDs in {time.time()-t0:.1f}s")
-
-    # Classify
-    classified = [classify(m, urpx_schedules) for m in metas.values() if "error" not in m]
-    errors = [m for m in metas.values() if "error" in m]
-    print(f"Classified: {len(classified)} ({len(errors)} errors)")
-
-    # Output JSON
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     with OUT_JSON.open("w") as f:
         json.dump({
             "generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "source": "data/midas/midas.sqlite",
             "urpx_corpus_scope": urpx_schedules,
             "gridx_feeds": GRIDX_FEEDS,
-            "total_unique_rids": len(unique_rids),
-            "errors": errors,
+            "party_segments": SEGMENT_UTILITY,
+            "total_unique_rids": len(classified),
+            # Kept for the consumers that read it. An offline run has no fetch to
+            # fail, so this is empty by construction rather than by luck; the 18
+            # entries the last authenticated run left here were RIDs that 404'd.
+            "errors": [],
             "rids": classified,
         }, f, indent=2)
     print(f"Wrote {OUT_JSON}")
 
-    # Output Markdown summary
     write_markdown(classified, urpx_schedules)
     print(f"Wrote {OUT_MD}")
 
@@ -376,6 +323,38 @@ def write_markdown(rows: list[dict], urpx_schedules: dict[str, list[str]]):
     lines.append("- **gap-{sector}** — neither URPX nor GridX covers; the sector (Residential, Commercial, Industrial, Agricultural, Lighting) suggests which path to closure")
     lines.append("")
 
+    # A utility whose modeled schedules are present but whose MIDAS RateNames do
+    # not use schedule identifiers produces gap rows that mean something else
+    # entirely. Measured per utility rather than asserted, so the reader sees the
+    # denominator; without this the table reads as "almost nothing is modeled".
+    lines.append("## How to read the gap counts")
+    lines.append("")
+    lines.append("A `gap-*` row means no modeled schedule slug and no GridX feed code "
+                 "matched this identifier's RateName or AltRateName. Matching is a "
+                 "strict prefix comparison with a digit boundary, so it is quiet rather "
+                 "than wrong when a publisher does not name rates by schedule.")
+    lines.append("")
+    lines.append("| Utility | Identifiers | Matched a modeled schedule | Publishes a Sector |")
+    lines.append("|---|---:|---:|---:|")
+    for u in utilities.ordered():
+        ul = [r for r in rows if r["utility"] == u.short_name]
+        if not ul:
+            continue
+        matched = sum(1 for r in ul if r["urpx_match"])
+        sectored = sum(1 for r in ul if r.get("sector"))
+        lines.append(f"| {u.short_name} | {len(ul):,} | {matched:,} | {sectored:,} |")
+    lines.append("")
+    lines.append("Where the matched column is near zero the limit is naming, not "
+                 "modeling. LADWP publishes no Sector on any identifier and its RINs "
+                 "enumerate load-factor and power-factor cells rather than schedules, "
+                 "so its count is not comparable to a schedule count. SMUD names "
+                 "residential rates in forms the prefix rule cannot reach: "
+                 "`USCA-SMSM-TOD5-0000` carries RateName \"Time-of-Day 5-8PM\", which "
+                 "is this corpus's `tod-5-8pm`, spelled out rather than as the "
+                 "schedule code. That is one known instance, left unmatched here "
+                 "rather than bridged by an alias table.")
+    lines.append("")
+
     # Overall summary
     lines.append("## Summary")
     lines.append("")
@@ -388,7 +367,7 @@ def write_markdown(rows: list[dict], urpx_schedules: dict[str, list[str]]):
     lines.append("")
 
     # Per-utility detail
-    for util in ("PG&E", "SCE", "SDG&E", "OTHER"):
+    for util in [u.short_name for u in utilities.ordered()] + ["OTHER"]:
         ulist = by_util.get(util, [])
         if not ulist:
             continue

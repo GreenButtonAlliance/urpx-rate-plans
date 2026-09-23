@@ -623,7 +623,13 @@ def build() -> dict:
     tokens = sum(len(att["rins"]) * att["occurrences"] for att in attestations)
     return {
         "midas": {"generated_at": midas["generated_at"], "records": len(midas["rids"]),
-                  "metadata_errors": len(midas["errors"])},
+                  "metadata_errors": len(midas["errors"]),
+                  # Counted, not asserted. This read "the six investor-owned-utility
+                  # party segments" until the coverage report's scope widened to
+                  # LADWP and SMUD, at which point it was wrong on both the number
+                  # and the class.
+                  "segment_count": len({r["rid"][5:9] for r in midas["rids"]
+                                        if len(r.get("rid", "")) >= 9})},
         "grammar": grammar,
         "attestations": attestations,
         "identifiers": [asserted[k] for k in sorted(asserted)],
@@ -849,12 +855,13 @@ def render_md(d: dict) -> str:
     w("")
     w("**Unresolved is a statement about the snapshot, not about California.** "
       f"`reports/midas-coverage.json` was generated {d['midas']['generated_at']} and holds "
-      f"{d['midas']['records']:,} records, covering the six investor-owned-utility party "
-      f"segments rather than the state: the live feed carries 74,097 identifiers over 33 "
-      f"segments. So unresolved means *not corroborated by this snapshot*, never *does not "
-      f"exist*. The 401 that once blocked a refresh was a v1.0 artifact and not a credential "
-      f"problem; MIDAS v2.0 is unauthenticated, and `dev/mine_midas.py` reads it. This report "
-      f"still reads the cached snapshot until it is regenerated against the mined store.")
+      f"{d['midas']['records']:,} records over {d['midas']['segment_count']} party segments, "
+      f"the utilities this corpus models rather than the state: the live feed carries 74,097 "
+      f"identifiers over 33 segments. So unresolved means *not corroborated by this snapshot*, "
+      f"never *does not exist*. The 401 on the old Token endpoint is a v1.0 artifact rather "
+      f"than a credential problem: MIDAS v2.0 went live 2026-06-22 and withdrew v1.0 the same "
+      f"day, and every v2.0 GET is public, which is why `dev/mine_midas.py` sends no "
+      f"Authorization header. The snapshot is now built from the mined feed.")
     w("")
 
     w("## The attestations")
@@ -1069,10 +1076,10 @@ def render_edn(d: dict) -> str:
     w(";;   :unresolved asserted, and absent from the MIDAS snapshot altogether")
     w(";;")
     w(";; :unresolved is a statement about the snapshot, which was generated")
-    w(f";; {d['midas']['generated_at']} over the six investor-owned-utility party")
-    w(";; segments. The live feed carries 74,097 identifiers over 33 segments and")
-    w(";; is unauthenticated under v2.0; see dev/mine_midas.py. This report still")
-    w(";; reads the cached snapshot until regenerated against the mined store.")
+    w(f";; {d['midas']['generated_at']} over {d['midas']['segment_count']} party segments,")
+    w(";; the utilities this corpus models. The live feed carries 74,097 identifiers")
+    w(";; over 33 segments and is unauthenticated under v2.0; see dev/mine_midas.py.")
+    w(";; The snapshot is now built from the mined feed.")
     w("")
     w("{:midas")
     w(f'  {{:generated-at {_s(d["midas"]["generated_at"])}')
