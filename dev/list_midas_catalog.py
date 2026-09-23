@@ -65,7 +65,12 @@ def load():
 
 def is_document(url: str) -> bool:
     """A link to a specific document rather than a rates landing page."""
-    return bool(re.search(r"\.(pdf|xlsx?|docx?)(\?|$)", url, re.I))
+    return bool(re.search(r"\.(pdf|xlsx?|docx?|ashx)(\?|$)", url, re.I))
+
+
+def is_malformed(url: str) -> bool:
+    """MIDAS ships some links with a doubled scheme, e.g. https://https//HOST/path."""
+    return bool(re.search(r"https?://https?//", url, re.I))
 
 
 def build():
@@ -113,7 +118,10 @@ def build():
 
     return {"rows": rows, "catalog": catalog, "records": len(recs),
             "feed_identifiers": census.get("identifiers"),
-            "complete": census.get("identifiers") in (None, len(recs))}
+            # The feed changes during a mine that takes hours, so exact equality
+            # would report a finished mine as partial forever. Within 0.1% is done.
+            "complete": (census.get("identifiers") is None
+                         or abs(census["identifiers"] - len(recs)) <= max(5, census["identifiers"] // 1000))}
 
 
 def render_md(d) -> str:
@@ -175,10 +183,14 @@ def main() -> int:
     (REPO / "reports" / "midas-catalog.md").write_text(render_md(d))
     (REPO / "reports" / "midas-catalog.edn").write_text(render_edn(d))
     unmod = [r for r in d["rows"] if r["kind"] == "unmodeled"]
-    docs = [c for c in d["catalog"] if not c["modeled"] and c["is_document"]]
+    docs = [c for c in d["catalog"] if c["is_document"]]
+    pages = [c for c in d["catalog"] if not c["is_document"]]
+    nolink = sum(r["identifiers"] for r in unmod if r["documents"] == 0)
     print(f"wrote reports/midas-catalog.{{md,edn}}: {d['records']:,} identifiers"
           f"{'' if d['complete'] else ' (PARTIAL)'}, {len(d['rows'])} segments, "
-          f"{len(unmod)} unmodeled, {len(docs)} unmodeled documents to read")
+          f"{len(unmod)} unmodeled")
+    print(f"  documents {len(docs)}, landing pages {len(pages)}, "
+          f"{nolink:,} identifiers on unmodeled parties with no link at all")
     return 0
 
 

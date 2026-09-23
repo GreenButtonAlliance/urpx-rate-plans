@@ -34,12 +34,12 @@ Those are the filings. The same strings are also written down outside the corpus
 
 | File | Tokens | Distinct |
 |---|---:|---:|
+| `data/midas/rins.jsonl` | 72,309 | 72,265 |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 7,632 | 10 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5,760 | 10 |
 | `reports/midas-coverage.json` | 5,225 | 5,225 |
 | `reports/midas-coverage.md` | 5,207 | 5,207 |
 | `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 2,304 | 4 |
-| `data/midas/rins.jsonl` | 915 | 915 |
 | `dev/test_rate_identifiers.py` | 31 | 7 |
 | `doc/midas-rins-and-service-arrangements.md` | 21 | 19 |
 | `scripts/tag-pge-nbt-prices-with-midas-rins.py` | 10 | 5 |
