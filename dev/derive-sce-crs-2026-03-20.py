@@ -51,7 +51,7 @@ CTC_VALUE = "0.00014"
 FRC_VALUE = "0.00619"
 
 CONTEXT = {
-    "urpx": "https://urpx-org.github.io/urpx/ontology/",
+    "urpx": "https://urpx.org/ns/ontology/",
     "schema": "http://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "org": "https://example.com/organizations/",

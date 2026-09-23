@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compute corpus coverage of California residential utility customers.
 
-Walks the ca/<class>/<utility>/<schedule>/versions/<date>/ tree, matches
+Walks the us/<subdivision>/<utility>/<carrier>/<schedule>/versions/<date>/ tree, matches
 each modeled rate plan against dev/coverage-estimates.toml, and reports:
 
   - Per-utility: residential customers, modeled rate plans, covered count, %

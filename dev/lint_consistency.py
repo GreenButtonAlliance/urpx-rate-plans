@@ -8,7 +8,7 @@ byte-identical across all filings of a given schedule. This is that
 linter.
 
 Walks the corpus, groups rate-plan_*.jsonld files by schedule directory
-(ca/<class>/<utility>/<schedule>/versions/*/rate-plan_*.jsonld), extracts
+(via dev/corpus.py, which is depth-independent rather than a literal shape), extracts
 the urpx:RatePlan node from each filing's @graph, and reports any
 RatePlan-level field that differs across versions of the same schedule.
 
@@ -113,7 +113,7 @@ def collect_filings():
         if rp is None:
             print(f"  ✗ {jsonld.relative_to(ROOT)}: no urpx:RatePlan node", file=sys.stderr)
             continue
-        # Group key: ca/<class>/<utility>/<schedule>/  (trim "versions/<date>/...")
+        # Group key: the schedule directory (trim "versions/<date>/...")
         rel = jsonld.relative_to(ROOT)
         schedule_dir = rel.parents[2]   # versions/<date>/<file>.jsonld → up 2 = schedule dir
         out[str(schedule_dir)].append((rel, rp))

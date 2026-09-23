@@ -30,7 +30,6 @@ Exit 0 clean, 1 on any violation.
 """
 from __future__ import annotations
 
-import glob
 import pathlib
 import re
 import sys
@@ -41,6 +40,8 @@ except ModuleNotFoundError:  # Python 3.10 and earlier
     import tomli as tomllib
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "dev"))
+import corpus  # noqa: E402
 GAPS = REPO / "MODELING-GAPS.md"
 FIRST_LIST = "## We have not found a way to express these"
 SECOND_LIST = "## Expressible, not yet modeled"
@@ -63,9 +64,13 @@ UTILITIES = ("PG&E", "SCE", "SDG&E", "CPAU", "LADWP", "SMUD")
 def deferrals() -> dict[tuple[str, str], list[str]]:
     """(utility, schedule) -> its deferral texts."""
     out: dict[tuple[str, str], list[str]] = {}
-    for f in glob.glob(str(REPO / "us/ca/*/electricity/*/versions/*/tariff.toml")):
-        parts = pathlib.Path(f).parts
-        key = (parts[-6], parts[-4])          # utility, schedule
+    # Discovery and decomposition both through dev/corpus.py. The glob here
+    # hardcoded the subdivision and the carrier, so a filing outside us/ca or a
+    # second commodity would have been skipped silently; the key was read with
+    # indices counted from the end, which survives an inserted level at the front
+    # by accident rather than by design.
+    for f in corpus.tariff_tomls():
+        key = tuple(corpus.parse_filing_path(f)[:2])   # utility, schedule
         d = tomllib.loads(pathlib.Path(f).read_text())
         out.setdefault(key, []).extend(
             " ".join(str(x).split()) for x in ((d.get("modeling") or {}).get("deferrals") or []))

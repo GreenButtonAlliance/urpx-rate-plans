@@ -195,7 +195,18 @@ doc = {"@context": CONTEXT, "@graph": [rate_plan_modifier]}
 
 
 def main():
-    OUT.parent.mkdir(parents=True, exist_ok=True)
+    # Refuse rather than create. This path predates the 2026-09-20 restructure,
+    # so mkdir(parents=True) here wrote the filing into a ca/<class>/ tree that
+    # dev/corpus.py does not walk: the write succeeded, the byte count printed,
+    # and every lint kept passing over a corpus that had silently lost the file.
+    # Not retargeted at the live filing on purpose, because this script's inline
+    # data predates it and would overwrite curated work.
+    if not OUT.parent.is_dir():
+        raise SystemExit(
+            f"REFUSING: {OUT.parent} does not exist. This writer targets the "
+            f"pre-2026-09-20 layout; see dev/corpus.py filing_path() for the "
+            f"current shape. Creating the directory would lose the filing silently."
+        )
     OUT.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
     print(f"wrote {OUT} ({OUT.stat().st_size} bytes)")
 

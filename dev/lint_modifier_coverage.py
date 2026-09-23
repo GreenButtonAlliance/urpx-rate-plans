@@ -16,7 +16,7 @@ Each (base, applicable_modifier) pair lands in one of four buckets:
 
 Two matching strategies are tried, in order:
 
-  (1) Directory match — `ca/<class>/<utility>/<slug>/versions/.../`
+  (1) Directory match — `us/<subdivision>/<utility>/<carrier>/<slug>/versions/.../`
       catches the common case (`care`, `fera`, `e-eec-1`, etc.).
   (2) IRI-suffix match — fall back to scanning all rate-plan-modifier
       filings under the utility and matching the local IRI name

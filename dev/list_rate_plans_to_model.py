@@ -69,7 +69,10 @@ def attribute_by_source(invs) -> dict[str, dict[str, set[str]]]:
                 if src.get("document_url"):
                     by_doc.setdefault(d["utility"], {})[nk(src["document_url"])] = sch
     out: dict[str, dict[str, set[str]]] = {}
-    for toml in (REPO / "us").glob("*/*/*/*/versions/*/tariff.toml"):
+    # corpus.tariff_tomls() rather than a four-star depth, which is the shape
+    # dev/corpus.py exists to remove: it is counted, so it breaks on a restructure
+    # by returning nothing rather than by failing.
+    for toml in corpus.tariff_tomls():
         try:
             util, sched, _ = corpus.parse_filing_path(toml)
         except ValueError:
