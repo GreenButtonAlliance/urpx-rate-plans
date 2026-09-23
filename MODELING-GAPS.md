@@ -10,6 +10,8 @@ So before anything is added below, build the minimal document and run `pyshacl` 
 
 [README](./README.md) describes what the corpus *does* contain. Each filing's `tariff.toml [modeling].deferrals` records its own. This file is the corpus-wide view.
 
+`dev/lint_gaps_agree.py` checks that the two still agree: every claim in the first list must name a filing that exists, and at least one deferral in a filing it names must assert an upstream gap. The two had disagreed for two days before anything compared them.
+
 ## We have not found a way to express these in URPX v0.5.1
 
 Each entry gives the upstream thread, what the shapes refuse, and where in the corpus it bites.
