@@ -46,6 +46,9 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -331,8 +334,8 @@
           "urpx:hasPriceDefinition": [
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "smud:nem1-pd-net-credit",
-              "urpx:name": "NEM1 Net Metering Credit (placeholder — actual credit computed at applicable base-rate energy pricing)",
+              "@id": "smud:nem1-pd-net-credit-tou1",
+              "urpx:name": "NEM1 net-excess credit, Summer Peak (valued at the customer's own base-plan usage charge)",
               "urpx:chargeType": {
                 "@id": "urpx:creditEnergy"
               },
@@ -342,6 +345,79 @@
               "urpx:billPortion": {
                 "@id": "urpx:bundledPortion"
               },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "smud:nem1-ledger-net-credit"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:nem1-pd-net-credit-tou2",
+              "urpx:name": "NEM1 net-excess credit, Summer Mid-Peak (valued at the customer's own base-plan usage charge)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "smud:nem1-ledger-net-credit"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:nem1-pd-net-credit-tou3",
+              "urpx:name": "NEM1 net-excess credit, Summer Off-Peak (valued at the customer's own base-plan usage charge)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "smud:nem1-ledger-net-credit"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:nem1-pd-net-credit-tou4",
+              "urpx:name": "NEM1 net-excess credit, Non-Summer Peak (valued at the customer's own base-plan usage charge)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "smud:nem1-ledger-net-credit"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:nem1-pd-net-credit-tou5",
+              "urpx:name": "NEM1 net-excess credit, Non-Summer Off-Peak (valued at the customer's own base-plan usage charge)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 5,
               "urpx:referencesLedger": {
                 "@id": "smud:nem1-ledger-net-credit"
               }
@@ -355,13 +431,153 @@
         "urpx:hasPrice": [
           {
             "@type": "urpx:Price",
-            "@id": "smud:nem1-price-net-credit-placeholder",
+            "@id": "smud:nem1-price-credit-tod-5-8pm-tou1",
             "urpx:referencesPriceDefinition": {
-              "@id": "smud:nem1-pd-net-credit"
+              "@id": "smud:nem1-pd-net-credit-tou1"
             },
             "urpx:startDate": "2021-09-17",
-            "urpx:name": "NEM1 Net Metering Credit (placeholder; actual credit = customer's applicable base-rate energy charge × excess exported kWh, per Sheet 2.V.D)",
-            "urpx:unitPrice": "0"
+            "urpx:name": "NEM1 credit mirroring smud:tod-5-8pm Summer Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-summer-peak"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-low-use-tou1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou1"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-low-use Summer Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-summer-peak-rtl1"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-5-8pm-tou2",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou2"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-5-8pm Summer Mid-Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-summer-mid-peak"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-low-use-tou2",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou2"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-low-use Summer Mid-Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-summer-mid-peak-rtl1"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-5-8pm-tou3",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou3"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-5-8pm Summer Off-Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-summer-off-peak"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-low-use-tou3",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou3"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-low-use Summer Off-Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-summer-off-peak-rtl1"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-5-8pm-tou4",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou4"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-5-8pm Non-Summer Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-non-summer-peak"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-low-use-tou4",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou4"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-low-use Non-Summer Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-non-summer-peak-rtl1"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-5-8pm-tou5",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou5"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-5-8pm Non-Summer Off-Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-non-summer-off-peak"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:nem1-price-credit-tod-low-use-tou5",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:nem1-pd-net-credit-tou5"
+            },
+            "urpx:startDate": "2021-09-17",
+            "urpx:name": "NEM1 credit mirroring smud:tod-low-use Non-Summer Off-Peak",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "smud:price-usage-non-summer-off-peak-rtl1"
+              }
+            ]
           }
         ]
       },
@@ -406,7 +622,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "The compensation this schedule grants is the part the filing cannot state. Section V.D credits excess exported electricity at retail value, meaning the energy charge of whichever base rate the customer is on, and allows those credits only against electricity usage charges. The base rate here is the customer's own R-TOD or Fixed Rate plan rather than anything this filing contains, and it ships a placeholder price of zero in its place: read the credit from the customer's base plan, not from the zero carried here. This is a gap in the filing rather than in the vocabulary. urpx:basedOnPrice is constrained only to resolve to a urpx:Price or urpx:PriceSummary in the validated graph, with nothing scoping it to the referring document, and multiple values are read as candidate bases of which one is present, so the reference is expressible and has not yet been written here. The settlement mechanics of Section VI are unmodeled as well: a 12-month settlement period over which monthly credits carry forward, with unused accumulated credit liable to be zeroed out at the end of it. So is the Section VI.A annual net surplus election, under which a customer with net surplus over the 12 months takes either a monetary payment or a roll-over of the surplus kWh, the payment rate being set from the most recent SMUD budget as expected avoided generation and production-related costs divided by forecasted annual energy sales and published on smud.org by December 20 before the year it applies, with the renewable energy credits for purchased kWh passing to SMUD; the schedule states no dollar figure, so none is carried. Section VI.B's opt-out, under which a customer forgoes all surplus compensation and keeps the associated renewable energy credits, is absent too. Section II exempts these customers from generator standby charges on the portion of load served by the eligible facility, and that exemption has nothing to attach to because the Standby Service Charge of Schedules R and R-TOD is itself not modeled in this corpus. Four eligibility conditions are structural: residential service, the Section I requirement that the interconnection application was approved before March 1, 2022, a qualifying renewable generation type, and the 3,000 kW capacity ceiling of Section III.A.9. The other eight requirements of Section III.A are prose only, among them parallel operation with SMUD's distribution facilities, compliance with Rule and Regulation 21, a single metering point, the facility being intended primarily to offset the customer's own use, the disqualification of customers who have taken SMUD storage incentives, and the ceiling on growth above originally approved capacity of 10 percent or 1 kW, whichever is greater, and 110 percent in total. Section VII, which requires residential customers whose facility was approved on or after January 1, 2018 to be on Rate Schedule R-TOD, is prose as well. Two decisions are scope rather than gap: the schedule also covers commercial, industrial and agricultural customers and this filing is residential only, and the Section IV bidirectional meter SMUD installs at no cost is a metering operation rather than a rate.",
+          "urpx:description": "The compensation this schedule grants is the part the filing cannot state. Section V.D credits excess exported electricity at retail value, meaning the energy charge of whichever base rate the customer is on, and allows those credits only against electricity usage charges. The base rate here is the customer's own R-TOD or Fixed Rate plan rather than anything this filing contains, and the credit is now written as ten urpx:multiplier -1 Prices, each naming exactly one urpx:basedOnPrice among the five usage Prices of smud:tod-5-8pm and the five of smud:tod-low-use. Each self-scopes: the credit written against the base plan a customer is not on returns an unresolved reference rather than a wrong number. Two cells remain unwritten, for smud:fixed, and the reason is the consumer rather than the tariff: clj-urpx 0.31.0 filters modifier-path PriceDefinitions by TOU period alone, so a credit gated by season or month is inert there and both Fixed Rate cells would surface at once. Attributing the credit to the time-of-day period the export occurred in is this filing's inference and not the schedule's rule: Section V.D credits a monthly net excess and names no period, season or tier, and SMUD writes an explicit per-interval export price elsewhere when it means one. The settlement mechanics of Section VI are unmodeled as well: a 12-month settlement period over which monthly credits carry forward, with unused accumulated credit liable to be zeroed out at the end of it. So is the Section VI.A annual net surplus election, under which a customer with net surplus over the 12 months takes either a monetary payment or a roll-over of the surplus kWh, the payment rate being set from the most recent SMUD budget as expected avoided generation and production-related costs divided by forecasted annual energy sales and published on smud.org by December 20 before the year it applies, with the renewable energy credits for purchased kWh passing to SMUD; the schedule states no dollar figure, so none is carried. Section VI.B's opt-out, under which a customer forgoes all surplus compensation and keeps the associated renewable energy credits, is absent too. Section II exempts these customers from generator standby charges on the portion of load served by the eligible facility, and that exemption has nothing to attach to because the Standby Service Charge of Schedules R and R-TOD is itself not modeled in this corpus. Four eligibility conditions are structural: residential service, the Section I requirement that the interconnection application was approved before March 1, 2022, a qualifying renewable generation type, and the 3,000 kW capacity ceiling of Section III.A.9. The other eight requirements of Section III.A are prose only, among them parallel operation with SMUD's distribution facilities, compliance with Rule and Regulation 21, a single metering point, the facility being intended primarily to offset the customer's own use, the disqualification of customers who have taken SMUD storage incentives, and the ceiling on growth above originally approved capacity of 10 percent or 1 kW, whichever is greater, and 110 percent in total. Section VII, which requires residential customers whose facility was approved on or after January 1, 2018 to be on Rate Schedule R-TOD, is prose as well. Two decisions are scope rather than gap: the schedule also covers commercial, industrial and agricultural customers and this filing is residential only, and the Section IV bidirectional meter SMUD installs at no cost is a metering operation rather than a rate.",
           "urpx:evaluatedOn": "2026-09-21T00:00:00"
         }
       }
