@@ -69,7 +69,9 @@ Each per-cell Price carries its CEC **MIDAS Rate Identification Number (RIN)** i
 | NBT26 | `USCA-XXSD-NB26-0000` | `USCA-SDXX-NB26-0000` |
 | NBT00 | `USCA-XXSD-NB00-0000` | `USCA-SDXX-NB00-0000` |
 
-Downstream tools can verify URPX-resolved prices against MIDAS by RIN + instant lookup — for any (vintage, component, instant) tuple, the same data exists in MIDAS keyed by RIN. This is the first RIN-tagged filing in the corpus; the pattern is extensible to other MIDAS-published rates (PG&E NBT, SCE NBT, IOU TOU schedules) when their RIN mappings are located.
+These ten RINs are read out of SDG&E's own MIDAS-format upload, and MIDAS does not publish them: none of the ten appears in the mined feed of 74,097 identifiers (fetched 2026-09-23), and the `XXSD` segment appears zero times in it, though `SDXX` appears 1,338 times. The 32 `NB`-code identifiers MIDAS does carry are all community-choice aggregators (`XXCP`, `XXEA`, `XXSA`, `XXSJ`, `XXPE`, `XXMB`). So a downstream tool cannot currently cross-check this filing's prices against MIDAS by RIN, and the identifiers stand as SDG&E's own labeling rather than as a resolvable key. `dev/lint_rate_identifiers.py` reports them on every run against both references.
+
+This is the first RIN-tagged filing in the corpus. The pattern is extensible to other MIDAS-published rates (PG&E NBT, SCE NBT, IOU TOU schedules) when their RIN mappings are located, and the 14 PG&E and SCE identifiers elsewhere in the corpus do resolve against the feed.
 
 ## What's deferred
 

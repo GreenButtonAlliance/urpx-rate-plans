@@ -49,12 +49,19 @@ TWO FINDINGS, DELIBERATELY NOT MERGED, because they are not equally strong:
           is a SAMPLE, not a grammar, and failing on it would assert that a
           months-old snapshot enumerates what MIDAS can issue.
 
-  REPORT  the identifier is well formed but does not appear in the snapshot.
-          That is a statement about the snapshot's contents, and the snapshot is
-          dated and cannot currently be refreshed (the MIDAS token endpoint
-          returns 401 to the stored credentials). "Absent from a months-old
-          snapshot" is not "does not exist", so failing the gate on it would
-          make the gate depend on the freshness of a file nobody can refresh.
+  REPORT  the identifier is well formed but appears in neither reference: not
+          in the dated snapshot, and not in the mined feed in data/midas/, which
+          dev/mine_midas.py refreshes daily and which holds the whole census.
+          Two sources rather than one, because the snapshot is a months-old
+          partial sample and a miss against it alone says very little.
+
+          Still REPORT and not FAIL, and the reason has changed. It used to be
+          that the snapshot could not be refreshed at all, so absence was
+          uninformative. The feed is mined now, so absence from it is real
+          evidence. What it is evidence OF is the limit: these strings are read
+          out of a utility's own MIDAS-format upload, not composed here, so MIDAS
+          not carrying one is a fact about MIDAS coverage rather than about the
+          identifier. The corpus is not the party that would be wrong.
 
 Identifiers are found by scanning every file of every filing directory, not by
 reading a list and not by looking in one property. They live in `urpx:name` free
@@ -71,6 +78,7 @@ import argparse
 import collections
 import json
 import re
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -79,6 +87,10 @@ sys.path.insert(0, str(REPO / "dev"))
 import corpus  # noqa: E402
 
 MIDAS = REPO / "reports" / "midas-coverage.json"
+# The mined feed, refreshed daily by dev/mine_midas.py. It is the same
+# authority as the snapshot and simply more of it, so it corroborates
+# alongside rather than instead. Optional: absent, the snapshot still runs.
+STORE = REPO / "data" / "midas" / "midas.sqlite"
 
 # The candidate-token shape, deliberately looser than any real identifier: four
 # dash-separated alphanumeric groups. It decides what gets CHECKED, never what
@@ -271,7 +283,29 @@ def scan_corpus(dirs=None) -> dict:
 # The verdict
 # ---------------------------------------------------------------------------
 
-def classify(rin: str, grammar: dict) -> dict:
+def load_store(path: Path = STORE) -> dict | None:
+    """Read every identifier the mined feed holds, or None if there is no store.
+
+    Absence is not a refusal here, unlike the snapshot: this is a second source
+    of corroboration and the check still compares something without it. What it
+    must never do is report a miss as a hit, so a store that cannot be opened
+    or holds no rows returns None rather than an empty set.
+    """
+    path = Path(path)
+    if not path.exists():
+        return None
+    try:
+        c = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        known = {r[0] for r in c.execute("SELECT rid FROM rate WHERE rid IS NOT NULL")}
+        first, last = c.execute("SELECT MIN(fetched_at), MAX(fetched_at) FROM rate").fetchone()
+    except sqlite3.Error:
+        return None
+    if not known:
+        return None
+    return {"path": path, "known": known, "records": len(known), "fetched_at": last or first}
+
+
+def classify(rin: str, grammar: dict, store: dict | None = None) -> dict:
     """Structure first, then presence. The two are reported separately."""
     parts = rin.split("-")
     problems = []
@@ -289,6 +323,7 @@ def classify(rin: str, grammar: dict) -> dict:
         "well_formed": not problems,
         "problems": problems,
         "in_snapshot": rin in grammar["known"],
+        "in_store": bool(store) and rin in store["known"],
         # Reported alongside absence, never failed on. See the module docstring.
         "segment_unattested": (
             len(parts) == 4 and parts[1] not in grammar["segments"]
@@ -297,22 +332,28 @@ def classify(rin: str, grammar: dict) -> dict:
     }
 
 
-def build(snapshot: Path = MIDAS, dirs=None) -> dict:
+def build(snapshot: Path = MIDAS, dirs=None, store: Path = STORE) -> dict:
     grammar = load_grammar(snapshot)
+    st = load_store(store)
     scan = scan_corpus(dirs)
-    verdicts = [classify(r, grammar) for r in sorted(scan["identifiers"])]
+    verdicts = [classify(r, grammar, st) for r in sorted(scan["identifiers"])]
+    # Corroborated by EITHER source. Adding the store can only move an
+    # identifier out of "reported" and never into "failing", so a second
+    # reference cannot manufacture a failure.
+    seen = lambda v: v["in_snapshot"] or v["in_store"]  # noqa: E731
     return {
         "grammar": grammar,
+        "store": st,
         "scan": scan,
         "verdicts": verdicts,
         "failing": [v for v in verdicts if not v["well_formed"]],
-        "reported": [v for v in verdicts if v["well_formed"] and not v["in_snapshot"]],
-        "corroborated": [v for v in verdicts if v["well_formed"] and v["in_snapshot"]],
+        "reported": [v for v in verdicts if v["well_formed"] and not seen(v)],
+        "corroborated": [v for v in verdicts if v["well_formed"] and seen(v)],
     }
 
 
 def render(d: dict) -> None:
-    g, s = d["grammar"], d["scan"]
+    g, s, st = d["grammar"], d["scan"], d.get("store")
     fail, rep, ok = d["failing"], d["reported"], d["corroborated"]
 
     print(f"MIDAS rate identifiers: {len(fail)} malformed, {len(rep)} uncorroborated, "
@@ -328,6 +369,12 @@ def render(d: dict) -> None:
           + ", ".join(f"{k} ({v:,})" for k, v in sorted(g["prefixes"].items())))
     print(f"              {len(g['segments'])} party segment(s) attested: "
           + ", ".join(f"{k} ({v:,})" for k, v in sorted(g["segments"].items())))
+    if st:
+        print(f"  reference   {_shown(st['path'])} fetched {st['fetched_at']}")
+        print(f"              {st['records']:,} identifiers, the whole mined feed")
+    else:
+        print("  reference   no mined feed in data/midas/; the snapshot is the only "
+              "corroboration")
     print(f"  corpus      {s['filings']} filing(s) scanned, {s['files_read']:,} file(s) read")
     print(f"              {len(s['identifiers'])} distinct identifier(s) in "
           f"{len(s['filings_citing'])} filing(s), {s['occurrences']:,} occurrence(s)")
@@ -355,20 +402,23 @@ def render(d: dict) -> None:
         print()
 
     if rep:
-        print(f"report  {len(rep)} identifier(s) are well formed but appear in no snapshot record:")
+        print(f"report  {len(rep)} identifier(s) are well formed but appear in neither reference:")
         for v in rep:
             print(f"    {v['rin']}")
             sites(v)
         print()
-        print(f"    Reported, not failed. The snapshot is dated {g['generated_at']} and")
-        print("    cannot be refreshed at present: the MIDAS token endpoint returns 401 to")
-        print("    the stored credentials. Absent from a months-old snapshot is not")
-        print("    evidence that an identifier does not exist, so the gate does not turn")
-        print("    on it.")
+        print("    Reported, not failed. These appear in neither reference: not in the")
+        print(f"    snapshot dated {g['generated_at']}, and not in the mined feed"
+              + (f" of {st['records']:,}" if st else ""))
+        print("    identifiers" + (f" fetched {st['fetched_at']}." if st else ".")
+              + " They are read out of a utility's own")
+        print("    MIDAS-format upload rather than composed here, so an absence is a fact")
+        print("    about MIDAS coverage, not about the identifier, and the gate does not")
+        print("    turn on it.")
         print()
 
     if ok:
-        print(f"ok  {len(ok)} identifier(s) are well formed and appear in the snapshot:")
+        print(f"ok  {len(ok)} identifier(s) are well formed and corroborated:")
         print("    " + ", ".join(v["rin"] for v in ok))
 
 
