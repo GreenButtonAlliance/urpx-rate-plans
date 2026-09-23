@@ -514,7 +514,7 @@ the same grain.** One SCE PDF is the source for six directories here:
 `ELECTRIC_SCHEDULES_TOU-D.pdf` backs `tou-d-4-9pm`, `tou-d-5-8pm`, `tou-d-prime`,
 `tou-d-prime-cpp`, `deed-restricted` and `fera`. Matching a directory name
 against a schedule code would report all six as unmodeled and `tou-d` as missing.
-`dev/list_tariffs_to_model.py` instead matches each filing's recorded
+`dev/list_rate_plans_to_model.py` instead matches each filing's recorded
 `[source] url` against the document the inventory names, which settles the
 attribution from what the corpus already records rather than from guessing at
 names.
@@ -646,7 +646,7 @@ The two questions these reports keep apart are **servability** (can a price serv
 | `version-continuity.md` / `.edn` | `dev/list_version_continuity.py` | What periods the corpus can price, per plan identity, from `[effective, expiration)` spans laid end to end. Gaps are backlog (a rate change we never captured, recoverable from the utility's archive) and do not fail; overlaps are modeling errors and do. Carries how long since each filing's source was last checked, which is the number that predicts the next gap. |
 | `midas-catalog.md` / `.edn` | `dev/list_midas_catalog.py` | What the mined MIDAS feed contains: parties, rate types, sectors, and which rate-plan links point at a tariff document rather than a landing page. Reads `data/midas/`, which is gitignored (§10b), so it is not in `check_all.py`'s step list and refuses rather than writing an empty report when the store is absent. |
 | `california-parties.md` | `dev/list_california_parties.py` | Every organization selling electricity in the MIDAS feed, with its party segment, the `<utility>` slug this corpus assigns it, whether it is investor-owned, publicly owned or a community choice aggregator, and whether it has filings yet. Same gitignored dependency and the same refusal. The investor-owned / publicly owned / community choice classification is asserted in the generator, because MIDAS carries none. |
-| `tariffs-to-model.md` | `dev/list_tariffs_to_model.py` | The backlog: every schedule an inventory names, and whether this corpus models it. Keeps utilities with a real inventory apart from those known only through an observed feed, and computes a coverage percentage only for the former. Carries the document link and, where one has been fetched, says so. |
+| `rate-plans-to-model.md` | `dev/list_rate_plans_to_model.py` | The backlog: every schedule an inventory names, and whether this corpus models it. Keeps utilities with a real inventory apart from those known only through an observed feed, and computes a coverage percentage only for the former. Carries the document link and, where one has been fetched, says so. |
 | `midas-coverage.md` / `.json` | `scripts/build-midas-coverage-report.py` | Which CPUC MIDAS rate identifiers this corpus or the price server covers. Networked, credentialed and slow, so it is deliberately NOT in `check_all.py`'s step list; its age is printed on every full run instead. |
 
 Servability figures are always *as of the recorded baseline*. `dev/baseline/marginal-rates.edn` is not auto-generated: re-record it deliberately with `clojure -M:validate --record-baseline` and review the diff.

@@ -1,12 +1,12 @@
 # urpx-rate-plans
 
-A corpus of utility electric **tariff documents** (the regulatory PDFs) and **URPX rate-plan serializations** (the structured JSON-LD extracted from them).
+A corpus of **URPX rate plans**, curated from electric utility tariff filings and kept with the tariff documents they were read from.
 
-The serializations use the [URPX ontology](https://github.com/urpx-org/urpx) — a machine-readable, validatable representation of each rate plan. Each filing directory holds the source PDF, a `tariff.toml` provenance manifest, and one `urpx:RatePlan` (or `urpx:RatePlanModifier`) JSON-LD file.
+Each rate plan is expressed in the [URPX ontology](https://github.com/urpx-org/urpx): a machine-readable, validatable statement of everything needed to calculate what a customer is charged. A filing directory holds the tariff document, a `tariff.toml` provenance manifest, and the rate plan itself, serialized as JSON-LD.
 
 > **Terminology (per [URPX](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use))**: a *tariff* is the regulatory document, such as a tariff book, containing one or more rate plans; a *rate plan* is the complete set of parameters needed to calculate what a customer is charged, including prices, TOU schedules, service tiers, seasonal variation and eligibility rules; a *rate* is a single price value, incomplete without the rate plan around it. What this corpus curates is rate plans. It keeps the tariff documents they were read from because those are the evidence, and because utilities remove them.
 
-**This repo is a work in progress.** It is driven by an expanding set of [Big Hairy Audacious Goals (BHAGs)](https://www.jimcollins.com/concepts/bhag.html). The first BHAG is **model all California residential tariffs**. We are working incrementally toward that goal in priority order — the rate plans serving the most customers first, niche schedules later.
+**This repo is a work in progress.** It is driven by an expanding set of [Big Hairy Audacious Goals (BHAGs)](https://www.jimcollins.com/concepts/bhag.html). The first BHAG is **model every California residential rate plan**. We are working incrementally toward that goal in priority order — the rate plans serving the most customers first, niche schedules later.
 
 The initial motivation is to enable the [Grid Coordination Price Server](https://github.com/grid-coordination/price-server-user-guide) to ingest these URPX rate plans and publish [OpenADR 3](https://www.openadr.org/) programs and *computed* prices derived from the tariff structures. The price server is the consumer; this corpus is the source of truth for what the underlying tariffs say.
 
@@ -89,7 +89,7 @@ What this corpus cannot express in URPX v0.5.1, and what it has not yet converte
 
 Six utilities have filings: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Together they cover 63 schedules across 71 filings. Fifteen more organizations have a discovery manifest and no filing yet, fourteen community choice aggregators and one municipal utility; that is a normal state, not an incomplete one.
 
-[`reports/tariffs-to-model.md`](./reports/tariffs-to-model.md) has the per-schedule detail, including which of each utility's published schedules are still unmodeled. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization selling electricity in California.
+[`reports/rate-plans-to-model.md`](./reports/rate-plans-to-model.md) has the per-schedule detail, including which of each utility's published schedules are still unmodeled. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization selling electricity in California.
 
 ## Contributing
 

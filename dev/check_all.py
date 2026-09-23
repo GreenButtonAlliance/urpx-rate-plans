@@ -78,6 +78,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
     ("list_version_continuity",     ["python3", "dev/list_version_continuity.py"]),
     ("list_rate_identifiers",       ["python3", "dev/list_rate_identifiers.py"]),
+    ("list_rate_plans_to_model",    ["python3", "dev/list_rate_plans_to_model.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
     ("lint_copy_divergence",        ["python3", "dev/lint_copy_divergence.py"]),
