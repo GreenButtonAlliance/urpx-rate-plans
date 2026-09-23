@@ -53,9 +53,19 @@ Document responses carry neither Last-Modified nor ETag, so a conditional
 request buys nothing and change detection has to compare sha256.
 
 The /tariff/ endpoint serves only schedules currently in force: the 99 current
-ones fetch and all 59 closed ones return 404. Closed schedules are published
-through /historical/?utilId=SDGE&bookId=ELEC&tarfKey=<N>&tarfYear=<YYYY>, with
-the years available in each row's TARF_YEARS. Not wired up yet.
+ones fetch and all 59 closed ones return 404 there. Closed schedules come from
+/historical/?utilId=SDGE&bookId=ELEC&tarfKey=<N>&tarfYear=<YYYY>, and this
+corpus takes the last year in TARF_YEARS, the version in force when the
+schedule closed.
+
+TARF_YEARS is a lower bound, not the whole range: DR-TOU lists 2000 onward and
+tarfYear=1999 returns a real tariff sheet. A year genuinely outside the range
+returns 404, so probing is safe.
+
+THE BYTES ARE NOT STABLE. Fetching one URL three times gives three different
+sha256 values: four bytes differ deep inside a compressed stream and the length
+moves by one. The PDF is regenerated per request. The extracted text is
+identical every time, so change detection compares the text, not the bytes.
 
 Two distinct schedules, 20/20 (tarfKey 345) and 20-20 (tarfKey 65), reduce to
 the same directory name. Both are retired. dev/build_inventory.py records the

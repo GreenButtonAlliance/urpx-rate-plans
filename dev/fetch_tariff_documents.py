@@ -45,8 +45,11 @@ import hashlib
 import http.cookiejar
 import json
 import re
+import shutil
 import sqlite3
+import subprocess
 import sys
+import tempfile
 import threading
 import urllib.error
 import urllib.parse
@@ -102,6 +105,33 @@ def sharepoint_session(share_url: str) -> urllib.request.OpenerDirector:
     return op
 
 
+def content_key(body: bytes) -> str | None:
+    """A change key for a document whose bytes are not stable.
+
+    SDG&E regenerates its PDFs per request: fetching one URL three times gives
+    three different sha256 values, differing in four bytes deep inside a
+    compressed stream, with the length moving by one. The text is identical
+    every time. So the bytes cannot say whether a document changed and the text
+    can.
+
+    Returns None when the text cannot be extracted, which makes the caller fall
+    back to comparing bytes rather than treating every document as unchanged.
+    """
+    exe = shutil.which("pdftotext")
+    if not exe or body[:5] != b"%PDF-":
+        return None
+    with tempfile.NamedTemporaryFile(suffix=".pdf") as f:
+        f.write(body)
+        f.flush()
+        try:
+            out = subprocess.run([exe, "-q", f.name, "-"], capture_output=True, timeout=120)
+        except (subprocess.SubprocessError, OSError):
+            return None
+    if out.returncode != 0 or not out.stdout.strip():
+        return None
+    return hashlib.sha256(out.stdout).hexdigest()
+
+
 def unwrap_multipart(body: bytes) -> bytes:
     """SharePoint returns the file inside a multipart/form-data envelope.
 
@@ -122,20 +152,28 @@ def unwrap_multipart(body: bytes) -> bytes:
 def filename(url: str, target: dict, res: dict) -> str:
     """What to call the file on disk.
 
-    Usually the URL's own basename, which is what a publisher meant it to be
-    called. SDG&E is the exception: every one of its documents is served from
-    the single path /tariff/, so the basename is "tariff" for all 158 and they
-    would overwrite each other. There the schedule the inventory attributes it
-    to is the name, which is also the more useful one.
+    A publisher that puts the document's name in the URL gets to keep it:
+    ELEC_SCHEDS_E-TOU-C.pdf says what it is. SDG&E puts nothing there. Every one
+    of its documents is served from /tariff/ or /historical/ with the identity
+    in the query string, so the basename is the same for all 159 of them.
+
+    The test is whether the basename carries a file extension, not whether it is
+    one of a list of known-generic words. The first version listed "tariff",
+    "download", "index", "view" and "file", which covered /tariff/ and then let
+    all 60 documents from /historical/ overwrite each other as historical.pdf.
+    A rule that has to enumerate the failures will keep missing one.
     """
     name = Path(urllib.parse.unquote(urllib.parse.urlparse(url).path)).name
-    stem = Path(name).stem
-    if not stem or stem in ("tariff", "download", "index", "view", "file"):
+    if not Path(name).suffix:
         sched = next((o.split(":", 1)[1] for o in target["segments"]
                       if ":" in o and not o.startswith("midas:")), None)
         if sched:
-            name = f"{sched}.pdf"
-    if "." not in name and (res.get("media_type") or "").endswith("pdf"):
+            # A year distinguishes editions of one schedule, so a schedule whose
+            # archive is later fetched in full does not collapse to one file.
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
+            year = (q.get("tarfYear") or [None])[0]
+            name = f"{sched}-{year}.pdf" if year else f"{sched}.pdf"
+    if not Path(name).suffix and (res.get("media_type") or "").endswith("pdf"):
         name += ".pdf"
     return re.sub(r"[^A-Za-z0-9._-]", "_", name) or "document"
 
@@ -184,9 +222,13 @@ def _links():
         d = json.loads(f.read_text())
         for sch, rec in d["schedules"].items():
             for src, body in rec.get("sources", {}).items():
-                if body.get("document_url"):
-                    yield (body["document_url"], f"{d['utility']}:{sch}", 0,
-                           body.get("share_url"), body.get("server_relative_url"))
+                # also_named holds schedules whose code reduced to a directory
+                # name already taken. They are real documents and were being
+                # skipped because only the winning record was read.
+                for b in [body, *body.get("also_named", [])]:
+                    if b.get("document_url"):
+                        yield (b["document_url"], f"{d['utility']}:{sch}", 0,
+                               b.get("share_url"), b.get("server_relative_url"))
 
 
 def load_targets() -> dict[str, dict]:
@@ -329,6 +371,26 @@ def fetch_sharepoint(url: str, target: dict) -> dict:
         return {"outcome": "unreachable", "note": f"{type(e).__name__}: {e}"}
 
 
+def file_path_clashes(rows) -> list[str]:
+    """Documents that would be written to the same path.
+
+    Two documents must never share a file path. Both filename defects in this
+    file were this invariant being violated silently: the manifest recorded 159
+    SDG&E documents while the directory held one, and every printed count still
+    looked right, because a count of rows is not a count of files.
+    """
+    claimed: dict[str, str] = {}
+    out: list[str] = []
+    for d in rows:
+        f = d.get("file")
+        if not f:
+            continue
+        if f in claimed and claimed[f] != d["url"]:
+            out.append(f"{f} <- {claimed[f]} and {d['url']}")
+        claimed[f] = d["url"]
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -370,13 +432,39 @@ def main() -> int:
             # fetched -> unchanged transition and read as a run log.
             row = {"url": url, "identifiers": t["identifiers"], "named_by": t["segments"]}
 
-            if res["outcome"] == "unchanged" or (
-                    res["outcome"] == "fetched" and p.get("sha256") == res["sha256"]):
+            # A row is only "unchanged" if the file it claims is still there.
+            # Without this a manifest can assert it holds a document that was
+            # removed or overwritten, and no run would ever notice.
+            on_disk = bool(p.get("file")) and (REPO / p["file"]).exists()
+            same = res["outcome"] == "unchanged" and on_disk
+            if res["outcome"] == "unchanged" and not on_disk:
+                res = fetch(url, None, True, t)
+                body = res.pop("_body", None)
+            if res["outcome"] == "fetched" and not same and on_disk:
+                if p.get("sha256") == res["sha256"]:
+                    same = True
+                else:
+                    # Bytes differ. That is not the same as the document having
+                    # changed: SDG&E regenerates its PDFs per request. Ask the
+                    # text before believing the bytes.
+                    ck = content_key(body)
+                    res["content_sha256"] = ck
+                    have = p.get("content_sha256")
+                    if have is None and p.get("file") and ck:
+                        f = REPO / p["file"]
+                        if f.exists():
+                            have = content_key(f.read_bytes())
+                    if ck and have and ck == have:
+                        same = True
+            if same:
                 # Carry the prior row forward untouched so a no-op run is a no-op
                 # in git too. See the docstring on what retrieved_on means.
                 row.update({k: v for k, v in p.items()
                             if k in ("sha256", "retrieved_on", "media_type", "bytes",
-                                     "etag", "last_modified", "file", "final_url", "note")})
+                                     "etag", "last_modified", "file", "final_url", "note",
+                                     "content_sha256")})
+                if res.get("content_sha256") and not row.get("content_sha256"):
+                    row["content_sha256"] = res["content_sha256"]
                 row["state"] = "have-document"
                 # The layout can change under a document that never does. Move
                 # the file rather than leaving the manifest pointing at a path
@@ -398,6 +486,9 @@ def main() -> int:
                             "media_type": res["media_type"], "bytes": res["bytes"],
                             "etag": res["etag"], "last_modified": res["last_modified"],
                             "file": f"data/documents/{rel}"})
+                ck = res.get("content_sha256") or content_key(body)
+                if ck:
+                    row["content_sha256"] = ck
                 row["state"] = "have-document"
                 if res.get("final_url"):
                     row["final_url"] = res["final_url"]
@@ -419,6 +510,15 @@ def main() -> int:
             results[url] = {"url": url, "identifiers": t["identifiers"],
                             "named_by": t["segments"], "state": "alias",
                             "alias_of": t["canonical"]}
+
+    clashes = file_path_clashes(results.values())
+    if clashes:
+        print(f"REFUSING: {len(clashes)} file path(s) claimed by more than one "
+              f"document, so the later fetch overwrote the earlier and the "
+              f"manifest would report both as held.", file=sys.stderr)
+        for c in clashes[:5]:
+            print(f"  {c}", file=sys.stderr)
+        return 3
 
     docs = sorted(results.values(), key=lambda d: d["url"])
     MANIFEST.write_text(json.dumps(

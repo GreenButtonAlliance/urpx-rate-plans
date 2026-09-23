@@ -228,6 +228,16 @@ def sdge_tariff_portal(offline: bool):
     rather than from TARF_STATUS_CD, because the two disagree: 100 rows are
     marked Active while only 99 appear in `tariffs`, the odd one being TOU-DR-E2,
     which is Active and whose rate group is nonetheless "Retired".
+
+    The two kinds of schedule are served by different endpoints, and asking the
+    wrong one gives a 404 rather than an error worth reading: `tariff` serves
+    only what is in force, `historical` serves a named year. A closed schedule
+    is recorded at the last year it was published, which is the version that was
+    in force when it closed.
+
+    `TARF_YEARS` is not exhaustive. DR-TOU lists 2000 onward, and 1999 returns a
+    real tariff sheet. Years genuinely outside the range 404, so the list is a
+    lower bound on what is available rather than the whole of it.
     """
     if offline:
         return
@@ -256,9 +266,22 @@ def sdge_tariff_portal(offline: bool):
             "rate_class": (row.get("TARF_RATEGROUP") or "").strip(),
             "source": "sdge-tariff-portal",
         }
+        years = sorted(row.get("TARF_YEARS") or [])
+        if years:
+            rec["years"] = years
         if row.get("TARF_KEY") is not None:
-            rec["document_url"] = (f"{SDGE_API}/tariff/?utilId=SDGE&bookId=ELEC"
-                                   f"&tarfKey={row['TARF_KEY']}")
+            if rec["status"] == "current":
+                rec["document_url"] = (f"{SDGE_API}/tariff/?utilId=SDGE&bookId=ELEC"
+                                       f"&tarfKey={row['TARF_KEY']}")
+            elif years:
+                # /tariff/ serves only what is in force: every closed schedule
+                # 404s there. /historical/ serves them, keyed by year. The last
+                # year published is the version that was in force when the
+                # schedule closed, which is the one document per schedule this
+                # store holds, matching how it treats every other publisher.
+                rec["document_url"] = (f"{SDGE_API}/historical/?utilId=SDGE&bookId=ELEC"
+                                       f"&tarfKey={row['TARF_KEY']}&tarfYear={years[-1]}")
+                rec["document_year"] = years[-1]
         yield "sdge", slug(code), rec
 
 

@@ -560,7 +560,14 @@ The cost is real and accepted: every in-place reissue adds a full copy that git
 keeps forever. When one of these is modeled, its PDF moves into the filing
 directory with its own `tariff.toml`, which is where a source document belongs.
 
-Files are laid out `data/documents/<utility>/<filename>`. The three publishers
+Files are laid out `data/documents/<utility>/<filename>`. A publisher that puts
+the document's name in the URL keeps it (`ELEC_SCHEDS_E-TOU-C.pdf`); SDG&E puts
+nothing there, serving all 159 from `/tariff/` or `/historical/` with the
+identity in the query string, so those are named for the schedule and, where the
+URL names a year, the year. **No two documents may resolve to one path**, and
+that is checked rather than assumed: both naming defects here were this
+invariant breaking silently, the manifest recording 159 documents while the
+directory held one, with every printed count still looking right. The three publishers
 seen so far happen not to collide, each using a prefix of its own (`ELEC_SCHEDS_`
 for PG&E, `ELEC_ELEC-SCHEDS_` for SDG&E, `ELECTRIC_SCHEDULES_` for SCE), so this
 is not a collision already observed. It is that the prefix convention is an IOU
@@ -569,12 +576,31 @@ municipal utility or a community choice aggregator publishing
 `residential-rates.pdf` is the obvious next case. Namespacing by utility costs
 nothing and does not need the collision to arrive first.
 
-**SDG&E's closed schedules are named but not yet held.** Its `/tariff/` endpoint
-serves only what is currently in force: all 99 current schedules fetch, and all
-59 closed ones return 404. The split is exactly along the status the inventory
-records, so nothing is unexplained. Their documents live behind a different
-endpoint, `/historical/` keyed by `tarfKey` and a year from the row's
-`TARF_YEARS`, which is not wired up yet.
+**SDG&E serves its two kinds of schedule from different endpoints.** `/tariff/`
+serves only what is in force, so every closed schedule 404s there; `/historical/`
+serves them, keyed by `tarfKey` and a year. A closed schedule is recorded at the
+last year it was published, which is the version that was in force when it
+closed, so the store holds one document per schedule exactly as it does for every
+other publisher. The full archive is larger: 404 schedule-year pairs for the
+closed schedules and 1,128 for the current ones, none of which is fetched.
+
+`TARF_YEARS` is a lower bound rather than the whole range. DR-TOU lists 2000
+onward and 1999 returns a real tariff sheet; years genuinely outside the range
+404 honestly.
+
+**SDG&E's PDF bytes are not stable, so `sha256` cannot be its change key.**
+Fetching one URL three times gives three different hashes: four bytes differ,
+deep inside a compressed stream, and the length moves by one. The document is
+regenerated per request. The extracted text is identical every time, so
+`content_sha256`, the hash of the text, is the change key and `sha256` records
+the copy actually held.
+
+This is computed only when the bytes differ from what is stored, so PG&E (which
+answers `304`) and SCE (whose bytes are stable once unwrapped) never pay for it.
+Without it every run would rewrite all 159 SDG&E documents and report each as
+changed, and git would gain a full set of blobs each time. Extraction falls back
+to comparing bytes when `pdftotext` is absent or the text cannot be read, which
+over-reports change rather than silently under-reporting it.
 
 **Every URL gets a row whatever happens to it.** Most of what the MIDAS feed
 links cannot be fetched at all, and that is a finding about the feed rather than

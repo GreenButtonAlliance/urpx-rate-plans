@@ -14,31 +14,30 @@ Inventory read from `pge-tariff-book`. 7 of 104 modeled.
 
 | Schedule | Code | Document | Demand signal |
 |---|---|---|---:|
-| `b-19` | B-19 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-19.pdf) | 117 |
-| `b-10` | B-10 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-10.pdf) | 108 |
-| `b-20` | B-20 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-20.pdf) | 104 |
-| `ag` | AG | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG.pdf) | 49 |
-| `b-6` | B-6 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-6.pdf) | 47 |
-| `ag-f` | AG-F | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-F.pdf) | 46 |
-| `b-1` | B-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-1.pdf) | 45 |
-| `bev` | BEV | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_BEV.pdf) | 27 |
-| `ev` | EV | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_EV%20(Sch).pdf) | 16 |
-| `e-19` | E-19 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-19.pdf) | 7 |
-| `a-10` | A-10 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-10.pdf) | 6 |
-| `ag-4` | AG-4 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-4.pdf) | 6 |
-| `ag-5` | AG-5 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-5.pdf) | 6 |
-| `e-20` | E-20 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-20.pdf) | 6 |
-| `a-6` | A-6 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-6.pdf) | 3 |
-| `a-1` | A-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-1.pdf) | 2 |
+| `a-1` | A-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-1.pdf) | — |
+| `a-10` | A-10 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-10.pdf) | — |
 | `a-15` | A-15 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-15.pdf) | — |
+| `a-6` | A-6 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_A-6.pdf) | — |
+| `ag` | AG | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG.pdf) | — |
 | `ag-1` | AG-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-1.pdf) | — |
+| `ag-4` | AG-4 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-4.pdf) | — |
+| `ag-5` | AG-5 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-5.pdf) | — |
+| `ag-f` | AG-F | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-F.pdf) | — |
 | `ag-r` | AG-R | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-R.pdf) | — |
 | `ag-v` | AG-V | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_AG-V.pdf) | — |
+| `b-1` | B-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-1.pdf) | — |
+| `b-10` | B-10 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-10.pdf) | — |
+| `b-19` | B-19 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-19.pdf) | — |
+| `b-20` | B-20 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-20.pdf) | — |
+| `b-6` | B-6 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-6.pdf) | — |
+| `bev` | BEV | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_BEV.pdf) | — |
 | `cca-crs` | CCA-CRS | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_CCA-CRS.pdf) | — |
 | `d-care` | D-CARE | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_D-CARE.pdf) | — |
 | `d-medical` | D-MEDICAL | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_D-MEDICAL.pdf) | — |
 | `da-crs` | DA-CRS | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_DA-CRS.pdf) | — |
 | `dac-gt` | DAC-GT | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_DAC-GT.pdf) | — |
+| `e-19` | E-19 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-19.pdf) | — |
+| `e-20` | E-20 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-20.pdf) | — |
 | `e-amds` | E-AMDS | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-AMDS.pdf) | — |
 | `e-art` | E-ART | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ART.pdf) | — |
 | `e-biomat` | E-BioMAT | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-BioMAT.pdf) | — |
@@ -90,6 +89,7 @@ Inventory read from `pge-tariff-book`. 7 of 104 modeled.
 | `es` | ES | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_ES%20(Sch).pdf) | — |
 | `esr` | ESR | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_ESR.pdf) | — |
 | `et` | ET | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_ET%20(Sch).pdf) | — |
+| `ev` | EV | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_EV%20(Sch).pdf) | — |
 | `ls-1` | LS-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_LS-1.pdf) | — |
 | `ls-2` | LS-2 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_LS-2.pdf) | — |
 | `ls-3` | LS-3 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_LS-3.pdf) | — |
@@ -112,14 +112,6 @@ Inventory read from `pge-tariff-book`. 7 of 104 modeled.
 | `tbcc` | TBCC | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_TBCC.pdf) | — |
 | `tc-1` | TC-1 | [fetched](https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_TC-1.pdf) | — |
 
-<details><summary>10 observed name(s) matching no schedule</summary>
-
-Either a gap in the inventory or a name this corpus does not understand. Listed rather than dropped.
-
-`CEC TEST24HTOU`, `HFP`, `Summer Test HDP`, `TEST24`, `TOU C`, `TOUB`, `TOUC`, `TOUCSR`, `TOUD`, `TOUDSR`
-
-</details>
-
 ## sce
 
 Inventory read from `sce-tariff-book`. 7 of 118 modeled.
@@ -132,7 +124,7 @@ Directories this corpus models under a name the publisher does not use, matched 
 
 | Schedule | Code | Document | Demand signal |
 |---|---|---|---:|
-| `al-2` | AL-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_AL-2.pdf) | 12 |
+| `al-2` | AL-2 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Street%20and%20Area%20Lighting%20and%20Traffic%20Control%20Rates/ELECTRIC_SCHEDULES_AL-2.pdf) | — |
 | `ap-i` | AP_-_I | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Agricultural%20and%20Pumping%20Rates/ELECTRIC_SCHEDULES_AP_-_I.pdf) | — |
 | `biomat` | BIOMAT | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BIOMAT.pdf) | — |
 | `bsc-imo` | BSC-IMO | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_BSC-IMO.pdf) | — |
@@ -244,14 +236,6 @@ Directories this corpus models under a name the publisher does not use, matched 
 | `wi-fi-1` | WI-FI-1 | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WI-FI-1.pdf) | — |
 | `wtr` | WTR | [fetched](https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_WTR.pdf) | — |
 
-<details><summary>51 observed name(s) matching no schedule</summary>
-
-Either a gap in the inventory or a name this corpus does not understand. Listed rather than dropped.
-
-`T8AS`, `T8B`, `T8BS`, `T8D`, `T8DRTP`, `T8DRTPS`, `T8DS`, `T8E`, `T8LGS`, `T8R`, `TD49`, `TD58`, `TDA`, `TDB`, `TDPRIME`, `TDT`, `TEV7D`, `TEV7E`, `TEV8`, `TEV9`, `TG1A`, `TG1B`, `TG1D`, `TG1DRTP`, `TG1E`, `TG1ES`, `TG1LG`, `TG2B`, `TG2D`, `TG2DRTP`, `TG2E`, `TG2R`, `TG3B`, `TG3D`, `TG3DRTP`, `TG3E`, `TG3R`, `TP2A`, `TP2B`, `TP2D49`, `TP2D58`, `TP2DRTP`, `TP2E49`, `TP2E58`, `TP3A`, `TP3B`, `TP3D49`, `TP3D58`, `TP3DRTP`, `TP3E49`, `TP3E58`
-
-</details>
-
 ## sdge
 
 Inventory read from `sdge-tariff-portal`. 11 of 158 modeled. 59 of the 158 are closed to new enrollment, which the publisher states; the rest are current.
@@ -260,38 +244,25 @@ Modeled here, cited no document this inventory names: `care`, `drah`. Each is ei
 
 | Schedule | Code | Status | Document | Demand signal |
 |---|---|---|---|---:|
-| `vgi` | VGI | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=877) | 456 |
-| `al-tou-l` | AL-TOU-L | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=24) | 285 |
-| `dg-r-l` | DG-R-L | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=582) | 280 |
-| `al-tou2` | AL-TOU2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=934) | 250 |
-| `tou-a` | TOU-A | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=777) | 129 |
-| `tou-m` | TOU-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=42) | 116 |
-| `tou-a2` | TOU-A2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=920) | 103 |
-| `tou-a3` | TOU-A3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=931) | 103 |
-| `a6-tou` | A6-TOU | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=29) | 93 |
-| `tou-pa3` | TOU-PA3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=933) | 74 |
-| `pa-t-1` | PA-T-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=73) | 50 |
-| `ev-hp` | EV-HP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1018) | 47 |
-| `ol-tou` | OL-TOU | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=646) | 46 |
-| `tou-pa` | TOU-PA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=779) | 40 |
-| `tou-pa2` | TOU-PA2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=932) | 26 |
-| `ls-2-ad` | LS-2 AD | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=939) | 4 |
-| `20-20` | 20/20 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=345) | — |
-| `a` | A | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=21) | — |
+| `20-20` | 20/20 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=345&tarfYear=2005) | — |
+| `a` | A | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=21&tarfYear=2018) | — |
 | `a-tc` | A-TC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=22) | — |
-| `a-v1` | A-V1 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=30) | — |
-| `a-v2` | A-V2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=31) | — |
-| `a-v3` | A-V3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=32) | — |
-| `ac-saver` | AC SAVER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=867) | — |
-| `ad` | AD | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=23) | — |
+| `a-v1` | A-V1 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=30&tarfYear=2003) | — |
+| `a-v2` | A-V2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=31&tarfYear=2002) | — |
+| `a-v3` | A-V3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=32&tarfYear=2000) | — |
+| `a6-tou` | A6-TOU | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=29) | — |
+| `ac-saver` | AC SAVER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=867&tarfYear=2022) | — |
+| `ad` | AD | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=23&tarfYear=2018) | — |
 | `afp` | AFP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=868) | — |
-| `al-tou-cp` | AL-TOU-CP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=216) | — |
-| `al-tou-der` | AL-TOU-DER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=25) | — |
+| `al-tou-cp` | AL-TOU-CP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=216&tarfYear=2006) | — |
+| `al-tou-der` | AL-TOU-DER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=25&tarfYear=2011) | — |
+| `al-tou-l` | AL-TOU-L | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=24) | — |
 | `al-tou-m` | AL-TOU-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1164) | — |
-| `ao-tou` | AO-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=28) | — |
-| `ay-tou` | AY-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=27) | — |
+| `al-tou2` | AL-TOU2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=934) | — |
+| `ao-tou` | AO-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=28&tarfYear=2001) | — |
+| `ay-tou` | AY-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=27&tarfYear=2018) | — |
 | `biomat` | BIOMAT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=855) | — |
-| `bip` | BIP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=61) | — |
+| `bip` | BIP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=61&tarfYear=2022) | — |
 | `btmm` | BTMM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1037) | — |
 | `cbp` | CBP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=511) | — |
 | `cca` | CCA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=340) | — |
@@ -300,121 +271,126 @@ Modeled here, cited no document this inventory names: `care`, `drah`. Each is ei
 | `cgdl-crs` | CGDL-CRS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=231) | — |
 | `chp` | CHP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=684) | — |
 | `cre` | CRE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=617) | — |
-| `csgt` | CSGT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=953) | — |
-| `d-smf` | D-SMF | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=15) | — |
+| `csgt` | CSGT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=953&tarfYear=2023) | — |
+| `d-smf` | D-SMF | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=15&tarfYear=2003) | — |
 | `da` | DA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=50) | — |
 | `da-crs` | DA-CRS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=223) | — |
-| `dac-gt` | DAC-GT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=952) | — |
-| `dbp` | DBP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=68) | — |
-| `dbp-da` | DBP-DA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=763) | — |
-| `dbp-e` | DBP-E | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=386) | — |
-| `dbp2` | DBP2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=724) | — |
+| `dac-gt` | DAC-GT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=952&tarfYear=2023) | — |
+| `dbp` | DBP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=68&tarfYear=2007) | — |
+| `dbp-da` | DBP-DA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=763&tarfYear=2015) | — |
+| `dbp-e` | DBP-E | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=386&tarfYear=2006) | — |
+| `dbp2` | DBP2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=724&tarfYear=2015) | — |
 | `de` | DE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=20) | — |
 | `derpp` | DERPP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1133) | — |
+| `dg-r-l` | DG-R-L | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=582) | — |
 | `dg-r-m` | DG-R-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1165) | — |
 | `dm` | DM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=11) | — |
-| `dr-li` | DR-LI | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=9) | — |
-| `dr-tou` | DR-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=69) | — |
-| `dr-tou-2` | DR-TOU-2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=70) | — |
-| `dr-tou-der` | DR-TOU-DER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=16) | — |
-| `drwmp` | DRWMP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=676) | — |
-| `ds` | DS | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=12) | — |
+| `dr-li` | DR-LI | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=9&tarfYear=2006) | — |
+| `dr-tou` | DR-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=69&tarfYear=2021) | — |
+| `dr-tou-2` | DR-TOU-2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=70&tarfYear=2002) | — |
+| `dr-tou-der` | DR-TOU-DER | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=16&tarfYear=2011) | — |
+| `drwmp` | DRWMP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=676&tarfYear=2010) | — |
+| `ds` | DS | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=12&tarfYear=2025) | — |
 | `ds-dt-dt-rv` | DS, DT, DT-RV | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1159) | — |
-| `dt` | DT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=13) | — |
-| `dt-rv` | DT-RV | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=14) | — |
+| `dt` | DT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=13&tarfYear=2025) | — |
+| `dt-rv` | DT-RV | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=14&tarfYear=2025) | — |
 | `dwl` | DWL | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=41) | — |
 | `dwr-bc` | DWR-BC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=219) | — |
 | `e-care` | E-CARE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=383) | — |
 | `e-depart` | E-DEPART | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=52) | — |
 | `e-drp` | E-DRP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=848) | — |
-| `e-li` | E-LI | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=10) | — |
+| `e-li` | E-LI | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=10&tarfYear=2006) | — |
 | `e-medical` | E-MEDICAL | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1170) | — |
 | `e-pipp` | E-PIPP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1057) | — |
 | `e-puc` | E-PUC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=53) | — |
 | `e-smop` | E-SMOP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=711) | — |
-| `ecr` | ECR | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=842) | — |
+| `ecr` | ECR | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=842&tarfYear=2024) | — |
 | `ecr-pdt` | ECR-PDT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=856) | — |
 | `edr` | EDR | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=985) | — |
 | `eecc` | EECC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=51) | — |
 | `eecc-cpp-d` | EECC-CPP-D | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=376) | — |
 | `eecc-cpp-d-ag` | EECC-CPP-D-AG | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=785) | — |
-| `eecc-cpp-e` | EECC-CPP-E | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=354) | — |
-| `eecc-cpp-f` | EECC-CPP-F | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=229) | — |
-| `eecc-cpp-v` | EECC-CPP-V | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=228) | — |
-| `eecc-cpp-vol` | EECC-CPP-VOL | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=262) | — |
+| `eecc-cpp-e` | EECC-CPP-E | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=354&tarfYear=2013) | — |
+| `eecc-cpp-f` | EECC-CPP-F | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=229&tarfYear=2006) | — |
+| `eecc-cpp-v` | EECC-CPP-V | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=228&tarfYear=2006) | — |
+| `eecc-cpp-vol` | EECC-CPP-VOL | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=262&tarfYear=2009) | — |
 | `eecc-ev-tou-5-p` | EECC-EV-TOU-5-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1084) | — |
-| `eecc-hpo` | EECC-HPO | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=193) | — |
+| `eecc-hpo` | EECC-HPO | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=193&tarfYear=2004) | — |
 | `eecc-tbs` | EECC-TBS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=261) | — |
-| `eecc-tou` | EECC-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=230) | — |
+| `eecc-tou` | EECC-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=230&tarfYear=2004) | — |
 | `eecc-tou-a-p` | EECC-TOU-A-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=778) | — |
 | `eecc-tou-dr-p` | EECC-TOU-DR-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=776) | — |
 | `eecc-tou-pa-p` | EECC-TOU-PA-P | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=780) | — |
-| `epev-x` | EPEV-X | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=663) | — |
-| `epev-y` | EPEV-Y | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=664) | — |
-| `epev-z` | EPEV-Z | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=665) | — |
-| `ev-tou-3` | EV-TOU-3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=19) | — |
+| `epev-x` | EPEV-X | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=663&tarfYear=2014) | — |
+| `epev-y` | EPEV-Y | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=664&tarfYear=2014) | — |
+| `epev-z` | EPEV-Z | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=665&tarfYear=2014) | — |
+| `ev-hp` | EV-HP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1018) | — |
+| `ev-tou-3` | EV-TOU-3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=19&tarfYear=2011) | — |
 | `fbd` | FBD | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=918) | — |
-| `fta` | FTA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=43) | — |
+| `fta` | FTA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=43&tarfYear=2007) | — |
 | `ghg-arr` | GHG-ARR | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=786) | — |
 | `gt` | GT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=843) | — |
-| `i-3` | I-3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=36) | — |
+| `i-3` | I-3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=36&tarfYear=2000) | — |
 | `ls-1` | LS-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=37) | — |
 | `ls-2` | LS-2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=38) | — |
+| `ls-2-ad` | LS-2 AD | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=939) | — |
 | `ls-2-ds` | LS-2 DS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=938) | — |
 | `ls-3` | LS-3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=39) | — |
-| `mpl` | MPL | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=63) | — |
+| `mpl` | MPL | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=63&tarfYear=2003) | — |
 | `mpmet` | MPMET | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1139) | — |
 | `nbt-v` | NBT-V | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1130) | — |
 | `nda` | NDA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=59) | — |
 | `nem` | NEM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=57) | — |
-| `nem-bio` | NEM-BIO | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=227) | — |
+| `nem-bio` | NEM-BIO | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=227&tarfYear=2008) | — |
 | `nem-fc` | NEM-FC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=306) | — |
 | `nem-st` | NEM-ST | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=871) | — |
 | `nem-v` | NEM-V | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=702) | — |
 | `nem-v-st` | NEM-V-ST | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=872) | — |
-| `nj` | NJ | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=34) | — |
-| `obmc` | OBMC | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=62) | — |
+| `nj` | NJ | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=34&tarfYear=2003) | — |
+| `obmc` | OBMC | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=62&tarfYear=2010) | — |
 | `ol-1` | OL-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=40) | — |
 | `ol-2` | OL-2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=649) | — |
-| `pa` | PA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=45) | — |
-| `pa-tou` | PA-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=72) | — |
-| `peak-day-credit` | Peak Day Credit | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=344) | — |
-| `pevsp` | PEVSP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=802) | — |
-| `pevsp2` | PEVSP2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=879) | — |
-| `pg` | PG | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=71) | — |
-| `plp` | PLP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=632) | — |
-| `ptr` | PTR | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=584) | — |
+| `ol-tou` | OL-TOU | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=646) | — |
+| `pa` | PA | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=45&tarfYear=2018) | — |
+| `pa-t-1` | PA-T-1 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=73) | — |
+| `pa-tou` | PA-TOU | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=72&tarfYear=2002) | — |
+| `peak-day-credit` | Peak Day Credit | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=344&tarfYear=2008) | — |
+| `pevsp` | PEVSP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=802&tarfYear=2015) | — |
+| `pevsp2` | PEVSP2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=879&tarfYear=2016) | — |
+| `pg` | PG | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=71&tarfYear=2002) | — |
+| `plp` | PLP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=632&tarfYear=2009) | — |
+| `ptr` | PTR | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=584&tarfYear=2018) | — |
 | `public-gir` | PUBLIC GIR | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=937) | — |
 | `purpa` | PURPA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1132) | — |
 | `rbrp` | RBRP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=67) | — |
 | `remat` | ReMAT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=727) | — |
 | `res-bct` | RES-BCT | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=639) | — |
-| `rtp-2` | RTP-2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=75) | — |
+| `rtp-2` | RTP-2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=75&tarfYear=2002) | — |
 | `s` | S | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=47) | — |
 | `s-i` | S-I | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=48) | — |
 | `se` | SE | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=49) | — |
 | `slrp` | SLRP | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=66) | — |
 | `spes` | SPES | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=908) | — |
 | `spss` | SPSS | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=515) | — |
-| `tou-dr-e1` | TOU-DR-E1 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=864) | — |
-| `tou-dr-e2` | TOU-DR-E2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=865) | — |
-| `tou-dr-e3` | TOU-DR-E3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=866) | — |
-| `tta-credit` | TTA CREDIT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=54) | — |
+| `tou-a` | TOU-A | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=777) | — |
+| `tou-a2` | TOU-A2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=920) | — |
+| `tou-a3` | TOU-A3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=931) | — |
+| `tou-dr-e1` | TOU-DR-E1 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=864&tarfYear=2017) | — |
+| `tou-dr-e2` | TOU-DR-E2 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=865&tarfYear=2017) | — |
+| `tou-dr-e3` | TOU-DR-E3 | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=866&tarfYear=2017) | — |
+| `tou-m` | TOU-M | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=42) | — |
+| `tou-pa` | TOU-PA | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=779) | — |
+| `tou-pa2` | TOU-PA2 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=932) | — |
+| `tou-pa3` | TOU-PA3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=933) | — |
+| `tta-credit` | TTA CREDIT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=54&tarfYear=2000) | — |
 | `um` | UM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=413) | — |
-| `vdrp` | VDRP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=60) | — |
+| `vdrp` | VDRP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=60&tarfYear=2001) | — |
+| `vgi` | VGI | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=877) | — |
 | `vnem-somah` | VNEM-SOMAH | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=936) | — |
 | `vnm-a` | VNM-A | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=627) | — |
 | `vnm-a-st` | VNM-A-ST | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=873) | — |
 | `water` | WATER | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=553) | — |
 | `wf-nbc` | WF-NBC | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1014) | — |
-
-<details><summary>9 observed name(s) matching no schedule</summary>
-
-Either a gap in the inventory or a name this corpus does not understand. Listed rather than dropped.
-
-`ALTOU`, `ALTOU-C`, `ALTOUGF`, `ALTOUGF-C`, `DGR`, `DGR-C`, `DGRGF`, `DGRGF-C`, `GIR`
-
-</details>
 
 ## smud
 
