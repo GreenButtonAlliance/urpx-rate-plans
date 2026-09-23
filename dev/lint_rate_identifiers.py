@@ -56,9 +56,19 @@ TWO FINDINGS, DELIBERATELY NOT MERGED, because they are not equally strong:
           partial sample and a miss against it alone says very little.
 
           Still REPORT and not FAIL, and the reason has changed. It used to be
-          that the snapshot could not be refreshed at all, so absence was
-          uninformative. The feed is mined now, so absence from it is real
-          evidence. What it is evidence OF is the limit: these strings are read
+          that absence was uninformative, because the only reference was a dated
+          partial sample. The mined feed is a complete census, so absence from it
+          is real evidence.
+
+          The authenticated path is still dead: midasapi.energy.ca.gov/api/Token
+          returns 401 to the stored credentials, verified 2026-09-23. That is no
+          longer a refresh blocker, because nothing here needs it. The listing
+          dev/mine_midas.py reads is unauthenticated (see its `get`, which sends
+          no Authorization header at all), and the store it builds matched the
+          live listing exactly when last compared. So the token being dead is a
+          fact about one endpoint, not about whether the reference can be current.
+
+          What the absence is evidence OF is the limit: these strings are read
           out of a utility's own MIDAS-format upload, not composed here, so MIDAS
           not carrying one is a fact about MIDAS coverage rather than about the
           identifier. The corpus is not the party that would be wrong.
