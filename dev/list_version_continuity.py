@@ -41,11 +41,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import arrangements as A
-
-try:
-    import tomllib
-except ModuleNotFoundError:  # py<3.11
-    import tomli as tomllib  # type: ignore
+import corpus
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -86,7 +82,7 @@ def source_checked_on(version: dict) -> str | None:
     manifest = (REPO / home).parent / "tariff.toml"
     if not manifest.exists():
         return None
-    data = tomllib.loads(manifest.read_text())
+    data = corpus.load_toml(manifest)
     dates: list[str] = []
 
     def walk(node):

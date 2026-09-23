@@ -266,11 +266,7 @@ def read_authored_modeling(toml_path: Path) -> tuple[bool, list[str]] | None:
     """
     if not toml_path.exists():
         return None
-    try:
-        import tomllib
-    except ModuleNotFoundError:
-        import tomli as tomllib
-    block = tomllib.loads(toml_path.read_text()).get("modeling")
+    block = corpus.load_toml(toml_path).get("modeling")
     if block is None or "complete" not in block:
         return None
     return bool(block["complete"]), list(block.get("deferrals") or [])

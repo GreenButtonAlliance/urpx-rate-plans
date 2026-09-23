@@ -23,10 +23,6 @@ import argparse
 import sys
 from pathlib import Path
 
-try:
-    import tomllib  # Python 3.11+
-except ModuleNotFoundError:
-    import tomli as tomllib  # Python 3.10 and earlier
 from collections import defaultdict
 from dataclasses import dataclass, field
 
@@ -101,8 +97,7 @@ def discover_modeled_rate_plans() -> dict[tuple[str, str], ModeledRatePlan]:
 
 
 def load_estimates() -> dict:
-    with ESTIMATES_PATH.open("rb") as f:
-        return tomllib.load(f)
+    return corpus.load_toml(ESTIMATES_PATH)
 
 
 def compute_coverage(

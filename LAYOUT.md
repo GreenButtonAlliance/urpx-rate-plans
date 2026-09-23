@@ -233,10 +233,18 @@ The lint that consumes `applicable_modifiers` lives at `dev/lint_modifier_covera
 
 ## 5. Per-utility discovery manifest: `utility.toml`
 
-Each `us/<subdivision>/<utility>/` directory contains a `utility.toml` pointing at where the utility publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
+Each `us/<subdivision>/<utility>/` directory contains a `utility.toml` recording who the utility is and where it publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
 
 ```toml
-utility           = "pge"
+utility               = "pge"
+
+short_name            = "PG&E"
+legal_name            = "Pacific Gas & Electric Company"
+utility_class         = "iou"
+eia_id                = "14328"
+midas_party_names     = ["Pacific Gas and Electric"]
+midas_bundled_segment = "PGPG"
+midas_delivery_segment = "PGXX"
 
 tariff_index_urls = [
   "https://www.pge.com/en/account/rate-plans/rate-plans/learn-about-rate-plans.html",
@@ -250,9 +258,11 @@ paywalls, etc.
 """
 ```
 
-Required fields are `utility` and `tariff_index_urls` (one or more discovery URLs). `scrape_notes` is optional but recommended — capture what a future scraper will need to know that isn't obvious from the URLs alone.
+Required fields are `utility`, `tariff_index_urls` (one or more discovery URLs) and `utility_class`. `scrape_notes` is optional but recommended: capture what a future scraper will need to know that isn't obvious from the URLs alone.
 
-`dev/lint_utility_manifests.py` runs in `check_all.py` and validates every manifest against the schema. It then checks three things the schema cannot state, because a schema never sees where a file sits or which files are absent: that `utility` equals the directory it sits in, that no two directories claim the same utility, and that a directory holding filings also holds a manifest.
+The identity fields are read through `dev/utilities.py`, and this file is where they live. They were python literals in the generators until the copies disagreed: the regulatory class was written in three places with three vocabularies, and the legal name in four spellings of the same three utilities. `utility_class` is one of `iou`, `pou` or `cca` and is **asserted**, since MIDAS carries no classification. `short_name` is the display name report headings use. `legal_name` and `eia_id` restate what the corpus asserts in `urpx:legalName` and on the `urpx:OrganizationIdentifier`, so they exist only where a filing does. `midas_party_names` is how the MIDAS Energy lookup spells the party, `midas_bundled_segment` and `midas_delivery_segment` are its party segments, and `delivered_by` names the utility slug whose wires carry a community choice aggregator's generation.
+
+`dev/lint_utility_manifests.py` runs in `check_all.py` and validates every manifest against the schema. It then checks four things the schema cannot state, because a schema never sees where a file sits, which files are absent, or what the rest of the corpus says: that `utility` equals the directory it sits in, that no two directories claim the same utility, that a directory holding filings also holds a manifest, and that `legal_name` and `eia_id` agree with what the filings themselves assert. The last one is what keeps moving this data onto disk from simply relocating the drift: a manifest cannot quietly name a different EIA identifier than the corpus does, which matters because that identifier is a join key and a wrong one matches the wrong utility in EIA-861 without complaining.
 
 Three kinds of URL matter most in `tariff_index_urls`, and they answer different questions. A **tariff library or book** is where a schedule's current document is fetched from. An **advice-letter listing** is what says a change happened. A **schedule inventory**, where the utility publishes one, is what says which schedules exist at all and which are grandfathered or closed; SCE's annual "Summary of Available Residential and Nonresidential Rates" is one. The third is the one that bounds a modeling backlog, because it is what distinguishes a schedule this corpus has not modeled from one no longer offered. It is also the easiest to overlook, because it need not look like an index: PG&E's is an HTML page, SDG&E's a JSON endpoint, and SCE's a PDF that reads like a single document.
 

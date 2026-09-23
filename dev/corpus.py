@@ -101,6 +101,18 @@ UTILITY_MANIFEST = "utility.toml"
 DEFAULT_CARRIER = "electricity"
 
 
+def load_toml(path) -> dict:
+    """Parse a TOML file. The stdlib gained tomllib in 3.11 and this runs on 3.10,
+    so the fallback lives here once instead of in each of the seven callers that
+    had their own copy of the try/except.
+    """
+    try:
+        import tomllib
+    except ModuleNotFoundError:            # Python < 3.11
+        import tomli as tomllib
+    return tomllib.loads(Path(path).read_text())
+
+
 def utilities() -> list[str]:
     """Every utility slug with a discovery manifest, filings or not."""
     return sorted({p.parent.name for p in utility_tomls()})

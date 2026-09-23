@@ -16,7 +16,8 @@ carry one. An investor-owned utility, a publicly owned utility and a community
 choice aggregator are different regulatory animals and the feed only distinguishes
 them accidentally, through whether the distribution half of a segment names a
 utility or reads `XX` for unspecified. That accident is a good signal and not a
-definition, so the mapping is stated in KIND below and can be corrected.
+definition, so each utility.toml states its own utility_class and it can be
+corrected there.
 
 Run from repo root:  python3 dev/list_california_parties.py
 """
@@ -32,33 +33,40 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "dev"))
 import corpus  # noqa: E402
+import utilities  # noqa: E402
 DB = REPO / "data" / "midas" / "midas.sqlite"
 LOOKUPS = REPO / "data" / "midas" / "lookups"
 
-# organization name in the MIDAS Energy table -> (directory, kind, who delivers)
-KIND = {
-    "Pacific Gas and Electric":                    ("pge", "iou", "itself"),
-    "Southern California Edison":                  ("sce", "iou", "itself"),
-    "San Diego Gas and Electric":                  ("sdge", "iou", "itself"),
-    "LADWP":                                       ("ladwp", "pou", "itself"),
-    "Sacramento Municipal Utility District":       ("smud", "pou", "itself"),
-    "Banning":                                     ("banning", "pou", "itself"),
-    "San Diego Community Power":                   ("sdcp", "cca", "SDG&E"),
-    "San Jose Clean Energy":                       ("sjce", "cca", "PG&E"),
-    "Clean Power Alliance of Southern California": ("cleanpoweralliance", "cca", "SCE"),
-    "Valley Clean Energy":                         ("vce", "cca", "PG&E"),
-    "WestLight Energy":                            ("pce", "cca", "PG&E"),
-    "Ava Community Energy":                        ("ebce", "cca", "PG&E"),
-    "Clean Energy Alliance":                       ("cea", "cca", "SDG&E"),
-    "Sonoma Clean Power":                          ("scp", "cca", "PG&E"),
-    "Central Coast Community Energy":              ("3ce", "cca", "PG&E"),
-    "Silicon Valley Clean Energy":                 ("svce", "cca", "PG&E"),
-    "Pioneer Community Energy":                    ("pioneer", "cca", "PG&E"),
-    "Orange County Power Authority":                ("ocpa", "cca", "SCE"),
-    "Clean Power San Francisco":                   ("cleanpowersf", "cca", "PG&E"),
-    "Marin Clean Energy":                          ("mce", "cca", "PG&E"),
-}
-KIND_LABEL = {"iou": "IOU", "pou": "POU", "cca": "CCA", "alert": "Alert", "ghg": "GHG"}
+def _kind() -> dict[str, tuple[str, str, str]]:
+    """MIDAS organization name -> (directory, class, who delivers).
+
+    Built from the per-utility utility.toml manifests, which is where the three
+    pieces now live: midas_party_names, utility_class and delivered_by. This was a
+    twenty-entry literal here, and it was the third place the regulatory class was
+    written down.
+
+    "who delivers" is rendered for a reader, so a self-delivering party reads
+    "itself" and an aggregator names the utility whose wires carry it, by that
+    utility's own short_name rather than by its slug.
+    """
+    out = {}
+    for slug, u in utilities.ALL.items():
+        if u.delivered_by:
+            carrier = utilities.ALL[u.delivered_by]
+            delivers = carrier.short_name or u.delivered_by
+        else:
+            delivers = "itself"
+        for name in u.midas_party_names:
+            out[name] = (slug, u.utility_class, delivers)
+    corpus.require_nonempty(out, "MIDAS party names in the utility manifests")
+    return out
+
+
+KIND = _kind()
+
+# The three regulatory classes come from dev/utilities.py; Alert and GHG are
+# not classes of seller at all but signal kinds this report also lists.
+KIND_LABEL = {**utilities.CLASS_LABEL, "alert": "Alert", "ghg": "GHG"}
 
 # MIDAS carries signals that are not rates and have no seller. They are parties
 # in the feed all the same, so they are rows here rather than a footnote, with a

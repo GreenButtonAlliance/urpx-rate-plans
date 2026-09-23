@@ -29,6 +29,7 @@ Exit 0 clean, 1 on any violation.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -99,6 +100,35 @@ def main() -> int:
             problems.append(f"us/ca/{util}/: has filings but no utility.toml, so "
                             f"nothing records where its tariffs are published")
             seen[util] = jsonld  # report once
+
+    # The identity fields must agree with what the corpus itself asserts. Moving
+    # them out of python literals only helps if a manifest cannot quietly disagree
+    # with the filings: the eia_id is a join key and a wrong one silently matches
+    # the wrong utility in EIA-861, and legal_name is what four spellings of the
+    # same three utilities came from in the first place.
+    corpus_says: dict[str, dict[str, set[str]]] = {}
+    for jsonld in corpus.all_filing_jsonld():
+        util, _, _ = corpus.parse_filing_path(jsonld)
+        txt = jsonld.read_text()
+        for field, pattern in (("legal_name", r'"urpx:legalName"\s*:\s*"([^"]+)"'),
+                               ("eia_id", r'"skos:notation"\s*:\s*"?(\d{3,6})"?')):
+            for m in re.finditer(pattern, txt):
+                corpus_says.setdefault(util, {}).setdefault(field, set()).add(m.group(1))
+    for util, fields in sorted(corpus_says.items()):
+        manifest = REPO / "us" / "ca" / util / corpus.UTILITY_MANIFEST
+        if not manifest.exists():
+            continue
+        doc = tomllib.loads(manifest.read_text())
+        for field, values in sorted(fields.items()):
+            declared = doc.get(field)
+            if declared is None:
+                problems.append(
+                    f"us/ca/{util}/{corpus.UTILITY_MANIFEST}: the corpus asserts "
+                    f"{field} {sorted(values)} but the manifest states none")
+            elif declared not in values:
+                problems.append(
+                    f"us/ca/{util}/{corpus.UTILITY_MANIFEST}: {field} is "
+                    f"{declared!r} but the corpus JSON-LD asserts {sorted(values)}")
 
     if problems:
         print(f"utility manifests: {len(problems)} problem(s)\n", file=sys.stderr)

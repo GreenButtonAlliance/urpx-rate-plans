@@ -2,9 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:grid-coordination:urpx-tariffs:schema:utility-manifest:v1",
   "title": "URPX Utility Discovery Manifest",
-  "description": "Per-utility manifest at <country>/<subdivision>/<utility>/utility.toml, e.g. us/ca/pge/utility.toml. Points to where the utility publishes its tariffs so that scrapers can discover unmodeled schedules and detect updates to modeled ones. Distinct from the per-filing tariff.toml: tariff.toml pins a specific snapshot (URL + sha256 + retrieval date), utility.toml points at the discovery surface where future snapshots can be found. Schema is intentionally minimal — richer fields (per-schedule URL patterns, AL-listing URLs, scrape strategy details) can be added once a real scraper is built and tells us what it needs.",
+  "description": "Per-utility manifest at <country>/<subdivision>/<utility>/utility.toml, e.g. us/ca/pge/utility.toml. Points to where the utility publishes its tariffs so that scrapers can discover unmodeled schedules and detect updates to modeled ones. Distinct from the per-filing tariff.toml: tariff.toml pins a specific snapshot (URL + sha256 + retrieval date), utility.toml points at the discovery surface where future snapshots can be found. It also carries the utility's identity, which generators previously held as python literals: a display name, the regulatory class, the legal name and EIA identifier, and the MIDAS party segments and party names. One authoritative place on disk, read through dev/utilities.py. Identity fields other than utility_class are optional because the repository cannot attest all of them for every party: legal_name and eia_id are taken from the corpus JSON-LD and so exist only where a filing does.",
   "type": "object",
-  "required": ["utility", "tariff_index_urls"],
+  "required": [
+    "utility",
+    "tariff_index_urls",
+    "utility_class"
+  ],
   "additionalProperties": false,
   "properties": {
     "utility": {
@@ -15,12 +19,59 @@
     "tariff_index_urls": {
       "type": "array",
       "minItems": 1,
-      "items": { "type": "string", "format": "uri" },
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
       "description": "One or more URLs where the utility publishes tariffs. Each should be a discovery surface, of which three kinds matter: a tariff library or book (where a schedule's current document is fetched), an advice-letter listing (what says a change happened), and a schedule inventory (what says which schedules exist and which are grandfathered or closed). A discovery surface is often a PDF, so being a PDF does not disqualify one: SCE's annual summary of available rates is a schedule inventory. What does not belong is a single schedule's tariff, which is pinned in that filing's tariff.toml instead."
     },
     "scrape_notes": {
       "type": "string",
       "description": "Free-text hints about scrape strategy: known TLS-fingerprint blocks (curl_cffi required), URL patterns per schedule, AL-listing locations, paywalls, etc."
+    },
+    "utility_class": {
+      "type": "string",
+      "enum": [
+        "iou",
+        "pou",
+        "cca"
+      ],
+      "description": "Regulatory class: investor-owned utility, publicly owned utility, or community choice aggregator. ASSERTED, not derived: MIDAS carries no classification and distinguishes these only accidentally, through whether the distribution half of a party segment names a utility or reads XX. Required, because it is knowable for every party here and was previously held in three places with three different vocabularies."
+    },
+    "short_name": {
+      "type": "string",
+      "description": "Display name for report headings, e.g. 'PG&E'. Optional: only supplied where an abbreviation is established, which in practice means the utilities that have filings. dev/utilities.py refuses if a utility with filings lacks one, so a new modeled utility cannot silently fall out of a per-utility report."
+    },
+    "legal_name": {
+      "type": "string",
+      "description": "The utility's legal name as the corpus itself states it in urpx:legalName. Recorded here so that generators stop carrying their own spellings; four different spellings of the same three utilities were in circulation."
+    },
+    "eia_id": {
+      "type": "string",
+      "pattern": "^[0-9]+$",
+      "description": "EIA utility identifier, the skos:notation on this utility's urpx:OrganizationIdentifier under urpx:eiaScheme. A stable join key against the EIA-861 detailed data files. A string rather than an integer because it is a notation, not a quantity."
+    },
+    "midas_party_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "How the CEC MIDAS Energy lookup table spells this party's Description. An array because an organization can appear under more than one. Used to attribute MIDAS rows to a directory; absent where MIDAS does not carry the party at all, which is the case for CPAU."
+    },
+    "midas_bundled_segment": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{4}$",
+      "description": "The four-character MIDAS party segment for this utility's own bundled service, where both delivery and generation are its own (e.g. 'PGPG'). Absent where MIDAS carries no bundled segment for the party."
+    },
+    "midas_delivery_segment": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{4}$",
+      "description": "The MIDAS party segment for delivery-only service, where generation comes from a community choice aggregator (e.g. 'PGXX'). A publicly owned utility has no community choice aggregation in its territory and so has none; verified against the mined feed, where the POU delivery-only forms return zero rows."
+    },
+    "delivered_by": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "The utility slug whose wires carry this party's generation, for a community choice aggregator. Absent means the party delivers over its own wires. A slug rather than a display name so it resolves against a directory."
     }
   }
 }

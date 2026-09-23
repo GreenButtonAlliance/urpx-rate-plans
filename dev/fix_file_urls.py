@@ -35,10 +35,6 @@ import json
 import sys
 from pathlib import Path
 
-try:
-    import tomllib  # Python 3.11+
-except ModuleNotFoundError:
-    import tomli as tomllib  # Python 3.10 and earlier, as dev/coverage.py does
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "dev"))
@@ -55,8 +51,7 @@ SECTION_OF = {
 
 
 def source_entry(toml_path: Path, basename: str) -> dict | None:
-    with toml_path.open("rb") as fh:
-        doc = tomllib.load(fh)
+    doc = corpus.load_toml(toml_path)
     src = doc.get("source") or {}
 
     # Match the named sub-table FIRST. Falling back to the single-source

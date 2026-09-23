@@ -22,10 +22,6 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-try:
-    import tomllib
-except ModuleNotFoundError:  # Python 3.10 and earlier
-    import tomli as tomllib
 
 import corpus
 
@@ -77,7 +73,7 @@ def attribute_by_source(invs) -> dict[str, dict[str, set[str]]]:
             util, sched, _ = corpus.parse_filing_path(toml)
         except ValueError:
             continue
-        url = (tomllib.loads(toml.read_text()).get("source") or {}).get("url")
+        url = (corpus.load_toml(toml).get("source") or {}).get("url")
         if not url:
             continue
         hit = by_doc.get(util, {}).get(nk(url))

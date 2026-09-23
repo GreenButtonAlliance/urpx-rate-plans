@@ -34,10 +34,6 @@ import pathlib
 import re
 import sys
 
-try:
-    import tomllib
-except ModuleNotFoundError:  # Python 3.10 and earlier
-    import tomli as tomllib
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "dev"))
@@ -71,7 +67,7 @@ def deferrals() -> dict[tuple[str, str], list[str]]:
     # by accident rather than by design.
     for f in corpus.tariff_tomls():
         key = tuple(corpus.parse_filing_path(f)[:2])   # utility, schedule
-        d = tomllib.loads(pathlib.Path(f).read_text())
+        d = corpus.load_toml(f)
         out.setdefault(key, []).extend(
             " ".join(str(x).split()) for x in ((d.get("modeling") or {}).get("deferrals") or []))
     return out
