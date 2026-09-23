@@ -3,7 +3,7 @@
 
 # Service arrangements
 
-**`ServiceArrangement` is not a URPX class.** It occurs zero times in the URPX ontology and zero times in the SHACL shapes. It is this corpus's term for a thing the standard describes the parts of and does not name the whole of. Nothing in this repository writes it into a filing, and it carries no `urpx:` prefix anywhere, deliberately.
+***Service arrangement* is this corpus's term for what a particular customer actually takes service under.** URPX names every part of one and no whole of it, so the term stays local to this repository: nothing here writes it into a filing, and it carries no `urpx:` prefix anywhere.
 
 ## What it is
 

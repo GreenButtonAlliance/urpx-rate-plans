@@ -4,13 +4,13 @@ A corpus of utility electric **tariff documents** (the regulatory PDFs) and **UR
 
 The serializations use the [URPX ontology](https://github.com/urpx-org/urpx) — a machine-readable, validatable representation of each rate plan. Each filing directory holds the source PDF, a `tariff.toml` provenance manifest, and one `urpx:RatePlan` (or `urpx:RatePlanModifier`) JSON-LD file.
 
-> **Terminology (per [URPX](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use))**: a *tariff* is the regulatory document (e.g. a tariff book); a *rate plan* is the parameter package (prices, TOU schedules, tiers, eligibility); a *rate* is a single price value. The repo name is shorthand — the structured artifact under each filing is a rate plan.
+> **Terminology (per [URPX](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use))**: a *tariff* is the regulatory document, such as a tariff book, containing one or more rate plans; a *rate plan* is the complete set of parameters needed to calculate what a customer is charged, including prices, TOU schedules, service tiers, seasonal variation and eligibility rules; a *rate* is a single price value, incomplete without the rate plan around it. What this corpus curates is rate plans. It keeps the tariff documents they were read from because those are the evidence, and because utilities remove them.
 
 **This repo is a work in progress.** It is driven by an expanding set of [Big Hairy Audacious Goals (BHAGs)](https://www.jimcollins.com/concepts/bhag.html). The first BHAG is **model all California residential tariffs**. We are working incrementally toward that goal in priority order — the rate plans serving the most customers first, niche schedules later.
 
 The initial motivation is to enable the [Grid Coordination Price Server](https://github.com/grid-coordination/price-server-user-guide) to ingest these URPX rate plans and publish [OpenADR 3](https://www.openadr.org/) programs and *computed* prices derived from the tariff structures. The price server is the consumer; this corpus is the source of truth for what the underlying tariffs say.
 
-**Current scope: California** — coverage of California utilities across all classes (investor-owned, publicly-owned, cooperative, community choice aggregator). The directory hierarchy is jurisdiction-first (`ca/...`) so additional states can be added without restructuring.
+**Current scope: California electricity.** Twenty organizations are catalogued: three investor-owned utilities, three publicly owned, and fourteen community choice aggregators. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring. The country segment is spelled out because a bare `ca` reads as either California or Canada.
 
 ## Disclaimer
 
@@ -23,7 +23,8 @@ Each filing directory's `tariff.toml` documents what's modeled, what's deferred,
 See [LAYOUT.md](./LAYOUT.md) for the full conventions. In short:
 
 ```
-us/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/
+<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/
+  e.g.  us/ca/pge/electricity/e-tou-c/versions/2026-03-01/
   <utility>_<schedule>_<date>.pdf                             # source tariff document
   tariff.toml                                                 # per-filing provenance manifest
   rate-plan_<utility>_<schedule>_<date>.jsonld                # URPX rate-plan serialization, OR
@@ -40,20 +41,15 @@ A **service arrangement** is a fully determined selection over the plan space: o
 
 A rate plan is what a utility publishes. An arrangement is what a particular customer is billed under, and a plan generally admits many. It is the unit a price server publishes and an energy-management system subscribes to.
 
-**This is not a URPX class.** `ServiceArrangement` occurs zero times in the URPX ontology and zero times in the SHACL shapes; it is this corpus's term for a thing the standard names the parts of and not the whole of. It is never written into a filing and never carries a `urpx:` prefix. [doc/service-arrangements.md](./doc/service-arrangements.md) gives the full definition: what determines an arrangement, what makes two distinct, and what makes one current.
+***Service arrangement* is this corpus's term, not URPX vocabulary.** URPX names every part of an arrangement and no whole of it, so the term stays local: it is never written into a filing and never carries a `urpx:` prefix. [doc/service-arrangements.md](./doc/service-arrangements.md) gives the full definition: what determines an arrangement, what makes two distinct, and what makes one current.
 
 [`reports/service-arrangements.{md,edn}`](./reports/) enumerates the arrangements the corpus expresses and reports, for each, whether a price server asking for a price gets a number back. [`reports/ready-for-use.md`](./reports/ready-for-use.md) rolls that up per filing.
 
-### Reading the JSON-LD: cross-resource relationships
+### Reading more than one filing at a time
 
-Two relationships span resources within (and across) filings — both are nested, not at the top level, so consumers reading only the top-level resource will miss them:
+A modifier filing names the base rate plans it applies to, and those live in their own filings. So the corpus is read as one graph rather than a file at a time: validating a modifier on its own reports unresolved references, which is the modifier doing its job, not a defect. [`reports/modifier-base-pairings.{json,edn}`](./reports/) gives those pairings as a flat map for anyone who wants the answer without walking the graph.
 
-| Relationship | JSON-LD path | Notes |
-|---|---|---|
-| Modifier → base RatePlan(s) it applies to | `urpx:RatePlanModifier` → `urpx:hasRatePlanModifierVersion` → `urpx:applicableToRatePlan` | List of `@id` references to base RatePlan IRIs (e.g. `sce:d`). Cross-version: a modifier filed once applies to every version of the named base. |
-| RatePlanVersion → the version it supersedes | not currently expressed | Version ordering is carried by the `versions/<date>/` directory name and by `urpx:effectiveDateTime`, not by a link between versions. URPX v0.5.1 permits `urpx:supersedes` only on `urpx:PricingModel` and `urpx:TariffFiling`, neither of which this corpus models, and both version shapes are `sh:closed`. See [LAYOUT.md §10](./LAYOUT.md#10-future-considerations). |
-
-Consumers that need the modifier ↔ base pairings as a flat map can read [`reports/modifier-base-pairings.{edn,json}`](./reports/) instead of walking the JSON-LD — auto-generated by `dev/list_modifier_base_pairings.py` from the corpus. Each base's `[modeling].applicable_modifiers` in `tariff.toml` carries the same data viewed from the base side, including modifiers known to attach to the schedule but not yet modeled (see [LAYOUT.md §4.4](./LAYOUT.md#44-modeling-completeness-metadata-modeling)).
+Version order is carried by each filing's `versions/<date>/` and by `urpx:effectiveDateTime`. There is no link from a version to the one it replaced; [LAYOUT.md §10](./LAYOUT.md#10-future-considerations) explains why URPX v0.5.1 cannot carry one.
 
 ## Status
 
@@ -65,21 +61,25 @@ Consumers that need the modifier ↔ base pairings as a flat map can read [`repo
 
 **SHACL-validating ≠ bill-calculation-complete.** All filings pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each rate plan's `tariff.toml [extraction.notes]` lists what's deferred and why; the [MODELING-GAPS.md](./MODELING-GAPS.md) section below cross-references them.
 
-### Fidelity by rate plan
+### How well each rate plan is modeled
 
-| Fidelity | Rate plans | Notes |
-|---|---:|---|
-| **Models the published rate-of-record** | 68 | Validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx); the bill calculation for the typical residential case is correct. About half carry one or more minor deferrals (PCIA composition for CCA-served customers, Franchise Fee Differentials; PG&E baseline-allocation matrix is fully modeled for E-TOU-C 2026-03-01 — pending for E-1) — all tied to one of the open URPX vocabulary questions listed below. CPAU E-HRA (Hydroelectric Recovery Adjustment) tags all 16 matrix-cell Prices with `urpx:hasDynamicPricing` (`dynamicPricingType=urpx:indexBasedPricing` + `priceSource=urpx:renewableForecastSource`) marking them as externally-indexed by CPAU's annual hydro forecast — same canonical-vocabulary uplift as the CPP modifiers. PG&E NBT 2025-10-17 introduces the first export-direction modifier in the corpus (`urpx:flowDirection urpx:reverse` on a `urpx:MetricSpecification` — confirmed admitted by the closed MetricSpecificationShape); 4,608 per-cell Export Compensation Rate Prices loaded from `pge.com/energyexportcredit` covering the 2023-2026 vintage cohort. PG&E E-RSMART 2025-10-31 (residential SmartRate CPP overlay) is the first multi-base `urpx:RatePlanModifier` in the corpus, binding to 5 base RatePlans (E-1, E-ELEC, E-TOU-C, E-TOU-D, EV2). **MIDAS RIN cross-reference is recorded; 10 of 24 are uncorroborated** ([doc/midas-rins-and-service-arrangements.md](./doc/midas-rins-and-service-arrangements.md)): a RIN names a service arrangement rather than a rate plan, and the ten SDG&E net-billing identifiers do not appear in the 2026-05-30 snapshot, which cannot currently be refreshed. All three CA IOU NBT filings carry CEC MIDAS Rate Identification Numbers in Price names for round-trip verification against the MIDAS source. Concretely: **SDG&E NBT 2025-01-27** ships with 5,760 RIN-tagged Prices (5 vintages × 576 cells × Generation + Delivery; recorded as two RIN families, `USCA-SDXX` Delivery + `USCA-XXSD` Generation, both read from SDG&E's own MIDAS upload archives; neither family appears in the 2026-05-30 snapshot, so both are recorded as uncorroborated pending a refreshed feed); **PG&E NBT 2025-10-17** has 4,608 Prices with 2,304 Delivery tagged (`USCA-PGXX-3500-0000` = E-ELEC + NBT23) — Generation Prices are loaded from `pge.com/energyexportcredit` but untagged (PG&E doesn't publish Generation via MIDAS as a separate RIN); **SCE NBT 2025-04-23** has 5,088 Prices RIN-tagged — Delivery from `USCA-SCXX-0605-0000` (TOU-D-PRIME-NBT 2025) and Generation **derived from MIDAS via subtraction**: `USCA-SCSC` (bundled-service combined EEC) minus `USCA-SCXX` (CCA-service Delivery-only EEC) = Generation Component. SCE doesn't publish a separate Generation RIN, but the bundled-vs-CCA arithmetic recovers it cleanly (verified constant within lock-in periods). The cross-reference enables a downstream consumer (e.g. the price server) to validate URPX-resolved prices against MIDAS by `(RIN, instant)` lookup. |
-| **Substantial economic effect deferred to prose** | 3 | SMUD EAPR, SCE PRIME-CPP and SMUD CPP. EAPR's $10/month fixed-charge discount is modeled exactly, but its income-tier usage discount, capped at $60/$32/$10/$0 per month by Federal Poverty Level tier, is not: URPX v0.5.1 can express a capped credit as marginal `ServiceBracket`s over a money-denominated `MetricInput`, but cannot state that a bracket bound denominated in dollars is dollars. The CPP filings carry deferrals on dynamic event-day evaluation: their Event Charge Prices use the canonical `urpx:hasDynamicPricing` + `urpx:PriceUpdateRule` vocabulary (`dynamicPricingType=urpx:criticalPeakPricing`, `updateFrequency=urpx:eventTriggeredUpdates`), which [clj-urpx](https://github.com/grid-coordination/clj-urpx) surfaces as `:urpx.resolved/dynamic-pricing` so a consumer can filter event-driven tiers out of the non-event marginal, but billing-time evaluation of event status needs caller-supplied state. The SCE PRIME-CPP Non-Event Credit and Maximum Available Credit retain `ApplicabilityRule` + `CustomOperandNode` gating, neither of which fits DynamicPricing. |
-| **Placeholder Price (key value not expressible)** | 2 | LADWP NEM and SMUD NEM1 — both compensate exported energy at the customer's *applicable base-rate energy charge*, a "computed at upstream context" semantic we have not found a way to express in URPX v0.5.1. The modifiers carry a placeholder `Price` (`unitPrice="0"`) for SHACL conformance, with the actual compensation rule documented in the description prose and a coverage claim recording that the zero must not be read as zero-value export. Asked upstream at [urpx-org/urpx discussion #63](https://github.com/urpx-org/urpx/discussions/63). |
+Three levels, and the distinction is about whether a bill comes out right, not about whether the JSON-LD validates. Every filing validates.
 
-**Customer reach by fidelity bucket** (estimates per `dev/coverage-estimates.toml`; modifier counts overlap with their already-modeled base RatePlans):
+- **Models the published rate-of-record.** The bill calculation for the typical residential case is correct. Most of these carry a minor deferral of their own, recorded in that filing's `tariff.toml [extraction.notes]`.
+- **Substantial economic effect deferred to prose.** Something a customer would notice on the bill is described in the filing's prose rather than computed: SMUD EAPR's income-tier usage discount, and event-day evaluation on the two CPP filings, which needs caller-supplied event state.
+- **Placeholder price.** LADWP NEM and SMUD NEM1 compensate exported energy at the customer's own applicable base-rate energy charge, which we have not found a way to express. Both carry a `Price` of `0` for SHACL conformance and a coverage claim saying that zero must not be read as a zero-value export. Asked upstream at [urpx-org/urpx discussion #63](https://github.com/urpx-org/urpx/discussions/63).
 
-| Bucket | Estimated customer reach |
+The corpus holds 72 rate plans across 71 filings: 39 base plans and 33 modifiers.
+
+Rather than restate any of it here, where it goes stale:
+
+| Question | Where it is answered |
 |---|---|
-| Models the published rate-of-record (base rates) | ~13.6M of ~15M tracked CA residential customers (~91%) |
-| Substantial economic effect deferred to prose (modifier overlay) | ~30K SMUD EAPR + ~10K SMUD CPP (well under 1% of CA residential, on top of structurally-modeled base rates). The CARE and FERA percentage discounts that previously dominated this bucket, about 2.24M customers across SCE and SDG&E, are now modeled. |
-| Placeholder Price (modifier overlay) | ~140K LADWP NEM solar + tens of K SMUD NEM1 grandfathered solar (~1% of CA residential, all on top of structurally-modeled base rates) |
+| Can a price server get a price out of this filing? | [`reports/ready-for-use.md`](./reports/ready-for-use.md), generated |
+| Which service arrangements resolve, and at what instants? | [`reports/service-arrangements.md`](./reports/service-arrangements.md), generated |
+| How many customers do the modeled plans reach? | [`reports/coverage.md`](./reports/coverage.md), generated |
+| What can URPX not express, and what have we not converted? | [MODELING-GAPS.md](./MODELING-GAPS.md) |
+| What has this filing deferred? | that filing's `tariff.toml [extraction.notes]` |
 
 ### Modeling gaps
 
@@ -87,14 +87,9 @@ What this corpus cannot express in URPX v0.5.1, and what it has not yet converte
 
 ### Utilities covered
 
-| Utility | Class | Path | Base RatePlans | RatePlanModifiers |
-|---|---|---|---|---|
-| Pacific Gas & Electric (PG&E) | IOU | `us/ca/pge/` | E-1, E-TOU-C (×2 reissue), E-TOU-D, EV2, E-ELEC (×2 reissue) | E-TOU-C Baseline-Tier, NBT (Net Billing Tariff), E-RSMART (SmartRate) |
-| Southern California Edison (SCE) | IOU | `us/ca/sce/` | TOU-D-4-9PM (×2 reissue), TOU-D-5-8PM (×2 reissue), TOU-D-PRIME (×2 reissue), Schedule D (×2 reissue) | CARE (×2 reissue), FERA (×2 reissue), Deed-Restricted (×2 reissue), DA-CRS, CCA-CRS, PRIME-CPP, Medical Baseline, NBT (Net Billing Tariff: 5,088 RIN-tagged Prices, Generation derived from MIDAS SCSC−SCXX) |
-| San Diego Gas & Electric (SDG&E) | IOU | `us/ca/sdge/` | TOU-DR1, TOU-DR, TOU-DR2, DR, DR-SES, EV-TOU, EV-TOU-2, EV-TOU-5, TOU-ELEC | CARE, FERA, DRAH, NBT (Net Billing Tariff: 5,760 RIN-tagged Prices) |
-| Los Angeles Department of Water and Power (LADWP) | POU | `us/ca/ladwp/` | R-1A, R-1B | NEM, EZ-Save, Lifeline |
-| Sacramento Municipal Utility District (SMUD) | POU | `us/ca/smud/` | TOD-5-8pm, TOD-Low-Use, Fixed | SSR, NEM1, PEV Credit, MED, EAPR, CPP |
-| City of Palo Alto Utilities (CPAU) | POU | `us/ca/cpau/` | E-1 (×2 multi-source), E-1-TOU, E-2, E-3, E-4, E-4-TOU, E-7, E-7-TOU, E-14, E-16 | E-2-G, E-4-G, E-7-G, E-HRA, E-EEC-1, E-NSE-1 |
+Six utilities have filings: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Together they cover 63 schedules across 71 filings. Fifteen more organizations have a discovery manifest and no filing yet, fourteen community choice aggregators and one municipal utility; that is a normal state, not an incomplete one.
+
+[`reports/tariffs-to-model.md`](./reports/tariffs-to-model.md) has the per-schedule detail, including which of each utility's published schedules are still unmodeled. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization selling electricity in California.
 
 ## Contributing
 

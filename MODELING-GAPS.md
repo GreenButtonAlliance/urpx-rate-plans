@@ -2,7 +2,7 @@
 
 What this corpus does not yet model, and why. Two different reasons, kept apart because they need different things to move.
 
-[README](./README.md) describes what the corpus *does* contain, including the per-filing fidelity table. Each filing's `tariff.toml [extraction.notes]` records its own deferrals. This file is the corpus-wide view.
+[README](./README.md) describes what the corpus *does* contain. Each filing's `tariff.toml [extraction.notes]` records its own deferrals. This file is the corpus-wide view.
 
 ## Cannot be expressed in URPX v0.5.1
 

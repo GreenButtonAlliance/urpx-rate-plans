@@ -2,7 +2,7 @@
 
 This document defines the conventions for organizing **tariff documents** (the regulatory PDFs) and the **URPX rate-plan serializations** extracted from them. It is the source of truth for directory structure, file naming, manifest schema, and the temporal model.
 
-> **Terminology** (per [URPX CONTRIBUTING.md](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use)): a *tariff* is the regulatory document; a *rate plan* is the parameter package; a *rate* is a single price value. This repo holds both — a tariff PDF and the URPX rate-plan JSON-LD extracted from it — under each filing directory.
+> **Terminology** (per [URPX CONTRIBUTING.md](https://github.com/urpx-org/urpx/blob/main/CONTRIBUTING.md#terminology-and-language-use)): a *tariff* is the regulatory document containing one or more rate plans; a *rate plan* is the complete set of parameters needed to calculate what a customer is charged; a *rate* is a single price value. This corpus curates rate plans from tariff documents and keeps both. A modeled filing holds its tariff document beside the rate plan read from it (§3); tariff documents for schedules not yet modeled are held separately (§10d).
 
 ## 1. The temporal model: RatePlan vs RatePlanVersion
 
