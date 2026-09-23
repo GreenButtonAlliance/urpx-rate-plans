@@ -36,7 +36,7 @@ Follows the SCE TOU-D-PRIME-CPP modeling pattern at `us/ca/sce/electricity/tou-d
 | SmartRate Non-High-Price Period Credit | `-$0.00636/kWh` (per-event rate) | ApplicabilityRule + `CustomOperandNode("SmartRate Credit Applicable") = "true"` |
 | SmartRate Participation Credit | `-$0.00167/kWh` (per-event rate) | Same applicability as Non-High-Price Credit |
 
-The SmartDay High-Price Period Charge uses the canonical URPX v0.2.0 event-driven pricing pattern (`hasDynamicPricing` + `criticalPeakPricing` + `eventTriggeredUpdates` + `PriceUpdateRule` prose) — same shape SCE PRIME-CPP refactored to.
+The SmartDay High-Price Period Charge uses the canonical URPX event-driven pricing pattern (`hasDynamicPricing` + `criticalPeakPricing` + `eventTriggeredUpdates` + `PriceUpdateRule` prose) — same shape SCE PRIME-CPP refactored to.
 
 ## N_SmartDays bill-period multiplier — deferred to consumer
 

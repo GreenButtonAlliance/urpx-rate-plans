@@ -63,4 +63,4 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-This rate plan is serialized against URPX **v0.2.0** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
+This rate plan is serialized against URPX **v0.5.1** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).

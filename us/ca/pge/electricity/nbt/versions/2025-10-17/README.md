@@ -20,7 +20,7 @@ Import-side charges remain governed by the base E-ELEC RatePlan; this modifier h
 
 ## Export-direction vocabulary
 
-The export side uses `urpx:flowDirection urpx:reverse` on the MetricSpecification — defined in URPX v0.2.0 as "Reverse energy flow - generation/export to grid". This is the first use of `urpx:flowDirection` in this corpus.
+The export side uses `urpx:flowDirection urpx:reverse` on the MetricSpecification — defined as "Reverse energy flow - generation/export to grid". This is the first use of `urpx:flowDirection` in this corpus.
 
 SCE TOU-D-PRIME-CPP previously deferred direction-of-flow distinction because its Non-Event Credit applied to consumption-side energy. NBT pays for exported energy, so it needs the vocabulary — and the vocabulary has been in URPX v0.2.0 since the initial release. `MetricSpecificationShape` is `sh:closed=true` but explicitly lists `urpx:flowDirection` in its `sh:path` — closed shape admits the property. SPARQL-confirmed during sourcing.
 

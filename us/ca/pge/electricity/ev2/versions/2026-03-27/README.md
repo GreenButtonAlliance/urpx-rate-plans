@@ -48,10 +48,10 @@ Sheet 1 specifies an annual usage cap: customers cannot exceed 800% of their ann
 
 Modeled as `pge:er-annual-usage-cap` (a third `urpx:EligibilityRule` on the RatePlanVersion alongside `pge:er-residential` and `pge:er-qualifying-equipment`; multiple rules imply AND). Its `urpx:ConditionExpression` is rooted at a `urpx:ComparisonNode` (`urpx:lessThanOrEqualOperator`):
 
-- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling` — a new `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned` (URPX v0.2.0 vocabulary, partial closure of [#4](https://github.com/grid-coordination/urpx-rate-plans/issues/4)).
+- `urpx:leftOperand`: `urpx:ObjectOperandNode` referencing `pge:mi-energy-annual-rolling`, a `urpx:MetricInput` whose `urpx:MetricSpecification` carries `urpx:unitOfMeasure: urpx:percent`, `urpx:intervalDuration: P1Y` and `urpx:intervalAlignment: urpx:rollingAligned`.
 - `urpx:rightOperand`: `urpx:DatatypeOperandNode` with `urpx:integerValue: 800`.
 
-The right-side `800` represents *800% of baseline*, not 800 kWh — URPX has no percent-of-baseline UoM yet. The rule's `urpx:description` carries the prose. Tracked at [#4](https://github.com/grid-coordination/urpx-rate-plans/issues/4) for the follow-up that tightens this filing once URPX adds the percent-of-baseline UoM.
+The right-side `800` is a percentage, and the metric says so: `urpx:percent` over a rolling `P1Y` window. What the model does not say is what the percentage is *of*. The denominator is the customer's annual baseline allowance, and URPX names no canonical metric for it, so the rule's `urpx:description` carries that half in prose. Asked upstream at [urpx-org/urpx discussion #38](https://github.com/urpx-org/urpx/discussions/38).
 
 ## Validation
 
@@ -64,4 +64,4 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-This rate plan is serialized against URPX **v0.2.0** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
+This rate plan is serialized against URPX **v0.5.1** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).

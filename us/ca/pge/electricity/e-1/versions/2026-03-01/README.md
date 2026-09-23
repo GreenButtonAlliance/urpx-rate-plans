@@ -33,7 +33,7 @@ All other "all usage" components (transmission, public-purpose, wildfire-fund, e
 
 The tier *boundaries* (in absolute kWh/day) come from a 10-territory × 2-code × 2-season matrix. This file models **one cell** — Territory P, Code B residential, summer 13.5 kWh/day / winter 11.0 kWh/day. The file is correct for Territory-P/Code-B customers and incorrect (wrong tier boundaries) for everyone else.
 
-Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-rate-plans/issues/18), blocked on upstream [urpx-org/urpx discussion #31](https://github.com/urpx-org/urpx/discussions/31) — the existing income-tier `ProfileAlternatives` collides with the new baseline-territory-code one at this `PlanElements` scope (`hasProfileAlternatives` is `sh:maxCount 1`).
+Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-rate-plans/issues/18). It is enumeration work against existing vocabulary: `sh:maxCount 1` caps `urpx:ProfileAlternatives` containers per `PlanElements`, not dimensions within one, and a container's alternatives are the cross-product of its dimensions (`urpx:hasAlternativeDimension` carries the `skos:note` "Multiple dimensions create a matrix of alternatives"). The corpus ships that shape twice already, in the E-TOU-C baseline-tier modifier and CPAU E-HRA.
 
 ### Code H (all-electric), Code M / S (medical) — not modeled
 
@@ -54,4 +54,4 @@ pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
 # Conforms: True
 ```
 
-This rate plan is serialized against URPX **v0.2.0** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
+This rate plan is serialized against URPX **v0.5.1** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
