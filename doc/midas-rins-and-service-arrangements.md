@@ -5,7 +5,7 @@
 
 California's Market Informed Demand Automation Server publishes electricity prices keyed by a Rate Identification Number. A RIN is widely treated as naming a tariff. It does not. It names a **service arrangement**: a base rate plan composed with the particular overlays and supply arrangement a customer actually has.
 
-That distinction decides where a RIN can be recorded in a URPX document, and getting it wrong produces assertions that validate cleanly and are false. This note sets out the evidence, because the point is not obvious and we got it wrong ourselves first.
+That distinction decides where a RIN can be recorded in a URPX document, and getting it wrong produces assertions that validate cleanly and are false. This note sets out the evidence, because the point is not obvious.
 
 Every figure below is derived from a snapshot of the state's published feed: 5,207 rate identifiers as MIDAS served them on 2026-05-30, cached at `reports/midas-coverage.json`. **That is the whole of California, not this corpus.** This corpus cites 24 of them, all in three net-billing filings and all as free text rather than as identifiers, for the reasons set out below.
 
@@ -75,18 +75,6 @@ This corpus therefore records RINs beside arrangements rather than inside filing
 
 An arrangement exists whether or not a RIN can be found for it. Deriving which tariff documents and features compose to produce the prices a given RIN covers is straightforward in some cases and intractable in others, and MIDAS itself is incomplete. A RIN is therefore recorded with its provenance: corroborated against the published feed, derived but uncorroborated, or unresolved. The third is a legitimate resting state.
 
+Ten of the twenty-four identifiers this corpus cites rest in that third state, and it is worth saying why so that nobody removes them. They are SDG&E's net-billing `NB##` family, five on each of the `XXSD` and `SDXX` sides. The snapshot carries neither, but the absence falls on the **rate code** rather than the party segment: 5,204 of its 5,207 rate codes are numeric and `NB##` is not, with only `B20P`, `TA1B` and `TEST` appearing otherwise. Nor were the strings composed here. `scripts/extract-sdge-nbt-eec-values.py` reads them out of the `RIN` column of SDG&E's own MIDAS-format upload archives. So they are uncorroborated rather than malformed, and the disposition is to re-derive from a refreshed feed rather than to delete. A candidate to check then is `USCA-SDXX-0092-0000`, whose `alt_name` is "EVTOU5NM NBT LY 2023", where "LY" matches the lock-year naming in those archives. The snapshot cannot be refreshed at present: the MIDAS token endpoint returns 401.
+
 Where a RIN is attached it asserts that our composition is the same thing the state means by that code. That claim is falsifiable and will occasionally be wrong, so what is recorded is how the correspondence was established, not only the value.
-
-## What we got wrong, and what that turned out to be
-
-We first read the second segment as naming a price component rather than the energy supplier, and concluded from it that five SDG&E net-billing identifiers of the form `USCA-XXSD-NB*` were a fabricated "Generation EEC" family. That conclusion was wrong and the evidence against it is worth recording, because it is the more interesting result.
-
-The absence falls on the **rate code**, not the segment. Both `USCA-XXSD-NB##-0000` and their `USCA-SDXX-NB##-0000` siblings are absent from the snapshot, five of five on each side, so whatever explains one explains the other. And 5,204 of the snapshot's 5,207 rate codes are numeric while the `NB##` family is not; only three non-numeric codes appear at all.
-
-The strings were also not composed here. `scripts/extract-sdge-nbt-eec-values.py` reads them out of the `RIN` column of SDG&E's own MIDAS-format upload archives, published at `sdge.com/solar/solar-billing-plan/export-pricing` and named for the MIDAS upload they feed. The corpus uses the pair consistently by charge, `XX`-first only on the generation definition and `SDXX` only on delivery, which a transposition would not do.
-
-So `XXSD` reads as the mirror of the delivery-only code, which is how a generation-only series would have to be written, and this snapshot simply does not carry the `NB` family on either side. What remains unsettled is whether MIDAS publishes that family at all: the enumeration did query the `XX`-first combinations and they returned nothing, but an empty result and an endpoint that does not serve that combination are indistinguishable from the recorded output, and the snapshot cannot be refreshed because the token endpoint returns 401.
-
-The corrected disposition is to record these as **uncorroborated**, not malformed, and to re-derive from a refreshed feed when the credentials are sorted. A candidate worth checking then: MIDAS does carry the SDG&E net-billing arrangement on EV-TOU-5 under numeric codes with matching vintage labels, such as `USCA-SDXX-0092-0000` "EVTOU5NM NBT LY 2023", where "LY" matches the lock-year naming of SDG&E's own archives.
-
-The lasting lesson is narrower than the original claim. A snapshot enumerates what a feed answered on one day; it does not enumerate what the scheme permits. Treating the first as the second is how a well-sourced identifier gets called malformed.
