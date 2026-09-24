@@ -20,13 +20,13 @@
 
 {:baseline
  {:file "dev/baseline/marginal-rates.edn"
-  :clj-urpx-version "0.32.0"
+  :clj-urpx-version "0.34.0"
   :probe-instants 19}
 
  :totals
-  {:arrangements 146
-   :fully-determined 1879
-   :servable 127
+  {:arrangements 145
+   :fully-determined 1139
+   :servable 126
    :not-priced-per-kwh 9
    :blocked 6
    :not-measured 4}
@@ -350,33 +350,27 @@
    :baseline-keys ["compose|us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld|pge:e-elec"]}
   {:base "pge:e-tou-c-2026-03-27"
    :modifiers []
-   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-baseline-territory-code"]
-   :selections 20
+   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier"]
+   :selections 3
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld"]}
   {:base "pge:e-tou-c-2026-03-27"
    :modifiers ["pge:e-rsmart-2025-10-31"]
-   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-baseline-territory-code"]
-   :selections 20
+   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier"]
+   :selections 3
    :outcome :blocked
    :reason ":condition-gated-tier"
    :baseline-keys ["compose|us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld|pge:e-tou-c"]}
   {:base "pge:e-tou-c-2026-03-27"
    :modifiers ["pge:e-tou-c-baseline-tier-2026-03-01"]
-   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-baseline-territory-code" "pge:pa-baseline-territory-code"]
-   :selections 400
+   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier" "pge:pa-baseline-territory-code"]
+   :selections 60
    :outcome :servable
    :baseline-keys ["compose|us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld|pge:e-tou-c"]}
   {:base "pge:e-tou-c-2026-03-27"
-   :modifiers ["pge:e-tou-c-income-tier-2026-03-27"]
-   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-baseline-territory-code" "pge:e-tou-c-income-tier-2026-03-27-pa-income-tier"]
-   :selections 60
-   :outcome :servable
-   :baseline-keys ["compose|us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-income-tier_2026-03-27.jsonld|pge:e-tou-c"]}
-  {:base "pge:e-tou-c-2026-03-27"
    :modifiers ["pge:e-tou-c-vintage-pcia-2026-03-01"]
-   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-baseline-territory-code" "pge:e-tou-c-vintage-pcia-2026-03-01-pa-departure-vintage"]
-   :selections 360
+   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier" "pge:e-tou-c-vintage-pcia-2026-03-01-pa-departure-vintage"]
+   :selections 54
    :outcome :not-measured
    :reason "no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files"
    :baseline-keys []}

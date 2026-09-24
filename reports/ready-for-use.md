@@ -39,7 +39,7 @@ The two do not track each other and must not be collapsed. 1 of 71 filings carry
 | `e-elec` | 2026-03-27 | servable | 3 | no |  |
 | `e-rsmart` | 2025-10-31 | blocked | 5 | no | :condition-gated-tier |
 | `e-tou-c` | 2026-03-01 | servable | 2 | no | 1 of 3 version nodes here are superseded (pge:e-tou-c-2026-03-01); the outcome is for the rest |
-| `e-tou-c` | 2026-03-27 | servable | 7 | no |  |
+| `e-tou-c` | 2026-03-27 | servable | 5 | no |  |
 | `e-tou-d` | 2026-03-27 | servable | 4 | no |  |
 | `ev2` | 2026-03-27 | servable | 4 | no |  |
 | `nbt` | 2025-10-17 | servable | 1 | no |  |
@@ -133,7 +133,7 @@ The two do not track each other and must not be collapsed. 1 of 71 filings carry
 
 ## Caveats
 
-- **As of the recorded baseline.** Servability is read from `dev/baseline/marginal-rates.edn`, 19 probe instants per key, resolved by clj-urpx 0.32.0. Nothing is re-resolved here.
+- **As of the recorded baseline.** Servability is read from `dev/baseline/marginal-rates.edn`, 19 probe instants per key, resolved by clj-urpx 0.34.0. Nothing is re-resolved here.
 - **Per-directory granularity.** A directory is one filing, not one version. It can hold a base RatePlan and the modifiers operative at its snapshot date, and a version node can appear in more than one directory.
 - **Servable is not reviewed.** `[review].status` tracks whether a person has checked the filing, and neither column here reads it.
 - **Modifier coverage is a separate axis again.** A base RatePlan being servable does not imply that every modifier that legally attaches to it has its own filing. See [`modifier-coverage.md`](./modifier-coverage.md).

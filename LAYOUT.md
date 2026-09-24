@@ -219,6 +219,8 @@ applicable_modifiers = ["care", "fera", "medical-baseline", "ev-credit"]   # bas
 
 **Why two axes.** A base RatePlan being modeling-complete is independent of whether every applicable modifier has its own filing in the corpus. A price server billing a non-CARE customer on E-TOU-C only needs the base RatePlan; one billing a CARE customer needs base + CARE modifier. Conflating them would make `complete = true` mean different things to different consumers.
 
+**A deferral says what this filing does not carry, and does not name the consumer or its version.** What a given release of `clj-urpx` reads, evaluates or ignores is true of that release and stops being true without warning: 196 such citations across 63 filings went stale on one pin bump, and several had become false rather than merely misnumbered. The pin lives in `deps.edn` and is the single place it is stated; `dev/lint_declared_versions.py` treats that file as the authority and fails on any filing that restates it. So write what the source prices and what the JSON-LD carries, and where a gap only matters because of how it will be consumed, say that in terms of the data: a price that carries no condition applies to everyone, a tier that carries no bound is unbounded. Those sentences stay true across releases.
+
 **Replaces prose deferrals.** Filings predating this convention express deferred work via `(modeling deferred — …)` parentheticals inside `urpx:description` strings. New filings should use the structured `deferrals` array instead; the prose form will be migrated incrementally as filings are revisited.
 
 #### Modifier-coverage tracking: options considered

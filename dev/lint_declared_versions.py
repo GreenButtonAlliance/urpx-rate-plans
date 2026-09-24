@@ -93,7 +93,7 @@ HISTORICAL = re.compile(r"(?:since|as of|before|prior to|after|until|landed in|"
                         r"earlier than|no longer in)\s+$", re.I)
 
 
-def scan() -> list[tuple[Path, int, str]]:
+def scan() -> tuple[list[tuple[Path, int, str]], int]:
     """(path, line number, version) for every clj-urpx version named as current.
 
     A historical reference is skipped, not bumped. Getting this wrong in either
@@ -123,7 +123,7 @@ def scan() -> list[tuple[Path, int, str]]:
                 if HISTORICAL.search(line[max(0, m.start() - 16):m.start()]):
                     continue
                 out.append((path, i, m.group(1)))
-    return out
+    return out, len([t for t in targets if t.exists()])
 
 
 # Matched POSITIVELY, on the forms that assert what a filing targets NOW, rather
@@ -171,7 +171,7 @@ def declared_urpx() -> str:
     return next(iter(seen))
 
 
-def scan_urpx() -> list[tuple[Path, int, str]]:
+def scan_urpx() -> tuple[list[tuple[Path, int, str]], int]:
     """URPX versions named as current, in filing READMEs and the top-level docs."""
     out = []
     targets = [d / "README.md" for d in corpus.filing_dirs()]
@@ -185,11 +185,17 @@ def scan_urpx() -> list[tuple[Path, int, str]]:
             for m in URPX_MENTION.finditer(line):
                 ver = next(g for g in m.groups() if g)
                 out.append((path, i, ver))
-    return out
+    return out, len([t for t in targets if t.exists()])
 
 
-def report(label: str, mentions, want: str, authority: str) -> int:
-    corpus.require_nonempty(mentions, f"{label} version mentions in prose")
+def report(label: str, mentions, want: str, authority: str, files_read: int) -> int:
+    # The denominator here is FILES READ, not mentions found. Zero mentions was a
+    # collapsed-denominator signal while filings restated the consumer version in
+    # their prose; since LAYOUT.md 4.4 forbids that, zero is the state this check
+    # exists to keep. Refusing on it would turn the finished job into a failure.
+    # What still has to be non-empty is the set of files opened: if that is zero
+    # the tree moved and nothing was compared.
+    corpus.require_nonempty(range(files_read), f"{label} prose files read")
     wrong = [(p, i, v) for p, i, v in mentions if v != want]
     if wrong:
         print(f"{label} version: {len(wrong)} stale mention(s) in "
@@ -210,13 +216,15 @@ def main() -> int:
     # Both checks always run, and the worse exit code wins. Stopping at the first
     # failure would report one stale version and hide the other, which is how a
     # corpus ends up fixing the same class of drift twice.
-    rc = report("clj-urpx", scan(), pinned(), "deps.edn")
+    hits, files = scan()
+    rc = report("clj-urpx", hits, pinned(), "deps.edn", files)
     if rc:
         print(f"\n  A clj-urpx mention is a behavioural claim, not a version number: each "
               f"says\n  what the consumer does, and a deferral usually rests on it. "
               f"Re-verify the\n  claim against the pin before changing the number, because "
               f"the behaviour may\n  have changed too.", file=sys.stderr)
-    rc |= report("URPX", scan_urpx(), declared_urpx(), "urpx:targetURPXVersion")
+    uhits, ufiles = scan_urpx()
+    rc |= report("URPX", uhits, declared_urpx(), "urpx:targetURPXVersion", ufiles)
     return rc
 
 

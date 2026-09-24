@@ -22,150 +22,7 @@ docket = "Decision 26-03-013 (TOU-D Sheet 21) / Resolution E-5217 (PRIME-CPP rat
 tool = "manual"
 extracted_on = "2026-05-04"
 notes = """
-First filing of Option PRIME-CPP variant in this corpus.
-Modeled as a urpx:RatePlanModifier overlaying the base PRIME RatePlan
-(sce:tou-d-prime). Customer-state-driven sub-option that adds CPP
-event-window charges and non-event-window credits to a PRIME customer's
-bill. Sourced from the live TOU-D PDF — Sheet 6 carries the PRIME-CPP
-rate values (alongside PRIME headline rates), Sheets 12 and 15-16
-document the CPP framework.
-
-Per the SCE convention documented in us/ca/sce/electricity/utility.toml, this
-filing is dated to the most recent per-sheet effective date in the
-source PDF (2026-03-20).
-
-Per-sheet effective dates relevant to the PRIME-CPP filing:
- Sheet 6 (Option PRIME-CPP rate values: Event Charge, Non-Event
- Credit, Maximum Available Credit) — 2026-01-01 (AL 5725-E)
- Sheet 12 (Special Condition 1: TOU period definitions including
- CPP Event Period and CPP Non-Event Credit Period windows) —
- 2022-06-01 (AL 4765-E)
- Sheet 15 (Special Condition 4: Critical Peak Pricing — event
- framework, 12-15 events/year, day-before notification) —
- 2022-06-01
- Sheet 16 (Special Condition 4 continued: CPP participation rules,
- Maximum Available Credit cap, Bill Protection) — 2019-03-01
- Sheet 21 — 2026-03-20 (newest sheet in the document, drives the
- filing date)
-
-## Modifier shape
-
-Architecture choice: modeled as urpx:RatePlanModifier (sibling pattern
-to DA-CRS / CCA-CRS in ), NOT as a separate urpx:RatePlan.
-Reasoning: PRIME-CPP customers pay the FULL base PRIME rate structure
-PLUS CPP-window adjustments. A modifier overlay is more lightweight
-than cloning the entire 25-PriceDefinition PRIME structure. The
-issue-original framing offered both 'fifth OR-path on PRIME' and
-'separate RatePlan' options; the modifier path is structurally
-cleaner and consistent with how DA-CRS and CCA-CRS overlay on the
-same residential bases.
-
-3 PriceDefinitions (Sheet 6 of source PDF):
-
- CPP Event Energy Charge $+0.80000/kWh
- Applies during the CPP Event Period (4 p.m.-9 p.m. summer or
- winter days, ON CPP Event days only — SCE may call any day a
- CPP Event; 12-15 events per calendar year, day-before notice).
-
- CPP Non-Event On-Peak Energy Credit $-0.15170/kWh
- Applies during the CPP Non-Event Credit Period (4 p.m.-9 p.m.
- Summer Season days, ON non-CPP-Event days only). No credit
- provided on exported generation (i.e. behind-the-meter solar
- output during 4 p.m.-9 p.m. doesn't earn the credit).
-
- Maximum Available Credit $-0.58794/kWh (Summer Season cap)
- Caps the total credit a CPP customer can earn when dually
- participating in another DR program. Only applies to customers
- grandfathered to dual participation with Schedule D-SDP under
- Option A-CPP / B-CPP terms (NOT directly applicable to PRIME-CPP
- customers per Sheet 16, but listed on Sheet 6 as a reference cap
- for the dual-participation grandfather; modeled here for
- completeness and forward use).
-
-## Eligibility encoding
-
-Customer must be enrolled in PRIME (the base RatePlan eligibility
-applies — qualifying technology: storage / EV / heat-pump / NBT) AND
-must have elected the CPP variant. The CPP election is encoded as a
-CustomOperandNode predicate "CPP Election" = "PRIME-CPP". Bundled-
-service-only constraint per Sheet 16 SC 4.d (DA / CCA customers
-ineligible) is partly redundant with PRIME's existing service-role
-constraint and partly captured by the upstream OAT eligibility.
-
-## Event-day gating: hasDynamicPricing + ApplicabilityRule (refactored 2026-05-04)
-
-The CPP Event Energy Charge Price uses urpx:hasDynamicPricing with
-dynamicPricingType=urpx:criticalPeakPricing + priceSource=
-urpx:wholesaleMarketSource + updateFrequency=
-urpx:eventTriggeredUpdates + a urpx:PriceUpdateRule whose
-description carries the SCE-specific event-trigger semantics
-(12-15 events/year, day-before notification, CAISO Flex Alert
-conditions). This is the canonical URPX v0.2.0 vocabulary for
-event-driven pricing, surfaced by the urpx-org/urpx PG&E B6-PDP
-example (commit 55584e2 on v0.2.0-candidate).
-
-Originally (commit 6720054) the Event Charge was modeled with an
-ApplicabilityRule + CustomOperandNode 'Is CPP Event Today' = true
-gate — a self-invented predicate. Refactored 2026-05-04 to use
-hasDynamicPricing after pulling commit 55584e2 surfaced the
-canonical pattern. The vocabulary terms have been in v0.2.0 since
-the initial commit; we missed them when first modeling.
-
-The CPP Non-Event Credit Price (-$0.15170/kWh) RETAINS its
-ApplicabilityRule + CustomOperandNode 'Is CPP Event Today' = false
-gate. The inverse polarity ('applies when no event is called')
-isn't naturally expressed by DynamicPricing — DynamicPricing's
-semantic is 'this Price is event-driven', not 'this Price applies
-in the absence of an event'. The Non-Event Credit also carries
-month=Jun-Sept for resolver-evaluable seasonal gating.
-
-The Maximum Available Credit Price (-$0.58794/kWh) RETAINS its
-ApplicabilityRule + CustomOperandNode 'Grandfathered D-SDP Dual
-Participation' = true gate — this is a customer-attribute gate
-unrelated to event status, not a candidate for DynamicPricing.
-
-The TIME-of-day discrimination (4-9pm window) is descriptive in
-the modifier prose but not structurally encoded in this filing
-(SCE PRIME-CPP overlays the base PRIME's TOU structure, which
-already carries the 4-9pm Peak window).
-
-clj-urpx 0.32.0 evaluates no hasDynamicPricing semantics
-(open-world Malli — unknown properties tolerated and ignored at
-resolution); the resolver also does not enforce ConditionExpression-
-based ApplicabilityRules. So the resolved marginal at the
-validate_v020.clj 17:00 PDT probe instant continues to include
-ALL three Prices (Event Charge $+0.80000, Non-Event Credit
-$-0.15170, Max Credit $-0.58794), reflected in marginal=0.61244
-(= base PRIME Summer Peak $0.55208 + $0.06036 net CPP). The
-$0.06036 net is an upper-bound representation; consumer
-(price-server) is responsible for evaluating the event calendar
-and the customer's grandfathered status at billing time.
-
-## Modeling deferrals
-
- 1. **Bill Protection**: First 12 months of CPP enrollment, customer
- is guaranteed not to pay more than they would have under the
- equivalent non-CPP PRIME option. This is a year-long bill
- calculation that doesn't fit a per-bill RatePlan/Modifier shape.
- Not modeled.
-
- 2. **Dynamic event-day gating** not enforced by current resolver
- (see above). Event Charge uses hasDynamicPricing for the
- canonical event-driven semantics (consumer-evaluable); Non-Event
- Credit and Max Credit retain CustomOperandNode predicates
- because their gating semantics (inverse-event-polarity and
- grandfathered-customer-attribute, respectively) don't map to
- DynamicPricing.
-
- 3. **No-export-credit rule**: CPP Non-Event Credit excludes kWh
- exported by behind-the-meter generation during 4 p.m.-9 p.m.
- Requires distinguishing import vs export kWh on the energy
- metric input. Not modeled.
-
- 4. **Sibling 4-9 PM-CPP and 5-8 PM-CPP variants**: Same modifier
- pattern would apply to TOU-D-4-9 PM and TOU-D-5-8 PM bases.
- Tracked in those bases' tariff.toml deferrals; can be modeled
- in a follow-up issue.
+First filing of Option PRIME-CPP variant in this corpus. Modeled as a urpx:RatePlanModifier overlaying the base PRIME RatePlan (sce:tou-d-prime). Customer-state-driven sub-option that adds CPP event-window charges and non-event-window credits to a PRIME customer's bill. Sourced from the live TOU-D PDF: Sheet 6 carries the PRIME-CPP rate values (alongside PRIME headline rates), Sheets 12 and 15-16 document the CPP framework. Per the SCE convention documented in us/ca/sce/electricity/utility.toml, this filing is dated to the most recent per-sheet effective date in the source PDF (2026-03-20). Per-sheet effective dates relevant to the PRIME-CPP filing: Sheet 6 (Option PRIME-CPP rate values: Event Charge, Non-Event Credit, Maximum Available Credit) 2026-01-01 (AL 5725-E); Sheet 12 (Special Condition 1: TOU period definitions including CPP Event Period and CPP Non-Event Credit Period windows) 2022-06-01 (AL 4765-E); Sheet 15 (Special Condition 4: Critical Peak Pricing event framework, 12-15 events/year, day-before notification) 2022-06-01; Sheet 16 (Special Condition 4 continued: CPP participation rules, Maximum Available Credit cap, Bill Protection) 2019-03-01; Sheet 21, 2026-03-20, the newest sheet in the document and the one that drives the filing date. Modifier shape: modeled as a urpx:RatePlanModifier (sibling pattern to DA-CRS / CCA-CRS), NOT as a separate urpx:RatePlan, because PRIME-CPP customers pay the FULL base PRIME rate structure PLUS CPP-window adjustments and a modifier overlay is more lightweight than cloning the entire 25-PriceDefinition PRIME structure; the issue-original framing offered both 'fifth OR-path on PRIME' and 'separate RatePlan' options, and the modifier path is structurally cleaner and consistent with how DA-CRS and CCA-CRS overlay on the same residential bases. 3 PriceDefinitions (Sheet 6 of source PDF): CPP Event Energy Charge $+0.80000/kWh, which applies during the CPP Event Period (4 p.m.-9 p.m. summer or winter days, ON CPP Event days only; SCE may call any day a CPP Event; 12-15 events per calendar year, day-before notice); CPP Non-Event On-Peak Energy Credit $-0.15170/kWh, which applies during the CPP Non-Event Credit Period (4 p.m.-9 p.m. Summer Season days, ON non-CPP-Event days only), with no credit provided on exported generation (i.e. behind-the-meter solar output during 4 p.m.-9 p.m. doesn't earn the credit); and Maximum Available Credit $-0.58794/kWh (Summer Season cap), which caps the total credit a CPP customer can earn when dually participating in another DR program and applies only to customers grandfathered to dual participation with Schedule D-SDP under Option A-CPP / B-CPP terms (NOT directly applicable to PRIME-CPP customers per Sheet 16, but listed on Sheet 6 as a reference cap for the dual-participation grandfather; modeled here for completeness and forward use). Eligibility encoding: the customer must be enrolled in PRIME (the base RatePlan eligibility applies, qualifying technology: storage / EV / heat-pump / NBT) AND must have elected the CPP variant. The CPP election is encoded as a CustomOperandNode predicate 'CPP Election' = 'PRIME-CPP'. The bundled-service-only constraint per Sheet 16 SC 4.d (DA / CCA customers ineligible) is partly redundant with PRIME's existing service-role constraint and partly captured by the upstream OAT eligibility. Event-day gating, refactored 2026-05-04: the CPP Event Energy Charge Price uses urpx:hasDynamicPricing with dynamicPricingType=urpx:criticalPeakPricing + priceSource=urpx:wholesaleMarketSource + updateFrequency=urpx:eventTriggeredUpdates + a urpx:PriceUpdateRule whose description carries the SCE-specific event-trigger semantics (12-15 events/year, day-before notification, CAISO Flex Alert conditions). This is the canonical URPX v0.2.0 vocabulary for event-driven pricing, surfaced by the urpx-org/urpx PG&E B6-PDP example (commit 55584e2 on v0.2.0-candidate). Originally (commit 6720054) the Event Charge was modeled with an ApplicabilityRule + CustomOperandNode 'Is CPP Event Today' = true gate, a self-invented predicate, and was refactored 2026-05-04 to use hasDynamicPricing after pulling commit 55584e2 surfaced the canonical pattern; the vocabulary terms have been in v0.2.0 since the initial commit and we missed them when first modeling. The CPP Non-Event Credit Price (-$0.15170/kWh) RETAINS its ApplicabilityRule + CustomOperandNode 'Is CPP Event Today' = false gate, because the inverse polarity ('applies when no event is called') isn't naturally expressed by DynamicPricing, whose semantic is 'this Price is event-driven', not 'this Price applies in the absence of an event'. The Non-Event Credit also carries month --06 --07 --08 --09 for Summer Season gating. The Maximum Available Credit Price (-$0.58794/kWh) RETAINS its ApplicabilityRule + CustomOperandNode 'Grandfathered D-SDP Dual Participation' = true gate, a customer-attribute gate unrelated to event status and not a candidate for DynamicPricing. The time-of-day discrimination (the 4-9 p.m. window) is descriptive in the modifier prose and is not structurally encoded in this filing. The three prices sum to a net $+0.06036/kWh, an upper bound rather than any customer's adjustment: which of them applies on a given day turns on whether SCE called a CPP Event and on whether the customer is grandfathered into D-SDP dual participation, and this document states neither. Modeling deferrals, also carried structurally in [modeling].deferrals: (1) Bill Protection, the guarantee that for the first 12 months of CPP enrollment a customer pays no more than they would have under the equivalent non-CPP PRIME option, is a year-long bill calculation that doesn't fit a per-bill RatePlan/Modifier shape and is not modeled. (2) Event-day gating is carried declaratively: the Event Charge uses hasDynamicPricing for the canonical event-driven semantics, while the Non-Event Credit and Max Credit keep CustomOperandNode predicates because their gating semantics (inverse-event-polarity and grandfathered-customer-attribute, respectively) don't map to DynamicPricing, so the event calendar and the customer's grandfathered status are settled at billing time and not in this document. (3) No-export-credit rule: the CPP Non-Event Credit excludes kWh exported by behind-the-meter generation during 4 p.m.-9 p.m., which requires distinguishing import from export kWh on the energy metric input; not modeled. (4) Sibling 4-9 PM-CPP and 5-8 PM-CPP variants: the same modifier pattern would apply to TOU-D-4-9 PM and TOU-D-5-8 PM bases; tracked in those bases' tariff.toml deferrals, and can be modeled in a follow-up issue.
 """
 
 # Validation ------------------------------------------------------------------
@@ -178,14 +35,14 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "CPP Event Period and CPP Non-Event Credit Period time windows are not modeled, so both CPP prices apply at every hour. Sheet 13 (SC 1): 'CPP Event Energy Charge Periods: 4:00 p.m. to 9:00 p.m. summer and winter days during a CPP Event only. CPP Non-Event Energy Credit Periods: Summer Season days 4:00 p.m. to 9:00 p.m., when a CPP Event is not occurring.' Sheet 12's Option PRIME / PRIME-CPP table shows the CPP Event Period as 4 p.m. to 9 p.m. in all four weekday/weekend, summer/winter cells. This filing carries no TOUSchedule, TOUPeriod or TimeBracket. The earlier claim that the modifier inherits the base PRIME 4-9 p.m. window is wrong: the base splits 16:00-21:00 across Summer On-Peak weekday, Summer Mid-Peak weekend and Winter Mid-Peak, and no base period equals 16:00-21:00 on all days. Expressible at v0.5.1 and read at the pin: urpx:hasTOUSchedule on the modifier's BillingModel plus urpx:touPeriodNumber on the PriceDefinitions, which clj-urpx 0.32.0 modifier-ledger-results gates against the modifier's own resolved period. Precedent: smud:tou-pev-credit. Work, not a blocker.",
- "Maximum Available Credit is carried as an additive credit of -0.58794 per kWh, but the schedule makes it a cap. Sheet 6 footnote: 'The Maximum Available Credit is the capped credit amount for CPP Customers dual participating in other demand response programs.' Sheet 16 (SC 4.d): 'the sum of credits provided by the dual participating demand response program and Option A-CPP or Option B-CPP of this Schedule will be capped. The capped credit amount, also known as the Maximum Available Credit, is listed in the applicable Option A-CPP and Option B-CPP of this Schedule.' SC 4.d confines that grandfathering to Schedule D-SDP dual participants under Option A-CPP or Option B-CPP, so no Option PRIME-CPP customer is subject to it. URPX v0.5.1 has no vocabulary for a bound on the sum of two credits: bounds exist only on ServiceBracket, and priceFloor / priceCeiling are DynamicPricing runtime clamps that no clj-urpx 0.32.0 code reads. Measured effect of the present shape, dev/baseline/marginal-rates.edn: -0.58794 is subtracted at all 19 probe instants, winter included. Stop publishing it as an additive Price.",
- "Summer-only applicability is recorded on the Price rather than the PriceDefinition, where nothing reads it. Both credit Prices carry urpx:hasApplicabilityRule with month --06 --07 --08 --09 on the Price; clj-urpx 0.32.0 evaluates the month gate in pd-active-in-month? against the PriceDefinition, and the corpus pattern that works is sce:d-2026-03-20-pd-climate-credit. Measured: the Summer Season credit of -0.15170 is applied at every winter probe instant. Moving the rule to the PriceDefinition is the modeling fix. It will not change the pinned consumer's number on its own, because modifier-ledger-results does not month-gate at all; that half is a clj-urpx issue, not a URPX expressibility gap.",
- "No CPP credit for exported generation is not modeled. Sheet 15 (SC 4): 'No CPP credits will be provided for exported generation, i.e., energy produced and exported by the Customer's Generating Facility during CPP Non-Event Credit Periods.' The credit basis is import-side. urpx:flowDirection did not exist at v0.2.1 and does at v0.5.1 (MetricSpecification, FlowDirectionValue: forward, reverse, net, bidirectional, with forward noted as consumption/import), and 22 filings in this corpus already use it, sce:nbt-ms-energy-export among them. The fix is a credit-specific MetricInput whose MetricSpecification carries urpx:flowDirection urpx:forward; today all three CPP prices share one direction-less MetricInput, sce:tou-d-prime-cpp-mi-energy. At the pin, clj-urpx uses flowDirection only to exclude reverse ledgers from the import marginal, so this is declaratively correct rather than enforced. Work, not a blocker.",
- "Bill Protection is not modeled. Sheet 16 (SC 4.e): 'A Customer served on CPP will receive a one-time Bill Protection credit for the positive sum, if any, in total CPP Event Energy Charges and total CPP Summer Non-Event Energy Credits ... as measured over a period of up to 12 months from the date the Customer elects an Option with CPP.' The obstacle is not the twelve-month span: urpx:intervalDuration expresses multi-month periods and the corpus uses P1D, P1M, P2M and P6M. Nor is the credit unrecordable: urpx:creditPriceProtection is a ChargeTypeValue member at v0.5.1 (verified in the ChargeTypeValue oneOf at abdfb521), so the line item can be declared and cited. What cannot be computed is its amount, the conditional positive-part arithmetic in 'the positive sum, if any'. SPARQL over the v0.5.1 ontology finds no cap, floor or greater-of vocabulary; priceFloor and priceCeiling are DynamicPricing runtime clamps and are read by nothing in clj-urpx 0.32.0. Same standard-level shape as a greater-of minimum charge.",
+ "CPP Event Period and CPP Non-Event Credit Period time windows are not modeled, so both CPP prices apply at every hour. Sheet 13 (SC 1): 'CPP Event Energy Charge Periods: 4:00 p.m. to 9:00 p.m. summer and winter days during a CPP Event only. CPP Non-Event Energy Credit Periods: Summer Season days 4:00 p.m. to 9:00 p.m., when a CPP Event is not occurring.' Sheet 12's Option PRIME / PRIME-CPP table shows the CPP Event Period as 4 p.m. to 9 p.m. in all four weekday/weekend, summer/winter cells. This filing carries no TOUSchedule, TOUPeriod or TimeBracket. The earlier claim that the modifier inherits the base PRIME 4-9 p.m. window is wrong: the base splits 16:00-21:00 across Summer On-Peak weekday, Summer Mid-Peak weekend and Winter Mid-Peak, and no base period equals 16:00-21:00 on all days. Expressible at v0.5.1: urpx:hasTOUSchedule on the modifier's BillingModel plus urpx:touPeriodNumber on the PriceDefinitions, so the windows are stated in this filing rather than inherited. Precedent: smud:tou-pev-credit. Work, not a blocker.",
+ "Maximum Available Credit is carried as an additive credit of -0.58794 per kWh, but the schedule makes it a cap. Sheet 6 footnote: 'The Maximum Available Credit is the capped credit amount for CPP Customers dual participating in other demand response programs.' Sheet 16 (SC 4.d): 'the sum of credits provided by the dual participating demand response program and Option A-CPP or Option B-CPP of this Schedule will be capped. The capped credit amount, also known as the Maximum Available Credit, is listed in the applicable Option A-CPP and Option B-CPP of this Schedule.' SC 4.d confines that grandfathering to Schedule D-SDP dual participants under Option A-CPP or Option B-CPP, so no Option PRIME-CPP customer is subject to it. URPX v0.5.1 has no vocabulary for a bound on the sum of two credits: bounds exist only on ServiceBracket, and priceFloor / priceCeiling are DynamicPricing runtime clamps. The Price carries urpx:unitPrice -0.58794 and no bound of any kind, so a consumer bills it as a credit on every kWh rather than as a limit on a sum. Stop publishing it as an additive Price.",
+ "Summer-only applicability is recorded on the Price rather than the PriceDefinition. Both credit Prices carry urpx:hasApplicabilityRule with month --06 --07 --08 --09, and neither PriceDefinition carries a month of its own, so a reader that gates definitions by month finds nothing restricting the Summer Season credit of -0.15170 or the Summer Season Maximum Available Credit of -0.58794 to June through September. The corpus pattern for a month-restricted credit puts the rule on the PriceDefinition: sce:d-2026-03-20-pd-climate-credit carries month --04 --10 there. Moving the rule to the PriceDefinition is the modeling fix; URPX expresses the constraint either way, so this is not a URPX expressibility gap.",
+ "No CPP credit for exported generation is not modeled. Sheet 15 (SC 4): 'No CPP credits will be provided for exported generation, i.e., energy produced and exported by the Customer's Generating Facility during CPP Non-Event Credit Periods.' The credit basis is import-side. urpx:flowDirection did not exist at v0.2.1 and does at v0.5.1 (MetricSpecification, FlowDirectionValue: forward, reverse, net, bidirectional, with forward noted as consumption/import), and other filings in this corpus already use it, sce:nbt-ms-energy-export among them. The fix is a credit-specific MetricInput whose MetricSpecification carries urpx:flowDirection urpx:forward; today all three CPP prices share one direction-less MetricInput, sce:tou-d-prime-cpp-mi-energy, so nothing in this filing separates imported from exported kWh and the credit is priced on both. Work, not a blocker.",
+ "Bill Protection is not modeled. Sheet 16 (SC 4.e): 'A Customer served on CPP will receive a one-time Bill Protection credit for the positive sum, if any, in total CPP Event Energy Charges and total CPP Summer Non-Event Energy Credits ... as measured over a period of up to 12 months from the date the Customer elects an Option with CPP.' The obstacle is not the twelve-month span: urpx:intervalDuration expresses multi-month periods. Nor is the credit unrecordable: urpx:creditPriceProtection is a ChargeTypeValue member at v0.5.1 (verified in the ChargeTypeValue oneOf at abdfb521), so the line item can be declared and cited. What cannot be computed is its amount, the conditional positive-part arithmetic in 'the positive sum, if any'. SPARQL over the v0.5.1 ontology finds no cap, floor or greater-of vocabulary; priceFloor and priceCeiling are DynamicPricing runtime clamps. Same standard-level shape as a greater-of minimum charge.",
  "Special Condition 4.a, 4.b and 4.c (Sheets 15 and 16, in this filing's own PDF) bound and trigger the CPP Event Energy Charge this filing prices at $0.80000/kWh, and none of it is in the model. Verbatim: \"CPP Events: SCE may, at its discretion, call a CPP Event any day. CPP Events will be called based on any one of the following criteria: (1) California Independent System Operator (CAISO) Alert, (2) Forecasts of SCE system emergencies ... (3) Forecasts of extreme or unusual temperature conditions impacting system demand, or (4) Day-ahead load and/or price forecasts.\" \"Number of CPP Events: There will be a minimum of 12 CPP events and a maximum of 15 CPP Events per calendar year.\" \"SCE will begin to notify Customers no later than 3:00 p.m. the day before a CPP Event.\" The model carries a DynamicPricing node with one PriceUpdateRule; DynamicPricingShape and PriceUpdateRuleShape are both sh:closed and neither admits an event count, a notice interval or a trigger criterion, so this is a blocked deferral rather than unbuilt work.",
  "Special Condition 4.d's Direct Access and Community Choice Aggregation ineligibility, and Special Condition 5's attestation requirement (Sheet 17), are availability terms of this Option that the single EligibilityRule does not encode.",
- "The pinned consumer refuses this filing's marginal rather than returning a number. clj-urpx 0.32.0 evaluates no urpx:ConditionExpression, but since 0.26.0 it marks a gated tier :urpx.resolved/condition-gated and marginal-unit-rate throws :condition-gated-tier instead of summing it. The Maximum Available Credit Price keeps its 'Grandfathered D-SDP Dual Participation' gate, which is what trips this, and every probe instant is recorded refused on that reason in dev/baseline/marginal-rates.edn. That is the intended outcome rather than a regression: the gate is a customer-attribute constraint this library does not evaluate, so summing across it would have produced a confident wrong number. :assume-conditions-hold? true restores the pre-0.26.0 every-condition-true behaviour.",
+ "The Maximum Available Credit Price is gated on a customer attribute this filing cannot decide: its ApplicabilityRule carries a urpx:ConditionExpression comparing the CustomOperandNode 'Grandfathered D-SDP Dual Participation' to true, and whether a given customer is grandfathered into Schedule D-SDP dual participation is stated by no property of the document. A per-unit rate summed over the three Prices therefore rests on assuming the gate holds, which would be a confident wrong number, and dev/baseline/marginal-rates.edn records all 19 probe instants for this filing as refused on the condition-gated-tier reason rather than carrying a rate.",
 ]
 
 # Review ----------------------------------------------------------------------

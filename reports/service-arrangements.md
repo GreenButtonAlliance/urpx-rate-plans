@@ -12,7 +12,7 @@ An arrangement is identified by its own components: the base version IRI, the so
 
 ## What this report counts
 
-**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 780 arrangements, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
+**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 772 arrangements, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
 
 **Superseded versions are excluded.** A superseded version is not a service arrangement: nobody takes service under it. Supersession is derived from the data, never from directory names, because a directory count is not a version count. Two filing directories can hold one version node: CPAU E-1 is filed at 2025-07-01 and again at 2025-09-01, and both carry `cpau:e-1-2025-07-01`, because the base rates did not change and only the modifiers operative at the snapshot did.
 
@@ -22,18 +22,18 @@ An arrangement is identified by its own components: the base version IRI, the so
 
 | | Count |
 |---|---:|
-| Arrangements enumerated (base + at most one modifier) | 146 |
+| Arrangements enumerated (base + at most one modifier) | 145 |
 | of which base alone | 33 |
-| of which base + one modifier | 113 |
-| Fully-determined arrangements after expanding open dimensions | 1879 |
+| of which base + one modifier | 112 |
+| Fully-determined arrangements after expanding open dimensions | 1139 |
 
 | Outcome | Arrangements | Fully determined |
 |---|---:|---:|
-| **servable** | 127 | 947 |
+| **servable** | 126 | 530 |
 | **not priced per kWh** | 9 | 54 |
-| **blocked** | 6 | 50 |
-| **not measured** | 4 | 828 |
-| **total** | 146 | 1879 |
+| **blocked** | 6 | 33 |
+| **not measured** | 4 | 522 |
+| **total** | 145 | 1139 |
 
 - **servable** resolves to a number at every probe instant.
 - **not priced per kWh** resolves, and legitimately prices nothing per kWh. CPAU E-14 and E-16 are street lighting: they price per lamp, per fixture and per month. This is not a defect.
@@ -44,7 +44,7 @@ An arrangement is identified by its own components: the base version IRI, the so
 
 | Utility | Servable | Not priced per kWh | Blocked | Not measured | Total |
 |---|---:|---:|---:|---:|---:|
-| PG&E (IOU) | 9 | 0 | 5 | 4 | 18 |
+| PG&E (IOU) | 8 | 0 | 5 | 4 | 17 |
 | SCE (IOU) | 29 | 0 | 1 | 0 | 30 |
 | SDG&E (IOU) | 37 | 0 | 0 | 0 | 37 |
 | CPAU (POU) | 26 | 9 | 0 | 0 | 35 |
@@ -96,8 +96,7 @@ A dimension an arrangement's components leave open. The corpus states the altern
 | `pge:e-1-income-tier-2026-03-01-pa-income-tier`<br>Income tier (CARE / FERA / standard) | 3 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-income-tier-2026-03-01-psa-bsc-tier-` | no |
 | `pge:e-1-vintage-pcia-2026-03-01-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-vintage-pcia-2026-03-01-psa-vpcia-20` | no |
 | `pge:e-elec-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 3 | `urpx:PriceSetAlternative`<br>`pge:e-elec-2026-03-27-psa-bsc-tier-` | no |
-| `pge:e-tou-c-2026-03-27-pa-baseline-territory-code`<br>Baseline Territory and Baseline Code (Special Condition 1, Sheet 5) | 20 | 5 | `urpx:ServiceBracket`<br>`pge:e-tou-c-2026-03-27-bracket-t` | no |
-| `pge:e-tou-c-income-tier-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-tou-c-income-tier-2026-03-27-psa-bsc-tier-` | no |
+| `pge:e-tou-c-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 4 | `urpx:PriceSetAlternative`<br>`pge:e-tou-c-2026-03-27-psa-bsc-tier-` | no |
 | `pge:e-tou-c-vintage-pcia-2026-03-01-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-tou-c-vintage-pcia-2026-03-01-psa-vpcia-20` | no |
 | `pge:e-tou-d-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 3 | `urpx:PriceSetAlternative`<br>`pge:e-tou-d-2026-03-27-psa-bsc-tier-` | no |
 | `pge:e-tou-d-vintage-pcia-2026-03-27-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-tou-d-vintage-pcia-2026-03-27-psa-vpcia-20` | no |
@@ -107,7 +106,7 @@ A dimension an arrangement's components leave open. The corpus states the altern
 | `sce:cca-crs-2026-03-20-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:cca-crs-2026-03-20-psa-pcia-v20` | `sce:cca-crs-2026-03-20-pa-vintage-2001` |
 | `sce:da-crs-2026-03-20-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:da-crs-2026-03-20-psa-pcia-v20` | `sce:da-crs-2026-03-20-pa-vintage-2001` |
 
-The baseline exercised a specific selection in 118 of the 1879 fully-determined arrangements: 110 leave no dimension open, and 8 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
+The baseline exercised a specific selection in 118 of the 1139 fully-determined arrangements: 110 leave no dimension open, and 8 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
 
 ## What a fuller enumeration would need
 
@@ -139,7 +138,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Provenance
 
-Servability is read from `dev/baseline/marginal-rates.edn`, not re-resolved here. The figures are as of that baseline: 19 probe instants per key, resolved by clj-urpx 0.32.0. An arrangement counts as servable only when every one of its baseline rows resolved at every one of those instants. Re-record the baseline deliberately (`clojure -M:validate --record-baseline`) and this report moves with it.
+Servability is read from `dev/baseline/marginal-rates.edn`, not re-resolved here. The figures are as of that baseline: 19 probe instants per key, resolved by clj-urpx 0.34.0. An arrangement counts as servable only when every one of its baseline rows resolved at every one of those instants. Re-record the baseline deliberately (`clojure -M:validate --record-baseline`) and this report moves with it.
 
 Every baseline row is accounted for: each is either reached by an arrangement here or belongs to a superseded version. A row that is neither makes this generator refuse rather than report.
 

@@ -105,7 +105,7 @@ Both are generated from the corpus and the recorded resolution baseline. Neither
 
 Whether arrangement enumeration belongs in a general URPX reader or stays corpus-side is unsettled. The three rules it needs — supersession from `forRatePlan` and `effectiveDateTime`, compatibility of a modifier version with a base version, and the open `ProfileAlternatives` dimensions — are URPX constructs with no jurisdiction in them, which argues for the former. Two implementations of one rule in different languages need a cross-check asserting they agree, which argues for deciding rather than drifting.
 
-The second implementation exists: `urpx.arrangements`, in the pinned clj-urpx 0.32.0. `dev/cross_check_arrangements.py` compares the set of (base version, modifier versions) pairs the two enumerate, in both directions, at a pinned instant and under named policies, and runs in `dev/gate.sh`. The two agree on 144.
+The second implementation exists: `urpx.arrangements`, in the consumer pinned by `deps.edn`. `dev/cross_check_arrangements.py` compares the set of (base version, modifier versions) pairs the two enumerate, in both directions, at a pinned instant and under named policies, and runs in `dev/gate.sh`. The gate prints the agreed count on every run.
 
 One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships both readings and takes no position between them; this repository assumes the additive one. Worth knowing for anyone reading this corpus with it: its default is the third reading below, the one nothing in the decision argues for.
 
