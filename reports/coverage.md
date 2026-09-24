@@ -81,7 +81,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | ladwp | nem | modifier | 2008-09-01 |
 | ladwp | r-1a | rate-plan | 2026-04-01 |
 | ladwp | r-1b | rate-plan | 2026-04-01 |
-| pge | e-1 | rate-plan | 2026-03-01 |
+| pge | e-1 | rate-plan | 2026-03-01, 2026-03-01 |
 | pge | e-elec | rate-plan | 2026-01-01, 2026-03-27 |
 | pge | e-rsmart | modifier | 2025-10-31 |
 | pge | e-tou-c | rate-plan | 2026-03-01, 2026-03-01, 2026-03-27 |

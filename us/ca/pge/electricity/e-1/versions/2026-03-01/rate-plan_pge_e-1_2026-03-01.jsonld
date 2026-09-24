@@ -83,7 +83,7 @@
         "urpx:hasRatePlanVersion": {
           "@type": "urpx:RatePlanVersion",
           "@id": "pge:e-1-2026-03-01",
-          "urpx:description": "Default non-TOU residential schedule. Energy is billed at three tiered rates based on percentage of baseline allowance: Tier 1 (0-100%), Tier 2 (101-400%), Tier 2 Continued (over 400%). Generation and Distribution components are tier-agnostic; the tier-varying piece is the Conservation Incentive Adjustment. Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). KNOWN LIMITATION: the baseline allowance varies by 10 territories × 2 codes (B/H) × 2 seasons; this filing models ONE cell (Territory P, Code B residential, summer 13.5 / winter 11.0 kWh/day). Full-matrix expansion is tracked under grid-coordination/urpx-rate-plans#18, blocked on upstream urpx-org/urpx discussion #31 (PlanElements.hasProfileAlternatives maxCount=1 collides with the existing income-tier ProfileAlternatives at this PlanElements scope). Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file. (urpx:initialEffectiveDate set to 2001-01-01 as a placeholder for the post-restructuring modern PG&E E-1 era; the schedule predates this.)",
+          "urpx:description": "Default non-TOU residential schedule. Energy is billed at three tiered rates based on percentage of baseline allowance: Tier 1 (0-100%), Tier 2 (101-400%), Tier 2 Continued (over 400%). Generation and Distribution components are tier-agnostic; the tier-varying piece is the Conservation Incentive Adjustment. The baseline allowance itself varies by baseline territory (10) and baseline code (B basic, H all-electric), and this version carries all 20 cells as urpx:ProfileAlternative nodes over two urpx:AlternativeDimension nodes, with 20 cell-scoped urpx:ServiceBracket nodes on each of the six urpx:ServiceTier nodes: 120 brackets holding the 40 kWh/day quantities of Special Condition 2, Sheet 4 (Cal. P.U.C. Sheet 61099-E), Tier 2 ending at four times Tier 1. Which cell applies is the caller's to name; nothing here selects one. Season is carried by the identity of the six tiers, three summer rungs and three winter rungs, and by no urpx:appliesInSeason. Two sibling urpx:RatePlanModifier versions complete the schedule: the Vintaged PCIA for CCA, DA and TBS customers, in this document, and the daily Base Services Charge at its three income tiers (CARE, FERA, standard), in rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld. Every customer pays a Base Services Charge, so that modifier is not elective even though urpx:hasModifierOptions is the only vocabulary for the link. (urpx:initialEffectiveDate is set to 2001-01-01 as a placeholder for the post-restructuring modern PG&E E-1 era; the schedule predates this.)",
           "urpx:effectiveDateTime": "2026-03-01T00:00:00",
           "urpx:changeReason": {
             "@id": "urpx:rateCase"
@@ -218,7 +218,7 @@
               "@id": "pge:e-1-2026-03-01-plan-elements-billing-model",
               "urpx:hasServiceTiers": {
                 "@type": "urpx:ServiceTiers",
-                "@id": "pge:tiers-baseline-tp-cb",
+                "@id": "pge:e-1-2026-03-01-tiers-baseline",
                 "urpx:referencesMetricInput": {
                   "@id": "pge:e-1-2026-03-01-mi-energy"
                 },
@@ -228,100 +228,1688 @@
                     "@id": "pge:tier-summer-t1",
                     "urpx:name": "Summer Tier 1 — within baseline (Territory P, Code B: 0-13.5 kWh/day)",
                     "urpx:serviceTierNumber": 1,
-                    "urpx:hasServiceBracket": {
-                      "@type": "urpx:ServiceBracket",
-                      "@id": "pge:tier-summer-t1-bracket",
-                      "urpx:lowerBound": "0",
-                      "urpx:lowerBoundOperator": {
-                        "@id": "urpx:greaterThanOrEqualOperator"
+                    "urpx:hasServiceBracket": [
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-p-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "13.5",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       },
-                      "urpx:upperBound": "13.5",
-                      "urpx:upperBoundOperator": {
-                        "@id": "urpx:lessThanOrEqualOperator"
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-p-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "15.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-q-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "9.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-q-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "8.5",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-r-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "17.7",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-r-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "19.9",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-s-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "15.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-s-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "17.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-t-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "6.5",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-t-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "7.1",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-v-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "7.1",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-v-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "10.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-w-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "19.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-w-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "22.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-x-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "9.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-x-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "8.5",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-y-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "10.5",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-y-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "12.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-z-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "5.9",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t1-z-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "6.7",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       }
-                    }
+                    ]
                   },
                   {
                     "@type": "urpx:ServiceTier",
                     "@id": "pge:tier-summer-t2",
                     "urpx:name": "Summer Tier 2 — 101-400% of baseline (Territory P, Code B: 13.5-54.0 kWh/day)",
                     "urpx:serviceTierNumber": 2,
-                    "urpx:hasServiceBracket": {
-                      "@type": "urpx:ServiceBracket",
-                      "@id": "pge:tier-summer-t2-bracket",
-                      "urpx:lowerBound": "13.5",
-                      "urpx:lowerBoundOperator": {
-                        "@id": "urpx:greaterThanOperator"
+                    "urpx:hasServiceBracket": [
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-p-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b"
+                        },
+                        "urpx:lowerBound": "13.5",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "54.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       },
-                      "urpx:upperBound": "54.0",
-                      "urpx:upperBoundOperator": {
-                        "@id": "urpx:lessThanOrEqualOperator"
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-p-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h"
+                        },
+                        "urpx:lowerBound": "15.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "60.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-q-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b"
+                        },
+                        "urpx:lowerBound": "9.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "39.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-q-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h"
+                        },
+                        "urpx:lowerBound": "8.5",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "34.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-r-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b"
+                        },
+                        "urpx:lowerBound": "17.7",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "70.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-r-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h"
+                        },
+                        "urpx:lowerBound": "19.9",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "79.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-s-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b"
+                        },
+                        "urpx:lowerBound": "15.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "60.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-s-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h"
+                        },
+                        "urpx:lowerBound": "17.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "71.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-t-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b"
+                        },
+                        "urpx:lowerBound": "6.5",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "26.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-t-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h"
+                        },
+                        "urpx:lowerBound": "7.1",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "28.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-v-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b"
+                        },
+                        "urpx:lowerBound": "7.1",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "28.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-v-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h"
+                        },
+                        "urpx:lowerBound": "10.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "41.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-w-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b"
+                        },
+                        "urpx:lowerBound": "19.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "76.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-w-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h"
+                        },
+                        "urpx:lowerBound": "22.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "89.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-x-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b"
+                        },
+                        "urpx:lowerBound": "9.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "39.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-x-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h"
+                        },
+                        "urpx:lowerBound": "8.5",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "34.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-y-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b"
+                        },
+                        "urpx:lowerBound": "10.5",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "42.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-y-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h"
+                        },
+                        "urpx:lowerBound": "12.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "48.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-z-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b"
+                        },
+                        "urpx:lowerBound": "5.9",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "23.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2-z-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h"
+                        },
+                        "urpx:lowerBound": "6.7",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "26.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       }
-                    }
+                    ]
                   },
                   {
                     "@type": "urpx:ServiceTier",
                     "@id": "pge:tier-summer-t2c",
                     "urpx:name": "Summer Tier 2 Continued — over 400% of baseline (Territory P, Code B: > 54.0 kWh/day)",
                     "urpx:serviceTierNumber": 3,
-                    "urpx:hasServiceBracket": {
-                      "@type": "urpx:ServiceBracket",
-                      "@id": "pge:tier-summer-t2c-bracket",
-                      "urpx:lowerBound": "54.0",
-                      "urpx:lowerBoundOperator": {
-                        "@id": "urpx:greaterThanOperator"
+                    "urpx:hasServiceBracket": [
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-p-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b"
+                        },
+                        "urpx:lowerBound": "54.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-p-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h"
+                        },
+                        "urpx:lowerBound": "60.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-q-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b"
+                        },
+                        "urpx:lowerBound": "39.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-q-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h"
+                        },
+                        "urpx:lowerBound": "34.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-r-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b"
+                        },
+                        "urpx:lowerBound": "70.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-r-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h"
+                        },
+                        "urpx:lowerBound": "79.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-s-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b"
+                        },
+                        "urpx:lowerBound": "60.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-s-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h"
+                        },
+                        "urpx:lowerBound": "71.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-t-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b"
+                        },
+                        "urpx:lowerBound": "26.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-t-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h"
+                        },
+                        "urpx:lowerBound": "28.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-v-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b"
+                        },
+                        "urpx:lowerBound": "28.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-v-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h"
+                        },
+                        "urpx:lowerBound": "41.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-w-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b"
+                        },
+                        "urpx:lowerBound": "76.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-w-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h"
+                        },
+                        "urpx:lowerBound": "89.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-x-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b"
+                        },
+                        "urpx:lowerBound": "39.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-x-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h"
+                        },
+                        "urpx:lowerBound": "34.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-y-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b"
+                        },
+                        "urpx:lowerBound": "42.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-y-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h"
+                        },
+                        "urpx:lowerBound": "48.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-z-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b"
+                        },
+                        "urpx:lowerBound": "23.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-summer-t2c-z-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h"
+                        },
+                        "urpx:lowerBound": "26.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
                       }
-                    }
+                    ]
                   },
                   {
                     "@type": "urpx:ServiceTier",
                     "@id": "pge:tier-winter-t1",
                     "urpx:name": "Winter Tier 1 — within baseline (Territory P, Code B: 0-11.0 kWh/day)",
                     "urpx:serviceTierNumber": 4,
-                    "urpx:hasServiceBracket": {
-                      "@type": "urpx:ServiceBracket",
-                      "@id": "pge:tier-winter-t1-bracket",
-                      "urpx:lowerBound": "0",
-                      "urpx:lowerBoundOperator": {
-                        "@id": "urpx:greaterThanOrEqualOperator"
+                    "urpx:hasServiceBracket": [
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-p-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "11.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       },
-                      "urpx:upperBound": "11.0",
-                      "urpx:upperBoundOperator": {
-                        "@id": "urpx:lessThanOrEqualOperator"
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-p-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "26.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-q-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "11.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-q-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "26.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-r-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "10.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-r-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "26.7",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-s-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "10.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-s-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "23.7",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-t-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "7.5",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-t-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "12.9",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-v-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "8.1",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-v-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "19.1",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-w-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "9.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-w-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "19.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-x-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "9.7",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-x-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "14.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-y-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "11.1",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-y-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "24.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-z-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "7.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t1-z-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h"
+                        },
+                        "urpx:lowerBound": "0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOrEqualOperator"
+                        },
+                        "urpx:upperBound": "15.7",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       }
-                    }
+                    ]
                   },
                   {
                     "@type": "urpx:ServiceTier",
                     "@id": "pge:tier-winter-t2",
                     "urpx:name": "Winter Tier 2 — 101-400% of baseline (Territory P, Code B: 11.0-44.0 kWh/day)",
                     "urpx:serviceTierNumber": 5,
-                    "urpx:hasServiceBracket": {
-                      "@type": "urpx:ServiceBracket",
-                      "@id": "pge:tier-winter-t2-bracket",
-                      "urpx:lowerBound": "11.0",
-                      "urpx:lowerBoundOperator": {
-                        "@id": "urpx:greaterThanOperator"
+                    "urpx:hasServiceBracket": [
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-p-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b"
+                        },
+                        "urpx:lowerBound": "11.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "44.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       },
-                      "urpx:upperBound": "44.0",
-                      "urpx:upperBoundOperator": {
-                        "@id": "urpx:lessThanOrEqualOperator"
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-p-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h"
+                        },
+                        "urpx:lowerBound": "26.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "104.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-q-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b"
+                        },
+                        "urpx:lowerBound": "11.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "44.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-q-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h"
+                        },
+                        "urpx:lowerBound": "26.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "104.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-r-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b"
+                        },
+                        "urpx:lowerBound": "10.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "41.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-r-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h"
+                        },
+                        "urpx:lowerBound": "26.7",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "106.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-s-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b"
+                        },
+                        "urpx:lowerBound": "10.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "40.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-s-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h"
+                        },
+                        "urpx:lowerBound": "23.7",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "94.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-t-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b"
+                        },
+                        "urpx:lowerBound": "7.5",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "30.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-t-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h"
+                        },
+                        "urpx:lowerBound": "12.9",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "51.6",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-v-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b"
+                        },
+                        "urpx:lowerBound": "8.1",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "32.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-v-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h"
+                        },
+                        "urpx:lowerBound": "19.1",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "76.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-w-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b"
+                        },
+                        "urpx:lowerBound": "9.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "39.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-w-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h"
+                        },
+                        "urpx:lowerBound": "19.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "76.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-x-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b"
+                        },
+                        "urpx:lowerBound": "9.7",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "38.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-x-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h"
+                        },
+                        "urpx:lowerBound": "14.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "58.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-y-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b"
+                        },
+                        "urpx:lowerBound": "11.1",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "44.4",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-y-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h"
+                        },
+                        "urpx:lowerBound": "24.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "96.0",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-z-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b"
+                        },
+                        "urpx:lowerBound": "7.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "31.2",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2-z-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h"
+                        },
+                        "urpx:lowerBound": "15.7",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        },
+                        "urpx:upperBound": "62.8",
+                        "urpx:upperBoundOperator": {
+                          "@id": "urpx:lessThanOrEqualOperator"
+                        }
                       }
-                    }
+                    ]
                   },
                   {
                     "@type": "urpx:ServiceTier",
                     "@id": "pge:tier-winter-t2c",
                     "urpx:name": "Winter Tier 2 Continued — over 400% of baseline (Territory P, Code B: > 44.0 kWh/day)",
                     "urpx:serviceTierNumber": 6,
-                    "urpx:hasServiceBracket": {
-                      "@type": "urpx:ServiceBracket",
-                      "@id": "pge:tier-winter-t2c-bracket",
-                      "urpx:lowerBound": "44.0",
-                      "urpx:lowerBoundOperator": {
-                        "@id": "urpx:greaterThanOperator"
+                    "urpx:hasServiceBracket": [
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-p-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b"
+                        },
+                        "urpx:lowerBound": "44.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-p-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h"
+                        },
+                        "urpx:lowerBound": "104.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-q-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b"
+                        },
+                        "urpx:lowerBound": "44.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-q-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h"
+                        },
+                        "urpx:lowerBound": "104.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-r-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b"
+                        },
+                        "urpx:lowerBound": "41.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-r-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h"
+                        },
+                        "urpx:lowerBound": "106.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-s-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b"
+                        },
+                        "urpx:lowerBound": "40.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-s-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h"
+                        },
+                        "urpx:lowerBound": "94.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-t-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b"
+                        },
+                        "urpx:lowerBound": "30.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-t-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h"
+                        },
+                        "urpx:lowerBound": "51.6",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-v-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b"
+                        },
+                        "urpx:lowerBound": "32.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-v-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h"
+                        },
+                        "urpx:lowerBound": "76.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-w-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b"
+                        },
+                        "urpx:lowerBound": "39.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-w-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h"
+                        },
+                        "urpx:lowerBound": "76.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-x-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b"
+                        },
+                        "urpx:lowerBound": "38.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-x-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h"
+                        },
+                        "urpx:lowerBound": "58.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-y-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b"
+                        },
+                        "urpx:lowerBound": "44.4",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-y-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h"
+                        },
+                        "urpx:lowerBound": "96.0",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-z-b",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b"
+                        },
+                        "urpx:lowerBound": "31.2",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
+                      },
+                      {
+                        "@type": "urpx:ServiceBracket",
+                        "@id": "pge:e-1-2026-03-01-bracket-winter-t2c-z-h",
+                        "urpx:referencesProfileAlternative": {
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h"
+                        },
+                        "urpx:lowerBound": "62.8",
+                        "urpx:lowerBoundOperator": {
+                          "@id": "urpx:greaterThanOperator"
+                        }
                       }
-                    }
+                    ]
                   }
                 ]
               },
@@ -368,17 +1956,6 @@
                   },
                   "urpx:referencesMetricInput": {
                     "@id": "pge:e-1-2026-03-01-mi-energy"
-                  }
-                },
-                {
-                  "@type": "urpx:Ledger",
-                  "@id": "pge:e-1-2026-03-01-ledger-base-charge",
-                  "urpx:name": "Base Services Charge",
-                  "urpx:ledgerType": {
-                    "@id": "urpx:bundledLedger"
-                  },
-                  "urpx:referencesMetricInput": {
-                    "@id": "pge:e-1-2026-03-01-mi-meter-count"
                   }
                 }
               ],
@@ -637,51 +2214,79 @@
                   "urpx:referencesLedger": {
                     "@id": "pge:e-1-2026-03-01-ledger-adjustments"
                   }
-                },
-                {
-                  "@type": "urpx:PriceDefinition",
-                  "@id": "pge:e-1-2026-03-01-pd-base-charge",
-                  "urpx:name": "Base Services Charge",
-                  "urpx:chargeType": {
-                    "@id": "urpx:minimumBill"
-                  },
-                  "urpx:chargeCategory": {
-                    "@id": "urpx:serviceCharge"
-                  },
-                  "urpx:billPortion": {
-                    "@id": "urpx:bundledPortion"
-                  },
-                  "urpx:baseQuantity": "1",
-                  "urpx:hasCalculationMethod": {
-                    "@type": "urpx:CalculationMethod",
-                    "@id": "pge:e-1-2026-03-01-pd-base-charge-calculation-method",
-                    "urpx:intervalDuration": "P1D"
-                  },
-                  "urpx:referencesLedger": {
-                    "@id": "pge:e-1-2026-03-01-ledger-base-charge"
-                  }
                 }
               ]
             },
             "urpx:hasProfileAlternatives": {
               "@type": "urpx:ProfileAlternatives",
-              "@id": "pge:e-1-2026-03-01-pa-income-tier",
-              "urpx:name": "Income tier (CARE / FERA / Standard)",
+              "@id": "pge:e-1-2026-03-01-pa-baseline-territory-code",
+              "urpx:name": "Baseline Territory and Baseline Code (Special Condition 2, Sheet 4)",
               "urpx:hasAlternativeDimensions": {
                 "@type": "urpx:AlternativeDimensions",
-                "@id": "pge:e-1-2026-03-01-pa-income-tier-alternative-dimensions",
+                "@id": "pge:e-1-2026-03-01-pa-baseline-territory-code-alternative-dimensions",
                 "urpx:hasAlternativeDimension": [
                   {
                     "@type": "urpx:AlternativeDimension",
-                    "urpx:dimensionDisplayName": "Program Enrollment",
-                    "urpx:dimensionProperty": "https://urpx.org/ns/ontology/hasProgramEnrollment",
+                    "urpx:dimensionDisplayName": "Baseline Territory",
+                    "urpx:customDimensionProperty": "baselineTerritory",
                     "urpx:hasPossibleValues": {
                       "@list": [
                         {
-                          "@id": "pge:program-care"
+                          "@value": "P",
+                          "@type": "xsd:string"
                         },
                         {
-                          "@id": "pge:program-fera"
+                          "@value": "Q",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "R",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "S",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "T",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "V",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "W",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "X",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "Y",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "Z",
+                          "@type": "xsd:string"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "@type": "urpx:AlternativeDimension",
+                    "urpx:dimensionDisplayName": "Baseline Code",
+                    "urpx:customDimensionProperty": "baselineCode",
+                    "urpx:hasPossibleValues": {
+                      "@list": [
+                        {
+                          "@value": "B",
+                          "@type": "xsd:string"
+                        },
+                        {
+                          "@value": "H",
+                          "@type": "xsd:string"
                         }
                       ]
                     }
@@ -691,118 +2296,1038 @@
               "urpx:hasProfileAlternative": [
                 {
                   "@type": "urpx:ProfileAlternative",
-                  "@id": "pge:e-1-2026-03-01-pa-income-tier-care",
-                  "urpx:name": "Income Tier 1 — CARE-eligible",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-p-b",
+                  "urpx:name": "Baseline Territory P, Code B",
                   "urpx:hasConditionExpression": {
                     "@type": "urpx:ConditionExpression",
-                    "@id": "pge:e-1-2026-03-01-cx-pa-care",
-                    "urpx:rootNode": {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "pge:e-1-2026-03-01-cn-pa-care",
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "pge:e-1-2026-03-01-cn-pa-care-left-operand",
-                        "urpx:conditionProperty": {
-                          "@id": "urpx:hasProgramEnrollment"
-                        }
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "pge:e-1-2026-03-01-cn-pa-care-right-operand",
-                        "urpx:referencesValue": {
-                          "@id": "pge:program-care"
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "pge:e-1-2026-03-01-pa-income-tier-fera",
-                  "urpx:name": "Income Tier 2 — FERA-eligible",
-                  "urpx:hasConditionExpression": {
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "pge:e-1-2026-03-01-cx-pa-fera",
-                    "urpx:rootNode": {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "pge:e-1-2026-03-01-cn-pa-fera",
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "pge:e-1-2026-03-01-cn-pa-fera-left-operand",
-                        "urpx:conditionProperty": {
-                          "@id": "urpx:hasProgramEnrollment"
-                        }
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "pge:e-1-2026-03-01-cn-pa-fera-right-operand",
-                        "urpx:referencesValue": {
-                          "@id": "pge:program-fera"
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "pge:e-1-2026-03-01-pa-income-tier-standard",
-                  "urpx:name": "Income Tier 3 — neither CARE nor FERA (standard)",
-                  "urpx:hasConditionExpression": {
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "pge:e-1-2026-03-01-cx-pa-standard",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-p-b-condition-expression",
                     "urpx:rootNode": {
                       "@type": "urpx:BooleanOperationNode",
-                      "@id": "pge:e-1-2026-03-01-bn-pa-standard",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-p-b-root-node",
                       "urpx:operator": {
                         "@id": "urpx:andOperator"
                       },
                       "urpx:operandNodes": [
                         {
                           "@type": "urpx:ComparisonNode",
-                          "@id": "pge:e-1-2026-03-01-cn-pa-not-care",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b-territory",
                           "urpx:operator": {
-                            "@id": "urpx:notEqualsOperator"
+                            "@id": "urpx:equalsOperator"
                           },
                           "urpx:leftOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "pge:e-1-2026-03-01-cn-pa-not-care-left-operand",
-                            "urpx:conditionProperty": {
-                              "@id": "urpx:hasProgramEnrollment"
-                            }
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
                           },
                           "urpx:rightOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "pge:e-1-2026-03-01-cn-pa-not-care-right-operand",
-                            "urpx:referencesValue": {
-                              "@id": "pge:program-care"
-                            }
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-b-territory-right-operand",
+                            "urpx:stringValue": "P"
                           }
                         },
                         {
                           "@type": "urpx:ComparisonNode",
-                          "@id": "pge:e-1-2026-03-01-cn-pa-not-fera",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-b-code",
                           "urpx:operator": {
-                            "@id": "urpx:notEqualsOperator"
+                            "@id": "urpx:equalsOperator"
                           },
                           "urpx:leftOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "pge:e-1-2026-03-01-cn-pa-not-fera-left-operand",
-                            "urpx:conditionProperty": {
-                              "@id": "urpx:hasProgramEnrollment"
-                            }
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
                           },
                           "urpx:rightOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "pge:e-1-2026-03-01-cn-pa-not-fera-right-operand",
-                            "urpx:referencesValue": {
-                              "@id": "pge:program-fera"
-                            }
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-p-h",
+                  "urpx:name": "Baseline Territory P, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-p-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-p-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-h-territory-right-operand",
+                            "urpx:stringValue": "P"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-p-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-p-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-q-b",
+                  "urpx:name": "Baseline Territory Q, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-q-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-q-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-b-territory-right-operand",
+                            "urpx:stringValue": "Q"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-q-h",
+                  "urpx:name": "Baseline Territory Q, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-q-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-q-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-h-territory-right-operand",
+                            "urpx:stringValue": "Q"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-q-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-q-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-r-b",
+                  "urpx:name": "Baseline Territory R, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-r-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-r-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-b-territory-right-operand",
+                            "urpx:stringValue": "R"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-r-h",
+                  "urpx:name": "Baseline Territory R, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-r-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-r-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-h-territory-right-operand",
+                            "urpx:stringValue": "R"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-r-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-r-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-s-b",
+                  "urpx:name": "Baseline Territory S, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-s-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-s-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-b-territory-right-operand",
+                            "urpx:stringValue": "S"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-s-h",
+                  "urpx:name": "Baseline Territory S, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-s-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-s-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-h-territory-right-operand",
+                            "urpx:stringValue": "S"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-s-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-s-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-t-b",
+                  "urpx:name": "Baseline Territory T, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-t-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-t-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-b-territory-right-operand",
+                            "urpx:stringValue": "T"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-t-h",
+                  "urpx:name": "Baseline Territory T, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-t-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-t-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-h-territory-right-operand",
+                            "urpx:stringValue": "T"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-t-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-t-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-v-b",
+                  "urpx:name": "Baseline Territory V, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-v-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-v-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-b-territory-right-operand",
+                            "urpx:stringValue": "V"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-v-h",
+                  "urpx:name": "Baseline Territory V, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-v-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-v-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-h-territory-right-operand",
+                            "urpx:stringValue": "V"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-v-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-v-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-w-b",
+                  "urpx:name": "Baseline Territory W, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-w-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-w-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-b-territory-right-operand",
+                            "urpx:stringValue": "W"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-w-h",
+                  "urpx:name": "Baseline Territory W, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-w-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-w-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-h-territory-right-operand",
+                            "urpx:stringValue": "W"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-w-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-w-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-x-b",
+                  "urpx:name": "Baseline Territory X, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-x-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-x-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-b-territory-right-operand",
+                            "urpx:stringValue": "X"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-x-h",
+                  "urpx:name": "Baseline Territory X, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-x-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-x-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-h-territory-right-operand",
+                            "urpx:stringValue": "X"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-x-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-x-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-y-b",
+                  "urpx:name": "Baseline Territory Y, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-y-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-y-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-b-territory-right-operand",
+                            "urpx:stringValue": "Y"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-y-h",
+                  "urpx:name": "Baseline Territory Y, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-y-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-y-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-h-territory-right-operand",
+                            "urpx:stringValue": "Y"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-y-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-y-h-code-right-operand",
+                            "urpx:stringValue": "H"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-z-b",
+                  "urpx:name": "Baseline Territory Z, Code B",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-z-b-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-z-b-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-b-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-b-territory-right-operand",
+                            "urpx:stringValue": "Z"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-b-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-b-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-b-code-right-operand",
+                            "urpx:stringValue": "B"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-2026-03-01-pa-tc-z-h",
+                  "urpx:name": "Baseline Territory Z, Code H",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-2026-03-01-pa-tc-z-h-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-2026-03-01-pa-tc-z-h-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h-territory",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-h-territory-left-operand",
+                            "urpx:customConditionProperty": "baselineTerritory"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-h-territory-right-operand",
+                            "urpx:stringValue": "Z"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-2026-03-01-pa-tc-z-h-code",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-h-code-left-operand",
+                            "urpx:customConditionProperty": "baselineCode"
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:CustomOperandNode",
+                            "@id": "pge:e-1-2026-03-01-pa-tc-z-h-code-right-operand",
+                            "urpx:stringValue": "H"
                           }
                         }
                       ]
@@ -1031,83 +3556,24 @@
                   }
                 ]
               }
-            ],
-            "urpx:hasPriceSetAlternatives": [
-              {
-                "@type": "urpx:PriceSetAlternatives",
-                "@id": "pge:e-1-2026-03-01-psa-bsc-by-income-tier",
-                "urpx:name": "Base Services Charge — varies by income tier (CARE / FERA / Standard)",
-                "urpx:referencesProfileAlternatives": {
-                  "@id": "pge:e-1-2026-03-01-pa-income-tier"
-                },
-                "urpx:hasPriceSetAlternative": [
-                  {
-                    "@type": "urpx:PriceSetAlternative",
-                    "@id": "pge:e-1-2026-03-01-psa-bsc-tier-1",
-                    "urpx:referencesProfileAlternative": {
-                      "@id": "pge:e-1-2026-03-01-pa-income-tier-care"
-                    },
-                    "urpx:hasPrice": [
-                      {
-                        "@type": "urpx:Price",
-                        "@id": "pge:e-1-2026-03-01-price-base-charge-tier-1",
-                        "urpx:referencesPriceDefinition": {
-                          "@id": "pge:e-1-2026-03-01-pd-base-charge"
-                        },
-                        "urpx:startDate": "2026-03-01",
-                        "urpx:name": "Base Services Charge — Income Tier 1 (CARE-eligible)",
-                        "urpx:unitPrice": "0.19713"
-                      }
-                    ]
-                  },
-                  {
-                    "@type": "urpx:PriceSetAlternative",
-                    "@id": "pge:e-1-2026-03-01-psa-bsc-tier-2",
-                    "urpx:referencesProfileAlternative": {
-                      "@id": "pge:e-1-2026-03-01-pa-income-tier-fera"
-                    },
-                    "urpx:hasPrice": [
-                      {
-                        "@type": "urpx:Price",
-                        "@id": "pge:e-1-2026-03-01-price-base-charge-tier-2",
-                        "urpx:referencesPriceDefinition": {
-                          "@id": "pge:e-1-2026-03-01-pd-base-charge"
-                        },
-                        "urpx:startDate": "2026-03-01",
-                        "urpx:name": "Base Services Charge — Income Tier 2 (FERA-eligible)",
-                        "urpx:unitPrice": "0.39688"
-                      }
-                    ]
-                  },
-                  {
-                    "@type": "urpx:PriceSetAlternative",
-                    "@id": "pge:e-1-2026-03-01-psa-bsc-tier-3",
-                    "urpx:referencesProfileAlternative": {
-                      "@id": "pge:e-1-2026-03-01-pa-income-tier-standard"
-                    },
-                    "urpx:hasPrice": [
-                      {
-                        "@type": "urpx:Price",
-                        "@id": "pge:e-1-2026-03-01-price-base-charge-tier-3",
-                        "urpx:referencesPriceDefinition": {
-                          "@id": "pge:e-1-2026-03-01-pd-base-charge"
-                        },
-                        "urpx:startDate": "2026-03-01",
-                        "urpx:name": "Base Services Charge — Income Tier 3 (no qualifying enrollment)",
-                        "urpx:unitPrice": "0.79343"
-                      }
-                    ]
-                  }
-                ]
-              }
             ]
           },
-          "urpx:hasModifierOptions": {
-            "@id": "pge:e-1-vintage-pcia"
-          },
-          "urpx:hasModifierVersionOptions": {
-            "@id": "pge:e-1-vintage-pcia-2026-03-01"
-          },
+          "urpx:hasModifierOptions": [
+            {
+              "@id": "pge:e-1-vintage-pcia"
+            },
+            {
+              "@id": "pge:e-1-income-tier"
+            }
+          ],
+          "urpx:hasModifierVersionOptions": [
+            {
+              "@id": "pge:e-1-vintage-pcia-2026-03-01"
+            },
+            {
+              "@id": "pge:e-1-income-tier-2026-03-01"
+            }
+          ],
           "urpx:offeredBy": {
             "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",
@@ -1149,7 +3615,7 @@
               "urpx:evaluationKind": {
                 "@id": "urpx:coverageEvaluation"
               },
-              "urpx:description": "This filing does not carry everything its source document states. 9 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Baseline tier bounds: Special Condition 2, Sheet 4 (Cal. P.U.C. Sheet 61099-E) prices a matrix of 10 baseline territories x 2 codes (B basic, H all-electric) x 2 seasons = 40 kWh/day values. The model carries one cell, Territory P Code B (summer 13.5, winter 11.0), so tier boundaries are wrong for nine of ten territories and for every all-electric customer, shifting kWh between the -0.04052 and +0.04089 Conservation Incentive Adjustment rates. Expressible under v0.5.1 and already built for this identical PG&E table at us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld, which ships 120 brackets using ServiceBracket.appliesInSeason plus ServiceBracket.referencesProfileAlternative against a 20-member baselineTerritory x baselineCode ProfileAlternatives hosted on a sibling modifier version. Upstream discussion #31 is closed and was never the blocker: sh:maxCount 1 caps ProfileAlternatives containers per PlanElements, not dimensions within one, and two dimensions are stated as their cross-product. Measured 2026-09-23: the E-TOU-C baseline-tier modifier ships 2 AlternativeDimension nodes (baselineTerritory P Q R S T V W X Y Z, baselineCode B H) over 20 ProfileAlternative cells and 120 ServiceBrackets, and its Territory P Code B bounds are identical to the six this filing carries inline (summer 0-13.5, 13.5-54.0, >54.0; winter 0-11.0, 11.0-44.0, >44.0), so it is the same table. What is NOT reusable as it stands, and what an earlier reading of this deferral assumed was: every one of those 120 brackets binds urpx:appliesInSeason to pge:e-tou-c-2026-03-01-season-summer or -winter, E-TOU-C's own version-scoped season nodes. Applying that modifier to pge:e-1 would make this plan's tier bounds depend on another plan's season definitions. The alternative and bracket IRIs are already plan-neutral (pge:pa-baseline-p-b, pge:bracket-t1-p-b-summer), so only the season references stand in the way. Note also that E-TOU-C's base plan carries zero inline ServiceBrackets and relies wholly on the overlay, while this filing carries six, so whichever shape is chosen has to say what happens to those six rather than leaving two sources of tier bounds. So it is held, and the hold is the consumer's first-bracket rule rather than anything URPX lacks. The remaining obstacle is the consumer, and it is why this filing still carries one cell rather than twenty. clj-urpx 0.32.0 tier-info takes (first (:urpx/hasServiceBracket service-tier)) with no season and no ProfileAlternative filtering; its own docstring calls per-season and per-ProfileAlternative selection 'a future-day concern'. This filing encodes season in the tier identity, six tiers each holding one bracket, so first is always the right bracket for the tier it sits on. That is not the same as being season-correct, and it is not. Measured here on 2026-09-23 against the pinned clj-urpx, at 2026-07-15T17:00-07:00 and 2026-12-15T17:00-08:00: resolve-prices surfaces all six tiers with bounds at BOTH instants, identically, tiers 1 to 3 carrying the summer bounds 0-13.5, 13.5-54.0 and above 54.0 and tiers 4 to 6 the winter bounds 0-11.0, 11.0-44.0 and above 44.0, with nothing gating on season. The marginal is 0.32561 at both, because this schedule's CIA prices do not vary by season (-0.04052 within baseline, 0.04089 above). The clj-urpx session reported the same thing first; this is our own measurement of it. The rate is unaffected because this schedule's summer and winter CIA prices are the same numbers and its generation price is flat. What matters for holding is narrower: winter's correct 11.0 is PRESENT today, as tier 4. Adopting the 20-cell overlay shape would put 20 brackets under each tier, first would be Territory P Code B, and the bounds would be right for whichever season sorts first and wrong for the other. So completing the data would make the resolution worse, and that trade is not worth making: correct-and-incomplete beats complete-and-wrong. Verified against PG&E's own Sheet 4 in this filing's PDF on 2026-09-23: all 40 Tier-1 values agree with the E-TOU-C overlay's brackets, 0 disagreements, with T2 = 4 x Tier 1 throughout, so the data is ready to use the moment the consumer can select a bracket. Raised with the clj-urpx session, which corrected two things. Its #7 and #8 are CLOSED (2026-05-05, 2026-05-07) and were Malli schema-acceptance work, never resolution, so they are why appliesInSeason validates and not why it is unread; the resolution work was unfiled and is now its URPX-rng (bracket selection) and URPX-sr4 (modifier tiers reach no tier-info). URPX-rng is implemented and green in the clj-urpx working tree as of 2026-09-23, both scopes with refusal on ambiguity, but it is NOT committed there and this corpus pins 0.31.0, so the matrix is not buildable yet: it needs the commit, a release and a pin bump first. Two things to know when it is. This filing's ServiceTiers live in its BASE plan, so bracket selection reaches them and it does not also wait on URPX-sr4, which is the separate gap that the modifier path never calls tier-info at all; the E-TOU-C overlay's tiers DO live in a modifier and so do wait on sr4. And an unqualified bracket beside a cell-scoped one is deliberately not read as a default, so every rung this filing wants has to carry its own qualifier rather than relying on omission. The 40 values are already verified against Sheet 4 with no disagreements, so the work is enumeration. Its PROPOSAL on shape, which we accepted after weighing it: author the qualifier on the ServiceBracket rather than on the ServiceTiers container. Both are read and they compose, so either would resolve; the bracket is the finer scope, it is what the E-TOU-C overlay already does so the two filings stay consistent, and putting it on the container as well would create a second place to keep in sync. The decision is ours and it is recorded here rather than inherited. One caveat it raised, and the guard is theirs rather than nothing: a bracket naming two Season nodes admits the UNION of their months, so if the two filings' season definitions ever diverge, two brackets on one tier would both admit the divergent month. clj-urpx refuses that with :ambiguous-service-bracket, naming both brackets, rather than picking one and returning a wrong bound, which is the behaviour we wanted. What is still unguarded is the timing: the divergence surfaces when a consumer resolves, not when the corpus is built, and lint_copy_divergence polices byte-identity of shared nodes while policing nothing about whether two filings' Season definitions still agree. That check belongs on our side and belongs in the same change as these cells, since it is vacuous until a bracket names two seasons. (2) Season is absent from the machine-readable data. Sheet 4 (61099-E) gives separate summer and winter bounds and Special Condition 6 (Sheet 5, 61100-E) defines summer as June 1 through September 30. The two urpx:Season nodes in this file are declared and referenced by nothing: no ServiceBracket and no Price carries appliesInSeason. The six tiers are therefore overlapping unqualified brackets over one kWh metric, so 12 kWh/day matches both summer tier 1 (0 to 13.5) and winter tier 2 (11.0 to 44.0) with no discriminator, and the season survives only inside urpx:name strings. appliesInSeason is 0..n on both ServiceBracketShape and PriceShape at v0.5.1. (3) Wildfire Fund Charge exemption not modeled. Sheet 1 (61247-E) states that customers receiving a medical baseline allowance shall not pay the Wildfire Fund Charge, and Special Condition 12 (Sheet 7, 61102-E) states the charge applies to all retail sales excluding CARE and Medical Baseline sales. The model prices it unconditionally at 0.00591 per kWh in pge:e-1-2026-03-01-ps-adjustment-charges, so CARE customers are overcharged. The CARE case is expressible with machinery already in this file: add a second PriceSetAlternatives over the existing income-tier ProfileAlternatives giving 0.00591 for Income Tiers 2 and 3 and 0 for Tier 1; the selection layer is read by clj-urpx 0.32.0. The Medical Baseline case is a second dimension and PG&E has no medical-baseline filing in this corpus. (4) Direct Access, CCA and Transitional Bundled Service customers do not pay the generation charge or the Bundled Power Charge Indifference Adjustment (Special Condition 9, Sheet 6, 61101-E), but nothing in the model removes them. The pge:e-1-vintage-pcia modifier adds the vintaged replacement rate and asserts the substitution only in urpx:description prose, so composing the base plan with the modifier bills a CCA customer 0.12855 per kWh of PG&E generation on top of their vintaged PCIA. Expressible as modifier Prices carrying multiplier -1 with basedOnPrice naming pge:price-generation and pge:e-1-2026-03-01-price-bundled-pcia; that pattern resolves at clj-urpx 0.32.0. (5) Income Tier 2 is under-specified. Sheet 1 (61247-E) defines it as either (a) FERA-enrolled or (b) a resident of an affordable rental unit listed in the California Housing Partnership database and restricted to incomes at or below 80 percent of Area Median Income. The model gates Income Tier 2 only on enrollment in pge:program-fera and defines Income Tier 3 as not-CARE and not-FERA, so a branch (b) customer resolves to Tier 3 and is billed 0.79343 per day instead of 0.39688, roughly double. Expressible and precedented in this same file: the vintage-PCIA modifier already uses CustomOperandNode with customConditionProperty for an unnamed predicate. (6) Base Services Charge is modeled only as the three income-tier totals (0.19713, 0.39688, 0.79343). Sheet 3 (61098-E) also prices it by component, 4 components x 3 income tiers = 12 values in dollars per customer per day: Distribution (-0.10751 / -0.02710 / 0.36945), Public Purpose Program (0.19131 / 0.31065 / 0.31065), Nuclear Decommissioning (0.00000 x3) and New System Generation Charge (0.11333 x3). None of the 12 appears in the model. The totals are right and the components sum to them, so no bill is wrong, but the published unbundling is absent while the energy rates are fully unbundled. (7) Standard medical quantities are not modeled. Special Condition 7 (Sheet 5, 61100-E) adds Code M and Code S quantities to the Special Condition 2 baseline, raising the usage billed at Tier 1 rates. Two obstacles. The quantities are not stated in this PDF and additional quantities are 'as provided in Rule 19', which is not committed to this corpus, so it is partly a source gap. And an additive allowance is not expressible as a delta under v0.5.1: ServiceBracketShape is sh:closed with xsd:decimal bounds and upstream urpx-org/urpx #32 is open on whether an additive quantity is meant to be representable; precomputing absolute bounds per cell would work. Sibling us/ca/pge/electricity/e-tou-c records this identical provision as its one deferral. (8) Seasonal changeover proration not modeled. Special Condition 6 (Sheet 5, 61100-E) requires bills that include the June 1 or October 1 changeover to multiply the applicable daily baseline quantity for each season by the number of days in each season. Nothing in the model expresses this. The only slot is urpx:prorationMethod, and it is settled rather than unconfirmed: BillingModelShape gives it sh:datatype xsd:string with sh:maxCount 1 and no sh:in, so it is free text with no allowed-value list to establish (verified against abdfb521). It is used by zero filings in this corpus and read by no function in clj-urpx 0.32.0, and its own skos:note scopes it to service starting or ending mid-period rather than to a season boundary, so it would carry this provision as prose at best. The allocation arithmetic itself has no computable form in v0.5.1. (9) New System Generation Charge, energy component, 0.00000 per kWh (Sheet 2, 61097-E) has no PriceDefinition and no Price. Zero-valued today so no bill is affected, but the schedule's line item is unrepresented and a future nonzero value would be silently missing. Minor; listed so the Sheet 2 enumeration is complete.",
+              "urpx:description": "This filing does not carry everything its source document states. 9 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Base Services Charge is carried by a sibling modifier rather than by the base plan, and URPX has no way to say that composing it is mandatory. Every E-1 customer pays a Base Services Charge; only the amount varies, by income tier (0.19713 CARE, 0.39688 FERA, 0.79343 standard per customer per day, Sheet 1, 61247-E). urpx:PlanElements allows one urpx:hasProfileAlternatives container per version (sh:maxCount 1) and the base plan spends its container on the 20-cell baseline Territory x Code matrix that sets the energy tier boundaries, so the income tier moved to rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld with a container of its own. The only link back is urpx:hasModifierOptions, which says the modifier is available rather than required, so a consumer resolving the base plan alone gets the energy charges and no daily charge at all. Measured 2026-09-23 against clj-urpx 0.32.0: the base plan alone resolves 4 ledgers and composed with the modifier 5, and the marginal rate 0.32561 is the same either way because the charge is per P1D and not per kWh. Three shapes that would have kept it in the base plan were measured first and each fails differently. Gating three Prices on program enrollment with urpx:hasApplicabilityGroup validates under v0.5.1, and clj-urpx does not evaluate the predicate: price.clj condition-gates marks it and the Price then fires unconditionally, so all three daily charges would apply at once and every customer would be billed 1.38744 per day. Pricing it in the base plan at the Income Tier 3 amount and re-pricing it in the modifier has no precedent here to measure against, since none of the 34 modifier filings in this corpus prices a urpx:PriceDefinition that its own base defines. And carrying the matrix in a modifier instead, the shape sibling e-tou-c uses, would leave the base plan's brackets as a second source of tier bounds. (2) Season is absent from the machine-readable data. Sheet 4 (61099-E) gives separate summer and winter bounds and Special Condition 6 (Sheet 5, 61100-E) defines summer as June 1 through September 30. The two urpx:Season nodes in this file are declared and referenced by nothing: of the 120 urpx:ServiceBracket nodes on the six tiers, 20 per tier, not one carries urpx:appliesInSeason, and no Price carries it either, so season survives only inside urpx:name strings and the tier identities. Each tier's 20 brackets are discriminated by baseline cell alone, which leaves the six tiers overlapping over one kWh metric: at Territory P Code B, 12 kWh/day matches both summer tier 1 (0 to 13.5) and winter tier 2 (11.0 to 44.0) with no discriminator. Measured 2026-09-23 against clj-urpx 0.32.0 with a cell nominated, at 2026-07-15T17:00-07:00 and at 2026-12-15T17:00-08:00: all six tiers resolve with identical bounds at both instants. Writing appliesInSeason on all 120 is now possible and is a change of its own: the consumer selects on it as of 0.32.0, and because this filing declares its own two Season nodes, nothing would depend on another plan's definitions. appliesInSeason is 0..n on both ServiceBracketShape and PriceShape at v0.5.1. (3) Wildfire Fund Charge exemption not modeled. Sheet 1 (61247-E) states that customers receiving a medical baseline allowance shall not pay the Wildfire Fund Charge, and Special Condition 12 (Sheet 7, 61102-E) states the charge applies to all retail sales excluding CARE and Medical Baseline sales. The model prices it unconditionally at 0.00591 per kWh as pge:e-1-2026-03-01-price-wildfire-fund in pge:e-1-2026-03-01-ps-adjustment-charges, so CARE customers are overcharged. The CARE case needs the income-tier ProfileAlternatives, which since 2026-09-23 lives in the sibling rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld while the charge is priced in the base plan, so the two are no longer in one document: it would take a Price on that modifier's CARE cell carrying urpx:multiplier -1 with urpx:basedOnPrice naming pge:e-1-2026-03-01-price-wildfire-fund, which is the pattern the generation-charge deferral below describes and which resolves at clj-urpx 0.32.0. The Medical Baseline case is a second dimension and PG&E has no medical-baseline filing in this corpus. (4) Direct Access, CCA and Transitional Bundled Service customers do not pay the generation charge or the Bundled Power Charge Indifference Adjustment (Special Condition 9, Sheet 6, 61101-E), but nothing in the model removes them. The pge:e-1-vintage-pcia modifier adds the vintaged replacement rate and asserts the substitution only in urpx:description prose, so composing the base plan with the modifier bills a CCA customer 0.12855 per kWh of PG&E generation on top of their vintaged PCIA. Expressible as modifier Prices carrying multiplier -1 with basedOnPrice naming pge:price-generation and pge:e-1-2026-03-01-price-bundled-pcia; that pattern resolves at clj-urpx 0.32.0. (5) Income Tier 2 is under-specified. Sheet 1 (61247-E) defines it as either (a) FERA-enrolled or (b) a resident of an affordable rental unit listed in the California Housing Partnership database and restricted to incomes at or below 80 percent of Area Median Income. The model gates Income Tier 2 only on enrollment in pge:program-fera and defines Income Tier 3 as not-CARE and not-FERA, so a branch (b) customer resolves to Tier 3 and is billed 0.79343 per day instead of 0.39688, roughly double. The gate lives in the sibling rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld. Expressible and precedented in this filing: the vintage-PCIA modifier and the base plan's 20 baseline cells both use CustomOperandNode with customConditionProperty for a predicate URPX does not name. (6) Base Services Charge is modeled only as the three income-tier totals (0.19713, 0.39688, 0.79343), in the sibling rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld. Sheet 3 (61098-E) also prices it by component, 4 components x 3 income tiers = 12 values in dollars per customer per day: Distribution (-0.10751 / -0.02710 / 0.36945), Public Purpose Program (0.19131 / 0.31065 / 0.31065), Nuclear Decommissioning (0.00000 x3) and New System Generation Charge (0.11333 x3). None of the 12 appears in the model. The totals are right and the components sum to them, so no bill is wrong, but the published unbundling is absent while the energy rates are fully unbundled. (7) Standard medical quantities are not modeled. Special Condition 7 (Sheet 5, 61100-E) adds Code M and Code S quantities to the Special Condition 2 baseline, raising the usage billed at Tier 1 rates. Two obstacles. The quantities are not stated in this PDF and additional quantities are 'as provided in Rule 19', which is not committed to this corpus, so it is partly a source gap. And an additive allowance is not expressible as a delta under v0.5.1: ServiceBracketShape is sh:closed with xsd:decimal bounds and upstream urpx-org/urpx #32 is open on whether an additive quantity is meant to be representable; precomputing absolute bounds per cell would work. Sibling us/ca/pge/electricity/e-tou-c records this identical provision as its one deferral. (8) Seasonal changeover proration not modeled. Special Condition 6 (Sheet 5, 61100-E) requires bills that include the June 1 or October 1 changeover to multiply the applicable daily baseline quantity for each season by the number of days in each season. Nothing in the model expresses this. The only slot is urpx:prorationMethod, and it is settled rather than unconfirmed: BillingModelShape gives it sh:datatype xsd:string with sh:maxCount 1 and no sh:in, so it is free text with no allowed-value list to establish (verified against abdfb521). It is used by zero filings in this corpus and read by no function in clj-urpx 0.32.0, and its own skos:note scopes it to service starting or ending mid-period rather than to a season boundary, so it would carry this provision as prose at best. The allocation arithmetic itself has no computable form in v0.5.1. (9) New System Generation Charge, energy component, 0.00000 per kWh (Sheet 2, 61097-E) has no PriceDefinition and no Price. Zero-valued today so no bill is affected, but the schedule's line item is unrepresented and a future nonzero value would be silently missing. Minor; listed so the Sheet 2 enumeration is complete.",
               "urpx:evaluatedOn": "2026-09-22T00:00:00"
             }
           }

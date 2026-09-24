@@ -34,7 +34,7 @@ The two do not track each other and must not be collapsed. 1 of 71 filings carry
 
 | Schedule | Effective | Servability | Arrangements drawing on it | Captures its source PDF | Notes |
 |---|---|---|---:|---|---|
-| `e-1` | 2026-03-01 | servable | 4 | no |  |
+| `e-1` | 2026-03-01 | servable | 6 | no |  |
 | `e-elec` | 2026-01-01 | superseded | 0 | no | every version node in this filing has been superseded |
 | `e-elec` | 2026-03-27 | servable | 3 | no |  |
 | `e-rsmart` | 2025-10-31 | blocked | 5 | no | :condition-gated-tier |

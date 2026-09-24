@@ -24,9 +24,9 @@
   :probe-instants 19}
 
  :totals
-  {:arrangements 144
-   :fully-determined 739
-   :servable 125
+  {:arrangements 145
+   :fully-determined 1139
+   :servable 126
    :not-priced-per-kwh 9
    :blocked 6
    :not-measured 4}
@@ -305,21 +305,27 @@
    :baseline-keys ["compose|us/ca/ladwp/electricity/nem/versions/2008-09-01/rate-plan-modifier_ladwp_nem_2008-09-01.jsonld|ladwp:r-1b"]}
   {:base "pge:e-1-2026-03-01"
    :modifiers []
-   :open-dimensions ["pge:e-1-2026-03-01-pa-income-tier"]
-   :selections 3
+   :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code"]
+   :selections 20
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]}
   {:base "pge:e-1-2026-03-01"
+   :modifiers ["pge:e-1-income-tier-2026-03-01"]
+   :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code" "pge:e-1-income-tier-2026-03-01-pa-income-tier"]
+   :selections 60
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld|pge:e-1"]}
+  {:base "pge:e-1-2026-03-01"
    :modifiers ["pge:e-1-vintage-pcia-2026-03-01"]
-   :open-dimensions ["pge:e-1-2026-03-01-pa-income-tier" "pge:e-1-vintage-pcia-2026-03-01-pa-departure-vintage"]
-   :selections 54
+   :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code" "pge:e-1-vintage-pcia-2026-03-01-pa-departure-vintage"]
+   :selections 360
    :outcome :not-measured
    :reason "no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files"
    :baseline-keys []}
   {:base "pge:e-1-2026-03-01"
    :modifiers ["pge:e-rsmart-2025-10-31"]
-   :open-dimensions ["pge:e-1-2026-03-01-pa-income-tier"]
-   :selections 3
+   :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code"]
+   :selections 20
    :outcome :blocked
    :reason ":condition-gated-tier"
    :baseline-keys ["compose|us/ca/pge/electricity/e-rsmart/versions/2025-10-31/rate-plan-modifier_pge_e-rsmart_2025-10-31.jsonld|pge:e-1"]}

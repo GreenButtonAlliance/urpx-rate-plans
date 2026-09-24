@@ -4,16 +4,19 @@
 
 - `pge_e-1_2026-03-01.pdf` — source PDF (sha256 in `tariff.toml`)
 - `tariff.toml` — provenance, source URL + sha256, regulator, validation status
-- `rate-plan_pge_e-1_2026-03-01.jsonld` — URPX serialization (single self-contained file with `@graph`)
+- `rate-plan_pge_e-1_2026-03-01.jsonld` — URPX serialization of the rate plan and the vintaged-PCIA modifier
+- `rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld` — the Base Services Charge, at its three income tiers
 
 ## What's in the JSON-LD
 
-The `@graph` contains:
+`rate-plan_pge_e-1_2026-03-01.jsonld`, in its `@graph`:
 
 1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
 2. `pge:al-7846-e` — `urpx:TariffPublication` for PG&E Advice Letter 7846-E
-3. `pge:e-1` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates, conservation incentive adjustment by tier, and base services charge
+3. `pge:e-1` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates, the conservation incentive adjustment by tier, and the baseline allowance matrix
 4. `pge:e-1-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) for the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked via `urpx:applicableToRatePlan`
+
+`rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld` carries `pge:e-1-income-tier`, a second `urpx:RatePlanModifier`: the daily Base Services Charge at Income Tier 1 (CARE, $0.19713), Tier 2 (FERA, $0.39688) and Tier 3 ($0.79343). It is a separate document because `urpx:PlanElements` allows one `urpx:hasProfileAlternatives` container per version and the base plan spends its container on the baseline matrix below, and because `urpx.core/load-rate-plan-modifier` takes one `urpx:RatePlanModifier` per document.
 
 ### Structure
 
@@ -27,21 +30,25 @@ E-1 is **non-TOU**: a single per-kWh Generation rate ($0.12855) and Distribution
 
 All other "all usage" components (transmission, public-purpose, wildfire-fund, etc.) match the values used across PG&E residential schedules.
 
+### Baseline allowance matrix
+
+Where those percentages fall in absolute kWh/day comes from Special Condition 2, Sheet 4 (Cal. P.U.C. Sheet 61099-E): 10 baseline territories × 2 baseline codes (B basic, H all-electric) × 2 seasons, 40 quantities, each the Tier 1 boundary with Tier 2 ending at four times it. All 40 are carried, as 20 `urpx:ProfileAlternative` cells over two `urpx:AlternativeDimension` nodes (`baselineTerritory`, `baselineCode`) and 20 cell-scoped `urpx:ServiceBracket` nodes on each of the six `urpx:ServiceTier` nodes, 120 brackets in total. All 40 values were checked against Sheet 4 of this filing's own PDF on 2026-09-23, and against the E-TOU-C overlay's brackets for the same table: no disagreements.
+
+Which cell applies is the caller's to name, through `resolve-prices`'s `:profile-alternatives`, keyed by the container `pge:e-1-2026-03-01-pa-baseline-territory-code`. Naming none is not an error and not a default: clj-urpx 0.32.0 surfaces every tier with its number and unit price, withholds the bounds, and marks them `:alternative-unselected` with the twenty candidates it could not choose between. Measured 2026-09-23 at that pin: Territory R Code B resolves tiers 1 to 3 at 0-17.7, 17.7-70.8 and above 70.8 and tiers 4 to 6 at 0-10.4, 10.4-41.6 and above 41.6; Territory P Code B resolves to the same six bounds this filing carried before the matrix was written.
+
 ## Known limitations
 
-### Baseline matrix — one cell modeled (Territory P, Code B)
+### Season is not in the data
 
-The tier *boundaries* (in absolute kWh/day) come from a 10-territory × 2-code × 2-season matrix. This file models **one cell** — Territory P, Code B residential, summer 13.5 kWh/day / winter 11.0 kWh/day. The file is correct for Territory-P/Code-B customers and incorrect (wrong tier boundaries) for everyone else.
+Sheet 4 gives separate summer and winter quantities and Special Condition 6 defines summer as June 1 through September 30. Season is carried by the identity of the six tiers, three summer rungs and three winter rungs, and by no `urpx:appliesInSeason`: the two `urpx:Season` nodes in the file are referenced by nothing. So the six tiers overlap over one kWh metric, and resolving at a summer instant and a winter instant returns the same six bounds. Writing the qualifier on all 120 brackets is possible now that the consumer selects on it, and would not depend on any other plan's season definitions, but it is a change of its own.
 
-Full-matrix expansion is tracked under [#18](https://github.com/grid-coordination/urpx-rate-plans/issues/18) and **is blocked**, on the consumer rather than on the vocabulary.
+### The Base Services Charge is in a modifier, and modifiers are optional
 
-The vocabulary is not the obstacle, and the data is not either. `sh:maxCount 1` caps `urpx:ProfileAlternatives` containers per `PlanElements`, not dimensions within one, and a container's alternatives are the cross-product of its dimensions; the corpus ships that shape twice, in the E-TOU-C baseline-tier modifier and CPAU E-HRA. All 40 kWh/day values were checked against Sheet 4 of this filing's own PDF on 2026-09-23, against the E-TOU-C overlay's 120 brackets: no disagreements.
+Every E-1 customer pays a Base Services Charge; only the amount varies. `urpx:hasModifierOptions` is the only link from a plan to a modifier and it says the modifier is available, not that composing it is required, so a consumer resolving the base plan alone gets the energy charges and no daily charge. `tariff.toml` records the three shapes that would have kept the charge in the base plan and why each was not taken.
 
-What blocks it is that clj-urpx resolves bounds from the first `urpx:ServiceBracket` on a tier and filters by neither season nor `urpx:ProfileAlternative`. This filing carries six tiers holding one bracket each, so winter's correct 11.0 kWh/day is present today as tier 4. Under a three-tier, forty-bracket overlay it would be absent entirely, so completing the data would cost a correct number. Losing a correct number is worse than leaving nineteen cells unmodeled, so this stays as it is until the consumer can select a bracket, tracked by the clj-urpx session as URPX-rng. `tariff.toml` carries the full reasoning and the measurements.
+### Code M / S (medical) — not modeled
 
-### Code H (all-electric), Code M / S (medical) — not modeled
-
-The tariff publishes additional baseline allowances for all-electric heating customers (Code H) and adds medical allowances (Code M / S) on top of the basic quantities. Only Code B (basic) is modeled here.
+The tariff adds medical allowances (Code M / S) on top of the basic and all-electric quantities, and the additional amounts are "as provided in Rule 19", which is not in this corpus. Code B and Code H are both modeled.
 
 ### Initial effective date
 
@@ -50,12 +57,8 @@ The tariff publishes additional baseline allowances for all-electric heating cus
 ## Validation
 
 ```
-# Run from the urpx-rate-plans project root:
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld
-# Conforms: True
+# Run from the urpx-rate-plans project root, both documents in one graph:
+python3 dev/validate-with-base.py --utility pge
 ```
 
 This rate plan is serialized against URPX **v0.5.1** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
