@@ -15,9 +15,9 @@ Status glyphs:
 
 - Base RatePlan filings: **39**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **182**
+- Applicable-modifier slots across all bases: **184**
   - present and complete: 10
-  - present but incomplete: 132
+  - present but incomplete: 134
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **1**
 
@@ -290,6 +290,7 @@ Base deferrals:
 | `care` | ✗ missing | — |
 | `e-rsmart` | ~ present-incomplete | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31` |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` |
+| `e-tou-c-income-tier` | ~ present-incomplete | `us/ca/pge/electricity/e-tou-c/versions/2026-03-27` |
 | `e-tou-c-vintage-pcia` | ~ present-incomplete | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |
@@ -301,15 +302,15 @@ Base deferrals:
 - Sheet 4 prices the Base Services Charge by component, per income tier, $ per customer per day: Distribution (-$0.10751 / -$0.02710 / $0.36945), Public Purpose Program ($0.19131 / $0.31065 / $0.31065), Nuclear Decommissioning ($0.00000 all tiers), New System Generation Charge ($0.11333 all tiers). The model carries only the three Sheet 2 bundled totals ($0.19713 / $0.39688 / $0.79343), which the components sum to exactly, so no number is wrong today. What is lost is the delivery-versus-supply split of the fixed charge, which is what Sheet 8's CCA/DA treatment needs, and the model already unbundles the energy side this way. Expressible now: three more PriceDefinitions, each with a three-alternative PriceSetAlternatives mirroring the existing Base Services Charge structure.
 - Sheet 1 and Special Condition 11 (Sheet 10) exempt CARE and Medical Baseline customers from the Wildfire Fund Charge: 'Customers receiving a medical baseline allowance shall pay for all usage based on the rates shown below and shall not pay the Wildfire Fund Charge' (Sheet 1), and the charge 'applies to all retail sales, excluding CARE and Medical Baseline sales' (Sheet 10). The model's Wildfire Fund Charge Price ($0.00591/kWh) carries no condition and this filing contains no applicability rules at all. No PG&E CARE or medical-baseline modifier filing exists in the corpus to carry the exemption instead. urpx:hasApplicabilityRule is on PriceShape at v0.5.1 (0..n), so this is expressible; it resolves to nothing at the clj-urpx 0.32.0 pin, which evaluates no ConditionExpression, so writing it is a data-correctness fix that changes no computed number today.
 - Sheet 1 defines Income Tier 2 by two disjuncts: (a) FERA-eligible households, or (b) residents of an affordable rental unit in a property listed in the California Housing Partnership's database and restricted to incomes at or below 80 percent of Area Median Income. The tier-2 ProfileAlternative gates only on hasProgramEnrollment = pge:program-fera, so a qualifying (b) customer resolves to Income Tier 3 and is billed $0.79343 per customer per day where the schedule prices $0.39688. Expressible now as an orOperator disjunct over a CustomOperandNode, the construct this file's vintage-PCIA alternatives already use for customConditionProperty 'departureVintage'.
-- Sheet 1, RATES: 'TOU period usage is assigned to tiers on a pro-rated basis. For example, if twenty percent of a customer's usage is in the peak period, then twenty percent of the total usage in each tier will be treated as on-peak usage.' This is the rule composing this filing's TOU dimension with the baseline-tier dimension carried in the 2026-03-01 version's sibling modifier. Note that THIS version has no such sibling: the phrase described the corpus as of the 2026-03-01 filing and was carried over. Until an overlay is issued here there is no second dimension to compose, so the pro-ration rule is doubly unmodeled, and neither file states it. Under v0.5.1, CalculationMethodShape is sh:closed and the only slot is the free-text calculationFormula, which clj-urpx 0.32.0 does not read, so this can be recorded as prose but not made operative. Standard-level, not a modeling oversight.
+- Sheet 1, RATES: "TOU period usage is assigned to tiers on a pro-rated basis. For example, if twenty percent of a customer's usage is in the peak period, then twenty percent of the total usage in each tier will be treated as on-peak usage." This composes the filing's TOU dimension with its baseline-tier dimension, both of which this version now carries, so the rule has two real dimensions to relate and states how. It is still not expressible: under v0.5.1 CalculationMethodShape is sh:closed and its only slot is the free-text calculationFormula, which clj-urpx 0.32.0 does not read, so the rule can be recorded as prose and not made operative. Standard-level, not a modeling oversight.
 - Sheet 3's line item New System Generation Charge (all usage), $0.00000 per kWh, has no PriceDefinition and no Price. Zero-valued, so no bill is wrong and the 20 modeled components still reconstruct the Sheet 2 totals, but the unbundled component list is incomplete against the sheet and the omission becomes a wrong number the first time PG&E sets the charge nonzero.
-- The Conservation Incentive Adjustment and the whole baseline-allowance matrix are ABSENT from this version, and the source carries both. Sheet 3 of this filing's own pge_e-tou-c_2026-03-27.pdf prices Conservation Incentive Adjustment (Baseline Usage) at ($0.02786) and (Over Baseline Usage) at $0.05354, the same two rates the 2026-03-01 version models. Measured in this filing: 0 urpx:ServiceBracket, 0 occurrences of baselineTerritory, 0 of conservationCharge. The 2026-03-01 version carries them in a sibling modifier, pge:e-tou-c-baseline-tier, and no counterpart was issued here, so a customer priced from this version gets no baseline tiering and no CIA at all. This is unmodeled work rather than a tariff change: the matrix is the same 10-territory x 2-code x 2-season table, already verified against PG&E Sheet 4 with no disagreements, so re-issuing the overlay for this version is enumeration. It waits on clj-urpx URPX-sr4, because a modifier's ServiceTiers still reach no tier-info at 0.32.0.
 
 | Modifier | Status | Filing |
 |---|---|---|
 | `care` | ✗ missing | — |
 | `e-rsmart` | ~ present-incomplete | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31` |
 | `e-tou-c-baseline-tier` | ~ present-incomplete | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` |
+| `e-tou-c-income-tier` | ~ present-incomplete | `us/ca/pge/electricity/e-tou-c/versions/2026-03-27` |
 | `e-tou-c-vintage-pcia` | ~ present-incomplete | `us/ca/pge/electricity/e-tou-c/versions/2026-03-01` |
 | `fera` | ✗ missing | — |
 | `medical-baseline` | ✗ missing | — |

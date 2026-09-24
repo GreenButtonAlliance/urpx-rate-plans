@@ -39,7 +39,7 @@ The two do not track each other and must not be collapsed. 1 of 71 filings carry
 | `e-elec` | 2026-03-27 | servable | 3 | no |  |
 | `e-rsmart` | 2025-10-31 | blocked | 5 | no | :condition-gated-tier |
 | `e-tou-c` | 2026-03-01 | servable | 2 | no | 1 of 3 version nodes here are superseded (pge:e-tou-c-2026-03-01); the outcome is for the rest |
-| `e-tou-c` | 2026-03-27 | servable | 5 | no |  |
+| `e-tou-c` | 2026-03-27 | servable | 7 | no |  |
 | `e-tou-d` | 2026-03-27 | servable | 4 | no |  |
 | `ev2` | 2026-03-27 | servable | 4 | no |  |
 | `nbt` | 2025-10-17 | servable | 1 | no |  |
