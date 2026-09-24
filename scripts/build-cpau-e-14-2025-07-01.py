@@ -14,7 +14,7 @@ STRUCTURE:
   with street/highway lighting installations operated and maintained by
   CPAU. CPAU supplies electricity AND switching AND maintains the
   lighting system (lamps + glassware). Per Section A.
-- 22 PriceDefinitions, one per fixture type, each with a per-month flat
+- One PriceDefinition per fixture type, each with a per-month flat
   rate (not metered — CPAU bills based on count of fixtures of each
   type that the customer has installed):
     - 1 mercury-vapor lamp (400W)
@@ -28,7 +28,7 @@ STRUCTURE:
       any lamp not on the schedule until the new rate is added)
 - Each fixture type has its own MetricInput (count of fixtures of that
   type at the customer's installation), referenced by its PriceDefinition.
-- 16 lamps + 6 traffic-signal types = 22 PDs total.
+- One PriceDefinition per published fixture type, plus the switching surcharge.
 - $2.50/month switching surcharge per separately-switched circuit
   (Section D.2) — modeled as an extra PD with custom-condition
   ApplicabilityGroup; only applies to circuits below 10 kW lamp load.
@@ -326,9 +326,10 @@ rpv = {
         "installations (and related traffic signals) owned by governmental "
         "agencies other than the City of Palo Alto. CPAU supplies "
         "electricity, performs switching, and maintains lamps and glassware. "
-        "16 lamp types (mercury-vapor, HPSV, LED) + 6 traffic-signal types "
-        "+ 1 switching surcharge = 23 PriceDefinitions; one MetricInput per "
-        "fixture-type-count. Section D.5 interim-rate provision (for lamps "
+        "Each lamp rating, traffic-signal type and speed-sign type on the "
+        "published rate sheet has its own PriceDefinition, as does the "
+        "switching surcharge, and each carries its own MetricInput counting "
+        "the fixtures of that type. Section D.5 interim-rate provision (for lamps "
         "not on the schedule) is documented in prose only — not modeled. "
         "Section D.3 annual burning schedule (4100 hours/year operational "
         "rule) is also prose-only."

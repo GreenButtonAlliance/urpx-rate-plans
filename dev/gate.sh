@@ -214,6 +214,19 @@ case "$MODE" in
         record $rc
     fi
 
+    # What a filing's own prose says about its structure, against that structure.
+    # Prose inside a document inherits the trust the data has, and no other check
+    # here compares a sentence to the node it sits on. It prints what it declined
+    # to judge on every run, because it declines most of what it reads.
+    note "Prose versus structure"
+    if python3 dev/lint_prose_structure.py > /tmp/gate-prose.log 2>&1; then
+        head -1 /tmp/gate-prose.log
+    else
+        rc=$?
+        cat /tmp/gate-prose.log
+        record $rc
+    fi
+
     # Every MIDAS identifier the corpus cites, checked against the party segments
     # the snapshot actually publishes. Five were malformed for months and nothing
     # looked: urpx:RatePlanIdentifier models skos:notation as a plain string, so
@@ -377,6 +390,19 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-completeness.log
+        record $rc
+    fi
+
+    # What a filing's own prose says about its structure, against that structure.
+    # Prose inside a document inherits the trust the data has, and no other check
+    # here compares a sentence to the node it sits on. It prints what it declined
+    # to judge on every run, because it declines most of what it reads.
+    note "Prose versus structure"
+    if python3 dev/lint_prose_structure.py > /tmp/gate-prose.log 2>&1; then
+        head -1 /tmp/gate-prose.log
+    else
+        rc=$?
+        cat /tmp/gate-prose.log
         record $rc
     fi
 

@@ -52,8 +52,7 @@ Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
  Summer Off-Peak TRAC: $0.06564/kWh
  Winter On-Peak TRAC: $0.06762/kWh (matches TOU-DR1 winter UDC TRAC)
  Winter Off-Peak TRAC: $0.06762/kWh
- Modeled as a single pd-udc-trac PriceDefinition with 4 Prices
- keyed by touPeriodNumber 1-4 (same pattern as EECC).
+
  - DWR-BC + WF-NBC: 0.00000 + 0.00591 = $0.00591/kWh flat (same as TOU-DR1).
  - EECC (Generation): 4 distinct values (2 periods × 2 seasons) —
  no super-off-peak.
@@ -103,4 +102,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Third SDG&E schedule. Pattern reference: us/ca/sdge/electricity/tou-dr1/versions/2026-04-01/ for component decomposition; us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/ for TOU structure. 16 PriceDefinitions: 4 EECC (TOU-varying) + 7 UDC flat sub-components + 1 UDC TRAC (TOU-varying with 4 Prices keyed by touPeriodNumber) + DWR-BC + WF-NBC + Baseline Credit + BSC. 18 Prices total (4 EECC + 7 UDC flat + 4 UDC TRAC + DWR-BC + WF-NBC + Baseline Credit + BSC). Distinguishing feature vs TOU-DR1: 2 TOU periods (no Super Off-Peak), and TRAC is the only UDC sub-component that varies by TOU period."
+notes = "Third SDG&E schedule. Pattern reference: us/ca/sdge/electricity/tou-dr1/versions/2026-04-01/ for component decomposition; us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15/ for TOU structure. Distinguishing feature vs TOU-DR1: 2 TOU periods (no Super Off-Peak), and TRAC is the only UDC sub-component that varies by TOU period."

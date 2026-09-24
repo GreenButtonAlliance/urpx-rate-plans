@@ -122,11 +122,9 @@ urpx:multiplier over a urpx:basedOnPrice list read as candidate bases,
 does not fit a credit bound by construction to one specific base
 price.
 
-For SHACL conformance, the modifier carries one PriceDefinition (NEM1
-Net Metering Credit, chargeType creditEnergy) with a placeholder
-Price unitPrice='0'. Consumers (price-server) computing actual
-credits must reference the customer's base rate at billing time.
-Description prose documents the rule clearly.
+The export credit is carried as creditEnergy PriceDefinitions whose
+Prices each mirror one base energy Price through urpx:basedOnPrice
+with urpx:multiplier -1, so no unit price is restated here.
 
 The annual net-surplus monetary payment value is similarly a
 published-annually scalar (avoided-cost-divided-by-forecasted-sales);

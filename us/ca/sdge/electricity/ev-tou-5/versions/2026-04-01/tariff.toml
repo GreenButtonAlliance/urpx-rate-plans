@@ -52,8 +52,7 @@ features vs TOU-DR1:
  (designed to incentivize overnight EV charging):
  Transmission: $0.10067 on-peak/off-peak; $0.00000 super-off-peak
  Distribution: $0.21102 on-peak/off-peak; $0.02601 super-off-peak
- Each modeled as a single PriceDefinition with 6 Prices keyed by
- touPeriodNumber 1-6 — same pattern as TOU-DR2's TRAC.
+
  - UDC TRAC is ZERO across all periods on EV-TOU-5 (vs $0.06762 flat
  in TOU-DR1, $0.06564-$0.07211 TOU-varying in TOU-DR2).
  - 5 other UDC sub-components (PPP, ND, CTC, LGC, RS) are flat with
@@ -190,4 +189,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Fourth and final SDG&E primary-epic schedule. Pattern reference: us/ca/sce/electricity/tou-d-prime/versions/2025-11-15/ for solar/EV/NBT eligibility rule shape (3-way OR for SDG&E vs 4-way OR for SCE PRIME — SCE includes storage and heat-pump as qualifying technologies, SDG&E does not). 16 PriceDefinitions: 6 EECC (TOU-varying generation) + 2 TOU-varying UDC (Trans, Distr — each with 6 Prices keyed by touPeriodNumber, but only 2 unique values per component) + 6 flat UDC sub-components + DWR-BC + WF-NBC + BSC. 27 Prices total: 6 EECC + 6 Trans + 6 Distr + 7 flat-UDC + 1 BSC + 1 DWR-BC + 1 WF-NBC. Distinguishing modeling pattern: TOU-varying UDC components (vs TOU-DR1's all-flat UDC) — heavily reduced/zeroed in super-off-peak to incentivize overnight EV charging."
+notes = "Fourth and final SDG&E primary-epic schedule. Pattern reference: us/ca/sce/electricity/tou-d-prime/versions/2025-11-15/ for solar/EV/NBT eligibility rule shape (3-way OR for SDG&E vs 4-way OR for SCE PRIME — SCE includes storage and heat-pump as qualifying technologies, SDG&E does not). UDC Transmission and Distribution vary by TOU period; the other UDC sub-components are flat. Distinguishing modeling pattern: TOU-varying UDC components (vs TOU-DR1's all-flat UDC) — heavily reduced/zeroed in super-off-peak to incentivize overnight EV charging."
