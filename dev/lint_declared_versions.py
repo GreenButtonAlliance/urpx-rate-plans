@@ -89,7 +89,8 @@ def pinned() -> str:
 # Note "at clj-urpx X" is NOT here: the corpus uses it for the present tense
 # ("declarative at clj-urpx X").
 HISTORICAL = re.compile(r"(?:since|as of|before|prior to|after|until|landed in|"
-                        r"introduced in|added in|fixed in)\s+$", re.I)
+                        r"introduced in|added in|fixed in|through|up to|"
+                        r"earlier than|no longer in)\s+$", re.I)
 
 
 def scan() -> list[tuple[Path, int, str]]:
