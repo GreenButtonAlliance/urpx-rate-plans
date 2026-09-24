@@ -3,27 +3,13 @@
 # SPDX-License-Identifier: CDLA-Permissive-2.0
 """Negative tests for the prose-versus-structure lint.
 
-This repository has twelve recorded instances of a check that passed while
-verifying nothing, so a new check earns trust only by being watched to fail. The
-lint under test is worse than most in that respect, because its subject is prose:
-it decides which sentences it is willing to judge, and the cheapest way for it to
-report clean is to decline everything. Its first three drafts did exactly that in
-three different ways, and each is pinned here as a case:
+This lint decides which sentences it is willing to judge, so its cheapest failure
+is to decline everything and report clean. Every case here asserts BOTH
+directions: a false claim must be reported, and a true claim of the same shape
+must be judged and spared. Detection without discrimination is useless.
 
-  - It read only urpx:description in the JSON-LD and never the manifest, so the
-    E-TOU-C claim it was written to catch, which lives in [review].notes, was
-    outside the set it read. The same hole it exists to close.
-  - Its patterns were compiled case-insensitively, so the [A-Z] class meant to
-    match a URPX type matched any word and "per fixture-type-count" parsed as a
-    distributive claim whose parent was the type "fixture".
-  - Its guard against distributive claims tested \\bper\\b, which matches inside
-    "per-cell", so the E-TOU-C sentence ("20 ServiceTiers each referencing a
-    per-cell ProfileAlternative") was skipped by the very guard added to reduce
-    noise. A noise reduction that silences the one true positive.
-
-So the cases below assert BOTH directions on every claim form: a false claim must
-be reported, and a true claim of the same shape must be judged and not reported.
-Detection alone is not discrimination, and a lint that fires on both is useless.
+Each sentence below is one that defeated an earlier draft, kept so the draft
+cannot return.
 
 Run: python3 dev/test_prose_structure.py
 """

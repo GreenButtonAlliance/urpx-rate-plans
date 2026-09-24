@@ -3,44 +3,41 @@
 # SPDX-License-Identifier: CDLA-Permissive-2.0
 """Check a filing's own prose about its structure against that structure.
 
-WHY THIS EXISTS. A wrong sentence inside a filing is worse than the same sentence
-in a README, because its reader already believes the document and has no second
-source to check it against. The worked example, found 2026-09-23: the E-TOU-C
-baseline-tier modifier's urpx:description said "each urpx:ServiceTiers container
-references the matching urpx:ProfileAlternative". Measured, the file has one
-container carrying only referencesMetricInput, zero containers carrying a
-ProfileAlternative, and 120 ServiceBrackets each carrying one. The sentence was
-never true of that file, and it survived a full day of prose auditing because
-every sweep that day read .md and .toml while the claim sat in the JSON-LD.
+Prose inside a filing inherits the trust the data has: its reader already
+believes the document and has no second source to check it against. Nothing else
+here compares a sentence to the node it sits on.
 
-WHAT SCOPE A CLAIM IS CHECKED AGAINST, which is the whole reason this replaces an
-earlier count-based sweep. That sweep compared every number in prose against the
-type's count in the FILING DIRECTORY, and its 251 hits were almost all artifacts
-of that choice: "each tier's 20 brackets" read as 20-against-120, and "20
-ProfileAlternative cells" read as 20-against-41 because a second document in the
-directory carries alternatives of its own. Here a claim is checked against the
-subtree of the nearest enclosing urpx:RatePlanVersion or
-urpx:RatePlanModifierVersion, so it is measured against the thing the sentence is
-about. A urpx:Evaluation hanging off a urpx:CoverageClaim is scoped to the
-version carrying that claim, because that is what such an evaluation describes.
+WHAT IT READS. Five prose channels: tariff.toml's [review].notes,
+[extraction].notes and each [modeling].deferrals entry, every urpx:description in
+the JSON-LD, and README.md. Reading fewer than all five is how the defect this
+was written for survived, so the set is stated here and asserted in
+dev/test_prose_structure.py.
 
-THE THREE CLAIM FORMS, chosen because each is decidable without judging intent:
+WHAT SCOPE A CLAIM IS MEASURED AGAINST. The subtree of the nearest enclosing
+urpx:RatePlanVersion or urpx:RatePlanModifierVersion, so the claim is measured
+against the thing the sentence is about. A urpx:Evaluation on a urpx:CoverageClaim
+scopes to the version carrying that claim. A manifest sentence naming one of the
+directory's documents scopes to that document's version. Filing-directory scope is
+wrong: a directory can hold two versions and a count of neither is a count of both.
 
-  UNIVERSAL   "each|every <Type> ... <urpx:property>"  Every node of <Type> in
-              scope must carry <property>. This is the form that caught E-TOU-C,
-              and it needs no number: the claim is about all of them.
-  DISTRIBUTIVE "<n> <Type> per <Parent>" / "<n> on each of the <Parent>"  Every
-              node of <Parent> in scope must hold exactly <n> children of <Type>.
-  TOTAL       "<n> <Type>"  Scope must hold exactly <n> nodes of <Type>.
+THE CLAIM FORMS, each decidable without judging intent:
 
-WHAT IT REFUSES TO JUDGE, and says so on every run. Prose legitimately talks
-about other filings ("the pge:e-tou-c pattern, which ships 120 ServiceBrackets"),
-about work not done ("expressible as a second PriceSetAlternatives"), and about
-the standard rather than the file ("sh:maxCount 1 caps containers per
-PlanElements"). A sentence naming a schedule slug that is not this filing's is
-skipped, and so is every sentence that parses into none of the three forms. Both
-counts are printed, because a check that reports 2 findings out of 57 sentences
-while silently declining 55 of them is making a stronger claim than it earned.
+  UNIVERSAL    "each|every <Type> ... urpx:<property>"  every node of <Type> in
+               scope must carry <property>.
+  DISTRIBUTIVE "<n> <Type> per <Parent>"  every <Parent> in scope must hold <n>.
+  TOTAL        "<n> <Type>", the type name directly after the count, so a
+               qualified noun phrase counting a subset is not measured against the
+               whole.
+  MEMBERSHIP   a node whose urpx:name states how many members it has, against
+               urpx:includesPrice. The claim and the evidence sit on one node.
+  DANGLING ID  an @id named in prose that no document in the corpus defines.
+
+WHAT IT DECLINES, printed with a count on every run. Prose legitimately describes
+other filings, work not done, the standard rather than the file, subsets, and
+cross-products; a deferral states what is absent, so a bare count in one is not a
+claim about present structure. A check reporting two findings while silently
+declining fifty sentences claims more than it earned, so the denominator is
+printed rather than implied.
 
 Exit codes: 0 clean, 1 a finding, 3 the harness could not answer.
 
