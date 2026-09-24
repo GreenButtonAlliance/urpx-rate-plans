@@ -105,6 +105,15 @@ def scan() -> list[tuple[Path, int, str]]:
     targets += sorted((REPO / "doc").glob("*.md"))
     targets += [REPO / n for n in ("README.md", "LAYOUT.md", "MODELING-GAPS.md",
                                    "CONTRIBUTING.md")]
+    # The FILINGS THEMSELVES, and this is the half that was missing. This check
+    # swept .md and .toml only, so six CoverageClaim Evaluations kept naming
+    # clj-urpx 0.25.0 through the day the manifests were corrected to 0.31.0, and
+    # the gate passed on every run. A urpx:description is worse prose to get wrong
+    # than a README: its reader already believes the document and has no second
+    # source. Scanning the raw JSON text rather than parsed nodes is deliberate, so
+    # that a version named in any property is caught, not only the ones a walker
+    # knows about.
+    targets += list(corpus.all_filing_jsonld())
     for path in targets:
         if not path.exists():
             continue
