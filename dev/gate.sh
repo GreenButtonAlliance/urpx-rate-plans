@@ -301,6 +301,17 @@ case "$MODE" in
         record $rc
     fi
 
+    # corpus.json declares the layout once; every walker it lists must see the
+    # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
+    note "Corpus walkers agree"
+    if python3 dev/check_walkers.py > /tmp/gate-walkers.log 2>&1; then
+        cat /tmp/gate-walkers.log
+    else
+        rc=$?
+        cat /tmp/gate-walkers.log
+        record $rc
+    fi
+
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
     if [ -z "$targets" ]; then
@@ -458,6 +469,17 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-arrangements.log
+        record $rc
+    fi
+
+    # corpus.json declares the layout once; every walker it lists must see the
+    # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
+    note "Corpus walkers agree"
+    if python3 dev/check_walkers.py > /tmp/gate-walkers.log 2>&1; then
+        cat /tmp/gate-walkers.log
+    else
+        rc=$?
+        cat /tmp/gate-walkers.log
         record $rc
     fi
 

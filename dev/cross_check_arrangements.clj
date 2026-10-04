@@ -111,12 +111,8 @@
 (def ^:private documents
   (try
     (require '[urpx.core :as core])
-    (let [paths (->> (file-seq (io/file "us"))
-                     (filter #(.isFile ^java.io.File %))
-                     (map #(.getPath ^java.io.File %))
-                     (filter #(re-matches #"us/.*/versions/[^/]+/rate-plan(?:-modifier)?_.+\.jsonld" %))
-                     sort
-                     vec)]
+    (require 'urpx-rate-plans)
+    (let [paths ((resolve 'urpx-rate-plans/paths) ".")]
       (when (empty? paths)
         (emit "documents-error" "no filing JSON-LD under us/"))
       (require '[urpx.coerce :as coerce])

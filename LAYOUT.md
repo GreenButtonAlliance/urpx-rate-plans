@@ -93,6 +93,47 @@ which is why the corpus is read as one graph (§2).
 - **Schedule before date** — a schedule is the long-lived thing; its versions are children. Listing a schedule's directory shows its full revision history.
 - **`versions/` literal directory** — leaves room for future sibling directories at the schedule level (e.g. `metadata.toml`, `lineage.md`, `rate-plan.jsonld` if we ever split the file, per §10).
 
+## 3b. Walking the corpus: `corpus.json`
+
+`corpus.json` at the repository root declares how to find every file in the corpus, for scripts and for language models. Code that needs the corpus reads it, or calls one of the walkers it lists, rather than encoding the directory layout itself. Its schema is `schema/corpus.schema.json`.
+
+```json
+{
+  "corpus": "urpx-rate-plans",
+  "roots": ["us"],
+  "kinds": {
+    "rate-plan": { "include": ["**/versions/*/rate-plan_*.jsonld"] },
+    "rate-plan-modifier": { "include": ["**/versions/*/rate-plan-modifier_*.jsonld"] },
+    "tariff-manifest": { "include": ["**/versions/*/tariff.toml"] },
+    "utility-manifest": { "include": ["*/*/utility.toml"] }
+  },
+  "documents": ["rate-plan", "rate-plan-modifier"],
+  "walkers": [ { "language": "python", "path": "dev/corpus.py", "cli": "python3 dev/corpus.py" } ]
+}
+```
+
+The fields, with descriptions and media types omitted above:
+
+| Field | Meaning |
+|---|---|
+| `roots` | Top-level directories. Adding a country means adding it here. |
+| `kinds` | Each kind of file, with `include` globs evaluated under every root. `*` matches within one path segment; `**` matches across segments. |
+| `documents` | The kinds a consumer loads as the corpus. Fixtures under `dev/fixtures/` match no kind, so no walker returns them. |
+| `walkers` | Reference implementations: `language`, repo-relative `path`, in-language `api` entry point, and the `cli` command run from the repository root. |
+
+Every walker's CLI follows one contract. It prints repo-relative POSIX paths, one per line, in C-locale byte order: the documents with no arguments, the files of the named kinds when given kind names, and every kind as `kind<TAB>path` with `--all`.
+
+| Language | Path | In-language entry | CLI |
+|---|---|---|---|
+| Python | `dev/corpus.py` | `corpus.paths(*kinds)` | `python3 dev/corpus.py` |
+| Clojure | `dev/urpx_rate_plans.clj` | `urpx-rate-plans/paths`, `urpx-rate-plans/sources` | `clojure -M -m urpx-rate-plans` |
+| babashka | `dev/urpx_rate_plans.clj` (the same file) | as Clojure | `bb -cp dev -m urpx-rate-plans` |
+| bash | `dev/corpus.sh` (needs `jq`) | none | `dev/corpus.sh` |
+
+The bash walker lists files through `git ls-files`, so it sees tracked files plus untracked ones that are not ignored; the others read the file system. clj-urpx's `dev/corpus_sweep.clj` takes `--layout urpx-rate-plans` and calls `sources`.
+
+Each walker reads the same declaration, but glob semantics still differ between pathlib, `java.nio`, git and babashka. `dev/check_walkers.py` runs every listed walker and fails the gate (`dev/gate.sh`, both modes) unless all of them print exactly what `dev/corpus.py` computes. A walker whose runtime is not installed is skipped by name, and fewer than two walkers running refuses rather than passes.
+
 ## 4. Per-filing manifest: `tariff.toml`
 
 Each `versions/<date>/` directory contains a `tariff.toml` capturing provenance and processing metadata that does not belong inside the URPX JSON-LD. The schema is at `schema/tariff-manifest.schema.json`.

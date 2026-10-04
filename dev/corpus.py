@@ -10,21 +10,30 @@ to carry their own globs: fourteen of them across nine files, all hardcoding the
 not fail, it returns nothing, which every caller then reports as success over an
 empty corpus.
 
-So the globs here are depth-INDEPENDENT. A filing is any directory matching
+The roots and globs are read from corpus.json at the repository root, the one
+declaration of the layout that the Clojure, babashka and bash walkers also read.
+They are depth-INDEPENDENT: a filing is any directory matching
 `**/versions/<date>/` that holds a tariff.toml, and `versions/` appears nowhere
 else in the repository. The next restructure changes nothing here.
+
+Run as a script it is this corpus's Python walker (see corpus.json): no
+arguments prints the document paths, kind names print those kinds, and --all
+prints every kind as kind<TAB>path.
 
 `require_nonempty` exists because an empty result is the dangerous case, not the
 loud one. Call it before reporting a verdict.
 """
 from __future__ import annotations
 
+import json
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+LAYOUT = json.loads((REPO / "corpus.json").read_text())
 
-# Top-level country directories. Adding a country means adding it here, nowhere else.
-COUNTRY_ROOTS = ("us",)
+# Top-level country directories. Adding a country means adding it to corpus.json.
+COUNTRY_ROOTS = tuple(LAYOUT["roots"])
 
 
 def _glob(pattern: str) -> list[Path]:
@@ -34,23 +43,33 @@ def _glob(pattern: str) -> list[Path]:
     return sorted(out)
 
 
+def paths(*kinds: str) -> list[Path]:
+    """Every file of the given kinds, as corpus.json declares them; with no
+    kinds, the kinds corpus.json lists as documents."""
+    out: set[Path] = set()
+    for kind in kinds or LAYOUT["documents"]:
+        for pattern in LAYOUT["kinds"][kind]["include"]:
+            out.update(_glob(pattern))
+    return sorted(out)
+
+
 def filing_dirs() -> list[Path]:
     """Every per-filing directory (the one holding tariff.toml)."""
-    return [p.parent for p in _glob("**/versions/*/tariff.toml")]
+    return [p.parent for p in paths("tariff-manifest")]
 
 
 def tariff_tomls() -> list[Path]:
-    return _glob("**/versions/*/tariff.toml")
+    return paths("tariff-manifest")
 
 
 def rate_plan_files() -> list[Path]:
     """Base RatePlan filings only."""
-    return _glob("**/versions/*/rate-plan_*.jsonld")
+    return paths("rate-plan")
 
 
 def modifier_files() -> list[Path]:
     """Standalone RatePlanModifier filings only."""
-    return _glob("**/versions/*/rate-plan-modifier_*.jsonld")
+    return paths("rate-plan-modifier")
 
 
 def all_filing_jsonld() -> list[Path]:
@@ -59,7 +78,7 @@ def all_filing_jsonld() -> list[Path]:
 
 
 def utility_tomls() -> list[Path]:
-    return _glob("*/*/utility.toml")
+    return paths("utility-manifest")
 
 
 def parse_filing_path(path: Path) -> tuple[str, str, str]:
@@ -194,3 +213,16 @@ def require_nonempty(items, what: str) -> None:
             f"dev/corpus.py was not updated, or this is not the repository root. "
             f"Refusing to report a result over an empty corpus."
         )
+
+
+def _main(argv: list[str]) -> None:
+    rel = lambda p: p.relative_to(REPO).as_posix()
+    if argv == ["--all"]:
+        lines = [f"{k}\t{rel(p)}" for k in LAYOUT["kinds"] for p in paths(k)]
+    else:
+        lines = [rel(p) for p in paths(*argv)]
+    sys.stdout.write("".join(f"{line}\n" for line in sorted(lines)))
+
+
+if __name__ == "__main__":
+    _main(sys.argv[1:])

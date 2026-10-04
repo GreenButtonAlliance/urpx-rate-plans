@@ -38,9 +38,9 @@
             [urpx.core :as core]
             [urpx.coerce :as coerce]
             [urpx.price :as price]
-            [urpx.schema :as schema])
-  (:import [java.io File]
-           [java.time ZoneId ZonedDateTime]))
+            [urpx.schema :as schema]
+            [urpx-rate-plans :as layout])
+  (:import [java.time ZoneId ZonedDateTime]))
 
 (defn discover-filings
   "Walk the us/ corpus and return [[kind label path] ...] for every
@@ -52,13 +52,7 @@
    `pge_e-tou-c-baseline-tier` doesn't collide with its base
    `pge_e-tou-c`). path is the relative POSIX path from the repo root."
   []
-  (->> (file-seq (io/file "us"))
-       (filter #(.isFile ^File %))
-       (map #(.getPath ^File %))
-       ;; Depth-independent: matches on the versions/<date>/ segment rather than
-       ;; on a fixed prefix depth, so a restructure does not silently match zero.
-       (filter #(re-matches #"us/.*/versions/[^/]+/rate-plan(?:-modifier)?_.+\.jsonld" %))
-       sort
+  (->> (layout/paths ".")
        (mapv (fn [path]
                ;; Filename: rate-plan{,-modifier}_<utility>_<slug>_<date>.jsonld
                ;; <slug> may contain hyphens but never underscores.

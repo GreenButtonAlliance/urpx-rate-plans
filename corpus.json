@@ -1,0 +1,53 @@
+{
+  "$schema": "./schema/corpus.schema.json",
+  "corpus": "urpx-rate-plans",
+  "roots": ["us"],
+  "kinds": {
+    "rate-plan": {
+      "description": "Base RatePlan filing",
+      "media_type": "application/ld+json",
+      "include": ["**/versions/*/rate-plan_*.jsonld"]
+    },
+    "rate-plan-modifier": {
+      "description": "Standalone RatePlanModifier filing",
+      "media_type": "application/ld+json",
+      "include": ["**/versions/*/rate-plan-modifier_*.jsonld"]
+    },
+    "tariff-manifest": {
+      "description": "Per-filing manifest; schema/tariff-manifest.schema.json",
+      "media_type": "application/toml",
+      "include": ["**/versions/*/tariff.toml"]
+    },
+    "utility-manifest": {
+      "description": "Per-utility discovery manifest; schema/utility-manifest.schema.json",
+      "media_type": "application/toml",
+      "include": ["*/*/utility.toml"]
+    }
+  },
+  "documents": ["rate-plan", "rate-plan-modifier"],
+  "walkers": [
+    {
+      "language": "python",
+      "path": "dev/corpus.py",
+      "api": "corpus.paths(*kinds)",
+      "cli": "python3 dev/corpus.py"
+    },
+    {
+      "language": "clojure",
+      "path": "dev/urpx_rate_plans.clj",
+      "api": "urpx-rate-plans/sources",
+      "cli": "clojure -M -m urpx-rate-plans"
+    },
+    {
+      "language": "babashka",
+      "path": "dev/urpx_rate_plans.clj",
+      "api": "urpx-rate-plans/sources",
+      "cli": "bb -cp dev -m urpx-rate-plans"
+    },
+    {
+      "language": "bash",
+      "path": "dev/corpus.sh",
+      "cli": "dev/corpus.sh"
+    }
+  ]
+}

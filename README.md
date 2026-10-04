@@ -35,6 +35,8 @@ See [LAYOUT.md](./LAYOUT.md) for the full conventions. In short:
 
 Each `<country>/<subdivision>/<utility>/` directory also carries a `utility.toml` discovery manifest listing the URLs where the utility publishes its tariffs ([LAYOUT.md §5](./LAYOUT.md#5-per-utility-discovery-manifest-utilitytoml)).
 
+To enumerate the corpus from code, read [`corpus.json`](./corpus.json) or run one of the walkers it lists, in Python, Clojure, babashka or bash ([LAYOUT.md §3b](./LAYOUT.md#3b-walking-the-corpus-corpusjson)).
+
 ### Service arrangements
 
 A **service arrangement** is a fully determined selection over the plan space: one `urpx:RatePlanVersion`, plus every `urpx:RatePlanModifierVersion` that applies to it and that the customer has, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open. *Fully determined* means nothing remains to choose: given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one arrangement but several.

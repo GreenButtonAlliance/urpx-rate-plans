@@ -43,14 +43,13 @@
    Exit: 0 clean, 1 unexplained absence, 3 refused.
 
    Usage: clojure -M:coverage"
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]
+  (:require [clojure.string :as str]
             [clojure.walk :as walk]
             [urpx.core :as core]
             [urpx.coerce :as coerce]
-            [urpx.price :as price])
-  (:import [java.io File]
-           [java.time ZoneId ZonedDateTime]))
+            [urpx.price :as price]
+            [urpx-rate-plans :as layout])
+  (:import [java.time ZoneId ZonedDateTime]))
 
 (def la (ZoneId/of "America/Los_Angeles"))
 
@@ -66,11 +65,7 @@
     @acc))
 
 (defn- base-plan-filings []
-  (->> (file-seq (io/file "us"))
-       (filter #(.isFile ^File %))
-       (map #(.getPath ^File %))
-       (filter #(re-matches #"us/.*/versions/[^/]+/rate-plan_.+\.jsonld" %))
-       sort))
+  (layout/paths "." ["rate-plan"]))
 
 (defn- declared-ledgers
   "Ledger ids the coerced plan declares. A Ledger is identified by carrying
