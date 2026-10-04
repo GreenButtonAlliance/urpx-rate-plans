@@ -240,6 +240,21 @@ def _conditions(node: dict) -> list[tuple[str, str]]:
     return out
 
 
+def _enclosing_alternatives(doc) -> dict[str, str]:
+    """Price @id -> the urpx:ProfileAlternative its urpx:PriceSetAlternative references."""
+    out: dict[str, str] = {}
+    for node in A.walk(doc):
+        if "urpx:PriceSetAlternative" not in A.types_of(node):
+            continue
+        ref = node.get("urpx:referencesProfileAlternative")
+        pa_id = ref.get("@id") if isinstance(ref, dict) else ref
+        prices = node.get("urpx:hasPrice") or []
+        for p in prices if isinstance(prices, list) else [prices]:
+            if isinstance(p, dict) and p.get("@id") and pa_id:
+                out[p["@id"]] = pa_id
+    return out
+
+
 def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
     """Every place the corpus cites a rate identifier, found by walking, not listed.
 
@@ -251,6 +266,7 @@ def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
     occurrences: list[dict] = []
     for rel, doc in docs:
         by_id = _richest_by_id(doc)
+        alternative_of = _enclosing_alternatives(doc)
         for node in A.walk(doc):
             for prop, value in node.items():
                 if not isinstance(value, str) or not RIN.search(value):
@@ -285,10 +301,17 @@ def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
                 ar = node.get("urpx:hasApplicabilityRule")
                 ar_id = ar.get("@id") if isinstance(ar, dict) else ar
                 conds = _conditions(by_id.get(ar_id, {})) if ar_id else []
+                # A Price inside a urpx:PriceSetAlternative is selected by that
+                # alternative's urpx:ProfileAlternative, whose condition states
+                # the vintage the Price-level rule used to.
+                pa_id = alternative_of.get(node.get("@id"))
+                if pa_id:
+                    conds += _conditions(by_id.get(pa_id, {}))
                 if not conds:
                     raise Refuse(
-                        f"{rel}: {node.get('@id')} cites {m.group('expr')} but its "
-                        f"urpx:hasApplicabilityRule ({ar_id or 'absent'}) yields no "
+                        f"{rel}: {node.get('@id')} cites {m.group('expr')} but neither "
+                        f"its urpx:hasApplicabilityRule ({ar_id or 'absent'}) nor an "
+                        f"enclosing urpx:ProfileAlternative ({pa_id or 'none'}) yields a "
                         f"condition, so which vintage the attestation is about cannot "
                         f"be established."
                     )
@@ -297,6 +320,7 @@ def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
                     "node": node.get("@id"),
                     "price_definition": pd_id,
                     "applicability_rule": ar_id,
+                    "profile_alternative": pa_id,
                     "conditions": tuple(sorted(set(conds))),
                     "rins": tuple(RIN.findall(value)),
                     "expression": m.group("expr").strip(),
@@ -328,11 +352,14 @@ def group_attestations(occurrences: list[dict]) -> list[dict]:
             "rins": list(o["rins"]),
             "expressions": set(),
             "labels": set(),
+            "profile_alternatives": set(),
             "name": o["name"],
             "occurrences": 0,
         })
         g["expressions"].add(o["expression"])
         g["labels"].add(o["label"])
+        if o.get("profile_alternative"):
+            g["profile_alternatives"].add(o["profile_alternative"])
         g["occurrences"] += 1
     out = []
     for g in groups.values():
@@ -343,6 +370,7 @@ def group_attestations(occurrences: list[dict]) -> list[dict]:
                 f"what they are citing: labels {sorted(g['labels'])}, expressions "
                 f"{sorted(g['expressions'])}. One attestation cannot be two claims."
             )
+        g["profile_alternatives"] = sorted(g["profile_alternatives"])
         g["label"] = g["labels"].pop()
         g["expression"] = g["expressions"].pop()
         del g["labels"], g["expressions"]
@@ -496,7 +524,7 @@ def vintage_is_selectable(att: dict, pa_by_file: dict[str, list[str]]) -> bool:
 
     Scoped to the filing that carries the vintage, which is where a
     urpx:ProfileAlternatives for it would have to live. A filing declaring none
-    settles it without any name matching; the earlier version of this compared
+    settles it; the earlier version of this compared
     the vintage against the keyed arrangement's dimension IRIs instead and
     reported a match, because pge:e-elec-2026-03-27-pa-income-tier contains the
     digits 2026 in its version date.
@@ -504,8 +532,12 @@ def vintage_is_selectable(att: dict, pa_by_file: dict[str, list[str]]) -> bool:
     containers = pa_by_file.get(att["file"])
     if not containers:
         return False
-    wanted = {norm(v) for _p, v in att["conditions"] if norm(v)}
-    return any(w in norm(c) for c in containers for w in wanted)
+    # Structural, not by name: the vintage is selectable when the condition that
+    # states it was read off a urpx:ProfileAlternative rather than a Price-level
+    # rule. Matching the vintage value against container names, which this did
+    # before, would call "NBT23" selectable in any filing whose container
+    # happened to mention it.
+    return bool(att.get("profile_alternatives"))
 
 
 def segment_analysis(midas: dict, grammar: dict, asserted: dict) -> dict:
@@ -904,16 +936,36 @@ def render_md(d: dict) -> str:
       "composition structurally and the rest some other way, or not at all. Both are worth stating.")
     w("")
     keyed = len([a for a in atts if a["arrangements"]])
+    determined = len([a for a in atts if a["fully_determined"]])
+    selectable = len([a for a in atts if a["vintage_is_selectable"]])
     w(f"**Every one of the {len(atts)} attestations keys to an arrangement the corpus expresses**, "
-      f"at the grain of one base version plus one modifier version. What none of them keys to is a "
-      f"*fully determined* arrangement, for two reasons that are different in kind.")
+      f"at the grain of one base version plus one modifier version. "
+      + ("What none of them keys to is a *fully determined* arrangement, for two reasons that are "
+         "different in kind." if determined == 0 else
+         f"{determined} of them key only to *fully determined* arrangements; the rest do not, for "
+         f"two reasons that are different in kind."))
     w("")
-    w("**Vintage is not a `urpx:ProfileAlternative`.** In these filings the interconnection vintage "
-      "is carried by `urpx:ApplicabilityRule` conditions, so it is not an open dimension of the "
-      "arrangement: expanding the arrangement's alternatives will never produce one arrangement per "
-      f"vintage. Checked against the filing that carries each vintage, "
-      f"{len([a for a in atts if a['vintage_is_selectable']])} of {keyed} attestations name a "
-      f"vintage that is a selectable alternative there. Per filing:")
+    # Branches on the count rather than restating a conclusion, so the sentence
+    # changes when the corpus does.
+    if selectable == keyed:
+        w("**Vintage is a `urpx:ProfileAlternative`.** In these filings the interconnection vintage "
+          "is stated by the condition of a `urpx:ProfileAlternative`, and each cited Price sits in "
+          "the `urpx:PriceSetAlternative` for its vintage, so vintage is an open dimension of the "
+          "arrangement: expanding the arrangement's alternatives produces one arrangement per "
+          "vintage, and the identifier names one of them. Checked against the filing that carries "
+          f"each vintage, {selectable} of {keyed} attestations name a vintage that is a selectable "
+          f"alternative there. Per filing:")
+    elif selectable == 0:
+        w("**Vintage is not a `urpx:ProfileAlternative`.** In these filings the interconnection vintage "
+          "is carried by `urpx:ApplicabilityRule` conditions, so it is not an open dimension of the "
+          "arrangement: expanding the arrangement's alternatives will never produce one arrangement per "
+          f"vintage. Checked against the filing that carries each vintage, "
+          f"{selectable} of {keyed} attestations name a vintage that is a selectable alternative "
+          f"there. Per filing:")
+    else:
+        w(f"**Vintage is a `urpx:ProfileAlternative` for {selectable} of {keyed} attestations.** The "
+          "rest carry it in `urpx:ApplicabilityRule` conditions, which expanding the arrangement's "
+          "alternatives never reaches. Per filing:")
     w("")
     w("| Filing | Vintages cited | Condition property | `urpx:ProfileAlternatives` declared here | "
       "Open dimensions of the keyed arrangements |")

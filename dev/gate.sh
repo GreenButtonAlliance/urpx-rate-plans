@@ -131,6 +131,22 @@ run_clojure_gate() {
         cat /tmp/gate-marginal.log
         record "$rc"
     fi
+
+    # The marginal-rate baseline excludes export ledgers, so it cannot see the
+    # NBT export grids. This walks a year of segments per vintage and asserts
+    # each export ledger resolves to exactly the Price its cell names. A bracket
+    # gap admits every Price on the ledger without an error, and a mistyped
+    # alternative key withholds every one; both are silent in clj-urpx.
+    # Exit 1 a violation, 3 refused.
+    note "NBT export cells"
+    if clojure -M:nbt-export > /tmp/gate-nbt-export.log 2>&1; then
+        tail -1 /tmp/gate-nbt-export.log
+    else
+        rc=$?
+        grep -E '✗|\.\.\.|REFUSED' /tmp/gate-nbt-export.log | head -40
+        tail -1 /tmp/gate-nbt-export.log
+        record "$rc"
+    fi
 }
 
 case "$MODE" in

@@ -78,14 +78,15 @@ Adder locked for 9 years from customer's PTO date. Low-income definition
 per Sheet 5: CARE/FERA OR disadvantaged-community single-family
 resident-owners OR California Indian Country residents (D.18-06-027 /
 D.20-12-003). Modeled as two separate PriceDefinitions on separate
-Ledgers (Residential ACC Plus + Low-Income ACC Plus), each with an
-ApplicabilityRule gated on customer-attribute predicates (analogous to
-PRIME-CPP's Grandfathered-D-SDP-Dual-Participation pattern).
+Ledgers (Residential ACC Plus + Low-Income ACC Plus). Both 2025 Prices
+sit in the 2025 vintage's PriceSetAlternative; the Low-Income Price
+carries an ApplicabilityRule gated on the low-income predicate (analogous
+to PRIME-CPP's Grandfathered-D-SDP-Dual-Participation pattern).
 
 Multi-vintage matrix deferred — initial filing models the 2025 vintage
 applicable to customers with interconnection applications submitted
-2025-01-01 through 2025-12-31. Each vintage requires a separate Price
-entity with its own ApplicabilityRule.
+2025-01-01 through 2025-12-31. Each further vintage is a Price in that
+vintage's PriceSetAlternative.
 
 ## Export Compensation Rate cardinality (Q1 of )
 
@@ -102,12 +103,13 @@ data is one set per vintage, not per-zone.
 FULL FILING SCOPE: this version carries the modifier structure +
 per-cell prices. 4,608 Prices for the Export Compensation Rate (576
 unique cells per vintage × 2 components × 4 published vintages 2023-2026),
-plus 2 ACC Plus Prices (Residential + Low-Income, 2025 vintage), plus
-48 shared TOUPeriod entities (24 hours × 2 day-types) and 48 shared
-ApplicabilityRule entities (12 months × 4 vintages, each with vintage-
-gating ConditionExpression). Total 4,610 urpx:Price entries on the
-RatePlanModifier — the largest single filing in the corpus by Price
-count to date.
+plus 2 ACC Plus Prices (Residential + Low-Income, 2025 vintage). Total
+4,610 urpx:Price entries on the RatePlanModifier. Vintage is a
+ProfileAlternatives with one ProfileAlternative per vintage, and the
+Prices sit in one PriceSetAlternative per vintage. Month, hour and day
+type are time of use: one TOUSchedule on the export MetricInput and 576
+TOUPeriods, every period bracketed within a single-month Season. The
+export Prices name their period by an integer urpx:touPeriodNumber.
 
 Per-cell Prices loaded by the generator via the two-stage
 script pipeline:
@@ -115,13 +117,14 @@ script pipeline:
  vintage PDFs from pge.com/energyexportcredit's PGE-EEC-Price-Sheets.zip
  (pdfplumber + pypdf multi-extractor fallback handles per-vintage PDF
  styling quirks)
- 2. scripts/build-pge-nbt-prices-2025-10-17.py — emits 4,608
- Price entities into urpx:hasPrice[] with first-use inline TOUPeriods
- and ApplicabilityRules, then deduplicated @id references
+ 2. scripts/build-pge-nbt-prices-2025-10-17.py: emitted 4,608
+ Price entities into urpx:hasPrice[], each with a Price-level TOUPeriod
+ and ApplicabilityRule
+ 3. dev/remodel_nbt.py: converted that output to the structure above,
+ aborting unless every cell's value, @id and name survive
 
-To refresh when PG&E publishes new vintage values: re-download the ZIP,
-re-run extract + build, re-validate. Idempotent — preserves the ACC Plus
-prices and replaces the per-cell layer.
+Step 2 reads urpx:hasPrice and does not run against the converted
+file, so a refresh starts from the pre-conversion file.
 
 ## Binding mechanism (Q4 of )
 
@@ -198,10 +201,10 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "ACC Plus adder is carried for the 2025 interconnection vintage only, at -0.01320 residential and -0.05400 low income. Sheet 11 prints the whole table: Residential 0.02200, 0.01760, 0.01320, 0.00880, 0.00440 for vintages 2023 through 2027, and Residential Low Income 0.09000, 0.07200, 0.05400, 0.03600, 0.01800. Eight Prices are missing. The vocabulary is the vintage-gated ApplicabilityRule the 2025 Prices already use and the 4,608 Export Compensation Rate Prices already use four times over, so this is work, not a blocker.",
- "ACC Plus Residential and ACC Plus Low Income are modeled as two independently gated Prices, so a low-income 2025-vintage customer matches both and accrues 0.01320 plus 0.05400 per kWh. Sheet 11 states them as two rows of one table, that is, alternative customer segments. Fix by adding a notOperator branch on the Residential Price excluding Low Income NBT Eligible; urpx:notOperator is in the v0.5.1 BooleanOperatorValue enumeration and the Low Income Price already uses BooleanOperationNode.",
+ "ACC Plus adder is carried for the 2025 interconnection vintage only, at -0.01320 residential and -0.05400 low income. Sheet 11 prints the whole table: Residential 0.02200, 0.01760, 0.01320, 0.00880, 0.00440 for vintages 2023 through 2027, and Residential Low Income 0.09000, 0.07200, 0.05400, 0.03600, 0.01800. Eight Prices are missing. The vocabulary is the vintage PriceSetAlternative the 2025 Prices and the 4,608 Export Compensation Rate Prices already sit in, so this is work, not a blocker.",
+ "ACC Plus Residential and ACC Plus Low Income both sit in the 2025 vintage's PriceSetAlternative, the Residential Price ungated and the Low Income Price gated on Low Income NBT Eligible, so a low-income 2025-vintage customer matches both and accrues 0.01320 plus 0.05400 per kWh. Sheet 11 states them as two rows of one table, that is, alternative customer segments. Fix by gating the Residential Price on a notOperator branch excluding Low Income NBT Eligible; urpx:notOperator is in the v0.5.1 BooleanOperatorValue enumeration.",
  "The four Sheet 11 exclusions from the ACC Plus adder are not modeled: customers transitioning from NEM or NEM2 at the end of their legacy period, Change of Party customers who bought a building with an existing system, non-residential customers, and customers required to add solar by building code. Expressible with the same CustomOperandNode predicates the filing already uses for REGF and interconnection vintage.",
- "The 48 TimeBrackets distinguish only urpx:weekdayDays and urpx:weekendDays and the filing carries no HolidayCalendar, so a holiday falling on a weekday resolves to the weekday cell. Sheet 6 says the Export Compensation Rate is differentiated by weekdays and weekends/holidays, Sheet 10 step 3 directs PG&E to identify weekdays and weekend/holidays, and the published price sheets the values came from label the second table Weekend/Holiday. Under v0.5.1 PlanElements accepts urpx:hasHolidayCalendar and TimeBracket accepts urpx:includeHolidays and urpx:includeNonHolidays; us/ca/pge/electricity/e-tou-d/versions/2026-03-27/ already ships pge:holidays-e-tou-d with the eight PG&E holidays. Schedule NBT names no holidays itself, so the list has to be sourced from E-TOU-D.",
+ "The 576 TimeBrackets distinguish only urpx:weekdayDays and urpx:weekendDays and the filing carries no HolidayCalendar, so a holiday falling on a weekday resolves to the weekday cell. Sheet 6 says the Export Compensation Rate is differentiated by weekdays and weekends/holidays, Sheet 10 step 3 directs PG&E to identify weekdays and weekend/holidays, and the published price sheets the values came from label the second table Weekend/Holiday. Under v0.5.1 PlanElements accepts urpx:hasHolidayCalendar and TimeBracket accepts urpx:includeHolidays and urpx:includeNonHolidays; us/ca/pge/electricity/e-tou-d/versions/2026-03-27/ already ships pge:holidays-e-tou-d with the eight PG&E holidays. Schedule NBT names no holidays itself, so the list has to be sourced from E-TOU-D.",
  "Sheet 17 SC 2.d requires generation export credits to offset only volumetric generation charges and delivery export credits only volumetric delivery charges, but both Export Compensation Rate PriceDefinitions carry urpx:bundledPortion and both Ledgers urpx:bundledLedger, flattening the distinction the schedule makes load-bearing. v0.5.1 offers supplyPortion and deliveryPortion, supplyLedger and deliveryLedger, and the chargeTypes exportCredit and creditGeneration where all four PriceDefinitions currently use creditEnergy. The offset rule itself, including the SC 2.f rule that the Public Purpose Program, Nuclear Decommissioning, Competition Transition and Wildfire Fund charges cannot be reduced by export credits while ACC Plus credits can, is a consumer-side billing rule with no URPX expression.",
  "Net Surplus Compensation (SC 5, Sheets 27 to 29) is not carried, and the schedule publishes no NSC number. Sheet 27 SC 5.b defines the NSC Rate as a simple rolling average of PG&E's default load aggregation point price from 7 a.m. to 5 p.m. over a 12-month period, recalculated monthly. v0.5.1 can declare the shell (a Price with hasDynamicPricing, dynamicPricingType urpx:indexBasedPricing, priceSource urpx:wholesaleMarketSource, updateFrequency urpx:monthlyUpdates, plus a PriceUpdateRule carrying the SC 5.b text) but carries no value. The Sheet 28 SC 5.d arithmetic, which compares cumulative exports against cumulative imports over the Relevant Period and then debits at the average realized export compensation rate and credits at the NSC Rate, has no URPX expression.",
  "The Net Surplus Compensation Renewable Attribute Adder (Sheet 28 SC 5.c) is not carried. Its value is the most recent WECC average renewable premium submitted by annual advice letter, which is in no PDF in this corpus, and it is contingent on the customer transferring WREGIS Certificates to PG&E. This is a source gap before it is anything else.",
@@ -210,7 +213,7 @@ deferrals = [
  "NBT Paired Storage (SC 8, Sheets 34 to 43) prices two things this filing does not carry. Sheet 43 caps the fee for installing standard metering equipment at $600.00, with no cap for complex metering, and states only the cap rather than a fee. Sheet 41 caps monthly NBT-eligible exports for Small NBT Paired Storage without a Certified PCS at a CSI EPBB calculator production estimate, with excess forfeited and deemed to have occurred in the highest price period of the billing cycle; that bound is a per-customer output of an external calculator and has no URPX expression. SC 8 is a Special Condition inside this PDF, not a sibling filing, and footnote 14 on Sheet 41 applies the estimation methodology to residential customers.",
  "Multiple Tariff Facilities (SC 4, Sheets 25 to 26) is not carried, and Sheet 12 section F prices it: for NBT-MT, only the Renewable Portion of the exports to the grid will be credited, valued as in the Export Credits section. Nothing in SC 4, the Sheet 8 overview, or the Sheet 13 sub-schedule list restricts NBT-MT to non-residential customers; it is defined by facility configuration, multiple generators behind one revenue meter. The renewable proportion itself comes from the customer's generator mix, not from the tariff.",
  "Sheet 10 and Sheet 16 SC 2.b state that the CARE and FERA discount must not be applied to the Export Compensation Rate. Dormant: this corpus holds no PG&E CARE or FERA modifier, so there is nothing for the exclusion to gate. It becomes live the moment one is added, and per-price scoping of one modifier against another has no URPX expression.",
- "Special Condition 7 NBT Legacy Provisions beyond the vintage lock-in: permanent forfeiture of remaining NEM or NEM2 transition eligibility when a customer switches to NBT early and the bar on changing back, and the rule that customers arriving at the end of a NEM/NEM2 or NEM2A legacy period may not start a new legacy period under NBT and get no 9-year legacy treatment. The vintage-gated ApplicabilityRules carry only which Export Compensation Rate vintage applies.",
+ "Special Condition 7 NBT Legacy Provisions beyond the vintage lock-in: permanent forfeiture of remaining NEM or NEM2 transition eligibility when a customer switches to NBT early and the bar on changing back, and the rule that customers arriving at the end of a NEM/NEM2 or NEM2A legacy period may not start a new legacy period under NBT and get no 9-year legacy treatment. The vintage ProfileAlternatives carry only which Export Compensation Rate vintage applies.",
  "Special Condition 10 Prevailing Wage: the PU Code Section 769.2 contractor wage and payroll requirements that condition a facility's participation in a Section 2827 or 2827.1 tariff, loss and regain of tariff access on a willful violation and its reversal, and the January 1, 2025 bar on violating contractors applying to interconnect. Named in coverage prose only.",
  "Special Condition 9 Natural or Human-Made Disasters: service on this tariff from the original pre-disaster permission-to-operate date through the customer's first Energy True Up in the tenth year, the replacement-system sizing limit and proof-of-destruction condition on reapplication, the oversizing attestation, and the true-up plus Net Surplus Compensation treatment up to the date of the disaster. Named in coverage prose only.",
 ]

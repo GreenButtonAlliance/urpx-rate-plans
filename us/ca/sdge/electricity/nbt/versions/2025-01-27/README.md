@@ -53,8 +53,8 @@ Same eligibility basis across all three CA IOUs; only the terminology differs (L
  - ACC Plus Residential adder (Prices pending discovery)
  - ACC Plus Low Income Customer adder (Prices pending discovery)
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 5 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1)
-- 48 shared `urpx:TOUPeriod` (24 hours × 2 day-types)
-- 60 shared `urpx:ApplicabilityRule` (12 months × 5 vintages NBT23/NBT24/NBT25/NBT26/NBT00, each with vintage-gating `ConditionExpression` keyed on `"NBT Vintage Label"`)
+- Vintage as a `urpx:ProfileAlternatives` (`sdge:nbt-2025-01-27-pa-vintage`) with one `urpx:ProfileAlternative` per label, NBT00, NBT23, NBT24, NBT25 and NBT26, each stating `"NBT Vintage Label"`; the Prices sit in one `urpx:PriceSetAlternative` per label, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`, so a consumer selects the vintage with `:profile-alternatives` and one export Price applies per ledger at any instant
+- Month, hour and day type as time of use: a single `urpx:TOUSchedule` on the export MetricInput and 576 TOUPeriods, every period bracketed within a single-month `urpx:Season`. The export Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1
 - **5,760 `urpx:Price` instances** for the per-cell EEC values (5 vintages × 576 cells × 2 components) loaded from `sdge.com/solar/solar-billing-plan/export-pricing`
 
 ## MIDAS RIN cross-reference (first in corpus)
@@ -98,7 +98,7 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 - Each ZIP contains a CSV in CEC MIDAS upload format (RIN, RateName, DateStart/End in UTC, DayStart/End 1-7 + 8 for Holiday, ValueName as Month + Weekday/Weekend + HSn, Value, Unit)
 - CSV is a flat unrolled 20-year hourly time-series per CPUC Resolution E-5301; within each vintage's 9-year lock-in period the per-cell value is constant — first occurrence is used as the canonical lock-in value
 - NBT00 has no lock-in; current-year values are the "actual effective rates" (illustrative beyond that)
-- Pipeline: `scripts/extract-sdge-nbt-eec-values.py` + `build-sdge-nbt-prices-2025-01-27.py`
+- Pipeline: `scripts/extract-sdge-nbt-eec-values.py` + `build-sdge-nbt-prices-2025-01-27.py`, which emitted a Price-level period and rule on every Price, then `dev/remodel_nbt.py`, which converted that to the structure above and aborts unless every cell's value, @id and name survive. The build script reads `urpx:hasPrice` and does not run against the converted file.
 
 ## Cross-references
 
@@ -110,4 +110,4 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py --utility sdge`, which merges every SDG&E filing into one graph so the `applicableToRatePlan` reference to EV-TOU-5 resolves. 5,760 per-cell Prices + 48 TOUPeriods + 60 ApplicabilityRules + structural shell all validate clean.
+SHACL passes via `dev/validate-with-base.py --utility sdge`, which merges every SDG&E filing into one graph so the `applicableToRatePlan` reference to EV-TOU-5 resolves. The 5,760 per-cell Prices, 576 TOUPeriods, the vintage alternatives and the structural shell all validate clean. `dev/check_nbt_export.clj` walks a year of segments for every vintage and asserts each export ledger resolves to exactly the Price its cell names.

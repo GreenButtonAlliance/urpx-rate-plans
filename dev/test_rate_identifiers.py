@@ -114,6 +114,28 @@ GOOD_RIDS = [
 ]
 
 
+def _alternative_doc() -> dict:
+    """GOOD_DOC with the vintage moved off the Price and onto a
+    urpx:ProfileAlternative, the shape the NBT filings now carry."""
+    doc = copy.deepcopy(GOOD_DOC)
+    version = doc["urpx:hasRatePlanModifier"]["urpx:hasVersion"]
+    price = version.pop("urpx:hasPrice")[0]
+    cx = price.pop("urpx:hasApplicabilityRule")["urpx:hasConditionExpression"]
+    version["urpx:hasProfileAlternatives"] = {
+        "@type": "urpx:ProfileAlternatives", "@id": "xx:nbt-pa-vintage",
+        "urpx:hasProfileAlternative": [{
+            "@type": "urpx:ProfileAlternative", "@id": "xx:nbt-pa-vintage-nbt23",
+            "urpx:hasConditionExpression": cx}]}
+    version["urpx:hasPriceSetAlternatives"] = [{
+        "@type": "urpx:PriceSetAlternatives", "@id": "xx:nbt-psa",
+        "urpx:referencesProfileAlternatives": {"@id": "xx:nbt-pa-vintage"},
+        "urpx:hasPriceSetAlternative": [{
+            "@type": "urpx:PriceSetAlternative", "@id": "xx:nbt-psa-nbt23",
+            "urpx:referencesProfileAlternative": {"@id": "xx:nbt-pa-vintage-nbt23"},
+            "urpx:hasPrice": [price]}]}]
+    return doc
+
+
 def docs(doc=None) -> list[tuple[str, dict]]:
     return [(FILE, copy.deepcopy(doc if doc is not None else GOOD_DOC))]
 
@@ -200,7 +222,7 @@ expect_refusal("a citation on a Price naming no PriceDefinition",
 
 no_rule = copy.deepcopy(GOOD_DOC)
 del _price(no_rule)["urpx:hasApplicabilityRule"]
-expect_refusal("a citation on a Price naming no ApplicabilityRule",
+expect_refusal("a citation on a Price naming no ApplicabilityRule and in no PriceSetAlternative",
                lambda: R.extract_occurrences(docs(no_rule)))
 
 empty_rule = copy.deepcopy(GOOD_DOC)
@@ -208,6 +230,17 @@ _price(empty_rule)["urpx:hasApplicabilityRule"] = {
     "@type": "urpx:ApplicabilityRule", "@id": "xx:nbt-ar-v23"}
 expect_refusal("a citation whose rule states no condition",
                lambda: R.extract_occurrences(docs(empty_rule)))
+
+ALT = R.group_attestations(R.extract_occurrences(docs(_alternative_doc())))[0]
+expect("a Price under a PriceSetAlternative takes its vintage from the ProfileAlternative",
+       (ALT["conditions"], ALT["profile_alternatives"]),
+       ((("NBT Vintage Label", "NBT23"),), ["xx:nbt-pa-vintage-nbt23"]))
+
+silent_alt = _alternative_doc()
+del silent_alt["urpx:hasRatePlanModifier"]["urpx:hasVersion"]["urpx:hasProfileAlternatives"][
+    "urpx:hasProfileAlternative"][0]["urpx:hasConditionExpression"]
+expect_refusal("a citation whose enclosing ProfileAlternative states no condition",
+               lambda: R.extract_occurrences(docs(silent_alt)))
 
 expect_refusal("a corpus citing no identifier at all",
                lambda: R.extract_occurrences([(FILE, {"@type": "urpx:URPXPackage"})]))
@@ -273,11 +306,12 @@ expect("an identifier whose rate_name disagrees is derived",
 print()
 print("=== the vintage check, both branches ===")
 expect("a filing declaring no ProfileAlternatives cannot make a vintage selectable",
-       R.vintage_is_selectable(BASE, {FILE: []}), False)
-expect("a filing whose ProfileAlternatives names the vintage does",
-       R.vintage_is_selectable(BASE, {FILE: ["NBT23 vintage cohort"]}), True)
-expect("and a container naming something else does not",
-       R.vintage_is_selectable(BASE, {FILE: ["Income tier (CARE / FERA / Standard)"]}), False)
+       R.vintage_is_selectable(dict(BASE, profile_alternatives=["xx:nbt-pa-vintage-nbt23"]),
+                               {FILE: []}), False)
+expect("a vintage a ProfileAlternative states is selectable",
+       R.vintage_is_selectable(ALT, {FILE: ["NBT vintage"]}), True)
+expect("a vintage a Price-level rule states is not, whatever the containers are named",
+       R.vintage_is_selectable(BASE, {FILE: ["NBT23 vintage cohort"]}), False)
 
 print()
 print("=== the mirror-segment split, both branches ===")
@@ -326,8 +360,8 @@ expect("distinct identifiers agree with the per-file scan",
             for r in R.RIN.findall((REPO / s["file"]).read_text())}))
 
 # The two bugs named in this file's docstring, asserted against the real data.
-expect("no vintage is a selectable alternative in the filing that carries it",
-       [a["expression"] for a in D["attestations"] if a["vintage_is_selectable"]], [])
+expect("every vintage is a selectable alternative in the filing that carries it",
+       [a["expression"] for a in D["attestations"] if not a["vintage_is_selectable"]], [])
 expect("no bundled record is counted as CCA-marked",
        sum(h["bundled_cca"] for h in D["segments"]["per_first_half"].values()), 0)
 

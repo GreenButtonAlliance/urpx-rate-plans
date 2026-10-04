@@ -147,13 +147,13 @@ An identifier names a composition. The arrangement it was keyed to expresses par
 
 **Every one of the 24 attestations keys to an arrangement the corpus expresses**, at the grain of one base version plus one modifier version. What none of them keys to is a *fully determined* arrangement, for two reasons that are different in kind.
 
-**Vintage is not a `urpx:ProfileAlternative`.** In these filings the interconnection vintage is carried by `urpx:ApplicabilityRule` conditions, so it is not an open dimension of the arrangement: expanding the arrangement's alternatives will never produce one arrangement per vintage. Checked against the filing that carries each vintage, 0 of 24 attestations name a vintage that is a selectable alternative there. Per filing:
+**Vintage is a `urpx:ProfileAlternative`.** In these filings the interconnection vintage is stated by the condition of a `urpx:ProfileAlternative`, and each cited Price sits in the `urpx:PriceSetAlternative` for its vintage, so vintage is an open dimension of the arrangement: expanding the arrangement's alternatives produces one arrangement per vintage, and the identifier names one of them. Checked against the filing that carries each vintage, 24 of 24 attestations name a vintage that is a selectable alternative there. Per filing:
 
 | Filing | Vintages cited | Condition property | `urpx:ProfileAlternatives` declared here | Open dimensions of the keyed arrangements |
 |---|---:|---|---:|---|
-| `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 4 | `NBT Interconnection Vintage Year` | 0 | `pge:e-elec-2026-03-27-pa-income-tier` |
-| `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 5 | `NBT Vintage Label` | 0 | none |
-| `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5 | `NBT Vintage Label` | 0 | none |
+| `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 4 | `NBT Interconnection Vintage Year` | 1 | `pge:e-elec-2026-03-27-pa-income-tier`, `pge:nbt-2025-10-17-pa-vintage` |
+| `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 5 | `NBT Vintage Label` | 1 | `sce:nbt-2025-04-23-pa-vintage` |
+| `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5 | `NBT Vintage Label` | 1 | `sdge:nbt-2025-01-27-pa-vintage` |
 
 **The discount tier and the supply arrangement are in the identifier.** Where a utility spells its overlays in `alt_name`, the snapshot holds identifiers that extend the asserted one by exactly one more overlay, and those are the compositions the asserted identifier does not name:
 

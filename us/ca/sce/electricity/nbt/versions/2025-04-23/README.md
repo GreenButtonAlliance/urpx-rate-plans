@@ -45,7 +45,7 @@ Equivalent to PG&E's Low-Income classification. An Equity Customer is either:
 2. A resident-owner of a single-family home in a disadvantaged community as defined in D.18-06-027; OR
 3. A Residential Customer who lives in California Indian Country as defined in D.20-12-003.
 
-Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate is consumer-side-evaluable; this filing's Price encodes the conjunction with vintage-2025 via a `urpx:BooleanOperationNode + urpx:andOperator`.
+Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate is consumer-side-evaluable. Both ACC Plus Prices sit in the NBT25 vintage's `urpx:PriceSetAlternative`, which states the vintage; the Non-Equity Price carries no rule, and the Equity Price keeps a `urpx:ApplicabilityRule` whose condition is the Equity Customer predicate alone.
 
 ## What's modeled
 
@@ -63,7 +63,7 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
 
 | Deferral | Why |
 |---|---|
-| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each requires sibling Price + vintage-gated ApplicabilityRule; follow-up |
+| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each is a Price in its vintage's `urpx:PriceSetAlternative`; follow-up |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
 | Sub-schedule variants (NBT-A, NBT-PS, NBT-MT) | Sibling filings |
@@ -82,6 +82,8 @@ Loaded. The filing carries 5,088 RIN-tagged export compensation Prices covering 
 twelve months, the hour-by-month-by-day-type grid the tariff prices exports on.
 Generation is not published directly by SCE and is derived per cell by subtracting
 the delivery-only SCXX rate from the bundled SCSC rate in MIDAS.
+
+Vintage is a `urpx:ProfileAlternatives` (`sce:nbt-2025-04-23-pa-vintage`) with one `urpx:ProfileAlternative` per label, NBT23, NBT24, NBT25, NBT26 and non-vintaged, each stating `NBT Vintage Label`. The Prices sit in one `urpx:PriceSetAlternative` per label, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`, so a consumer selects the vintage with `:profile-alternatives` and one export Price applies per ledger at any instant. Month, hour and day type are time of use: a single `urpx:TOUSchedule` on the export MetricInput and 576 TOUPeriods, every period bracketed within a single-month `urpx:Season`. The export Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1. NBT26 prices January through May only, so for June through December that vintage resolves no export Price; `dev/check_nbt_export.clj` expects exactly that and names the reason. `dev/remodel_nbt.py` produced this structure from the earlier per-Price periods and rules.
 
 SCE does not expose the export rate file on its customer-facing pages the way PG&E
 does at `pge.com/energyexportcredit`, so these came through MIDAS rather than a

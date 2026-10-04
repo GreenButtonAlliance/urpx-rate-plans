@@ -36,13 +36,13 @@ SCE TOU-D-PRIME-CPP previously deferred direction-of-flow distinction because it
  - ACC Plus Residential: `$-0.01320/kWh` (Sheet 11 Table)
  - ACC Plus Low-Income: `$-0.05400/kWh` (Sheet 11 Table)
 
-The low-income Price uses a `urpx:BooleanOperationNode` with `urpx:andOperator` conjoining (vintage = 2025) AND (low-income-eligible = true). First use of boolean-composition vocabulary in this corpus.
+Both sit in the 2025 vintage's `urpx:PriceSetAlternative` (below), which states the vintage. The Residential Price carries no rule; the Low-Income Price keeps a `urpx:ApplicabilityRule` whose condition is low-income eligibility alone.
 
 ## What's deferred
 
 | Deferral | Why |
 |---|---|
-| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each requires a sibling Price + vintage-gated ApplicabilityRule; follow-up |
+| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each is a Price in its vintage's `urpx:PriceSetAlternative`; follow-up |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape — same deferral as PRIME-CPP Bill Protection |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
 | Sub-schedule variants (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) | Sibling filings |
@@ -54,13 +54,17 @@ The low-income Price uses a `urpx:BooleanOperationNode` with `urpx:andOperator` 
 
 Full list with reasoning in `tariff.toml` under `[modeling]`.
 
-## Per-cell data load — TOUPeriod chain
+## Per-cell structure: one export Price per ledger at any instant
 
-The per-cell Export Compensation Rate Prices use a `urpx:TOUPeriod` chain: `Price → TOUPeriod → TimeBracket`. `urpx:hasTimeBracket` attaches to TOUPeriod, not directly to ApplicabilityRule. The data load emits 48 shared TOUPeriods (24 hours × 2 day-types — `urpx:weekdayDays` / `urpx:weekendDays`), 48 shared ApplicabilityRules (12 months × 4 vintages, each carrying month + vintage-gating ConditionExpression), and 4,608 per-cell Prices (576 cells per vintage × 2 components × 4 published vintages 2023-2026). Combined with the 2 ACC Plus prices, total 4,610 Prices on the modifier.
+Vintage is a `urpx:ProfileAlternatives` (`pge:nbt-2025-10-17-pa-vintage`) with one `urpx:ProfileAlternative` per published vintage, 2023 through 2026, each stating `NBT Interconnection Vintage Year`. The Prices sit in one `urpx:PriceSetAlternatives` holding one `urpx:PriceSetAlternative` per vintage, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`. A consumer selects the vintage with `:profile-alternatives`.
+
+Month, hour and day type are time of use. The BillingModel carries a single `urpx:TOUSchedule` on the export MetricInput, whose `urpx:TOUTier` holds 576 TOUPeriods, one per month, hour and `urpx:weekdayDays` or `urpx:weekendDays`. Each period's `urpx:TimeBracket` names that month's `urpx:Season`, and the version declares twelve single-month Seasons on its own PlanElements. The Export Compensation Rate Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1. No export Price carries a Price-level `urpx:hasApplicabilityRule` or `urpx:referencesTouPeriod`.
+
+The modifier carries 4,610 Prices: 4,608 Export Compensation Rate Prices (576 cells per vintage × 2 components × 4 published vintages) and the 2 ACC Plus Prices. `dev/check_nbt_export.clj`, in `dev/gate.sh`, walks a year of segments for every vintage and asserts that each export ledger resolves to exactly the Price its cell names.
 
 Per the tariff Sheet 10 methodology step 2, the published Delivery component is system-averaged across PG&E climate zones (no per-zone variability in the published data), so the cell count is per-vintage not per-zone-vintage.
 
-Source: `pge.com/energyexportcredit` redirects to a ZIP containing per-vintage PDFs. Extraction + emission scripts at `scripts/extract-nbt-eec-values.py` and `build-pge-nbt-prices-2025-10-17.py`. The extractor handles per-vintage PDF styling quirks (2026 has bold-overstrike text breaking pdfplumber; 2025 has whitespace collapsing breaking pypdf) by trying both libraries and using whichever yields a clean 48-row parse. The build script is idempotent — preserves the ACC Plus Prices and replaces the per-cell layer on each run.
+Source: `pge.com/energyexportcredit` redirects to a ZIP containing per-vintage PDFs. Extraction + emission scripts at `scripts/extract-nbt-eec-values.py` and `build-pge-nbt-prices-2025-10-17.py`. The extractor handles per-vintage PDF styling quirks (2026 has bold-overstrike text breaking pdfplumber; 2025 has whitespace collapsing breaking pypdf) by trying both libraries and using whichever yields a clean 48-row parse. The build script emitted the per-cell layer with a Price-level period and rule on every Price; `dev/remodel_nbt.py` converted that output to the structure above and aborts unless every cell's value, @id and name survive. The build script reads `urpx:hasPrice` and does not run against the converted file.
 
 ## Cross-references
 
