@@ -67,6 +67,21 @@ URPX_REV = os.environ.get("URPX_REV", DEFAULT_URPX_REV)
 _GRAPH_CACHE: dict[tuple[str, str], rdflib.Graph] = {}
 
 
+# Git exports these to hooks; in a linked worktree GIT_DIR names this
+# repository's worktree git dir, and `git -C <URPX checkout>` then looks there,
+# so the pre-commit gate refused with "revision ... is unknown". The URPX
+# checkout is a different repository and must be located from its own path.
+_REPO_LOCATING_GIT_VARS = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_COMMON_DIR",
+                           "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+                           "GIT_PREFIX")
+
+
+def _urpx_git(*args: str) -> subprocess.CompletedProcess:
+    env = {k: v for k, v in os.environ.items() if k not in _REPO_LOCATING_GIT_VARS}
+    return subprocess.run(["git", "-C", str(URPX_REPO), *args],
+                          check=True, capture_output=True, text=True, env=env)
+
+
 def _read_at_rev(rev: str, rel_path: str) -> str:
     """Read a file from the URPX checkout at a fixed git revision.
 
@@ -86,17 +101,11 @@ def _read_at_rev(rev: str, rel_path: str) -> str:
             f"next to this repository."
         )
     try:
-        return subprocess.run(
-            ["git", "-C", str(URPX_REPO), "show", f"{rev}:{rel_path}"],
-            check=True, capture_output=True, text=True,
-        ).stdout
+        return _urpx_git("show", f"{rev}:{rel_path}").stdout
     except subprocess.CalledProcessError:
         pass
     try:
-        ls = subprocess.run(
-            ["git", "-C", str(URPX_REPO), "ls-tree", rev, rel_path],
-            check=True, capture_output=True, text=True,
-        ).stdout.split()
+        ls = _urpx_git("ls-tree", rev, rel_path).stdout.split()
     except subprocess.CalledProcessError:
         raise SystemExit(
             f"ERROR: revision {rev!r} is unknown in {URPX_REPO}. If it is a new tag or "
@@ -107,10 +116,7 @@ def _read_at_rev(rev: str, rel_path: str) -> str:
             f"ERROR: {rel_path} does not exist in {URPX_REPO} at revision {rev}. The URPX "
             f"repository layout may have changed at that release."
         )
-    return subprocess.run(
-        ["git", "-C", str(URPX_REPO), "cat-file", "-p", ls[2]],
-        check=True, capture_output=True, text=True,
-    ).stdout
+    return _urpx_git("cat-file", "-p", ls[2]).stdout
 
 
 def load_graph(rel_path: str, rev: str | None = None) -> rdflib.Graph:
