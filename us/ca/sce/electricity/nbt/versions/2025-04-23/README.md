@@ -55,7 +55,8 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
  - ACC Plus Non-Equity Customer adder
  - ACC Plus Equity Customer adder
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 11 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1 / Sheet 13)
-- 2 `urpx:Price` instances (2025 interconnection vintage):
+- 5,088 Export Compensation Rate `urpx:Price`s from CEC MIDAS, one `urpx:PriceSetAlternative` per vintage (see below)
+- 2 ACC Plus `urpx:Price` instances (2025 interconnection vintage):
  - ACC Plus Non-Equity: `-$0.024/kWh` (Sheet 7 Table)
  - ACC Plus Equity: `-$0.056/kWh` (Sheet 7 Table)
 

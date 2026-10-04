@@ -138,8 +138,15 @@ run_clojure_gate() {
     # gap admits every Price on the ledger without an error, and a mistyped
     # alternative key withholds every one; both are silent in clj-urpx.
     # Exit 1 a violation, 3 refused.
+    #
+    # It takes about 50 s, so --fast runs it only when the commit stages an NBT
+    # filing, a base plan an NBT modifier composes with, the check, the
+    # remodel script, or deps.edn (the clj-urpx pin). --full always runs it.
     note "NBT export cells"
-    if clojure -M:nbt-export > /tmp/gate-nbt-export.log 2>&1; then
+    if [ "$MODE" = "--fast" ] && ! git diff --cached --name-only |
+            grep -qE '/nbt/|/e-elec/|/tou-d-prime/|/ev-tou-5/|^dev/check_nbt_export\.clj$|^dev/remodel_nbt\.py$|^deps\.edn$'; then
+        echo "  skipped in --fast: nothing staged that it checks"
+    elif clojure -M:nbt-export > /tmp/gate-nbt-export.log 2>&1; then
         tail -1 /tmp/gate-nbt-export.log
     else
         rc=$?
