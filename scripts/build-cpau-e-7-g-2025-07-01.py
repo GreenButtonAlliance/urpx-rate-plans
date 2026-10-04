@@ -62,8 +62,8 @@ CONTEXT = {
     "urpx:url": {"@type": "xsd:anyURI"},
     "urpx:intervalDuration": {"@type": "xsd:duration"},
     "urpx:dateRetrieved": {"@type": "xsd:date"},
-    "cpau": "https://example.com/cpau/",
-    "org": "https://example.com/organizations/",
+    "cpau": "https://rate-plans.grid-coordination.energy/cpau/",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
 }
 
 # ============================================================================

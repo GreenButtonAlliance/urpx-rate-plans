@@ -116,8 +116,10 @@ def check_shadow_refs() -> None:
 
 # --- 5 -----------------------------------------------------------------------
 def check_example_com() -> None:
-    hits = [f for f in tracked("*.jsonld", "*.toml", "*.md", "*.json")
-            if "example.com" in (REPO / f).read_text(encoding="utf-8", errors="ignore")]
+    # This file is excluded because it holds the search term.
+    hits = [f for f in tracked("*.jsonld", "*.toml", "*.md", "*.json", "*.py")
+            if f != "dev/publication_gate.py"
+            and "example.com" in (REPO / f).read_text(encoding="utf-8", errors="ignore")]
     check("5. zero example.com IRIs", not hits,
           "" if not hits else f"{len(hits)} file(s), e.g. " + ", ".join(hits[:3]))
 

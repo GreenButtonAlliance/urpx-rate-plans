@@ -137,8 +137,8 @@ def migrate_base_rate_plan(data, schedule_key):
 
     # Add cpau prefix to @context, also xsd:integer for integerValue
     ctx = data["@context"]
-    ctx["cpau"] = "https://example.com/cpau/"
-    ctx["org"] = "https://example.com/organizations/"
+    ctx["cpau"] = "https://rate-plans.grid-coordination.energy/cpau/"
+    ctx["org"] = "https://rate-plans.grid-coordination.energy/organizations/"
 
     rate_plan = data
     rpv = rate_plan["urpx:hasRatePlanVersion"]

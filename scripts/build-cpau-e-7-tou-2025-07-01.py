@@ -86,8 +86,8 @@ CONTEXT = {
     "urpx:touTierNumber": {"@type": "xsd:integer"},
     "urpx:decimalValue": {"@type": "xsd:decimal"},
     "urpx:integerValue": {"@type": "xsd:integer"},
-    "cpau": "https://example.com/cpau/",
-    "org": "https://example.com/organizations/",
+    "cpau": "https://rate-plans.grid-coordination.energy/cpau/",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
 }
 
 
