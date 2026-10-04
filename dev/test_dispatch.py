@@ -74,7 +74,7 @@ check("v0.5.1 fixture missing urpx:name", run([V051_BAD]), v.VIOLATIONS)
 # targets nothing, and "nothing targeted" must never be reported as conforming.
 check("v0.5.1 file forced onto v0.2.1 shapes", run([V051_GOOD], "v0.2.1"), v.REFUSED)
 check("v0.2.1 fixture forced onto v0.5.1 shapes",
-      run([V021_GOOD], "origin/v0.5.1-candidate"), v.REFUSED)
+      run([V021_GOOD], "95eb8e22"), v.REFUSED)
 
 # A mixed-vocabulary merged graph is refused rather than validated against
 # either set, which would silently exempt half the files.

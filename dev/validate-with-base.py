@@ -22,7 +22,7 @@ Modes:
                              failures from unresolved cross-file references)
     <jsonld>                 one file alone (DIAGNOSTIC, same caveat)
 
-    --urpx-rev <rev>         URPX revision in ../urpx to validate against
+    --urpx-rev <rev>         URPX revision to validate against
     --rdfs                   enable RDFS inference
     --keys                   print stable violation keys, for baseline comparison
     --write-baseline         record every merged mode's key profile
@@ -33,7 +33,7 @@ Exit codes: 0 conforming, 1 violations or a new baseline key, 2 a baseline key
 is gone (an improvement, refresh deliberately), 3 refused (the harness cannot produce a
 meaningful answer, e.g. the data and the shapes share no vocabulary).
 
-Run from the urpx-rate-plans project root with the ../urpx checkout adjacent.
+Run from the project root. The URPX checkout is found at $URPX_CHECKOUT.
 """
 from __future__ import annotations
 
@@ -48,12 +48,16 @@ import rdflib
 from pyshacl import validate
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-URPX_REPO = REPO_ROOT.parent / "urpx"
+# The URPX standard is cloned outside this project family. Override with
+# URPX_CHECKOUT to point at a different working copy.
+URPX_REPO = Path(
+    os.environ.get("URPX_CHECKOUT", Path.home() / "projects" / "URPX" / "repo" / "urpx")
+)
 SHAPES_PATH = "shacl/urpx-shacl.ttl"
 ONTOLOGY_PATH = "ontology/urpx-ontology.ttl"
 
 # The URPX revision the corpus is authored against. Pinned deliberately: reading
-# whatever ../urpx happens to have checked out let the shapes drift silently to a
+# whatever the checkout happens to have checked out let the shapes drift silently to a
 # release whose namespace no term in the corpus matches, which made every shape
 # target zero nodes and every file report PASS. Override with --urpx-rev (or the
 # URPX_REV environment variable) when migrating to a new release.
@@ -64,11 +68,11 @@ _GRAPH_CACHE: dict[tuple[str, str], rdflib.Graph] = {}
 
 
 def _read_at_rev(rev: str, rel_path: str) -> str:
-    """Read a file from ../urpx at a fixed git revision.
+    """Read a file from the URPX checkout at a fixed git revision.
 
     The shapes are read from the URPX checkout rather than vendored into this
     repo, deliberately: this repository is destined to be public and must not
-    carry URPX-derived specification files. That makes ../urpx a hard
+    carry URPX-derived specification files. That makes the checkout a hard
     dependency, so every way it can be missing is reported with the command
     that fixes it.
 
@@ -110,7 +114,7 @@ def _read_at_rev(rev: str, rel_path: str) -> str:
 
 
 def load_graph(rel_path: str, rev: str | None = None) -> rdflib.Graph:
-    """Parse a Turtle file from ../urpx at the pinned revision, cached."""
+    """Parse a Turtle file from the URPX checkout at the pinned revision, cached."""
     rev = rev or URPX_REV
     key = (rev, rel_path)
     if key not in _GRAPH_CACHE:
@@ -196,7 +200,10 @@ NEW_URPX_NS = "https://urpx.org/ns/ontology/"
 
 URPX_NAMESPACE_REVS = {
     "https://urpx-org.github.io/urpx/ontology/": "v0.2.1",
-    "https://urpx.org/ns/ontology/": "origin/v0.5.1-candidate",
+    # The candidate branch was deleted from origin once PR #60 merged. 95eb8e22
+    # was its tip and is the revision this corpus was migrated against; repoint
+    # to the v0.5.1 tag once it is cut.
+    "https://urpx.org/ns/ontology/": "95eb8e22",
 }
 
 
@@ -487,7 +494,7 @@ def main():
     ap.add_argument("--check-baseline", action="store_true",
                     help="Compare every merged mode against the recorded baseline")
     ap.add_argument("--urpx-rev", default=URPX_REV,
-                    help=f"URPX revision in ../urpx (default: {URPX_REV})")
+                    help=f"URPX revision (default: {URPX_REV})")
     args = ap.parse_args()
     URPX_REV = args.urpx_rev
     kw = dict(rdfs=args.rdfs, show_keys=args.keys)
