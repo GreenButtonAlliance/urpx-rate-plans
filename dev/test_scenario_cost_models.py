@@ -148,11 +148,11 @@ def bl(**per_key):
 
 
 all_ok = {i: {"status": ":ok", "reason": None} for i in INSTANTS}
-expect("all nineteen instants resolve", A.classify(["k"], bl(k=all_ok))[0], A.SERVABLE)
+expect("every instant resolves", A.classify(["k"], bl(k=all_ok))[0], A.SERVABLE)
 
 mixed = dict(all_ok)
 mixed[INSTANTS[0]] = {"status": ":refused", "reason": ":no-energy-ledger"}
-expect("resolves at eighteen instants and refuses at one",
+expect("resolves at all but one instant and refuses at one",
        A.classify(["k"], bl(k=mixed))[0], A.BLOCKED)
 
 short = {i: {"status": ":ok", "reason": None} for i in INSTANTS[:-1]}

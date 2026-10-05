@@ -107,7 +107,7 @@ run_clojure_gate() {
     # -213, -218 and -260 dollars per kWh with the gate green. This compares
     # every resolved marginal rate against dev/baseline/marginal-rates.edn.
     #
-    # AT 19 INSTANTS, not one. One instant is a gate over one hour of one day
+    # AT 21 INSTANTS, not one. One instant is a gate over one hour of one day
     # type of one season: a TOU discriminator moved on four SDG&E filings and
     # was wrong at most hours of most days while the single probed instant, and
     # therefore this gate, was unchanged. The instants and the reason for each

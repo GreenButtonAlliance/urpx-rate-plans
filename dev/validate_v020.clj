@@ -137,6 +137,8 @@
     :why "Sat: the same clock hour as summer-weekday-peak, and the weekend price wherever a plan discriminates by day type"}
    {:id "summer-holiday-peak"      :at (at 2026 9 7 17)
     :why "Labor Day: the third day type. 8 rows move against the same hour on a weekday, all of them CPAU E-4-TOU, CPAU E-7-TOU, PG&E E-TOU-D or a composition over one"}
+   {:id "summer-holiday-morning"   :at (at 2026 9 7 7)
+    :why "Labor Day 07, inside the 06-10 band SDG&E prices Off-Peak on a weekday and Super Off-Peak on a weekend or holiday; the 17:00 holiday probes sit in On-Peak on every day type and cannot see a holiday calendar's effect on that band"}
    {:id "winter-weekday-peak"      :at (at 2026 12 8 17)
     :why "Tue, deep winter (Nov-Mar all resolve alike), on-peak"}
    {:id "winter-weekday-shoulder"  :at (at 2026 12 8 15)
@@ -151,6 +153,8 @@
     :why "Sat: day-type discrimination at the winter peak hour"}
    {:id "winter-holiday-peak"      :at (at 2026 12 25 17)
     :why "Christmas, observed on the day it falls: the holiday-aware rows again, now against a winter weekday"}
+   {:id "winter-holiday-morning"   :at (at 2026 12 25 7)
+    :why "Christmas 07 (a Friday): the same 06-10 weekday-versus-holiday band in winter"}
    {:id "april-weekday-peak"       :at (at 2026 4 7 17)
     :why "Tue: winter for every utility, plus the PG&E and SCE month --04 elements that no deep-winter probe resolves"}
    {:id "april-weekday-morning"    :at (at 2026 4 7 9)
@@ -164,8 +168,8 @@
    {:id "may-weekday-peak"         :at (at 2026 5 5 17)
     :why "Tue: the one month where CPAU E-2 through E-7 are in summer and everything else, CPAU E-1-TOU included, is in winter"}])
 
-;; The human report below resolves one instant rather than all 19: 73 filings by
-;; 19 instants is a wall of output, and the report is for reading. The baseline
+;; The human report below resolves one instant rather than all 21: 73 filings by
+;; 21 instants is a wall of output, and the report is for reading. The baseline
 ;; is the part that asserts, and it asserts at every one of them.
 (def probe-instant (:at (first probe-instants)))
 
