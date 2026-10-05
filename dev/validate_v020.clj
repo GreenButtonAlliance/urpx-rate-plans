@@ -597,9 +597,27 @@
                [[(str "plan|" path) (at-each-instant #(probe-plan path %))]]
 
                :rate-plan-modifier
-               (let [modifier (load-modifier! path)]
-                 (if-not (modifier-valid? path)
+               (let [modifier (load-modifier! path)
+                     v        (:urpx/hasRatePlanModifierVersion modifier)
+                     versions (if (map? v) [v] v)]
+                 (cond
+                   (not (modifier-valid? path))
                    [[(str "modifier|" path) (at-each-instant (constantly {:status :invalid}))]]
+
+                   ;; A modifier version in effect at none of the probe instants
+                   ;; (superseded before the first, or not yet effective at the
+                   ;; last) gets no compose keys. Composed with a current base it
+                   ;; describes a pairing no customer has, and where its charge
+                   ;; never enters the per-kWh marginal (sce:deed-restricted's
+                   ;; per-day credit) such a cell recorded :ok while the library
+                   ;; marked the ledger outside its window. One row records why
+                   ;; it is not probed.
+                   (not-any? (fn [{:keys [^java.time.ZonedDateTime at]}]
+                               (some #(price/version-covers? % at (.getZone at)) versions))
+                             probe-instants)
+                   [[(str "modifier|" path) (at-each-instant (constantly {:status :outside-every-probe}))]]
+
+                   :else
                    (let [base-kws (get-in pairings
                                           [:by-modifier (iri->kw (:jsonld/id modifier))
                                            :applicable-to])]

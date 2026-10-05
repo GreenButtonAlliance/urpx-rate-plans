@@ -945,6 +945,10 @@ def build() -> dict:
             continue
         if kind == "compose" and rest.split("|")[0] in superseded_homes:
             continue
+        # validate_v020 records a modifier version in effect at no probe
+        # instant as one "modifier|<file>" row instead of compose keys.
+        if kind == "modifier" and rest in superseded_homes:
+            continue
         unattributed.append(key)
     if unattributed:
         raise Refuse(
