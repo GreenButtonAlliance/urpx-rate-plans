@@ -549,16 +549,23 @@ HOLIDAY_SUFFIX = "-weekday-holiday"
 # E-19, E-20, A-10, EV and S: "New Year's Day, President's Day, Memorial Day,
 # Independence Day, Labor Day, Veterans Day, Thanksgiving Day, and Christmas
 # Day. The dates will be those on which the holidays are legally observed."
-# Names and rules are pge:holidays-e-tou-d's.
+# "Legally observed" is California Government Code section 6701: a Sunday
+# January 1, July 4, November 11 or December 25 moves to Monday, and of the
+# Saturday ones only November 11 moves, to Friday. Veterans Day therefore
+# carries urpx:nearestWeekdayObservance and the other three
+# urpx:actualDateObservance, which leaves their Sunday-to-Monday shift
+# unmodeled (a tariff.toml deferral). Names, rules and observance are
+# pge:holidays-e-tou-d's.
+_ACTUAL, _NEAREST = "urpx:actualDateObservance", "urpx:nearestWeekdayObservance"
 _PGE_HOLIDAYS = (
-    ("new-years-day", "New Year's Day", "January 1 (legally observed)"),
-    ("presidents-day", "President's Day", "Third Monday in February"),
-    ("memorial-day", "Memorial Day", "Last Monday in May"),
-    ("independence-day", "Independence Day", "July 4 (legally observed)"),
-    ("labor-day", "Labor Day", "First Monday in September"),
-    ("veterans-day", "Veterans Day", "November 11 (legally observed)"),
-    ("thanksgiving", "Thanksgiving Day", "Fourth Thursday in November"),
-    ("christmas", "Christmas Day", "December 25 (legally observed)"),
+    ("new-years-day", "New Year's Day", "January 1 (legally observed)", _ACTUAL),
+    ("presidents-day", "President's Day", "Third Monday in February", None),
+    ("memorial-day", "Memorial Day", "Last Monday in May", None),
+    ("independence-day", "Independence Day", "July 4 (legally observed)", _ACTUAL),
+    ("labor-day", "Labor Day", "First Monday in September", None),
+    ("veterans-day", "Veterans Day", "November 11 (legally observed)", _NEAREST),
+    ("thanksgiving", "Thanksgiving Day", "Fourth Thursday in November", None),
+    ("christmas", "Christmas Day", "December 25 (legally observed)", _ACTUAL),
 )
 
 
@@ -568,8 +575,9 @@ def _calendar(version_id: str, holidays) -> dict:
         "@id": f"{version_id}-holidays",
         "urpx:hasHoliday": [
             {"@type": "urpx:Holiday", "@id": f"{version_id}-holiday-{slug_}",
-             "urpx:holidayName": name, "urpx:holidayRule": rule}
-            for slug_, name, rule in holidays],
+             "urpx:holidayName": name, "urpx:holidayRule": rule,
+             **({"urpx:observanceRule": {"@id": obs}} if obs else {})}
+            for slug_, name, rule, obs in holidays],
     }
 
 

@@ -135,9 +135,11 @@
    ;; schedules (E-TOU-D, E-19, E-20, A-10, EV, S) each define them as New
    ;; Year's Day, President's Day, Memorial Day, Independence Day, Labor Day,
    ;; Veterans Day, Thanksgiving Day, and Christmas Day: "The dates will be
-   ;; those on which the holidays are legally observed." July 4, 2026 is a
-   ;; Saturday, observed Friday July 3 under the federal rule.
-   "pge:nbt"         #{"2026-01-01" "2026-02-16" "2026-05-25" "2026-07-03"
+   ;; those on which the holidays are legally observed." That is California
+   ;; Government Code 6701, which moves no Saturday holiday but November 11, so
+   ;; Saturday July 4, 2026 stays on the Saturday and Friday July 3 is an
+   ;; ordinary weekday.
+   "pge:nbt"         #{"2026-01-01" "2026-02-16" "2026-05-25" "2026-07-04"
                        "2026-09-07" "2026-11-11" "2026-11-26" "2026-12-25"}})
 
 (defn- calendar-violations

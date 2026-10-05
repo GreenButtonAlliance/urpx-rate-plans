@@ -239,6 +239,54 @@ def test_copies(tmp: Path) -> None:
     check("CLI refuses (3) a directory that is not a filing", cli(tmp) == 3)
 
 
+# The deferrals each NBT filing carried before its calendar landed (8c7243e^,
+# fdf9262^), cut to the clause that says the calendar or flags are absent.
+STALE_TEXTS = {
+    "pge": "The 576 TimeBrackets distinguish only urpx:weekdayDays and urpx:weekendDays "
+           "and the filing carries no HolidayCalendar, so a holiday falling on a weekday "
+           "resolves to the weekday cell.",
+    "sce": "Sheet 5 differentiates the Energy Export Credit Price by weekday versus "
+           "weekend/holiday, but all 576 TimeBrackets in this modifier carry urpx:dayType "
+           "alone, so an SCE holiday falling Monday through Friday resolves to the weekday "
+           "export price.",
+    "sdge": "Energy Export Credit is differentiated by weekday versus weekend/holiday but "
+            "this document declares no holiday calendar.",
+}
+
+
+def test_stale_deferrals(tmp: Path) -> None:
+    print("\nStale deferrals: a calendar is present, a deferral says it is not")
+    for text in STALE_TEXTS.values():
+        check(f"absent: {text[:44]!r}", bool(L.CALENDAR_ABSENT.search(text)))
+    for text in ("SCE's Sunday-to-Monday holiday observance is not modeled.",
+                 "The 8 Holidays in this filing's calendar carry that provision only inside a "
+                 "holidayRule parenthetical",
+                 "add one further urpx:Holiday with urpx:holidayName and an explicit "
+                 "urpx:holidayDate for each Monday the rule creates, which the calendar then carries",
+                 "Holidays enter only the SmartDay event trigger"):
+        check(f"not absent: {text[:44]!r}", not L.CALENDAR_ABSENT.search(text))
+
+    d = copy_filing(tmp / "s1", "pge", "nbt", "2025-10-17")
+    add_deferral(d, STALE_TEXTS["pge"])
+    r = L.check_filing(d)
+    check("pge nbt, carrying its calendar, with its old deferral planted is STALE-DEFERRAL",
+          r["status"] == "stale-deferral" and r["absent_deferrals"] == [1], str(r))
+    check("CLI exits 1 on it", cli(d) == 1)
+    edit_documents(d, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
+    check("with the calendar removed it is not a stale deferral but MISSING, the cut text "
+          "stating no holiday rule to cover", status(d) == "missing", status(d))
+
+    for util, sched, date in (("sce", "nbt", "2025-04-23"), ("sdge", "nbt", "2025-01-27")):
+        d = copy_filing(tmp / f"s-{util}", util, sched, date)
+        add_deferral(d, STALE_TEXTS[util])
+        check(f"{util} nbt, inheriting its base's calendar, with its old deferral is STALE-DEFERRAL",
+              status(d) == "stale-deferral", status(d))
+
+    d = copy_filing(tmp / "s4", "pge", "e-tou-d", "2026-03-27")
+    check("e-tou-d with its Sunday-observance deferral stays CALENDAR",
+          status(d) == "calendar", status(d))
+
+
 def test_corpus() -> None:
     print("\nThe live corpus")
     p = subprocess.run([sys.executable, str(LINT), "--json"], capture_output=True, text=True)
@@ -246,6 +294,8 @@ def test_corpus() -> None:
     res = json.loads(p.stdout) if p.returncode in (0, 1) else []
     n = sum(r["status"] == "calendar" for r in res)
     check("it checks a non-trivial number of calendars", n >= 10, f"only {n}")
+    stale = [r["filing"] for r in res if r["status"] == "stale-deferral"]
+    check("no filing carries a stale holiday deferral", not stale, str(stale))
     own = [r["status"] for r in res if r["filing"] == "pge/nbt/2025-10-17"]
     check("pge nbt carries its own calendar", own == ["calendar"], str(own))
     inherited = sorted(r["filing"] for r in res if r["status"] == "inherited")
@@ -258,6 +308,7 @@ if __name__ == "__main__":
     test_calendar_walk()
     with tempfile.TemporaryDirectory() as tmp:
         test_copies(Path(tmp))
+        test_stale_deferrals(Path(tmp))
     test_corpus()
     print()
     if failures:

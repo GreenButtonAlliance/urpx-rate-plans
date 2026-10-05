@@ -44,6 +44,17 @@ A FILING SATISFIES IT when one of these holds:
              that no longer fires a signal, or now carries a calendar, fails as
              stale.
 
+A STALE DEFERRAL fails a filing that satisfies CALENDAR or INHERITED while a
+[modeling].deferrals entry still says the calendar or the holiday flags are
+absent, matching CALENDAR_ABSENT: "no HolidayCalendar", "no holiday calendar",
+"no urpx:hasHolidayCalendar", "no holiday flag(s)", brackets carrying "urpx:dayType
+alone", or "holidays are not
+modeled" and its "holiday calendar is not carried" forms. Deferrals about what a
+present calendar does not yet express (a Sunday-to-Monday observance, dated
+Holidays still to add) name the calendar or the holidays without saying either
+is absent, and pass: "SCE's Sunday-to-Monday holiday observance is not modeled"
+is about the observance, not the holidays.
+
 Exit codes: 0 clean, 1 a violation, 3 the harness could not answer.
 
 Usage:
@@ -74,6 +85,11 @@ HOLIDAY_RULE = (
 )
 INCLUSIVE = re.compile(r"\bincluding\s+(?:[\w']+\s+){0,2}$", re.I)
 NAMES_CALENDAR = re.compile(r"calendar", re.I)
+CALENDAR_ABSENT = re.compile(
+    r"\bno\s+(?:urpx:)?(?:HolidayCalendar|hasHolidayCalendar|holiday\s+calendar)\b"
+    r"|\bno\s+holiday\s+flags?\b|\b(?:urpx:)?dayType\s+alone\b"
+    r"|\b(?:holidays|holiday\s+calendar|HolidayCalendar)\s+(?:is|are)\s+not\s+(?:modeled|carried)\b",
+    re.I)
 
 HOLIDAY_FLAGS = ("urpx:includeHolidays", "urpx:includeNonHolidays")
 CALENDAR_NODE_TYPES = {"urpx:HolidayCalendar", "urpx:Holiday"}
@@ -220,6 +236,7 @@ def check_filing(d: Path, bases: dict | None = None) -> dict:
                  ((manifest.get("modeling") or {}).get("deferrals") or [])]
     covering = [i + 1 for i, t in enumerate(deferrals)
                 if NAMES_CALENDAR.search(t) and any(not m[2] for m in rule_matches(t))]
+    absent = [i + 1 for i, t in enumerate(deferrals) if CALENDAR_ABSENT.search(t)]
 
     is_modifier = not any(p.name.startswith("rate-plan_") for p in docs_paths)
     key = filing_key(d)
@@ -243,13 +260,16 @@ def check_filing(d: Path, bases: dict | None = None) -> dict:
         status = "deferred"
     else:
         status = "missing"
+    if status in ("calendar", "inherited") and absent:
+        status = "stale-deferral"
     return {"filing": key, "status": status, "flags": s["flags"], "rule": rule,
             "spared": spared, "holidays": s["holidays"], "calendars": s["calendars"],
-            "covering_deferrals": covering, "modifier": is_modifier,
+            "covering_deferrals": covering, "absent_deferrals": absent,
+            "modifier": is_modifier,
             "base_calendars": base_calendars}
 
 
-FAILING = ("missing", "stale-allowlist")
+FAILING = ("missing", "stale-allowlist", "stale-deferral")
 
 
 def run(dirs: list[Path], whole_corpus: bool = True) -> list[dict]:
@@ -283,6 +303,11 @@ def report(results: list[dict], verbose: bool) -> int:
                        f" would excuse a modifier)" if r["covering_deferrals"] else ""))
             print(f"MISSING  {r['filing']}: states a holiday rule ({'; '.join(why)}) and "
                   f"carries no urpx:HolidayCalendar with a urpx:Holiday{tail}", file=sys.stderr)
+        elif r["status"] == "stale-deferral":
+            print(f"STALE    {r['filing']}: "
+                  + ("carries a urpx:HolidayCalendar" if r["holidays"] else "inherits its base's calendar")
+                  + f" but deferral {', '.join('#' + str(i) for i in r['absent_deferrals'])} "
+                  "still says the calendar or holiday flags are absent", file=sys.stderr)
         else:
             print(f"STALE    {r['filing']}: on ALLOWLIST but "
                   + ("now carries a calendar" if r["holidays"] else "fires no signal"),

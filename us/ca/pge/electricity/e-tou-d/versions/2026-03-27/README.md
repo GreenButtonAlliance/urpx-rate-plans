@@ -39,18 +39,20 @@ The "5-8 p.m. peak applies on weekdays except holidays" requirement is expressed
 
 The eight named PG&E holidays are embedded in the data as a `urpx:HolidayCalendar` (`pge:holidays-e-tou-d`) under `PlanElements`, each `urpx:Holiday` carrying a `holidayName` and a human-readable `holidayRule` (e.g. "Third Monday in February"):
 
-| Holiday | Rule |
-|---|---|
-| New Year's Day | January 1 (legally observed) |
-| President's Day | Third Monday in February |
-| Memorial Day | Last Monday in May |
-| Independence Day | July 4 (legally observed) |
-| Labor Day | First Monday in September |
-| Veterans Day | November 11 (legally observed) |
-| Thanksgiving Day | Fourth Thursday in November |
-| Christmas Day | December 25 (legally observed) |
+| Holiday | Rule | Observance |
+|---|---|---|
+| New Year's Day | January 1 (legally observed) | `urpx:actualDateObservance` |
+| President's Day | Third Monday in February | |
+| Memorial Day | Last Monday in May | |
+| Independence Day | July 4 (legally observed) | `urpx:actualDateObservance` |
+| Labor Day | First Monday in September | |
+| Veterans Day | November 11 (legally observed) | `urpx:nearestWeekdayObservance` |
+| Thanksgiving Day | Fourth Thursday in November | |
+| Christmas Day | December 25 (legally observed) | `urpx:actualDateObservance` |
 
-A consuming application that recognizes these rule strings (or maps them to dates) can evaluate the bracket-level `includeHolidays` / `includeNonHolidays` correctly without external configuration. clj-urpx ≤ 0.3.0 still requires a runtime `:holiday?` predicate (it doesn't yet read the embedded calendar) — surfacing this calendar from the data is a follow-up clj-urpx enhancement.
+"Legally observed" is read as California Government Code section 6701, which moves a Sunday January 1, July 4, November 11 or December 25 to Monday and, of the Saturday ones, moves only November 11, to Friday. The explicit `urpx:observanceRule` takes precedence over the rule string's parenthetical. Veterans Day's nearest-weekday observance is exactly 6701 for November 11. The other three stay on their actual dates, so the Monday after a Sunday one is not yet a holiday; `tariff.toml` records it as a deferral.
+
+A consuming application that recognizes these rule strings and observance rules (or maps them to dates) can evaluate the bracket-level `includeHolidays` / `includeNonHolidays` correctly without external configuration.
 
 ## Validation
 
