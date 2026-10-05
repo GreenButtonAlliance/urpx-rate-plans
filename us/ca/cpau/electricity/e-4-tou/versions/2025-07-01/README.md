@@ -82,7 +82,8 @@ The following sections of the published Schedule E-4 TOU are **not modeled in th
 
 - **Section D.5 Primary Voltage Discount** — 2.5% discount for customers taking service at the supply line voltage when above 2 kV. Modeling: a conditional discount `Price` gated by an `ApplicabilityGroup` whose `ConditionExpression` checks a custom `serviceVoltage_kV > 2` predicate.
 - **Section D.7 Standby Charge** — separate per-kW summer/winter charges ($46.58/kW summer, $23.49/kW winter) for customers with non-utility on-site generation, with eligibility conditions (D.7.a) and several exemption clauses (D.7.e — backup-only generators, NEM-eligible customer-generators). Effectively a separate set of `PriceDefinition`s gated by an `EligibilityRule` on `Customer.hasGenerator` plus exemption logic.
-- **Section D.4 12-month minimum commitment** — customers electing E-4 TOU must remain on the schedule for at least 12 months. URPX has no native vocabulary for minimum-term commitments; possible upstream issue against `urpx-org/urpx`.
+
+Section D.4's 12-month minimum commitment (customers electing E-4 TOU must remain on the schedule for at least 12 months) is modeled, as `urpx:minimumTenure` `"P12M"` on the RatePlanVersion.
 
 (Section D.3 demand-meter installation rule — install demand meter when monthly use > 8000 kWh for 3 consecutive months, remove after 12 months < 6000 kWh — is a metering operations rule, not a rate, and is intentionally not modeled.)
 

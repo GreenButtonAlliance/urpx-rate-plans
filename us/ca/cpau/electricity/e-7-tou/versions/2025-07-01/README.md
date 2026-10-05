@@ -52,7 +52,8 @@ Same site-aggregation feature as E-7. URPX has no native vocabulary; noted but n
 
 - **Section D.6 Primary Voltage Discount** (2.8%) — urpx-org/urpx#24. *Rate is 2.8% here vs 2.5% on E-4 / E-4 TOU; per-schedule variance to handle.*
 - **Section D.7 Standby Charge** ($40.79/kW summer, $27.75/kW winter) — urpx-org/urpx#25. *Rates differ from E-4 TOU ($46.58 / $23.49); schedule-specific.*
-- **Section D.5 12-month minimum commitment** — urpx-org/urpx#22 (upstream URPX vocabulary issue: URPX has no native vocabulary for minimum-term commitments).
+
+Section D.5's 12-month minimum commitment is modeled, as `urpx:minimumTenure` `"P12M"` on the RatePlanVersion.
 
 (No TES carve-out: TES exception is on the non-TOU schedules only — E-4 and E-7.)
 

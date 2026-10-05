@@ -58,34 +58,25 @@ Net-metering billing rule (in description prose):
  - Credits roll forward (excluding Taxes and Minimum Charges) until
  consumed; balance zeroes at termination
 
-## URPX vocabulary gap
+## Export credit
 
-The actual NEM credit value depends on which base rate (R-1A or R-1B)
-the customer is on, what tier (R-1A's Z1/Z2 × Tier 1/2/3) or TOU
-period (R-1B's High Peak / Low Peak / Base), and what season. Naming
-that base price is itself expressible: urpx:basedOnPrice is
-constrained only to resolve to a urpx:Price or urpx:PriceSummary in
-the validated graph, with nothing scoping it to the referring
-document. What we have not found is a way to scope a per-base-plan
-credit to the plan it mirrors. Mirroring each base price with its own
-credit validates, but the R-1(B) credits go active with nothing to
-resolve against when the rider composes against R-1(A), and the R-1(A)
-credits do the same the other way round. Tracked at urpx-org/urpx
-discussion #63 (the several-base-plans scoping question).
+The NEM credit value depends on which base rate (R-1A or R-1B) the
+customer is on, what tier (R-1A's Z1/Z2 × Tier 1/2/3) or TOU period
+(R-1B's High Peak / Low Peak / Base), and what season. The shape for
+the narrower reading is settled at urpx-org/urpx discussion #63,
+closed: one credit Price per base energy Price, each carrying
+urpx:multiplier -1 and a single urpx:basedOnPrice, so a credit written
+against the base the customer does not take comes back as an
+unresolved reference. That is 18 cells. The filing carries the
+credit's PriceDefinition and no Price, because the rider prices the
+credit by "the applicable Rate Schedule energy pricing", which the
+ordinance leaves undefined, and the readings it admits need different
+shapes; the [modeling] deferrals set them out.
 
-For SHACL conformance, the modifier carries one PriceDefinition
-(NEM Net Metering Credit, chargeType creditEnergy) with a placeholder
-Price unitPrice="0". Consumers (price-server) computing actual credits
-must reference the customer's base rate at billing time. Description
-prose documents the rule clearly.
-
-A future filing version will replace the placeholder Price with structured credits. Discussion #63 has settled how to scope them, one credit Price per base energy Price each naming a single urpx:basedOnPrice, so what remains is writing the 18 cells rather than waiting on an answer. Discussion #34, cited here previously, is the
-percentage-of-bill discount question, answered by urpx:multiplier over
-a urpx:basedOnPrice list read as candidate bases and shipped by the
-SCE and SDG&E CARE and FERA modifiers. That shape does not reach this
-case: each NEM credit is bound by construction to one specific base
-price, so listing R-1(B)'s prices as alternative candidates for an
-R-1(A) credit would assert a correspondence that does not exist.
+Each NEM credit is bound by construction to one specific base price,
+so it names one basedOnPrice. The urpx:multiplier over a list of
+candidate bases that the SCE and SDG&E CARE and FERA modifiers ship
+(discussion #34) answers the percentage-of-bill discount instead.
 
 ## Cross-utility consistency
 
@@ -113,7 +104,7 @@ deferrals = [
  "\"Applicable Rate Schedule energy pricing\" (Section 3.b, sheet 21) is undefined and is what holds the credit. The phrase occurs exactly once in the 88-page ordinance, in that sentence, and matches no term the tariff defines; \"Rate Schedule\" is undefined too. Six independent readings of the source were taken on 2026-09-23 and none settles it, with the evidence two-sided rather than convergent. Toward the Energy Charge alone: the Definitions make an Energy Charge \"that portion of the bill for electric service based upon the electric energy (kilowatt-hours) consumed\" while the ECA and the ESA are each \"an addition to the amount of the bill\", so the two are definitionally disjoint, and Schedule LS-1 uses \"energy price\" for a charge that excludes the adjustments. Toward the fuller rate: Schedule R-1 bills \"the sum of parts (1) through (4)\", parts 2 to 4 being those adjustments as numbered per-kWh entries of the Rate Schedule itself, and LADWP's own 2015 Power System Rate Action Report says NEM offsets load \"at the full retail rate for the energy\". A third reading was found and is covered by neither: Schedule R-1 Section 4.b sends parallel generators supplying beyond full offset to the Standard Energy Credit under Schedule CG-2, which the Definitions fix at the Department's estimated hourly marginal production costs rather than any retail rate, and the rider never displaces that clause for R-1 customers. On ladwp:r-1a at the April 2026 factors the first two readings are 0.07142 per kWh against 0.24362. LADWP publishes nothing that resolves it: the NEM Guidelines paraphrase Section 3.a and drop the credit sentence, the Understanding Solar Billing section is an empty heading, and the archived rates FAQ answers which bill lines a banked balance offsets rather than what an exported kWh is worth, giving different answers for R-1A and R-1B. The cheapest thing that would settle it is one number from one bill: a redacted R-1A net-metering bill, or a written answer from LADWP, for a month whose factors this corpus holds. A source question, not a URPX vocabulary question.",
  "The credit carries no Price, deliberately, so composing this rider with either base plan yields no export credit rather than a wrong one. Until 2026-09-23 this filing shipped one Price at unitPrice \"0\" for the credit, and that zero was not inert: a Price carrying a unit price of 0 prices the export credit at 0.00 per kWh, which is not one of the candidate readings above and is wrong under all of them. Removing it costs discoverability and buys the absence of a number nobody should bill from. The rider's declaration of the credit, its reverse-flow metric input, its ledger and its price definition all remain in the document, so a reader still finds the provision and this manifest says why it is unpriced.",
  "Section 3.b also suspends charges: in any billing period where generation exceeds consumption, \"all applicable monthly billing charges, except energy related charges or charges based upon kWh, shall apply\" (sheet 21). Nothing in this filing conditions any base charge on net flow, and the version description narrows the provision to the energy charges alone. The provision is inherently conditional on the period's net flow, and neither placement available in this filing expresses that condition: built as offsetting Prices with multiplier -1 and basedOnPrice on a forward-flow ledger, it was measured to drive ladwp:r-1a's marginal from 0.24362 to 0.00000, zeroing the entire energy bill for every R-1A customer whether or not they generate; placed on the existing reverse-flow ledger it never reaches the import energy charges it is meant to suspend, so it does nothing. Do not build this until the net-flow condition itself can be expressed. Open reading question inside the item: whether ladwp:r-1a's tier-varying Power Access Charge is a charge \"based upon kWh\".",
- "Section 3.c credit carry-forward, sheet 21: an unconsumed credit balance is applied to each subsequent bill except Taxes and Minimum Charges, and any remainder is zeroed at termination of service with no further compensation. We have not found a way to state a carried balance in URPX v0.5.1. urpx:settlementInterval (domain Ledger, range xsd:duration, \"Period over which ledger balances are settled\") and urpx:hasBillingCycle exist, a full-text scan for carry, rollover, banked or balance vocabulary turns up nothing else, and no filing in this corpus uses any of them. An open-ended carry-forward is not a finite settlement window, so settlementInterval does not say it. Raise upstream rather than modeling around it.",
+ "Section 3.c credit carry-forward, sheet 21: an unconsumed credit balance is applied to each subsequent bill except Taxes and Minimum Charges, and any remainder is zeroed at termination of service with no further compensation. URPX v0.5.1 has no term for a carried balance. urpx:settlementInterval (domain Ledger, range xsd:duration, \"Period over which ledger balances are settled\") states a finite settlement window, and an open-ended carry-forward is not one; LedgerShape and BillingCycleShape are sh:closed and none of their other properties names a balance, and a full-text scan for carry, rollover, banked or balance vocabulary turns up nothing else. Raise upstream rather than modeling around it.",
  "Section 3.d per-meter confinement, sheet 21: \"Credit balances will only be applied to the bill associated with the meter that measured the Excess Energy.\" The provision appears nowhere in this filing, in structure or in prose. URPX carries no account or meter identity at which to scope a balance; the ontology's skos:note on urpx:AccountServiceAgreement says service account and agreement data lives in customer data, not URPX. A consumer aggregating NEM credits across a multi-meter premises would be wrong and nothing here says otherwise.",
  "The net measurement basis, Sections 2.a, 2.b and 3.a, sheet 20: \"Net Energy Metering means measuring the difference between the electricity supplied from the electric grid and the electricity generated on the Customer's premises\", accomplished \"by measuring the flow of electricity in two directions\", after which \"the customer shall be billed for the net energy supplied under the customer's currently applicable rate.\" The rider's central definition is not in the model. URPX names this case: urpx:net is defined \"Net energy flow - net of consumption and generation\", and urpx:flowDirection's skos:note reads \"forward (consumption/import), reverse (generation/export), net (net metering), or bidirectional. Critical for DER and net metering scenarios.\" This filing models a single MetricInput at flowDirection urpx:reverse, and the corpus census is 20 forward, 13 reverse, 0 net, 0 bidirectional. So a reader of this modifier finds an unpriced export input and never learns that the base schedule's charges apply to a netted quantity rather than to gross consumption. The vocabulary exists; whether a netted quantity belongs in an import energy total is unsettled, so switching this MetricInput to urpx:net is not a clean fix.",
  "Service Rider NEM Section 2.d Green Power election: the customer may elect to purchase Green Power under Service Rider REO for net energy supplied by the Department. Carried in description prose only, with no structural representation in this filing.",
@@ -122,4 +113,4 @@ deferrals = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "First LADWP RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, single Price. The Price is a placeholder (unitPrice='0'), and the reason recorded here was wrong. It said we had found no way to scope a per-base-plan credit across the rider's two bases (r-1a, r-1b). Discussion #63 is CLOSED and settled the opposite way from what this note assumed: PriceShape's sh:xone admits a Price carrying urpx:basedOnPrice and urpx:multiplier with no urpx:unitPrice, and sce:care-price-bill-discount-2026-03-20 in this corpus already ships exactly that. One credit Price per base energy Price, each naming a single basedOnPrice, self-scopes: a credit written against the other base plan comes back as an unresolved reference rather than resolving to the wrong number. So this is unbuilt enumeration, not an unexpressible shape, and the placeholder stays only until someone writes the cells. 18 cells for this filing. It stays unbuilt and declared, not quietly reclassified as done. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."
+notes = "First LADWP RatePlanModifier filing. Pattern reference: us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/ for the standalone-modifier filing structure with reverse-flowDirection MetricInput. Smallest modifier filing in the corpus to date — single Eligibility Rule (3-way AND for customer-generator + bidirectional meter + ≤1MW capacity), single MetricInput, single Ledger, single PriceDefinition, and no Price. Discussion #63, closed, settled the credit's shape across the rider's two bases (r-1a, r-1b): PriceShape's sh:xone admits a Price carrying urpx:basedOnPrice and urpx:multiplier with no urpx:unitPrice, as sce:care-price-bill-discount-2026-03-20 ships, and one credit Price per base energy Price, each naming a single basedOnPrice, self-scopes. The 18 cells wait on which base price the rider's undefined 'applicable Rate Schedule energy pricing' means, recorded in [modeling] deferrals. ~140K LADWP solar customers — highest-customer-count electrification-targeted modifier in the electrification effort."

@@ -83,11 +83,14 @@ window falls within.
  in prose. URPX has no structured vocabulary for vehicle-licensing-
  status conditions. Consumer determines vehicle-licensure status
  at customer attestation time.
- - Composition with R-TOD rate categories (RT02 / RTL1 / RTC1)
- — described in prose. URPX has no vocabulary for 'this modifier
- applies on top of one of N specific RatePlans.' Consumer composes
- PEV-CREDIT with the customer's specific R-TOD rate category at
- billing time.
+ - Composition with R-TOD rate categories (RT02 / RTL1 / RTC1).
+ urpx:applicableToRatePlan names smud:tod-5-8pm (RT02) and
+ smud:tod-low-use (RTL1). RTC1 is smud:cpp, a RatePlanModifier on
+ those same two bases, and applicableToRatePlan admits only a
+ urpx:RatePlan (sh:class on RatePlanModifierVersionShape), so naming
+ smud:cpp fails validation. An RTC1 customer reaches this credit by
+ holding both modifiers on one base, and URPX states nothing about
+ which modifiers may be held together (urpx-org/urpx#78).
  - Conventional charge-sustaining HEV ineligibility — described in
  prose. URPX's urpx:evChargingDER lumps BEV+PHEV together and does
  not distinguish from charge-sustaining hybrids; Sec II.D's

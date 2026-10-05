@@ -101,21 +101,21 @@ listing on PRIME is informational, not exclusive.
 ## Modeling deferrals
 
  1. **$5.00 effective Minimum Charge**: Schedule MB-E says "the
- effective Minimum Charge will be $5.00". URPX has chargeType
- `urpx:minimumBill` but the per-day vs per-month minimum-charge
- mechanic for residential isn't a standard primitive. The base
- SCE residential filings don't currently model a Minimum Charge
- (the BSC effectively replaced the older Basic Charge + Minimum
- Charge structure per Decision 24-05-028). Deferred until base
- filings model Minimum Charge OR until URPX vocabulary clarifies
- the per-day-vs-monthly minimum-charge shape.
+ effective Minimum Charge will be $5.00". Buildable at v0.5.1 as a
+ PriceDefinition with chargeType `urpx:minimumCharge` and a
+ CalculationMethod carrying `urpx:intervalDuration`, which conforms
+ in the merged SCE graph. The sheet states no period, so reading
+ $5.00 as monthly is an inference. The floor arithmetic has no URPX
+ expression, so such a Price records the amount and enforces nothing.
 
  2. **Medical Baseline allocation extension** (extra kWh in the
  baseline tier per Preliminary Statement Part H): Sheet MB-E
  references "medical baseline allocation" but the kWh values
- are in Pre-Statement Part H. Same vocabulary gap as the
- HPWH baseline modifier — URPX has no allocation-
- extension primitive. Deferred.
+ are in Pre-Statement Part H. ServiceBracket bounds are
+ `xsd:decimal` literals on a sh:closed ServiceBracketShape, so an
+ additive allowance cannot be stated as a delta on the base plan's
+ baseline. The HPWH baseline modifier has the same gap, open
+ upstream as urpx-org/urpx discussion #32. Deferred.
 
  3. **Closed-schedule Minimum Charge reduction**: TOU-D Sheets 8/9
  (closed Option A) and Sheets 10/11 (closed Option B) have

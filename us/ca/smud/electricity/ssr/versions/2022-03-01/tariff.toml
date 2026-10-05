@@ -94,24 +94,23 @@ rate ($0.0740/kWh) — modeled as a standard PriceDefinition + Price
 with chargeType=urpx:creditEnergy, sign convention -0.07400 (negative
 unitPrice for a credit, mirroring CPAU E-EEC-1's pattern).
 
-NOT a vocabulary gap (unlike LADWP NEM and SMUD NEM1 which use a
-'computed at customer's base rate' semantic). SSR's flat per-kWh
-export rate is concrete and fully expressible in URPX v0.2.0.
+SSR's export rate is a flat per-kWh value stated in the schedule.
 
 ## Modeling deferrals
 
- - 'Residential customer must be on R-TOD' constraint (Sheet 2.IV.A.6)
- — described in prose only. URPX has no vocabulary for cross-
- RatePlan eligibility (i.e., 'this modifier requires the customer
- to also be on RatePlan X'). Consumer (price-server) handles SSR+R-TOD
- composition at billing time.
+ - 'Residential customer must be on R-TOD' constraint (Sheet 2.IV.A.6):
+ carried by urpx:applicableToRatePlan, which names the two R-TOD
+ bases, smud:tod-5-8pm and smud:tod-low-use.
  - 110%-of-own-consumption sizing constraint (Sheet 2.IV.A.4) —
  described in prose. Captures the customer-design constraint at
  interconnection time, not a per-bill applicability rule.
- - Post-March-1-2022 cutoff (Sheet 1.I) — described in prose. URPX has
- no vocabulary for 'customer must have been approved on/after date X'
- enrollment-history conditions. Consumer determines SSR-vs-NEM1
- placement based on customer interconnection-approval date.
+ - Post-March-1-2022 cutoff (Sheet 1.I), described in prose. URPX
+ has no interconnection-approval-date term, and the cutoff is
+ expressible as an EligibilityRule comparing a urpx:CustomOperandNode
+ "Interconnection application approval date" with 2022-03-01 under
+ urpx:greaterThanOrEqualOperator, the mirror of
+ smud:er-nem1-pre-2022-interconnection in the NEM1 filing; that form
+ conforms against the v0.5.1 shapes in the merged SMUD graph.
  - Generator standby charge waiver (Sheet 1.III) — Standby Charge
  is published in the base R-TOD schedule (Sheet R-TOD-3 / R-3);
  the SSR waiver applies at composition time. Modeling deferred.
@@ -132,8 +131,7 @@ SMUD's SSR is the analog of:
  flat per-kWh credit; CPAU's value is $-0.12060)
 
 Of the ~13 publicly-listed CA customer-generation programs, SSR is
-the cleanest to model in URPX v0.2.0 because it has a concrete flat
-export rate (no 'computed at base rate' vocab gap).
+the cleanest to model because its export rate is a flat stated value.
 """
 
 # Validation ------------------------------------------------------------------

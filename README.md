@@ -71,7 +71,7 @@ Three levels, and the distinction is about whether a bill comes out right, not a
 
 - **Models the published rate-of-record.** The bill calculation for the typical residential case is correct. Most of these carry a minor deferral of their own, recorded in that filing's `tariff.toml [modeling].deferrals`.
 - **Substantial economic effect deferred to prose.** Something a customer would notice on the bill is described in the filing's prose rather than computed: SMUD EAPR's income-tier usage discount, and event-day evaluation on the two CPP filings, which needs caller-supplied event state.
-- **Placeholder price.** LADWP NEM and SMUD NEM1 compensate exported energy at the customer's own applicable base-rate energy charge. Both carry a `Price` of `0` for SHACL conformance and a coverage claim saying that zero must not be read as a zero-value export. The shape that replaces it exists in v0.5.1 and this corpus already ships it elsewhere: one credit `Price` per base energy `Price`, each naming a single `urpx:basedOnPrice` with a `urpx:multiplier` and no `urpx:unitPrice`. That is 18 cells for LADWP and 12 for SMUD of unbuilt enumeration, listed in [MODELING-GAPS.md](./MODELING-GAPS.md).
+- **Unpriced export credit.** LADWP NEM compensates exported energy at "the applicable Rate Schedule energy pricing", a phrase its ordinance leaves undefined, and carries the credit's `PriceDefinition` with no `Price` until a source settles which base price that means. The shape is settled: one credit `Price` per base energy `Price`, each naming a single `urpx:basedOnPrice` with a `urpx:multiplier` of -1 and no `urpx:unitPrice`. SMUD NEM1 ships its twelve cells that way; LADWP's 18 are listed in [MODELING-GAPS.md](./MODELING-GAPS.md).
 
 Where the rest is answered:
 

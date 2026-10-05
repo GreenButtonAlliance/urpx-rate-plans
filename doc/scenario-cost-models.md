@@ -71,7 +71,7 @@ graph TB
     style A3 fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
 ```
 
-Which modifier sets may sit on one base is a policy, because nothing in URPX states that two modifiers exclude or combine. This corpus enumerates the base alone and the base plus exactly one modifier (`COMBINE_AT_MOST_ONE_MODIFIER` in `dev/scenario_cost_models.py`); clj-urpx's `urpx.scenario-cost-model` calls the same policy `one-modifier-at-most`.
+Which modifier sets may sit on one base is a policy, because nothing in URPX states that two modifiers exclude or combine (urpx-org/urpx#78). This corpus enumerates the base alone and the base plus exactly one modifier (`COMBINE_AT_MOST_ONE_MODIFIER` in `dev/scenario_cost_models.py`); clj-urpx's `urpx.scenario-cost-model` calls the same policy `one-modifier-at-most`.
 
 ## What makes two distinct
 
