@@ -24,10 +24,12 @@ A FILING SATISFIES IT when one of these holds:
 
   CALENDAR   a document attaches urpx:hasHolidayCalendar whose calendar carries
              at least one urpx:hasHoliday, inline or by @id in the same filing.
-  DEFERRAL   a [modeling].deferrals entry itself matches HOLIDAY_RULE and names
-             the calendar ("no HolidayCalendar", "no holiday calendar", "carries
-             no Calendar"). That is a recorded decision not to model it, and the
-             filing is listed on every run so the decision stays visible.
+  DEFERRAL   the filing is a RatePlanModifier (its directory holds no
+             rate-plan_*.jsonld), and a [modeling].deferrals entry itself matches
+             HOLIDAY_RULE and names the calendar ("no HolidayCalendar", "no
+             holiday calendar"). The filing is listed on every run so the
+             decision stays visible. A base RatePlan cannot defer: one that
+             states a holiday rule carries a calendar.
   ALLOWLIST  the filing is in ALLOWLIST, with the reason stated there. An entry
              that no longer fires a signal, or now carries a calendar, fails as
              stale.
@@ -167,6 +169,7 @@ def check_filing(d: Path) -> dict:
     covering = [i + 1 for i, t in enumerate(deferrals)
                 if NAMES_CALENDAR.search(t) and any(not m[2] for m in rule_matches(t))]
 
+    is_modifier = not any(p.name.startswith("rate-plan_") for p in docs_paths)
     key = filing_key(d)
     states = bool(s["flags"] or rule)
     has_calendar = s["holidays"] > 0
@@ -176,13 +179,13 @@ def check_filing(d: Path) -> dict:
         status = "stale-allowlist" if key in ALLOWLIST else "calendar"
     elif key in ALLOWLIST:
         status = "allowlisted"
-    elif covering:
+    elif covering and is_modifier:
         status = "deferred"
     else:
         status = "missing"
     return {"filing": key, "status": status, "flags": s["flags"], "rule": rule,
             "spared": spared, "holidays": s["holidays"], "calendars": s["calendars"],
-            "covering_deferrals": covering}
+            "covering_deferrals": covering, "modifier": is_modifier}
 
 
 FAILING = ("missing", "stale-allowlist")
@@ -209,9 +212,12 @@ def report(results: list[dict], verbose: bool) -> int:
                 why.append(f"{r['flags']} includeHolidays/includeNonHolidays flag(s)")
             if r["rule"]:
                 why.append("text: " + ", ".join(repr(x) for x in r["rule"][:4]))
+            tail = (", and no [modeling].deferrals entry records that" if r["modifier"] else
+                    "; a base RatePlan cannot defer it"
+                    + (f" (deferral {', '.join('#' + str(i) for i in r['covering_deferrals'])}"
+                       f" would excuse a modifier)" if r["covering_deferrals"] else ""))
             print(f"MISSING  {r['filing']}: states a holiday rule ({'; '.join(why)}) and "
-                  f"carries no urpx:HolidayCalendar with a urpx:Holiday, and no "
-                  f"[modeling].deferrals entry records that", file=sys.stderr)
+                  f"carries no urpx:HolidayCalendar with a urpx:Holiday{tail}", file=sys.stderr)
         else:
             print(f"STALE    {r['filing']}: on ALLOWLIST but "
                   + ("now carries a calendar" if r["holidays"] else "fires no signal"),

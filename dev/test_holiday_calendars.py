@@ -85,6 +85,18 @@ def drop_deferral(d: Path, needle: str) -> None:
     assert len(after) == len(before) - 1, "deferral to drop not found on one line"
 
 
+def add_deferral(d: Path, text: str) -> None:
+    t = d / "tariff.toml"
+    before = corpus.load_toml(t)["modeling"]["deferrals"]
+    src = t.read_text()
+    if "deferrals = []" in src:
+        src = src.replace("deferrals = []", f"deferrals = [{json.dumps(text)}]", 1)
+    else:
+        src = src.replace("deferrals = [", f"deferrals = [\n {json.dumps(text)},", 1)
+    t.write_text(src)
+    assert len(corpus.load_toml(t)["modeling"]["deferrals"]) == len(before) + 1
+
+
 def status(d: Path) -> str:
     return L.check_filing(d)["status"]
 
@@ -161,11 +173,21 @@ def test_copies(tmp: Path) -> None:
     drop_deferral(d, "Sheet 5 differentiates the Energy Export Credit Price")
     check("sce nbt without that deferral is MISSING", status(d) == "missing", status(d))
 
-    d = copy_filing(tmp / "e", "sdge", "ev-tou", "2026-04-01")
+    d = copy_filing(tmp / "e", "sdge", "nbt", "2025-01-27")
+    check("sdge nbt is DEFERRED by its recorded deferral", status(d) == "deferred", status(d))
     t = d / "tariff.toml"
     t.write_text(re.sub(r"calendar", "list", t.read_text(), flags=re.I))
     check("a holiday deferral that does not name the calendar does not cover",
           status(d) == "missing", status(d))
+
+    d = copy_filing(tmp / "g", "sdge", "tou-dr1", "2026-04-01")
+    edit_documents(d, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
+    add_deferral(d, "Weekends and holidays are priced apart from weekdays, and this "
+                    "filing carries no HolidayCalendar.")
+    r = L.check_filing(d)
+    check("a base plan with a covering deferral and no calendar is MISSING",
+          r["status"] == "missing" and r["covering_deferrals"] and not r["modifier"], str(r))
+    check("CLI exits 1 on it", cli(d) == 1)
 
     d = copy_filing(tmp / "f", "pge", "e-rsmart", "2025-10-31")
     check("e-rsmart is ALLOWLISTED", status(d) == "allowlisted", status(d))
