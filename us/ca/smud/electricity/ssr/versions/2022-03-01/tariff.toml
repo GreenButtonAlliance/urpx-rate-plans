@@ -27,7 +27,7 @@ Storage Rate (Rate Schedule SSR) is the post-March-2022 customer-
 generation framework, replacing NEM1 for new residential
 interconnections. Existing NEM1 customers approved before
 March 1, 2022 are grandfathered through 2030 (modeled separately
-at us/ca/smud/electricity/nem1/versions/2021-01-01/).
+at us/ca/smud/electricity/nem1/versions/2021-09-17/).
 
 Filing details (3 effective pages + 1 blank, 4-page PDF):
  Sheet SSR-1 (APPLICABILITY, TRANSITIONAL CONDITIONS, GENERATOR
@@ -104,13 +104,22 @@ SSR's export rate is a flat per-kWh value stated in the schedule.
  - 110%-of-own-consumption sizing constraint (Sheet 2.IV.A.4) —
  described in prose. Captures the customer-design constraint at
  interconnection time, not a per-bill applicability rule.
- - Post-March-1-2022 cutoff (Sheet 1.I), described in prose. URPX
- has no interconnection-approval-date term, and the cutoff is
- expressible as an EligibilityRule comparing a urpx:CustomOperandNode
- "Interconnection application approval date" with 2022-03-01 under
- urpx:greaterThanOrEqualOperator, the mirror of
- smud:er-nem1-pre-2022-interconnection in the NEM1 filing; that form
- conforms against the v0.5.1 shapes in the merged SMUD graph.
+ - March 1, 2022 (Sheet SSR-1, Section I) separates customers placed
+ on SSR from customers who may elect it; it does not limit
+ eligibility. Section I applies SSR to customers "who establish
+ service at a premises that has an electrical generation facility
+ that is fueled by a renewable fuel source on or after March 1,
+ 2022" or whose facility "was approved for interconnection by SMUD
+ on or after March 1, 2022", and continues: "All customers that have
+ an electrical generation facility on their premises that has been
+ approved for interconnection on or before February 28, 2022 that is
+ fueled by a renewable fuel source may elect to enroll in Rate
+ Schedule SSR on or after March 1, 2022." Its asterisk note adds:
+ "Storage facilities installed without an associated generating
+ facility qualify for this tariff, regardless of the date approved
+ by SMUD." No EligibilityRule carries the date, because every
+ approval date is eligible. The default-versus-elective split is a
+ [modeling] deferral.
  - Generator standby charge waiver (Sheet 1.III) — Standby Charge
  is published in the base R-TOD schedule (Sheet R-TOD-3 / R-3);
  the SSR waiver applies at composition time. Modeling deferred.
@@ -150,6 +159,7 @@ deferrals = [
  "Billing-period definition (Sheet SSR-2, Section VII): 'For the purposes of this schedule a \"month\" is considered to be a single billing period of 27 to 34 days.' The model carries no CalculationMethod. Expressible now as intervalDuration 'P1M' plus intervalType urpx:monthlyInterval. The sole Price is per-kWh, so nothing prorates by the length of the period. Low consequence, and recorded because the provision is in the filed source and not in the model, which is the test LAYOUT 4.4 sets.",
  "Section IV.A states seven eligibility requirements and the model encodes three. The four unmodeled ones are verbatim: \"1. The facility must be located on the customer's premises; and 2. The facility must operate in parallel with SMUD's distribution facilities; and 3. The customer must meet all requirements of Rule and Regulation 21; and ... 5. The facilities and the electrical requirements are located at a single and same metering point\". The verification named all four and set them aside because \"They price nothing, so they stay out of scope under the standard\".",
  "Section IV.A.4's sizing constraint is a term of availability of this schedule and is unmodeled. Verbatim: \"The facility must be intended primarily to offset up to 110% of the customer's own electrical requirements\". It is currently recorded only in [extraction].notes prose.",
+ "Default versus elective enrollment (Sheet SSR-1, Section I). Customers whose renewable generation facility was approved for interconnection by SMUD on or after March 1, 2022, or who establish service at a premises with such a facility on or after that date, are placed on SSR (apart from the Section II transition period); customers whose facility was \"approved for interconnection on or before February 28, 2022\" \"may elect to enroll in Rate Schedule SSR on or after March 1, 2022.\" Not expressible per cohort under URPX v0.5.1: urpx:isDefault and urpx:customerChoice (whose values include urpx:mandatoryChoice) have rdfs:domain urpx:RatePlanVersion and mark a whole version, and neither is a path on the sh:closed RatePlanModifierVersionShape this filing's version is validated against.",
  "Section VI bounds the one price this filing models and nothing in the model states it: \"SMUD will update the Export Compensation Rate every four years, starting in 2026\" and the rate \"will not be changed more than plus or minus 30% every four years\". The model carries a bare -0.07400 Price with no DynamicPricing, priceFloor, priceCeiling or updateFrequency.",
 ]
 
