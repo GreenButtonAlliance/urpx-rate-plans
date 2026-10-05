@@ -5,7 +5,7 @@
 
 **A scenario cost model is URPX's `urpx:ScenarioCostModel`: what a particular customer actually takes service under, as one fully determined selection over the plan space.** It binds the `urpx:RatePlanVersion` it prices (`urpx:consumesVersion`), the `urpx:RatePlanModifierVersion`s applied to it (`urpx:consumesModifierVersion`), and one `urpx:ProfileAlternative` per alternative dimension they leave open (`urpx:selectsProfileAlternative`). It is the unit an OpenADR 3 price server publishes as a program for an energy-management system to subscribe to.
 
-`urpx:consumesModifierVersion` and `urpx:selectsProfileAlternative`, and the `sh:maxCount 1` on `urpx:consumesVersion`, are proposed in [urpx-org/urpx#72](https://github.com/urpx-org/urpx/pull/72) and are not yet in a URPX release. This repository validates against that pull request's head, 02c1ac14.
+`urpx:consumesModifierVersion` and `urpx:selectsProfileAlternative`, the `sh:maxCount 1` on `urpx:consumesVersion`, and `urpx:name` and `urpx:description` on `ScenarioCostModelShape` are proposed in [urpx-org/urpx#72](https://github.com/urpx-org/urpx/pull/72) and are not yet in a URPX release. This repository validates against that pull request's head, cd13ce8a.
 
 This document says "scenario cost model" in full and never "scenario" alone, because `urpx:Scenario` is a different class: a container of customer and service-point profiles against which eligibility rules are evaluated, which a scenario cost model may name through `urpx:forScenario`.
 
@@ -133,17 +133,18 @@ The first two vectors exercise the rules; neither is in the corpus, because PG&E
 
 ```json
 {
-  "@id": "sce:scm-tou-d-prime-2026-03-20",
+  "@id": "cpau:scm-e-1-2025-07-01",
   "@type": "urpx:ScenarioCostModel",
-  "urpx:consumesVersion": { "@id": "sce:tou-d-prime-2026-03-20" }
+  "urpx:name": "Residential Electric Service [cpau:e-1-2025-07-01]",
+  "urpx:consumesVersion": { "@id": "cpau:e-1-2025-07-01" }
 }
 ```
 
-It is a bare `@graph`, not a `urpx:URPXPackage`. `URPXPackageShape` requires one of `urpx:packages`, `urpx:hasRatePlan` or `urpx:hasRatePlanModifier`, and admits a `urpx:ScenarioCostModel` under none of them, so the document cannot state a `urpx:targetURPXVersion`.
+It is a bare `@graph`, not a `urpx:URPXPackage`. #72 lets `urpx:packages` carry a `urpx:ScenarioCostModel`, but a package must state a `urpx:targetURPXVersion`, and v0.5.1, the release the corpus targets, admits none of the properties these nodes use. The document becomes a `urpx:URPXPackage` when #72 ships in a release.
 
-The nodes carry no name. The closed `ScenarioCostModelShape` admits `urpx:forScenario`, `urpx:hasCoverageClaim`, `urpx:consumesVersion`, `urpx:consumesModifierVersion`, `urpx:selectsProfileAlternative` and `urpx:producesResult`, and ignores `rdf:type` and `urpx:hasTemporalScope`; `urpx:name` and `urpx:description` are not admitted. `reports/scenario-cost-models.edn` maps each IRI to a name built from the consumed plans' and alternatives' `urpx:name`s, and to its composition's servability.
+Each node's `urpx:name` is built from the consumed plans' and selected alternatives' own `urpx:name`s, with each consumed version's `@id` in brackets. It is a label, not an identifier: the IRI is. `reports/scenario-cost-models.edn` maps each IRI to the same name and to its composition's servability.
 
-`dev/gate.sh` validates the document merged with the whole corpus against the URPX shapes and ontology at 02c1ac14, and the clj-urpx cross-check below compares its nodes with both enumerations.
+`dev/gate.sh` validates the document merged with the whole corpus against the URPX shapes and ontology at cd13ce8a, and the clj-urpx cross-check below compares its nodes with both enumerations.
 
 ## What makes one current
 
@@ -169,7 +170,7 @@ All three are generated from the corpus and the recorded resolution baseline. No
 
 ## Agreement with clj-urpx
 
-clj-urpx's `urpx.arrangements` enumerates the same set independently. `dev/cross_check_scenario_cost_models.py` compares, at a pinned instant and under named policies, in both directions: the (base version, modifier versions) compositions against `urpx.arrangements/arrangement-pairs`; the scenario cost models with open dimensions expanded against `urpx.arrangements/arrangements`; and the nodes of `reports/scenario-cost-models.jsonld` against that expanded set, re-deriving every node's IRI on the way. It runs in `dev/gate.sh`, which prints the agreed counts on every run.
+clj-urpx's `urpx.arrangements` enumerates the same set independently. `dev/cross_check_scenario_cost_models.py` compares, at a pinned instant and under named policies, in both directions: the (base version, modifier versions) compositions against `urpx.arrangements/arrangement-pairs`; the scenario cost models with open dimensions expanded against `urpx.arrangements/arrangements`; and the nodes of `reports/scenario-cost-models.jsonld` against that expanded set, re-deriving every node's IRI on the way. It runs in `dev/gate.sh`, which prints the agreed counts on every run. If `urpx.arrangements` does not load, or lacks a var the check calls, the check fails and names what is missing, including whether `urpx.scenario-cost-model`, the name clj-urpx is moving it to, loads in its place; `dev/test_cross_check_namespaces.py` makes each of those cases fire.
 
 One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships both readings and takes no position between them; this repository assumes the additive one. Worth knowing for anyone reading this corpus with it: its default is the third reading below, the one nothing in the decision argues for.
 

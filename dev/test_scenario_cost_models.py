@@ -410,11 +410,13 @@ models = REAL["models"]
 expect("one model per selection", len(models), sum(a["selections"] for a in REAL["compositions"]))
 iris = A.model_iris(models)
 expect("every model has its own IRI", len(set(iris.values())), len(models))
-doc = A.model_document(models)
+doc = A.model_document(models, REAL["versions"])
 expect("the document carries one node per model", len(doc["@graph"]), len(models))
 expect("no node carries an empty list",
        [n["@id"] for n in doc["@graph"]
         if any(isinstance(v, list) and not v for v in n.values())], [])
+expect("every node carries one urpx:name",
+       [n["@id"] for n in doc["@graph"] if not isinstance(n.get("urpx:name"), str)], [])
 expect("a node without modifiers omits consumesModifierVersion",
        any("urpx:consumesModifierVersion" not in n for n in doc["@graph"]), True)
 

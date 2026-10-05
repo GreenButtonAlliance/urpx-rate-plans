@@ -824,18 +824,17 @@ def model_name(identity: tuple, versions: dict[str, dict], names: dict[str, str]
     return out
 
 
-def model_document(models: list[tuple]) -> dict:
-    """The JSON-LD document of urpx:ScenarioCostModel nodes, one per identity.
+def model_document(models: list[tuple], versions: dict[str, dict]) -> dict:
+    """The JSON-LD document of urpx:ScenarioCostModel nodes, one per identity,
+    each with the urpx:name model_name() gives it.
 
-    Not wrapped in a urpx:URPXPackage: URPXPackageShape admits a
-    ScenarioCostModel under none of urpx:packages, urpx:hasRatePlan and
-    urpx:hasRatePlanModifier, and requires one of them. Empty
-    consumesModifierVersion and selectsProfileAlternative are omitted. No
-    urpx:name: the closed ScenarioCostModelShape at urpx-org/urpx#72 does not
-    admit one, so names are in reports/scenario-cost-models.edn.
+    Not wrapped in a urpx:URPXPackage: its urpx:targetURPXVersion would have to
+    name a release, and no release admits the properties urpx-org/urpx#72 adds.
+    Empty consumesModifierVersion and selectsProfileAlternative are omitted.
     """
     prefixes = corpus_prefixes()
     iris = model_iris(models, prefixes)
+    names = component_names()
     used: dict[str, str] = {"urpx": prefixes["urpx"]}
     nodes: list[dict] = []
     for identity in models:
@@ -845,6 +844,7 @@ def model_document(models: list[tuple]) -> dict:
         node = {
             "@id": f"{prefix}:{iris[identity][len(prefixes[prefix]):]}",
             "@type": "urpx:ScenarioCostModel",
+            "urpx:name": model_name(identity, versions, names),
             "urpx:consumesVersion": {"@id": base},
         }
         if mods:

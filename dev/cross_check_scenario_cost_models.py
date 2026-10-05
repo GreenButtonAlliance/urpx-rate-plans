@@ -40,16 +40,20 @@ that can quietly answer a different question than its counterpart.
              may sit on one base, so both sides take it as an argument. See
              COMBINE_AT_MOST_ONE_MODIFIER in dev/scenario_cost_models.py.
 
-THREE STATES, NOT TWO
+THE COMPARISON RUNS OR THE CHECK FAILS
 
-  var absent                     PENDING. urpx.arrangements is not released yet.
-                                 Prints loudly, names the pinned clj-urpx
-                                 version, says what would make it active, and
-                                 passes.
-  var present                    ACTIVE. The comparison MUST run and MUST agree.
-                                 A load error, an empty result or a wrong shape
-                                 is a FAILURE, never a pending.
-  namespace present, var absent  FAIL. Their API changed under a pinned version.
+  API_NAMESPACE loads, its vars present   The comparison MUST run and MUST
+                                          agree. A load error, an empty result
+                                          or a wrong shape FAILS.
+  API_NAMESPACE absent, a successor loads FAIL. clj-urpx renamed it; this
+                                          check implements the old API only.
+  neither loads                           FAIL, naming every namespace tried.
+  loads, a var it calls is absent         FAIL, naming the missing vars.
+
+There is no passing state in which nothing was compared. An earlier version
+passed when the namespace was absent, which was right before clj-urpx shipped
+it and would be wrong after: a rename would have stopped the comparison while
+the gate stayed green.
 
 Exit codes follow dev/gate.sh: 0 green, 1 a disagreement or a broken contract,
 3 refused (this side could not produce an answer at all).
@@ -72,11 +76,28 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 PROBE = REPO / "dev" / "cross_check_scenario_cost_models.clj"
 EMITTED = "reports/scenario-cost-models.jsonld"
 
-# The one test hook. The ACTIVE arms cannot be exercised before clj-urpx
-# releases the namespace, so the negative tests put a stub on the classpath
-# through this. It only ADDS paths, and a run with it set announces itself in
-# the output, so it cannot disarm the check without saying so.
+# The clj-urpx 0.35.0 API this check calls, and the name it moves to in 0.36.0.
+# The successor is only probed for, to say what happened when API_NAMESPACE is
+# gone; its API is not implemented here.
+API_NAMESPACE = "urpx.arrangements"
+SUCCESSOR_NAMESPACES = ["urpx.scenario-cost-model"]
+
+# Test hooks. Each run with one set announces itself in the output, so neither
+# can disarm the check without saying so. EXTRA_PATHS_ENV only ADDS classpath
+# entries, for a stub. NAMESPACES_ENV replaces API_NAMESPACE and the successors
+# with a comma-separated list, first the API namespace; pointing it at a
+# namespace that does not exist must fail the check.
 EXTRA_PATHS_ENV = "URPX_CROSSCHECK_EXTRA_PATHS"
+NAMESPACES_ENV = "URPX_CROSSCHECK_NAMESPACES"
+
+
+def namespaces() -> list[str]:
+    override = os.environ.get(NAMESPACES_ENV)
+    if override:
+        names = [n.strip() for n in override.split(",") if n.strip()]
+        if names:
+            return names
+    return [API_NAMESPACE, *SUCCESSOR_NAMESPACES]
 
 REGRESSION, REFUSED = 1, 3
 
@@ -119,7 +140,7 @@ def run_probe(at: str, combine: str) -> tuple[list[str], str, int]:
     if extra:
         paths = ["dev"] + [p for p in extra.split(os.pathsep) if p]
         cmd += ["-Sdeps", "{:paths [" + " ".join(f'"{p}"' for p in paths) + "]}"]
-    cmd += ["-M", str(PROBE.relative_to(REPO)), at, combine]
+    cmd += ["-M", str(PROBE.relative_to(REPO)), at, combine, *namespaces()]
     proc = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
     lines = [ln for ln in proc.stdout.splitlines() if ln.startswith("XC-")]
     return lines, (proc.stderr or "").strip(), proc.returncode
@@ -233,9 +254,11 @@ def main() -> int:
     print(f"  instant  {at.isoformat()}   (pinned; changing it is a change in two repositories)")
     print(f"  policy   {args.combine}   (pinned; nothing in URPX states one)")
     print(f"  clj-urpx {pinned}   (deps.edn)")
-    if os.environ.get(EXTRA_PATHS_ENV):
-        print(f"  SIMULATION: {EXTRA_PATHS_ENV}={os.environ[EXTRA_PATHS_ENV]} is on the classpath.")
-        print("  This run is a test of the check, not a measurement of the corpus.")
+    for env in (EXTRA_PATHS_ENV, NAMESPACES_ENV):
+        if os.environ.get(env):
+            print(f"  SIMULATION: {env}={os.environ[env]} is set.")
+            print("  This run is a test of the check, not a measurement of the corpus.")
+    api = namespaces()[0]
 
     ours = our_pairs(at, args.combine)
     mine = ours["pairs"]
@@ -258,27 +281,22 @@ def main() -> int:
     state, detail, theirs, their_models = parse_probe(lines)
 
     if state == "ns-absent":
-        # The dangerous arm: it is today's state and it passes. Loud enough that
-        # nobody reads the gate as having compared anything.
-        print()
-        print("  " + "=" * 68)
-        print("  PENDING: nothing was compared. urpx.arrangements is not on the classpath.")
-        print(f"  clj-urpx {pinned} (deps.edn) does not ship the namespace. The check is")
-        print("  armed and inert: it starts comparing by itself the moment a clj-urpx")
-        print("  release interns urpx.arrangements/arrangement-pairs and deps.edn moves to")
-        print("  it. Nobody has to remember to switch it on.")
-        print(f"  Until then this repository's {len(mine)} pairs are asserted by nothing outside it.")
-        print("  " + "=" * 68)
-        return 0
-
+        return fail(
+            f"none of {detail.replace(',', ', ')} loads with clj-urpx {pinned} (deps.edn).",
+            f"{api} is the API this check calls. Nothing was compared, and that is a",
+            "failure: the namespace was renamed or removed, or the classpath is wrong.")
+    if state == "ns-renamed":
+        return fail(
+            f"{api} is absent and {detail} loads: clj-urpx renamed the namespace.",
+            "This check implements the old API only. Port dev/cross_check_scenario_cost_models.clj",
+            "to the new one in the same change that moves the clj-urpx pin.")
     if state == "ns-load-error":
         return fail(
-            f"urpx.arrangements IS on the classpath in clj-urpx {pinned} and threw while loading.",
-            detail,
-            "A namespace that exists and throws is active and broken, not pending.")
+            f"{api} IS on the classpath in clj-urpx {pinned} and threw while loading.",
+            detail)
     if state == "ns-present-var-absent":
         return fail(
-            f"clj-urpx {pinned} ships urpx.arrangements WITHOUT arrangement-pairs.",
+            f"clj-urpx {pinned} ships {api} without a var this check calls.",
             detail,
             "The contract is the var, not the namespace. Their API moved; settle the",
             "new entrypoint with clj-urpx and update dev/cross_check_scenario_cost_models.clj.")
@@ -286,7 +304,7 @@ def main() -> int:
         return fail("the corpus would not load on the clj-urpx side.", detail)
     if state == "call-error":
         return fail(
-            f"urpx.arrangements/arrangement-pairs threw when called in clj-urpx {pinned}.",
+            f"{api}/arrangement-pairs threw when called in clj-urpx {pinned}.",
             detail,
             "The document form this passes is an assumption of ours; see the comment in",
             "dev/cross_check_scenario_cost_models.clj. Either way the comparison did not happen.")
@@ -332,7 +350,7 @@ def main() -> int:
     # nodes against the same set, so the count clj-price-server reads off the
     # artifact is the count both enumerators arrive at.
     if their_models["error"]:
-        return fail("urpx.arrangements/arrangements could not be asked.", their_models["error"])
+        return fail(f"{api}/arrangements could not be asked.", their_models["error"])
     if their_models["end"] is None:
         return fail("the clj-urpx side did not finish emitting arrangements.",
                     f"exit {rc}", stderr[-400:] if stderr else "")
@@ -346,7 +364,7 @@ def main() -> int:
     except SystemExit as e:
         raise Refused(str(e).removeprefix("REFUSING: "))
     print(f"  ours     {len(mine_m)} scenario cost models (open dimensions expanded)")
-    print(f"  theirs   {len(theirs_m)} arrangements (urpx.arrangements/arrangements)")
+    print(f"  theirs   {len(theirs_m)} arrangements ({api}/arrangements)")
     if mine_m != theirs_m:
         return fail(
             f"the expanded enumerations disagree ({len(mine_m)} ours, {len(theirs_m)} theirs).",

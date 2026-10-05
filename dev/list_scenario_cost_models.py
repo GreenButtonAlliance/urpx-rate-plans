@@ -449,7 +449,7 @@ def main() -> int:
     jsonld = REPO / "reports" / "scenario-cost-models.jsonld"
     md.write_text(render_md(d))
     edn.write_text(render_edn(d))
-    jsonld.write_text(json.dumps(A.model_document(d["models"]), indent=2) + "\n")
+    jsonld.write_text(json.dumps(A.model_document(d["models"], d["versions"]), indent=2) + "\n")
     t = A.tally(d["compositions"])
     print(f"wrote {md.relative_to(REPO)}, {edn.relative_to(REPO)} and {jsonld.relative_to(REPO)}: "
           f"{len(d['compositions'])} compositions, {len(d['models'])} scenario cost models; "

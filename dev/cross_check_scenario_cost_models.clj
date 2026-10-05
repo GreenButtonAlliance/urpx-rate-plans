@@ -4,29 +4,37 @@
 ;; The clj-urpx half of dev/cross_check_scenario_cost_models.py. Run by that script,
 ;; never on its own:
 ;;
-;;   clojure -M dev/cross_check_scenario_cost_models.clj <instant> <combining-policy>
+;;   clojure -M dev/cross_check_scenario_cost_models.clj <instant> <combining-policy> \
+;;           <namespace> <successor-namespace>...
 ;;
-;; It answers two questions: what do urpx.arrangements/arrangement-pairs and
-;; urpx.arrangements/arrangements return over this corpus at that instant, and
-;; if they cannot be asked, WHY not. clj-urpx's namespace keeps its own name,
-;; urpx.arrangements; what it enumerates is what this repository calls scenario
-;; cost models.
+;; It answers two questions: what do <namespace>/arrangement-pairs and
+;; <namespace>/arrangements return over this corpus at that instant, and if
+;; they cannot be asked, WHY not. <namespace> is urpx.arrangements, the clj-urpx
+;; 0.35.0 API; what it enumerates is what this repository calls scenario cost
+;; models. The successors are names that API is known to be moving to
+;; (urpx.scenario-cost-model in clj-urpx 0.36.0), probed only to say which one
+;; is present when <namespace> is not. This probe implements no successor's API.
 ;; Every answer is a single XC- line on stdout, so the caller reads a state
 ;; rather than inferring one from an exit code that a JVM warning could muddy.
 ;;
-;;   XC-STATE ns-absent            the namespace is not on the classpath
-;;   XC-STATE ns-load-error        it is, and loading it threw
-;;   XC-STATE ns-present-var-absent it loaded, and the var is not there
-;;   XC-STATE documents-error      the var is there and the corpus would not load
-;;   XC-STATE call-error           the var is there and calling it threw
+;;   XC-STATE ns-absent <names>    neither <namespace> nor any successor is on
+;;                                 the classpath
+;;   XC-STATE ns-renamed <name>    <namespace> is absent and a successor loads
+;;   XC-STATE ns-load-error        <namespace> is on the classpath, and loading
+;;                                 it threw
+;;   XC-STATE ns-present-var-absent it loaded, and a var this probe calls is not
+;;                                 there
+;;   XC-STATE documents-error      the vars are there and the corpus would not load
+;;   XC-STATE call-error           the vars are there and calling one threw
 ;;   XC-STATE shape-error          it returned something that is not a pair set
 ;;   XC-STATE pairs                followed by XC-PAIR lines and XC-END,
 ;;                                 then either XC-MODELS-ERROR <detail> or
 ;;                                 XC-MODEL lines and XC-MODELS-END
 ;;
-;; Only ns-absent is pending. Every other non-`pairs` state is a failure: the
-;; var exists and the comparison did not happen, which must never read as
-;; "not released yet".
+;; Every state but `pairs` is a failure. ns-absent used to pass as "not
+;; released yet"; once the namespace shipped, the same state could only mean it
+;; had been renamed or removed, and passing on it would stop the comparison
+;; without saying so.
 
 (require '[clojure.java.io :as io]
          '[clojure.string :as str])
@@ -34,8 +42,16 @@
 (import '[java.time ZonedDateTime])
 
 (def ^:private args *command-line-args*)
-(def ^:private at-literal (first args))
-(def ^:private policy (second args))
+(def ^:private at-literal (nth args 0))
+(def ^:private policy (nth args 1))
+(def ^:private api-ns (symbol (nth args 2)))
+(def ^:private successor-nss (map symbol (drop 3 args)))
+
+;; Every var this probe resolves in api-ns. Checked before any is called, so a
+;; missing one is named rather than discovered as a nil deref.
+(def ^:private required-vars
+  '[arrangement-pairs arrangements one-modifier-at-most named-versions-add
+    repeated-ids-refuse])
 
 (defn- emit [state detail]
   (println (str "XC-STATE " state (when detail (str " " detail))))
@@ -49,41 +65,53 @@
   (let [rc (root-cause t)]
     (str/replace (str (.getName (class rc)) ": " (.getMessage rc)) #"\s*\n\s*" " / ")))
 
-;; Three states, distinguished two ways rather than one, because each way alone
-;; has a false negative. The resource lookup alone would call an AOT-compiled or
-;; otherwise sourceless namespace absent. The require alone would call a
-;; namespace whose OWN require of a missing dependency threw absent, which is
-;; the dangerous direction: that is a broken release reading as an unreleased
-;; one. So: absent requires BOTH that no source or class resource exists AND
-;; that the throw is a FileNotFoundException naming this very namespace.
-;; Anything else that throws is present and broken.
-(def ^:private resource-present?
-  (boolean (some io/resource ["urpx/arrangements.clj"
-                              "urpx/arrangements.cljc"
-                              "urpx/arrangements__init.class"])))
+;; Absent and broken, distinguished two ways rather than one, because each way
+;; alone has a false negative. The resource lookup alone would call an
+;; AOT-compiled or otherwise sourceless namespace absent. The require alone
+;; would call a namespace whose OWN require of a missing dependency threw
+;; absent, which is the dangerous direction: that is a broken release reading
+;; as a missing one. So: absent requires BOTH that no source or class resource
+;; exists AND that the throw is a FileNotFoundException naming this very
+;; namespace. Anything else that throws is present and broken.
+(defn- ns-path [ns-sym]
+  (-> (str ns-sym) (str/replace "-" "_") (str/replace "." "/")))
 
-(defn- self-not-found? [^Throwable t]
+(defn- resource-present? [ns-sym]
+  (let [base (ns-path ns-sym)]
+    (boolean (some io/resource [(str base ".clj") (str base ".cljc") (str base "__init.class")]))))
+
+(defn- self-not-found? [ns-sym ^Throwable t]
   (let [rc (root-cause t)]
     (and (instance? java.io.FileNotFoundException rc)
-         (boolean (re-find #"urpx/arrangements(__init\.class|\.clj|\.cljc)"
-                           (or (.getMessage rc) ""))))))
+         (str/includes? (or (.getMessage rc) "") (ns-path ns-sym)))))
 
-(def ^:private load-outcome
-  (try (require 'urpx.arrangements) :loaded
-       (catch Throwable t t)))
+(defn- load-ns
+  "nil when ns-sym loaded, :absent when it is not on the classpath, or the
+   Throwable loading it threw."
+  [ns-sym]
+  (let [outcome (try (require ns-sym) nil (catch Throwable t t))]
+    (cond
+      (nil? outcome) nil
+      (and (not (resource-present? ns-sym)) (self-not-found? ns-sym outcome)) :absent
+      :else outcome)))
 
-(when (instance? Throwable load-outcome)
-  (if (and (not resource-present?) (self-not-found? load-outcome))
-    (emit "ns-absent" nil)
-    (emit "ns-load-error" (one-line load-outcome))))
+(let [outcome (load-ns api-ns)]
+  (cond
+    (nil? outcome) nil
+    (= :absent outcome)
+    (if-let [s (first (filter #(nil? (load-ns %)) successor-nss))]
+      (emit "ns-renamed" (str s))
+      (emit "ns-absent" (str/join "," (map str (cons api-ns successor-nss)))))
+    :else (emit "ns-load-error" (one-line outcome))))
 
-(def ^:private f (resolve 'urpx.arrangements/arrangement-pairs))
+(let [missing (remove #(ns-resolve api-ns %) required-vars)]
+  (when (seq missing)
+    (emit "ns-present-var-absent"
+          (str api-ns " lacks " (str/join ", " missing) "; it interns "
+               (count (ns-publics api-ns)) " public vars: "
+               (str/join ", " (sort (map str (keys (ns-publics api-ns)))))))))
 
-(when (nil? f)
-  (emit "ns-present-var-absent"
-        (str "urpx.arrangements loaded and interns "
-             (count (ns-publics 'urpx.arrangements)) " public vars: "
-             (str/join ", " (sort (map str (keys (ns-publics 'urpx.arrangements))))))))
+(def ^:private f (ns-resolve api-ns 'arrangement-pairs))
 
 ;; The corpus, as documents. Four steps, all load-bearing, given by the clj-urpx
 ;; author after an earlier three-step form of this probe was measured against
@@ -238,9 +266,9 @@
 ;; If that ever stops holding, this gate fires, which is what it is for.
 (def ^:private opts
   {:at            (ZonedDateTime/parse at-literal)
-   :combine       @(resolve 'urpx.arrangements/one-modifier-at-most)
-   :compatibility @(resolve 'urpx.arrangements/named-versions-add)
-   :repeated-ids  @(resolve 'urpx.arrangements/repeated-ids-refuse)})
+   :combine       @(ns-resolve api-ns 'one-modifier-at-most)
+   :compatibility @(ns-resolve api-ns 'named-versions-add)
+   :repeated-ids  @(ns-resolve api-ns 'repeated-ids-refuse)})
 
 (def ^:private result
   (try (f documents opts)
@@ -274,9 +302,9 @@
 ;; arrangement per selection. Each is printed as its identity with the
 ;; selections reduced to their alternative @ids, sorted, which is the form
 ;; dev/scenario_cost_models.py identifies a scenario cost model by.
-(let [g (resolve 'urpx.arrangements/arrangements)]
+(let [g (ns-resolve api-ns 'arrangements)]
   (if (nil? g)
-    (println "XC-MODELS-ERROR urpx.arrangements/arrangements is not interned")
+    (println (str "XC-MODELS-ERROR " api-ns "/arrangements is not interned"))
     (let [arrs (try (g documents opts)
                     (catch Throwable t
                       (println (str "XC-MODELS-ERROR " (one-line t)))

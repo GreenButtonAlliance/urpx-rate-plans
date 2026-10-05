@@ -157,13 +157,14 @@ run_clojure_gate() {
 }
 
 # The emitted urpx:ScenarioCostModel nodes, merged with the whole corpus, against
-# the URPX revision that admits them. PINNED TO 02c1ac14, the head of
-# urpx-org/urpx#72, which adds urpx:consumesModifierVersion and
-# urpx:selectsProfileAlternative to the closed ScenarioCostModelShape. No release
-# carries them yet, so at the corpus's own revision the nodes fail on exactly
-# those two properties. Move the pin to the release tag when #72 ships.
+# the URPX revision that admits them. PINNED TO cd13ce8a, the head of
+# urpx-org/urpx#72, which adds urpx:consumesModifierVersion,
+# urpx:selectsProfileAlternative, urpx:name and urpx:description to the closed
+# ScenarioCostModelShape. No release carries them yet, so at the corpus's own
+# revision the nodes fail on exactly those properties. Move the pin to the
+# release tag when #72 ships.
 # Exit 1 a violation, 3 refused.
-SCM_URPX_REV=02c1ac14
+SCM_URPX_REV=cd13ce8a
 run_scm_shacl() {
     note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
     if python3 dev/validate-with-base.py --merged --urpx-rev "$SCM_URPX_REV" \
@@ -326,10 +327,11 @@ case "$MODE" in
     # not an edit to this file. Both sides must move together or the comparison
     # silently starts asserting nothing.
     #
-    # Three states, not two. PENDING (clj-urpx does not ship the namespace yet)
-    # prints loudly and passes. ACTIVE must compare and agree: a load error, an
-    # empty result or a wrong shape FAILS, because "present but produced nothing"
-    # must never read as a pass. Namespace present with the var gone FAILS.
+    # The comparison runs or the check fails. A load error, an empty result or a
+    # wrong shape FAILS, because "present but produced nothing" must never read
+    # as a pass. urpx.arrangements absent FAILS too, naming whether its 0.36.0
+    # successor urpx.scenario-cost-model loads instead, and a missing var FAILS
+    # naming the var: a rename must not stop the comparison with the gate green.
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
@@ -506,10 +508,11 @@ case "$MODE" in
     # not an edit to this file. Both sides must move together or the comparison
     # silently starts asserting nothing.
     #
-    # Three states, not two. PENDING (clj-urpx does not ship the namespace yet)
-    # prints loudly and passes. ACTIVE must compare and agree: a load error, an
-    # empty result or a wrong shape FAILS, because "present but produced nothing"
-    # must never read as a pass. Namespace present with the var gone FAILS.
+    # The comparison runs or the check fails. A load error, an empty result or a
+    # wrong shape FAILS, because "present but produced nothing" must never read
+    # as a pass. urpx.arrangements absent FAILS too, naming whether its 0.36.0
+    # successor urpx.scenario-cost-model loads instead, and a missing var FAILS
+    # naming the var: a rename must not stop the comparison with the gate green.
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
@@ -534,6 +537,16 @@ case "$MODE" in
         rc=$?
         cat /tmp/gate-walkers.log
         record $rc
+    fi
+
+    # Every way the clj-urpx namespace can go missing fails the cross-check above
+    # rather than passing it. Exit 1 a case passed.
+    note "Cross-check namespace negative fixtures"
+    if python3 dev/test_cross_check_namespaces.py > /tmp/gate-xc-ns.log 2>&1; then
+        tail -1 /tmp/gate-xc-ns.log
+    else
+        cat /tmp/gate-xc-ns.log
+        record 1
     fi
 
     note "Version-dispatch negative fixtures"
