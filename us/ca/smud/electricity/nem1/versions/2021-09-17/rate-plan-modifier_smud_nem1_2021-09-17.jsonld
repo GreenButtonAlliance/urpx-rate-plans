@@ -169,7 +169,7 @@
           "@type": "urpx:EligibilityRule",
           "@id": "smud:er-nem1-qualifying-der",
           "urpx:name": "NEM1 — qualifying renewable DER",
-          "urpx:description": "Customer must own a renewable-fueled electrical generation facility (photovoltaic / wind / small hydroelectric / geothermal / biomass / solar thermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current — per the CEC's Renewable Portfolio Standard Eligibility Guidebook). Modeled as a 4-way OR over the most common URPX DER enum values (solar, wind, hydro) plus a CustomOperandNode for other renewable types not covered by the URPX enum. NOTE: Unlike SSR, NEM1 does NOT cover storage-only customers — Sheet 2.III.A.6 disqualifies customers who have received storage incentives under SMUD programs (such customers must be on SSR per SSR Sheet 3.VIII).",
+          "urpx:description": "Customer must own a renewable-fueled electrical generation facility (photovoltaic / wind / small hydroelectric / geothermal / biomass / solar thermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current — per the CEC's Renewable Portfolio Standard Eligibility Guidebook). Modeled as a 4-way OR over the most common URPX DER enum values (solar, wind, hydro) plus a CustomOperandNode for other renewable types not covered by the URPX enum. NOTE: Unlike SSR, NEM1 does NOT cover storage-only customers. The Sheet 2.III.A.6 storage-incentive disqualifier is smud:er-nem1-no-storage-incentive.",
           "urpx:hasConditionExpression": {
             "@type": "urpx:ConditionExpression",
             "@id": "smud:cx-nem1-qualifying-der",
@@ -257,6 +257,42 @@
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "smud:cn-nem1-other-renewable-right-operand",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:er-nem1-no-storage-incentive",
+          "urpx:name": "NEM1 — no SMUD storage incentive received",
+          "urpx:description": "Sheet 2.III.A.6 lists among the requirements for eligibility: \"The customer has not received storage incentives under a qualifying SMUD program\". The schedule names no program and states no date bound. SSR Sheet 3.VIII.A reads \"All customers that receive a storage incentive through a qualifying SMUD program must be on Rate Schedule SSR\", and NEM1 Sheet 1.I reads \"Once a customer is enrolled in Rate Schedule SSR, they cannot return to this Rate Schedule NEM1\", so the test applies to a customer already on NEM1 as well as at enrollment. Modeled as a NOT over a CustomOperandNode comparison, because no urpx:ProgramTypeValue member is an incentive program.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:cx-nem1-no-storage-incentive",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "smud:bn-nem1-no-storage-incentive",
+              "urpx:operator": {
+                "@id": "urpx:notOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-storage-incentive",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "smud:cn-nem1-storage-incentive-left-operand",
+                    "urpx:customConditionProperty": "Has received a storage incentive under a qualifying SMUD program"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "smud:cn-nem1-storage-incentive-right-operand",
                     "urpx:stringValue": "true"
                   }
                 }
@@ -711,7 +747,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "Section V.D credits excess exported electricity at retail value, meaning the energy charge of whichever base rate the customer is on, and allows those credits only against electricity usage charges. The credit is written as twelve urpx:multiplier -1 Prices, each naming exactly one urpx:basedOnPrice: ten among the five usage Prices of smud:tod-5-8pm and the five of smud:tod-low-use, and two mirroring smud:fixed's summer and non-summer energy charges, whose credit PriceDefinitions carry inline month ApplicabilityRules matching the base's own, so exactly one applies per instant: measured -0.2189 in July and -0.1371 in December. Each self-scopes: a credit written against a base plan the customer is not on returns an unresolved reference rather than a wrong number. The restriction to electricity usage charges is unmodeled. Attributing the credit to the time-of-day period the export occurred in is this filing's inference and not the schedule's rule: Section V.D credits a monthly net excess and names no period, season or tier, and SMUD writes an explicit per-interval export price elsewhere when it means one. The settlement mechanics of Section VI are unmodeled as well: a 12-month settlement period over which monthly credits carry forward, with unused accumulated credit liable to be zeroed out at the end of it. So is the Section VI.A annual net surplus election, under which a customer with net surplus over the 12 months takes either a monetary payment or a roll-over of the surplus kWh, the payment rate being set from the most recent SMUD budget as expected avoided generation and production-related costs divided by forecasted annual energy sales and published on smud.org by December 20 before the year it applies, with the renewable energy credits for purchased kWh passing to SMUD; the schedule states no dollar figure, so none is carried. Section VI.B's opt-out, under which a customer forgoes all surplus compensation and keeps the associated renewable energy credits, is absent too. Section II exempts these customers from generator standby charges on the portion of load served by the eligible facility, and that exemption has nothing to attach to because the Standby Service Charge of Schedules R and R-TOD is itself not modeled in this corpus. Four eligibility conditions are structural: residential service, the Section I requirement that the interconnection application was approved before March 1, 2022, a qualifying renewable generation type, and the 3,000 kW capacity ceiling of Section III.A.9. The other eight requirements of Section III.A are prose only, among them parallel operation with SMUD's distribution facilities, compliance with Rule and Regulation 21, a single metering point, the facility being intended primarily to offset the customer's own use, the disqualification of customers who have taken SMUD storage incentives, and the ceiling on growth above originally approved capacity of 10 percent or 1 kW, whichever is greater, and 110 percent in total. Section VII, which requires residential customers whose facility was approved on or after January 1, 2018 to be on Rate Schedule R-TOD, is prose as well. Two decisions are scope rather than gap: the schedule also covers commercial, industrial and agricultural customers and this filing is residential only, and the Section IV bidirectional meter SMUD installs at no cost is a metering operation rather than a rate.",
+          "urpx:description": "Section V.D credits excess exported electricity at retail value, meaning the energy charge of whichever base rate the customer is on, and allows those credits only against electricity usage charges. The credit is written as twelve urpx:multiplier -1 Prices, each naming exactly one urpx:basedOnPrice: ten among the five usage Prices of smud:tod-5-8pm and the five of smud:tod-low-use, and two mirroring smud:fixed's summer and non-summer energy charges, whose credit PriceDefinitions carry inline month ApplicabilityRules matching the base's own, so exactly one applies per instant: measured -0.2189 in July and -0.1371 in December. Each self-scopes: a credit written against a base plan the customer is not on returns an unresolved reference rather than a wrong number. The restriction to electricity usage charges is unmodeled. Attributing the credit to the time-of-day period the export occurred in is this filing's inference and not the schedule's rule: Section V.D credits a monthly net excess and names no period, season or tier, and SMUD writes an explicit per-interval export price elsewhere when it means one. The settlement mechanics of Section VI are unmodeled as well: a 12-month settlement period over which monthly credits carry forward, with unused accumulated credit liable to be zeroed out at the end of it. So is the Section VI.A annual net surplus election, under which a customer with net surplus over the 12 months takes either a monetary payment or a roll-over of the surplus kWh, the payment rate being set from the most recent SMUD budget as expected avoided generation and production-related costs divided by forecasted annual energy sales and published on smud.org by December 20 before the year it applies, with the renewable energy credits for purchased kWh passing to SMUD; the schedule states no dollar figure, so none is carried. Section VI.B's opt-out, under which a customer forgoes all surplus compensation and keeps the associated renewable energy credits, is absent too. Section II exempts these customers from generator standby charges on the portion of load served by the eligible facility, and that exemption has nothing to attach to because the Standby Service Charge of Schedules R and R-TOD is itself not modeled in this corpus. Five eligibility conditions are structural: residential service, the Section I requirement that the interconnection application was approved before March 1, 2022, a qualifying renewable generation type, the Section III.A.6 disqualification of customers who have received a storage incentive under a qualifying SMUD program, and the 3,000 kW capacity ceiling of Section III.A.9. The other seven requirements of Section III.A are prose only, among them parallel operation with SMUD's distribution facilities, compliance with Rule and Regulation 21, a single metering point, the facility being intended primarily to offset the customer's own use, and the ceiling on growth above originally approved capacity of 10 percent or 1 kW, whichever is greater, and 110 percent in total. Section VII, which requires residential customers whose facility was approved on or after January 1, 2018 to be on Rate Schedule R-TOD, is prose as well. Two decisions are scope rather than gap: the schedule also covers commercial, industrial and agricultural customers and this filing is residential only, and the Section IV bidirectional meter SMUD installs at no cost is a metering operation rather than a rate.",
           "urpx:evaluatedOn": "2026-09-21T00:00:00"
         }
       }
