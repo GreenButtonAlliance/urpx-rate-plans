@@ -5,21 +5,20 @@
 ;; never on its own:
 ;;
 ;;   clojure -M dev/cross_check_scenario_cost_models.clj <instant> <combining-policy> \
-;;           <namespace> <successor-namespace>...
+;;           <namespace> <other-namespace>...
 ;;
-;; It answers two questions: what do <namespace>/arrangement-pairs and
-;; <namespace>/arrangements return over this corpus at that instant, and if
-;; they cannot be asked, WHY not. <namespace> is urpx.arrangements, the clj-urpx
-;; 0.35.0 API; what it enumerates is what this repository calls scenario cost
-;; models. The successors are names that API is known to be moving to
-;; (urpx.scenario-cost-model in clj-urpx 0.36.0), probed only to say which one
-;; is present when <namespace> is not. This probe implements no successor's API.
+;; It answers three questions: what do <namespace>/enumerate-pairs and
+;; <namespace>/enumerate return over this corpus at that instant, what node does
+;; <namespace>/node build for each model under <namespace>/rate-plans-iri, and
+;; if they cannot be asked, WHY not. <namespace> is urpx.scenario-cost-model,
+;; the clj-urpx 0.36.0 API. The names after it are probed only to say which one
+;; is present when <namespace> is not; this probe implements none of their APIs.
 ;; Every answer is a single XC- line on stdout, so the caller reads a state
 ;; rather than inferring one from an exit code that a JVM warning could muddy.
 ;;
-;;   XC-STATE ns-absent <names>    neither <namespace> nor any successor is on
+;;   XC-STATE ns-absent <names>    neither <namespace> nor any other name is on
 ;;                                 the classpath
-;;   XC-STATE ns-renamed <name>    <namespace> is absent and a successor loads
+;;   XC-STATE ns-renamed <name>    <namespace> is absent and another name loads
 ;;   XC-STATE ns-load-error        <namespace> is on the classpath, and loading
 ;;                                 it threw
 ;;   XC-STATE ns-present-var-absent it loaded, and a var this probe calls is not
@@ -29,12 +28,11 @@
 ;;   XC-STATE shape-error          it returned something that is not a pair set
 ;;   XC-STATE pairs                followed by XC-PAIR lines and XC-END,
 ;;                                 then either XC-MODELS-ERROR <detail> or
-;;                                 XC-MODEL lines and XC-MODELS-END
+;;                                 XC-MODEL lines and XC-MODELS-END, then
+;;                                 either XC-NODES-ERROR <detail> or XC-NODE
+;;                                 lines and XC-NODES-END
 ;;
-;; Every state but `pairs` is a failure. ns-absent used to pass as "not
-;; released yet"; once the namespace shipped, the same state could only mean it
-;; had been renamed or removed, and passing on it would stop the comparison
-;; without saying so.
+;; Every state but `pairs` is a failure.
 
 (require '[clojure.java.io :as io]
          '[clojure.string :as str])
@@ -45,13 +43,13 @@
 (def ^:private at-literal (nth args 0))
 (def ^:private policy (nth args 1))
 (def ^:private api-ns (symbol (nth args 2)))
-(def ^:private successor-nss (map symbol (drop 3 args)))
+(def ^:private other-nss (map symbol (drop 3 args)))
 
 ;; Every var this probe resolves in api-ns. Checked before any is called, so a
 ;; missing one is named rather than discovered as a nil deref.
 (def ^:private required-vars
-  '[arrangement-pairs arrangements one-modifier-at-most named-versions-add
-    repeated-ids-refuse])
+  '[enumerate-pairs enumerate identity-tuple node rate-plans-iri
+    one-modifier-at-most named-versions-add repeated-ids-refuse])
 
 (defn- emit [state detail]
   (println (str "XC-STATE " state (when detail (str " " detail))))
@@ -99,9 +97,9 @@
   (cond
     (nil? outcome) nil
     (= :absent outcome)
-    (if-let [s (first (filter #(nil? (load-ns %)) successor-nss))]
+    (if-let [s (first (filter #(nil? (load-ns %)) other-nss))]
       (emit "ns-renamed" (str s))
-      (emit "ns-absent" (str/join "," (map str (cons api-ns successor-nss)))))
+      (emit "ns-absent" (str/join "," (map str (cons api-ns other-nss)))))
     :else (emit "ns-load-error" (one-line outcome))))
 
 (let [missing (remove #(ns-resolve api-ns %) required-vars)]
@@ -111,61 +109,37 @@
                (count (ns-publics api-ns)) " public vars: "
                (str/join ", " (sort (map str (keys (ns-publics api-ns)))))))))
 
-(def ^:private f (ns-resolve api-ns 'arrangement-pairs))
+(def ^:private f (ns-resolve api-ns 'enumerate-pairs))
 
-;; The corpus, as documents. Four steps, all load-bearing, given by the clj-urpx
-;; author after an earlier three-step form of this probe was measured against
-;; their enumerator and found wrong:
-;;
-;;   mapcat load-graph              NOT mapv. load-graph returns a VECTOR of
-;;                                  top-level entities per file, so mapv yields a
-;;                                  seq of vectors. That survives by accident,
-;;                                  because the enumerator walks with tree-seq,
-;;                                  which is why the wrong form returned a number
-;;                                  rather than an error.
-;;   mapcat expand-document-entities  descend a urpx:URPXPackage wrapper.
-;;   keep coerce-doc                THE ONE THAT BITES. load-graph returns parsed
-;;                                  but UNTYPED entities: urpx:effectiveDateTime
-;;                                  is still the string "2026-03-20", not a
-;;                                  LocalDateTime, so every version-window
-;;                                  comparison throws ClassCastException.
-;;
-;; Measured by them at the pinned enumerator over this corpus: the old form with
-;; no instant returned 202 pairs, a plausible wrong number rather than a
-;; rejection, because with no :at their enumerator answers over the whole
-;; expressed space and never touches a date, so uncoerced documents sail
-;; through. With an instant it threw. The correct form gives 84 coerced docs and
-;; 144 pairs.
-;;
-;; That failure is the same shape as the one this gate found on our side: a
-;; number that agrees or disagrees for a reason unrelated to the question. They
-;; are adding an uncoerced-document guard to arrangements so a future wrong form
-;; is refused with a named reason rather than answered.
-(def ^:private documents
+;; The corpus, as documents, through urpx.load/documents: load-graph mapcat'd,
+;; expand-document-entities, coerce-doc kept, in place of composing those by
+;; hand, which an earlier version of this probe got wrong in the way that
+;; returns a plausible number rather than an error. Since
+;; clj-urpx 0.36.0 it also yields each urpx:URPXPackage as a SHELL, its own
+;; properties with every payload replaced by a reference, which is how a zone
+;; declared only on a package reaches the enumerator under :package-zones.
+(def ^:private paths
   (try
-    (require '[urpx.core :as core])
     (require 'urpx-rate-plans)
-    (let [paths ((resolve 'urpx-rate-plans/paths) ".")]
-      (when (empty? paths)
-        (emit "documents-error" "no filing JSON-LD under us/"))
-      (require '[urpx.coerce :as coerce])
-      (let [load-graph (resolve 'urpx.core/load-graph)
-            expand     (resolve 'urpx.core/expand-document-entities)
-            coerce-doc (resolve 'urpx.coerce/coerce-doc)]
-        (when-not (and load-graph expand coerce-doc)
-          (emit "documents-error"
-                (str "pinned clj-urpx lacks one of the loaders this probe needs: "
-                     "core/load-graph=" (some? load-graph)
-                     " core/expand-document-entities=" (some? expand)
-                     " coerce/coerce-doc=" (some? coerce-doc))))
-        (let [docs (->> paths (mapcat load-graph) (mapcat expand) (keep coerce-doc) vec)]
-          (when (empty? docs)
-            (emit "documents-error"
-                  (str (count paths) " filing path(s) yielded zero coerced documents")))
-          docs)))
+    ((resolve 'urpx-rate-plans/paths) ".")
     (catch Throwable t (emit "documents-error" (one-line t)))))
 
-;; ALL FOUR PARAMETERS ARE STATED, none defaulted, because matching on a default
+(def ^:private documents
+  (try
+    (when (empty? paths)
+      (emit "documents-error" "no filing JSON-LD under us/"))
+    (require 'urpx.load)
+    (let [load-docs (resolve 'urpx.load/documents)]
+      (when-not load-docs
+        (emit "documents-error" "pinned clj-urpx lacks urpx.load/documents"))
+      (let [docs (load-docs paths)]
+        (when (empty? docs)
+          (emit "documents-error"
+                (str (count paths) " filing path(s) yielded zero coerced documents")))
+        docs))
+    (catch Throwable t (emit "documents-error" (one-line t)))))
+
+;; ALL FIVE PARAMETERS ARE STATED, none defaulted, because matching on a default
 ;; is agreement by coincidence rather than by assertion. Three are clj-urpx
 ;; options; the instant is ours. What each one is doing, and what it costs:
 ;;
@@ -260,6 +234,12 @@
 ;;                   copy-local property above. Under refuse a new one fires
 ;;                   here instead of being silently merged, which is the point.
 ;;
+;;   :package-zones  :agree, clj-urpx's own default. A urpx:timezoneIdentifier
+;;                   on a package is one more declaration, which must agree
+;;                   with the version's, its identity's and its document's.
+;;                   Our side reads no zone to enumerate, so this pin can only
+;;                   refuse (:conflicting-timezone), never move a pair.
+;;
 ;; Our side resolves a repeated @id by AUTHORITY, the definition in the version's
 ;; own filing, which is a corpus-layout rule no library can implement. With no
 ;; repeated @ids left, the two sides agree without either rule being exercised.
@@ -268,7 +248,8 @@
   {:at            (ZonedDateTime/parse at-literal)
    :combine       @(ns-resolve api-ns 'one-modifier-at-most)
    :compatibility @(ns-resolve api-ns 'named-versions-add)
-   :repeated-ids  @(ns-resolve api-ns 'repeated-ids-refuse)})
+   :repeated-ids  @(ns-resolve api-ns 'repeated-ids-refuse)
+   :package-zones :agree})
 
 (def ^:private result
   (try (f documents opts)
@@ -298,24 +279,41 @@
 (println (str "XC-END " (count (set (map (fn [[b m]] [b (set m)]) result)))))
 (flush)
 
-;; The same instant and policies, with open dimensions expanded: one
-;; arrangement per selection. Each is printed as its identity with the
-;; selections reduced to their alternative @ids, sorted, which is the form
+;; The same instant and policies, with open dimensions expanded: one model per
+;; selection, each printed as its identity-tuple, which is the form
 ;; dev/scenario_cost_models.py identifies a scenario cost model by.
-(let [g (ns-resolve api-ns 'arrangements)]
-  (if (nil? g)
-    (println (str "XC-MODELS-ERROR " api-ns "/arrangements is not interned"))
-    (let [arrs (try (g documents opts)
-                    (catch Throwable t
-                      (println (str "XC-MODELS-ERROR " (one-line t)))
-                      (flush)
-                      (System/exit 0)))
-          rows (sort (map (fn [a]
-                            (str (:urpx.arrangement/version-id a) "\t"
-                                 (str/join "," (sort (:urpx.arrangement/modifier-version-ids a))) "\t"
-                                 (str/join "," (sort (vals (:urpx.arrangement/selections a))))))
-                          arrs))]
-      (doseq [r rows] (println (str "XC-MODEL\t" r)))
-      (println (str "XC-MODELS-END " (count arrs))))))
+(def ^:private models
+  (try ((ns-resolve api-ns 'enumerate) documents opts)
+       (catch Throwable t
+         (println (str "XC-MODELS-ERROR " (one-line t)))
+         (flush)
+         (System/exit 0))))
+
+(let [identity-tuple (ns-resolve api-ns 'identity-tuple)
+      rows (sort (map (fn [m]
+                        (let [[base mods alts] (identity-tuple m)]
+                          (str base "\t" (str/join "," mods) "\t" (str/join "," alts))))
+                      models))]
+  (doseq [r rows] (println (str "XC-MODEL\t" r)))
+  (println (str "XC-MODELS-END " (count models))))
+(flush)
+
+;; Each model as the urpx:ScenarioCostModel node clj-urpx builds, its @id minted
+;; by rate-plans-iri, clj-urpx's implementation of this repository's IRI rule,
+;; and written by urpx.emit with no @context. Compact @ids are expanded through
+;; the corpus filings' own @contexts, not through the report's, so the node is
+;; built from nothing this repository emitted. The caller compares each against
+;; the node reports/scenario-cost-models.jsonld carries for the same identity.
+(try
+  (require 'urpx.emit)
+  (let [node    (ns-resolve api-ns 'node)
+        iri-fn  @(ns-resolve api-ns 'rate-plans-iri)
+        write   (resolve 'urpx.emit/write-scenario-cost-model)
+        read    (requiring-resolve 'clojure.data.json/read-str)
+        context (vec (distinct (keep #(get (read (slurp %)) "@context") paths)))
+        lines   (sort (map #(write (node % iri-fn {:context context}) {:context nil}) models))]
+    (doseq [l lines] (println (str "XC-NODE\t" l)))
+    (println (str "XC-NODES-END " (count lines))))
+  (catch Throwable t (println (str "XC-NODES-ERROR " (one-line t)))))
 (flush)
 (System/exit 0)

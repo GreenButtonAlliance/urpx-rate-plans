@@ -313,12 +313,14 @@ case "$MODE" in
     fi
 
     # Two implementations of one rule exist: dev/scenario_cost_models.py here and
-    # clj-urpx's urpx.arrangements, which enumerates the same set. Two plausible
-    # halves with nothing comparing them is the failure this repository keeps
-    # recording, so this compares MEMBERSHIP in both directions, three times:
-    # the (base, modifier-set) compositions, the scenario cost models with open
-    # ProfileAlternatives dimensions expanded, and the nodes of the committed
-    # reports/scenario-cost-models.jsonld against that expanded set.
+    # clj-urpx's urpx.scenario-cost-model, which enumerates the same set. Two
+    # plausible halves with nothing comparing them is the failure this repository
+    # keeps recording, so this compares MEMBERSHIP in both directions, three
+    # times: the (base, modifier-set) compositions, the scenario cost models with
+    # open ProfileAlternatives dimensions expanded, and the nodes of the committed
+    # reports/scenario-cost-models.jsonld against that expanded set. Then each of
+    # those nodes against the node clj-urpx builds for the same model, its @id
+    # minted by clj-urpx's implementation of this repository's IRI rule.
     #
     # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
@@ -342,9 +344,9 @@ case "$MODE" in
     #
     # The comparison runs or the check fails. A load error, an empty result or a
     # wrong shape FAILS, because "present but produced nothing" must never read
-    # as a pass. urpx.arrangements absent FAILS too, naming whether its 0.36.0
-    # successor urpx.scenario-cost-model loads instead, and a missing var FAILS
-    # naming the var: a rename must not stop the comparison with the gate green.
+    # as a pass. urpx.scenario-cost-model absent FAILS too, naming whether its
+    # 0.35.0 name urpx.arrangements loads instead, and a missing var FAILS naming
+    # the var: a rename must not stop the comparison with the gate green.
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
@@ -507,12 +509,14 @@ case "$MODE" in
     fi
 
     # Two implementations of one rule exist: dev/scenario_cost_models.py here and
-    # clj-urpx's urpx.arrangements, which enumerates the same set. Two plausible
-    # halves with nothing comparing them is the failure this repository keeps
-    # recording, so this compares MEMBERSHIP in both directions, three times:
-    # the (base, modifier-set) compositions, the scenario cost models with open
-    # ProfileAlternatives dimensions expanded, and the nodes of the committed
-    # reports/scenario-cost-models.jsonld against that expanded set.
+    # clj-urpx's urpx.scenario-cost-model, which enumerates the same set. Two
+    # plausible halves with nothing comparing them is the failure this repository
+    # keeps recording, so this compares MEMBERSHIP in both directions, three
+    # times: the (base, modifier-set) compositions, the scenario cost models with
+    # open ProfileAlternatives dimensions expanded, and the nodes of the committed
+    # reports/scenario-cost-models.jsonld against that expanded set. Then each of
+    # those nodes against the node clj-urpx builds for the same model, its @id
+    # minted by clj-urpx's implementation of this repository's IRI rule.
     #
     # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
@@ -536,9 +540,9 @@ case "$MODE" in
     #
     # The comparison runs or the check fails. A load error, an empty result or a
     # wrong shape FAILS, because "present but produced nothing" must never read
-    # as a pass. urpx.arrangements absent FAILS too, naming whether its 0.36.0
-    # successor urpx.scenario-cost-model loads instead, and a missing var FAILS
-    # naming the var: a rename must not stop the comparison with the gate green.
+    # as a pass. urpx.scenario-cost-model absent FAILS too, naming whether its
+    # 0.35.0 name urpx.arrangements loads instead, and a missing var FAILS naming
+    # the var: a rename must not stop the comparison with the gate green.
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"

@@ -5,22 +5,26 @@
 models, rather than the same NUMBER of them.
 
 Two implementations of one rule exist: dev/scenario_cost_models.py here, and
-clj-urpx's urpx.arrangements, which enumerates the same set under its own name.
+clj-urpx's urpx.scenario-cost-model, which enumerates the same set.
 Equal totals over different members is the failure this repository keeps
 hitting, and counting is what fails to catch it.
 
-WHAT IS COMPARED, in three steps, each membership in both directions
+WHAT IS COMPARED, in four steps, each membership in both directions
 
   1. Compositions, open dimensions UNEXPANDED:
          #{[<base version IRI> #{<modifier version IRI> ...}] ...}
-     against urpx.arrangements/arrangement-pairs.
+     against urpx.scenario-cost-model/enumerate-pairs.
   2. Scenario cost models, open dimensions expanded, as full identities:
          (<base version IRI>, <sorted modifier version IRIs>, <sorted alternative IRIs>)
-     against urpx.arrangements/arrangements, selections reduced to their
-     alternative @ids.
+     against urpx.scenario-cost-model/enumerate, each read through
+     identity-tuple.
   3. The nodes of the committed reports/scenario-cost-models.jsonld, read back
      to identities, against step 2's set; every node's @id is re-derived from
      its identity on the way.
+  4. Those nodes against the node urpx.scenario-cost-model/node builds for
+     each of clj-urpx's models, its @id minted by rate-plans-iri: the same
+     @id, @type and references, so the IRI rule is checked against clj-urpx's
+     own implementation of it. urpx:name is ours alone and is not compared.
 
 Step 1 runs first because a disagreement about what composes with what is
 easier to read than the same disagreement multiplied by every open dimension.
@@ -45,15 +49,14 @@ THE COMPARISON RUNS OR THE CHECK FAILS
   API_NAMESPACE loads, its vars present   The comparison MUST run and MUST
                                           agree. A load error, an empty result
                                           or a wrong shape FAILS.
-  API_NAMESPACE absent, a successor loads FAIL. clj-urpx renamed it; this
-                                          check implements the old API only.
+  API_NAMESPACE absent, another loads    FAIL, naming the one that loads. A
+                                          pin moved back to clj-urpx 0.35.0 or
+                                          earlier shows as urpx.arrangements.
   neither loads                           FAIL, naming every namespace tried.
   loads, a var it calls is absent         FAIL, naming the missing vars.
 
-There is no passing state in which nothing was compared. An earlier version
-passed when the namespace was absent, which was right before clj-urpx shipped
-it and would be wrong after: a rename would have stopped the comparison while
-the gate stayed green.
+There is no passing state in which nothing was compared: a rename must not
+stop the comparison while the gate stays green.
 
 Exit codes follow dev/gate.sh: 0 green, 1 a disagreement or a broken contract,
 3 refused (this side could not produce an answer at all).
@@ -76,15 +79,15 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 PROBE = REPO / "dev" / "cross_check_scenario_cost_models.clj"
 EMITTED = "reports/scenario-cost-models.jsonld"
 
-# The clj-urpx 0.35.0 API this check calls, and the name it moves to in 0.36.0.
-# The successor is only probed for, to say what happened when API_NAMESPACE is
+# The clj-urpx 0.36.0 API this check calls, and the name it had through 0.35.0.
+# The old name is only probed for, to say what happened when API_NAMESPACE is
 # gone; its API is not implemented here.
-API_NAMESPACE = "urpx.arrangements"
-SUCCESSOR_NAMESPACES = ["urpx.scenario-cost-model"]
+API_NAMESPACE = "urpx.scenario-cost-model"
+OTHER_NAMESPACES = ["urpx.arrangements"]
 
 # Test hooks. Each run with one set announces itself in the output, so neither
 # can disarm the check without saying so. EXTRA_PATHS_ENV only ADDS classpath
-# entries, for a stub. NAMESPACES_ENV replaces API_NAMESPACE and the successors
+# entries, for a stub. NAMESPACES_ENV replaces API_NAMESPACE and OTHER_NAMESPACES
 # with a comma-separated list, first the API namespace; pointing it at a
 # namespace that does not exist must fail the check.
 EXTRA_PATHS_ENV = "URPX_CROSSCHECK_EXTRA_PATHS"
@@ -97,7 +100,7 @@ def namespaces() -> list[str]:
         names = [n.strip() for n in override.split(",") if n.strip()]
         if names:
             return names
-    return [API_NAMESPACE, *SUCCESSOR_NAMESPACES]
+    return [API_NAMESPACE, *OTHER_NAMESPACES]
 
 REGRESSION, REFUSED = 1, 3
 
@@ -149,8 +152,18 @@ def run_probe(at: str, combine: str) -> tuple[list[str], str, int]:
 def parse_probe(lines: list[str]) -> tuple[str, str, set, dict]:
     state, detail, pairs = None, "", set()
     end = None
-    models: dict = {"rows": set(), "end": None, "error": None, "lines": 0}
+    models: dict = {"rows": set(), "end": None, "error": None, "lines": 0,
+                    "nodes": [], "nodes_end": None, "nodes_error": None}
     for ln in lines:
+        if ln.startswith("XC-NODES-ERROR "):
+            models["nodes_error"] = ln[len("XC-NODES-ERROR "):]
+            continue
+        if ln.startswith("XC-NODE\t"):
+            models["nodes"].append(ln[len("XC-NODE\t"):])
+            continue
+        if ln.startswith("XC-NODES-END "):
+            models["nodes_end"] = int(ln[len("XC-NODES-END "):])
+            continue
         if ln.startswith("XC-MODELS-ERROR "):
             models["error"] = ln[len("XC-MODELS-ERROR "):]
             continue
@@ -188,9 +201,10 @@ def describe_models(tag: str, models: set, limit: int = 12) -> list[str]:
     return out
 
 
-def emitted_models() -> set:
+def emitted_models() -> tuple[set, dict]:
     """The identities the committed reports/scenario-cost-models.jsonld carries,
-    read back off its nodes, with every node's @id re-derived from its identity."""
+    read back off its nodes, with every node's @id re-derived from its identity,
+    and each node in absolute IRIs keyed by its absolute @id."""
     import json
 
     path = REPO / EMITTED
@@ -199,6 +213,7 @@ def emitted_models() -> set:
     doc = json.loads(path.read_text())
     prefixes = doc.get("@context") or {}
     out = set()
+    nodes: dict = {}
     for node in doc.get("@graph") or []:
         ids = lambda k: [x["@id"] for x in (node.get(k) or [])]  # noqa: E731
         identity = scm.model_identity(node["urpx:consumesVersion"]["@id"],
@@ -210,8 +225,51 @@ def emitted_models() -> set:
         if scm.expand_iri(node["@id"], prefixes) != scm.model_iri(absolute):
             raise Refused(f"{EMITTED}: {node['@id']} is not the IRI its own identity derives.")
         out.add(identity)
+        nodes[scm.expand_iri(node["@id"], prefixes)] = absolute_node(node, prefixes)
     if not out:
         raise Refused(f"{EMITTED} carries no node.")
+    return out, nodes
+
+
+# Compared on each node. urpx:name is this corpus's label and clj-urpx's node
+# carries none unless a caller passes one.
+NODE_REFS = ("urpx:consumesVersion", "urpx:consumesModifierVersion",
+             "urpx:selectsProfileAlternative")
+
+
+def absolute_node(node: dict, prefixes: dict) -> dict:
+    """`node` reduced to what both sides state, every @id absolute: its @id,
+    @type, the property set it carries and each reference in order."""
+    def refs(v):
+        vs = v if isinstance(v, list) else [v]
+        return [scm.expand_iri(x["@id"], prefixes) for x in vs]
+    return {
+        "@id": scm.expand_iri(node["@id"], prefixes),
+        "@type": node.get("@type"),
+        "properties": tuple(sorted(k for k in node if k not in ("@id", "@type", "urpx:name"))),
+        **{k: refs(node[k]) for k in NODE_REFS if k in node},
+    }
+
+
+def compare_nodes(theirs: list[str], ours: dict) -> list[str]:
+    """Each of clj-urpx's nodes against ours with the same @id, and the @id sets
+    against each other. Returns the disagreements, empty when they agree."""
+    import json
+
+    by_id: dict = {}
+    for line in theirs:
+        n = json.loads(line)
+        by_id[n.get("@id")] = absolute_node(n, {})
+    out = []
+    for iri in sorted(set(ours) - set(by_id))[:12]:
+        out.append(f"ours only   {iri}")
+    for iri in sorted(set(by_id) - set(ours))[:12]:
+        out.append(f"theirs only {iri}")
+    for iri in sorted(set(ours) & set(by_id)):
+        if ours[iri] != by_id[iri]:
+            diff = {k: (ours[iri].get(k), by_id[iri].get(k))
+                    for k in set(ours[iri]) | set(by_id[iri]) if ours[iri].get(k) != by_id[iri].get(k)}
+            out.append(f"differs     {iri}: {diff}")
     return out
 
 
@@ -287,9 +345,10 @@ def main() -> int:
             "failure: the namespace was renamed or removed, or the classpath is wrong.")
     if state == "ns-renamed":
         return fail(
-            f"{api} is absent and {detail} loads: clj-urpx renamed the namespace.",
-            "This check implements the old API only. Port dev/cross_check_scenario_cost_models.clj",
-            "to the new one in the same change that moves the clj-urpx pin.")
+            f"{api} is absent and {detail} loads: the namespace moved under the clj-urpx pin.",
+            f"This check implements {api} only. Either the pin in deps.edn moved to a release",
+            "without it, or clj-urpx renamed it again; port dev/cross_check_scenario_cost_models.clj",
+            "in the same change that moves the pin.")
     if state == "ns-load-error":
         return fail(
             f"{api} IS on the classpath in clj-urpx {pinned} and threw while loading.",
@@ -304,12 +363,12 @@ def main() -> int:
         return fail("the corpus would not load on the clj-urpx side.", detail)
     if state == "call-error":
         return fail(
-            f"{api}/arrangement-pairs threw when called in clj-urpx {pinned}.",
+            f"{api}/enumerate-pairs threw when called in clj-urpx {pinned}.",
             detail,
             "The document form this passes is an assumption of ours; see the comment in",
             "dev/cross_check_scenario_cost_models.clj. Either way the comparison did not happen.")
     if state == "shape-error":
-        return fail("arrangement-pairs did not return a set of [base #{modifiers}] pairs.", detail)
+        return fail("enumerate-pairs did not return a set of [base #{modifiers}] pairs.", detail)
     if state == "truncated":
         return fail("the clj-urpx side started emitting pairs and did not finish.",
                     f"exit {rc}", stderr[-400:] if stderr else "")
@@ -321,7 +380,7 @@ def main() -> int:
     # ACTIVE from here on: every path must either agree or fail.
     if not theirs:
         return fail(
-            "arrangement-pairs returned an empty set.",
+            "enumerate-pairs returned an empty set.",
             "Present but producing nothing is a failure. An empty set agrees with",
             "nothing and must never read as a pass.")
     bad = sorted(f"{b} + {sorted(m)}" for b, m in theirs if len(m) > 1)
@@ -350,21 +409,21 @@ def main() -> int:
     # nodes against the same set, so the count clj-price-server reads off the
     # artifact is the count both enumerators arrive at.
     if their_models["error"]:
-        return fail(f"{api}/arrangements could not be asked.", their_models["error"])
+        return fail(f"{api}/enumerate could not be asked.", their_models["error"])
     if their_models["end"] is None:
-        return fail("the clj-urpx side did not finish emitting arrangements.",
+        return fail("the clj-urpx side did not finish emitting models.",
                     f"exit {rc}", stderr[-400:] if stderr else "")
     theirs_m = their_models["rows"]
     if their_models["end"] != their_models["lines"] or len(theirs_m) != their_models["end"]:
         return fail(
-            f"clj-urpx returned {their_models['end']} arrangements, printed "
+            f"clj-urpx returned {their_models['end']} models, printed "
             f"{their_models['lines']}, of which {len(theirs_m)} are distinct identities.")
     try:
         mine_m = scm.enumerate_models(at, combine=args.combine)
     except SystemExit as e:
         raise Refused(str(e).removeprefix("REFUSING: "))
     print(f"  ours     {len(mine_m)} scenario cost models (open dimensions expanded)")
-    print(f"  theirs   {len(theirs_m)} arrangements ({api}/arrangements)")
+    print(f"  theirs   {len(theirs_m)} scenario cost models ({api}/enumerate)")
     if mine_m != theirs_m:
         return fail(
             f"the expanded enumerations disagree ({len(mine_m)} ours, {len(theirs_m)} theirs).",
@@ -372,7 +431,7 @@ def main() -> int:
             *describe_models("ours  ", mine_m - theirs_m),
             *describe_models("theirs", theirs_m - mine_m))
     print(f"  agreed   {len(mine_m)} scenario cost models, identical identities in both directions")
-    emitted = emitted_models()
+    emitted, emitted_nodes = emitted_models()
     if emitted != mine_m:
         return fail(
             f"{EMITTED} carries {len(emitted)} nodes; the enumeration at this instant is "
@@ -385,6 +444,19 @@ def main() -> int:
             "instant. A version filed for a later date separates them: regenerate, or move the",
             "instant in both repositories together.")
     print(f"  emitted  {len(emitted)} nodes in {EMITTED}, the same identities, every @id re-derived")
+
+    if their_models["nodes_error"]:
+        return fail(f"{api}/node could not build the nodes.", their_models["nodes_error"])
+    if their_models["nodes_end"] is None or their_models["nodes_end"] != len(their_models["nodes"]):
+        return fail("the clj-urpx side did not finish emitting nodes.",
+                    f"exit {rc}", stderr[-400:] if stderr else "")
+    bad_nodes = compare_nodes(their_models["nodes"], emitted_nodes)
+    if bad_nodes:
+        return fail(
+            f"{EMITTED} and {api}/node under rate-plans-iri disagree on {len(bad_nodes)} node(s).",
+            *bad_nodes[:12])
+    print(f"  nodes    {len(emitted_nodes)} identical to {api}/node under rate-plans-iri "
+          "(@id, @type, properties, references; urpx:name not compared)")
     return 0
 
 

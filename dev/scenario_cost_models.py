@@ -30,7 +30,7 @@ dev/list_ready_for_use.py, dev/list_rate_identifiers.py and
 dev/list_version_continuity.py. They share it rather than each carrying a walk,
 because the failure this repository keeps hitting is two lists that drift.
 dev/cross_check_scenario_cost_models.py consumes it too, for the opposite
-reason: it asserts that the enumeration clj-urpx's urpx.arrangements arrives at
+reason: it asserts that the enumeration clj-urpx's urpx.scenario-cost-model arrives at
 independently has the same members as the one here.
 
 Nothing here is hand-maintained. Every number is derived from the corpus, from

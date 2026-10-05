@@ -37,6 +37,7 @@
             [clojure.string :as str]
             [urpx.core :as core]
             [urpx.coerce :as coerce]
+            [urpx.index :as index]
             [urpx.price :as price]
             [urpx.schema :as schema]
             [urpx-rate-plans :as layout])
@@ -280,6 +281,14 @@
   {"sce:cca-crs-2026-03-20-pa-pcia-vintage" "sce:cca-crs-2026-03-20-pa-vintage-2001"
    "sce:da-crs-2026-03-20-pa-pcia-vintage"  "sce:da-crs-2026-03-20-pa-vintage-2001"})
 
+(defn- nominations-for
+  "The entries of `profile-alternative-nominations` whose container is in
+   `docs`. clj-urpx 0.36.0 refuses a selection keyed by a container absent from
+   the documents being resolved, so each call passes only its own."
+  [& docs]
+  (let [present (into #{} (mapcat #(keys (index/entities-of-type % "urpx:ProfileAlternatives"))) docs)]
+    (select-keys profile-alternative-nominations present)))
+
 (def refusal-tally (atom {}))
 (def marginal-count (atom 0))
 
@@ -368,7 +377,7 @@
     ;; right answer, not a failure. Any other refusal still fails.
     (try
       (let [resolved (price/resolve-prices (load-plan! path) instant
-                                           {:profile-alternatives profile-alternative-nominations})]
+                                           {:profile-alternatives (nominations-for (load-plan! path))})]
         {:status  :ok
          :ledgers (count (:urpx.resolved/ledgers resolved))
          :rate    (price/marginal-unit-rate resolved)})
@@ -420,7 +429,7 @@
     (let [base (load-plan! (:path base-info))]
       (try
         (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant
-                                                            {:profile-alternatives profile-alternative-nominations})]
+                                                            {:profile-alternatives (nominations-for base modifier)})]
           {:status       :ok
            :base-version (:date base-info)
            :ledgers      (count (:urpx.resolved/ledgers resolved))

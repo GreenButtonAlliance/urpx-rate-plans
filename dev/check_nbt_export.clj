@@ -7,12 +7,11 @@
    WHY THIS EXISTS. The NBT filings price the Energy Export Credit hour by hour,
    month by month, weekday against weekend, per interconnection vintage: 4,608
    to 5,760 mutually exclusive Prices per filing, of which one applies at any
-   instant. Two clj-urpx behaviors make getting that wrong silent. A bracket
-   gap (URPX-hlv) leaves the TOU period nil and admits EVERY Price on the
-   ledger, and a mistyped :profile-alternatives container key (URPX-ljo)
-   withholds every Price with no error. Neither throws, and the marginal-rate
-   baseline cannot see either, because export ledgers are excluded from the
-   import marginal.
+   instant. A gap in the modifier's brackets contributes no Price at that
+   instant (URPX-zoq) and does not throw, and the marginal-rate baseline cannot
+   see it, because export ledgers are excluded from the import marginal; here
+   it is zero tiers where one is expected. A mistyped :profile-alternatives
+   container key refuses (URPX-ljo), and here that is a refused segment.
 
    WHAT IS CHECKED. Each NBT modifier is composed with the latest filing of
    every base plan its urpx:applicableToRatePlan names. For each vintage
@@ -43,8 +42,8 @@
    HOLIDAYS. Each tariff prices weekday against weekend/holiday, so a weekday
    holiday expects that hour's weekend cell. Which days are holidays comes from
    the base plan's urpx:HolidayCalendar through urpx.holidays/derive-predicate,
-   the calendar a composed resolution reads; a base with no calendar has no
-   holidays. So that a calendar regression cannot agree with itself, the 2026
+   the calendar a composed resolution reads for a modifier that carries none of
+   its own, as no NBT modifier does; a base with no calendar has no holidays. So that a calendar regression cannot agree with itself, the 2026
    holidays each base's calendar yields must equal `tariff-holidays-2026`,
    copied from the tariff text.
 

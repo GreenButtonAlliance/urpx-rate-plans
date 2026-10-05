@@ -71,7 +71,7 @@ graph TB
     style A3 fill:#ede7ff,stroke:#5b3fd4,stroke-width:3px
 ```
 
-Which modifier sets may sit on one base is a policy, because nothing in URPX states that two modifiers exclude or combine. This corpus enumerates the base alone and the base plus exactly one modifier (`COMBINE_AT_MOST_ONE_MODIFIER` in `dev/scenario_cost_models.py`); clj-urpx's `urpx.arrangements` calls the same policy `one-modifier-at-most`.
+Which modifier sets may sit on one base is a policy, because nothing in URPX states that two modifiers exclude or combine. This corpus enumerates the base alone and the base plus exactly one modifier (`COMBINE_AT_MOST_ONE_MODIFIER` in `dev/scenario_cost_models.py`); clj-urpx's `urpx.scenario-cost-model` calls the same policy `one-modifier-at-most`.
 
 ## What makes two distinct
 
@@ -150,7 +150,7 @@ Each node's `urpx:name` is built from the consumed plans' and selected alternati
 
 A client that needs the scenario cost models, such as a price server publishing one program per model, should compute them from the corpus rather than read `reports/scenario-cost-models.jsonld`. The committed document is current as of its last regeneration, and a version that takes effect afterwards changes the set with no change to the corpus.
 
-clj-urpx computes it. Walk the corpus's documents (`corpus.json` lists them and the walkers that read them), load and coerce them as `dev/cross_check_scenario_cost_models.clj` does, and call `urpx.arrangements/arrangements` with every policy pinned to the ones this corpus is checked under:
+clj-urpx computes it. Walk the corpus's documents (`corpus.json` lists them and the walkers that read them), load them with `urpx.load/documents` as `dev/cross_check_scenario_cost_models.clj` does, and call `urpx.scenario-cost-model/enumerate` with every policy pinned to the ones this corpus is checked under:
 
 | Option | Value |
 |---|---|
@@ -158,8 +158,9 @@ clj-urpx computes it. Walk the corpus's documents (`corpus.json` lists them and 
 | `:combine` | `one-modifier-at-most` |
 | `:compatibility` | `named-versions-add`, which is not clj-urpx's default; see [Agreement with clj-urpx](#agreement-with-clj-urpx) |
 | `:repeated-ids` | `repeated-ids-refuse` |
+| `:package-zones` | `:agree` |
 
-The IRIs follow [IRIs](#iris), which clj-urpx implements and tests against the vectors there. Each node's `urpx:name` is this corpus's label, built as [The emitted document](#the-emitted-document) describes; a client wanting the same names builds them the same way. clj-urpx is renaming `urpx.arrangements` to `urpx.scenario-cost-model`, with `enumerate` in place of `arrangements`.
+The IRIs follow [IRIs](#iris), which clj-urpx implements as `urpx.scenario-cost-model/rate-plans-iri` and tests against the vectors there; `urpx.scenario-cost-model/node` with it as the IRI function builds each model's node. Each node's `urpx:name` is this corpus's label, built as [The emitted document](#the-emitted-document) describes; a client wanting the same names builds them the same way.
 
 The committed document is the reference such a client is checked against: `dev/gate.sh` requires clj-urpx's enumeration, at the pinned instant and under these policies, to equal it node for node.
 
@@ -187,7 +188,7 @@ All three are generated from the corpus and the recorded resolution baseline. No
 
 ## Agreement with clj-urpx
 
-clj-urpx's `urpx.arrangements` enumerates the same set independently. `dev/cross_check_scenario_cost_models.py` compares, at a pinned instant and under named policies, in both directions: the (base version, modifier versions) compositions against `urpx.arrangements/arrangement-pairs`; the scenario cost models with open dimensions expanded against `urpx.arrangements/arrangements`; and the nodes of `reports/scenario-cost-models.jsonld` against that expanded set, re-deriving every node's IRI on the way. It runs in `dev/gate.sh`, which prints the agreed counts on every run. If `urpx.arrangements` does not load, or lacks a var the check calls, the check fails and names what is missing, including whether `urpx.scenario-cost-model`, the name clj-urpx is moving it to, loads in its place; `dev/test_cross_check_namespaces.py` makes each of those cases fire.
+clj-urpx's `urpx.scenario-cost-model` enumerates the same set independently. `dev/cross_check_scenario_cost_models.py` compares, at a pinned instant and under named policies, in both directions: the (base version, modifier versions) compositions against `urpx.scenario-cost-model/enumerate-pairs`; the scenario cost models with open dimensions expanded against `urpx.scenario-cost-model/enumerate`, read through `identity-tuple`; the nodes of `reports/scenario-cost-models.jsonld` against that expanded set, re-deriving every node's IRI on the way; and those nodes against the ones `urpx.scenario-cost-model/node` builds under `rate-plans-iri`, comparing `@id`, `@type` and references. It runs in `dev/gate.sh`, which prints the agreed counts on every run. If `urpx.scenario-cost-model` does not load, or lacks a var the check calls, the check fails and names what is missing, including whether `urpx.arrangements`, its name through clj-urpx 0.35.0, loads in its place; `dev/test_cross_check_namespaces.py` makes each of those cases fire.
 
 One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships both readings and takes no position between them; this repository assumes the additive one. Worth knowing for anyone reading this corpus with it: its default is the third reading below, the one nothing in the decision argues for.
 

@@ -5,8 +5,9 @@
 clj-urpx namespace can be missing must FAIL the check (exit 1), never pass it.
 
 Each case points the check at a namespace list through URPX_CROSSCHECK_NAMESPACES
-(first the API namespace, then its successors) and asserts the exit code and
-the line that names what is missing.
+(first the API namespace, then the other names probed) and asserts the exit
+code and the line that names what is missing. One case asserts that
+urpx.arrangements, the clj-urpx 0.35.0 name, does not load under the pin.
 
 Run: python3 dev/test_cross_check_namespaces.py
 """
@@ -41,12 +42,16 @@ def case(name: str, namespaces: str, want: str, extra_paths: str | None = None) 
 case("neither namespace exists",
      "urpx.no-such-namespace,urpx.also-missing",
      "none of urpx.no-such-namespace, urpx.also-missing loads")
-case("the API namespace is gone and a successor loads",
+case("the API namespace is gone and another loads",
      "urpx.no-such-namespace,urpx.price",
      "urpx.no-such-namespace is absent and urpx.price loads")
 case("the namespace loads without the vars the check calls",
      "urpx.price",
-     "urpx.price lacks arrangement-pairs, arrangements")
+     "urpx.price lacks enumerate-pairs, enumerate, identity-tuple, node, rate-plans-iri, "
+     "one-modifier-at-most, named-versions-add, repeated-ids-refuse")
+case("the 0.35.0 namespace is gone under the pin",
+     "urpx.arrangements",
+     "none of urpx.arrangements loads")
 with tempfile.TemporaryDirectory() as d:
     stub = pathlib.Path(d) / "urpx"
     stub.mkdir()
