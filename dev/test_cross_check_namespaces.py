@@ -48,7 +48,7 @@ case("the API namespace is gone and another loads",
 case("the namespace loads without the vars the check calls",
      "urpx.price",
      "urpx.price lacks enumerate-pairs, enumerate, identity-tuple, node, rate-plans-iri, "
-     "one-modifier-at-most, named-versions-add, repeated-ids-refuse")
+     "rate-plans-name, one-modifier-at-most, named-versions-add, repeated-ids-refuse")
 case("the 0.35.0 namespace is gone under the pin",
      "urpx.arrangements",
      "none of urpx.arrangements loads")

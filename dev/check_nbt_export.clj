@@ -330,8 +330,7 @@
 
 (defn- walk-vintage
   [exp base modifier by-id alt [start end]]
-  (let [segs (schedule/price-segments base [modifier] (.toInstant ^ZonedDateTime start)
-                                      (.toInstant ^ZonedDateTime end) la
+  (let [segs (schedule/price-segments base [modifier] start end
                                       {:profile-alternatives {(:container exp) alt}
                                        :by-id by-id})
         tiling (keep (fn [[a b]] (when (not= (.toInstant ^ZonedDateTime (:tick/end a))

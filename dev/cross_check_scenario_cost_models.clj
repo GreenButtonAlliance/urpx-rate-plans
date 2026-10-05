@@ -9,9 +9,9 @@
 ;;
 ;; It answers three questions: what do <namespace>/enumerate-pairs and
 ;; <namespace>/enumerate return over this corpus at that instant, what node does
-;; <namespace>/node build for each model under <namespace>/rate-plans-iri, and
-;; if they cannot be asked, WHY not. <namespace> is urpx.scenario-cost-model,
-;; the clj-urpx 0.36.0 API. The names after it are probed only to say which one
+;; <namespace>/node build for each model under <namespace>/rate-plans-iri, named
+;; by <namespace>/rate-plans-name, and if they cannot be asked, WHY not.
+;; <namespace> is urpx.scenario-cost-model, the clj-urpx 0.37.0 API. The names after it are probed only to say which one
 ;; is present when <namespace> is not; this probe implements none of their APIs.
 ;; Every answer is a single XC- line on stdout, so the caller reads a state
 ;; rather than inferring one from an exit code that a JVM warning could muddy.
@@ -48,7 +48,7 @@
 ;; Every var this probe resolves in api-ns. Checked before any is called, so a
 ;; missing one is named rather than discovered as a nil deref.
 (def ^:private required-vars
-  '[enumerate-pairs enumerate identity-tuple node rate-plans-iri
+  '[enumerate-pairs enumerate identity-tuple node rate-plans-iri rate-plans-name
     one-modifier-at-most named-versions-add repeated-ids-refuse])
 
 (defn- emit [state detail]
@@ -299,8 +299,9 @@
 (flush)
 
 ;; Each model as the urpx:ScenarioCostModel node clj-urpx builds, its @id minted
-;; by rate-plans-iri, clj-urpx's implementation of this repository's IRI rule,
-;; and written by urpx.emit with no @context. Compact @ids are expanded through
+;; by rate-plans-iri and its urpx:name by rate-plans-name, clj-urpx's
+;; implementations of this repository's IRI and name rules, and written by
+;; urpx.emit with no @context. Compact @ids are expanded through
 ;; the corpus filings' own @contexts, not through the report's, so the node is
 ;; built from nothing this repository emitted. The caller compares each against
 ;; the node reports/scenario-cost-models.jsonld carries for the same identity.
@@ -311,7 +312,9 @@
         write   (resolve 'urpx.emit/write-scenario-cost-model)
         read    (requiring-resolve 'clojure.data.json/read-str)
         context (vec (distinct (keep #(get (read (slurp %)) "@context") paths)))
-        lines   (sort (map #(write (node % iri-fn {:context context}) {:context nil}) models))]
+        name-fn @(ns-resolve api-ns 'rate-plans-name)
+        lines   (sort (map #(write (node % iri-fn {:context context :name (name-fn %)}) {:context nil})
+                           models))]
     (doseq [l lines] (println (str "XC-NODE\t" l)))
     (println (str "XC-NODES-END " (count lines))))
   (catch Throwable t (println (str "XC-NODES-ERROR " (one-line t)))))

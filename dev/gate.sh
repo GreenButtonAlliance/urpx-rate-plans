@@ -320,7 +320,8 @@ case "$MODE" in
     # open ProfileAlternatives dimensions expanded, and the nodes of the committed
     # reports/scenario-cost-models.jsonld against that expanded set. Then each of
     # those nodes against the node clj-urpx builds for the same model, its @id
-    # minted by clj-urpx's implementation of this repository's IRI rule.
+    # and urpx:name minted by clj-urpx's implementations of this repository's
+    # IRI and name rules.
     #
     # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
@@ -516,7 +517,8 @@ case "$MODE" in
     # open ProfileAlternatives dimensions expanded, and the nodes of the committed
     # reports/scenario-cost-models.jsonld against that expanded set. Then each of
     # those nodes against the node clj-urpx builds for the same model, its @id
-    # minted by clj-urpx's implementation of this repository's IRI rule.
+    # and urpx:name minted by clj-urpx's implementations of this repository's
+    # IRI and name rules.
     #
     # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
     #

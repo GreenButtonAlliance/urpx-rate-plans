@@ -22,9 +22,10 @@ WHAT IS COMPARED, in four steps, each membership in both directions
      to identities, against step 2's set; every node's @id is re-derived from
      its identity on the way.
   4. Those nodes against the node urpx.scenario-cost-model/node builds for
-     each of clj-urpx's models, its @id minted by rate-plans-iri: the same
-     @id, @type and references, so the IRI rule is checked against clj-urpx's
-     own implementation of it. urpx:name is ours alone and is not compared.
+     each of clj-urpx's models, its @id minted by rate-plans-iri and its
+     urpx:name by rate-plans-name: the same @id, @type, references and
+     urpx:name, so the IRI and name rules are checked against clj-urpx's own
+     implementations of them. A differing name is reported with both strings.
 
 Step 1 runs first because a disagreement about what composes with what is
 easier to read than the same disagreement multiplied by every open dimension.
@@ -79,7 +80,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 PROBE = REPO / "dev" / "cross_check_scenario_cost_models.clj"
 EMITTED = "reports/scenario-cost-models.jsonld"
 
-# The clj-urpx 0.36.0 API this check calls, and the name it had through 0.35.0.
+# The clj-urpx 0.37.0 API this check calls, and the name it had through 0.35.0.
 # The old name is only probed for, to say what happened when API_NAMESPACE is
 # gone; its API is not implemented here.
 API_NAMESPACE = "urpx.scenario-cost-model"
@@ -231,46 +232,52 @@ def emitted_models() -> tuple[set, dict]:
     return out, nodes
 
 
-# Compared on each node. urpx:name is this corpus's label and clj-urpx's node
-# carries none unless a caller passes one.
+# Compared on each node, with @id, @type, the property set and urpx:name.
 NODE_REFS = ("urpx:consumesVersion", "urpx:consumesModifierVersion",
              "urpx:selectsProfileAlternative")
 
 
 def absolute_node(node: dict, prefixes: dict) -> dict:
     """`node` reduced to what both sides state, every @id absolute: its @id,
-    @type, the property set it carries and each reference in order."""
+    @type, the property set it carries, each reference in order, and its
+    urpx:name."""
     def refs(v):
         vs = v if isinstance(v, list) else [v]
         return [scm.expand_iri(x["@id"], prefixes) for x in vs]
     return {
         "@id": scm.expand_iri(node["@id"], prefixes),
         "@type": node.get("@type"),
-        "properties": tuple(sorted(k for k in node if k not in ("@id", "@type", "urpx:name"))),
+        "properties": tuple(sorted(k for k in node if k not in ("@id", "@type"))),
         **{k: refs(node[k]) for k in NODE_REFS if k in node},
+        "urpx:name": node.get("urpx:name"),
     }
 
 
-def compare_nodes(theirs: list[str], ours: dict) -> list[str]:
+def compare_nodes(theirs: list[str], ours: dict) -> tuple[list[str], list[str]]:
     """Each of clj-urpx's nodes against ours with the same @id, and the @id sets
-    against each other. Returns the disagreements, empty when they agree."""
+    against each other. Returns the structural disagreements and, separately,
+    every urpx:name that differs with both strings; both empty when they agree."""
     import json
 
     by_id: dict = {}
     for line in theirs:
         n = json.loads(line)
         by_id[n.get("@id")] = absolute_node(n, {})
-    out = []
+    out, names = [], []
     for iri in sorted(set(ours) - set(by_id))[:12]:
         out.append(f"ours only   {iri}")
     for iri in sorted(set(by_id) - set(ours))[:12]:
         out.append(f"theirs only {iri}")
     for iri in sorted(set(ours) & set(by_id)):
-        if ours[iri] != by_id[iri]:
-            diff = {k: (ours[iri].get(k), by_id[iri].get(k))
-                    for k in set(ours[iri]) | set(by_id[iri]) if ours[iri].get(k) != by_id[iri].get(k)}
+        mine, theirs_n = ours[iri].get("urpx:name"), by_id[iri].get("urpx:name")
+        if mine != theirs_n:
+            names += [f"name differs {iri}", f"  ours   {mine!r}", f"  theirs {theirs_n!r}"]
+        diff = {k: (ours[iri].get(k), by_id[iri].get(k))
+                for k in set(ours[iri]) | set(by_id[iri])
+                if k != "urpx:name" and ours[iri].get(k) != by_id[iri].get(k)}
+        if diff:
             out.append(f"differs     {iri}: {diff}")
-    return out
+    return out, names
 
 
 def describe(tag: str, pairs: set, limit: int = 12) -> list[str]:
@@ -450,13 +457,20 @@ def main() -> int:
     if their_models["nodes_end"] is None or their_models["nodes_end"] != len(their_models["nodes"]):
         return fail("the clj-urpx side did not finish emitting nodes.",
                     f"exit {rc}", stderr[-400:] if stderr else "")
-    bad_nodes = compare_nodes(their_models["nodes"], emitted_nodes)
+    bad_nodes, bad_names = compare_nodes(their_models["nodes"], emitted_nodes)
     if bad_nodes:
         return fail(
             f"{EMITTED} and {api}/node under rate-plans-iri disagree on {len(bad_nodes)} node(s).",
             *bad_nodes[:12])
     print(f"  nodes    {len(emitted_nodes)} identical to {api}/node under rate-plans-iri "
-          "(@id, @type, properties, references; urpx:name not compared)")
+          "(@id, @type, properties, references)")
+    if bad_names:
+        # Every one, with both strings: a name is read by people, and a sample
+        # would hide which components' names drifted.
+        return fail(
+            f"{EMITTED} and {api}/rate-plans-name disagree on {len(bad_names) // 3} urpx:name(s).",
+            *bad_names)
+    print(f"  names    {len(emitted_nodes)} identical to {api}/rate-plans-name")
     return 0
 
 
