@@ -146,6 +146,23 @@ Each node's `urpx:name` is built from the consumed plans' and selected alternati
 
 `dev/gate.sh` validates the document merged with the whole corpus against the URPX shapes and ontology at cd13ce8a, and the clj-urpx cross-check below compares its nodes with both enumerations.
 
+## Computing the set
+
+A client that needs the scenario cost models, such as a price server publishing one program per model, should compute them from the corpus rather than read `reports/scenario-cost-models.jsonld`. The committed document is current as of its last regeneration, and a version that takes effect afterwards changes the set with no change to the corpus.
+
+clj-urpx computes it. Walk the corpus's documents (`corpus.json` lists them and the walkers that read them), load and coerce them as `dev/cross_check_scenario_cost_models.clj` does, and call `urpx.arrangements/arrangements` with every policy pinned to the ones this corpus is checked under:
+
+| Option | Value |
+|---|---|
+| `:at` | the instant the set is wanted for |
+| `:combine` | `one-modifier-at-most` |
+| `:compatibility` | `named-versions-add`, which is not clj-urpx's default; see [Agreement with clj-urpx](#agreement-with-clj-urpx) |
+| `:repeated-ids` | `repeated-ids-refuse` |
+
+The IRIs follow [IRIs](#iris), which clj-urpx implements and tests against the vectors there. Each node's `urpx:name` is this corpus's label, built as [The emitted document](#the-emitted-document) describes; a client wanting the same names builds them the same way. clj-urpx is renaming `urpx.arrangements` to `urpx.scenario-cost-model`, with `enumerate` in place of `arrangements`.
+
+The committed document is the reference such a client is checked against: `dev/gate.sh` requires clj-urpx's enumeration, at the pinned instant and under these policies, to equal it node for node.
+
 ## What makes one current
 
 A scenario cost model is current when every component of it is current.
