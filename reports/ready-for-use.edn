@@ -3,12 +3,12 @@
 ;; One row per tariff.toml directory.
 ;;
 ;; :serves answers CAN A PRICE SERVER RESOLVE THIS TO A PRICE, rolled up from
-;; reports/service-arrangements.edn: the best outcome over every service
-;; arrangement drawing on a version node this filing holds.
-;;   :servable           some arrangement resolves at every probe instant
+;; reports/scenario-cost-models.edn: the best outcome over every
+;; composition drawing on a version node this filing holds.
+;;   :servable           some composition resolves at every probe instant
 ;;   :not-priced-per-kwh resolves, and legitimately prices nothing per kWh
 ;;   :blocked            refuses: a gap or an undecided selection
-;;   :not-measured       no arrangement here has a baseline row
+;;   :not-measured       no composition here has a baseline row
 ;;   :superseded         every version node here has been superseded
 ;;
 ;; :captures-source-pdf is [modeling].complete from the filing's own
@@ -20,75 +20,75 @@
 
  :filings
  [
-  {:utility :cpau  :name "e-1"              :date "2025-07-01" :serves :servable            :arrangements 14  :captures-source-pdf false}
-  {:utility :cpau  :name "e-1-tou"          :date "2026-01-01" :serves :servable            :arrangements 16  :captures-source-pdf false}
-  {:utility :cpau  :name "e-14"             :date "2025-07-01" :serves :not-priced-per-kwh  :arrangements 3   :captures-source-pdf false}
-  {:utility :cpau  :name "e-16"             :date "2025-09-01" :serves :not-priced-per-kwh  :arrangements 3   :captures-source-pdf false}
-  {:utility :cpau  :name "e-2"              :date "2025-07-01" :serves :servable            :arrangements 5   :captures-source-pdf false}
-  {:utility :cpau  :name "e-2-g"            :date "2025-07-01" :serves :servable            :arrangements 1   :captures-source-pdf false}
-  {:utility :cpau  :name "e-3"              :date "2007-07-01" :serves :not-priced-per-kwh  :arrangements 3   :captures-source-pdf false}
-  {:utility :cpau  :name "e-4"              :date "2025-07-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :cpau  :name "e-4-g"            :date "2025-07-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :cpau  :name "e-4-tou"          :date "2025-07-01" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :cpau  :name "e-7"              :date "2025-07-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :cpau  :name "e-7-g"            :date "2025-07-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :cpau  :name "e-7-tou"          :date "2025-07-01" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :cpau  :name "e-eec-1"          :date "2025-09-01" :serves :servable            :arrangements 7   :captures-source-pdf false}
-  {:utility :cpau  :name "e-hra"            :date "2023-01-01" :serves :servable            :arrangements 10  :captures-source-pdf true}
-  {:utility :cpau  :name "e-nse-1"          :date "2025-09-01" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :ladwp :name "ez-save"          :date "2008-09-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :ladwp :name "lifeline"         :date "2008-09-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :ladwp :name "nem"              :date "2008-09-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :ladwp :name "r-1a"             :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :ladwp :name "r-1b"             :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :pge   :name "e-1"              :date "2026-03-01" :serves :servable            :arrangements 6   :captures-source-pdf false}
-  {:utility :pge   :name "e-elec"           :date "2026-01-01" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :pge   :name "e-elec"           :date "2026-03-27" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :pge   :name "e-rsmart"         :date "2025-10-31" :serves :blocked             :arrangements 5   :captures-source-pdf false}
-  {:utility :pge   :name "e-tou-c"          :date "2026-03-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :pge   :name "e-tou-c"          :date "2026-03-27" :serves :servable            :arrangements 5   :captures-source-pdf false}
-  {:utility :pge   :name "e-tou-d"          :date "2026-03-27" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :pge   :name "ev2"              :date "2026-03-27" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :pge   :name "nbt"              :date "2025-10-17" :serves :servable            :arrangements 1   :captures-source-pdf false}
-  {:utility :sce   :name "care"             :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "care"             :date "2026-03-20" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sce   :name "cca-crs"          :date "2026-03-20" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sce   :name "d"                :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "d"                :date "2026-03-20" :serves :servable            :arrangements 7   :captures-source-pdf false}
-  {:utility :sce   :name "da-crs"           :date "2026-03-20" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sce   :name "deed-restricted"  :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "deed-restricted"  :date "2026-03-20" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sce   :name "fera"             :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "fera"             :date "2026-03-20" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sce   :name "medical-baseline" :date "2025-10-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sce   :name "nbt"              :date "2025-04-23" :serves :servable            :arrangements 1   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-4-9pm"      :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-4-9pm"      :date "2026-03-20" :serves :servable            :arrangements 7   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-5-8pm"      :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-5-8pm"      :date "2026-03-20" :serves :servable            :arrangements 7   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-prime"      :date "2025-11-15" :serves :superseded          :arrangements 0   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-prime"      :date "2026-03-20" :serves :servable            :arrangements 9   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-prime-cpp"  :date "2026-03-20" :serves :blocked             :arrangements 1   :captures-source-pdf false}
-  {:utility :sdge  :name "care"             :date "2025-10-01" :serves :servable            :arrangements 9   :captures-source-pdf false}
-  {:utility :sdge  :name "dr"               :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "dr-ses"           :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "drah"             :date "2026-04-01" :serves :servable            :arrangements 9   :captures-source-pdf false}
-  {:utility :sdge  :name "ev-tou"           :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "ev-tou-2"         :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "ev-tou-5"         :date "2026-04-01" :serves :servable            :arrangements 5   :captures-source-pdf false}
-  {:utility :sdge  :name "fera"             :date "2026-04-01" :serves :servable            :arrangements 9   :captures-source-pdf false}
-  {:utility :sdge  :name "nbt"              :date "2025-01-27" :serves :servable            :arrangements 1   :captures-source-pdf false}
-  {:utility :sdge  :name "tou-dr"           :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "tou-dr1"          :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "tou-dr2"          :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :sdge  :name "tou-elec"         :date "2026-04-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :smud  :name "cpp"              :date "2026-01-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :smud  :name "eapr"             :date "2023-09-22" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :smud  :name "fixed"            :date "2026-01-01" :serves :servable            :arrangements 4   :captures-source-pdf false}
-  {:utility :smud  :name "med"              :date "2017-07-01" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :smud  :name "nem1"             :date "2021-09-17" :serves :servable            :arrangements 3   :captures-source-pdf false}
-  {:utility :smud  :name "pev-credit"       :date "2025-06-20" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :smud  :name "ssr"              :date "2022-03-01" :serves :servable            :arrangements 2   :captures-source-pdf false}
-  {:utility :smud  :name "tod-5-8pm"        :date "2026-01-01" :serves :servable            :arrangements 7   :captures-source-pdf false}
-  {:utility :smud  :name "tod-low-use"      :date "2026-01-01" :serves :servable            :arrangements 7   :captures-source-pdf false}
+  {:utility :cpau  :name "e-1"              :date "2025-07-01" :serves :servable            :compositions 14  :captures-source-pdf false}
+  {:utility :cpau  :name "e-1-tou"          :date "2026-01-01" :serves :servable            :compositions 16  :captures-source-pdf false}
+  {:utility :cpau  :name "e-14"             :date "2025-07-01" :serves :not-priced-per-kwh  :compositions 3   :captures-source-pdf false}
+  {:utility :cpau  :name "e-16"             :date "2025-09-01" :serves :not-priced-per-kwh  :compositions 3   :captures-source-pdf false}
+  {:utility :cpau  :name "e-2"              :date "2025-07-01" :serves :servable            :compositions 5   :captures-source-pdf false}
+  {:utility :cpau  :name "e-2-g"            :date "2025-07-01" :serves :servable            :compositions 1   :captures-source-pdf false}
+  {:utility :cpau  :name "e-3"              :date "2007-07-01" :serves :not-priced-per-kwh  :compositions 3   :captures-source-pdf false}
+  {:utility :cpau  :name "e-4"              :date "2025-07-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :cpau  :name "e-4-g"            :date "2025-07-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :cpau  :name "e-4-tou"          :date "2025-07-01" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :cpau  :name "e-7"              :date "2025-07-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :cpau  :name "e-7-g"            :date "2025-07-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :cpau  :name "e-7-tou"          :date "2025-07-01" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :cpau  :name "e-eec-1"          :date "2025-09-01" :serves :servable            :compositions 7   :captures-source-pdf false}
+  {:utility :cpau  :name "e-hra"            :date "2023-01-01" :serves :servable            :compositions 10  :captures-source-pdf true}
+  {:utility :cpau  :name "e-nse-1"          :date "2025-09-01" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :ladwp :name "ez-save"          :date "2008-09-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :ladwp :name "lifeline"         :date "2008-09-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :ladwp :name "nem"              :date "2008-09-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :ladwp :name "r-1a"             :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :ladwp :name "r-1b"             :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :pge   :name "e-1"              :date "2026-03-01" :serves :servable            :compositions 6   :captures-source-pdf false}
+  {:utility :pge   :name "e-elec"           :date "2026-01-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :pge   :name "e-elec"           :date "2026-03-27" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :pge   :name "e-rsmart"         :date "2025-10-31" :serves :blocked             :compositions 5   :captures-source-pdf false}
+  {:utility :pge   :name "e-tou-c"          :date "2026-03-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :pge   :name "e-tou-c"          :date "2026-03-27" :serves :servable            :compositions 5   :captures-source-pdf false}
+  {:utility :pge   :name "e-tou-d"          :date "2026-03-27" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :pge   :name "ev2"              :date "2026-03-27" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :pge   :name "nbt"              :date "2025-10-17" :serves :servable            :compositions 1   :captures-source-pdf false}
+  {:utility :sce   :name "care"             :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "care"             :date "2026-03-20" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "cca-crs"          :date "2026-03-20" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "d"                :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "d"                :date "2026-03-20" :serves :servable            :compositions 7   :captures-source-pdf false}
+  {:utility :sce   :name "da-crs"           :date "2026-03-20" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "deed-restricted"  :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "deed-restricted"  :date "2026-03-20" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "fera"             :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "fera"             :date "2026-03-20" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "medical-baseline" :date "2025-10-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "nbt"              :date "2025-04-23" :serves :servable            :compositions 1   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-4-9pm"      :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-4-9pm"      :date "2026-03-20" :serves :servable            :compositions 7   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-5-8pm"      :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-5-8pm"      :date "2026-03-20" :serves :servable            :compositions 7   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-prime"      :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-prime"      :date "2026-03-20" :serves :servable            :compositions 9   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-prime-cpp"  :date "2026-03-20" :serves :blocked             :compositions 1   :captures-source-pdf false}
+  {:utility :sdge  :name "care"             :date "2025-10-01" :serves :servable            :compositions 9   :captures-source-pdf false}
+  {:utility :sdge  :name "dr"               :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "dr-ses"           :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "drah"             :date "2026-04-01" :serves :servable            :compositions 9   :captures-source-pdf false}
+  {:utility :sdge  :name "ev-tou"           :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "ev-tou-2"         :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "ev-tou-5"         :date "2026-04-01" :serves :servable            :compositions 5   :captures-source-pdf false}
+  {:utility :sdge  :name "fera"             :date "2026-04-01" :serves :servable            :compositions 9   :captures-source-pdf false}
+  {:utility :sdge  :name "nbt"              :date "2025-01-27" :serves :servable            :compositions 1   :captures-source-pdf false}
+  {:utility :sdge  :name "tou-dr"           :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "tou-dr1"          :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "tou-dr2"          :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sdge  :name "tou-elec"         :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :smud  :name "cpp"              :date "2026-01-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :smud  :name "eapr"             :date "2023-09-22" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :smud  :name "fixed"            :date "2026-01-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :smud  :name "med"              :date "2017-07-01" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :smud  :name "nem1"             :date "2021-09-17" :serves :servable            :compositions 3   :captures-source-pdf false}
+  {:utility :smud  :name "pev-credit"       :date "2025-06-20" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :smud  :name "ssr"              :date "2022-03-01" :serves :servable            :compositions 2   :captures-source-pdf false}
+  {:utility :smud  :name "tod-5-8pm"        :date "2026-01-01" :serves :servable            :compositions 7   :captures-source-pdf false}
+  {:utility :smud  :name "tod-low-use"      :date "2026-01-01" :serves :servable            :compositions 7   :captures-source-pdf false}
  ]}

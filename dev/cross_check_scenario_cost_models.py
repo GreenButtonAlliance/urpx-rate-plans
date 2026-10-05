@@ -1,45 +1,51 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 # SPDX-License-Identifier: CDLA-Permissive-2.0
-"""Assert that this repository and clj-urpx enumerate the SAME service
-arrangements, rather than the same NUMBER of them.
+"""Assert that this repository and clj-urpx enumerate the SAME scenario cost
+models, rather than the same NUMBER of them.
 
-Two implementations of one rule now exist: dev/arrangements.py here, and
-urpx.arrangements in clj-urpx. Each is locally coherent, both currently report
-144 (base, modifier-set) pairs over this corpus, and until this check nothing
-compared the members. Equal totals over different members is the failure this
-repository keeps hitting, and counting is what fails to catch it.
+Two implementations of one rule exist: dev/scenario_cost_models.py here, and
+clj-urpx's urpx.arrangements, which enumerates the same set under its own name.
+Equal totals over different members is the failure this repository keeps
+hitting, and counting is what fails to catch it.
 
-WHAT IS COMPARED
+WHAT IS COMPARED, in three steps, each membership in both directions
 
-    #{[<base version IRI> #{<modifier version IRI> ...}] ...}
+  1. Compositions, open dimensions UNEXPANDED:
+         #{[<base version IRI> #{<modifier version IRI> ...}] ...}
+     against urpx.arrangements/arrangement-pairs.
+  2. Scenario cost models, open dimensions expanded, as full identities:
+         (<base version IRI>, <sorted modifier version IRIs>, <sorted alternative IRIs>)
+     against urpx.arrangements/arrangements, selections reduced to their
+     alternative @ids.
+  3. The nodes of the committed reports/scenario-cost-models.jsonld, read back
+     to identities, against step 2's set; every node's @id is re-derived from
+     its identity on the way.
 
-Membership, reported in both directions separately. Open ProfileAlternatives
-dimensions are left UNEXPANDED on both sides: clj-urpx also reports 739 current
-and 1728 over all versions, which expand them, and comparing an unexpanded total
-against an expanded one would manufacture a mismatch out of a legitimate
-difference about whether a pending choice is one row or several.
+Step 1 runs first because a disagreement about what composes with what is
+easier to read than the same disagreement multiplied by every open dimension.
 
-Our side comes from importing dev/arrangements.py and calling enumerate_pairs,
-not from reading reports/service-arrangements.edn. A report can be stale; the
-enumerator is the thing under test.
+Our side comes from importing dev/scenario_cost_models.py and calling
+enumerate_pairs and enumerate_models, not from reading a report. A report can be
+stale; the enumerator is the thing under test. Step 3 then holds the report to
+it.
 
 TWO PINNED PARAMETERS, both passed in by dev/gate.sh and both required here.
 There is no default for either: a check that supplies its own instant is a check
 that can quietly answer a different question than its counterpart.
 
-  --at       the instant currency is judged at. 144 is 144 AT AN INSTANT, not a
-             property of the corpus. See dev/gate.sh.
+  --at       the instant currency is judged at. A count is a count AT AN
+             INSTANT, not a property of the corpus. See dev/gate.sh.
   --combine  the combining policy. Nothing in URPX states which modifier sets
              may sit on one base, so both sides take it as an argument. See
-             COMBINE_AT_MOST_ONE_MODIFIER in dev/arrangements.py.
+             COMBINE_AT_MOST_ONE_MODIFIER in dev/scenario_cost_models.py.
 
 THREE STATES, NOT TWO
 
   var absent                     PENDING. urpx.arrangements is not released yet.
                                  Prints loudly, names the pinned clj-urpx
                                  version, says what would make it active, and
-                                 passes. This is today's state.
+                                 passes.
   var present                    ACTIVE. The comparison MUST run and MUST agree.
                                  A load error, an empty result or a wrong shape
                                  is a FAILURE, never a pending.
@@ -60,10 +66,11 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
-import arrangements  # noqa: E402
+import scenario_cost_models as scm  # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
-PROBE = REPO / "dev" / "cross_check_arrangements.clj"
+PROBE = REPO / "dev" / "cross_check_scenario_cost_models.clj"
+EMITTED = "reports/scenario-cost-models.jsonld"
 
 # The one test hook. The ACTIVE arms cannot be exercised before clj-urpx
 # releases the namespace, so the negative tests put a stub on the classpath
@@ -95,16 +102,16 @@ def refuse(headline: str, *body: str) -> int:
 
 
 def our_pairs(at: datetime.datetime, combine: str) -> dict:
-    """The pairs dev/arrangements.py enumerates, at the pinned instant."""
+    """The pairs dev/scenario_cost_models.py enumerates, at the pinned instant."""
     try:
-        return arrangements.enumerate_pairs(at, combine=combine)
-    except SystemExit as e:  # arrangements.Refuse
-        # arrangements.Refuse already prefixes "REFUSING: "; do not say it twice.
+        return scm.enumerate_pairs(at, combine=combine)
+    except SystemExit as e:  # scm.Refuse
+        # scm.Refuse already prefixes "REFUSING: "; do not say it twice.
         raise Refused(str(e).removeprefix("REFUSING: "))
 
 
 def run_probe(at: str, combine: str) -> tuple[list[str], str, int]:
-    """Ask clj-urpx, via dev/cross_check_arrangements.clj."""
+    """Ask clj-urpx, via dev/cross_check_scenario_cost_models.clj."""
     if shutil.which("clojure") is None:
         raise Refused("clojure is not on PATH, so the clj-urpx side cannot be asked.")
     cmd = ["clojure"]
@@ -118,10 +125,23 @@ def run_probe(at: str, combine: str) -> tuple[list[str], str, int]:
     return lines, (proc.stderr or "").strip(), proc.returncode
 
 
-def parse_probe(lines: list[str]) -> tuple[str, str, set]:
+def parse_probe(lines: list[str]) -> tuple[str, str, set, dict]:
     state, detail, pairs = None, "", set()
     end = None
+    models: dict = {"rows": set(), "end": None, "error": None, "lines": 0}
     for ln in lines:
+        if ln.startswith("XC-MODELS-ERROR "):
+            models["error"] = ln[len("XC-MODELS-ERROR "):]
+            continue
+        if ln.startswith("XC-MODEL\t"):
+            _, base, mods, alts = ln.split("\t", 3)
+            models["rows"].add(scm.model_identity(
+                base, [m for m in mods.split(",") if m], [a for a in alts.split(",") if a]))
+            models["lines"] += 1
+            continue
+        if ln.startswith("XC-MODELS-END "):
+            models["end"] = int(ln[len("XC-MODELS-END "):])
+            continue
         if ln.startswith("XC-STATE "):
             rest = ln[len("XC-STATE "):]
             state, _, detail = rest.partition(" ")
@@ -134,7 +154,44 @@ def parse_probe(lines: list[str]) -> tuple[str, str, set]:
         # A truncated stream is not an agreement. Without the terminator there
         # is no way to tell a short answer from a killed process.
         state = "truncated"
-    return state or "no-state", detail, pairs
+    return state or "no-state", detail, pairs, models
+
+
+def describe_models(tag: str, models: set, limit: int = 12) -> list[str]:
+    out = []
+    for base, mods, alts in sorted(models)[:limit]:
+        out.append(f"{tag} {base}  +  {', '.join(mods) or '(no modifier)'}  /  "
+                   f"{', '.join(alts) or '(no selection)'}")
+    if len(models) > limit:
+        out.append(f"{tag} ... and {len(models) - limit} more")
+    return out
+
+
+def emitted_models() -> set:
+    """The identities the committed reports/scenario-cost-models.jsonld carries,
+    read back off its nodes, with every node's @id re-derived from its identity."""
+    import json
+
+    path = REPO / EMITTED
+    if not path.exists():
+        raise Refused(f"{EMITTED} is missing; run dev/list_scenario_cost_models.py.")
+    doc = json.loads(path.read_text())
+    prefixes = doc.get("@context") or {}
+    out = set()
+    for node in doc.get("@graph") or []:
+        ids = lambda k: [x["@id"] for x in (node.get(k) or [])]  # noqa: E731
+        identity = scm.model_identity(node["urpx:consumesVersion"]["@id"],
+                                      ids("urpx:consumesModifierVersion"),
+                                      ids("urpx:selectsProfileAlternative"))
+        absolute = tuple([scm.expand_iri(identity[0], prefixes),
+                          tuple(scm.expand_iri(m, prefixes) for m in identity[1]),
+                          tuple(scm.expand_iri(a, prefixes) for a in identity[2])])
+        if scm.expand_iri(node["@id"], prefixes) != scm.model_iri(absolute):
+            raise Refused(f"{EMITTED}: {node['@id']} is not the IRI its own identity derives.")
+        out.add(identity)
+    if not out:
+        raise Refused(f"{EMITTED} carries no node.")
+    return out
 
 
 def describe(tag: str, pairs: set, limit: int = 12) -> list[str]:
@@ -172,7 +229,7 @@ def main() -> int:
             f"--at {args.at!r} carries no offset.",
             "Both sides must mean the same moment; a naive literal does not.")
 
-    pinned = arrangements._pinned_clj_urpx_version()
+    pinned = scm._pinned_clj_urpx_version()
     print(f"  instant  {at.isoformat()}   (pinned; changing it is a change in two repositories)")
     print(f"  policy   {args.combine}   (pinned; nothing in URPX states one)")
     print(f"  clj-urpx {pinned}   (deps.edn)")
@@ -183,7 +240,7 @@ def main() -> int:
     ours = our_pairs(at, args.combine)
     mine = ours["pairs"]
     if not mine:
-        return refuse("dev/arrangements.py enumerated no arrangement at all.")
+        return refuse("dev/scenario_cost_models.py enumerated no composition at all.")
     over = sorted(f"{b} + {sorted(m)}" for b, m in mine if len(m) > 1)
     if over:
         return fail(
@@ -198,7 +255,7 @@ def main() -> int:
           f"{len(ours['not_yet_effective'])} not yet effective at this instant")
 
     lines, stderr, rc = run_probe(args.at, args.combine)
-    state, detail, theirs = parse_probe(lines)
+    state, detail, theirs, their_models = parse_probe(lines)
 
     if state == "ns-absent":
         # The dangerous arm: it is today's state and it passes. Loud enough that
@@ -224,7 +281,7 @@ def main() -> int:
             f"clj-urpx {pinned} ships urpx.arrangements WITHOUT arrangement-pairs.",
             detail,
             "The contract is the var, not the namespace. Their API moved; settle the",
-            "new entrypoint with clj-urpx and update dev/cross_check_arrangements.clj.")
+            "new entrypoint with clj-urpx and update dev/cross_check_scenario_cost_models.clj.")
     if state == "documents-error":
         return fail("the corpus would not load on the clj-urpx side.", detail)
     if state == "call-error":
@@ -232,7 +289,7 @@ def main() -> int:
             f"urpx.arrangements/arrangement-pairs threw when called in clj-urpx {pinned}.",
             detail,
             "The document form this passes is an assumption of ours; see the comment in",
-            "dev/cross_check_arrangements.clj. Either way the comparison did not happen.")
+            "dev/cross_check_scenario_cost_models.clj. Either way the comparison did not happen.")
     if state == "shape-error":
         return fail("arrangement-pairs did not return a set of [base #{modifiers}] pairs.", detail)
     if state == "truncated":
@@ -269,6 +326,47 @@ def main() -> int:
             f"the two enumerations disagree ({len(mine)} ours, {len(theirs)} theirs).",
             *body)
     print(f"  agreed   {len(mine)} pairs, identical membership in both directions")
+
+    # The same comparison with open dimensions expanded: one scenario cost model
+    # per selection, compared as full identities. Then the committed document's
+    # nodes against the same set, so the count clj-price-server reads off the
+    # artifact is the count both enumerators arrive at.
+    if their_models["error"]:
+        return fail("urpx.arrangements/arrangements could not be asked.", their_models["error"])
+    if their_models["end"] is None:
+        return fail("the clj-urpx side did not finish emitting arrangements.",
+                    f"exit {rc}", stderr[-400:] if stderr else "")
+    theirs_m = their_models["rows"]
+    if their_models["end"] != their_models["lines"] or len(theirs_m) != their_models["end"]:
+        return fail(
+            f"clj-urpx returned {their_models['end']} arrangements, printed "
+            f"{their_models['lines']}, of which {len(theirs_m)} are distinct identities.")
+    try:
+        mine_m = scm.enumerate_models(at, combine=args.combine)
+    except SystemExit as e:
+        raise Refused(str(e).removeprefix("REFUSING: "))
+    print(f"  ours     {len(mine_m)} scenario cost models (open dimensions expanded)")
+    print(f"  theirs   {len(theirs_m)} arrangements (urpx.arrangements/arrangements)")
+    if mine_m != theirs_m:
+        return fail(
+            f"the expanded enumerations disagree ({len(mine_m)} ours, {len(theirs_m)} theirs).",
+            f"ours only:   {len(mine_m - theirs_m)}", f"theirs only: {len(theirs_m - mine_m)}",
+            *describe_models("ours  ", mine_m - theirs_m),
+            *describe_models("theirs", theirs_m - mine_m))
+    print(f"  agreed   {len(mine_m)} scenario cost models, identical identities in both directions")
+    emitted = emitted_models()
+    if emitted != mine_m:
+        return fail(
+            f"{EMITTED} carries {len(emitted)} nodes; the enumeration at this instant is "
+            f"{len(mine_m)}.",
+            f"in the document only:    {len(emitted - mine_m)}",
+            f"in the enumeration only: {len(mine_m - emitted)}",
+            *describe_models("document", emitted - mine_m),
+            *describe_models("enum    ", mine_m - emitted),
+            "The document is current by succession; the enumeration is current at the pinned",
+            "instant. A version filed for a later date separates them: regenerate, or move the",
+            "instant in both repositories together.")
+    print(f"  emitted  {len(emitted)} nodes in {EMITTED}, the same identities, every @id re-derived")
     return 0
 
 

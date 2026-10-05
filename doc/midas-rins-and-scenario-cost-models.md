@@ -3,7 +3,7 @@
 
 # What a MIDAS RIN identifies
 
-California's Market Informed Demand Automation Server publishes electricity prices keyed by a Rate Identification Number. A RIN is widely treated as naming a tariff. It does not. It names a **service arrangement**: a base rate plan composed with the particular overlays and supply arrangement a customer actually has.
+California's Market Informed Demand Automation Server publishes electricity prices keyed by a Rate Identification Number. A RIN is widely treated as naming a tariff. It does not. It names a **scenario cost model**: a base rate plan composed with the particular overlays and supply arrangement a customer actually has.
 
 That distinction decides where a RIN can be recorded in a URPX document, and getting it wrong produces assertions that validate cleanly and are false. This note sets out the evidence, because the point is not obvious.
 
@@ -34,7 +34,7 @@ graph TB
     RP["<b>one RatePlan</b><br/>pge:e-tou-d<br/><i>MIDAS rate_name on all 18</i>"]
     B["<b>bundled</b> &nbsp;PGPG<br/>3 discount<br/>&times; 2 medical baseline<br/>&times; 2 Smart Rate"]
     X["<b>CCA</b> &nbsp;PGXX<br/>3 discount<br/>&times; 2 medical baseline<br/><i>Smart Rate not offered</i>"]
-    N(["<b>18 service arrangements</b><br/>one MIDAS RIN each<br/><i>distinguished by alt_name</i>"])
+    N(["<b>18 scenario cost models</b><br/>one MIDAS RIN each<br/><i>distinguished by alt_name</i>"])
 
     RP -->|supply| B
     RP -->|supply| X
@@ -48,7 +48,7 @@ They vary along four facts about the customer: supply arrangement, discount prog
 
 MIDAS itself keeps the two levels apart, which is the whole point. `rate_name` is "E-TOU-D" on all eighteen records; `alt_name` is what distinguishes them.
 
-A regulator identifying the plan would have issued one RIN. Eighteen exist because the published price differs by customer, and the RIN names the customer's arrangement.
+A regulator identifying the plan would have issued one RIN. Eighteen exist because the published price differs by customer, and the RIN names the customer's scenario cost model.
 
 ## The four-character segment encodes the parties, not a price component
 
@@ -69,11 +69,11 @@ URPX v0.5.1 admits `urpx:hasIdentifier` on `RatePlan`, `RatePlanVersion`, `RateP
 
 So attaching `USCA-PGPG-0202-0000` to `pge:e-tou-d` would assert that the unmodified plan is identified by a code that identifies the plan plus CARE. Attaching it to the CARE modifier would assert that CARE alone is identified by a code that also names E-TOU-D. Both validate: `RatePlanIdentifierShape` and `RatePlanModifierIdentifierShape` are `sh:closed` over exactly `skos:notation`, `urpx:scheme` and `urpx:identifierJurisdiction`, so there is no slot in which to record what the identifier is scoped to.
 
-This corpus therefore records RINs beside arrangements rather than inside filings, in `reports/rate-identifiers.{md,edn}`, keyed by the arrangement's intrinsic identity: base version IRI, sorted modifier version IRIs, sorted alternative selections.
+This corpus therefore records RINs beside scenario cost models rather than inside filings, in `reports/rate-identifiers.{md,edn}`, keyed to the compositions they expand from: base version IRI and sorted modifier version IRIs. The [scenario cost model](./scenario-cost-models.md) carries no RIN, because `urpx-shacl:ScenarioCostModelShape` is closed and does not admit `urpx:hasIdentifier`.
 
 ## A RIN is an attestation, not an identity
 
-An arrangement exists whether or not a RIN can be found for it. Deriving which tariff documents and features compose to produce the prices a given RIN covers is straightforward in some cases and intractable in others, and MIDAS itself is incomplete. A RIN is therefore recorded with its provenance: corroborated against the published feed, derived but uncorroborated, or unresolved. The third is a legitimate resting state.
+A scenario cost model exists whether or not a RIN can be found for it. Deriving which tariff documents and features compose to produce the prices a given RIN covers is straightforward in some cases and intractable in others, and MIDAS itself is incomplete. A RIN is therefore recorded with its provenance: corroborated against the published feed, derived but uncorroborated, or unresolved. The third is a legitimate resting state.
 
 Ten of the twenty-four identifiers this corpus cites rest in that third state, and it is worth saying why so that nobody removes them. They are SDG&E's net-billing `NB##` family, five on each of the `XXSD` and `SDXX` sides. Neither appears in either read, and the absence falls on the **rate code** rather than the party segment. In the earlier investor-owned-only snapshot 5,204 of 5,207 rate codes were numeric, which made `NB##` look exotic; in the current read 3,583 of 8,959 are non-numeric and across the whole feed 43,126 of 74,097 are, so the shape is ordinary. Thirty-two live identifiers carry an `NB`-prefixed code, across five other utilities. What is absent is specifically SDG&E's, on both the `SDXX` and `XXSD` sides, each of which is otherwise well populated. Nor were the strings composed here. `scripts/extract-sdge-nbt-eec-values.py` reads them out of the `RIN` column of SDG&E's own MIDAS-format upload archives. So they are uncorroborated rather than malformed, and the disposition is to re-derive from a refreshed feed rather than to delete. A candidate to check then is `USCA-SDXX-0092-0000`, whose `alt_name` is "EVTOU5NM NBT LY 2023", where "LY" matches the lock-year naming in those archives. The 401 that blocked this was a v1.0 artifact rather than a credential problem: MIDAS v2.0 went live 2026-06-22 and withdrew v1.0 the same day, and every v2.0 GET is public. The refresh has since happened, from the mined feed, and both reads now agree that these ten are absent.
 

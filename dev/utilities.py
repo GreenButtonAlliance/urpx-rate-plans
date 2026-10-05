@@ -11,7 +11,7 @@ would put that promise up for review every time the tree moves.
 What was duplicated before this module existed:
 
   - `UTILITY_ORDER` and `UTILITY_LABEL`, byte-identical in
-    `list_ready_for_use.py` and `list_service_arrangements.py`, plus three
+    `list_ready_for_use.py` and `list_scenario_cost_models.py`, plus three
     partial copies elsewhere.
   - The MIDAS party segment map, in three copies. Two were identical 8-entry
     tables under different names (`SEGMENT_UTILITY`, `MODELED`). The third,

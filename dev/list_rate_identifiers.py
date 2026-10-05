@@ -4,10 +4,10 @@
 """Generate reports/rate-identifiers.{md,edn}: the MIDAS attestation map.
 
 A MIDAS Rate Identification Number is an OPTIONAL EXTERNAL ATTESTATION about a
-service arrangement. It is never the arrangement's identity. An arrangement is
+scenario cost model. It is never the model's identity. A scenario cost model is
 identified intrinsically, by its base version IRI, its sorted modifier version
 IRIs and its sorted alternative selections, which is what
-reports/service-arrangements.{md,edn} enumerates.
+reports/scenario-cost-models.{md,edn} enumerates.
 
 So this report sits BESIDE the corpus, not inside it. No RIN is written into any
 filing as a urpx:RatePlanIdentifier or urpx:RatePlanModifierIdentifier, and this
@@ -25,7 +25,7 @@ file refuses if one ever is. Two reasons, both checkable:
   which to qualify the scope of what the notation names.
 
 Pure tabulation. Every number comes from the corpus JSON-LD, from
-reports/midas-coverage.json and from dev/arrangements.py. Nothing here is a
+reports/midas-coverage.json and from dev/scenario_cost_models.py. Nothing here is a
 hand-maintained table of RINs: the enumeration is whatever the corpus asserts,
 and where an input is missing, ambiguous or unattributable this refuses rather
 than reporting a verdict over it. The guards are exercised against deliberately
@@ -43,7 +43,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import arrangements as A  # noqa: E402
+import scenario_cost_models as A  # noqa: E402
 import corpus  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
@@ -378,11 +378,11 @@ def group_attestations(occurrences: list[dict]) -> list[dict]:
     return sorted(out, key=lambda g: (g["file"], g["price_definition"], g["conditions"]))
 
 
-def attach_arrangements(attestations: list[dict], model: dict) -> None:
-    """Key each attestation to the service arrangements its filing takes part in.
+def attach_compositions(attestations: list[dict], model: dict) -> None:
+    """Key each attestation to the compositions its filing takes part in.
 
-    Reuses dev/arrangements.py rather than re-deriving the enumeration, so the
-    two reports cannot disagree about what an arrangement is. The link is the
+    Reuses dev/scenario_cost_models.py rather than re-deriving the enumeration, so the
+    two reports cannot disagree about what a composition is. The link is the
     version node whose OWN filing is the file the attestation lives in; that is
     the same authority rule collect_versions() applies.
     """
@@ -392,20 +392,20 @@ def attach_arrangements(attestations: list[dict], model: dict) -> None:
         if not home:
             raise Refuse(
                 f"{g['file']} cites rate identifiers but is the home filing of no "
-                f"version node, so the attestation cannot be keyed to an arrangement."
+                f"version node, so the attestation cannot be keyed to a composition."
             )
         ids = {v["id"] for v in home}
-        rows = [a for a in model["arrangements"]
+        rows = [a for a in model["compositions"]
                 if a["base"] in ids or set(a["modifiers"]) & ids]
         if not rows:
             raise Refuse(
                 f"{g['file']} cites rate identifiers and its version nodes "
-                f"({', '.join(sorted(ids))}) take part in no arrangement. Either the "
+                f"({', '.join(sorted(ids))}) take part in no composition. Either the "
                 f"version is superseded or the enumeration lost it; both make the "
                 f"attestation unattributable."
             )
         g["versions"] = sorted(ids)
-        g["arrangements"] = [
+        g["compositions"] = [
             {"base": a["base"], "modifiers": list(a["modifiers"]),
              "open_dimensions": list(a["dimensions"]), "selections": a["selections"],
              "outcome": a["outcome"]}
@@ -420,11 +420,11 @@ def attach_arrangements(attestations: list[dict], model: dict) -> None:
 # ---------------------------------------------------------------------------
 
 def agreement(att: dict, rec: dict) -> tuple[bool, str]:
-    """Does the MIDAS record name the arrangement the corpus expresses?
+    """Does the MIDAS record name the composition the corpus expresses?
 
     Two conditions, both able to fail. The rate_name has to appear in the name
     the corpus wrote around the identifier, and it has to name the base schedule
-    of the arrangement the attestation was keyed to. alt_name is recorded
+    of the composition the attestation was keyed to. alt_name is recorded
     separately and not required: SCE spells it "TDPRIME", a plan short code the
     corpus never writes, while PG&E spells the whole composition there.
     """
@@ -468,7 +468,7 @@ def midas_family(base_slug: str, asserted: set[str], midas: dict) -> dict:
     The coverage statement. An identifier names a composition, so the records
     whose rate_name starts with the base schedule are the compositions the
     utility itself publishes on that plan; the corpus asserts some subset, and
-    the rest are arrangements this corpus does not express.
+    the rest are compositions this corpus does not express.
     """
     base = norm(base_slug)
     fam = [r for r in midas["rids"] if norm(r.get("rate_name")).startswith(base)]
@@ -491,7 +491,7 @@ def extending_identifiers(att: dict, midas: dict) -> list[tuple[str, str]]:
     another's names the same composition plus one more overlay, so this is the
     discount and program dimension the asserted identifier does NOT cover. PG&E
     spells overlays that way; SCE puts a plan short code there and gets none,
-    which is a property of the naming scheme and not of the arrangement.
+    which is a property of the naming scheme and not of the composition.
     """
     out = []
     for rin in att["rins"]:
@@ -525,7 +525,7 @@ def vintage_is_selectable(att: dict, pa_by_file: dict[str, list[str]]) -> bool:
     Scoped to the filing that carries the vintage, which is where a
     urpx:ProfileAlternatives for it would have to live. A filing declaring none
     settles it; the earlier version of this compared
-    the vintage against the keyed arrangement's dimension IRIs instead and
+    the vintage against the keyed composition's dimension IRIs instead and
     reported a match, because pge:e-elec-2026-03-27-pa-income-tier contains the
     digits 2026 in its version date.
     """
@@ -594,7 +594,7 @@ def segment_analysis(midas: dict, grammar: dict, asserted: dict) -> dict:
 
     # What the snapshot does publish on the base schedules the unresolved
     # identifiers were keyed to. Absent identifiers are one fact; whether MIDAS
-    # covers the same arrangement under different codes is another, and the
+    # covers the same composition under different codes is another, and the
     # second is what says whether the absence is about the code or the rate.
     return {
         "xx_first": grammar["xx_first"],
@@ -618,14 +618,14 @@ def build() -> dict:
     pa_by_file = profile_alternatives_by_file(docs)
     occurrences = extract_occurrences(docs)
     attestations = group_attestations(occurrences)
-    attach_arrangements(attestations, model)
+    attach_compositions(attestations, model)
 
     for att in attestations:
         att["state"], att["reason"] = classify(att, midas)
         att["extended_by"] = extending_identifiers(att, midas)
         att["vintage_is_selectable"] = vintage_is_selectable(att, pa_by_file)
         att["profile_alternatives_here"] = len(pa_by_file.get(att["file"], []))
-        att["fully_determined"] = all(a["selections"] == 1 for a in att["arrangements"])
+        att["fully_determined"] = all(a["selections"] == 1 for a in att["compositions"])
 
     by_base: dict[str, set[str]] = collections.defaultdict(set)
     for att in attestations:
@@ -801,7 +801,7 @@ def _vintage(att: dict) -> str:
     return ", ".join(f"{p} = {v}" for p, v in att["conditions"])
 
 
-def _arrangement_label(a: dict) -> str:
+def _composition_label(a: dict) -> str:
     if a["modifiers"]:
         return f'`{a["base"]}` + `{a["modifiers"][0]}`'
     return f'`{a["base"]}`'
@@ -819,11 +819,11 @@ def render_md(d: dict) -> str:
     w("")
     w("## An identifier is an attestation, not an identity")
     w("")
-    w("A CEC MIDAS Rate Identification Number is an optional external attestation about a service "
-      "arrangement. It is never the arrangement's identity. An arrangement is identified "
+    w("A CEC MIDAS Rate Identification Number is an optional external attestation about a scenario "
+      "cost model. It is never the model's identity. A scenario cost model is identified "
       "intrinsically, by its base version IRI, its sorted modifier version IRIs and its sorted "
       "alternative selections, and that is what "
-      "[`reports/service-arrangements.md`](./service-arrangements.md) enumerates.")
+      "[`reports/scenario-cost-models.md`](./scenario-cost-models.md) enumerates.")
     w("")
     w("**No identifier is written into any filing.** Not one `urpx:RatePlanIdentifier` and not one "
       "`urpx:RatePlanModifierIdentifier` in this corpus carries a RIN, and the generator refuses to "
@@ -877,7 +877,7 @@ def render_md(d: dict) -> str:
     w(f"| State | Attestations | What it means |")
     w(f"|---|---:|---|")
     w(f"| **confirmed** | {t[CONFIRMED]} | The identifier is in the MIDAS snapshot and its "
-      f"`rate_name` names the arrangement the corpus keyed it to. |")
+      f"`rate_name` names the composition the corpus keyed it to. |")
     w(f"| **derived** | {t[DERIVED]} | The corpus asserts it and it is structurally well formed, "
       f"but nothing in the snapshot corroborates the value. |")
     w(f"| **unresolved** | {t[UNRESOLVED]} | The corpus asserts it and it does not appear in the "
@@ -902,10 +902,10 @@ def render_md(d: dict) -> str:
 
     w("## The attestations")
     w("")
-    w("| Utility | Arrangement | Charge | Vintage | Identifier expression | Prices | State |")
+    w("| Utility | Composition | Charge | Vintage | Identifier expression | Prices | State |")
     w("|---|---|---|---|---|---:|---|")
     for a in sorted(atts, key=lambda a: (a["utility"], a["price_definition"], a["conditions"])):
-        arr = "; ".join(_arrangement_label(x) for x in a["arrangements"])
+        arr = "; ".join(_composition_label(x) for x in a["compositions"])
         w(f"| {a['utility']} | {arr} | `{a['price_definition']}` | {_vintage(a)} | "
           f"`{a['expression']}` | {a['occurrences']:,} | {STATE_LABEL[a['state']]} |")
     w("")
@@ -930,19 +930,19 @@ def render_md(d: dict) -> str:
           f"{m.get('alt_name') or 'not in snapshot'} | {r['sole']} | {r['in_expression']} |")
     w("")
 
-    w("## What the identifier names that the arrangement does not carry")
+    w("## What the identifier names that the composition does not carry")
     w("")
-    w("An identifier names a composition. The arrangement it was keyed to expresses part of that "
+    w("An identifier names a composition. The corpus composition it was keyed to expresses part of that "
       "composition structurally and the rest some other way, or not at all. Both are worth stating.")
     w("")
-    keyed = len([a for a in atts if a["arrangements"]])
+    keyed = len([a for a in atts if a["compositions"]])
     determined = len([a for a in atts if a["fully_determined"]])
     selectable = len([a for a in atts if a["vintage_is_selectable"]])
-    w(f"**Every one of the {len(atts)} attestations keys to an arrangement the corpus expresses**, "
+    w(f"**Every one of the {len(atts)} attestations keys to a composition the corpus expresses**, "
       f"at the grain of one base version plus one modifier version. "
-      + ("What none of them keys to is a *fully determined* arrangement, for two reasons that are "
+      + ("What none of them keys to is a *fully determined* composition, for two reasons that are "
          "different in kind." if determined == 0 else
-         f"{determined} of them key only to *fully determined* arrangements; the rest do not, for "
+         f"{determined} of them key only to *fully determined* compositions; the rest do not, for "
          f"two reasons that are different in kind."))
     w("")
     # Branches on the count rather than restating a conclusion, so the sentence
@@ -951,30 +951,30 @@ def render_md(d: dict) -> str:
         w("**Vintage is a `urpx:ProfileAlternative`.** In these filings the interconnection vintage "
           "is stated by the condition of a `urpx:ProfileAlternative`, and each cited Price sits in "
           "the `urpx:PriceSetAlternative` for its vintage, so vintage is an open dimension of the "
-          "arrangement: expanding the arrangement's alternatives produces one arrangement per "
+          "composition: expanding the composition's alternatives produces one composition per "
           "vintage, and the identifier names one of them. Checked against the filing that carries "
           f"each vintage, {selectable} of {keyed} attestations name a vintage that is a selectable "
           f"alternative there. Per filing:")
     elif selectable == 0:
         w("**Vintage is not a `urpx:ProfileAlternative`.** In these filings the interconnection vintage "
           "is carried by `urpx:ApplicabilityRule` conditions, so it is not an open dimension of the "
-          "arrangement: expanding the arrangement's alternatives will never produce one arrangement per "
+          "composition: expanding the composition's alternatives will never produce one composition per "
           f"vintage. Checked against the filing that carries each vintage, "
           f"{selectable} of {keyed} attestations name a vintage that is a selectable alternative "
           f"there. Per filing:")
     else:
         w(f"**Vintage is a `urpx:ProfileAlternative` for {selectable} of {keyed} attestations.** The "
-          "rest carry it in `urpx:ApplicabilityRule` conditions, which expanding the arrangement's "
+          "rest carry it in `urpx:ApplicabilityRule` conditions, which expanding the composition's "
           "alternatives never reaches. Per filing:")
     w("")
     w("| Filing | Vintages cited | Condition property | `urpx:ProfileAlternatives` declared here | "
-      "Open dimensions of the keyed arrangements |")
+      "Open dimensions of the keyed compositions |")
     w("|---|---:|---|---:|---|")
     for f in sorted(per_file):
         rows = per_file[f]
         vintages = {v for a in rows for _p, v in a["conditions"]}
         props = {p for a in rows for p, _v in a["conditions"]}
-        dims = {c for a in rows for x in a["arrangements"] for c in x["open_dimensions"]}
+        dims = {c for a in rows for x in a["compositions"] for c in x["open_dimensions"]}
         w(f"| `{f}` | {len(vintages)} | {', '.join(sorted(f'`{p}`' for p in props))} | "
           f"{len(d['profile_alternatives'].get(f, []))} | "
           f"{', '.join(sorted(f'`{c}`' for c in dims)) or 'none'} |")
@@ -1006,7 +1006,7 @@ def render_md(d: dict) -> str:
             ex = "; ".join(f"`{r}` {a!r}" for r, _n, a in f["examples"][:4])
             w(f"- **`{f['base_slug']}`: the corpus asserts none of the {f['export_related']} "
               f"export-related identifiers the snapshot carries on this schedule.** They include "
-              f"{ex}. The snapshot covers this arrangement; it codes it differently from what the "
+              f"{ex}. The snapshot covers this composition; it codes it differently from what the "
               f"corpus cites.")
     w("")
 
@@ -1093,16 +1093,16 @@ def render_md(d: dict) -> str:
           ". Confidence is lower on whether MIDAS publishes this rate-code family at all, which "
           "rests on a single snapshot taken through a single enumeration path and not refreshable "
           "at present. If a refreshed snapshot still lacks the family, the change worth making is "
-          "to record the snapshot's own identifiers for the same arrangement alongside these, not "
+          "to record the snapshot's own identifiers for the same composition alongside these, not "
           "to alter these.")
     w("")
 
     w("## How to read a row")
     w("")
-    w("An arrangement is the unit. The identifier is a note attached beside it saying *California "
+    w("The scenario cost model is the unit. The identifier is a note attached beside it saying *California "
       "publishes this composition under this code*. A consumer verifying prices should resolve the "
-      "arrangement, then look the identifier up; a consumer building an identity should use the "
-      "arrangement's own components and never the identifier.")
+      "scenario cost model, then look the identifier up; a consumer building an identity should use the "
+      "scenario cost model's own components and never the identifier.")
     return "\n".join(o) + "\n"
 
 
@@ -1121,13 +1121,13 @@ def render_edn(d: dict) -> str:
     w(";; Auto-generated by dev/list_rate_identifiers.py. Do not edit by hand.")
     w(";;")
     w(";; A MIDAS rate identifier is an OPTIONAL EXTERNAL ATTESTATION about a service")
-    w(";; arrangement, never the arrangement's identity. Identity is intrinsic:")
+    w(";; composition, never the composition's identity. Identity is intrinsic:")
     w(";; :base + :modifiers + the alternative selections, per")
-    w(";; reports/service-arrangements.edn. No identifier is written into any filing;")
+    w(";; reports/scenario-cost-models.edn. No identifier is written into any filing;")
     w(";; each is cited in the free-text urpx:name of a urpx:Price.")
     w(";;")
     w(";; :state")
-    w(";;   :confirmed  in the MIDAS snapshot, and its rate_name names the arrangement")
+    w(";;   :confirmed  in the MIDAS snapshot, and its rate_name names the composition")
     w(";;   :derived    asserted and well formed, but the value is not corroborated")
     w(";;   :unresolved asserted, and absent from the MIDAS snapshot altogether")
     w(";;")
@@ -1182,11 +1182,11 @@ def render_edn(d: dict) -> str:
         arr = " ".join(
             "{:base " + _s(x["base"]) + " :modifiers ["
             + " ".join(_s(m) for m in x["modifiers"]) + "]}"
-            for x in a["arrangements"])
+            for x in a["compositions"])
         conds = " ".join("[" + _s(p) + " " + _s(v) + "]" for p, v in a["conditions"])
         w(f'  {{:file {_s(a["file"])}')
         w(f'   :utility {_s(a["utility"])}')
-        w(f"   :arrangements [{arr}]")
+        w(f"   :compositions [{arr}]")
         w(f'   :price-definition {_s(a["price_definition"])}')
         w(f"   :conditions [{conds}]")
         w(f'   :expression {_s(a["expression"])}')

@@ -40,7 +40,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import arrangements as A
+import scenario_cost_models as A
 import corpus
 
 REPO = Path(__file__).resolve().parent.parent

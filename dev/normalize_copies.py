@@ -57,7 +57,7 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 #                           with fewer plans by being inlined somewhere. Note
 #                           this is NOT applicableToRatePlanVersion, which IS a
 #                           per-filing fact and stays out, per the note above.
-#                           Added because dev/arrangements.py already refuses
+#                           Added because dev/scenario_cost_models.py already refuses
 #                           when copies disagree on this property while this
 #                           script did not check it, so two tools in this repo
 #                           answered the same question differently.

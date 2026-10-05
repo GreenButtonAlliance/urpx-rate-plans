@@ -5,7 +5,7 @@ Useful as a pre-commit gate or in CI: catches the case where someone edited
 a tariff.toml or jsonld file but forgot to regenerate a derived report.
 
 Steps:
-  1. Run each generator (coverage, pairings export, service arrangements,
+  1. Run each generator (coverage, pairings export, scenario cost models,
      ready-for-use list).
   2. Run each lint (modifier coverage, cross-filing consistency).
   3. Validate every tariff.toml against schema/tariff-manifest.schema.json.
@@ -52,19 +52,19 @@ REPO = Path(__file__).resolve().parent.parent
 # to whatever was true when its table was written, which is how the manifests
 # went stale while the models moved on. It was a one-time bootstrap; it has run.
 #
-# list_service_arrangements meets that same bar. It enumerates what the corpus
+# list_scenario_cost_models meets that same bar. It enumerates what the corpus
 # can serve and reads servability off the recorded baseline; it holds no table
 # of its own, deriving supersession, compatibility and the alternative
 # nominations from the corpus, from dev/baseline/marginal-rates.edn and from
 # dev/validate_v020.clj, and refusing rather than reporting when an input is
 # missing or a baseline row cannot be attributed. list_ready_for_use now reads
 # that same enumeration instead of carrying a second walk of its own.
-# test_arrangements sits beside them because a guard is worth nothing until it
+# test_scenario_cost_models sits beside them because a guard is worth nothing until it
 # has been made to fire, and that file fires every one of them against a
 # deliberately broken input.
 #
 # list_rate_identifiers meets the same bar. It tabulates the MIDAS identifiers
-# the corpus cites, keyed to the arrangements dev/arrangements.py enumerates,
+# the corpus cites, keyed to the compositions dev/scenario_cost_models.py enumerates,
 # and holds no list of identifiers of its own: the enumeration is whatever the
 # corpus asserts, the RIN grammar is read off reports/midas-coverage.json, and
 # it refuses when an input is missing or a citation is unattributable. It also
@@ -74,7 +74,7 @@ REPO = Path(__file__).resolve().parent.parent
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
-    ("list_service_arrangements",   ["python3", "dev/list_service_arrangements.py"]),
+    ("list_scenario_cost_models",   ["python3", "dev/list_scenario_cost_models.py"]),
     ("list_ready_for_use",          ["python3", "dev/list_ready_for_use.py"]),
     ("list_version_continuity",     ["python3", "dev/list_version_continuity.py"]),
     ("list_rate_identifiers",       ["python3", "dev/list_rate_identifiers.py"]),
@@ -88,7 +88,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("lint_prose_structure",        ["python3", "dev/lint_prose_structure.py"]),
     ("coverage_evaluations",        ["python3", "dev/resync_coverage_evaluations.py", "--check"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
-    ("test_arrangements",           ["python3", "dev/test_arrangements.py"]),
+    ("test_scenario_cost_models",   ["python3", "dev/test_scenario_cost_models.py"]),
     ("test_prose_structure",        ["python3", "dev/test_prose_structure.py"]),
     ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),
 ]

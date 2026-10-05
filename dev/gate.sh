@@ -156,6 +156,26 @@ run_clojure_gate() {
     fi
 }
 
+# The emitted urpx:ScenarioCostModel nodes, merged with the whole corpus, against
+# the URPX revision that admits them. PINNED TO 02c1ac14, the head of
+# urpx-org/urpx#72, which adds urpx:consumesModifierVersion and
+# urpx:selectsProfileAlternative to the closed ScenarioCostModelShape. No release
+# carries them yet, so at the corpus's own revision the nodes fail on exactly
+# those two properties. Move the pin to the release tag when #72 ships.
+# Exit 1 a violation, 3 refused.
+SCM_URPX_REV=02c1ac14
+run_scm_shacl() {
+    note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
+    if python3 dev/validate-with-base.py --merged --urpx-rev "$SCM_URPX_REV" \
+           --with reports/scenario-cost-models.jsonld --keys > /tmp/gate-scm-shacl.log 2>&1; then
+        cat /tmp/gate-scm-shacl.log
+    else
+        rc=$?
+        head -40 /tmp/gate-scm-shacl.log
+        record "$rc"
+    fi
+}
+
 case "$MODE" in
 --fast)
     run_clojure_gate
@@ -278,19 +298,18 @@ case "$MODE" in
         record $rc
     fi
 
-    # Two implementations of one rule now exist: dev/arrangements.py here and
-    # urpx.arrangements in clj-urpx, each locally coherent and each reporting
-    # 144 (base, modifier-set) pairs over this corpus. Two plausible halves with
-    # nothing comparing them is the failure this repository keeps recording, so
-    # this compares the SET OF PAIRS in both directions. Counts are not compared:
-    # the clj-urpx side also reports 739 and 1728 with open ProfileAlternatives
-    # dimensions expanded, and comparing an unexpanded total against an expanded
-    # one would manufacture a mismatch out of a legitimate difference.
+    # Two implementations of one rule exist: dev/scenario_cost_models.py here and
+    # clj-urpx's urpx.arrangements, which enumerates the same set. Two plausible
+    # halves with nothing comparing them is the failure this repository keeps
+    # recording, so this compares MEMBERSHIP in both directions, three times:
+    # the (base, modifier-set) compositions, the scenario cost models with open
+    # ProfileAlternatives dimensions expanded, and the nodes of the committed
+    # reports/scenario-cost-models.jsonld against that expanded set.
     #
     # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
-    # --at: 144 is 144 AT AN INSTANT. An arrangement is current when every one of
-    # its components is current, so the set is a property of the corpus AT A TIME
+    # --at: every count is a count AT AN INSTANT. A scenario cost model is current
+    # when every one of its components is current, so the set is a property of the corpus AT A TIME
     # and not of the corpus. A check enumerating at "now" would pass today and
     # start failing the morning a version is superseded, with a diff that looks
     # like an implementation disagreement and is not; worse, two sides both
@@ -313,15 +332,25 @@ case "$MODE" in
     # must never read as a pass. Namespace present with the var gone FAILS.
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
-    note "Service arrangements: clj-urpx cross-check"
-    if python3 dev/cross_check_arrangements.py \
+    note "Scenario cost models: clj-urpx cross-check"
+    if python3 dev/cross_check_scenario_cost_models.py \
            --at 2026-07-15T17:00-07:00 \
-           --combine at-most-one-modifier > /tmp/gate-arrangements.log 2>&1; then
-        cat /tmp/gate-arrangements.log
+           --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
+        cat /tmp/gate-scenario-cost-models.log
     else
         rc=$?
-        cat /tmp/gate-arrangements.log
+        cat /tmp/gate-scenario-cost-models.log
         record $rc
+    fi
+
+    # About 40 s, so --fast runs it only when the commit stages a filing, the
+    # emitted document or its generator. --full always runs it.
+    if git diff --cached --name-only |
+            grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/validate-with-base\.py$'; then
+        run_scm_shacl
+    else
+        note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
+        echo "  skipped in --fast: nothing staged that it checks"
     fi
 
     # corpus.json declares the layout once; every walker it lists must see the
@@ -449,19 +478,18 @@ case "$MODE" in
         record $rc
     fi
 
-    # Two implementations of one rule now exist: dev/arrangements.py here and
-    # urpx.arrangements in clj-urpx, each locally coherent and each reporting
-    # 144 (base, modifier-set) pairs over this corpus. Two plausible halves with
-    # nothing comparing them is the failure this repository keeps recording, so
-    # this compares the SET OF PAIRS in both directions. Counts are not compared:
-    # the clj-urpx side also reports 739 and 1728 with open ProfileAlternatives
-    # dimensions expanded, and comparing an unexpanded total against an expanded
-    # one would manufacture a mismatch out of a legitimate difference.
+    # Two implementations of one rule exist: dev/scenario_cost_models.py here and
+    # clj-urpx's urpx.arrangements, which enumerates the same set. Two plausible
+    # halves with nothing comparing them is the failure this repository keeps
+    # recording, so this compares MEMBERSHIP in both directions, three times:
+    # the (base, modifier-set) compositions, the scenario cost models with open
+    # ProfileAlternatives dimensions expanded, and the nodes of the committed
+    # reports/scenario-cost-models.jsonld against that expanded set.
     #
     # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
-    # --at: 144 is 144 AT AN INSTANT. An arrangement is current when every one of
-    # its components is current, so the set is a property of the corpus AT A TIME
+    # --at: every count is a count AT AN INSTANT. A scenario cost model is current
+    # when every one of its components is current, so the set is a property of the corpus AT A TIME
     # and not of the corpus. A check enumerating at "now" would pass today and
     # start failing the morning a version is superseded, with a diff that looks
     # like an implementation disagreement and is not; worse, two sides both
@@ -484,16 +512,18 @@ case "$MODE" in
     # must never read as a pass. Namespace present with the var gone FAILS.
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
-    note "Service arrangements: clj-urpx cross-check"
-    if python3 dev/cross_check_arrangements.py \
+    note "Scenario cost models: clj-urpx cross-check"
+    if python3 dev/cross_check_scenario_cost_models.py \
            --at 2026-07-15T17:00-07:00 \
-           --combine at-most-one-modifier > /tmp/gate-arrangements.log 2>&1; then
-        cat /tmp/gate-arrangements.log
+           --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
+        cat /tmp/gate-scenario-cost-models.log
     else
         rc=$?
-        cat /tmp/gate-arrangements.log
+        cat /tmp/gate-scenario-cost-models.log
         record $rc
     fi
+
+    run_scm_shacl
 
     # corpus.json declares the layout once; every walker it lists must see the
     # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.

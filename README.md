@@ -37,15 +37,15 @@ Each `<country>/<subdivision>/<utility>/` directory also carries a `utility.toml
 
 To enumerate the corpus from code, read [`corpus.json`](./corpus.json) or run one of the walkers it lists, in Python, Clojure, babashka or bash ([LAYOUT.md §3b](./LAYOUT.md#3b-walking-the-corpus-corpusjson)).
 
-### Service arrangements
+### Scenario cost models
 
-A **service arrangement** is a fully determined selection over the plan space: one `urpx:RatePlanVersion`, plus every `urpx:RatePlanModifierVersion` that applies to it and that the customer has, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open. *Fully determined* means nothing remains to choose: given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one arrangement but several.
+A **scenario cost model** is URPX's `urpx:ScenarioCostModel`, read as a fully determined selection over the plan space: one `urpx:RatePlanVersion`, plus the `urpx:RatePlanModifierVersion`s applied to it, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open. *Fully determined* means nothing remains to choose: given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one scenario cost model but several.
 
-A rate plan is what a utility publishes. An arrangement is what a particular customer is billed under, and a plan generally admits many. It is the unit a price server publishes and an energy-management system subscribes to.
+A rate plan is what a utility publishes. A scenario cost model is what a particular customer is billed under, and a plan generally admits many. It is the unit a price server publishes as an OpenADR 3 program and an energy-management system subscribes to.
 
-***Service arrangement* is this corpus's term, not URPX vocabulary.** URPX names every part of an arrangement and no whole of it, so the term stays local: it is never written into a filing and never carries a `urpx:` prefix. [doc/service-arrangements.md](./doc/service-arrangements.md) gives the full definition: what determines an arrangement, what makes two distinct, and what makes one current.
+The properties that let a `urpx:ScenarioCostModel` name the modifier versions and alternatives it selects, `urpx:consumesModifierVersion` and `urpx:selectsProfileAlternative`, are proposed in [urpx-org/urpx#72](https://github.com/urpx-org/urpx/pull/72) and are not yet in a URPX release. [doc/scenario-cost-models.md](./doc/scenario-cost-models.md) gives the full definition: what determines one, what makes two distinct, what makes one current, and how its IRI is derived.
 
-[`reports/service-arrangements.{md,edn}`](./reports/) enumerates the arrangements the corpus can defend, at the grain of one base plan plus at most one modifier and reports, for each, whether a price server asking for a price gets a number back. [`reports/ready-for-use.md`](./reports/ready-for-use.md) rolls that up per filing.
+[`reports/scenario-cost-models.jsonld`](./reports/scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per current scenario cost model the corpus can defend, at the grain of one base plan plus at most one modifier. [`reports/scenario-cost-models.{md,edn}`](./reports/) reports, for each composition they expand from, whether a price server asking for a price gets a number back, and names each model by IRI. [`reports/ready-for-use.md`](./reports/ready-for-use.md) rolls that up per filing. None of these is written into a filing.
 
 ### Reading more than one filing at a time
 
@@ -78,7 +78,7 @@ Where the rest is answered:
 | Question | Where it is answered |
 |---|---|
 | Can a price server get a price out of this filing? | [`reports/ready-for-use.md`](./reports/ready-for-use.md), generated |
-| Which service arrangements resolve, and at what instants? | [`reports/service-arrangements.md`](./reports/service-arrangements.md), generated |
+| Which scenario cost models resolve, and at what instants? | [`reports/scenario-cost-models.md`](./reports/scenario-cost-models.md), generated |
 | How many customers do the modeled plans reach? | [`reports/coverage.md`](./reports/coverage.md), generated |
 | What can URPX not express, and what have we not converted? | [MODELING-GAPS.md](./MODELING-GAPS.md) |
 | What has this filing deferred? | that filing's `tariff.toml [modeling].deferrals` |

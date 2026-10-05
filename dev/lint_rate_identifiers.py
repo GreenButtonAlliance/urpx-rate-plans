@@ -11,7 +11,7 @@ scripts/extract-sdge-nbt-eec-values.py as a "Generation EEC" family. There is no
 such family. The generation component is not published separately at all; where
 it is needed it must be derived by subtracting the delivery-only rate from the
 bundled one, which is the method this corpus already records for SCE and then
-contradicted for SDG&E. See doc/midas-rins-and-service-arrangements.md.
+contradicted for SDG&E. See doc/midas-rins-and-scenario-cost-models.md.
 
 WHY THE CHECK IS HERE AND NOT IN clj-urpx. `urpx:RatePlanIdentifier` models
 `skos:notation` as a plain string, so a malformed notation validates exactly as
@@ -66,7 +66,7 @@ TWO FINDINGS, DELIBERATELY NOT MERGED, because they are not equally strong:
           live, and every v2.0 GET is public. That is why dev/mine_midas.py sends
           no Authorization header at all, and why there is no refresh blocker
           here: the reference can be current with no credentials in play.
-          doc/midas-rins-and-service-arrangements.md records the version history.
+          doc/midas-rins-and-scenario-cost-models.md records the version history.
 
           What the absence is evidence OF is the limit: these strings are read
           out of a utility's own MIDAS-format upload, not composed here, so MIDAS
@@ -408,7 +408,7 @@ def render(d: dict) -> None:
         print("    This is a structural finding, not a freshness one: it does not depend")
         print("    on the snapshot being current. Fixing it means establishing what the")
         print("    corpus meant to cite, not editing the string into a shape that passes.")
-        print("    See doc/midas-rins-and-service-arrangements.md.")
+        print("    See doc/midas-rins-and-scenario-cost-models.md.")
         print()
 
     if rep:

@@ -1,31 +1,36 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 # SPDX-License-Identifier: CDLA-Permissive-2.0
-"""Service arrangements: the enumeration, in one place.
+"""Scenario cost models: the enumeration, in one place.
 
-A SERVICE ARRANGEMENT is a fully-determined selection over the plan space: one
-urpx:RatePlanVersion, plus zero or more urpx:RatePlanModifierVersions applicable
-to it, plus one urpx:ProfileAlternative per dimension either of them leaves open.
+A scenario cost model is URPX's urpx:ScenarioCostModel, read as a
+fully-determined selection over the plan space: one urpx:RatePlanVersion
+(urpx:consumesVersion), plus zero or more urpx:RatePlanModifierVersions
+applicable to it (urpx:consumesModifierVersion), plus one urpx:ProfileAlternative
+per dimension either of them leaves open (urpx:selectsProfileAlternative).
 "Determined" means nothing remains to choose: it resolves to prices for any
-instant in its window with no further input. It is the thing a customer takes
-service under, and the unit an OpenADR 3 price server publishes as a program.
+instant in its window with no further input. It is the unit an OpenADR 3 price
+server publishes as a program. consumesModifierVersion and
+selectsProfileAlternative, and consumesVersion's sh:maxCount 1, are proposed in
+urpx-org/urpx#72 and are in no URPX release yet.
 
-URPX v0.5.1 has no term for it. Every owl:ObjectProperty whose range is one of
-the four plan classes was enumerated: fifteen, none with a composition domain.
-urpx:hasModifierOptions states availability, urpx:applicableToRatePlan states
-compatibility, and urpx:AccountServiceAgreement is a stub whose own skos:note
-pushes account data out of scope. A urpx:RatePlanVersion is the BASE plan's
-snapshot, not the composition.
+A COMPOSITION is a base version plus a modifier set, with open dimensions not
+yet selected. It is the row the reports and the baseline work in, and it stands
+for one scenario cost model per selection: the product of its open dimensions'
+alternative counts.
 
 Identity is intrinsic: (base version IRI, sorted modifier version IRIs, sorted
-alternative selections). A MIDAS RIN is an optional external attestation, never
-the identity, and this module does not read or assign one.
+alternative selections). model_iri() derives the node IRI from that tuple
+alone; doc/scenario-cost-models.md specifies the derivation. A MIDAS RIN is an
+optional external attestation, never the identity, and this module does not
+read or assign one.
 
-Three report generators consume this module: dev/list_service_arrangements.py,
-dev/list_ready_for_use.py and dev/list_rate_identifiers.py. They share it rather
-than each carrying a walk, because the failure this repository keeps hitting is
-two lists that drift. dev/cross_check_arrangements.py consumes it too, for the
-opposite reason: it asserts that the enumeration clj-urpx arrives at
+Four report generators consume this module: dev/list_scenario_cost_models.py,
+dev/list_ready_for_use.py, dev/list_rate_identifiers.py and
+dev/list_version_continuity.py. They share it rather than each carrying a walk,
+because the failure this repository keeps hitting is two lists that drift.
+dev/cross_check_scenario_cost_models.py consumes it too, for the opposite
+reason: it asserts that the enumeration clj-urpx's urpx.arrangements arrives at
 independently has the same members as the one here.
 
 Nothing here is hand-maintained. Every number is derived from the corpus, from
@@ -51,7 +56,7 @@ DEPS = REPO / "deps.edn"
 
 VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 
-# A refusal in these two classes is not a defect: the arrangement resolved, and
+# A refusal in these two classes is not a defect: the composition resolved, and
 # legitimately prices nothing per kWh. The names and the reasoning are
 # dev/validate_v020.clj's `legitimate-refusals`; they are repeated here because
 # this module reads the recorded baseline, not the validator.
@@ -70,7 +75,7 @@ CORPUS_ZONE = zoneinfo.ZoneInfo("America/Los_Angeles")
 # plus exactly one modifier. It is deliberately conservative and knowingly
 # INCOMPLETE: real customers hold several overlays at once. It is named so that
 # widening it fires as a decision in two repositories at once rather than as a
-# mystery diff; see dev/cross_check_arrangements.py.
+# mystery diff; see dev/cross_check_scenario_cost_models.py.
 COMBINE_AT_MOST_ONE_MODIFIER = "at-most-one-modifier"
 
 SERVABLE = "servable"
@@ -139,7 +144,7 @@ def dimensions_within(node) -> dict[str, dict]:
         if not cid:
             raise Refuse(
                 "a urpx:ProfileAlternatives container carries no @id, so an "
-                "arrangement's alternative selections cannot be named."
+                "composition's alternative selections cannot be named."
             )
         if not alts:
             raise Refuse(f"urpx:ProfileAlternatives {cid} states no alternatives.")
@@ -219,14 +224,14 @@ def check_compatibility_agreement(vid: str, authority: set[str], union: set[str]
     A base filing bundles the modifiers operative at its snapshot date, and each
     bundled copy is scoped to that base. If a bundled copy claims a base the
     modifier's own filing does not, the two disagree about what composes with
-    what, and an arrangement built on either answer is a guess.
+    what, and a composition built on either answer is a guess.
     """
     if authority == union:
         return
     raise Refuse(
         f"{vid}: copies disagree about which bases it applies to. Its own "
         f"filing says {sorted(authority)}; the union over every copy says "
-        f"{sorted(union)}. Resolve that in us/ before an arrangement is built "
+        f"{sorted(union)}. Resolve that in us/ before a composition is built "
         f"on either answer."
     )
 
@@ -291,7 +296,7 @@ def collect_versions() -> dict[str, dict]:
         # of their own, so there is no authoritative occurrence to prefer. That
         # is fine while every copy agrees and a refusal when they do not: with
         # no home filing there is nothing to break the tie, and picking by path
-        # order would let sorted() decide whether an arrangement exists.
+        # order would let sorted() decide whether a composition exists.
         # pge:e-tou-c-vintage-pcia-2026-03-01 is exactly this case, named here
         # because the comment that used to sit at this line asserted the
         # opposite ("their sole occurrence"), which is false for it.
@@ -310,7 +315,7 @@ def collect_versions() -> dict[str, dict]:
                     f"{vid} has no filing of its own and its {len(occs)} bundled copies "
                     f"disagree about which base VERSION it applies to: {detail}. With no "
                     f"authoritative occurrence there is nothing to break the tie, and "
-                    f"choosing one would silently decide whether an arrangement exists. "
+                    f"choosing one would silently decide whether a composition exists. "
                     f"Resolve it in us/, or give the modifier its own filing."
                 )
             node = occs[0][2]
@@ -465,9 +470,9 @@ def load_baseline() -> dict:
 
 
 def classify(keys: list[str], baseline: dict) -> tuple[str, str]:
-    """(outcome, reason) for one arrangement, from its baseline rows.
+    """(outcome, reason) for one composition, from its baseline rows.
 
-    An arrangement is servable only when EVERY row at EVERY probe instant
+    A composition is servable only when EVERY row at EVERY probe instant
     resolved. A key with no row, or a key that resolves at some instants and
     refuses at others, is never servable.
     """
@@ -554,13 +559,13 @@ def pair_candidates(bases: dict[str, dict], modifiers: list[dict],
     property can never change an answer applicableToRatePlan did not already
     license, so a decision taken to add precision buys almost none. The
     working group should say which it meant; see the comment in
-    dev/cross_check_arrangements.clj for the full citation and the third
+    dev/cross_check_scenario_cost_models.clj for the full citation and the third
     reading neither of these two is.
 
     This function narrowed until the reading was settled. The narrowing never
     fired, because no node in this corpus names a version of a plan it does not
     also name, which is exactly why the corpus cannot tell the two readings
-    apart. test_arrangements.py carries the fixture that can.
+    apart. test_scenario_cost_models.py carries the fixture that can.
 
     Both are the documents talking. That at most one modifier at a time is
     admitted is not: see COMBINE_AT_MOST_ONE_MODIFIER.
@@ -595,7 +600,7 @@ def enumerate_pairs(at: datetime.datetime | None,
     at `at`, with the versions excluded for getting there.
 
     Open dimensions are left UNEXPANDED: a base plus a modifier over a
-    three-value dimension is one row here and three arrangements. That is the
+    three-value dimension is one row here and three scenario cost models. That is the
     membership claim two implementations can make identically; expanding is a
     separate decision about whether a pending choice is one row or several.
     """
@@ -614,7 +619,7 @@ def enumerate_pairs(at: datetime.datetime | None,
         for base, modifier in pair_candidates(bases, modifiers, combine)
     }
     if not pairs:
-        raise Refuse(f"the corpus expresses no service arrangement {when}.")
+        raise Refuse(f"the corpus expresses no scenario cost model {when}.")
     return {
         "pairs": pairs,
         "at": at,
@@ -623,6 +628,232 @@ def enumerate_pairs(at: datetime.datetime | None,
         "not_yet_effective": sorted(future),
         "versions": len(versions),
     }
+
+
+# ---------------------------------------------------------------------------
+# Scenario cost models: expansion, identity, IRI
+# ---------------------------------------------------------------------------
+
+def selection_sets(alternatives: dict[str, list[str]]) -> list[tuple[str, ...]]:
+    """Every way of choosing one urpx:ProfileAlternative per open dimension, as
+    sorted tuples of alternative IRIs. One empty tuple when nothing is open.
+
+    An alternative IRI names its container, so the selection is recorded as the
+    alternatives alone; an alternative offered by two containers would make that
+    ambiguous, and is refused.
+    """
+    owner: dict[str, str] = {}
+    for cid, alts in alternatives.items():
+        for alt in alts:
+            if owner.setdefault(alt, cid) != cid:
+                raise Refuse(
+                    f"urpx:ProfileAlternative {alt} is offered by both {owner[alt]} "
+                    f"and {cid}, so a selection of it does not say which dimension "
+                    f"it closes."
+                )
+    sets: list[tuple[str, ...]] = [()]
+    for cid in sorted(alternatives):
+        sets = [s + (alt,) for s in sets for alt in alternatives[cid]]
+    return [tuple(sorted(s)) for s in sets]
+
+
+def model_identity(base: str, modifiers, alternatives) -> tuple:
+    """(base version IRI, sorted modifier version IRIs, sorted alternative IRIs)."""
+    return (base, tuple(sorted(modifiers)), tuple(sorted(alternatives)))
+
+
+def expand_compositions(compositions: list[dict]) -> list[tuple]:
+    """Every scenario cost model the compositions stand for, as identity tuples,
+    sorted. One per selection set of each composition."""
+    out = [
+        model_identity(c["base"], c["modifiers"], s)
+        for c in compositions
+        for s in selection_sets(c["alternatives"])
+    ]
+    if len(set(out)) != len(out):
+        raise Refuse("two compositions expand to the same scenario cost model identity.")
+    expected = sum(c["selections"] for c in compositions)
+    if len(out) != expected:
+        raise Refuse(
+            f"expanding the compositions gave {len(out)} scenario cost models where "
+            f"their selection counts sum to {expected}."
+        )
+    return sorted(out)
+
+
+def enumerate_models(at: datetime.datetime | None,
+                     combine: str = COMBINE_AT_MOST_ONE_MODIFIER,
+                     versions: dict[str, dict] | None = None) -> set[tuple]:
+    """The scenario cost model identities current at `at`, open dimensions
+    expanded. enumerate_pairs() with each pair's selections multiplied out."""
+    if versions is None:
+        versions = collect_versions()
+    pairs = enumerate_pairs(at, combine, versions)["pairs"]
+    out: set[tuple] = set()
+    for base, mods in pairs:
+        alternatives: dict[str, list[str]] = {}
+        for vid in [base, *sorted(mods)]:
+            for cid, d in versions[vid]["dimensions"].items():
+                alternatives[cid] = list(d["alternatives"])
+        for s in selection_sets(alternatives):
+            out.add(model_identity(base, mods, s))
+    return out
+
+
+# The IRI scheme. doc/scenario-cost-models.md specifies it for a second
+# implementation; change both together.
+IRI_ROOT = "https://rate-plans.grid-coordination.energy/"
+IRI_SLUG_PREFIX = "scm-"
+IRI_SEPARATOR = "--"
+IRI_HASH_HEX = 12
+LOCAL_NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+def corpus_prefixes() -> dict[str, str]:
+    """Every compact-IRI prefix the filings bind, refusing a prefix bound two ways."""
+    out: dict[str, str] = {}
+    for path in corpus.all_filing_jsonld():
+        with path.open() as fp:
+            ctx = json.load(fp).get("@context")
+        for part in (ctx if isinstance(ctx, list) else [ctx]):
+            if not isinstance(part, dict):
+                continue
+            for k, v in part.items():
+                if isinstance(v, str) and out.setdefault(k, v) != v:
+                    raise Refuse(f"prefix {k}: is bound to both {out[k]} and {v}.")
+    corpus.require_nonempty(out, "@context prefix bindings")
+    return out
+
+
+def expand_iri(iri: str, prefixes: dict[str, str]) -> str:
+    if iri.startswith(("http://", "https://")):
+        return iri
+    prefix, sep, local = iri.partition(":")
+    if not sep or prefix not in prefixes:
+        raise Refuse(f"{iri} uses no prefix the corpus binds, so it cannot be expanded.")
+    return prefixes[prefix] + local
+
+
+def canonical_identity(identity: tuple) -> str:
+    """The hash input: one line per component, absolute IRIs, code-point order."""
+    base, mods, alts = identity
+    lines = [f"base {base}"]
+    lines += [f"modifier {m}" for m in sorted(mods)]
+    lines += [f"alternative {a}" for a in sorted(alts)]
+    return "\n".join(lines)
+
+
+def model_iri(identity: tuple) -> str:
+    """The absolute IRI of the scenario cost model `identity` names.
+
+    `identity` is in absolute IRIs. Every component must sit in the base
+    version's utility namespace, and each local name must be lower-case ASCII
+    words joined by single hyphens, so that IRI_SEPARATOR cannot occur inside
+    one; anything else is refused rather than escaped.
+    """
+    import hashlib
+
+    base, mods, alts = identity
+    if not base.startswith(IRI_ROOT):
+        raise Refuse(f"{base} is not under {IRI_ROOT}.")
+    utility = base[len(IRI_ROOT):].split("/", 1)[0]
+    ns = f"{IRI_ROOT}{utility}/"
+
+    def local(iri: str) -> str:
+        if not iri.startswith(ns):
+            raise Refuse(f"{iri} is outside {ns}, the namespace of base version {base}.")
+        name = iri[len(ns):]
+        if not LOCAL_NAME.match(name):
+            raise Refuse(f"{iri}: local name {name!r} is not lower-case words joined by single hyphens.")
+        return name
+
+    slug = IRI_SLUG_PREFIX + IRI_SEPARATOR.join([local(base)] + [local(m) for m in sorted(mods)])
+    for a in alts:
+        local(a)
+    if alts:
+        digest = hashlib.sha256(canonical_identity(identity).encode("utf-8")).hexdigest()
+        slug += IRI_SEPARATOR + digest[:IRI_HASH_HEX]
+    return ns + slug
+
+
+def model_iris(models: list[tuple], prefixes: dict[str, str] | None = None) -> dict[tuple, str]:
+    """identity -> absolute IRI, refusing two identities that derive one IRI."""
+    if prefixes is None:
+        prefixes = corpus_prefixes()
+    out: dict[tuple, str] = {}
+    seen: dict[str, tuple] = {}
+    for identity in models:
+        base, mods, alts = identity
+        iri = model_iri((expand_iri(base, prefixes),
+                         tuple(expand_iri(m, prefixes) for m in mods),
+                         tuple(expand_iri(a, prefixes) for a in alts)))
+        if iri in seen:
+            raise Refuse(f"{iri} is derived from two identities: {seen[iri]} and {identity}.")
+        seen[iri] = identity
+        out[identity] = iri
+    return out
+
+
+def component_names() -> dict[str, str]:
+    """urpx:name of every RatePlan, RatePlanModifier and ProfileAlternative."""
+    wanted = {"urpx:RatePlan", "urpx:RatePlanModifier", "urpx:ProfileAlternative"}
+    out: dict[str, str] = {}
+    for path in corpus.all_filing_jsonld():
+        with path.open() as fp:
+            doc = json.load(fp)
+        for node in walk(doc):
+            if wanted & types_of(node) and node.get("@id") and isinstance(node.get("urpx:name"), str):
+                out.setdefault(node["@id"], node["urpx:name"])
+    return out
+
+
+def model_name(identity: tuple, versions: dict[str, dict], names: dict[str, str]) -> str:
+    """A human-readable name: each consumed version's plan name and @id, then the
+    selected alternatives' names. Not an identifier; model_iri() is."""
+    base, mods, alts = identity
+
+    def named(iri: str) -> str:
+        if iri not in names:
+            raise Refuse(f"{iri} carries no urpx:name, so a scenario cost model naming it cannot be named.")
+        return names[iri]
+
+    parts = [f"{named(versions[v]['plan'])} [{v}]" for v in [base, *mods]]
+    out = " + ".join(parts)
+    if alts:
+        out += "; " + "; ".join(named(a) for a in alts)
+    return out
+
+
+def model_document(models: list[tuple]) -> dict:
+    """The JSON-LD document of urpx:ScenarioCostModel nodes, one per identity.
+
+    Not wrapped in a urpx:URPXPackage: URPXPackageShape admits a
+    ScenarioCostModel under none of urpx:packages, urpx:hasRatePlan and
+    urpx:hasRatePlanModifier, and requires one of them. Empty
+    consumesModifierVersion and selectsProfileAlternative are omitted. No
+    urpx:name: the closed ScenarioCostModelShape at urpx-org/urpx#72 does not
+    admit one, so names are in reports/scenario-cost-models.edn.
+    """
+    prefixes = corpus_prefixes()
+    iris = model_iris(models, prefixes)
+    used: dict[str, str] = {"urpx": prefixes["urpx"]}
+    nodes: list[dict] = []
+    for identity in models:
+        base, mods, alts = identity
+        prefix = base.split(":", 1)[0]
+        used[prefix] = prefixes[prefix]
+        node = {
+            "@id": f"{prefix}:{iris[identity][len(prefixes[prefix]):]}",
+            "@type": "urpx:ScenarioCostModel",
+            "urpx:consumesVersion": {"@id": base},
+        }
+        if mods:
+            node["urpx:consumesModifierVersion"] = [{"@id": m} for m in mods]
+        if alts:
+            node["urpx:selectsProfileAlternative"] = [{"@id": a} for a in alts]
+        nodes.append(node)
+    nodes.sort(key=lambda n: n["@id"])
+    return {"@context": dict(sorted(used.items())), "@graph": nodes}
 
 
 def build() -> dict:
@@ -657,7 +888,7 @@ def build() -> dict:
             f"corpus declares. The nomination and the corpus have drifted."
         )
 
-    arrangements: list[dict] = []
+    compositions: list[dict] = []
 
     def add(base: dict, modifier: dict | None) -> None:
         dims: dict[str, dict] = dict(base["dimensions"])
@@ -673,12 +904,13 @@ def build() -> dict:
         selections = 1
         for d in dims.values():
             selections *= len(d["alternatives"])
-        arrangements.append({
+        compositions.append({
             "base": base["id"],
             "modifiers": [modifier["id"]] if modifier else [],
             "utility": base["utility"],
             "schedule": base["slug"],
             "dimensions": sorted(dims),
+            "alternatives": {cid: list(d["alternatives"]) for cid, d in sorted(dims.items())},
             "selections": selections,
             "nominated_dimensions": sorted(c for c in dims if c in nominations),
             "baseline_keys": keys,
@@ -689,19 +921,19 @@ def build() -> dict:
     for base, modifier in pair_candidates(bases, modifiers):
         add(base, modifier)
 
-    if not arrangements:
-        raise Refuse("the corpus expresses no service arrangement at all.")
-    if not any(a["outcome"] == SERVABLE for a in arrangements):
+    if not compositions:
+        raise Refuse("the corpus expresses no scenario cost model at all.")
+    if not any(a["outcome"] == SERVABLE for a in compositions):
         raise Refuse(
-            "not one arrangement is servable. Either the baseline lost its rows "
+            "not one composition is servable. Either the baseline lost its rows "
             "or the corpus stopped resolving; both are regressions, not a report."
         )
 
     # Every baseline row this enumeration does NOT reach has to be accounted for.
     # An unreferenced row means either a version the enumeration dropped as
-    # superseded, or an arrangement it failed to find, and those must be told
+    # superseded, or a composition it failed to find, and those must be told
     # apart rather than both passing quietly.
-    referenced = {k for a in arrangements for k in a["baseline_keys"]}
+    referenced = {k for a in compositions for k in a["baseline_keys"]}
     superseded_files = {f for vid in superseded for f in versions[vid]["files"]}
     superseded_homes = {versions[vid]["home"] for vid in superseded if versions[vid]["home"]}
     unattributed = []
@@ -721,7 +953,7 @@ def build() -> dict:
             + "\n  ".join(sorted(unattributed))
         )
 
-    filings = roll_up_to_filings(versions, superseded, arrangements)
+    filings = roll_up_to_filings(versions, superseded, compositions)
 
     return {
         "versions": versions,
@@ -729,19 +961,20 @@ def build() -> dict:
         "baseline": baseline,
         "nominations": nominations,
         "dimensions": known_dimensions,
-        "arrangements": arrangements,
+        "compositions": compositions,
+        "models": expand_compositions(compositions),
         "filings": filings,
     }
 
 
-def roll_up_to_filings(versions, superseded, arrangements) -> list[dict]:
-    """One row per tariff.toml directory, scored by the arrangements its version
+def roll_up_to_filings(versions, superseded, compositions) -> list[dict]:
+    """One row per tariff.toml directory, scored by the compositions its version
     nodes take part in.
 
-    A filing's outcome is the best outcome over every arrangement drawing on a
+    A filing's outcome is the best outcome over every composition drawing on a
     version node present in its JSON-LD, because the question the report answers
     is whether a price server can get a price out of this filing at all. A
-    filing whose every version node is superseded is not a service arrangement
+    filing whose every version node is superseded is not a scenario cost model
     and says so.
     """
     import tomli
@@ -750,7 +983,7 @@ def roll_up_to_filings(versions, superseded, arrangements) -> list[dict]:
     corpus.require_nonempty(dirs, "tariff.toml manifests")
 
     by_version: dict[str, list[dict]] = collections.defaultdict(list)
-    for a in arrangements:
+    for a in compositions:
         for vid in [a["base"]] + a["modifiers"]:
             by_version[vid].append(a)
 
@@ -776,7 +1009,7 @@ def roll_up_to_filings(versions, superseded, arrangements) -> list[dict]:
         else:
             candidates = [a for v in live for a in by_version.get(v["id"], [])]
             if not candidates:
-                outcome, reason = UNMEASURED, "no arrangement draws on this filing"
+                outcome, reason = UNMEASURED, "no composition draws on this filing"
             else:
                 best = min(candidates, key=lambda a: OUTCOME_RANK.index(a["outcome"]))
                 outcome, reason = best["outcome"], best["reason"]
@@ -798,10 +1031,10 @@ def roll_up_to_filings(versions, superseded, arrangements) -> list[dict]:
             "complete": complete,
             "versions": len(present),
             "superseded_here": len(dead),
-            "arrangements": len([a for v in live for a in by_version.get(v["id"], [])]),
+            "compositions": len([a for v in live for a in by_version.get(v["id"], [])]),
         })
     return rows
 
 
-def tally(arrangements) -> collections.Counter:
-    return collections.Counter(a["outcome"] for a in arrangements)
+def tally(compositions) -> collections.Counter:
+    return collections.Counter(a["outcome"] for a in compositions)

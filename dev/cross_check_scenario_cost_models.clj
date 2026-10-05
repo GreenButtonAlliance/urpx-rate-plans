@@ -1,13 +1,16 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 ;; SPDX-License-Identifier: CDLA-Permissive-2.0
 ;;
-;; The clj-urpx half of dev/cross_check_arrangements.py. Run by that script,
+;; The clj-urpx half of dev/cross_check_scenario_cost_models.py. Run by that script,
 ;; never on its own:
 ;;
-;;   clojure -M dev/cross_check_arrangements.clj <instant> <combining-policy>
+;;   clojure -M dev/cross_check_scenario_cost_models.clj <instant> <combining-policy>
 ;;
-;; It answers one question: what does urpx.arrangements/arrangement-pairs
-;; return over this corpus at that instant, and if it cannot be asked, WHY not.
+;; It answers two questions: what do urpx.arrangements/arrangement-pairs and
+;; urpx.arrangements/arrangements return over this corpus at that instant, and
+;; if they cannot be asked, WHY not. clj-urpx's namespace keeps its own name,
+;; urpx.arrangements; what it enumerates is what this repository calls scenario
+;; cost models.
 ;; Every answer is a single XC- line on stdout, so the caller reads a state
 ;; rather than inferring one from an exit code that a JVM warning could muddy.
 ;;
@@ -17,7 +20,9 @@
 ;;   XC-STATE documents-error      the var is there and the corpus would not load
 ;;   XC-STATE call-error           the var is there and calling it threw
 ;;   XC-STATE shape-error          it returned something that is not a pair set
-;;   XC-STATE pairs                followed by XC-PAIR lines and XC-END
+;;   XC-STATE pairs                followed by XC-PAIR lines and XC-END,
+;;                                 then either XC-MODELS-ERROR <detail> or
+;;                                 XC-MODEL lines and XC-MODELS-END
 ;;
 ;; Only ns-absent is pending. Every other non-`pairs` state is a failure: the
 ;; var exists and the comparison did not happen, which must never read as
@@ -136,14 +141,14 @@
 ;; is agreement by coincidence rather than by assertion. Three are clj-urpx
 ;; options; the instant is ours. What each one is doing, and what it costs:
 ;;
-;;   :at             the pinned instant. An arrangement is current when every
+;;   :at             the pinned instant. A scenario cost model is current when every
 ;;                   component is, so a pair count is a property of the corpus
 ;;                   AT A TIME. Two sides both drifting to "now" can agree while
 ;;                   both answering a different question.
 ;;
 ;;   :combine        one-modifier-at-most. A CALLER policy: nothing in URPX
 ;;                   states exclusivity or combinability between modifiers.
-;;                   Knowingly incomplete, since real multi-overlay arrangements
+;;                   Knowingly incomplete, since real multi-overlay compositions
 ;;                   exist.
 ;;
 ;;   :compatibility  named-versions-add. Whether stating
@@ -210,7 +215,7 @@
 ;;                   version, and that occurs zero times here. So this pin
 ;;                   asserts a reading; it is not a measurement this corpus can
 ;;                   falsify, and a green gate is not evidence for it. The
-;;                   discriminating fixtures live in dev/test_arrangements.py.
+;;                   discriminating fixtures live in dev/test_scenario_cost_models.py.
 ;;
 ;;                   Filed for the working group: the decision text supports
 ;;                   both readings and neither implementation can settle it by
@@ -263,5 +268,26 @@
 (doseq [[base mods] (sort-by (fn [[b m]] [b (vec (sort m))]) (vec result))]
   (println (str "XC-PAIR\t" base "\t" (str/join "," (sort mods)))))
 (println (str "XC-END " (count (set (map (fn [[b m]] [b (set m)]) result)))))
+(flush)
+
+;; The same instant and policies, with open dimensions expanded: one
+;; arrangement per selection. Each is printed as its identity with the
+;; selections reduced to their alternative @ids, sorted, which is the form
+;; dev/scenario_cost_models.py identifies a scenario cost model by.
+(let [g (resolve 'urpx.arrangements/arrangements)]
+  (if (nil? g)
+    (println "XC-MODELS-ERROR urpx.arrangements/arrangements is not interned")
+    (let [arrs (try (g documents opts)
+                    (catch Throwable t
+                      (println (str "XC-MODELS-ERROR " (one-line t)))
+                      (flush)
+                      (System/exit 0)))
+          rows (sort (map (fn [a]
+                            (str (:urpx.arrangement/version-id a) "\t"
+                                 (str/join "," (sort (:urpx.arrangement/modifier-version-ids a))) "\t"
+                                 (str/join "," (sort (vals (:urpx.arrangement/selections a))))))
+                          arrs))]
+      (doseq [r rows] (println (str "XC-MODEL\t" r)))
+      (println (str "XC-MODELS-END " (count arrs))))))
 (flush)
 (System/exit 0)

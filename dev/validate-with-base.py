@@ -22,7 +22,11 @@ Modes:
                              failures from unresolved cross-file references)
     <jsonld>                 one file alone (DIAGNOSTIC, same caveat)
 
-    --urpx-rev <rev>         URPX revision to validate against
+    --urpx-rev <rev>         URPX revision to validate against, in place of the
+                             one each file's urpx: binding dispatches to
+    --with <jsonld>          merge a derived document (repeatable) into the
+                             --merged or --utility graph, e.g.
+                             reports/scenario-cost-models.jsonld
     --rdfs                   enable RDFS inference
     --keys                   print stable violation keys, for baseline comparison
     --write-baseline         record every merged mode's key profile
@@ -244,8 +248,15 @@ def dispatch_rev(files: list[Path]) -> tuple[str | None, str | None]:
 
 
 def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
-                   verbose: bool = True, show_keys: bool = False):
-    """Validate `files` as ONE merged graph. Returns (status, keys)."""
+                   verbose: bool = True, show_keys: bool = False,
+                   rev_override: str | None = None, extra: list[Path] = ()):
+    """Validate `files` as ONE merged graph. Returns (status, keys).
+
+    `extra` documents are merged in after dispatch, so a derived document is
+    held to the corpus's shape revision (or `rev_override`) rather than choosing
+    its own. One that contributes no triple is refused: merging nothing would
+    report the corpus's conformance as the derived document's.
+    """
     if not files:
         # An empty file set conforms trivially. That is the vacuous pass this
         # harness exists to refuse, and it is exactly what a restructure that
@@ -255,14 +266,22 @@ def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
               f"an empty graph.", file=sys.stderr)
         return REFUSED, []
 
-    rev, err = dispatch_rev(files)
+    rev, err = dispatch_rev(list(files) + list(extra))
     if err:
         print(f"REFUSED  {label}: {err}", file=sys.stderr)
         return REFUSED, []
+    if rev_override:
+        rev = rev_override
 
     g = rdflib.Graph()
     for f in files:
         g.parse(f, format="json-ld")
+    for f in extra:
+        before = len(g)
+        g.parse(f, format="json-ld")
+        if len(g) == before:
+            print(f"REFUSED  {label}: {f} adds no triple to the graph.", file=sys.stderr)
+            return REFUSED, []
 
     shapes = load_graph(SHAPES_PATH, rev)
     ontology = load_graph(ONTOLOGY_PATH, rev)
@@ -281,10 +300,11 @@ def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
     keys = violation_keys(results_graph)
 
     if verbose:
+        n = f"{len(files)} files" + (f" + {len(extra)} derived" if extra else "")
         if conforms:
-            print(f"PASS  {label}  ({len(files)} files)")
+            print(f"PASS  {label}  ({n}, URPX {rev})")
         else:
-            print(f"FAIL  {label}  ({len(files)} files, {len(keys)} violations)")
+            print(f"FAIL  {label}  ({n}, URPX {rev}, {len(keys)} violations)")
             if show_keys:
                 for focus, path, comp in keys:
                     print(f"  {focus} | {path} | {comp.rsplit('#', 1)[-1]}")
@@ -499,11 +519,22 @@ def main():
                     help="Record every merged mode's key profile under dev/baseline/")
     ap.add_argument("--check-baseline", action="store_true",
                     help="Compare every merged mode against the recorded baseline")
-    ap.add_argument("--urpx-rev", default=URPX_REV,
-                    help=f"URPX revision (default: {URPX_REV})")
+    ap.add_argument("--urpx-rev", default=None,
+                    help="URPX revision, overriding per-file dispatch")
+    ap.add_argument("--with", dest="extra", action="append", default=[], metavar="JSONLD",
+                    help="A derived document to merge into the --merged or --utility graph")
     args = ap.parse_args()
-    URPX_REV = args.urpx_rev
-    kw = dict(rdfs=args.rdfs, show_keys=args.keys)
+    if args.urpx_rev:
+        URPX_REV = args.urpx_rev
+    extra = [p if p.is_absolute() else REPO_ROOT / p for p in map(Path, args.extra)]
+    missing = [str(p) for p in extra if not p.exists()]
+    if missing:
+        print(f"REFUSED  --with names no file: {', '.join(missing)}", file=sys.stderr)
+        sys.exit(3)
+    if extra and not (args.merged or args.utility):
+        print("REFUSED  --with needs --merged or --utility.", file=sys.stderr)
+        sys.exit(3)
+    kw = dict(rdfs=args.rdfs, show_keys=args.keys, rev_override=args.urpx_rev)
 
     if args.write_baseline:
         sys.exit(write_baseline(rdfs=args.rdfs))
@@ -512,12 +543,12 @@ def main():
         sys.exit(check_baseline(rdfs=args.rdfs, only=args.utility))
 
     if args.merged:
-        status, _ = validate_files(corpus_files(), "corpus (merged)", **kw)
+        status, _ = validate_files(corpus_files(), "corpus (merged)", extra=extra, **kw)
         sys.exit({OK: 0, VIOLATIONS: 1, REFUSED: 3}[status])
 
     if args.utility:
         files = corpus_files(args.utility)
-        status, _ = validate_files(files, f"{args.utility} (merged)", **kw)
+        status, _ = validate_files(files, f"{args.utility} (merged)", extra=extra, **kw)
         sys.exit({OK: 0, VIOLATIONS: 1, REFUSED: 3}[status])
 
     if args.all:

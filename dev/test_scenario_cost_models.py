@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 # SPDX-License-Identifier: CDLA-Permissive-2.0
-"""Negative tests for the service-arrangement enumeration.
+"""Negative tests for the scenario cost model enumeration, and the IRI scheme.
 
 This repository has ten recorded instances of a check that passed while
 verifying nothing, one of them shipped the day before this file was written and
-sitting on its own suppression path. So every guard in dev/arrangements.py is
+sitting on its own suppression path. So every guard in dev/scenario_cost_models.py is
 made to fire here against a deliberately broken input, and the run fails if a
 guard stays quiet.
 
@@ -14,7 +14,7 @@ collapses, the comparison becomes trivial, and the report prints success over an
 empty set. Each case below removes, duplicates or corrupts exactly one input and
 asserts a REFUSAL rather than a verdict.
 
-Run: python3 dev/test_arrangements.py
+Run: python3 dev/test_scenario_cost_models.py
 """
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "dev"))
 
-import arrangements as A  # noqa: E402
+import scenario_cost_models as A  # noqa: E402
 import corpus  # noqa: E402
 
 failures: list[str] = []
@@ -60,19 +60,19 @@ def expect(name: str, got, want) -> None:
 
 print("=== the enumeration over the real corpus ===")
 REAL = A.build()
-tally = A.tally(REAL["arrangements"])
-expect("every arrangement is classified",
-       sum(tally.values()), len(REAL["arrangements"]))
+tally = A.tally(REAL["compositions"])
+expect("every composition is classified",
+       sum(tally.values()), len(REAL["compositions"]))
 expect("supersession finds nine plan identities", len(REAL["superseded"]), 9)
-expect("no arrangement is built on a superseded version",
-       [a for a in REAL["arrangements"]
+expect("no composition is built on a superseded version",
+       [a for a in REAL["compositions"]
         if a["base"] in REAL["superseded"] or set(a["modifiers"]) & set(REAL["superseded"])],
        [])
 
 # The counts below are asserted as SHAPE, not as a recorded answer: a corpus
 # that grows should not fail this file. What must hold is that the buckets
-# partition the arrangements and that none of them is empty of meaning.
-expect("servable is not the whole set", tally[A.SERVABLE] < len(REAL["arrangements"]), True)
+# partition the compositions and that none of them is empty of meaning.
+expect("servable is not the whole set", tally[A.SERVABLE] < len(REAL["compositions"]), True)
 expect("something is servable", tally[A.SERVABLE] > 0, True)
 
 print()
@@ -117,7 +117,7 @@ def unattributable_baseline_row():
     baseline["rows"]["plan|us/ca/nowhere/electricity/x/versions/2026-01-01/rate-plan_nowhere_x_2026-01-01.jsonld"] = {
         i: {"status": ":ok", "reason": None} for i in baseline["instants"]
     }
-    referenced = {k for a in REAL["arrangements"] for k in a["baseline_keys"]}
+    referenced = {k for a in REAL["compositions"] for k in a["baseline_keys"]}
     superseded_files = {f for vid in REAL["superseded"] for f in REAL["versions"][vid]["files"]}
     superseded_homes = {REAL["versions"][vid]["home"] for vid in REAL["superseded"]
                         if REAL["versions"][vid]["home"]}
@@ -135,10 +135,10 @@ def unattributable_baseline_row():
         raise A.Refuse("unattributed baseline rows: " + ", ".join(unattributed))
 
 
-expect_refusal("a baseline row belonging to no arrangement and no superseded version",
+expect_refusal("a baseline row belonging to no composition and no superseded version",
                unattributable_baseline_row)
 
-# classify() is where an arrangement becomes servable, so it is the single most
+# classify() is where a composition becomes servable, so it is the single most
 # important thing to break on purpose.
 INSTANTS = REAL["baseline"]["instants"]
 
@@ -171,14 +171,14 @@ unselected = {i: {"status": ":refused", "reason": ":unselected-alternatives"} fo
 expect("an undecided alternative selection blocks",
        A.classify(["k"], bl(k=unselected))[0], A.BLOCKED)
 
-expect("an arrangement with no baseline key is never servable",
+expect("a composition with no baseline key is never servable",
        A.classify([], bl())[0], A.UNMEASURED)
-expect("an arrangement whose key vanished from the baseline is never servable",
+expect("a composition whose key vanished from the baseline is never servable",
        A.classify(["gone"], bl(k=all_ok))[0], A.UNMEASURED)
 
 # Two keys, one good and one refusing: a base version filed in two directories
 # must agree with itself.
-expect("two rows for one arrangement disagreeing",
+expect("two rows for one composition disagreeing",
        A.classify(["a", "b"], bl(a=all_ok, b=novel))[0], A.BLOCKED)
 
 print()
@@ -264,11 +264,11 @@ expect_refusal("an empty corpus", empty_corpus)
 
 print()
 print("=== the expansion is real arithmetic ===")
-with_dims = [a for a in REAL["arrangements"] if a["dimensions"]]
-expect("some arrangement leaves a dimension open", len(with_dims) > 0, True)
-expect("an arrangement with no open dimension is one arrangement",
-       {a["selections"] for a in REAL["arrangements"] if not a["dimensions"]}, {1})
-expect("an arrangement with open dimensions expands past one",
+with_dims = [a for a in REAL["compositions"] if a["dimensions"]]
+expect("some composition leaves a dimension open", len(with_dims) > 0, True)
+expect("a composition with no open dimension is one scenario cost model",
+       {a["selections"] for a in REAL["compositions"] if not a["dimensions"]}, {1})
+expect("a composition with open dimensions expands past one",
        all(a["selections"] > 1 for a in with_dims), True)
 
 print()
@@ -277,16 +277,16 @@ import json  # noqa: E402
 
 PAIRINGS = json.loads((REPO / "reports" / "modifier-base-pairings.json").read_text())
 plan_level = sum(len(v["applicable_to"]) for v in PAIRINGS["by_modifier"].values())
-version_level = len([a for a in REAL["arrangements"] if a["modifiers"]])
+version_level = len([a for a in REAL["compositions"] if a["modifiers"]])
 # Each modifier identity has exactly one current version and each base identity
 # exactly one current version, so the version-level pairing count must land on
 # the plan-level count dev/list_modifier_base_pairings.py reports. It does not
 # prove either is right, but a silent drop in the version-pinning filter shows
 # up here as a shortfall.
-expect("base-plus-one-modifier arrangements match the plan-level pairing count",
+expect("base-plus-one-modifier compositions match the plan-level pairing count",
        version_level, plan_level)
-expect("base-only arrangements match the current base count",
-       len([a for a in REAL["arrangements"] if not a["modifiers"]]),
+expect("base-only compositions match the current base count",
+       len([a for a in REAL["compositions"] if not a["modifiers"]]),
        len({v["plan"] for v in REAL["versions"].values()
             if v["kind"] == "plan" and v["id"] not in REAL["superseded"]}))
 
@@ -369,7 +369,58 @@ expect("a named version that is not a current base is not reached",
        set())
 
 print()
+print("=== scenario cost model IRIs ===")
+# Known answers, also given in doc/scenario-cost-models.md, so a second
+# implementation can test against the same vectors. One per degenerate case.
+N = "https://rate-plans.grid-coordination.energy/pge/"
+VECTORS = [
+    ("base alone, nothing open",
+     (N + "e-1-2026-03-01", (), ()),
+     N + "scm-e-1-2026-03-01"),
+    ("base and modifier, nothing open",
+     (N + "e-1-2026-03-01", (N + "e-1-vintage-pcia-2026-03-01",), ()),
+     N + "scm-e-1-2026-03-01--e-1-vintage-pcia-2026-03-01"),
+    ("base alone, one selection",
+     (N + "e-elec-2026-03-27", (), (N + "e-elec-2026-03-27-pa-income-tier-care",)),
+     N + "scm-e-elec-2026-03-27--291186d914f7"),
+    ("base and modifier, two selections",
+     (N + "e-1-2026-03-01", (N + "e-1-vintage-pcia-2026-03-01",),
+      (N + "e-1-2026-03-01-pa-tc-w-b", N + "e-1-vintage-pcia-2026-03-01-pa-vintage-2020")),
+     N + "scm-e-1-2026-03-01--e-1-vintage-pcia-2026-03-01--deed42bdeaaa"),
+]
+for name, identity, iri in VECTORS:
+    expect(name, A.model_iri(identity), iri)
+expect("selection order does not move the IRI",
+       A.model_iri(A.model_identity(N + "e-1-2026-03-01", [N + "e-1-vintage-pcia-2026-03-01"],
+                                    [N + "e-1-vintage-pcia-2026-03-01-pa-vintage-2020",
+                                     N + "e-1-2026-03-01-pa-tc-w-b"])),
+       VECTORS[3][2])
+expect_refusal("a modifier outside the base's utility namespace",
+               lambda: A.model_iri((N + "e-1-2026-03-01",
+                                    ("https://rate-plans.grid-coordination.energy/sce/care-2026-03-20",), ())))
+expect_refusal("a local name carrying the separator",
+               lambda: A.model_iri((N + "e-1--2026-03-01", (), ())))
+expect_refusal("a local name outside lower-case ASCII",
+               lambda: A.model_iri((N + "E-1-2026-03-01", (), ())))
+expect_refusal("an alternative offered by two containers",
+               lambda: A.selection_sets({"x:c1": ["x:alt"], "x:c2": ["x:alt"]}))
+expect("nothing open is one empty selection", A.selection_sets({}), [()])
+
+models = REAL["models"]
+expect("one model per selection", len(models), sum(a["selections"] for a in REAL["compositions"]))
+iris = A.model_iris(models)
+expect("every model has its own IRI", len(set(iris.values())), len(models))
+doc = A.model_document(models)
+expect("the document carries one node per model", len(doc["@graph"]), len(models))
+expect("no node carries an empty list",
+       [n["@id"] for n in doc["@graph"]
+        if any(isinstance(v, list) and not v for v in n.values())], [])
+expect("a node without modifiers omits consumesModifierVersion",
+       any("urpx:consumesModifierVersion" not in n for n in doc["@graph"]), True)
+
+print()
 if failures:
     print(f"{len(failures)} assertion(s) failed: {', '.join(failures)}")
     sys.exit(1)
-print(f"all {len(REAL['arrangements'])} arrangements classified; every guard fired when broken")
+print(f"all {len(REAL['compositions'])} compositions classified, {len(REAL['models'])} scenario cost "
+      f"models named; every guard fired when broken")

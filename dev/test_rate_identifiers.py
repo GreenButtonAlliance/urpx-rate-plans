@@ -10,7 +10,7 @@ stays quiet.
 
 Two of these guards exist because the first draft of the generator got the
 answer wrong in exactly the way they now catch. It matched a vintage label
-against the keyed arrangement's dimension IRIs and reported one hit, because
+against the keyed composition's dimension IRIs and reported one hit, because
 pge:e-elec-2026-03-27-pa-income-tier carries the digits 2026 in its version
 date. And it matched "CCA" against a punctuation-stripped alt_name, turning
 SDG&E's "TOUDR - C CARE" into "toudrccare" and putting 53 bundled records in the
@@ -149,7 +149,7 @@ def midas(rids=None, errors=None) -> dict:
 
 def attestation(**over) -> dict:
     a = R.group_attestations(R.extract_occurrences(docs()))[0]
-    a.update({"base_slug": "demo", "arrangements": [], "utility": "xx"})
+    a.update({"base_slug": "demo", "compositions": [], "utility": "xx"})
     a.update(over)
     return a
 
@@ -257,17 +257,17 @@ expect_refusal("two Prices in one group citing the same identifier for different
                lambda: R.group_attestations(R.extract_occurrences(docs(two_labels))))
 
 print()
-print("=== keying to an arrangement ===")
-EMPTY_MODEL = {"versions": {}, "arrangements": [], "dimensions": {}}
+print("=== keying to a composition ===")
+EMPTY_MODEL = {"versions": {}, "compositions": [], "dimensions": {}}
 expect_refusal("a citing filing that is no version's home",
-               lambda: R.attach_arrangements([attestation()], EMPTY_MODEL))
+               lambda: R.attach_compositions([attestation()], EMPTY_MODEL))
 
 ORPHAN_MODEL = {
     "versions": {"xx:nbt-2025-01-01": {"id": "xx:nbt-2025-01-01", "home": FILE, "slug": "nbt"}},
-    "arrangements": [], "dimensions": {},
+    "compositions": [], "dimensions": {},
 }
-expect_refusal("a version node that takes part in no arrangement",
-               lambda: R.attach_arrangements([attestation()], ORPHAN_MODEL))
+expect_refusal("a version node that takes part in no composition",
+               lambda: R.attach_compositions([attestation()], ORPHAN_MODEL))
 
 print()
 print("=== the corroboration test has to land at least once ===")
@@ -343,8 +343,8 @@ D = R.build()
 t = D["tally"]
 expect("every attestation is classified", sum(t.values()), len(D["attestations"]))
 expect("every state is populated", sorted(k for k in R.STATES if t[k]), sorted(R.STATES))
-expect("every attestation keys to at least one arrangement",
-       [a["file"] for a in D["attestations"] if not a["arrangements"]], [])
+expect("every attestation keys to at least one composition",
+       [a["file"] for a in D["attestations"] if not a["compositions"]], [])
 expect("no attestation cites an identifier twice",
        [a["expression"] for a in D["attestations"] if len(a["rins"]) != len(set(a["rins"]))], [])
 
