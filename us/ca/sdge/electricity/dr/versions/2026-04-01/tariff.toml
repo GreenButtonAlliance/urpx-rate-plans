@@ -53,8 +53,9 @@ Schedule DR is non-TOU but tier-varying:
  - Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
  - UDC: Tier 2 = $0.34061/kWh (matches TOU-DR1's flat UDC); Tier 1
  effectively $0.23169/kWh = Tier 2 - $0.10892 (the Baseline
- Adjustment Credit). Modeled as 8 flat UDC sub-component
- PriceDefinitions (Trans, Distr, PPP, ND, CTC, LGC, RS, TRAC) +
+ Adjustment Credit). Modeled as 9 flat UDC sub-component
+ PriceDefinitions (Trans, Distr, PPP in two parts, ND, CTC, LGC, RS,
+ TRAC) +
  a tier-1-only Baseline Adjustment Credit PriceDefinition.
  - DWR-BC + WF-NBC: 0.00000 + 0.00591 = $0.00591/kWh flat.
  - EECC (Generation): FLAT $0.18274/kWh — no TOU, no season, no
@@ -86,6 +87,12 @@ Same as TOU-DR1:
  Refining ServiceTier bounds to a per-customer-applicable value
  is a downstream consumer responsibility (the corpus exposes the
  tier structure; consumers resolve customer-specific allocations).
+
+The PPP charge ($0.01515/kWh) is split on the delivery
+ledger into PPP excluding CARE Surcharge ($0.00651) and CARE
+Surcharge ($0.00864, Schedule E-CARE Sheet 2, "All Other Residential CARE Schedules"
+column). sdge:care exempts the second by referencing it, and the
+CARE-discountable subtotal names only the first.
 """
 
 # Validation ------------------------------------------------------------------
@@ -101,7 +108,6 @@ deferrals = [
  "Sheet 2 (Cal. P.U.C. Sheet 64654-E) publishes a DR-MB rate table for Medical Baseline customers: Base Services Charge $0.79343/day (note 6: the MB program provides no BSC discount), UDC $0.23169/kWh up to 130% of baseline and $0.34061/kWh above it, DWR-BC + WF-NBC $0.00000 (note 3 exempts MB customers), EECC $0.18274/kWh, and Total Effective MB Rates of $0.32475/kWh and $0.41010/kWh. No SDG&E Medical Baseline overlay exists anywhere in this corpus, so an MB customer on Schedule DR cannot be billed from this data. Expressible under v0.5.1 in the CARE and FERA shape already shipping against this filing: a RatePlanModifierVersion carrying the DWR-BC and WF-NBC exemption credits plus a percentage Price using multiplier and basedOnPrice over an MB-discountable PriceSummary. Work, not a blocker.",
  "Sheet 3 (Cal. P.U.C. Sheet 64338-E): \"A Franchise Fee Differential of 5.78% will be applied to the monthly billings calculated under this schedule for all customers within the corporate limits of the City of San Diego.\" Not modeled. Expressible under v0.5.1 as a Price with multiplier 0.0578 and basedOnPrice over a PriceSummary of the monthly billing, chargeType urpx:taxMunicipal, gated on hasMunicipality in a ConditionExpression; the gate carries the whole restriction, since an ungated Price would charge the 5.78% to every DR customer, inside the city limits or not.",
  "Special Condition 3 on Sheet 4 (Cal. P.U.C. Sheet 64339-E) publishes the Baseline Allowance table in kWh/day for Coastal, Inland, Mountain and Desert zones: Basic Allowance summer 9.0, 10.4, 13.6, 15.9 and winter 9.2, 9.6, 12.9, 10.9; All Electric summer 6.0, 8.7, 15.2, 17.0 and winter 8.8, 12.2, 22.1, 17.1. None of the 16 values is in the model, and sdge:tiers-baseline-130pct instead bounds Tier 1 at a dimensionless 1.3 while referencing sdge:dr-2026-04-01-mi-energy, whose unitOfMeasure is urpx:kWh, so the document as serialized says Tier 1 ends at 1.3 kWh. Both fixes validate against the v0.5.1 shapes: point ServiceTiers.referencesMetricInput at a MetricSpecification with unitOfMeasure urpx:ratio, keeping 1.3 and making it mean a fraction of the customer's allowance; or carry the absolute allowances as per-season ServiceBrackets using ServiceBracketShape appliesInSeason. Prefer the ratio route, because the allowance is denominated per day against a billing-period quantity.",
- "Schedule E-CARE Sheet 2 states that \"The line-item bill discounts will be applied to the total bill (less any applicable exemptions, minimum bill amount and base services charge),\" and DR Sheet 1's published Total Effective CARE Rates match that ordering exactly: (0.41443 - 0.00864) x 0.65 = 0.26376 and (0.52335 - 0.00864) x 0.65 = 0.33456. sdge:dr-2026-04-01-summary-care-discountable omits the Base Services Charge, DWR-BC and WF-NBC but carries the PPP charge at its full $0.01515/kWh, so the CARE Surcharge exemption that the overlay applies as a separate -$0.00864/kWh Price falls outside the 35% base; composing overlay and base yields $0.26074 and $0.33154 per kWh, $0.00302 low in both tiers. Unresolved: where the $0.00864 sits inside DR's own rates. Sheet 3 splits PPP into LI-PPP $0.00976/kWh and Non-LI-PPP $0.00531/kWh, and neither is it, so the surcharge cannot be netted out by dropping a member from the summary. Sheet 1 note (4) calls the effective-rate column illustrative.",
  "Special Condition 9.b, the Direct Access and Community Choice Aggregation bill path, is a computation rule on this schedule's own charges and is in no part of the model. The assessment read urpx:serviceRole urpx:bundledServiceRole as scoping the version out of it, but that is a statement the model makes, not one the source makes: Sheet 1 note (2) says \"Differences in total rates paid by Direct Access (DA) and Community Choice Aggregation (CCA) customers are identified in Schedule DA-CRS and CCA-CRS, respectively\" and Special Condition 9.b routes those customers through the Cost Responsibility Surcharge. The crediting half operates on this filing's own EECC Prices; the CRS half is another schedule's and no SDG&E DA-CRS or CCA-CRS filing exists in this corpus. The assessment itself asked for a corpus-wide ruling here.",
  "Special Condition 1 (Sheet 3) states load-check and rebilling terms on this schedule, including an 11-month rebilling window, and nothing in the model corresponds to them.",
 ]
@@ -114,4 +120,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Second SDG&E schedule. Pattern reference: us/ca/sce/electricity/d/versions/2025-11-15/ for non-TOU tier structure (also uses urpx:hasServiceTiers + serviceTierNumber on the tier-varying credit Price). 13 PriceDefinitions: 1 EECC (flat) + 8 UDC sub-components (flat, identical values to TOU-DR1) + DWR-BC + WF-NBC + 1 Baseline Adjustment Credit (tier-1 only) + 1 BSC. 13 Prices total. Unique to SDG&E DR vs SCE Schedule D: SCE encoded the tier structure in CIA (Conservation Incentive Adjustment); SDG&E DR encodes it in a separate Baseline Adjustment Credit tied to the same UDC ledger. Both achieve the same economic effect."
+notes = "Second SDG&E schedule. Pattern reference: us/ca/sce/electricity/d/versions/2025-11-15/ for non-TOU tier structure (also uses urpx:hasServiceTiers + serviceTierNumber on the tier-varying credit Price). 14 PriceDefinitions: 1 EECC (flat) + 9 UDC sub-components (flat, identical values to TOU-DR1; the PPP charge is carried as PPP excluding CARE Surcharge 0.00651 plus CARE Surcharge 0.00864) + DWR-BC + WF-NBC + 1 Baseline Adjustment Credit (tier-1 only) + 1 BSC. 14 Prices total. Unique to SDG&E DR vs SCE Schedule D: SCE encoded the tier structure in CIA (Conservation Incentive Adjustment); SDG&E DR encodes it in a separate Baseline Adjustment Credit tied to the same UDC ledger. Both achieve the same economic effect."

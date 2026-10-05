@@ -886,8 +886,25 @@
             },
             {
               "@type": "urpx:PriceDefinition",
-              "@id": "sdge:tou-dr1-2026-04-01-pd-udc-pppc",
-              "urpx:name": "UDC Public Purpose Programs Charge (PPP)",
+              "@id": "sdge:tou-dr1-2026-04-01-pd-udc-ppp-net-of-care-surcharge",
+              "urpx:name": "UDC Public Purpose Programs Charge (PPP), excluding the CARE Surcharge",
+              "urpx:chargeType": {
+                "@id": "urpx:publicBenefits"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-dr1-2026-04-01-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-dr1-2026-04-01-pd-udc-care-surcharge",
+              "urpx:name": "CARE Surcharge, the part of the UDC Public Purpose Programs Charge (PPP) that CARE customers are exempt from (Schedule E-CARE Sheet 2, All Other Residential CARE Schedules column)",
               "urpx:chargeType": {
                 "@id": "urpx:publicBenefits"
               },
@@ -1165,12 +1182,21 @@
               },
               {
                 "@type": "urpx:Price",
-                "@id": "sdge:tou-dr1-2026-04-01-price-udc-pppc",
+                "@id": "sdge:tou-dr1-2026-04-01-price-udc-ppp-net-of-care-surcharge",
                 "urpx:referencesPriceDefinition": {
-                  "@id": "sdge:tou-dr1-2026-04-01-pd-udc-pppc"
+                  "@id": "sdge:tou-dr1-2026-04-01-pd-udc-ppp-net-of-care-surcharge"
                 },
-                "urpx:name": "UDC Public Purpose Programs Charge",
-                "urpx:unitPrice": "0.01515"
+                "urpx:name": "UDC Public Purpose Programs Charge, excluding CARE Surcharge",
+                "urpx:unitPrice": "0.00651"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-dr1-2026-04-01-price-udc-care-surcharge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-dr1-2026-04-01-pd-udc-care-surcharge"
+                },
+                "urpx:name": "CARE Surcharge",
+                "urpx:unitPrice": "0.00864"
               },
               {
                 "@type": "urpx:Price",
@@ -1249,7 +1275,7 @@
               {
                 "@type": "urpx:PriceSummary",
                 "@id": "sdge:tou-dr1-2026-04-01-summary-care-discountable",
-                "urpx:name": "CARE-discountable subtotal for TOU-DR1. The 15 bill components the CARE percentage discount applies to, which Schedule E-CARE Sheet 1 defines as the bill less any applicable exemptions, minimum bill amount and base services charge. Excludes the fixed charge, and excludes the DWR Bond Charge and the California Wildfire Fund Non-Bypassable Charge because a CARE customer is exempt from both.",
+                "urpx:name": "CARE-discountable subtotal for TOU-DR1. The 15 bill components the CARE percentage discount applies to, which Schedule E-CARE Sheet 2 defines as the bill less any applicable exemptions, minimum bill amount and base services charge. Excludes the fixed charge, and excludes the CARE Surcharge, the DWR Bond Charge and the California Wildfire Fund Non-Bypassable Charge because a CARE customer is exempt from all three; the Public Purpose Programs Charge is included net of the CARE Surcharge.",
                 "urpx:includesPrice": [
                   {
                     "@id": "sdge:tou-dr1-2026-04-01-price-eecc-summer-on-peak"
@@ -1276,7 +1302,7 @@
                     "@id": "sdge:tou-dr1-2026-04-01-price-udc-distribution"
                   },
                   {
-                    "@id": "sdge:tou-dr1-2026-04-01-price-udc-pppc"
+                    "@id": "sdge:tou-dr1-2026-04-01-price-udc-ppp-net-of-care-surcharge"
                   },
                   {
                     "@id": "sdge:tou-dr1-2026-04-01-price-udc-ndc"
@@ -1301,7 +1327,7 @@
               {
                 "@type": "urpx:PriceSummary",
                 "@id": "sdge:tou-dr1-2026-04-01-summary-fera-discountable",
-                "urpx:name": "FERA-discountable subtotal for TOU-DR1. The 17 bill components the FERA percentage discount applies to, which Schedule FERA Sheet 1 defines as the bill less any minimum bill amount or base services charge. Excludes the fixed charge only. Unlike CARE, FERA grants no charge exemptions, so the DWR Bond Charge and the California Wildfire Fund Non-Bypassable Charge are inside this subtotal.",
+                "urpx:name": "FERA-discountable subtotal for TOU-DR1. The 18 bill components the FERA percentage discount applies to, which Schedule FERA Sheet 1 defines as the bill less any minimum bill amount or base services charge. Excludes the fixed charge only. Unlike CARE, FERA grants no charge exemptions, so the CARE Surcharge, the DWR Bond Charge and the California Wildfire Fund Non-Bypassable Charge are inside this subtotal.",
                 "urpx:includesPrice": [
                   {
                     "@id": "sdge:tou-dr1-2026-04-01-price-eecc-summer-on-peak"
@@ -1328,7 +1354,10 @@
                     "@id": "sdge:tou-dr1-2026-04-01-price-udc-distribution"
                   },
                   {
-                    "@id": "sdge:tou-dr1-2026-04-01-price-udc-pppc"
+                    "@id": "sdge:tou-dr1-2026-04-01-price-udc-ppp-net-of-care-surcharge"
+                  },
+                  {
+                    "@id": "sdge:tou-dr1-2026-04-01-price-udc-care-surcharge"
                   },
                   {
                     "@id": "sdge:tou-dr1-2026-04-01-price-udc-ndc"

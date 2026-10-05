@@ -49,7 +49,11 @@ THE RULES, each traceable to a sentence in the source schedule:
   SDG&E CARE, Schedule E-CARE Sheet 2 (Cal. P.U.C. Sheet 64350-E): "The line-item
     bill discounts will be applied to the total bill (less any applicable
     exemptions, minimum bill amount and base services charge) as calculated for
-    bundled service customers."
+    bundled service customers." The CARE Surcharge is one of those exemptions,
+    so the subtotal names each base's PPP net of the surcharge and leaves the
+    surcharge Price out. That ordering reproduces every Total Effective CARE
+    Rate the base schedules publish, e.g. DR Sheet 1 (0.41443 - 0.00864) x 0.65
+    = 0.26376.
   SDG&E FERA, Schedule FERA Sheet 1: "a separate line-item bill discount of 18%
     applied to the total bill (less any minimum bill amount or base services
     charge) as calculated for bundled service customers." FERA receives no
@@ -70,6 +74,14 @@ Also checks that every discount Price still names EVERY candidate subtotal. Thos
 are read disjunctively, so a missing candidate does not fail validation; it makes
 the modifier silently unvaluable against that one base plan.
 
+A multiplier Price whose candidates are line-item Prices rather than subtotals,
+such as sdge:care's CARE Surcharge exemption (multiplier -1 over each base's
+CARE Surcharge Price), is checked the same way at plan grain: every candidate
+names a Price some base filing defines, no plan has two candidates, and, where
+the candidates span more than one plan, every plan in the modifier's
+urpx:applicableToRatePlan has one. A single-plan candidate set is a Price
+scoped to that plan, as smud:nem1's per-plan credits are.
+
 Exit: 0 clean, 1 drift, 3 refused.
 
 Usage:
@@ -89,7 +101,10 @@ sys.path.insert(0, str(REPO / "dev"))
 import corpus  # noqa: E402
 
 EXCLUDE_FIXED = re.compile(r"(base-services-charge|minimum-bill)")
-EXCLUDE_EXEMPT = re.compile(r"(dwr-bc|wf-nbc)")
+# The CARE Surcharge is split out of each SDG&E base's PPP charge as its own
+# Price, so the summary can name the PPP net of it. Anchored, because the net
+# Price's @id ends "-ppp-net-of-care-surcharge" and belongs in the subtotal.
+EXCLUDE_EXEMPT = re.compile(r"(dwr-bc|wf-nbc|-price-udc-care-surcharge$)")
 EXCLUDE_SCE = re.compile(r"(price-pucrf|price-climate-credit)")
 
 # Properties that distinguish two Prices sharing one PriceDefinition. Naming
@@ -173,9 +188,16 @@ class Filing:
         self.summaries: dict[str, dict] = {}
         self.discounts: dict[str, dict] = {}
         self.bands: set[int] = set()
+        self.plans: set[str] = set()        # urpx:forRatePlan of its base versions
+        self.applicable: set[str] = set()   # urpx:applicableToRatePlan of its modifier versions
 
         def visit(d):
             t, i = node_type(d), d.get("@id")
+            if t == "urpx:RatePlanVersion" and d.get("urpx:forRatePlan"):
+                self.plans.add(ref_id(d["urpx:forRatePlan"]))
+            elif t == "urpx:RatePlanModifierVersion":
+                self.applicable.update(ref_id(x) for x in
+                                       as_list(d.get("urpx:applicableToRatePlan")))
             if t == "urpx:Price" and i:
                 self.prices[i] = d
                 if "urpx:multiplier" in d:
@@ -470,11 +492,21 @@ def main() -> int:
 
     summaries: dict[str, tuple[Path, list[str]]] = {}
     candidates: dict[str, list[str]] = {}
+    owner: dict[str, Filing] = {}
+    plans_of_price: dict[str, set[str]] = {}
     for f in filings:
         for sid in f.summaries:
             summaries[sid] = (f.path, f.members(sid))
         for did, d in f.discounts.items():
             candidates[did] = [ref_id(x) for x in as_list(d.get("urpx:basedOnPrice"))]
+            owner[did] = f
+        for pid in f.prices:
+            plans_of_price.setdefault(pid, set()).update(f.plans)
+
+    # A multiplier over line-item Prices, not over subtotals: checked at plan
+    # grain below and kept out of the subtotal candidate check.
+    line_item = {did for did, cands in candidates.items()
+                 if cands and not any(c in summaries for c in cands)}
 
     if not summaries:
         print("REFUSED: no urpx:PriceSummary anywhere; this linter would pass "
@@ -499,8 +531,31 @@ def main() -> int:
             problems.append({"summary": sid, "file": str(path.relative_to(REPO)),
                              "missing": missing, "unexpected": extra})
 
+    for did in sorted(line_item):
+        cands = candidates[did]
+        unresolved = sorted(c for c in cands if c not in plans_of_price)
+        per_plan: dict[str, list[str]] = {}
+        for c in cands:
+            for plan in plans_of_price.get(c, ()):
+                per_plan.setdefault(plan, []).append(c)
+        applicable = owner[did].applicable
+        # A candidate set spanning one plan is a Price scoped to that plan by
+        # naming only its line item (smud:nem1's per-plan credits); one spanning
+        # several is a set of alternatives and has to cover every plan.
+        uncovered = (sorted(p for p in applicable if p not in per_plan)
+                     if len(per_plan) > 1 else [])
+        repeated = {p: sorted(cs) for p, cs in sorted(per_plan.items()) if len(cs) > 1}
+        stray = sorted(p for p in per_plan if p not in applicable)
+        if unresolved or uncovered or repeated or stray:
+            problems.append({"line_item_discount": did,
+                             "file": str(owner[did].path.relative_to(REPO)),
+                             "unresolved": unresolved, "uncovered": uncovered,
+                             "repeated": repeated, "stray": stray})
+
     all_sums = set(summaries)
     for pid, cands in sorted(candidates.items()):
+        if pid in line_item:
+            continue
         util = pid.split(":")[0]
         # A CARE discount names the CARE subtotals, a FERA discount the FERA ones,
         # and where a utility publishes one shared subtotal both name it. Demanding
@@ -552,6 +607,17 @@ def main() -> int:
                 print(f"      MISSING from the subtotal: {m}")
             for e in p["unexpected"]:
                 print(f"      should NOT be in the subtotal: {e}")
+        elif "line_item_discount" in p:
+            print(f"  {p['line_item_discount']} does not name one base Price per plan")
+            print(f"      in {p['file']}")
+            for m in p["unresolved"]:
+                print(f"      names no Price any filing defines: {m}")
+            for m in p["uncovered"]:
+                print(f"      NO candidate for applicable plan: {m}")
+            for plan, cs in p["repeated"].items():
+                print(f"      {len(cs)} candidates for {plan}: {', '.join(cs)}")
+            for m in p["stray"]:
+                print(f"      candidate in a plan not in applicableToRatePlan: {m}")
         elif "missing_candidates" in p:
             print(f"  {p['discount']} does not name every candidate subtotal")
             for m in p["missing_candidates"]:

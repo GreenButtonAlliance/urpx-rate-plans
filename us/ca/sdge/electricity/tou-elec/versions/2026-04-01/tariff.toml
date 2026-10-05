@@ -49,8 +49,8 @@ Bill = UDC + (DWR-BC + WF-NBC) + EECC, where:
  six (season, period) combinations — same flat-UDC structure as
  TOU-DR1 (NOT TOU-varying like EV-TOU-5). Decomposed into 8
  sub-components (Trans 0.10067, Distr 0.14708, PPP 0.01515, ND 0,
- CTC -0.00007, LGC 0, RS 0.00005, TRAC 0). Modeled as 8 separate
- flat-rate PriceDefinitions for transparency. Note: TOU-ELEC's
+ CTC -0.00007, LGC 0, RS 0.00005, TRAC 0). Modeled as 9 separate
+ flat-rate PriceDefinitions for transparency (PPP in two parts). Note: TOU-ELEC's
  Distribution component ($0.14708) is lower than TOU-DR1's ($0.15719)
  and TRAC is zero on TOU-ELEC vs $0.06762 on TOU-DR1 — these
  differences encode the electrification-incentive subsidy.
@@ -193,6 +193,12 @@ source contradicts, and the rule is carried as text in each fixed-date
 holiday's urpx:holidayRule. Each Monday the rule creates through 2040 is
 carried instead as a dated urpx:Holiday with urpx:holidayDate, named for
 what it observes, the first being 2027-07-05.
+
+The PPP charge ($0.01515/kWh) is split on the delivery
+ledger into PPP excluding CARE Surcharge ($0.00651) and CARE
+Surcharge ($0.00864, Schedule E-CARE Sheet 2, "All Other Residential CARE Schedules"
+column). sdge:care exempts the second by referencing it, and the
+CARE-discountable subtotal names only the first.
 """
 
 # Validation ------------------------------------------------------------------
