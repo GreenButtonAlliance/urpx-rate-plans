@@ -41,11 +41,11 @@
 
    HOLIDAYS. Each tariff prices weekday against weekend/holiday, so a weekday
    holiday expects that hour's weekend cell. Which days are holidays comes from
-   the base plan's urpx:HolidayCalendar through urpx.holidays/derive-predicate,
-   the calendar a composed resolution reads for a modifier that carries none of
-   its own, as no NBT modifier does; a base with no calendar has no holidays. So that a calendar regression cannot agree with itself, the 2026
-   holidays each base's calendar yields must equal `tariff-holidays-2026`,
-   copied from the tariff text.
+   the calendar a composed resolution reads for the modifier: its own
+   urpx:HolidayCalendar when it carries one (pge:nbt), else the base plan's
+   (sce:nbt, sdge:nbt), through urpx.holidays/derive-predicate. So that a
+   calendar regression cannot agree with itself, the 2026 holidays that calendar
+   yields must equal `tariff-holidays-2026`, copied from the tariff text.
 
    Exit: 0 clean, 1 a violation, 3 refused (a declared filing missing, an
    undeclared NBT-shaped filing, no base filing, or nothing checked).
@@ -117,8 +117,8 @@
     :reason "source gap: no ACC Plus rate appears on any sheet of the SDG&E schedule (tariff.toml [modeling]); the two ledgers are structure only"}])
 
 (def tariff-holidays-2026
-  "Each base plan's 2026 holidays, from the tariff text rather than the calendar.
-   nil: the base carries no calendar, so no day is a holiday."
+  "The 2026 holidays of each plan whose calendar an NBT modifier reads, from the
+   tariff text rather than the calendar. nil: no calendar, so no day is a holiday."
   {;; SCE Schedule TOU-D Sheet 13, Special Condition 1: New Year's Day
    ;; (January 1), Presidents' Day (third Monday in February), Memorial Day
    ;; (last Monday in May), Independence Day (July 4), Labor Day (first Monday
@@ -131,19 +131,24 @@
    ;; CSVs mark these 2026 dates DayStart 8 (Holiday).
    "sdge:ev-tou-5"   #{"2026-01-01" "2026-02-16" "2026-05-25" "2026-07-04"
                        "2026-09-07" "2026-11-11" "2026-11-26" "2026-12-25"}
-   ;; E-ELEC prices its periods every day including weekends and holidays;
-   ;; pge:nbt records its holiday omission as a deferral.
-   "pge:e-elec"      nil})
+   ;; pge:nbt's own calendar. Schedule NBT names no holidays; PG&E's TOU
+   ;; schedules (E-TOU-D, E-19, E-20, A-10, EV, S) each define them as New
+   ;; Year's Day, President's Day, Memorial Day, Independence Day, Labor Day,
+   ;; Veterans Day, Thanksgiving Day, and Christmas Day: "The dates will be
+   ;; those on which the holidays are legally observed." July 4, 2026 is a
+   ;; Saturday, observed Friday July 3 under the federal rule.
+   "pge:nbt"         #{"2026-01-01" "2026-02-16" "2026-05-25" "2026-07-03"
+                       "2026-09-07" "2026-11-11" "2026-11-26" "2026-12-25"}})
 
 (defn- calendar-violations
-  "The base's derived 2026 holidays against `tariff-holidays-2026`."
-  [base-iri pred]
-  (let [want (get tariff-holidays-2026 base-iri ::undeclared)
+  "The derived 2026 holidays of `plan-iri`'s calendar against `tariff-holidays-2026`."
+  [plan-iri pred]
+  (let [want (get tariff-holidays-2026 plan-iri ::undeclared)
         days (take-while #(= 2026 (.getYear ^LocalDate %))
                          (iterate #(.plusDays ^LocalDate % 1) (LocalDate/parse "2026-01-01")))
         got  (when pred (set (map str (filter pred days))))]
-    (cond (= want ::undeclared) [(str base-iri ": no entry in tariff-holidays-2026")]
-          (not= want got)       [(str base-iri ": calendar yields 2026 holidays " (sort got)
+    (cond (= want ::undeclared) [(str plan-iri ": no entry in tariff-holidays-2026")]
+          (not= want got)       [(str plan-iri ": calendar yields 2026 holidays " (sort got)
                                       ", tariff text gives " (sort want))])))
 
 (def expected-condition-gated
@@ -379,27 +384,32 @@
                  :let [[bdate bpath] (or (latest-base-file base-iri)
                                          (refuse (str path ": no base filing for " base-iri)))
                        base  (-> (get subst bpath bpath) core/load-rate-plan coerce/coerce-rate-plan)
-                       hpred (holidays/derive-predicate base)
+                       mpred (holidays/derive-predicate modifier)
+                       [hsrc hpred] (if mpred
+                                      [(:jsonld/id modifier) mpred]
+                                      [base-iri (holidays/derive-predicate base)])
                        exp   (assoc exp :holiday? hpred)
-                       cal   (calendar-violations base-iri hpred)
+                       cal   (calendar-violations hsrc hpred)
                        by-id (reduce merge (map index/build-index [base modifier]))
                        win   (window (let [md (file-date path)] (if (pos? (compare bdate md)) bdate md)))]
                  alt (sort (keys (:alternatives exp)))]
              {:exp exp :base base :modifier modifier :by-id by-id :alt alt :window win
-              :stale stale :calendar cal :label (str (:version-id exp) " + " base-iri " " bdate)}))
+              :stale stale :calendar cal :holiday-source hsrc
+              :label (str (:version-id exp) " + " base-iri " " bdate)}))
           ;; Each walk is independent and single-threaded, so they run in parallel.
           results
           (vec (pmap (fn [{:keys [exp base modifier by-id alt window] :as task}]
                        (let [t0 (System/nanoTime)
                              r  (walk-vintage exp base modifier by-id alt window)]
-                         (merge (select-keys task [:label :alt :window :stale :calendar]) r
+                         (merge (select-keys task [:label :alt :window :stale :calendar :holiday-source]) r
                                 {:ms (quot (- (System/nanoTime) t0) 1000000)})))
                      results))]
-      (doseq [{:keys [label alt window segments violations absent ms holiday-segments holiday-dates]} results]
-        (println (format "%-48s %-44s %s..%s  %5d segments  %4d on %d weekday holidays  %d violations  %.1fs"
+      (doseq [{:keys [label alt window segments violations absent ms holiday-segments holiday-dates holiday-source]} results]
+        (println (format "%-48s %-44s %s..%s  %5d segments  %4d on %d weekday holidays (%s)  %d violations  %.1fs"
                          label alt (.toLocalDate ^ZonedDateTime (first window))
                          (.toLocalDate ^ZonedDateTime (second window))
-                         segments holiday-segments (count holiday-dates) (count violations) (/ ms 1000.0)))
+                         segments holiday-segments (count holiday-dates) holiday-source
+                         (count violations) (/ ms 1000.0)))
         (doseq [[why n] absent]
           (println (format "    %d ledger-segment(s) expected empty: %s" n why)))
         (doseq [v (take 5 violations)] (println "    ✗" v))

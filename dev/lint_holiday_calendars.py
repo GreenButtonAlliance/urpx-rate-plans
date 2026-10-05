@@ -24,11 +24,16 @@ A FILING SATISFIES IT when one of these holds:
 
   CALENDAR   a document attaches urpx:hasHolidayCalendar whose calendar carries
              at least one urpx:hasHoliday, inline or by @id in the same filing.
+             This holds for a RatePlanModifier as for a base plan: a modifier's
+             holiday flags resolve against its own calendar when it declares one
+             (pge:nbt, whose base pge:e-elec prices every day alike and carries
+             none).
   INHERITED  the filing is a RatePlanModifier whose TimeBrackets carry holiday
              flags and that declares no calendar of its own, and every filing in
              the corpus of every base RatePlan its urpx:applicableToRatePlan
-             names carries a calendar. A modifier's holidays are the base plan's,
-             so a base without one, or a base IRI no filing defines, fails.
+             names carries a calendar. Such a modifier's holidays are the base
+             plan's, so a base without one, or a base IRI no filing defines,
+             fails.
   DEFERRAL   the filing is a RatePlanModifier (its directory holds no
              rate-plan_*.jsonld), and a [modeling].deferrals entry itself matches
              HOLIDAY_RULE and names the calendar ("no HolidayCalendar", "no

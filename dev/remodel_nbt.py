@@ -56,14 +56,15 @@ weekend/holiday, so a weekday holiday takes that hour's weekend value. For the
 filings in HOLIDAY_FILINGS a second step flags every weekday bracket
 urpx:includeHolidays false and gives every weekend TOUPeriod a second bracket,
 day type urpx:weekdayDays with urpx:includeNonHolidays false, same Season and
-hour. The modifier declares no calendar: which days are holidays comes from the
-base plan's urpx:HolidayCalendar. pge:nbt is left out because its base,
-pge:e-elec, carries no calendar.
+hour. sce:nbt and sdge:nbt declare no calendar: which days are holidays comes
+from the base plan's urpx:HolidayCalendar. pge:nbt's base, pge:e-elec, carries
+none, so the step also puts OWN_CALENDARS' calendar on pge:nbt's PlanElements.
 
 The holiday step's self-check is also a set comparison: the Price set (@id,
 name, unit price, start date, PriceDefinition, period number, vintage) and the
 TOUPeriod set (@id, name, number) must be identical before and after, the new
-document with the added brackets and flags removed must equal the old one, and
+document with the added brackets, flags and calendar removed must equal the old
+one, a filing in OWN_CALENDARS must carry exactly that calendar, and
 every (month, hour, day class) for the four classes weekday, weekday holiday,
 weekend and weekend holiday must match exactly one bracket, a weekday holiday
 landing on that hour's weekend period.
@@ -532,16 +533,50 @@ def self_check(old, new, path: str) -> str:
 # Holidays
 # ---------------------------------------------------------------------------
 
-# Filings whose weekday holidays price at the weekend value. Each base these
-# apply to carries a urpx:HolidayCalendar; pge:e-elec does not, so pge:nbt is
-# absent.
+# Filings whose weekday holidays price at the weekend value.
 HOLIDAY_FILINGS = {
+    "us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld",
     "us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld",
     "us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld",
 }
 HOLIDAY_FLAGS = ("urpx:includeHolidays", "urpx:includeNonHolidays")
 WEEKDAY, WEEKEND = "urpx:weekdayDays", "urpx:weekendDays"
 HOLIDAY_SUFFIX = "-weekday-holiday"
+
+# A calendar the step puts on the modifier itself, for a filing whose base
+# carries none. Schedule NBT names no holidays; "weekends/holidays" (Sheet 6,
+# Sheet 10 step 3) takes PG&E's TOU definition, stated identically in E-TOU-D,
+# E-19, E-20, A-10, EV and S: "New Year's Day, President's Day, Memorial Day,
+# Independence Day, Labor Day, Veterans Day, Thanksgiving Day, and Christmas
+# Day. The dates will be those on which the holidays are legally observed."
+# Names and rules are pge:holidays-e-tou-d's.
+_PGE_HOLIDAYS = (
+    ("new-years-day", "New Year's Day", "January 1 (legally observed)"),
+    ("presidents-day", "President's Day", "Third Monday in February"),
+    ("memorial-day", "Memorial Day", "Last Monday in May"),
+    ("independence-day", "Independence Day", "July 4 (legally observed)"),
+    ("labor-day", "Labor Day", "First Monday in September"),
+    ("veterans-day", "Veterans Day", "November 11 (legally observed)"),
+    ("thanksgiving", "Thanksgiving Day", "Fourth Thursday in November"),
+    ("christmas", "Christmas Day", "December 25 (legally observed)"),
+)
+
+
+def _calendar(version_id: str, holidays) -> dict:
+    return {
+        "@type": "urpx:HolidayCalendar",
+        "@id": f"{version_id}-holidays",
+        "urpx:hasHoliday": [
+            {"@type": "urpx:Holiday", "@id": f"{version_id}-holiday-{slug_}",
+             "urpx:holidayName": name, "urpx:holidayRule": rule}
+            for slug_, name, rule in holidays],
+    }
+
+
+OWN_CALENDARS = {
+    "us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld":
+        _calendar("pge:nbt-2025-10-17", _PGE_HOLIDAYS),
+}
 
 
 def export_periods(doc) -> list[dict]:
@@ -555,6 +590,8 @@ def is_holiday_bracket(b: dict) -> bool:
 
 
 def has_holidays(doc) -> bool:
+    if "urpx:hasHolidayCalendar" in version_of(doc)["urpx:hasPlanElements"]:
+        return True
     return any(k in b for per in export_periods(doc) for b in lst(per["urpx:hasTimeBracket"])
                for k in HOLIDAY_FLAGS)
 
@@ -562,6 +599,7 @@ def has_holidays(doc) -> bool:
 def strip_holidays(doc) -> dict:
     """The document with the holiday step undone."""
     out = copy.deepcopy(doc)
+    version_of(out)["urpx:hasPlanElements"].pop("urpx:hasHolidayCalendar", None)
     for per in export_periods(out):
         per["urpx:hasTimeBracket"] = [
             {k: v for k, v in b.items() if k not in HOLIDAY_FLAGS}
@@ -571,6 +609,8 @@ def strip_holidays(doc) -> dict:
 
 def add_holidays(doc, path: str) -> dict:
     new = copy.deepcopy(doc)
+    if path in OWN_CALENDARS:
+        version_of(new)["urpx:hasPlanElements"]["urpx:hasHolidayCalendar"] = copy.deepcopy(OWN_CALENDARS[path])
     for per in export_periods(new):
         brackets = lst(per["urpx:hasTimeBracket"])
         if len(brackets) != 1:
@@ -647,9 +687,11 @@ def holiday_coverage(doc, path: str) -> int:
 
 def holiday_self_check(old, new, path: str) -> str:
     if has_holidays(old):
-        raise Abort(path, "the holiday step's input already carries holiday flags")
+        raise Abort(path, "the holiday step's input already carries holiday flags or a calendar")
     if strip_holidays(new) != old:
-        raise Abort(path, "removing the added brackets and flags does not restore the input")
+        raise Abort(path, "removing the added brackets, flags and calendar does not restore the input")
+    if version_of(new)["urpx:hasPlanElements"].get("urpx:hasHolidayCalendar") != OWN_CALENDARS.get(path):
+        raise Abort(path, "the PlanElements calendar is not the one OWN_CALENDARS declares")
     if price_set(old) != price_set(new):
         raise Abort(path, "the Price set changed")
     pset = lambda d: {(p["@id"], p["urpx:name"], p["urpx:touPeriodNumber"]) for p in export_periods(d)}
@@ -659,9 +701,11 @@ def holiday_self_check(old, new, path: str) -> str:
     flagged = sum(1 for p in export_periods(new) for b in lst(p["urpx:hasTimeBracket"])
                   if b.get("urpx:includeHolidays") is False)
     n = holiday_coverage(new, path)
+    cal = OWN_CALENDARS.get(path)
     return (f"{len(price_set(new))} Prices and {len(pset(new))} TOUPeriods identical; "
             f"{added} weekday-holiday brackets added, {flagged} weekday brackets flagged; "
-            f"{n} (month, hour, day class) instants each match exactly one bracket")
+            + (f"calendar {cal['@id']} with {len(cal['urpx:hasHoliday'])} Holidays added; " if cal else "")
+            + f"{n} (month, hour, day class) instants each match exactly one bracket")
 
 
 def main() -> int:
@@ -682,6 +726,8 @@ def main() -> int:
             print(f"{rel}: {self_check(doc, new, rel)}")
         if rel in HOLIDAY_FILINGS:
             if has_holidays(new):
+                if version_of(new)["urpx:hasPlanElements"].get("urpx:hasHolidayCalendar") != OWN_CALENDARS.get(rel):
+                    raise Abort(rel, "the PlanElements calendar is not the one OWN_CALENDARS declares")
                 print(f"{rel}: holidays already modeled "
                       f"({holiday_coverage(new, rel)} instants each match exactly one bracket)")
             else:

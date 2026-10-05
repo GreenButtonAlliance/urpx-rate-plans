@@ -174,13 +174,21 @@ def test_copies(tmp: Path) -> None:
           status(d) == "no-rule", status(d))
 
     d = copy_filing(tmp / "d", "pge", "nbt", "2025-10-17")
-    check("pge nbt is DEFERRED by its recorded deferral", status(d) == "deferred", status(d))
-    drop_deferral(d, "The 576 TimeBrackets distinguish only urpx:weekdayDays")
-    check("pge nbt without that deferral is MISSING", status(d) == "missing", status(d))
+    r = L.check_filing(d)
+    check("pge nbt, a modifier with its own calendar, passes as CALENDAR",
+          r["status"] == "calendar" and r["modifier"] and r["holidays"] == 8, str(r))
+    edit_documents(d, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
+    r = L.check_filing(d)
+    check("pge nbt with its calendar removed is MISSING, its base pge:e-elec carrying none",
+          r["status"] == "missing" and r["base_calendars"].get("pge:e-elec"), str(r))
+    deferral = ("Weekends and holidays are priced apart from weekdays, and this "
+                "filing carries no HolidayCalendar.")
+    add_deferral(d, deferral)
+    check("with a deferral naming the calendar it is DEFERRED", status(d) == "deferred", status(d))
 
     d = copy_filing(tmp / "e", "pge", "nbt", "2025-10-17")
-    t = d / "tariff.toml"
-    t.write_text(re.sub(r"calendar", "list", t.read_text(), flags=re.I))
+    edit_documents(d, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
+    add_deferral(d, re.sub(r"HolidayCalendar", "holiday list", deferral))
     check("a holiday deferral that does not name the calendar does not cover",
           status(d) == "missing", status(d))
 
@@ -238,6 +246,8 @@ def test_corpus() -> None:
     res = json.loads(p.stdout) if p.returncode in (0, 1) else []
     n = sum(r["status"] == "calendar" for r in res)
     check("it checks a non-trivial number of calendars", n >= 10, f"only {n}")
+    own = [r["status"] for r in res if r["filing"] == "pge/nbt/2025-10-17"]
+    check("pge nbt carries its own calendar", own == ["calendar"], str(own))
     inherited = sorted(r["filing"] for r in res if r["status"] == "inherited")
     check("sce nbt and sdge nbt inherit their bases' calendars",
           inherited == ["sce/nbt/2025-04-23", "sdge/nbt/2025-01-27"], str(inherited))
