@@ -290,6 +290,19 @@ case "$MODE" in
     # denominators: no snapshot, a snapshot with no identifiers or no derivable
     # segment structure, no filing directories, or a corpus that cites no
     # identifier at all.
+    # A filing whose text or brackets say holidays are priced differently must
+    # carry a urpx:HolidayCalendar, or record in [modeling].deferrals that it
+    # does not. Thirteen TOU filings stated the rule and carried none (URPXT-4fg).
+    # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
+    note "Holiday calendars"
+    if python3 dev/lint_holiday_calendars.py > /tmp/gate-holidays.log 2>&1; then
+        tail -1 /tmp/gate-holidays.log
+    else
+        rc=$?
+        cat /tmp/gate-holidays.log
+        record $rc
+    fi
+
     note "MIDAS rate identifiers"
     if python3 dev/lint_rate_identifiers.py > /tmp/gate-rins.log 2>&1; then
         head -1 /tmp/gate-rins.log
@@ -468,6 +481,19 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-prose.log
+        record $rc
+    fi
+
+    # A filing whose text or brackets say holidays are priced differently must
+    # carry a urpx:HolidayCalendar, or record in [modeling].deferrals that it
+    # does not. Thirteen TOU filings stated the rule and carried none (URPXT-4fg).
+    # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
+    note "Holiday calendars"
+    if python3 dev/lint_holiday_calendars.py > /tmp/gate-holidays.log 2>&1; then
+        tail -1 /tmp/gate-holidays.log
+    else
+        rc=$?
+        cat /tmp/gate-holidays.log
         record $rc
     fi
 

@@ -86,11 +86,13 @@ STEPS: list[tuple[str, list[str]]] = [
     ("lint_gaps_agree",             ["python3", "dev/lint_gaps_agree.py"]),
     ("lint_declared_versions",      ["python3", "dev/lint_declared_versions.py"]),
     ("lint_prose_structure",        ["python3", "dev/lint_prose_structure.py"]),
+    ("lint_holiday_calendars",      ["python3", "dev/lint_holiday_calendars.py"]),
     ("coverage_evaluations",        ["python3", "dev/resync_coverage_evaluations.py", "--check"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
     ("test_scenario_cost_models",   ["python3", "dev/test_scenario_cost_models.py"]),
     ("test_prose_structure",        ["python3", "dev/test_prose_structure.py"]),
     ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),
+    ("test_holiday_calendars",      ["python3", "dev/test_holiday_calendars.py"]),
 ]
 
 
