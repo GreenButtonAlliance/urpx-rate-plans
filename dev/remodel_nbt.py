@@ -553,9 +553,10 @@ HOLIDAY_SUFFIX = "-weekday-holiday"
 # January 1, July 4, November 11 or December 25 moves to Monday, and of the
 # Saturday ones only November 11 moves, to Friday. Veterans Day therefore
 # carries urpx:nearestWeekdayObservance and the other three
-# urpx:actualDateObservance, which leaves their Sunday-to-Monday shift
-# unmodeled (a tariff.toml deferral). Names, rules and observance are
-# pge:holidays-e-tou-d's.
+# urpx:actualDateObservance. Their Sunday-to-Monday shift is carried as one
+# dated Holiday per Monday through 2040 (_PGE_OBSERVED), until a Sunday-only
+# observance rule exists (urpx-org/urpx#77). Names, rules, observance and
+# dates are pge:holidays-e-tou-d's.
 _ACTUAL, _NEAREST = "urpx:actualDateObservance", "urpx:nearestWeekdayObservance"
 _PGE_HOLIDAYS = (
     ("new-years-day", "New Year's Day", "January 1 (legally observed)", _ACTUAL),
@@ -568,8 +569,19 @@ _PGE_HOLIDAYS = (
     ("christmas", "Christmas Day", "December 25 (legally observed)", _ACTUAL),
 )
 
+# The Mondays after a Sunday January 1, July 4 or December 25, 2026 through 2040.
+_PGE_OBSERVED = (
+    ("independence-day", "Independence Day (observed)", "2027-07-05"),
+    ("independence-day", "Independence Day (observed)", "2032-07-05"),
+    ("christmas", "Christmas Day (observed)", "2033-12-26"),
+    ("new-years-day", "New Year's Day (observed)", "2034-01-02"),
+    ("independence-day", "Independence Day (observed)", "2038-07-05"),
+    ("christmas", "Christmas Day (observed)", "2039-12-26"),
+    ("new-years-day", "New Year's Day (observed)", "2040-01-02"),
+)
 
-def _calendar(version_id: str, holidays) -> dict:
+
+def _calendar(version_id: str, holidays, observed=()) -> dict:
     return {
         "@type": "urpx:HolidayCalendar",
         "@id": f"{version_id}-holidays",
@@ -577,13 +589,17 @@ def _calendar(version_id: str, holidays) -> dict:
             {"@type": "urpx:Holiday", "@id": f"{version_id}-holiday-{slug_}",
              "urpx:holidayName": name, "urpx:holidayRule": rule,
              **({"urpx:observanceRule": {"@id": obs}} if obs else {})}
-            for slug_, name, rule, obs in holidays],
+            for slug_, name, rule, obs in holidays] + [
+            {"@type": "urpx:Holiday", "@id": f"{version_id}-holiday-{slug_}-{date}",
+             "urpx:holidayName": name,
+             "urpx:holidayDate": {"@value": date, "@type": "xsd:date"}}
+            for slug_, name, date in observed],
     }
 
 
 OWN_CALENDARS = {
     "us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld":
-        _calendar("pge:nbt-2025-10-17", _PGE_HOLIDAYS),
+        _calendar("pge:nbt-2025-10-17", _PGE_HOLIDAYS, _PGE_OBSERVED),
 }
 
 

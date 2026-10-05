@@ -175,8 +175,8 @@ def test_copies(tmp: Path) -> None:
 
     d = copy_filing(tmp / "d", "pge", "nbt", "2025-10-17")
     r = L.check_filing(d)
-    check("pge nbt, a modifier with its own calendar, passes as CALENDAR",
-          r["status"] == "calendar" and r["modifier"] and r["holidays"] == 8, str(r))
+    check("pge nbt, a modifier with its own calendar (8 holidays, 7 dated Mondays), passes as CALENDAR",
+          r["status"] == "calendar" and r["modifier"] and r["holidays"] == 15, str(r))
     edit_documents(d, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
     r = L.check_filing(d)
     check("pge nbt with its calendar removed is MISSING, its base pge:e-elec carrying none",

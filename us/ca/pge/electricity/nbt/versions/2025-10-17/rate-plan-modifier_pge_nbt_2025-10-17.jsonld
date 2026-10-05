@@ -69,7 +69,7 @@
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },
-      "urpx:description": "Net Billing Tariff (NBT) per CPUC Decision 22-12-056, adopted Dec 2022, effective for new residential interconnection applications submitted on or after April 15, 2023. NBT replaces NEM-2 for new interconnections and compensates customer exports at Avoided Cost Calculator (ACC)-derived hourly Export Compensation Rates rather than at the retail rate. Customer-facing name: 'Solar Billing Plan'. Per Sheet 9 §A, residential customers taking NBT must take E-ELEC as their Otherwise Applicable Schedule (OAS) — modeled here as a urpx:RatePlanModifier overlay binding to pge:e-elec. Import-side charges remain governed by the base E-ELEC RatePlan (measured on the meter's Import Channel); this modifier handles only the export-side compensation (measured on the Export Channel; urpx:flowDirection urpx:reverse on the MetricSpecification). Import/export are independently recorded and not netted (Sheet 7). PriceDefinitions: (1) Export Compensation Rate Generation Component (system-wide; per-hour ACC values for the generation portion); (2) Export Compensation Rate Delivery Component (system-averaged across PG&E climate zones per Sheet 10 step 2; per-hour ACC values for the delivery portion); (3) ACC Plus Residential adder ('Energy Export Bonus Credit'; per-vintage 2023-2027 declining schedule; 9-year lock-in from PTO date); (4) ACC Plus Low-Income adder (higher per-kWh value for CARE/FERA / disadvantaged-community-resident-owner / California-Indian-Country residents per Sheet 5). This initial filing scopes to canonical residential NBT-S (Sheet 13: solar/wind ≤30 kW Small Customer); sibling sub-schedule filings (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) deferred. Export Compensation Rate Prices cover 576 cells (12 months × 24 hours × weekday/weekend) per component for each of the four published vintages 2023-2026, one urpx:PriceSetAlternative per vintage. A weekday holiday takes that hour's weekend cell, per Sheet 6's weekdays and weekends/holidays split; the holidays are this version's own urpx:HolidayCalendar, the eight PG&E TOU holidays, because the base pge:e-elec carries none; ACC Plus values are carried for the 2025 vintage only. Annual true-up settlement, Net Surplus Compensation (NSC), and bill-credit rollover deferred to consumer (price-server) responsibility — year-long-window calculations don't fit the per-bill modifier shape (same deferral pattern as SCE TOU-D-PRIME-CPP Bill Protection). Establishes the modeling pattern reused by the SCE and SDG&E NBT filings.",
+      "urpx:description": "Net Billing Tariff (NBT) per CPUC Decision 22-12-056, adopted Dec 2022, effective for new residential interconnection applications submitted on or after April 15, 2023. NBT replaces NEM-2 for new interconnections and compensates customer exports at Avoided Cost Calculator (ACC)-derived hourly Export Compensation Rates rather than at the retail rate. Customer-facing name: 'Solar Billing Plan'. Per Sheet 9 §A, residential customers taking NBT must take E-ELEC as their Otherwise Applicable Schedule (OAS) — modeled here as a urpx:RatePlanModifier overlay binding to pge:e-elec. Import-side charges remain governed by the base E-ELEC RatePlan (measured on the meter's Import Channel); this modifier handles only the export-side compensation (measured on the Export Channel; urpx:flowDirection urpx:reverse on the MetricSpecification). Import/export are independently recorded and not netted (Sheet 7). PriceDefinitions: (1) Export Compensation Rate Generation Component (system-wide; per-hour ACC values for the generation portion); (2) Export Compensation Rate Delivery Component (system-averaged across PG&E climate zones per Sheet 10 step 2; per-hour ACC values for the delivery portion); (3) ACC Plus Residential adder ('Energy Export Bonus Credit'; per-vintage 2023-2027 declining schedule; 9-year lock-in from PTO date); (4) ACC Plus Low-Income adder (higher per-kWh value for CARE/FERA / disadvantaged-community-resident-owner / California-Indian-Country residents per Sheet 5). This initial filing scopes to canonical residential NBT-S (Sheet 13: solar/wind ≤30 kW Small Customer); sibling sub-schedule filings (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) deferred. Export Compensation Rate Prices cover 576 cells (12 months × 24 hours × weekday/weekend) per component for each of the four published vintages 2023-2026, one urpx:PriceSetAlternative per vintage. A weekday holiday takes that hour's weekend cell, per Sheet 6's weekdays and weekends/holidays split; the holidays are this version's own urpx:HolidayCalendar, the eight PG&E TOU holidays observed per California Government Code section 6701, because the base pge:e-elec carries none; ACC Plus values are carried for the 2025 vintage only. Annual true-up settlement, Net Surplus Compensation (NSC), and bill-credit rollover deferred to consumer (price-server) responsibility — year-long-window calculations don't fit the per-bill modifier shape (same deferral pattern as SCE TOU-D-PRIME-CPP Bill Protection). Establishes the modeling pattern reused by the SCE and SDG&E NBT filings.",
       "urpx:effectiveDateTime": "2025-10-17T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
@@ -16739,6 +16739,69 @@
               "urpx:holidayRule": "December 25 (legally observed)",
               "urpx:observanceRule": {
                 "@id": "urpx:actualDateObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-independence-day-2027-07-05",
+              "urpx:holidayName": "Independence Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2027-07-05",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-independence-day-2032-07-05",
+              "urpx:holidayName": "Independence Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2032-07-05",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-christmas-2033-12-26",
+              "urpx:holidayName": "Christmas Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2033-12-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-new-years-day-2034-01-02",
+              "urpx:holidayName": "New Year's Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2034-01-02",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-independence-day-2038-07-05",
+              "urpx:holidayName": "Independence Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2038-07-05",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-christmas-2039-12-26",
+              "urpx:holidayName": "Christmas Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2039-12-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pge:nbt-2025-10-17-holiday-new-years-day-2040-01-02",
+              "urpx:holidayName": "New Year's Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2040-01-02",
+                "@type": "xsd:date"
               }
             }
           ]
