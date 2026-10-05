@@ -259,6 +259,60 @@
             ]
           }
         ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "sdge:ev-tou-2-2026-04-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-new-years-day",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-presidents-day",
+              "urpx:holidayName": "President's Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-memorial-day",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-veterans-day",
+              "urpx:holidayName": "Veterans Day",
+              "urpx:holidayRule": "November 11 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-thanksgiving-day",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:ev-tou-2-2026-04-01-holiday-christmas-day",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            }
+          ]
+        },
         "urpx:hasMetricInput": [
           {
             "@type": "urpx:MetricInput",
@@ -298,6 +352,9 @@
             "@id": "sdge:tou-ev-tou-2",
             "urpx:referencesMetricInput": {
               "@id": "sdge:ev-tou-2-2026-04-01-mi-energy"
+            },
+            "urpx:hasCalendar": {
+              "@id": "sdge:ev-tou-2-2026-04-01-holidays"
             },
             "urpx:hasTOUTier": [
               {
@@ -376,7 +433,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -444,7 +503,9 @@
                         },
                         "urpx:dayType": {
                           "@id": "urpx:weekdayDays"
-                        }
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
                       },
                       {
                         "@type": "urpx:TimeBracket",
@@ -548,6 +609,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekendDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:ev-tou-2-2026-04-01-time-bracket-summer-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:ev-tou-2-2026-04-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       }
                     ]
                   },
@@ -592,6 +667,20 @@
                         "urpx:dayType": {
                           "@id": "urpx:weekendDays"
                         }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:ev-tou-2-2026-04-01-time-bracket-winter-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:ev-tou-2-2026-04-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
                       }
                     ]
                   }

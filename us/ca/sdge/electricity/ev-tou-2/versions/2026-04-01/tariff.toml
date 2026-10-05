@@ -99,6 +99,24 @@ other two siblings as a function of period.
 CARE/FERA/DRAH applicableToRatePlan lists extended to include
 sdge:ev-tou-2 (in-place; same approach as TOU-DR + EV-TOU additions).
 
+
+## Holiday calendar
+
+The Sheet 3 Time Periods table (64375-E) gives one column for Weekdays
+and one for Weekends and Holidays, and they differ only over 6 AM to
+10 AM: Off-Peak on a weekday, Super Off-Peak on a weekend or holiday.
+This PDF names no holiday and its Special Conditions carry no pointer to
+Rule 1, so the set is the HOLIDAYS entry of SDG&E Electric Rule 1
+(DEFINITIONS), Sheet 6, Cal. P.U.C. Sheet No. 61672-E, which is not
+committed to this repo.
+
+The calendar, its eight Holidays and the bracket flags follow
+sdge:ev-tou-5 2026-04-01, whose Time Periods table is the same: the
+6 AM to 10 AM weekday Off-Peak brackets exclude holidays, and a 6 AM to
+10 AM weekday Super Off-Peak bracket applies only on a holiday. Weekend
+brackets carry no flags, so a holiday on a Saturday or Sunday keeps the
+weekend windows. No urpx:observanceRule is set.
+
 ## Modeling deferrals
 
  - PCIA recovery for CCA-served customers (Special Condition 10);
@@ -122,7 +140,7 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "Holidays are not modeled. Sheet 3 (64375-E) prices Weekends and Holidays differently from Weekdays: 6 AM to 10 AM is Off-Peak on a weekday and Super Off-Peak on a weekend or holiday, in both seasons. This filing carries no Calendar and no Holiday, so its 18 TimeBrackets bill a weekday holiday at weekday prices, wrong by 0.14097/kWh of Distribution plus up to 0.09164/kWh of EECC in that window. Expressible now and already built on the structurally identical sibling sdge/ev-tou-5@2026-04-01, whose calendar carries the eight SDG&E Electric Rule 1 Sheet 6 (61672-E) holidays; four other SDG&E filings carry the same eight. Copy that calendar.",
+ "SDG&E Electric Rule 1 Sunday holiday shift: when New Year's Day, Independence Day, Veterans Day or Christmas Day falls on a Sunday, the following Monday is also a Holiday, and a Saturday holiday does not move. The 8 Holidays in this filing's calendar carry that provision only inside a holidayRule parenthetical, so each shifted Monday resolves as an ordinary weekday and its 06:00-10:00 prices Off-Peak instead of Super Off-Peak. 10 such Mondays fall between the effective date and 2040: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02, 2040-11-12. Expressible now as one further Holiday per date carrying holidayName plus holidayDate. urpx:observanceRule stays unset: none of its four v0.5.1 members is Sunday-only, and mondayIfWeekendObservance would also move Saturday holidays such as 2026-07-04.",
  "Franchise Fee Differential is not modeled. Sheet 2 (64374-E): 'A Franchise Fee Differential of 5.78% will be applied to the monthly billings calculated under this schedule for all customers within the corporate limits of the City of San Diego.' Expressible under v0.5.1 as a Price with a multiplier and basedOnPrice over a PriceSummary, chargeType urpx:taxMunicipal, gated on hasMunicipality. Unbuilt for two reasons, not for want of vocabulary: the gate on hasMunicipality carries the City of San Diego limit declaratively, so a consumer that does not evaluate it applies the 5.78% to every customer on the schedule; and the fee covers the per-day Base Services Charge as well as the per-kWh charges, so it needs two Prices over two new unit-homogeneous summaries rather than the existing CARE and FERA subtotals, which both exclude the BSC.",
  "California Climate Credit is not modeled. Sheet 1 (64666-E) applicability: 'Customers on this schedule may also qualify for a semi-annual California Climate Credit $(49.36) per Schedule GHG-ARR.' The pattern ships in this corpus at sce:d-2026-03-20-pd-climate-credit: chargeType urpx:creditEnergy, an ApplicabilityRule with month --04 and --10, and a Price of unitPrice -36.00. What blocks copying it here is a source gap, not a vocabulary gap: this PDF says only 'semi-annual' and never names the months, and Schedule GHG-ARR is not in this corpus. urpx:intervalDuration P6M expresses the cadence without sourcing months.",
  "The Medical Baseline exemption is not modeled. Sheet 1 (64666-E) footnote (3): 'DWR-BC and WF-NBC charges do not apply to CARE or Medical Baseline customers.' The CARE half is carried by the CARE overlay (sdge:care-price-wf-nbc-exemption-2025-10-01 at -0.00591, sdge:care-price-dwr-bc-exemption-2025-10-01 at -0.00000); the Medical Baseline half is carried nowhere, and this corpus holds no SDG&E medical-baseline filing. Expressible the same way. Settle at corpus level first: sdge/ev-tou-5@2026-04-01 has the identical footnote, the identical omission, and complete = true.",
