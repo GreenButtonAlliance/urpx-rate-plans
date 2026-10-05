@@ -101,6 +101,11 @@ def status(d: Path) -> str:
     return L.check_filing(d)["status"]
 
 
+def status_with(d: Path, base: Path) -> str:
+    """The verdict on d with base's documents standing in for the corpus bases."""
+    return L.check_filing(d, bases=L.base_index(sorted(base.glob("rate-plan_*.jsonld"))))["status"]
+
+
 def cli(*dirs: Path) -> int:
     return subprocess.run([sys.executable, str(LINT), "--filing", *map(str, dirs)],
                           capture_output=True, text=True).returncode
@@ -168,17 +173,42 @@ def test_copies(tmp: Path) -> None:
     check("pge ev2 ('including weekends and holidays') states no rule",
           status(d) == "no-rule", status(d))
 
-    d = copy_filing(tmp / "d", "sce", "nbt", "2025-04-23")
-    check("sce nbt is DEFERRED by its recorded deferral", status(d) == "deferred", status(d))
-    drop_deferral(d, "Sheet 5 differentiates the Energy Export Credit Price")
-    check("sce nbt without that deferral is MISSING", status(d) == "missing", status(d))
+    d = copy_filing(tmp / "d", "pge", "nbt", "2025-10-17")
+    check("pge nbt is DEFERRED by its recorded deferral", status(d) == "deferred", status(d))
+    drop_deferral(d, "The 576 TimeBrackets distinguish only urpx:weekdayDays")
+    check("pge nbt without that deferral is MISSING", status(d) == "missing", status(d))
 
-    d = copy_filing(tmp / "e", "sdge", "nbt", "2025-01-27")
-    check("sdge nbt is DEFERRED by its recorded deferral", status(d) == "deferred", status(d))
+    d = copy_filing(tmp / "e", "pge", "nbt", "2025-10-17")
     t = d / "tariff.toml"
     t.write_text(re.sub(r"calendar", "list", t.read_text(), flags=re.I))
     check("a holiday deferral that does not name the calendar does not cover",
           status(d) == "missing", status(d))
+
+    d = copy_filing(tmp / "h", "sdge", "nbt", "2025-01-27")
+    r = L.check_filing(d)
+    check("sdge nbt, holiday-flagged with no calendar of its own, INHERITS ev-tou-5's",
+          r["status"] == "inherited" and r["flags"] and list(r["base_calendars"]) == ["sdge:ev-tou-5"],
+          str(r))
+    check("CLI passes it", cli(d) == 0)
+    base = copy_filing(tmp / "h-base", "sdge", "ev-tou-5", "2026-04-01")
+    check("against an unaltered ev-tou-5 copy it still inherits",
+          status_with(d, base) == "inherited", status_with(d, base))
+    edit_documents(base, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
+    check("against an ev-tou-5 with no calendar it is MISSING",
+          status_with(d, base) == "missing", status_with(d, base))
+    r = L.check_filing(d, bases={})
+    check("against no base filing at all it is MISSING", r["status"] == "missing", str(r))
+    add_deferral(d, "Weekends and holidays are priced apart from weekdays, and this "
+                    "filing carries no HolidayCalendar.")
+    check("with no base calendar, a deferral naming the calendar still covers the modifier",
+          L.check_filing(d, bases={})["status"] == "deferred")
+
+    d = copy_filing(tmp / "i", "sce", "nbt", "2025-04-23")
+    check("sce nbt INHERITS tou-d-prime's calendar", status(d) == "inherited", status(d))
+    edit_documents(d, lambda doc: strip_keys(doc, {"urpx:includeHolidays", "urpx:includeNonHolidays"}))
+    r = L.check_filing(d)
+    check("sce nbt with its holiday flags removed is MISSING on its text signal",
+          r["status"] == "missing" and r["flags"] == 0, str(r))
 
     d = copy_filing(tmp / "g", "sdge", "tou-dr1", "2026-04-01")
     edit_documents(d, lambda doc: strip_keys(doc, {"urpx:hasHolidayCalendar"}))
@@ -208,6 +238,9 @@ def test_corpus() -> None:
     res = json.loads(p.stdout) if p.returncode in (0, 1) else []
     n = sum(r["status"] == "calendar" for r in res)
     check("it checks a non-trivial number of calendars", n >= 10, f"only {n}")
+    inherited = sorted(r["filing"] for r in res if r["status"] == "inherited")
+    check("sce nbt and sdge nbt inherit their bases' calendars",
+          inherited == ["sce/nbt/2025-04-23", "sdge/nbt/2025-01-27"], str(inherited))
 
 
 if __name__ == "__main__":

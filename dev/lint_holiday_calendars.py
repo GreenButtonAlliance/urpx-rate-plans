@@ -24,6 +24,11 @@ A FILING SATISFIES IT when one of these holds:
 
   CALENDAR   a document attaches urpx:hasHolidayCalendar whose calendar carries
              at least one urpx:hasHoliday, inline or by @id in the same filing.
+  INHERITED  the filing is a RatePlanModifier whose TimeBrackets carry holiday
+             flags and that declares no calendar of its own, and every filing in
+             the corpus of every base RatePlan its urpx:applicableToRatePlan
+             names carries a calendar. A modifier's holidays are the base plan's,
+             so a base without one, or a base IRI no filing defines, fails.
   DEFERRAL   the filing is a RatePlanModifier (its directory holds no
              rate-plan_*.jsonld), and a [modeling].deferrals entry itself matches
              HOLIDAY_RULE and names the calendar ("no HolidayCalendar", "no
@@ -80,6 +85,47 @@ ALLOWLIST = {
 
 class Refused(Exception):
     pass
+
+
+def _rate_plan_iri(doc: dict):
+    plan = doc.get("urpx:hasRatePlan")
+    return plan.get("@id") if isinstance(plan, dict) else None
+
+
+def base_index(files=None) -> dict[str, list[tuple[str, int]]]:
+    """{RatePlan IRI: [(filing key, Holiday count), ...]} over base RatePlan
+    documents, the corpus by default."""
+    out: dict[str, list[tuple[str, int]]] = {}
+    for p in (corpus.rate_plan_files() if files is None else files):
+        doc = json.loads(Path(p).read_text())
+        iri = _rate_plan_iri(doc)
+        if iri:
+            out.setdefault(iri, []).append(
+                (filing_key(Path(p).resolve().parent), scan_documents([doc])["holidays"]))
+    return out
+
+
+_CORPUS_BASES: dict | None = None
+
+
+def corpus_bases() -> dict:
+    global _CORPUS_BASES
+    if _CORPUS_BASES is None:
+        _CORPUS_BASES = base_index()
+    return _CORPUS_BASES
+
+
+def applicable_bases(docs: list) -> list[str]:
+    out: list[str] = []
+
+    def visit(node: dict, _inside: bool) -> None:
+        v = node.get("urpx:applicableToRatePlan")
+        for x in (v if isinstance(v, list) else [v] if v else []):
+            out.append(x["@id"] if isinstance(x, dict) else x)
+
+    for doc in docs:
+        _walk(doc, visit)
+    return sorted(set(out))
 
 
 def filing_key(d: Path) -> str:
@@ -152,12 +198,13 @@ def scan_documents(docs: list) -> dict:
     return {"texts": texts, "flags": flags, "calendars": len(attached), "holidays": holidays}
 
 
-def check_filing(d: Path) -> dict:
+def check_filing(d: Path, bases: dict | None = None) -> dict:
     toml_path = d / corpus.TARIFF_MANIFEST
     docs_paths = sorted(d.glob("rate-plan_*.jsonld")) + sorted(d.glob("rate-plan-modifier_*.jsonld"))
     if not toml_path.exists() or not docs_paths:
         raise Refused(f"{d}: expected a tariff.toml and at least one JSON-LD document")
-    s = scan_documents([json.loads(p.read_text()) for p in docs_paths])
+    docs = [json.loads(p.read_text()) for p in docs_paths]
+    s = scan_documents(docs)
     toml_text = toml_path.read_text()
     manifest = corpus.load_toml(toml_path)
 
@@ -173,19 +220,28 @@ def check_filing(d: Path) -> dict:
     key = filing_key(d)
     states = bool(s["flags"] or rule)
     has_calendar = s["holidays"] > 0
+    base_calendars: dict[str, list[tuple[str, int]]] = {}
+    if is_modifier and s["flags"] and not has_calendar:
+        idx = corpus_bases() if bases is None else bases
+        base_calendars = {iri: idx.get(iri, []) for iri in applicable_bases(docs)}
+    inherits = bool(base_calendars) and all(
+        v and all(h > 0 for _k, h in v) for v in base_calendars.values())
     if not states:
         status = "stale-allowlist" if key in ALLOWLIST else "no-rule"
     elif has_calendar:
         status = "stale-allowlist" if key in ALLOWLIST else "calendar"
     elif key in ALLOWLIST:
         status = "allowlisted"
+    elif inherits:
+        status = "inherited"
     elif covering and is_modifier:
         status = "deferred"
     else:
         status = "missing"
     return {"filing": key, "status": status, "flags": s["flags"], "rule": rule,
             "spared": spared, "holidays": s["holidays"], "calendars": s["calendars"],
-            "covering_deferrals": covering, "modifier": is_modifier}
+            "covering_deferrals": covering, "modifier": is_modifier,
+            "base_calendars": base_calendars}
 
 
 FAILING = ("missing", "stale-allowlist")
@@ -194,7 +250,7 @@ FAILING = ("missing", "stale-allowlist")
 def run(dirs: list[Path], whole_corpus: bool = True) -> list[dict]:
     corpus.require_nonempty(dirs, "filing directories")
     results = [check_filing(d) for d in dirs]
-    if whole_corpus and not any(r["status"] in ("calendar",) + FAILING for r in results):
+    if whole_corpus and not any(r["status"] in ("calendar", "inherited") + FAILING for r in results):
         raise Refused("no filing carries a holiday calendar and none is missing one, so "
                       "the check compared nothing; the calendar walk has probably broken")
     return results
@@ -212,7 +268,11 @@ def report(results: list[dict], verbose: bool) -> int:
                 why.append(f"{r['flags']} includeHolidays/includeNonHolidays flag(s)")
             if r["rule"]:
                 why.append("text: " + ", ".join(repr(x) for x in r["rule"][:4]))
-            tail = (", and no [modeling].deferrals entry records that" if r["modifier"] else
+            lacking = [f"{iri} ({', '.join(k for k, h in v if not h) or 'no filing'})"
+                       for iri, v in r["base_calendars"].items() if not v or any(not h for _k, h in v)]
+            tail = (f"; its holiday flags take their dates from its base, and "
+                    f"{'; '.join(lacking)} carries none" if lacking else
+                    ", and no [modeling].deferrals entry records that" if r["modifier"] else
                     "; a base RatePlan cannot defer it"
                     + (f" (deferral {', '.join('#' + str(i) for i in r['covering_deferrals'])}"
                        f" would excuse a modifier)" if r["covering_deferrals"] else ""))
@@ -225,6 +285,10 @@ def report(results: list[dict], verbose: bool) -> int:
     for r in by.get("deferred", []):
         print(f"deferred     {r['filing']} (deferral "
               f"{', '.join('#' + str(i) for i in r['covering_deferrals'])})")
+    for r in by.get("inherited", []):
+        print(f"inherited    {r['filing']} from "
+              + ", ".join(f"{iri} ({len(v)} filing{'s' if len(v) != 1 else ''})"
+                          for iri, v in r["base_calendars"].items()))
     for r in by.get("allowlisted", []):
         print(f"allowlisted  {r['filing']}: {ALLOWLIST[r['filing']]}")
     if verbose:
@@ -232,6 +296,7 @@ def report(results: list[dict], verbose: bool) -> int:
             print(f"  {r['status']:<15} {r['filing']:<36} flags={r['flags']:<3} "
                   f"holidays={r['holidays']:<3} rule={r['rule']} spared={r['spared']}")
     summary = (f"holiday calendars: {len(by.get('calendar', []))} carry one, "
+               f"{len(by.get('inherited', []))} inherit their base's, "
                f"{len(by.get('deferred', []))} deferred, {len(by.get('allowlisted', []))} "
                f"allowlisted, {len(by.get('no-rule', []))} state no holiday rule, "
                f"{len(bad)} failing, over {len(results)} filings")

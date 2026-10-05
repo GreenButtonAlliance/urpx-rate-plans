@@ -19,9 +19,8 @@ The new shape, per filing:
               MetricInput, with one TOUTier holding 576 TOUPeriods: month by
               day type by hour. Period n = (month-1)*48 + (24 if weekend) +
               hour + 1. Each has one TimeBracket naming its month's Season and
-              the day type the old bracket carried. Holiday handling is
-              unchanged: the old brackets carried urpx:dayType alone, and so do
-              these. The old hour-23 brackets ended at 23:59:59, which under
+              the day type the old bracket carried. The old hour-23 brackets
+              ended at 23:59:59, which under
               half-open containment left 23:59:59 to midnight matching no
               bracket; the new ones end at 00:00:00, which wraps midnight.
   Vintage     one urpx:ProfileAlternatives with one ProfileAlternative per
@@ -52,8 +51,25 @@ difference aborts the file. So do: a Price @id set that changed, a cell priced
 twice, two periods sharing a number, and an (month, day type, hour) instant no
 bracket covers, which clj-urpx would answer silently by admitting every Price.
 
-A filing already in the new shape is left alone. Rerun against the previous
-revision to reproduce:
+HOLIDAYS. Each tariff prices the Energy Export Credit by weekday against
+weekend/holiday, so a weekday holiday takes that hour's weekend value. For the
+filings in HOLIDAY_FILINGS a second step flags every weekday bracket
+urpx:includeHolidays false and gives every weekend TOUPeriod a second bracket,
+day type urpx:weekdayDays with urpx:includeNonHolidays false, same Season and
+hour. The modifier declares no calendar: which days are holidays comes from the
+base plan's urpx:HolidayCalendar. pge:nbt is left out because its base,
+pge:e-elec, carries no calendar.
+
+The holiday step's self-check is also a set comparison: the Price set (@id,
+name, unit price, start date, PriceDefinition, period number, vintage) and the
+TOUPeriod set (@id, name, number) must be identical before and after, the new
+document with the added brackets and flags removed must equal the old one, and
+every (month, hour, day class) for the four classes weekday, weekday holiday,
+weekend and weekend holiday must match exactly one bracket, a weekday holiday
+landing on that hour's weekend period.
+
+A filing already in the new shape is left alone, and one already carrying its
+holiday brackets is too. Rerun against the previous revision to reproduce:
 
     git show <rev>:<path> > <path> && python3 dev/remodel_nbt.py
 
@@ -512,6 +528,142 @@ def self_check(old, new, path: str) -> str:
             f"Prices moved into their vintage; {len(o_ids)} Price @ids unchanged")
 
 
+# ---------------------------------------------------------------------------
+# Holidays
+# ---------------------------------------------------------------------------
+
+# Filings whose weekday holidays price at the weekend value. Each base these
+# apply to carries a urpx:HolidayCalendar; pge:e-elec does not, so pge:nbt is
+# absent.
+HOLIDAY_FILINGS = {
+    "us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld",
+    "us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld",
+}
+HOLIDAY_FLAGS = ("urpx:includeHolidays", "urpx:includeNonHolidays")
+WEEKDAY, WEEKEND = "urpx:weekdayDays", "urpx:weekendDays"
+HOLIDAY_SUFFIX = "-weekday-holiday"
+
+
+def export_periods(doc) -> list[dict]:
+    pe = version_of(doc)["urpx:hasPlanElements"]
+    return [per for sched in lst(pe["urpx:hasBillingModel"].get("urpx:hasTOUSchedule"))
+            for tier in lst(sched["urpx:hasTOUTier"]) for per in lst(tier["urpx:hasTOUPeriod"])]
+
+
+def is_holiday_bracket(b: dict) -> bool:
+    return b.get("urpx:includeNonHolidays") is False
+
+
+def has_holidays(doc) -> bool:
+    return any(k in b for per in export_periods(doc) for b in lst(per["urpx:hasTimeBracket"])
+               for k in HOLIDAY_FLAGS)
+
+
+def strip_holidays(doc) -> dict:
+    """The document with the holiday step undone."""
+    out = copy.deepcopy(doc)
+    for per in export_periods(out):
+        per["urpx:hasTimeBracket"] = [
+            {k: v for k, v in b.items() if k not in HOLIDAY_FLAGS}
+            for b in lst(per["urpx:hasTimeBracket"]) if not is_holiday_bracket(b)]
+    return out
+
+
+def add_holidays(doc, path: str) -> dict:
+    new = copy.deepcopy(doc)
+    for per in export_periods(new):
+        brackets = lst(per["urpx:hasTimeBracket"])
+        if len(brackets) != 1:
+            raise Abort(path, f"{per['@id']}: expected one bracket before the holiday step")
+        b = brackets[0]
+        day = b["urpx:dayType"]["@id"]
+        if day == WEEKDAY:
+            b["urpx:includeHolidays"] = False
+            b["urpx:includeNonHolidays"] = True
+        elif day == WEEKEND:
+            if not b["@id"].endswith("-weekend"):
+                raise Abort(path, f"{b['@id']}: weekend bracket @id does not end -weekend")
+            brackets.append({
+                "@type": "urpx:TimeBracket",
+                "@id": b["@id"][: -len("-weekend")] + HOLIDAY_SUFFIX,
+                "urpx:startTime": b["urpx:startTime"],
+                "urpx:endTime": b["urpx:endTime"],
+                "urpx:appliesInSeason": copy.deepcopy(b["urpx:appliesInSeason"]),
+                "urpx:dayType": {"@id": WEEKDAY},
+                "urpx:includeHolidays": True,
+                "urpx:includeNonHolidays": False,
+            })
+            per["urpx:hasTimeBracket"] = brackets
+        else:
+            raise Abort(path, f"{b['@id']}: day type {day}")
+    return new
+
+
+def price_set(doc) -> set:
+    idx = by_id(doc)
+    out = set()
+    for psas in lst(version_of(doc)["urpx:hasPrices"].get("urpx:hasPriceSetAlternatives")):
+        for psa in lst(psas["urpx:hasPriceSetAlternative"]):
+            alt = psa["urpx:referencesProfileAlternative"]["@id"]
+            for p in lst(psa["urpx:hasPrice"]):
+                out.add(cell_value(p) + (p.get("urpx:touPeriodNumber"), alt, ledger_of(p, idx)))
+    return out
+
+
+# The four day classes, as (day type, holiday?).
+DAY_CLASSES = ((WEEKDAY, False), (WEEKDAY, True), (WEEKEND, False), (WEEKEND, True))
+
+
+def bracket_matches(b: dict, day: str, holiday: bool) -> bool:
+    flag = "urpx:includeHolidays" if holiday else "urpx:includeNonHolidays"
+    return b["urpx:dayType"]["@id"] in (day, "urpx:allDays") and b.get(flag, True) is not False
+
+
+def holiday_coverage(doc, path: str) -> int:
+    """Every (month, hour, day class) matches exactly one bracket, on the period
+    the tariff prices: the weekday period for a non-holiday weekday, else the
+    weekend period. Returns the number of instants checked."""
+    seasons = {s["@id"]: s for s in lst(version_of(doc)["urpx:hasPlanElements"].get("urpx:hasSeasons"))}
+    hits: dict[tuple, list[int]] = {}
+    for per in export_periods(doc):
+        for b in lst(per["urpx:hasTimeBracket"]):
+            (m,) = lst(seasons[b["urpx:appliesInSeason"]["@id"]]["urpx:month"])
+            h = hour_of(b, per["@id"])
+            for day, hol in DAY_CLASSES:
+                if bracket_matches(b, day, hol):
+                    hits.setdefault((int(m[2:]), h, day, hol), []).append(per["urpx:touPeriodNumber"])
+    n = 0
+    for m in range(1, 13):
+        for h in range(24):
+            for day, hol in DAY_CLASSES:
+                want = period_number(m, "weekday" if (day, hol) == (WEEKDAY, False) else "weekend", h)
+                got = hits.get((m, h, day, hol), [])
+                if got != [want]:
+                    raise Abort(path, f"month {m} hour {h} {day} holiday={hol} matches periods "
+                                      f"{got}, expected [{want}]")
+                n += 1
+    return n
+
+
+def holiday_self_check(old, new, path: str) -> str:
+    if has_holidays(old):
+        raise Abort(path, "the holiday step's input already carries holiday flags")
+    if strip_holidays(new) != old:
+        raise Abort(path, "removing the added brackets and flags does not restore the input")
+    if price_set(old) != price_set(new):
+        raise Abort(path, "the Price set changed")
+    pset = lambda d: {(p["@id"], p["urpx:name"], p["urpx:touPeriodNumber"]) for p in export_periods(d)}
+    if pset(old) != pset(new):
+        raise Abort(path, "the TOUPeriod set changed")
+    added = sum(len(lst(p["urpx:hasTimeBracket"])) for p in export_periods(new)) - len(export_periods(old))
+    flagged = sum(1 for p in export_periods(new) for b in lst(p["urpx:hasTimeBracket"])
+                  if b.get("urpx:includeHolidays") is False)
+    n = holiday_coverage(new, path)
+    return (f"{len(price_set(new))} Prices and {len(pset(new))} TOUPeriods identical; "
+            f"{added} weekday-holiday brackets added, {flagged} weekday brackets flagged; "
+            f"{n} (month, hour, day class) instants each match exactly one bracket")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dry-run", action="store_true")
@@ -522,12 +674,20 @@ def main() -> int:
         doc = json.loads(text)
         prices = version_of(doc)["urpx:hasPrices"]
         if "urpx:hasPriceSetAlternatives" in prices and not prices.get("urpx:hasPrice"):
-            n_cells, _acc, _ids = new_cells(doc, rel)
+            n_cells, _acc, _ids = new_cells(strip_holidays(doc), rel)
             print(f"{rel}: already remodeled ({len(n_cells)} export cells read back cleanly)")
-            continue
-        new = remodel(doc, rel)
-        print(f"{rel}: {self_check(doc, new, rel)}")
-        if not args.dry_run:
+            new = doc
+        else:
+            new = remodel(doc, rel)
+            print(f"{rel}: {self_check(doc, new, rel)}")
+        if rel in HOLIDAY_FILINGS:
+            if has_holidays(new):
+                print(f"{rel}: holidays already modeled "
+                      f"({holiday_coverage(new, rel)} instants each match exactly one bracket)")
+            else:
+                before, new = new, add_holidays(new, rel)
+                print(f"{rel}: {holiday_self_check(before, new, rel)}")
+        if not args.dry_run and new is not doc:
             path.write_text(json.dumps(new, indent=2, ensure_ascii=False) + "\n")
     return 0
 

@@ -40,7 +40,13 @@
    An absence with no declaration fails, and so does a declaration the corpus
    no longer bears out.
 
-   Holidays are not consulted: these filings price weekday and weekend only.
+   HOLIDAYS. Each tariff prices weekday against weekend/holiday, so a weekday
+   holiday expects that hour's weekend cell. Which days are holidays comes from
+   the base plan's urpx:HolidayCalendar through urpx.holidays/derive-predicate,
+   the calendar a composed resolution reads; a base with no calendar has no
+   holidays. So that a calendar regression cannot agree with itself, the 2026
+   holidays each base's calendar yields must equal `tariff-holidays-2026`,
+   copied from the tariff text.
 
    Exit: 0 clean, 1 a violation, 3 refused (a declared filing missing, an
    undeclared NBT-shaped filing, no base filing, or nothing checked).
@@ -54,6 +60,7 @@
             [clojure.string :as str]
             [urpx.coerce :as coerce]
             [urpx.core :as core]
+            [urpx.holidays :as holidays]
             [urpx.index :as index]
             [urpx.schedule :as schedule]
             [urpx-rate-plans :as layout])
@@ -109,6 +116,36 @@
     :ledgers #{"sdge:nbt-ledger-acc-plus-residential" "sdge:nbt-ledger-acc-plus-low-income"}
     :months all-months
     :reason "source gap: no ACC Plus rate appears on any sheet of the SDG&E schedule (tariff.toml [modeling]); the two ledgers are structure only"}])
+
+(def tariff-holidays-2026
+  "Each base plan's 2026 holidays, from the tariff text rather than the calendar.
+   nil: the base carries no calendar, so no day is a holiday."
+  {;; SCE Schedule TOU-D Sheet 13, Special Condition 1: New Year's Day
+   ;; (January 1), Presidents' Day (third Monday in February), Memorial Day
+   ;; (last Monday in May), Independence Day (July 4), Labor Day (first Monday
+   ;; in September), Veterans Day (November 11), Thanksgiving Day (fourth
+   ;; Thursday in November), Christmas (December 25).
+   "sce:tou-d-prime" #{"2026-01-01" "2026-02-16" "2026-05-25" "2026-07-04"
+                       "2026-09-07" "2026-11-11" "2026-11-26" "2026-12-25"}
+   ;; SDG&E Electric Rule 1 (Definitions), Sheet 6, which EV-TOU-5 Special
+   ;; Condition 4 points to: the same eight holidays. SDG&E's NBT export-rate
+   ;; CSVs mark these 2026 dates DayStart 8 (Holiday).
+   "sdge:ev-tou-5"   #{"2026-01-01" "2026-02-16" "2026-05-25" "2026-07-04"
+                       "2026-09-07" "2026-11-11" "2026-11-26" "2026-12-25"}
+   ;; E-ELEC prices its periods every day including weekends and holidays;
+   ;; pge:nbt records its holiday omission as a deferral.
+   "pge:e-elec"      nil})
+
+(defn- calendar-violations
+  "The base's derived 2026 holidays against `tariff-holidays-2026`."
+  [base-iri pred]
+  (let [want (get tariff-holidays-2026 base-iri ::undeclared)
+        days (take-while #(= 2026 (.getYear ^LocalDate %))
+                         (iterate #(.plusDays ^LocalDate % 1) (LocalDate/parse "2026-01-01")))
+        got  (when pred (set (map str (filter pred days))))]
+    (cond (= want ::undeclared) [(str base-iri ": no entry in tariff-holidays-2026")]
+          (not= want got)       [(str base-iri ": calendar yields 2026 holidays " (sort got)
+                                      ", tariff text gives " (sort want))])))
 
 (def expected-condition-gated
   "Ledgers whose one Price keeps a customer-class ConditionExpression clj-urpx
@@ -207,12 +244,19 @@
         :when (or flat (some (fn [[[mm] _]] (= mm m)) grid))]
     (str alt " " lid " month " m ": declared absent (" reason ") but priced")))
 
+(defn- weekend-day? [^ZonedDateTime z]
+  (boolean (#{DayOfWeek/SATURDAY DayOfWeek/SUNDAY} (.getDayOfWeek z))))
+
+(defn- weekday-holiday? [holiday? ^ZonedDateTime z]
+  (boolean (and holiday? (not (weekend-day? z)) (holiday? (.toLocalDate z)))))
+
 (defn- expected-id
-  "[price-id nil] or [nil reason], or [nil nil] for an undeclared hole."
+  "[price-id nil] or [nil reason], or [nil nil] for an undeclared hole. A
+   weekday holiday takes the weekend cell."
   [exp alt lid ^ZonedDateTime z]
   (let [{:keys [grid flat]} (get-in exp [:alternatives alt lid])
         m  (.getMonthValue z)
-        dt (if (#{DayOfWeek/SATURDAY DayOfWeek/SUNDAY} (.getDayOfWeek z)) "weekend" "weekday")
+        dt (if (or (weekend-day? z) (weekday-holiday? (:holiday? exp) z)) "weekend" "weekday")
         id (cond flat flat
                  grid (get grid [m dt (.getHour z)]))]
     (if id [id nil] [nil (absence-reason exp alt lid m)])))
@@ -303,7 +347,11 @@
                                   :let [[want why] (expected-id exp alt lid (:tick/beginning seg))]
                                   :when (and (nil? want) why)]
                               why))]
-    {:segments (count segs) :violations (vec (concat ends tiling per-seg)) :absent absent}))
+    {:segments (count segs) :violations (vec (concat ends tiling per-seg)) :absent absent
+     :holiday-segments (count (filter #(weekday-holiday? (:holiday? exp) (:tick/beginning %)) segs))
+     :holiday-dates (set (keep #(when (weekday-holiday? (:holiday? exp) (:tick/beginning %))
+                                  (str (.toLocalDate ^ZonedDateTime (:tick/beginning %))))
+                               segs))}))
 
 (defn -main [& args]
   (let [subst (loop [m {} [a & more] args]
@@ -331,34 +379,40 @@
                  base-iri (:applicable exp)
                  :let [[bdate bpath] (or (latest-base-file base-iri)
                                          (refuse (str path ": no base filing for " base-iri)))
-                       base  (-> bpath core/load-rate-plan coerce/coerce-rate-plan)
+                       base  (-> (get subst bpath bpath) core/load-rate-plan coerce/coerce-rate-plan)
+                       hpred (holidays/derive-predicate base)
+                       exp   (assoc exp :holiday? hpred)
+                       cal   (calendar-violations base-iri hpred)
                        by-id (reduce merge (map index/build-index [base modifier]))
                        win   (window (let [md (file-date path)] (if (pos? (compare bdate md)) bdate md)))]
                  alt (sort (keys (:alternatives exp)))]
              {:exp exp :base base :modifier modifier :by-id by-id :alt alt :window win
-              :stale stale :label (str (:version-id exp) " + " base-iri " " bdate)}))
+              :stale stale :calendar cal :label (str (:version-id exp) " + " base-iri " " bdate)}))
           ;; Each walk is independent and single-threaded, so they run in parallel.
           results
           (vec (pmap (fn [{:keys [exp base modifier by-id alt window] :as task}]
                        (let [t0 (System/nanoTime)
                              r  (walk-vintage exp base modifier by-id alt window)]
-                         (merge (select-keys task [:label :alt :window :stale]) r
+                         (merge (select-keys task [:label :alt :window :stale :calendar]) r
                                 {:ms (quot (- (System/nanoTime) t0) 1000000)})))
                      results))]
-      (doseq [{:keys [label alt window segments violations absent ms]} results]
-        (println (format "%-48s %-44s %s..%s  %5d segments  %d violations  %.1fs"
+      (doseq [{:keys [label alt window segments violations absent ms holiday-segments holiday-dates]} results]
+        (println (format "%-48s %-44s %s..%s  %5d segments  %4d on %d weekday holidays  %d violations  %.1fs"
                          label alt (.toLocalDate ^ZonedDateTime (first window))
                          (.toLocalDate ^ZonedDateTime (second window))
-                         segments (count violations) (/ ms 1000.0)))
+                         segments holiday-segments (count holiday-dates) (count violations) (/ ms 1000.0)))
         (doseq [[why n] absent]
           (println (format "    %d ledger-segment(s) expected empty: %s" n why)))
         (doseq [v (take 5 violations)] (println "    ✗" v))
         (when (> (count violations) 5) (println "    ..." (- (count violations) 5) "more")))
       (let [stale (distinct (mapcat :stale results))
+            cal   (distinct (mapcat :calendar results))
             total (reduce + (map :segments results))
-            bad   (reduce + (map (comp count :violations) results))]
+            bad   (reduce + (map (comp count :violations) results))
+            hsegs (reduce + (map :holiday-segments results))]
         (doseq [s stale] (println "  ✗ stale declaration:" s))
+        (doseq [c cal] (println "  ✗ holiday calendar:" c))
         (when (zero? total) (refuse "no segment was checked"))
-        (println (format "NBT export cells: %d compositions x vintages, %d segments, %d violation(s), %d stale declaration(s)"
-                         (count results) total bad (count stale)))
-        (System/exit (if (and (zero? bad) (empty? stale)) 0 1))))))
+        (println (format "NBT export cells: %d compositions x vintages, %d segments (%d on weekday holidays), %d violation(s), %d stale declaration(s), %d calendar disagreement(s)"
+                         (count results) total hsegs bad (count stale) (count cal)))
+        (System/exit (if (and (zero? bad) (empty? stale) (empty? cal)) 0 1))))))
