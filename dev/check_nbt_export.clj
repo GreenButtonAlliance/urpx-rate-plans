@@ -14,7 +14,7 @@
    container key refuses (URPX-ljo), and here that is a refused segment.
 
    WHAT IS CHECKED. Each NBT modifier is composed with the latest filing of
-   every base plan its urpx:applicableToRatePlan names. For each vintage
+   every base plan its urpx:applicableToRatePlan names. For each
    alternative the modifier declares, urpx.schedule/price-segments walks twelve
    months from the first month boundary on or after the later of the two
    filings' dates. For every segment and every ledger on a urpx:reverse
@@ -83,6 +83,9 @@
 (def ^:private acc-plus-2025-only
   "ACC Plus is modeled for the 2025 interconnection vintage only; the other rows of the tariff's ACC Plus table are an open deferral in tariff.toml [modeling].")
 
+(def ^:private other-segment
+  "Each customer-segment cell of a vintage carries its own segment's ACC Plus adder and not the other's: Sheet 11 (PG&E) and Sheet 7 (SCE) state the segments as alternative rows of one table.")
+
 (def expected-absences
   "Where a vintage legitimately prices nothing on an export ledger, with why.
    Each row is {:alternative :ledgers :months :reason}."
@@ -90,6 +93,14 @@
     :ledgers #{"sce:nbt-ledger-export-rate-generation" "sce:nbt-ledger-export-rate-delivery"}
     :months (set (range 6 13))
     :reason "source gap: SCE publishes no EEC numbers in the tariff, every cell came from CEC MIDAS, and MIDAS had not published the 2026 vintage past May at extraction (tariff.toml [modeling], first deferral)"}
+   {:alternative "pge:nbt-2025-10-17-pa-vintage-2025-residential"
+    :ledgers #{"pge:nbt-ledger-acc-plus-low-income"} :months all-months :reason other-segment}
+   {:alternative "pge:nbt-2025-10-17-pa-vintage-2025-low-income"
+    :ledgers #{"pge:nbt-ledger-acc-plus-residential"} :months all-months :reason other-segment}
+   {:alternative "sce:nbt-2025-04-23-pa-vintage-nbt25-non-equity"
+    :ledgers #{"sce:nbt-ledger-acc-plus-equity"} :months all-months :reason other-segment}
+   {:alternative "sce:nbt-2025-04-23-pa-vintage-nbt25-equity"
+    :ledgers #{"sce:nbt-ledger-acc-plus-non-equity"} :months all-months :reason other-segment}
    {:alternative "pge:nbt-2025-10-17-pa-vintage-2023"
     :ledgers #{"pge:nbt-ledger-acc-plus-residential" "pge:nbt-ledger-acc-plus-low-income"}
     :months all-months :reason acc-plus-2025-only}
@@ -154,10 +165,10 @@
                                       ", tariff text gives " (sort want))])))
 
 (def expected-condition-gated
-  "Ledgers whose one Price keeps a customer-class ConditionExpression clj-urpx
-   cannot evaluate, so the tier is admitted and tagged."
-  {"pge:nbt-ledger-acc-plus-low-income" "Low Income NBT Eligible is a customer attribute"
-   "sce:nbt-ledger-acc-plus-equity"     "SCE NBT Equity Customer is a customer attribute"})
+  "Ledgers whose one Price keeps a ConditionExpression clj-urpx cannot evaluate,
+   so the tier is admitted and tagged. None: the ACC Plus customer segment is a
+   ProfileAlternative dimension, so no export Price carries a condition."
+  {})
 
 ;; ---------------------------------------------------------------------------
 ;; Raw JSON-LD: the expectation side, read without clj-urpx

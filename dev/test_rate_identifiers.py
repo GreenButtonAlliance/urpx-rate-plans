@@ -353,7 +353,10 @@ expect("no attestation cites an identifier twice",
 # shows up here as a shortfall rather than as a smaller, greener report.
 scanned = sum(s["tokens"] for s in D["sightings"]
               if s["is_filing"] and s["file"].endswith(".jsonld"))
-expect("the structural walk finds every token a text scan finds", D["tokens"], scanned)
+# A Price stated in more than one place (the NBT 2025 export Prices, in both
+# customer-segment cells of their vintage) is one occurrence but several copies
+# of text, so the comparison is against every stated copy.
+expect("the structural walk finds every token a text scan finds", D["stated_tokens"], scanned)
 expect("distinct identifiers agree with the per-file scan",
        len(D["identifiers"]),
        len({r for s in D["sightings"] if s["is_filing"] and s["file"].endswith(".jsonld")

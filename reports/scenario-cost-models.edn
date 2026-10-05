@@ -30,7 +30,7 @@
 
  :totals
   {:compositions 145
-   :scenario-cost-models 1156
+   :scenario-cost-models 1214
    :servable 126
    :not-priced-per-kwh 9
    :blocked 6
@@ -157,22 +157,22 @@
    :baseline-keys ["compose|us/ca/cpau/electricity/e-nse-1/versions/2025-09-01/rate-plan-modifier_cpau_e-nse-1_2025-09-01.jsonld|cpau:e-2"]}
   {:base "cpau:e-3-2007-07-01"
    :modifiers []
-   :open-dimensions []
-   :selections 1
+   :open-dimensions ["cpau:e3-pa-buyback-configuration"]
+   :selections 4
    :outcome :not-priced-per-kwh
    :reason ":no-energy-ledger"
    :baseline-keys ["plan|us/ca/cpau/electricity/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld"]}
   {:base "cpau:e-3-2007-07-01"
    :modifiers ["cpau:e-eec-1-2025-09-01"]
-   :open-dimensions []
-   :selections 1
+   :open-dimensions ["cpau:e3-pa-buyback-configuration"]
+   :selections 4
    :outcome :not-priced-per-kwh
    :reason ":no-energy-ledger"
    :baseline-keys ["compose|us/ca/cpau/electricity/e-eec-1/versions/2025-09-01/rate-plan-modifier_cpau_e-eec-1_2025-09-01.jsonld|cpau:e-3"]}
   {:base "cpau:e-3-2007-07-01"
    :modifiers ["cpau:e-hra-2023-01-01"]
-   :open-dimensions ["cpau:e-hra-2023-01-01-pa-hydro"]
-   :selections 16
+   :open-dimensions ["cpau:e-hra-2023-01-01-pa-hydro" "cpau:e3-pa-buyback-configuration"]
+   :selections 64
    :outcome :not-priced-per-kwh
    :reason ":all-energy-tiers-excluded"
    :baseline-keys ["compose|us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld|cpau:e-3"]}
@@ -350,7 +350,7 @@
   {:base "pge:e-elec-2026-03-27"
    :modifiers ["pge:nbt-2025-10-17"]
    :open-dimensions ["pge:e-elec-2026-03-27-pa-income-tier" "pge:nbt-2025-10-17-pa-vintage"]
-   :selections 12
+   :selections 15
    :outcome :servable
    :baseline-keys ["compose|us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld|pge:e-elec"]}
   {:base "pge:e-tou-c-2026-03-27"
@@ -590,7 +590,7 @@
   {:base "sce:tou-d-prime-2026-03-20"
    :modifiers ["sce:nbt-2025-04-23"]
    :open-dimensions ["sce:nbt-2025-04-23-pa-vintage"]
-   :selections 5
+   :selections 6
    :outcome :servable
    :baseline-keys ["compose|us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld|sce:tou-d-prime"]}
   {:base "sce:tou-d-prime-2026-03-20"
@@ -1213,59 +1213,221 @@
   "https://rate-plans.grid-coordination.energy/cpau/scm-e-2-2025-07-01--e-nse-1-2025-09-01"
   {:name "Residential Master-Metered and Small Non-Residential Electric Service [cpau:e-2-2025-07-01] + Net Metering Net Surplus Electricity Compensation [cpau:e-nse-1-2025-09-01]"
    :outcome :servable}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01]"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--1ffd17c55220"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01]; Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-eec-1-2025-09-01"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Export Electricity Compensation [cpau:e-eec-1-2025-09-01]"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--45dae15ed6c6"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01]; Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--04c54d12b3ff"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 319–480 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--70417a6af60a"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01]; Non-Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--0772c0a37ede"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation over 642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--8ad97234e42a"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01]; Non-Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--0fb132827242"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 480–642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-eec-1-2025-09-01--96ce487e6dea"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Export Electricity Compensation [cpau:e-eec-1-2025-09-01]; Non-Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--311c0006065b"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 480–642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-eec-1-2025-09-01--b100f73a6f34"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Export Electricity Compensation [cpau:e-eec-1-2025-09-01]; Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--3955e2e71039"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 480–642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-eec-1-2025-09-01--d554103c5853"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Export Electricity Compensation [cpau:e-eec-1-2025-09-01]; Non-Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--5f6d21b16e38"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-eec-1-2025-09-01--da8601117c46"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Export Electricity Compensation [cpau:e-eec-1-2025-09-01]; Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--7cbb5ca833f3"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 319–480 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--0336bf2ca33d"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation over 642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--8214d340b890"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation under 319 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--033e195f044b"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 480–642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--8e65b4d0e372"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 480–642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--07aa8bd69afe"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation over 642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--9407844d7b25"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation over 642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--0915bc78f473"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 480–642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--a33a4f751e0f"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation under 319 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--0af3a689475c"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation over 642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--c36e8d091aeb"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 319–480 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--0f9cc3a21771"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 319–480 GWh/year; Firm power, facility with an interval meter (Section C.2)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--cd145cf1a1e2"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation over 642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--1067770540c3"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 480–642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--dce5026ca543"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 319–480 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--138a70495805"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 480–642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--e30e1acc2e25"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation under 319 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--152693774554"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 319–480 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
-  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--f9ab935dd514"
-  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation over 642 GWh/year"
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--15518134ef59"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 319–480 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--15ccc5ecbec6"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation under 319 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--18c0496cf53a"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--18cdb5cab307"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation over 642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--1d9647708c03"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--243b46e6c773"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation over 642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--25e5d8c01a2a"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 319–480 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--264c32b93480"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation over 642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--34698fa3fefb"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation under 319 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--37804e545370"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation over 642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--3ef292d288d0"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 319–480 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--416b21fa14b3"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 319–480 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--417633f0b57b"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation under 319 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--418fd76de230"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 480–642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--41a5cddde3f6"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 480–642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--5103fed3a1f2"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 319–480 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--598c13231945"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 480–642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--5b92108fdc93"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 480–642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--6131f41f1b9f"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 319–480 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--655eff53fd38"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation under 319 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--669204176521"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation under 319 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--69545007dc7a"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation over 642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--6a15f618315d"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation over 642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--6baab2ab6dba"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 319–480 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--6c42db5d26e4"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 480–642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--6e0ba7540595"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation over 642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--6e1de641c9dd"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation under 319 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--778e3f31cf47"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation under 319 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--7914485b6be7"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 480–642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--7af1c1cf35ca"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 480–642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--7b6fc90b893e"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 480–642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--84486be29bb3"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 480–642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--84b88d15ff70"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 319–480 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--885158fdb48b"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation under 319 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--8cdc1403603d"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 319–480 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--9265c3fb164f"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation under 319 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--9549f3af967d"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation over 642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--9fdcb9bd9cbf"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 319–480 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--aa75bcadf9e3"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation over 642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--b9d6456d3edc"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation under 319 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--bc96dc6a8caa"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation over 642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--bf600767e873"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--c91664b3ec6b"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation over 642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--cac6a0879074"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 480–642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--d1795cd44181"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 480–642 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--d9b71b1446d8"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation under 319 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--df0d09baabf4"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation over 642 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--df3098ae6232"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation over 642 GWh/year; Non-Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--e15a0c7e11c6"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 319–480 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--e5cf59db25af"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation 319–480 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--e69be13651fd"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--f070ec9f1759"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation 319–480 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--f27b2ad6dbec"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 75%–100% / Generation under 319 GWh/year; Firm power, facility with an interval meter (Section C.2)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--f5e51b9b40f2"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Above Maximum / Generation 319–480 GWh/year; Firm power, facility without an interval meter (Section C.1)"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/cpau/scm-e-3-2007-07-01--e-hra-2023-01-01--f896f7434c6b"
+  {:name "Customer-Owned Generation Retail Rate [cpau:e-3-2007-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve Below Minimum / Generation 480–642 GWh/year; Non-Firm power, facility without an interval meter (Section C.1)"
    :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/cpau/scm-e-4-2025-07-01"
   {:name "Medium Non-Residential Electric Service [cpau:e-4-2025-07-01]"
@@ -2914,8 +3076,14 @@
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--0f823adaa469"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 1 — CARE-eligible; NBT Interconnection Vintage Year 2023"
    :outcome :servable}
-  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--2f1017f40079"
-  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 3 — neither CARE nor FERA (standard); NBT Interconnection Vintage Year 2025"
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--19588f11595e"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 1 — CARE-eligible; NBT Interconnection Vintage Year 2025, Residential"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--1f1d6b5eff9f"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 3 — neither CARE nor FERA (standard); NBT Interconnection Vintage Year 2025, Residential Low Income (Sheet 5: enrolled in CARE or FERA, a resident-owner of a single-family home in a disadvantaged community per D.18-06-027, or a residential customer in California Indian Country per D.20-12-003)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--3279369b3e95"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 3 — neither CARE nor FERA (standard); NBT Interconnection Vintage Year 2025, Residential"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--40408bd20348"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 3 — neither CARE nor FERA (standard); NBT Interconnection Vintage Year 2026"
@@ -2935,14 +3103,17 @@
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--97fffc2d119e"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 1 — CARE-eligible; NBT Interconnection Vintage Year 2024"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--99cec0f47060"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 2 — FERA-eligible; NBT Interconnection Vintage Year 2025, Residential"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--a2a2175a2077"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 1 — CARE-eligible; NBT Interconnection Vintage Year 2025, Residential Low Income (Sheet 5: enrolled in CARE or FERA, a resident-owner of a single-family home in a disadvantaged community per D.18-06-027, or a residential customer in California Indian Country per D.20-12-003)"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--b9c45bee1035"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 2 — FERA-eligible; NBT Interconnection Vintage Year 2026"
    :outcome :servable}
-  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--c26de8f67820"
-  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 1 — CARE-eligible; NBT Interconnection Vintage Year 2025"
-   :outcome :servable}
-  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--c5be1472ebf7"
-  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 2 — FERA-eligible; NBT Interconnection Vintage Year 2025"
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--e3dd282fb93f"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 2 — FERA-eligible; NBT Interconnection Vintage Year 2025, Residential Low Income (Sheet 5: enrolled in CARE or FERA, a resident-owner of a single-family home in a disadvantaged community per D.18-06-027, or a residential customer in California Indian Country per D.20-12-003)"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--nbt-2025-10-17--ffc4a777cb41"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule NBT (Net Billing Tariff) Service [pge:nbt-2025-10-17]; Income Tier 2 — FERA-eligible; NBT Interconnection Vintage Year 2024"
@@ -4210,11 +4381,14 @@
   "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--nbt-2025-04-23--4e5fbd9b983e"
   {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule NBT (Net Billing Tariff) Service [sce:nbt-2025-04-23]; NBT Vintage Label NBT24"
    :outcome :servable}
-  "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--nbt-2025-04-23--b7ab2a653231"
-  {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule NBT (Net Billing Tariff) Service [sce:nbt-2025-04-23]; NBT Vintage Label NBT25"
+  "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--nbt-2025-04-23--9d2dd0801209"
+  {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule NBT (Net Billing Tariff) Service [sce:nbt-2025-04-23]; NBT Vintage Label NBT25, Residential Equity Customer (Sheet 17: enrolled in CARE or FERA, a resident-owner of a single-family home in a disadvantaged community per D.18-06-027, or a Residential Customer in California Indian Country per D.20-12-003)"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--nbt-2025-04-23--cdf0783d1756"
   {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule NBT (Net Billing Tariff) Service [sce:nbt-2025-04-23]; NBT Vintage Label NBT23"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--nbt-2025-04-23--d59bbbc5e51d"
+  {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule NBT (Net Billing Tariff) Service [sce:nbt-2025-04-23]; NBT Vintage Label NBT25, Residential Non-Equity Customer"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--nbt-2025-04-23--dbdf6d1cc4ad"
   {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule NBT (Net Billing Tariff) Service [sce:nbt-2025-04-23]; NBT Vintage Label non-vintaged"

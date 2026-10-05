@@ -10,7 +10,7 @@ A scenario cost model is URPX's `urpx:ScenarioCostModel`, read as a fully-determ
 
 A scenario cost model is identified by its own components: the base version IRI, the sorted modifier version IRIs, and the sorted alternative selections. Its IRI is derived from those alone, as [`doc/scenario-cost-models.md`](../doc/scenario-cost-models.md) specifies. A MIDAS RIN is an optional external attestation, attached only where it is confidently derivable. It is never the identity, and this report neither reads nor assigns one.
 
-[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 1156 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
+[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 1214 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
 
 ## What this report counts
 
@@ -27,15 +27,15 @@ A scenario cost model is identified by its own components: the base version IRI,
 | Compositions enumerated (base + at most one modifier) | 145 |
 | of which base alone | 33 |
 | of which base + one modifier | 112 |
-| Scenario cost models, open dimensions expanded | 1156 |
+| Scenario cost models, open dimensions expanded | 1214 |
 
 | Outcome | Compositions | Scenario cost models |
 |---|---:|---:|
-| **servable** | 126 | 547 |
-| **not priced per kWh** | 9 | 54 |
+| **servable** | 126 | 551 |
+| **not priced per kWh** | 9 | 108 |
 | **blocked** | 6 | 33 |
 | **not measured** | 4 | 522 |
-| **total** | 145 | 1156 |
+| **total** | 145 | 1214 |
 
 - **servable** resolves to a number at every probe instant.
 - **not priced per kWh** resolves, and legitimately prices nothing per kWh. CPAU E-14 and E-16 are street lighting: they price per lamp, per fixture and per month. This is not a defect.
@@ -94,6 +94,7 @@ A dimension a composition's components leave open. The corpus states the alterna
 | Dimension | Alternatives | Compositions | Selected over | Selection exercised by the baseline |
 |---|---:|---:|---|---|
 | `cpau:e-hra-2023-01-01-pa-hydro`<br>Hydro Stabilization Reserve level and projected hydro generation | 16 | 10 | `urpx:PriceDefinition`<br>`cpau:e-hra-2023-01-01-pd-` | no |
+| `cpau:e3-pa-buyback-configuration`<br>Buyback table (Section C.1 without, C.2 with an interval meter) and type of power (Firm or Non-Firm, Special Note 1) | 4 | 3 | `urpx:PriceSetAlternative`<br>`cpau:e3-psa-buyback-` | no |
 | `pge:e-1-2026-03-01-pa-baseline-territory-code`<br>Baseline Territory and Baseline Code (Special Condition 2, Sheet 4) | 20 | 4 | `urpx:ServiceBracket`<br>`pge:e-1-2026-03-01-bracket-` | no |
 | `pge:e-1-income-tier-2026-03-01-pa-income-tier`<br>Income tier (CARE / FERA / standard) | 3 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-income-tier-2026-03-01-psa-bsc-tier-` | no |
 | `pge:e-1-vintage-pcia-2026-03-01-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-vintage-pcia-2026-03-01-psa-vpcia-20` | no |
@@ -104,14 +105,14 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `pge:e-tou-d-vintage-pcia-2026-03-27-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-tou-d-vintage-pcia-2026-03-27-psa-vpcia-20` | no |
 | `pge:ev2-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 3 | `urpx:PriceSetAlternative`<br>`pge:ev2-2026-03-27-psa-bsc-tier-` | no |
 | `pge:ev2-vintage-pcia-2026-03-27-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:ev2-vintage-pcia-2026-03-27-psa-vpcia-20` | no |
-| `pge:nbt-2025-10-17-pa-vintage`<br>NBT export compensation vintage (NBT Interconnection Vintage Year), fixed for the customer's lock-in period | 4 | 1 | `urpx:PriceSetAlternative`<br>`pge:nbt-2025-10-17-psa-export-202` | no |
+| `pge:nbt-2025-10-17-pa-vintage`<br>NBT export compensation vintage (NBT Interconnection Vintage Year), fixed for the customer's lock-in period, and for the 2025 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 5 | 1 | `urpx:PriceSetAlternative`<br>`pge:nbt-2025-10-17-psa-export-202` | no |
 | `pge:pa-baseline-territory-code`<br>Baseline territory × code (PG&E residential baseline allowance dimensions) | 20 | 1 | `urpx:ServiceBracket`<br>`pge:bracket-t` | no |
 | `sce:cca-crs-2026-03-20-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:cca-crs-2026-03-20-psa-pcia-v20` | `sce:cca-crs-2026-03-20-pa-vintage-2001` |
 | `sce:da-crs-2026-03-20-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:da-crs-2026-03-20-psa-pcia-v20` | `sce:da-crs-2026-03-20-pa-vintage-2001` |
-| `sce:nbt-2025-04-23-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period | 5 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-04-23-psa-export-n` | no |
+| `sce:nbt-2025-04-23-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period, and for the NBT25 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 6 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-04-23-psa-export-n` | no |
 | `sdge:nbt-2025-01-27-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period | 5 | 1 | `urpx:PriceSetAlternative`<br>`sdge:nbt-2025-01-27-psa-export-nbt` | no |
 
-The baseline exercised a specific selection in 116 of the 1156 scenario cost models: 108 leave no dimension open, and 8 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
+The baseline exercised a specific selection in 114 of the 1214 scenario cost models: 106 leave no dimension open, and 8 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
 
 ## What a fuller enumeration would need
 

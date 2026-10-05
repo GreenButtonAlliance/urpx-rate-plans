@@ -114,21 +114,55 @@
               },
               "urpx:operandNodes": [
                 {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "ladwp:cn-nem-customer-generator",
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "ladwp:bn-nem-customer-generator-der",
                   "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
+                    "@id": "urpx:orOperator"
                   },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "ladwp:cn-nem-customer-generator-left-operand",
-                    "urpx:customConditionProperty": "Customer-Generator (on-site PV/wind/hybrid)"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "ladwp:cn-nem-customer-generator-right-operand",
-                    "urpx:stringValue": "true"
-                  }
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "ladwp:cn-nem-customer-generator-solar",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "ladwp:cn-nem-customer-generator-solar-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:derType"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "ladwp:cn-nem-customer-generator-solar-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:solarDER"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "ladwp:cn-nem-customer-generator-wind",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "ladwp:cn-nem-customer-generator-wind-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:derType"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "ladwp:cn-nem-customer-generator-wind-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:windDER"
+                        }
+                      }
+                    }
+                  ]
                 },
                 {
                   "@type": "urpx:ComparisonNode",

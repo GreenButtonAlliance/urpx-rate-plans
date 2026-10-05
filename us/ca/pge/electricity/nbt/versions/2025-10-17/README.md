@@ -36,13 +36,13 @@ SCE TOU-D-PRIME-CPP previously deferred direction-of-flow distinction because it
  - ACC Plus Residential: `$-0.01320/kWh` (Sheet 11 Table)
  - ACC Plus Low-Income: `$-0.05400/kWh` (Sheet 11 Table)
 
-Both sit in the 2025 vintage's `urpx:PriceSetAlternative` (below), which states the vintage. The Residential Price carries no rule; the Low-Income Price keeps a `urpx:ApplicabilityRule` whose condition is low-income eligibility alone.
+The 2025 vintage is two `urpx:ProfileAlternative` cells, one per customer segment of the Sheet 11 table (Residential, Residential Low Income), stated by a second `urpx:AlternativeDimension`, `NBT Customer Segment`, in the vintage container. Each cell's `urpx:PriceSetAlternative` holds the 2025 export Prices and that segment's ACC Plus Price, so a consumer selecting a cell gets one ACC Plus Price. No Price carries a `urpx:ApplicabilityRule`.
 
 ## What's deferred
 
 | Deferral | Why |
 |---|---|
-| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each is a Price in its vintage's `urpx:PriceSetAlternative`; follow-up |
+| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each is a Price in each customer-segment cell of its vintage, split as 2025 is; follow-up |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape — same deferral as PRIME-CPP Bill Protection |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
 | Sub-schedule variants (NBT-EXP, NBT-EXP-OTR, NBT-MT, NBT-PS, NBTA) | Sibling filings |
@@ -56,11 +56,11 @@ Full list with reasoning in `tariff.toml` under `[modeling]`.
 
 ## Per-cell structure: one export Price per ledger at any instant
 
-Vintage is a `urpx:ProfileAlternatives` (`pge:nbt-2025-10-17-pa-vintage`) with one `urpx:ProfileAlternative` per published vintage, 2023 through 2026, each stating `NBT Interconnection Vintage Year`. The Prices sit in one `urpx:PriceSetAlternatives` holding one `urpx:PriceSetAlternative` per vintage, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`. A consumer selects the vintage with `:profile-alternatives`.
+Vintage is a `urpx:ProfileAlternatives` (`pge:nbt-2025-10-17-pa-vintage`) with one `urpx:ProfileAlternative` per published vintage, 2023 through 2026, each stating `NBT Interconnection Vintage Year`, except that 2025 is two alternatives, one per `NBT Customer Segment`. The Prices sit in one `urpx:PriceSetAlternatives` holding one `urpx:PriceSetAlternative` per alternative, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`. A consumer selects the vintage, and for 2025 the segment, with `:profile-alternatives`.
 
 Month, hour and day type are time of use. The BillingModel carries a single `urpx:TOUSchedule` on the export MetricInput, whose `urpx:TOUTier` holds 576 TOUPeriods, one per month, hour and `urpx:weekdayDays` or `urpx:weekendDays`. Each period's `urpx:TimeBracket` names that month's `urpx:Season`, and the version declares twelve single-month Seasons on its own PlanElements. The Export Compensation Rate Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1. A weekday holiday prices at that hour's weekend value, as Sheet 6's weekdays and weekends/holidays split and the price sheets' Weekend/Holiday table direct: every weekday bracket carries `urpx:includeHolidays` false, and every weekend period carries a second bracket, day type `urpx:weekdayDays` with `urpx:includeNonHolidays` false, so a weekday holiday lands on it. Schedule NBT names no holidays, and the base `pge:e-elec` carries no `urpx:HolidayCalendar` because E-ELEC prices its periods every day including weekends and holidays, so this modifier carries its own, `pge:nbt-2025-10-17-holidays`, on its version's PlanElements. It holds the eight holidays PG&E's TOU schedules define (E-TOU-D, E-19, E-20, A-10, EV and S, in identical words): "New Year's Day, President's Day, Memorial Day, Independence Day, Labor Day, Veterans Day, Thanksgiving Day, and Christmas Day. The dates will be those on which the holidays are legally observed." Names, rules and observance are those of `pge:holidays-e-tou-d`. "Legally observed" is read as California Government Code section 6701: Veterans Day carries `urpx:nearestWeekdayObservance`, and New Year's Day, Independence Day and Christmas Day carry `urpx:actualDateObservance`, so a Saturday one stays on Saturday. The Monday after a Sunday one is carried as a dated `urpx:Holiday` (`urpx:holidayDate`) for each such Monday through 2040; later ones need further dated entries until `urpx:mondayIfSundayObservance` (urpx-org/urpx#77) can state the rule, which `tariff.toml` records as a deferral. `dev/remodel_nbt.py` added the calendar, brackets and flags and aborts unless every Price, value and period number is unchanged. No export Price carries a Price-level `urpx:hasApplicabilityRule` or `urpx:referencesTouPeriod`.
 
-The modifier carries 4,610 Prices: 4,608 Export Compensation Rate Prices (576 cells per vintage × 2 components × 4 published vintages) and the 2 ACC Plus Prices. `dev/check_nbt_export.clj`, in `dev/gate.sh`, walks a year of segments for every vintage and asserts that each export ledger resolves to exactly the Price its cell names.
+The modifier carries 4,610 Prices: 4,608 Export Compensation Rate Prices (576 cells per vintage × 2 components × 4 published vintages) and the 2 ACC Plus Prices. The 1,152 2025-vintage export Prices appear in both 2025 cells under the same `@id`s. `dev/check_nbt_export.clj`, in `dev/gate.sh`, walks a year of segments for every vintage and asserts that each export ledger resolves to exactly the Price its cell names.
 
 Per the tariff Sheet 10 methodology step 2, the published Delivery component is system-averaged across PG&E climate zones (no per-zone variability in the published data), so the cell count is per-vintage not per-zone-vintage.
 

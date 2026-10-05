@@ -78,15 +78,17 @@ Adder locked for 9 years from customer's PTO date. Low-income definition
 per Sheet 5: CARE/FERA OR disadvantaged-community single-family
 resident-owners OR California Indian Country residents (D.18-06-027 /
 D.20-12-003). Modeled as two separate PriceDefinitions on separate
-Ledgers (Residential ACC Plus + Low-Income ACC Plus). Both 2025 Prices
-sit in the 2025 vintage's PriceSetAlternative; the Low-Income Price
-carries an ApplicabilityRule gated on the low-income predicate (analogous
-to PRIME-CPP's Grandfathered-D-SDP-Dual-Participation pattern).
+Ledgers (Residential ACC Plus + Low-Income ACC Plus). The 2025 vintage
+is two ProfileAlternatives, one per customer segment (Residential,
+Residential Low Income), stated by a second AlternativeDimension, NBT
+Customer Segment, in the vintage container. Each cell's
+PriceSetAlternative holds the 2025 export Prices and that segment's ACC
+Plus Price, and no Price carries an ApplicabilityRule.
 
 Multi-vintage matrix deferred — initial filing models the 2025 vintage
 applicable to customers with interconnection applications submitted
-2025-01-01 through 2025-12-31. Each further vintage is a Price in that
-vintage's PriceSetAlternative.
+2025-01-01 through 2025-12-31. Each further vintage is two Prices, one
+in each customer-segment cell of that vintage.
 
 ## Export Compensation Rate cardinality (Q1 of )
 
@@ -105,8 +107,10 @@ per-cell prices. 4,608 Prices for the Export Compensation Rate (576
 unique cells per vintage × 2 components × 4 published vintages 2023-2026),
 plus 2 ACC Plus Prices (Residential + Low-Income, 2025 vintage). Total
 4,610 urpx:Price entries on the RatePlanModifier. Vintage is a
-ProfileAlternatives with one ProfileAlternative per vintage, and the
-Prices sit in one PriceSetAlternative per vintage. Month, hour and day
+ProfileAlternatives with one ProfileAlternative per vintage, the 2025
+vintage split into its two customer segments, and the Prices sit in one
+PriceSetAlternative per alternative; the 1,152 2025-vintage export Prices
+appear in both 2025 cells under the same @ids. Month, hour and day
 type are time of use: one TOUSchedule on the export MetricInput and 576
 TOUPeriods, every period bracketed within a single-month Season. The
 export Prices name their period by an integer urpx:touPeriodNumber.
@@ -202,8 +206,7 @@ validated_on = "2026-09-20"
 complete = false
 deferrals = [
  "PG&E's TOU schedules take holiday dates as \"those on which the holidays are legally observed\", read here as California Government Code section 6701: \"(a) If January 1, February 12, March 31, July 4, September 9, November 11, or December 25 falls upon a Sunday, the Monday following is a holiday. (b) If November 11 falls upon a Saturday, the preceding Friday is a holiday.\" In this modifier's own calendar, pge:nbt-2025-10-17-holidays, a weekday holiday takes the weekend export value. Veterans Day carries urpx:nearestWeekdayObservance, which is exactly 6701 for November 11. New Year's Day, Independence Day and Christmas Day carry urpx:actualDateObservance, so a Saturday one stays on Saturday, and the Monday after a Sunday one is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26 and 2040-01-02. After 2040 each Sunday New Year's Day, Independence Day or Christmas Day needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
- "ACC Plus adder is carried for the 2025 interconnection vintage only, at -0.01320 residential and -0.05400 low income. Sheet 11 prints the whole table: Residential 0.02200, 0.01760, 0.01320, 0.00880, 0.00440 for vintages 2023 through 2027, and Residential Low Income 0.09000, 0.07200, 0.05400, 0.03600, 0.01800. Eight Prices are missing. The vocabulary is the vintage PriceSetAlternative the 2025 Prices and the 4,608 Export Compensation Rate Prices already sit in, so this is work, not a blocker.",
- "ACC Plus Residential and ACC Plus Low Income both sit in the 2025 vintage's PriceSetAlternative, the Residential Price ungated and the Low Income Price gated on Low Income NBT Eligible, so a low-income 2025-vintage customer matches both and accrues 0.01320 plus 0.05400 per kWh. Sheet 11 states them as two rows of one table, that is, alternative customer segments. Fix by gating the Residential Price on a notOperator branch excluding Low Income NBT Eligible; urpx:notOperator is in the v0.5.1 BooleanOperatorValue enumeration.",
+ "ACC Plus adder is carried for the 2025 interconnection vintage only, at -0.01320 residential and -0.05400 low income. Sheet 11 prints the whole table: Residential 0.02200, 0.01760, 0.01320, 0.00880, 0.00440 for vintages 2023 through 2027, and Residential Low Income 0.09000, 0.07200, 0.05400, 0.03600, 0.01800. Eight Prices are missing. Each missing row is one Price in each customer-segment cell of its vintage, which means splitting that vintage's ProfileAlternative by NBT Customer Segment as the 2025 one is split, so this is work, not a blocker.",
  "The four Sheet 11 exclusions from the ACC Plus adder are not modeled: customers transitioning from NEM or NEM2 at the end of their legacy period, Change of Party customers who bought a building with an existing system, non-residential customers, and customers required to add solar by building code. Expressible with the same CustomOperandNode predicates the filing already uses for REGF and interconnection vintage.",
  "Sheet 17 SC 2.d requires generation export credits to offset only volumetric generation charges and delivery export credits only volumetric delivery charges, but both Export Compensation Rate PriceDefinitions carry urpx:bundledPortion and both Ledgers urpx:bundledLedger, flattening the distinction the schedule makes load-bearing. v0.5.1 offers supplyPortion and deliveryPortion, supplyLedger and deliveryLedger, and the chargeTypes exportCredit and creditGeneration where all four PriceDefinitions currently use creditEnergy. The offset rule itself, including the SC 2.f rule that the Public Purpose Program, Nuclear Decommissioning, Competition Transition and Wildfire Fund charges cannot be reduced by export credits while ACC Plus credits can, is a consumer-side billing rule with no URPX expression.",
  "Net Surplus Compensation (SC 5, Sheets 27 to 29) is not carried, and the schedule publishes no NSC number. Sheet 27 SC 5.b defines the NSC Rate as a simple rolling average of PG&E's default load aggregation point price from 7 a.m. to 5 p.m. over a 12-month period, recalculated monthly. v0.5.1 can declare the shell (a Price with hasDynamicPricing, dynamicPricingType urpx:indexBasedPricing, priceSource urpx:wholesaleMarketSource, updateFrequency urpx:monthlyUpdates, plus a PriceUpdateRule carrying the SC 5.b text) but carries no value. The Sheet 28 SC 5.d arithmetic, which compares cumulative exports against cumulative imports over the Relevant Period and then debits at the average realized export compensation rate and credits at the NSC Rate, has no URPX expression.",

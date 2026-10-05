@@ -303,6 +303,19 @@ case "$MODE" in
         record $rc
     fi
 
+    # A free-text condition on a Price, PriceSet or PriceDefinition makes
+    # mutually exclusive prices read as concurrent; the selection belongs on a
+    # urpx:ProfileAlternative (URPXT-1zd). Two event-day filings are allowlisted.
+    # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
+    note "Price-layer conditions"
+    if python3 dev/lint_price_layer_conditions.py > /tmp/gate-price-layer.log 2>&1; then
+        tail -1 /tmp/gate-price-layer.log
+    else
+        rc=$?
+        cat /tmp/gate-price-layer.log
+        record $rc
+    fi
+
     note "MIDAS rate identifiers"
     if python3 dev/lint_rate_identifiers.py > /tmp/gate-rins.log 2>&1; then
         head -1 /tmp/gate-rins.log
@@ -497,6 +510,19 @@ case "$MODE" in
     else
         rc=$?
         cat /tmp/gate-holidays.log
+        record $rc
+    fi
+
+    # A free-text condition on a Price, PriceSet or PriceDefinition makes
+    # mutually exclusive prices read as concurrent; the selection belongs on a
+    # urpx:ProfileAlternative (URPXT-1zd). Two event-day filings are allowlisted.
+    # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
+    note "Price-layer conditions"
+    if python3 dev/lint_price_layer_conditions.py > /tmp/gate-price-layer.log 2>&1; then
+        tail -1 /tmp/gate-price-layer.log
+    else
+        rc=$?
+        cat /tmp/gate-price-layer.log
         record $rc
     fi
 

@@ -12,16 +12,13 @@ City of Palo Alto Utilities **Schedule E-3: Customer-Owned Generation Retail Rat
 
 Buyback rates the utility **pays** to customers operating their own (non-NEM-eligible) generation facilities. **Effective 2007-07-01** — the oldest filing in this corpus, never reissued.
 
-**V1 scope: Section C.1 WITHOUT-interval-meter case only.** 4 PriceDefinitions:
-- Energy buyback Summer ($0.07902/kWh) — applies to both Firm and Non-Firm power
-- Energy buyback Winter ($0.07831/kWh) — applies to both Firm and Non-Firm power
-- Firm capacity credit Summer ($4.32/kW/month) — Firm-only via inline ApplicabilityGroup
-- Firm capacity credit Winter ($4.32/kW/month) — Firm-only via inline ApplicabilityGroup
+**Both buyback tables are modeled.** Section C.1 (without an interval meter): energy buyback Summer $0.07902/kWh and Winter $0.07831/kWh for Firm and Non-Firm power, plus a Firm capacity credit of $4.32/kW-month in each season. Section C.2 (with an interval meter): five TOU energy cells, plus a peak-period Firm capacity credit of $4.32/kW-month in each season.
+
+**Selection.** Which table applies (interval meter or not) and the type of power (Firm or Non-Firm, Special Note 1) are one `urpx:ProfileAlternatives`, `cpau:e3-pa-buyback-configuration`, with two dimensions and four cells. Each cell's `urpx:PriceSetAlternative` holds the energy buyback Prices of its table, and the two Firm cells also hold the capacity credits.
 
 **New URPX modeling territory**: first **reverse-flow filing** in this corpus. `urpx:flowDirection: urpx:reverse` on both energy and capacity MetricInputs. The buyback pattern reuses the shape established by the CPAU E-EEC-1 and E-NSE-1 modifiers (in the multi-source CPAU E-1 2025-09-01 filing): `chargeType: urpx:creditEnergy`, `chargeCategory: urpx:discount`, `billPortion: urpx:bundledPortion`. For the capacity credit, `chargeType: urpx:creditGeneration` — the inverse direction of E-4 / E-4 TOU / E-7 / E-7 TOU's customer-facing `urpx:demandDirect` charges.
 
 **Deferred to follow-up bd issues**:
-- **Section C.2 WITH-interval-meter TOU buyback**: 3 TOU periods Summer (Off-Peak / Mid-Peak / Peak) + 2 TOU periods Winter (Off-Peak / Peak). The TOU windows **differ from CPAU E-4 TOU / E-7 TOU** — Summer Peak is 12 noon to 6 PM (not 4–9 PM); Winter Peak is 8 AM to 9 PM weekday non-holiday. Holidays excluded.
 - **Section C.3 market-based buyback** for facilities with rated capacity > 1 MW: range pricing ($2–10/kW capacity, $0.03–0.20/kWh energy). URPX modeling for *range* pricing (rather than fixed values) is its own modeling question; defer.
 - **Section E.5** customer charge for facilities served-as-load (operator's discretion; "specified in the service contract" rather than the rate schedule).
 

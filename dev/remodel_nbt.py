@@ -69,8 +69,21 @@ every (month, hour, day class) for the four classes weekday, weekday holiday,
 weekend and weekend holiday must match exactly one bracket, a weekday holiday
 landing on that hour's weekend period.
 
+CUSTOMER SEGMENT. ACC Plus is two rows of one table, alternative customer
+segments, so for the filings in SEGMENT_SPLITS a third step splits the vintage
+carrying ACC Plus Prices into one ProfileAlternative per segment. PlanElements
+holds at most one urpx:ProfileAlternatives, so the segment is a second
+urpx:AlternativeDimension in the vintage container and each new alternative is
+a cell whose condition ANDs the vintage and the segment. Each cell's
+PriceSetAlternative holds the vintage's export Prices, the same nodes under the
+same @ids, and its own segment's ACC Plus Price; the Price-level customer-class
+rule goes. Vintages carrying no ACC Plus Price are not split. The step's
+self-check undoes the split and requires the input back exactly, and requires
+each cell to hold the vintage's export Prices unchanged and exactly one ACC
+Plus Price with no rule.
+
 A filing already in the new shape is left alone, and one already carrying its
-holiday brackets is too. Rerun against the previous revision to reproduce:
+holiday brackets or segment cells is too. Rerun against the previous revision to reproduce:
 
     git show <rev>:<path> > <path> && python3 dev/remodel_nbt.py
 
@@ -732,6 +745,212 @@ def holiday_self_check(old, new, path: str) -> str:
             + f"{n} (month, hour, day class) instants each match exactly one bracket")
 
 
+# ---------------------------------------------------------------------------
+# Customer segment
+# ---------------------------------------------------------------------------
+
+# The ACC Plus table is two rows of one table, alternative customer segments,
+# so the step splits the one vintage that carries ACC Plus Prices into one
+# ProfileAlternative per segment, in the same container: PlanElements holds at
+# most one urpx:ProfileAlternatives (sh:maxCount 1), so a second dimension is a
+# second urpx:AlternativeDimension whose alternatives are cells. Each cell's
+# PriceSetAlternative holds the vintage's export Prices, the same nodes under
+# the same @ids, and its own segment's ACC Plus Price. The Price-level customer
+# class rule goes. Vintages carrying no ACC Plus Price are not split, since
+# nothing they price differs by segment.
+SEGMENT_PROP = "NBT Customer Segment"
+SEGMENT_SPLITS = {
+    "us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld": {
+        "vintage": "2025",
+        "display": "Customer Segment (Sheet 11, ACC Plus table)",
+        # (cell slug, segment value, the ACC Plus Price the cell keeps, name suffix)
+        "cells": [
+            ("residential", "Residential", "pge:nbt-price-acc-plus-residential-vintage-2025", ""),
+            ("low-income", "Residential Low Income", "pge:nbt-price-acc-plus-low-income-vintage-2025",
+             " (Sheet 5: enrolled in CARE or FERA, a resident-owner of a single-family home in a "
+             "disadvantaged community per D.18-06-027, or a residential customer in California "
+             "Indian Country per D.20-12-003)"),
+        ],
+        # The rule the gated Price carried, restated exactly so the step can be undone.
+        "rule": ("pge:nbt-2025-10-17-ar-acc-plus-low-income-2025-vintage",
+                 "pge:nbt-2025-10-17-cx-acc-plus-li-2025-vintage",
+                 "pge:nbt-2025-10-17-cn-acc-plus-li-eligible", "Low Income NBT Eligible"),
+    },
+    "us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld": {
+        "vintage": "NBT25",
+        "display": "Customer Segment (Sheet 7, ACC Plus table)",
+        "cells": [
+            ("non-equity", "Residential Non-Equity Customer", "sce:nbt-price-acc-plus-non-equity-vintage-2025", ""),
+            ("equity", "Residential Equity Customer", "sce:nbt-price-acc-plus-equity-vintage-2025",
+             " (Sheet 17: enrolled in CARE or FERA, a resident-owner of a single-family home in a "
+             "disadvantaged community per D.18-06-027, or a Residential Customer in California "
+             "Indian Country per D.20-12-003)"),
+        ],
+        "rule": ("sce:nbt-2025-04-23-ar-acc-plus-equity-2025-vintage",
+                 "sce:nbt-2025-04-23-cx-acc-plus-eq-2025-vintage",
+                 "sce:nbt-2025-04-23-cn-acc-plus-eq-eligible", "SCE NBT Equity Customer"),
+    },
+}
+
+
+def _container(doc) -> dict:
+    return version_of(doc)["urpx:hasPlanElements"]["urpx:hasProfileAlternatives"]
+
+
+def _psas(doc) -> list:
+    (psas,) = lst(version_of(doc)["urpx:hasPrices"]["urpx:hasPriceSetAlternatives"])
+    return psas["urpx:hasPriceSetAlternative"]
+
+
+def _vintage_prop(doc) -> str:
+    return lst(_container(doc)["urpx:hasAlternativeDimensions"]["urpx:hasAlternativeDimension"])[0][
+        "urpx:customDimensionProperty"]
+
+
+def has_segments(doc) -> bool:
+    return len(lst(_container(doc)["urpx:hasAlternativeDimensions"]["urpx:hasAlternativeDimension"])) > 1
+
+
+def _original_rule(cfg) -> dict:
+    rid, cxid, cnid, prop = cfg["rule"]
+    return {"@type": "urpx:ApplicabilityRule", "@id": rid, "urpx:name": ACC_RULE_NAMES[rid],
+            "urpx:hasConditionExpression": {"@type": "urpx:ConditionExpression", "@id": cxid,
+                                            "urpx:rootNode": comparison(cnid, prop, "true")}}
+
+
+def _vintage_alternative(vid: str, pa_id: str, prop: str, val: str) -> dict:
+    """The one-dimension alternative `remodel` writes, so the split can be undone."""
+    return {"@type": "urpx:ProfileAlternative", "@id": f"{pa_id}-{slug(val)}", "urpx:name": f"{prop} {val}",
+            "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression", "@id": f"{vid}-cx-pa-vintage-{slug(val)}",
+                "urpx:rootNode": comparison(f"{vid}-cn-pa-vintage-{slug(val)}", prop, val)}}
+
+
+def add_segments(doc, path: str) -> dict:
+    cfg = SEGMENT_SPLITS[path]
+    new = copy.deepcopy(doc)
+    vid = version_of(new)["@id"]
+    pa = _container(new)
+    pa_id, prop, val = pa["@id"], _vintage_prop(new), cfg["vintage"]
+    v_alt = f"{pa_id}-{slug(val)}"
+    alts = pa["urpx:hasProfileAlternative"]
+    (ai,) = [i for i, a in enumerate(alts) if a["@id"] == v_alt]
+    if alts[ai] != _vintage_alternative(vid, pa_id, prop, val):
+        raise Abort(path, f"{v_alt} is not the one-dimension vintage alternative this step splits")
+    psas = _psas(new)
+    (pi,) = [i for i, p in enumerate(psas) if p["urpx:referencesProfileAlternative"]["@id"] == v_alt]
+    members = psas[pi]["urpx:hasPrice"]
+    acc = {c[2] for c in cfg["cells"]}
+    flat = [p["@id"] for p in members if "urpx:touPeriodNumber" not in p]
+    if sorted(flat) != sorted(acc):
+        raise Abort(path, f"the {val} alternative holds ACC Plus Prices {flat}, expected {sorted(acc)}")
+    gated = [p for p in members if "urpx:hasApplicabilityRule" in p]
+    if len(gated) != 1 or gated[0]["urpx:hasApplicabilityRule"] != _original_rule(cfg) \
+            or gated[0]["@id"] != cfg["cells"][1][2]:
+        raise Abort(path, "the customer-class rule is not the one this step removes")
+
+    new_alts, new_psas = [], []
+    for cslug, segment, keep, suffix in cfg["cells"]:
+        aid = f"{v_alt}-{cslug}"
+        cx = f"{vid}-cx-pa-vintage-{slug(val)}-{cslug}"
+        new_alts.append({
+            "@type": "urpx:ProfileAlternative",
+            "@id": aid,
+            "urpx:name": f"{prop} {val}, {segment}{suffix}",
+            "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression", "@id": cx,
+                "urpx:rootNode": {
+                    "@type": "urpx:BooleanOperationNode",
+                    "@id": f"{vid}-bn-pa-vintage-{slug(val)}-{cslug}",
+                    "urpx:operator": {"@id": "urpx:andOperator"},
+                    "urpx:operandNodes": [
+                        comparison(f"{vid}-cn-pa-vintage-{slug(val)}-{cslug}-vintage", prop, val),
+                        comparison(f"{vid}-cn-pa-vintage-{slug(val)}-{cslug}-segment", SEGMENT_PROP, segment),
+                    ],
+                },
+            },
+        })
+        prices = []
+        for p in members:
+            if p["@id"] in acc and p["@id"] != keep:
+                continue
+            q = copy.deepcopy(p)
+            q.pop("urpx:hasApplicabilityRule", None)
+            prices.append(q)
+        new_psas.append({"@type": "urpx:PriceSetAlternative", "@id": f"{psas[pi]['@id']}-{cslug}",
+                         "urpx:referencesProfileAlternative": {"@id": aid}, "urpx:hasPrice": prices})
+    alts[ai:ai + 1] = new_alts
+    psas[pi:pi + 1] = new_psas
+    dims = pa["urpx:hasAlternativeDimensions"]["urpx:hasAlternativeDimension"]
+    dims.append({"@type": "urpx:AlternativeDimension", "@id": f"{vid}-ad-customer-segment",
+                 "urpx:dimensionDisplayName": cfg["display"],
+                 "urpx:customDimensionProperty": SEGMENT_PROP,
+                 "urpx:hasPossibleValues": {"@list": [c[1] for c in cfg["cells"]]}})
+    pa["urpx:name"] = (f"NBT export compensation vintage ({prop}), fixed for the customer's lock-in "
+                       f"period, and for the {val} vintage, whose ACC Plus adder differs by it, "
+                       f"{SEGMENT_PROP}")
+    return new
+
+
+def strip_segments(doc, path: str) -> dict:
+    """The document with the segment step undone."""
+    cfg = SEGMENT_SPLITS[path]
+    out = copy.deepcopy(doc)
+    vid = version_of(out)["@id"]
+    pa = _container(out)
+    pa_id, prop, val = pa["@id"], _vintage_prop(out), cfg["vintage"]
+    v_alt = f"{pa_id}-{slug(val)}"
+    cell_ids = [f"{v_alt}-{c[0]}" for c in cfg["cells"]]
+    alts = pa["urpx:hasProfileAlternative"]
+    ai = [a["@id"] for a in alts].index(cell_ids[0])
+    alts[ai:ai + 2] = [_vintage_alternative(vid, pa_id, prop, val)]
+    psas = _psas(out)
+    pi = [p["urpx:referencesProfileAlternative"]["@id"] for p in psas].index(cell_ids[0])
+    (r, l) = (psas[pi]["urpx:hasPrice"], psas[pi + 1]["urpx:hasPrice"])
+    gated_id = cfg["cells"][1][2]
+    merged, i, j = [], 0, 0
+    while i < len(r) or j < len(l):
+        if i < len(r) and j < len(l) and r[i] == l[j]:
+            merged.append(r[i]); i += 1; j += 1
+        elif i < len(r) and r[i]["@id"] == cfg["cells"][0][2]:
+            merged.append(r[i]); i += 1
+        else:
+            q = copy.deepcopy(l[j]); j += 1
+            if q["@id"] == gated_id:
+                q["urpx:hasApplicabilityRule"] = _original_rule(cfg)
+            merged.append(q)
+    psas[pi:pi + 2] = [{"@type": "urpx:PriceSetAlternative", "@id": psas[pi]["@id"][: -len(cfg["cells"][0][0]) - 1],
+                        "urpx:referencesProfileAlternative": {"@id": v_alt}, "urpx:hasPrice": merged}]
+    pa["urpx:hasAlternativeDimensions"]["urpx:hasAlternativeDimension"].pop()
+    pa["urpx:name"] = f"NBT export compensation vintage ({prop}), fixed for the customer's lock-in period"
+    return out
+
+
+def segment_self_check(old, new, path: str) -> str:
+    cfg = SEGMENT_SPLITS[path]
+    if strip_segments(new, path) != old:
+        raise Abort(path, "undoing the segment split does not restore the input")
+    by_alt = {p["urpx:referencesProfileAlternative"]["@id"]: p["urpx:hasPrice"] for p in _psas(new)}
+    pa_id = _container(new)["@id"]
+    v_alt = f"{pa_id}-{slug(cfg['vintage'])}"
+    old_members = {p["urpx:referencesProfileAlternative"]["@id"]: p["urpx:hasPrice"] for p in _psas(old)}[v_alt]
+    acc = {c[2] for c in cfg["cells"]}
+    export = [p for p in old_members if p["@id"] not in acc]
+    for cslug, _segment, keep, _ in cfg["cells"]:
+        got = by_alt[f"{v_alt}-{cslug}"]
+        if [p for p in got if p["@id"] not in acc] != export:
+            raise Abort(path, f"{cslug}: the export Prices differ from the vintage's")
+        flat = [p for p in got if p["@id"] in acc]
+        if [p["@id"] for p in flat] != [keep] or any("urpx:hasApplicabilityRule" in p for p in got):
+            raise Abort(path, f"{cslug}: holds {[p['@id'] for p in flat]}, expected only {keep}, ungated")
+    n_rules = sum(1 for n in walk(version_of(new)["urpx:hasPrices"]) if n.get("@type") == "urpx:ApplicabilityRule")
+    if n_rules:
+        raise Abort(path, f"{n_rules} Price-level ApplicabilityRules remain")
+    return (f"vintage {cfg['vintage']} split into {len(cfg['cells'])} {SEGMENT_PROP} cells, each holding its "
+            f"{len(export)} export Prices and one ACC Plus Price; no Price-level rule remains; "
+            f"undoing the split restores the input")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dry-run", action="store_true")
@@ -742,7 +961,8 @@ def main() -> int:
         doc = json.loads(text)
         prices = version_of(doc)["urpx:hasPrices"]
         if "urpx:hasPriceSetAlternatives" in prices and not prices.get("urpx:hasPrice"):
-            n_cells, _acc, _ids = new_cells(strip_holidays(doc), rel)
+            unsplit = strip_segments(doc, rel) if rel in SEGMENT_SPLITS and has_segments(doc) else doc
+            n_cells, _acc, _ids = new_cells(strip_holidays(unsplit), rel)
             print(f"{rel}: already remodeled ({len(n_cells)} export cells read back cleanly)")
             new = doc
         else:
@@ -757,6 +977,13 @@ def main() -> int:
             else:
                 before, new = new, add_holidays(new, rel)
                 print(f"{rel}: {holiday_self_check(before, new, rel)}")
+        if rel in SEGMENT_SPLITS:
+            if has_segments(new):
+                segment_self_check(strip_segments(new, rel), new, rel)
+                print(f"{rel}: customer segments already modeled (undoing the split restores a valid input)")
+            else:
+                before, new = new, add_segments(new, rel)
+                print(f"{rel}: {segment_self_check(before, new, rel)}")
         if not args.dry_run and new is not doc:
             path.write_text(json.dumps(new, indent=2, ensure_ascii=False) + "\n")
     return 0

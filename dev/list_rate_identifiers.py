@@ -240,9 +240,11 @@ def _conditions(node: dict) -> list[tuple[str, str]]:
     return out
 
 
-def _enclosing_alternatives(doc) -> dict[str, str]:
-    """Price @id -> the urpx:ProfileAlternative its urpx:PriceSetAlternative references."""
-    out: dict[str, str] = {}
+def _enclosing_alternatives(doc) -> dict[str, list[str]]:
+    """Price @id -> every urpx:ProfileAlternative whose urpx:PriceSetAlternative
+    holds it. More than one where a Price is shared by cells: the NBT 2025
+    export Prices sit in both customer-segment cells of their vintage."""
+    out: dict[str, set[str]] = {}
     for node in A.walk(doc):
         if "urpx:PriceSetAlternative" not in A.types_of(node):
             continue
@@ -251,8 +253,8 @@ def _enclosing_alternatives(doc) -> dict[str, str]:
         prices = node.get("urpx:hasPrice") or []
         for p in prices if isinstance(prices, list) else [prices]:
             if isinstance(p, dict) and p.get("@id") and pa_id:
-                out[p["@id"]] = pa_id
-    return out
+                out.setdefault(p["@id"], set()).add(pa_id)
+    return {k: sorted(v) for k, v in out.items()}
 
 
 def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
@@ -267,7 +269,18 @@ def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
     for rel, doc in docs:
         by_id = _richest_by_id(doc)
         alternative_of = _enclosing_alternatives(doc)
+        # A node stated in full in more than one place is one node, so it is one
+        # occurrence: a Price shared by two PriceSetAlternatives is walked twice.
+        seen: set[str] = set()
+        stated: dict[str, int] = {}
         for node in A.walk(doc):
+            if node.get("@id"):
+                stated[node["@id"]] = stated.get(node["@id"], 0) + 1
+        for node in A.walk(doc):
+            if node.get("@id") in seen:
+                continue
+            if node.get("@id") and any(isinstance(v, str) and RIN.search(v) for v in node.values()):
+                seen.add(node["@id"])
             for prop, value in node.items():
                 if not isinstance(value, str) or not RIN.search(value):
                     continue
@@ -303,10 +316,15 @@ def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
                 conds = _conditions(by_id.get(ar_id, {})) if ar_id else []
                 # A Price inside a urpx:PriceSetAlternative is selected by that
                 # alternative's urpx:ProfileAlternative, whose condition states
-                # the vintage the Price-level rule used to.
-                pa_id = alternative_of.get(node.get("@id"))
-                if pa_id:
-                    conds += _conditions(by_id.get(pa_id, {}))
+                # the vintage the Price-level rule used to. A Price in several
+                # alternatives is about the conditions they share: the 2025
+                # export Prices sit in both customer-segment cells of their
+                # vintage, and the attestation is about the vintage.
+                pa_ids = alternative_of.get(node.get("@id"), [])
+                if pa_ids:
+                    shared = set.intersection(*(set(_conditions(by_id.get(a, {}))) for a in pa_ids))
+                    conds += sorted(shared)
+                pa_id = ", ".join(pa_ids) or None
                 if not conds:
                     raise Refuse(
                         f"{rel}: {node.get('@id')} cites {m.group('expr')} but neither "
@@ -320,7 +338,8 @@ def extract_occurrences(docs: list[tuple[str, dict]]) -> list[dict]:
                     "node": node.get("@id"),
                     "price_definition": pd_id,
                     "applicability_rule": ar_id,
-                    "profile_alternative": pa_id,
+                    "profile_alternative": pa_ids,
+                    "copies": stated.get(node.get("@id"), 1),
                     "conditions": tuple(sorted(set(conds))),
                     "rins": tuple(RIN.findall(value)),
                     "expression": m.group("expr").strip(),
@@ -355,12 +374,13 @@ def group_attestations(occurrences: list[dict]) -> list[dict]:
             "profile_alternatives": set(),
             "name": o["name"],
             "occurrences": 0,
+            "stated": 0,
         })
         g["expressions"].add(o["expression"])
         g["labels"].add(o["label"])
-        if o.get("profile_alternative"):
-            g["profile_alternatives"].add(o["profile_alternative"])
+        g["profile_alternatives"].update(o.get("profile_alternative") or [])
         g["occurrences"] += 1
+        g["stated"] += o["copies"]
     out = []
     for g in groups.values():
         if len(g["labels"]) != 1 or len(g["expressions"]) != 1:
@@ -653,6 +673,8 @@ def build() -> dict:
     require_some_corroboration(asserted)
 
     tokens = sum(len(att["rins"]) * att["occurrences"] for att in attestations)
+    # Every stated copy, for comparison with a text scan of the same files.
+    stated_tokens = sum(len(att["rins"]) * att["stated"] for att in attestations)
     return {
         "midas": {"generated_at": midas["generated_at"], "records": len(midas["rids"]),
                   "metadata_errors": len(midas["errors"]),
@@ -672,6 +694,7 @@ def build() -> dict:
         "sightings": scan_repo(),
         "occurrences": sum(att["occurrences"] for att in attestations),
         "tokens": tokens,
+        "stated_tokens": stated_tokens,
         "tally": collections.Counter(att["state"] for att in attestations),
     }
 

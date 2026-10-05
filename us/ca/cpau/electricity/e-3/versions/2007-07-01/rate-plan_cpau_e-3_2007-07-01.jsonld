@@ -75,7 +75,7 @@
       "@id": "cpau:e-3-2007-07-01",
       "urpx:version": "1.0",
       "urpx:effectiveDateTime": "2007-07-01T00:00:00",
-      "urpx:description": "CPAU Schedule E-3 (Customer-Owned Generation), effective 2007-07-01 — buyback rates the utility pays for power produced by customer-owned generation facilities that are NOT NEM-eligible. Long-stable schedule (no published reissues since 2007). Models both Section C.1 (without-interval-meter, flat seasonal — 2 seasons × per-kWh energy buyback applying to both Firm and Non-Firm power, plus a Firm-only $4.32/kW/month capacity credit) AND Section C.2 (with-interval-meter, TOU-windowed — 3 Summer periods Peak/Mid-Peak/Off-Peak and 2 Winter periods Peak/Off-Peak, with TOU windows that DIFFER from CPAU E-4 TOU / E-7 TOU; per-kWh energy buyback applying to both Firm and Non-Firm with Peak-only Firm capacity credit). Interval-meter selection is encoded as ApplicabilityGroups on the respective PriceSets (cpau:e3-price-set for C.1, cpau:e3-price-set-c2 for C.2). Reverse-flow direction throughout — first reverse-flow filing in the urpx-rate-plans corpus (the existing CPAU E-EEC-1 / E-NSE-1 modifiers are also reverse-flow but ride inside CPAU E-1 2025-09-01's @graph). DEFERRED to follow-up: Section C.3 market-based buyback rate for facilities > 1 MW (range pricing, $2-10/kW, $0.03-0.20/kWh) — has open URPX vocabulary questions around range-pricing and reference-rate calculation.",
+      "urpx:description": "CPAU Schedule E-3 (Customer-Owned Generation), effective 2007-07-01 — buyback rates the utility pays for power produced by customer-owned generation facilities that are NOT NEM-eligible. Long-stable schedule (no published reissues since 2007). Models both Section C.1 (without-interval-meter, flat seasonal — 2 seasons × per-kWh energy buyback applying to both Firm and Non-Firm power, plus a Firm-only $4.32/kW/month capacity credit) AND Section C.2 (with-interval-meter, TOU-windowed — 3 Summer periods Peak/Mid-Peak/Off-Peak and 2 Winter periods Peak/Off-Peak, with TOU windows that DIFFER from CPAU E-4 TOU / E-7 TOU; per-kWh energy buyback applying to both Firm and Non-Firm with Peak-only Firm capacity credit). The choice of table and the type of power are one urpx:ProfileAlternatives, cpau:e3-pa-buyback-configuration, with two dimensions (hasIntervalMeter, powerType) and four cells, and the Prices sit in one urpx:PriceSetAlternative per cell: the energy buyback of the facility's table in both its Firm and Non-Firm cells, the capacity credit in the Firm cell only. Reverse-flow direction throughout — first reverse-flow filing in the urpx-rate-plans corpus (the existing CPAU E-EEC-1 / E-NSE-1 modifiers are also reverse-flow but ride inside CPAU E-1 2025-09-01's @graph). DEFERRED to follow-up: Section C.3 market-based buyback rate for facilities > 1 MW (range pricing, $2-10/kW, $0.03-0.20/kWh) — has open URPX vocabulary questions around range-pricing and reference-rate calculation.",
       "urpx:customerChoice": {
         "@id": "urpx:voluntaryChoice"
       },
@@ -109,7 +109,7 @@
           "@type": "urpx:EligibilityRule",
           "@id": "cpau:e3-er-eligibility",
           "urpx:name": "Customer-owned generation, not NEM-eligible",
-          "urpx:description": "Applies to customer-owned power generating facilities that are NOT eligible for net metering (per Section A). Customers WITHOUT an interval meter receive the flat seasonal Section C.1 rates; customers WITH an interval meter receive the TOU-windowed Section C.2 rates — selection encoded as ApplicabilityGroups on the respective PriceSets below. Customers with rated capacity > 1 MW may additionally request the market-based buyback rate per Section C.3 (modeling deferred — range pricing has open URPX vocabulary questions).",
+          "urpx:description": "Applies to customer-owned power generating facilities that are NOT eligible for net metering (per Section A). Customers WITHOUT an interval meter receive the flat seasonal Section C.1 rates; customers WITH an interval meter receive the TOU-windowed Section C.2 rates. The table, and Firm against Non-Firm power, are selected through the ProfileAlternatives cpau:e3-pa-buyback-configuration. Customers with rated capacity > 1 MW may additionally request the market-based buyback rate per Section C.3 (modeling deferred — range pricing has open URPX vocabulary questions).",
           "urpx:hasConditionExpression": {
             "@type": "urpx:ConditionExpression",
             "@id": "cpau:e3-cx-eligibility",
@@ -291,6 +291,263 @@
             }
           }
         ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "cpau:e3-pa-buyback-configuration",
+          "urpx:name": "Buyback table (Section C.1 without, C.2 with an interval meter) and type of power (Firm or Non-Firm, Special Note 1)",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "cpau:e3-pa-buyback-configuration-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "cpau:e3-ad-interval-meter",
+                "urpx:dimensionDisplayName": "Facility equipped with an interval meter",
+                "urpx:customDimensionProperty": "hasIntervalMeter",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "false",
+                      "@type": "xsd:boolean"
+                    },
+                    {
+                      "@value": "true",
+                      "@type": "xsd:boolean"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "cpau:e3-ad-power-type",
+                "urpx:dimensionDisplayName": "Type of Power",
+                "urpx:customDimensionProperty": "powerType",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "Firm",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "Non-Firm",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm",
+              "urpx:name": "Firm power, facility without an interval meter (Section C.1)",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-meter",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-meter-left-operand",
+                        "urpx:customConditionProperty": "hasIntervalMeter"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-meter-right-operand",
+                        "urpx:booleanValue": false
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-power",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-power-left-operand",
+                        "urpx:customConditionProperty": "powerType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm-power-right-operand",
+                        "urpx:stringValue": "Firm"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm",
+              "urpx:name": "Non-Firm power, facility without an interval meter (Section C.1)",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-meter",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-meter-left-operand",
+                        "urpx:customConditionProperty": "hasIntervalMeter"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-meter-right-operand",
+                        "urpx:booleanValue": false
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-power",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-power-left-operand",
+                        "urpx:customConditionProperty": "powerType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm-power-right-operand",
+                        "urpx:stringValue": "Non-Firm"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm",
+              "urpx:name": "Firm power, facility with an interval meter (Section C.2)",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-meter",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-meter-left-operand",
+                        "urpx:customConditionProperty": "hasIntervalMeter"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-meter-right-operand",
+                        "urpx:booleanValue": true
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-power",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-power-left-operand",
+                        "urpx:customConditionProperty": "powerType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm-power-right-operand",
+                        "urpx:stringValue": "Firm"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm",
+              "urpx:name": "Non-Firm power, facility with an interval meter (Section C.2)",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-cx",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-bn",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-meter",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-meter-left-operand",
+                        "urpx:customConditionProperty": "hasIntervalMeter"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-meter-right-operand",
+                        "urpx:booleanValue": true
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-power",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-power-left-operand",
+                        "urpx:customConditionProperty": "powerType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm-power-right-operand",
+                        "urpx:stringValue": "Non-Firm"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
         "urpx:hasBillingModel": {
           "@type": "urpx:BillingModel",
           "@id": "cpau:e3-billing-model",
@@ -381,32 +638,6 @@
               "urpx:appliesInSeason": {
                 "@id": "cpau:e3-season-summer"
               },
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "cpau:e3-ag-firm-power-summer",
-                "urpx:name": "Firm power customers only",
-                "urpx:hasConditionExpression": {
-                  "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:e3-cx-firm-power-summer",
-                  "urpx:rootNode": {
-                    "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:e3-cn-firm-power-summer",
-                    "urpx:operator": {
-                      "@id": "urpx:equalsOperator"
-                    },
-                    "urpx:leftOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-firm-power-summer-left-operand",
-                      "urpx:customConditionProperty": "powerType"
-                    },
-                    "urpx:rightOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-firm-power-summer-right-operand",
-                      "urpx:stringValue": "Firm"
-                    }
-                  }
-                }
-              },
               "urpx:baseQuantity": "1",
               "urpx:hasCalculationMethod": {
                 "@type": "urpx:CalculationMethod",
@@ -435,32 +666,6 @@
               },
               "urpx:appliesInSeason": {
                 "@id": "cpau:e3-season-winter"
-              },
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "cpau:e3-ag-firm-power-winter",
-                "urpx:name": "Firm power customers only",
-                "urpx:hasConditionExpression": {
-                  "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:e3-cx-firm-power-winter",
-                  "urpx:rootNode": {
-                    "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:e3-cn-firm-power-winter",
-                    "urpx:operator": {
-                      "@id": "urpx:equalsOperator"
-                    },
-                    "urpx:leftOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-firm-power-winter-left-operand",
-                      "urpx:customConditionProperty": "powerType"
-                    },
-                    "urpx:rightOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-firm-power-winter-right-operand",
-                      "urpx:stringValue": "Firm"
-                    }
-                  }
-                }
               },
               "urpx:baseQuantity": "1",
               "urpx:hasCalculationMethod": {
@@ -612,32 +817,6 @@
                 "@id": "cpau:e3-season-summer"
               },
               "urpx:touPeriodNumber": 1,
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "cpau:e3-ag-c2-firm-power-summer-peak",
-                "urpx:name": "Firm power customers only",
-                "urpx:hasConditionExpression": {
-                  "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:e3-cx-c2-firm-power-summer-peak",
-                  "urpx:rootNode": {
-                    "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:e3-cn-c2-firm-power-summer-peak",
-                    "urpx:operator": {
-                      "@id": "urpx:equalsOperator"
-                    },
-                    "urpx:leftOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-c2-firm-power-summer-peak-left-operand",
-                      "urpx:customConditionProperty": "powerType"
-                    },
-                    "urpx:rightOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-c2-firm-power-summer-peak-right-operand",
-                      "urpx:stringValue": "Firm"
-                    }
-                  }
-                }
-              },
               "urpx:baseQuantity": "1",
               "urpx:hasCalculationMethod": {
                 "@type": "urpx:CalculationMethod",
@@ -668,32 +847,6 @@
                 "@id": "cpau:e3-season-winter"
               },
               "urpx:touPeriodNumber": 4,
-              "urpx:hasApplicabilityGroup": {
-                "@type": "urpx:ApplicabilityGroup",
-                "@id": "cpau:e3-ag-c2-firm-power-winter-peak",
-                "urpx:name": "Firm power customers only",
-                "urpx:hasConditionExpression": {
-                  "@type": "urpx:ConditionExpression",
-                  "@id": "cpau:e3-cx-c2-firm-power-winter-peak",
-                  "urpx:rootNode": {
-                    "@type": "urpx:ComparisonNode",
-                    "@id": "cpau:e3-cn-c2-firm-power-winter-peak",
-                    "urpx:operator": {
-                      "@id": "urpx:equalsOperator"
-                    },
-                    "urpx:leftOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-c2-firm-power-winter-peak-left-operand",
-                      "urpx:customConditionProperty": "powerType"
-                    },
-                    "urpx:rightOperand": {
-                      "@type": "urpx:CustomOperandNode",
-                      "@id": "cpau:e3-cn-c2-firm-power-winter-peak-right-operand",
-                      "urpx:stringValue": "Firm"
-                    }
-                  }
-                }
-              },
               "urpx:baseQuantity": "1",
               "urpx:hasCalculationMethod": {
                 "@type": "urpx:CalculationMethod",
@@ -939,180 +1092,234 @@
       "urpx:hasPrices": {
         "@type": "urpx:Prices",
         "@id": "cpau:e3-prices",
-        "urpx:hasPriceSet": [
+        "urpx:hasPriceSetAlternatives": [
           {
-            "@type": "urpx:PriceSet",
-            "@id": "cpau:e3-price-set",
-            "urpx:hasApplicabilityGroup": {
-              "@type": "urpx:ApplicabilityGroup",
-              "@id": "cpau:e3-ag-without-interval-meter",
-              "urpx:name": "Customers without interval meter",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "cpau:e3-cx-without-interval-meter",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:e3-cn-without-interval-meter",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
-                  },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e3-cn-without-interval-meter-left-operand",
-                    "urpx:customConditionProperty": "hasIntervalMeter"
-                  },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e3-cn-without-interval-meter-right-operand",
-                    "urpx:booleanValue": false
-                  }
-                }
-              }
+            "@type": "urpx:PriceSetAlternatives",
+            "@id": "cpau:e3-psa-buyback",
+            "urpx:name": "Buyback prices, by buyback table and type of power",
+            "urpx:referencesProfileAlternatives": {
+              "@id": "cpau:e3-pa-buyback-configuration"
             },
-            "urpx:hasPrice": [
+            "urpx:hasPriceSetAlternative": [
               {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-energy-summer",
-                "urpx:name": "Energy Buyback Summer",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-energy-summer"
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "cpau:e3-psa-buyback-no-interval-meter-firm",
+                "urpx:name": "Section C.1 prices (without interval meter), Firm power",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-firm"
                 },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.07902"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-energy-winter",
-                "urpx:name": "Energy Buyback Winter",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-energy-winter"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.07831"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-firm-capacity-summer",
-                "urpx:name": "Firm Capacity Credit Summer",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-firm-capacity-summer"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "4.32"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-firm-capacity-winter",
-                "urpx:name": "Firm Capacity Credit Winter",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-firm-capacity-winter"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "4.32"
-              }
-            ],
-            "urpx:name": "Section C.1 prices (without interval meter)"
-          },
-          {
-            "@type": "urpx:PriceSet",
-            "@id": "cpau:e3-price-set-c2",
-            "urpx:name": "Section C.2 prices (with interval meter, TOU)",
-            "urpx:hasApplicabilityGroup": {
-              "@type": "urpx:ApplicabilityGroup",
-              "@id": "cpau:e3-ag-with-interval-meter",
-              "urpx:name": "Customers with interval meter",
-              "urpx:hasConditionExpression": {
-                "@type": "urpx:ConditionExpression",
-                "@id": "cpau:e3-cx-with-interval-meter",
-                "urpx:rootNode": {
-                  "@type": "urpx:ComparisonNode",
-                  "@id": "cpau:e3-cn-with-interval-meter",
-                  "urpx:operator": {
-                    "@id": "urpx:equalsOperator"
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-energy-summer",
+                    "urpx:name": "Energy Buyback Summer",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-energy-summer"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07902"
                   },
-                  "urpx:leftOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e3-cn-with-interval-meter-left-operand",
-                    "urpx:customConditionProperty": "hasIntervalMeter"
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-energy-winter",
+                    "urpx:name": "Energy Buyback Winter",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-energy-winter"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07831"
                   },
-                  "urpx:rightOperand": {
-                    "@type": "urpx:CustomOperandNode",
-                    "@id": "cpau:e3-cn-with-interval-meter-right-operand",
-                    "urpx:booleanValue": true
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-firm-capacity-summer",
+                    "urpx:name": "Firm Capacity Credit Summer",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-firm-capacity-summer"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "4.32"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-firm-capacity-winter",
+                    "urpx:name": "Firm Capacity Credit Winter",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-firm-capacity-winter"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "4.32"
                   }
-                }
-              }
-            },
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-energy-summer-peak",
-                "urpx:name": "Energy Buyback Summer Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-energy-summer-peak"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.09566"
+                ]
               },
               {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-energy-summer-mid-peak",
-                "urpx:name": "Energy Buyback Summer Mid-Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-energy-summer-mid-peak"
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "cpau:e3-psa-buyback-no-interval-meter-non-firm",
+                "urpx:name": "Section C.1 prices (without interval meter), Non-Firm power",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "cpau:e3-pa-buyback-configuration-no-interval-meter-non-firm"
                 },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.08824"
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-energy-summer",
+                    "urpx:name": "Energy Buyback Summer",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-energy-summer"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07902"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-energy-winter",
+                    "urpx:name": "Energy Buyback Winter",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-energy-winter"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07831"
+                  }
+                ]
               },
               {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-energy-summer-off-peak",
-                "urpx:name": "Energy Buyback Summer Off-Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-energy-summer-off-peak"
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "cpau:e3-psa-buyback-interval-meter-firm",
+                "urpx:name": "Section C.2 prices (with interval meter, TOU), Firm power",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "cpau:e3-pa-buyback-configuration-interval-meter-firm"
                 },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.07152"
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-summer-peak",
+                    "urpx:name": "Energy Buyback Summer Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-summer-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.09566"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-summer-mid-peak",
+                    "urpx:name": "Energy Buyback Summer Mid-Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-summer-mid-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.08824"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-summer-off-peak",
+                    "urpx:name": "Energy Buyback Summer Off-Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-summer-off-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07152"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-winter-peak",
+                    "urpx:name": "Energy Buyback Winter Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-winter-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.08595"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-winter-off-peak",
+                    "urpx:name": "Energy Buyback Winter Off-Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-winter-off-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07361"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-firm-capacity-summer-peak",
+                    "urpx:name": "Firm Capacity Credit Summer Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-firm-capacity-summer-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "4.32"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-firm-capacity-winter-peak",
+                    "urpx:name": "Firm Capacity Credit Winter Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-firm-capacity-winter-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "4.32"
+                  }
+                ]
               },
               {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-energy-winter-peak",
-                "urpx:name": "Energy Buyback Winter Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-energy-winter-peak"
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "cpau:e3-psa-buyback-interval-meter-non-firm",
+                "urpx:name": "Section C.2 prices (with interval meter, TOU), Non-Firm power",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "cpau:e3-pa-buyback-configuration-interval-meter-non-firm"
                 },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.08595"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-energy-winter-off-peak",
-                "urpx:name": "Energy Buyback Winter Off-Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-energy-winter-off-peak"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "0.07361"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-firm-capacity-summer-peak",
-                "urpx:name": "Firm Capacity Credit Summer Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-firm-capacity-summer-peak"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "4.32"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "cpau:e3-price-c2-firm-capacity-winter-peak",
-                "urpx:name": "Firm Capacity Credit Winter Peak (Section C.2)",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "cpau:e3-pd-c2-firm-capacity-winter-peak"
-                },
-                "urpx:startDate": "2007-07-01",
-                "urpx:unitPrice": "4.32"
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-summer-peak",
+                    "urpx:name": "Energy Buyback Summer Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-summer-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.09566"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-summer-mid-peak",
+                    "urpx:name": "Energy Buyback Summer Mid-Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-summer-mid-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.08824"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-summer-off-peak",
+                    "urpx:name": "Energy Buyback Summer Off-Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-summer-off-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07152"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-winter-peak",
+                    "urpx:name": "Energy Buyback Winter Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-winter-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.08595"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "cpau:e3-price-c2-energy-winter-off-peak",
+                    "urpx:name": "Energy Buyback Winter Off-Peak (Section C.2)",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "cpau:e3-pd-c2-energy-winter-off-peak"
+                    },
+                    "urpx:startDate": "2007-07-01",
+                    "urpx:unitPrice": "0.07361"
+                  }
+                ]
               }
             ]
           }

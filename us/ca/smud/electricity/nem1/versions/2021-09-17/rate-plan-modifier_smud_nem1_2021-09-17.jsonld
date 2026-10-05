@@ -169,7 +169,7 @@
           "@type": "urpx:EligibilityRule",
           "@id": "smud:er-nem1-qualifying-der",
           "urpx:name": "NEM1 — qualifying renewable DER",
-          "urpx:description": "Customer must own a renewable-fueled electrical generation facility (photovoltaic / wind / small hydroelectric / geothermal / biomass / solar thermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current — per the CEC's Renewable Portfolio Standard Eligibility Guidebook). Modeled as a 4-way OR over the most common URPX DER enum values (solar, wind, hydro) plus a CustomOperandNode for other renewable types not covered by the URPX enum. NOTE: Unlike SSR, NEM1 does NOT cover storage-only customers. The Sheet 2.III.A.6 storage-incentive disqualifier is smud:er-nem1-no-storage-incentive.",
+          "urpx:description": "Customer must own a renewable-fueled electrical generation facility (photovoltaic / wind / small hydroelectric / geothermal / biomass / solar thermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current — per the CEC's Renewable Portfolio Standard Eligibility Guidebook). Modeled as an OR over the URPX DER enum values that name a listed source (solar, wind, hydro, geothermal, and waste digestion for digester gas and landfill gas) plus a CustomOperandNode for the listed sources the enum does not name (biomass, solar thermal, fuel cells using renewable fuels, municipal solid waste, ocean wave, ocean thermal, tidal current). NOTE: Unlike SSR, NEM1 does NOT cover storage-only customers. The Sheet 2.III.A.6 storage-incentive disqualifier is smud:er-nem1-no-storage-incentive.",
           "urpx:hasConditionExpression": {
             "@type": "urpx:ConditionExpression",
             "@id": "smud:cx-nem1-qualifying-der",
@@ -245,6 +245,48 @@
                 },
                 {
                   "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-geothermal",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:cn-nem1-geothermal-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:cn-nem1-geothermal-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:geothermalDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:cn-nem1-waste-digestion",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:cn-nem1-waste-digestion-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:cn-nem1-waste-digestion-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:wasteDigestionDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
                   "@id": "smud:cn-nem1-other-renewable",
                   "urpx:operator": {
                     "@id": "urpx:equalsOperator"
@@ -252,7 +294,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "smud:cn-nem1-other-renewable-left-operand",
-                    "urpx:customConditionProperty": "Has other CEC-eligible renewable DER (biomass / solar thermal / geothermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current)"
+                    "urpx:customConditionProperty": "Has other CEC-eligible renewable DER (biomass / solar thermal / fuel cells using renewable fuels / municipal solid waste / ocean wave / ocean thermal / tidal current)"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",

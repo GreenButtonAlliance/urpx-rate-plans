@@ -45,7 +45,7 @@ Equivalent to PG&E's Low-Income classification. An Equity Customer is either:
 2. A resident-owner of a single-family home in a disadvantaged community as defined in D.18-06-027; OR
 3. A Residential Customer who lives in California Indian Country as defined in D.20-12-003.
 
-Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate is consumer-side-evaluable. Both ACC Plus Prices sit in the NBT25 vintage's `urpx:PriceSetAlternative`, which states the vintage; the Non-Equity Price carries no rule, and the Equity Price keeps a `urpx:ApplicabilityRule` whose condition is the Equity Customer predicate alone.
+Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate is consumer-side-evaluable. The NBT25 vintage is two `urpx:ProfileAlternative` cells, one per customer segment of the Sheet 7 table (Residential Non-Equity Customer, Residential Equity Customer), stated by a second `urpx:AlternativeDimension`, `NBT Customer Segment`, in the vintage container. Each cell's `urpx:PriceSetAlternative` holds the NBT25 export Prices and that segment's ACC Plus Price, so a consumer selecting a cell gets one ACC Plus Price. No Price carries a `urpx:ApplicabilityRule`.
 
 ## What's modeled
 
@@ -55,7 +55,7 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
  - ACC Plus Non-Equity Customer adder
  - ACC Plus Equity Customer adder
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 11 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1 / Sheet 13)
-- 5,088 Export Compensation Rate `urpx:Price`s from CEC MIDAS, one `urpx:PriceSetAlternative` per vintage (see below)
+- 5,088 Export Compensation Rate `urpx:Price`s from CEC MIDAS, one `urpx:PriceSetAlternative` per vintage, two for NBT25 (see below)
 - 2 ACC Plus `urpx:Price` instances (2025 interconnection vintage):
  - ACC Plus Non-Equity: `-$0.024/kWh` (Sheet 7 Table)
  - ACC Plus Equity: `-$0.056/kWh` (Sheet 7 Table)
@@ -64,7 +64,7 @@ Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate i
 
 | Deferral | Why |
 |---|---|
-| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each is a Price in its vintage's `urpx:PriceSetAlternative`; follow-up |
+| **Additional ACC Plus vintages** (2023, 2024, 2026, 2027 rows) | Each is a Price in each customer-segment cell of its vintage, split as NBT25 is; follow-up |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
 | Sub-schedule variants (NBT-A, NBT-PS, NBT-MT) | Sibling filings |
@@ -84,7 +84,7 @@ twelve months, the hour-by-month-by-day-type grid the tariff prices exports on.
 Generation is not published directly by SCE and is derived per cell by subtracting
 the delivery-only SCXX rate from the bundled SCSC rate in MIDAS.
 
-Vintage is a `urpx:ProfileAlternatives` (`sce:nbt-2025-04-23-pa-vintage`) with one `urpx:ProfileAlternative` per label, NBT23, NBT24, NBT25, NBT26 and non-vintaged, each stating `NBT Vintage Label`. The Prices sit in one `urpx:PriceSetAlternative` per label, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`, so a consumer selects the vintage with `:profile-alternatives` and one export Price applies per ledger at any instant. Month, hour and day type are time of use: a single `urpx:TOUSchedule` on the export MetricInput and 576 TOUPeriods, every period bracketed within a single-month `urpx:Season`. The export Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1. A weekday holiday prices at that hour's weekend value, as Sheet 5's weekday versus weekend/holiday split directs: every weekday bracket carries `urpx:includeHolidays` false, and every weekend period carries a second bracket, day type `urpx:weekdayDays` with `urpx:includeNonHolidays` false, so a weekday holiday lands on it. The modifier declares no `urpx:HolidayCalendar`; which days are holidays comes from the calendar on `sce:tou-d-prime`. `dev/remodel_nbt.py` added these brackets and flags and aborts unless every Price, value and period number is unchanged. NBT26 prices January through May only, so for June through December that vintage resolves no export Price; `dev/check_nbt_export.clj` expects exactly that and names the reason. `dev/remodel_nbt.py` produced this structure from the earlier per-Price periods and rules.
+Vintage is a `urpx:ProfileAlternatives` (`sce:nbt-2025-04-23-pa-vintage`) with one `urpx:ProfileAlternative` per label, NBT23, NBT24, NBT25, NBT26 and non-vintaged, each stating `NBT Vintage Label`, except that NBT25 is two alternatives, one per `NBT Customer Segment`. The Prices sit in one `urpx:PriceSetAlternative` per alternative, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`, so a consumer selects the vintage, and for NBT25 the segment, with `:profile-alternatives` and one export Price applies per ledger at any instant. Month, hour and day type are time of use: a single `urpx:TOUSchedule` on the export MetricInput and 576 TOUPeriods, every period bracketed within a single-month `urpx:Season`. The export Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1. A weekday holiday prices at that hour's weekend value, as Sheet 5's weekday versus weekend/holiday split directs: every weekday bracket carries `urpx:includeHolidays` false, and every weekend period carries a second bracket, day type `urpx:weekdayDays` with `urpx:includeNonHolidays` false, so a weekday holiday lands on it. The modifier declares no `urpx:HolidayCalendar`; which days are holidays comes from the calendar on `sce:tou-d-prime`. `dev/remodel_nbt.py` added these brackets and flags and aborts unless every Price, value and period number is unchanged. NBT26 prices January through May only, so for June through December that vintage resolves no export Price; `dev/check_nbt_export.clj` expects exactly that and names the reason. `dev/remodel_nbt.py` produced this structure from the earlier per-Price periods and rules.
 
 SCE does not expose the export rate file on its customer-facing pages the way PG&E
 does at `pge.com/energyexportcredit`, so these came through MIDAS rather than a
