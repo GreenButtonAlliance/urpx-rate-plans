@@ -150,7 +150,7 @@ Each node's `urpx:name` is built from the consumed plans' and selected alternati
 
 A client that needs the scenario cost models, such as a price server publishing one program per model, should compute them from the corpus rather than read `reports/scenario-cost-models.jsonld`. The committed document is current as of its last regeneration, and a version that takes effect afterwards changes the set with no change to the corpus.
 
-clj-urpx computes it. Walk the corpus's documents (`corpus.json` lists them and the walkers that read them), load them with `urpx.load/documents` as `dev/cross_check_scenario_cost_models.clj` does, and call `urpx.scenario-cost-model/enumerate` with every policy pinned to the ones this corpus is checked under:
+clj-urpx computes it. Walking the corpus is the client's job: use the corpus's own walker, or read `corpus.json`, which lists the documents and the walkers that read them; a client that packs the corpus as classpath resources walks its own copy. Load what the walk finds with `urpx.load/documents`, which takes anything `clojure.java.io/reader` coerces (a File, URL, Reader, InputStream or path string), as `dev/cross_check_scenario_cost_models.clj` does, and call `urpx.scenario-cost-model/enumerate` with every policy pinned to the ones this corpus is checked under:
 
 | Option | Value |
 |---|---|
