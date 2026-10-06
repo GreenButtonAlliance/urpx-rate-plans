@@ -4,13 +4,13 @@ What this corpus does not yet model, and why. There are two lists because there 
 
 **Read the first list as a statement about our understanding, not about the standard.** We are not URPX experts. Most things that looked unexpressible in this corpus turned out to be patterns we had missed. Expect more of the list below to go the same way. An entry leaves that list two ways: URPX gains the vocabulary, or we learn how to say it with what is already there.
 
-Discussion #37 is the example. It assumed a sum of per-account demand could not be stated. The reviewer asked what `urpx:ConditionExpression` could not do here, we tried it, and it validated. What survived was a narrower claim: nothing tells a consumer which accounts the sum ranges over.
+[urpx-org/urpx discussion #37](https://github.com/urpx-org/urpx/discussions/37) is the example. It assumed a sum of per-account demand could not be stated. The reviewer asked what `urpx:ConditionExpression` could not do here, we tried it, and it validated. What survived was a narrower claim: nothing tells a consumer which accounts the sum ranges over.
 
 So before anything is added below, build the minimal document and run `pyshacl` against the shipped shapes. "We cannot express this" and "we have not worked out how to express this" are different claims.
 
 [README](./README.md) describes what the corpus *does* contain. Each filing's `tariff.toml [modeling].deferrals` records its own. This file is the corpus-wide view.
 
-`dev/lint_gaps_agree.py` checks that the two still agree: every claim in the first list must name a filing that exists, and at least one deferral in a filing it names must assert an upstream gap. The two had disagreed for two days before anything compared them.
+`dev/lint_gaps_agree.py` checks that the two still agree: every claim in the first list must name a filing that exists, and at least one deferral in a filing it names must assert an upstream gap.
 
 ## We have not found a way to express these in URPX v0.5.1
 
@@ -24,7 +24,7 @@ Each entry gives the upstream thread, what the shapes refuse, and where in the c
 
 ## Not yet modeled
 
-Tariffs and modifiers this corpus has not converted. Some are buildable today and need only the work; others are held on something, and each entry says which. The heading used to read "Expressible, not yet modeled", which was false for the three entries below that name a blocker: two are held on upstream vocabulary and one on the consumer.
+Tariffs and modifiers this corpus has not converted. Some are buildable today and need only the work; others are held on something, and each entry says which.
 
 Tracked in [Issues](https://github.com/grid-coordination/urpx-rate-plans/issues). Highlights:
 
@@ -32,5 +32,5 @@ Tracked in [Issues](https://github.com/grid-coordination/urpx-rate-plans/issues)
 - **CPAU standby-charge exemptions** ([discussion #36](https://github.com/urpx-org/urpx/discussions/36)). The on-site-generation exemption conforms at v0.5.1 as a `urpx:standbyCharge` Price gated by `urpx:hasApplicabilityRule`, verified by pyshacl on 2026-09-21 and recorded in each of the four CPAU manifests. Unbuilt because the pinned clj-urpx does not evaluate a `ConditionExpression`, so the gate would be inert and the charge would apply to every customer.
 - SCE TOU-D HPWH (Heat Pump Water Heater) baseline-allocation modifier and PG&E Code M / Code S medical baseline modeling, both blocked on [urpx-org/urpx discussion #32](https://github.com/urpx-org/urpx/discussions/32) (additive baseline allowance vocabulary). Three CA IOUs hitting the same shape; the +1.9 / +2.6 / +3.0 kWh/day SCE HPWH extension structure documented in SCE Preliminary Statement Part H; URPX vocabulary path TBD.
 - SMUD EAPR income-tier usage discount: the program gives a 100 percent reduction in usage cost capped at $60, $32, $10 or $0 per month by Federal Poverty Level tier. URPX v0.5.1 can express a capped credit as marginal `urpx:ServiceBracket`s over a money-denominated `urpx:MetricInput`, with a -1.0 multiplier on the first bracket and 0.0 on the remainder, and that construction validates. What it cannot state is that a bracket bound of 60 means sixty dollars: `urpx:ServiceBracket` bounds carry no unit, and `DatatypeOperandNodeShape` is `sh:closed` with `urpx:unitOfMeasure` attaching only to a `MetricSpecification`. The $10/month fixed-charge discount is modeled exactly.
-- LADWP REO (Renewable Energy Option): REAF dollar value not published in the tariff ordinance (formula only); needs source-discovery for an LADWP annual REA report before modeling. Tracked as a closed-deferred issue; re-file if the value is published.
+- LADWP REO (Renewable Energy Option): REAF dollar value not published in the tariff ordinance (formula only); needs source-discovery for an LADWP annual REA report before modeling.
 - Smaller-utility coverage (Imperial Irrigation District, City of Anaheim, Modesto Irrigation District, Riverside, Glendale, etc.): each adds ~50K–150K residential customers and broadens statewide coverage.
