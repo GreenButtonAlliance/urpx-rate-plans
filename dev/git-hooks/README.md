@@ -26,6 +26,6 @@ Triggers when any `us/**/*.toml`, `us/**/*.jsonld`, or any generator in `dev/` i
 
 Set `URPXT_SKIP_REPORTS=1` to skip only the regeneration and staging while still running the gate, for commits meant to be read as data. `--no-verify` disarms everything and is the deliberate escape hatch. Docs-only commits (`README.md`, `LAYOUT.md`, `dev/git-hooks/*`, etc.) skip the hook and aren't slowed down.
 
-Activates `~/env/py/p3newa/bin/activate` if present (the generators need rdflib, pyshacl, etc.).
+The generators need the packages in `dev/requirements.txt`. If `URPX_RATE_PLANS_VENV` names a virtualenv, the hook activates it; otherwise `python3` on `PATH` must already have them.
 
 If a generator fails, the commit is aborted with a non-zero exit. Re-stage / fix and retry, or pass `git commit --no-verify` to bypass intentionally (e.g. for a revert that needs to desync reports).

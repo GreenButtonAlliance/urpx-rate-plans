@@ -12,7 +12,6 @@ Also emits reports/coverage.md as a human-readable summary suitable for
 linking from README.md.
 
 Usage:
-    source ~/env/py/p3newa/bin/activate
     python dev/coverage.py                  # print to stdout
     python dev/coverage.py --write-report   # also write reports/coverage.md
 """

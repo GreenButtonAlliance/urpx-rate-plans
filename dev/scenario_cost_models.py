@@ -432,8 +432,8 @@ def load_baseline() -> dict:
         import edn_format
     except ImportError as e:  # pragma: no cover - environment problem, not data
         raise Refuse(
-            f"python dep missing: {e}. Activate the venv "
-            f"(source ~/env/py/p3newa/bin/activate) before running this."
+            f"python dep missing: {e}. Install dev/requirements.txt "
+            f"(pip install -r dev/requirements.txt) before running this."
         )
     if not BASELINE.exists():
         raise Refuse(f"{BASELINE.relative_to(REPO)} is missing; there is nothing to measure against.")

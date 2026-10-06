@@ -28,9 +28,12 @@ set -uo pipefail
 REPO=$(git rev-parse --show-toplevel)
 cd "$REPO"
 
-if [ -f "$HOME/env/py/p3newa/bin/activate" ]; then
+# The Python scripts need dev/requirements.txt. Set URPX_RATE_PLANS_VENV to a
+# virtualenv holding them to have it activated here; otherwise python3 on PATH
+# must already have them.
+if [ -n "${URPX_RATE_PLANS_VENV:-}" ]; then
     # shellcheck disable=SC1091
-    source "$HOME/env/py/p3newa/bin/activate"
+    source "$URPX_RATE_PLANS_VENV/bin/activate"
 fi
 
 MODE=${1:---fast}
