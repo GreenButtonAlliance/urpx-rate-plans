@@ -4,6 +4,8 @@ Seattle City Light's optional residential time-of-use schedule for customers in 
 
 **This filing uses `urpx:daysOfWeek`, proposed in [urpx-org/urpx#71](https://github.com/urpx-org/urpx/pull/71) and not in any URPX release. It does not validate against the v0.5.1 SHACL on that property**: `TimeBracketShape` is closed, so each bracket carrying `urpx:daysOfWeek` fails it. `dev/validate-with-base.py` excepts exactly those results under `DAYS_OF_WEEK_EXCEPTION`. The pinned clj-urpx resolves `urpx:customDays` on every day, so this filing is withheld from the marginal-rate baseline and the scenario cost models until clj-urpx 0.39.0 (`dev/withheld-filings.json`).
 
+Every charge below is the unmultiplied rate, which a customer in Renton pays. The suburban franchise and tax multipliers and the Shoreline and Burien undergrounding charges are the modifier [`scl:residential-suburban`](../../../residential-suburban/versions/2026-01-01/), which takes its percentage of this filing's energy subtotal `scl:rts-2026-01-01-summary-energy` and of its Base Service Charge.
+
 ## Files
 
 - `scl_rts_2026-01-01.pdf`: Ordinance 127473 as `Ord_127473.pdf` on clerk.seattle.gov. Schedule RTS is on page 11.

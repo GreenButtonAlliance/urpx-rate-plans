@@ -87,6 +87,17 @@ THE RULES, each traceable to a sentence in the source schedule:
     to Bundled Service Customers. A discount naming one such subtotal must name
     every one of its utility.
 
+  SCL, SMC 21.49.030.A as amended by Ordinance 127473: "All charges in Schedule
+    RSS shall be increased by the following percentages respective of the
+    location of service", applied to Schedule RTS by 21.49.030.B. Not a
+    discount: scl:residential-suburban carries the increase as a positive
+    multiplier. All charges includes the per-day Base Service Charge, which
+    cannot be summed with per-kWh charges, so the RTS subtotal (@id ending
+    "-summary-energy") holds every RTS Price but the Base Service Charge, and
+    the modifier takes the same percentage of the Base Service Charge through a
+    second multiplier over that Price alone. The percentages differ by year, so
+    each SCL multiplier names only the RTS version of its own effective date.
+
 Both utilities say TOTAL BILL. A bill carries each charge once, at the rate
 applicable to the usage being billed, so a charge that varies by TOU period or
 by service tier belongs in the subtotal once and not once per band. URPX says the
@@ -137,6 +148,7 @@ EXCLUDE_PGE = {
     "care": re.compile(r"(price-wildfire-fund|price-wildfire-hardening|price-recovery-bond)"),
     "fera": re.compile(r"(price-wildfire-hardening|price-recovery-bond)"),
 }
+EXCLUDE_SCL = re.compile(r"-price-base-service-charge$")
 GENERATION = "-summary-generation"
 
 
@@ -213,6 +225,8 @@ def expected(path: Path, utility: str, program: str) -> list[str]:
             return
         if utility == "sce" and EXCLUDE_SCE.search(pid):
             return
+        if utility == "scl" and EXCLUDE_SCL.search(pid):
+            return
         if utility == "sdge" and program == "care" and EXCLUDE_EXEMPT.search(pid):
             return
         if utility == "pge" and (EXCLUDE_PGE_BOTH.search(pid)
@@ -268,6 +282,7 @@ class Filing:
         self.bands: set[int] = set()
         self.plans: set[str] = set()        # urpx:forRatePlan of its base versions
         self.applicable: set[str] = set()   # urpx:applicableToRatePlan of its modifier versions
+        self.modifier_dates: set[str] = set()  # urpx:effectiveDateTime dates of its modifier versions
 
         def visit(d):
             t, i = node_type(d), d.get("@id")
@@ -276,6 +291,8 @@ class Filing:
             elif t == "urpx:RatePlanModifierVersion":
                 self.applicable.update(ref_id(x) for x in
                                        as_list(d.get("urpx:applicableToRatePlan")))
+                if d.get("urpx:effectiveDateTime"):
+                    self.modifier_dates.add(str(d["urpx:effectiveDateTime"])[:10])
             if t == "urpx:Price" and i:
                 self.prices[i] = d
                 if "urpx:multiplier" in d:
@@ -634,9 +651,21 @@ def check(files) -> tuple[list[dict], dict]:
                              "unresolved": unresolved, "uncovered": uncovered,
                              "repeated": repeated, "stray": stray})
 
+    # SCL: a multiplier names the RTS version of its own effective date and no
+    # other, because the percentage is that year's.
+    for did, cands in sorted(candidates.items()):
+        if did.split(":")[0] != "scl":
+            continue
+        dates = owner[did].modifier_dates
+        wrong = sorted(c for c in cands
+                       if not any(c.startswith(f"scl:rts-{d}-") for d in dates))
+        if len(dates) != 1 or wrong:
+            problems.append({"discount": did, "wrong_year": wrong or cands,
+                             "dates": sorted(dates), "file": rel(owner[did].path)})
+
     all_sums = set(summaries)
     for pid, cands in sorted(candidates.items()):
-        if pid in line_item:
+        if pid in line_item or pid.split(":")[0] == "scl":
             continue
         util = pid.split(":")[0]
         if any(c.endswith(GENERATION) for c in cands):
@@ -721,6 +750,11 @@ def main() -> int:
                 print(f"      {len(cs)} candidates for {plan}: {', '.join(cs)}")
             for m in p["stray"]:
                 print(f"      candidate in a plan not in applicableToRatePlan: {m}")
+        elif "wrong_year" in p:
+            print(f"  {p['discount']} names a base version of another year")
+            print(f"      in {p['file']}, modifier version dated {', '.join(p['dates']) or 'nothing'}")
+            for m in p["wrong_year"]:
+                print(f"      candidate: {m}")
         elif "missing_candidates" in p:
             print(f"  {p['discount']} does not name every candidate subtotal")
             for m in p["missing_candidates"]:

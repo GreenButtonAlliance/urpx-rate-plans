@@ -625,6 +625,24 @@
                 "urpx:name": "Energy Off-Peak",
                 "urpx:unitPrice": "0.0893"
               }
+            ],
+            "urpx:hasPriceSummary": [
+              {
+                "@type": "urpx:PriceSummary",
+                "@id": "scl:rts-2028-01-01-summary-energy",
+                "urpx:name": "Energy subtotal for RTS: its Peak, Mid-Peak and Off-Peak energy charges. SMC 21.49.030.A: \"All charges in Schedule RSS shall be increased by the following percentages respective of the location of service\", applied to RTS by 21.49.030.B. scl:residential-suburban takes its percentage of this subtotal, and separately of the Base Service Charge.",
+                "urpx:includesPrice": [
+                  {
+                    "@id": "scl:rts-2028-01-01-price-energy-charge-peak"
+                  },
+                  {
+                    "@id": "scl:rts-2028-01-01-price-energy-charge-mid-peak"
+                  },
+                  {
+                    "@id": "scl:rts-2028-01-01-price-energy-charge-off-peak"
+                  }
+                ]
+              }
             ]
           }
         ]
@@ -670,7 +688,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in scl:rts-2028-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out. (2) SMC 21.49.030.B: \"The same franchise and tax multipliers and suburban undergrounding charges apply to Schedule RTS as Schedule RSS.\" Not carried. The RSS multipliers increase all charges by location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila 7.07%; Lake Forest Park 8.04%; Normandy Park 6.38%), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction with no multiplier, such as Renton, pays.",
+          "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in scl:rts-2028-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
           "urpx:evaluatedOn": "2026-10-05T00:00:00"
         }
       }

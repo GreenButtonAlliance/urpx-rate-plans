@@ -149,10 +149,12 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Not yet effective
 
-4 version nodes take effect after 2026-10-06T17:00:00-07:00. They are not current, take part in no scenario cost model, and do not supersede the version in force.
+6 version nodes take effect after 2026-10-06T17:00:00-07:00. They are not current, take part in no scenario cost model, and do not supersede the version in force.
 
 | Plan | Version | Effective |
 |---|---|---|
+| `scl:residential-suburban` | `scl:residential-suburban-2027-01-01` | 2027-01-01 |
+| `scl:residential-suburban` | `scl:residential-suburban-2028-01-01` | 2028-01-01 |
 | `scl:rtc` | `scl:rtc-2027-01-01` | 2027-01-01 |
 | `scl:rtc` | `scl:rtc-2028-01-01` | 2028-01-01 |
 | `scl:rts` | `scl:rts-2027-01-01` | 2027-01-01 |

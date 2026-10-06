@@ -1,0 +1,132 @@
+# Identity --------------------------------------------------------------------
+utility = "scl"
+schedule = "residential-suburban"
+effective_date = "2026-01-01"
+
+# Composes only with Schedule RTS, which uses urpx:daysOfWeek (urpx-org/urpx#71).
+# See [extraction].notes and README.md.
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf"
+sha256 = "938a8929392a82ff858d5ed79382ebbc9adc5e1f879b3c7113948de9f83d58cc"
+retrieved_on = "2026-10-05"
+media_type = "application/pdf"
+filing_type = "ordinance"
+filing_id = "Ordinance 127473"
+landing_page = "https://library.municode.com/wa/seattle/codes/municipal_code?nodeId=TIT21UT_SUBTITLE_IVLIPO_CH21.49SELIDE"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+docket = "Council Bill 121231"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.09.0"
+extracted_on = "2026-10-05"
+notes = """
+Read from Ordinance 127473 (Council Bill 121231), which amends SMC 21.49.030.
+The "RSS suburban franchise and tax multipliers" table is on ordinance page 9,
+the Suburban Undergrounding Charges on pages 9 and 10, and the sentence
+applying both to Schedule RTS on pages 10 and 11. Read with pdftotext -layout.
+The ordinance carries legislative markup, struck columns in ((...)), so a value
+is bound to its year by its column header. This filing carries the multiplier
+column headed "Effective January 1, 2026" and the undergrounding column
+headed "Effective January 1, 2025".
+
+## Dependency on urpx-org/urpx#71
+
+This filing uses no unreleased vocabulary, but it composes only with Schedule
+RTS, whose brackets use urpx:daysOfWeek (urpx-org/urpx#71,
+https://github.com/urpx-org/urpx/pull/71). It is withheld from resolution with
+RTS until clj-urpx 0.39.0 (dev/withheld-filings.json).
+
+## Which table
+
+Ordinance 127473 carries one franchise and tax multiplier table per rate
+class: "RSS suburban franchise and tax multipliers" for residential service
+(21.49.030.A) and separate tables, with different Tukwila values, for
+Schedules SMS, MDS, LGS and HDS (small, medium, large and high demand general
+service). 21.49.030.B applies "The
+same franchise and tax multipliers and suburban undergrounding charges ... to
+Schedule RTS as Schedule RSS", so RTS takes the RSS table and the RTS rates
+have no table of their own. This modifier applies to scl:rts only.
+
+## Multipliers
+
+21.49.030.A: "All charges in Schedule RSS shall be increased by the following
+percentages respective of the location of service". All charges includes the
+Base Service Charge, so each alternative applies its percentage twice: as a
+multiplier over scl:rts-2026-01-01-summary-energy, a urpx:PriceSummary
+in the RTS filing naming its Peak, Mid-Peak and Off-Peak energy charges, and
+as a multiplier over scl:rts-2026-01-01-price-base-service-charge. The multiplier carried is
+the increase, so the composed charge is the RTS charge times one plus it. In
+this column: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila
+7.19%; Lake Forest Park 8.04%; Normandy Park
+6.38%. The ordinance names "King County"; City Light's
+residential rates page (https://www.seattle.gov/city-light/residential-services/billing-information/rates,
+retrieved 2026-10-05) heads the same column "Uninc. King County".
+
+Renton is not in the table. City Light's residential rates page lists Renton
+with the unmultiplied Schedule RTS rates ($0.3945 per day, Peak $0.1632,
+Mid-Peak $0.1428, Off-Peak $0.0816 per kWh in 2026), so a Renton customer
+takes RTS without this modifier.
+
+## Undergrounding charges
+
+21.49.030.A: "Additional undergrounding charges will apply to all customers in
+Shoreline and Burien as follows", then five charges under Shoreline (North
+City, Aurora 1, Aurora 2, Aurora 3A, Aurora 3B) and two under Burien (First
+Avenue South 1 and 2). Read as cumulative: every customer in Shoreline pays
+all five (0.69 cents per kWh in total) and every customer in Burien
+both (0.50 cents per kWh). The names are of the undergrounding projects
+whose cost is recovered, not of areas of service. City Light's rates page says
+"the undergrounding cost is recovered from all customers in that jurisdiction
+via a kWh undergrounding charge according to the table below", and before
+2023 Schedule RSH (Residential: Shoreline) listed all five charges as lines
+of one schedule and Schedule RSB (Residential: Burien) both of its two
+(Ordinance 126677, which converted both to RSS). Each charge is its own
+urpx:PriceDefinition and urpx:Price in the Shoreline or Burien alternative.
+
+The ordinance does not say whether the percentage increase applies to the
+undergrounding charges. They are carried unmultiplied: the multiplier Prices
+are based on the RTS charges only.
+
+## Reconciliation
+
+City Light's residential rates page publishes the 2026 Time of Use prices for
+each jurisdiction. Each published cell equals the RTS charge times one plus
+the multiplier, rounded half up to $0.0001: 20 of 20 cells (Base Service
+Charge and three energy charges, for the Burien/SeaTac/Shoreline/King County,
+Lake Forest Park, Normandy Park and Tukwila columns). The model carries the
+unrounded product, which differs from the published cell by at most
+$0.000044 (Burien, SeaTac, Shoreline and King County Peak: 0.176256 against
+0.1763). The page publishes no 2027 or 2028 values.
+
+## Dating
+
+Dated 2026-01-01, the effective date the ordinance prints on the multiplier
+column this filing carries, matching the Schedule RTS version of the same
+date. Bounded at 2027-01-01 by the next column.
+urpx:initialEffectiveDate is 2024-01-01, when Ordinance 126677 added Schedule
+RTS with the sentence applying the RSS multipliers and undergrounding charges
+to it.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl (URPX v0.5.1) + clj-urpx"
+validated_on = "2026-10-05"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = true
+deferrals = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Composes only with Schedule RTS, which uses urpx:daysOfWeek from urpx-org/urpx#71."

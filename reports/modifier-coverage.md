@@ -15,8 +15,8 @@ Status glyphs:
 
 - Base RatePlan filings: **49**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **186**
-  - present and complete: 10
+- Applicable-modifier slots across all bases: **189**
+  - present and complete: 13
   - present but incomplete: 146
   - missing: 30
 - Asymmetries between modifier-side and base-side declarations: **1**
@@ -603,25 +603,28 @@ _No applicable modifiers declared._
 
 Base deferrals:
 - City Light's residential Time of Use page: a NERC holiday that falls on a Sunday "is observed on the following Monday"; one on a Saturday "remains on that Saturday". New Year's Day, Independence Day and Christmas Day in scl:rts-2026-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.
-- SMC 21.49.030.B: "The same franchise and tax multipliers and suburban undergrounding charges apply to Schedule RTS as Schedule RSS." Not carried. The RSS multipliers increase all charges by location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila 7.19%; Lake Forest Park 8.04%; Normandy Park 6.38%), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction with no multiplier, such as Renton, pays.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `residential-suburban` | ✓ present-complete | `us/wa/scl/electricity/residential-suburban/versions/2028-01-01` |
 
 #### `rts` @ 2027-01-01  &nbsp; base: ~
 
 Base deferrals:
 - City Light's residential Time of Use page: a NERC holiday that falls on a Sunday "is observed on the following Monday"; one on a Saturday "remains on that Saturday". New Year's Day, Independence Day and Christmas Day in scl:rts-2027-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.
-- SMC 21.49.030.B: "The same franchise and tax multipliers and suburban undergrounding charges apply to Schedule RTS as Schedule RSS." Not carried. The RSS multipliers increase all charges by location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila 7.05%; Lake Forest Park 8.04%; Normandy Park 6.38%), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction with no multiplier, such as Renton, pays.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `residential-suburban` | ✓ present-complete | `us/wa/scl/electricity/residential-suburban/versions/2028-01-01` |
 
 #### `rts` @ 2028-01-01  &nbsp; base: ~
 
 Base deferrals:
 - City Light's residential Time of Use page: a NERC holiday that falls on a Sunday "is observed on the following Monday"; one on a Saturday "remains on that Saturday". New Year's Day, Independence Day and Christmas Day in scl:rts-2028-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.
-- SMC 21.49.030.B: "The same franchise and tax multipliers and suburban undergrounding charges apply to Schedule RTS as Schedule RSS." Not carried. The RSS multipliers increase all charges by location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila 7.07%; Lake Forest Park 8.04%; Normandy Park 6.38%), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction with no multiplier, such as Renton, pays.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `residential-suburban` | ✓ present-complete | `us/wa/scl/electricity/residential-suburban/versions/2028-01-01` |
 
 ### SDGE
 

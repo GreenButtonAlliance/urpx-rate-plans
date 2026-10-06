@@ -53,10 +53,14 @@ merge in this form, these brackets have to be remodeled.
 
 Schedules RTC and RTS are each a RatePlan of their own: each has its own rate
 table in SMC 21.49.030.B, its own Base Service Charge and its own energy
-charges. RTS differs from RTC only in its energy charges; the franchise and
+charges. RTS differs from RTC only in its energy charges. The franchise and
 tax multipliers and the Shoreline and Burien undergrounding charges that
-21.49.030.B applies "to Schedule RTS as Schedule RSS" are not carried (see
-[modeling].deferrals).
+21.49.030.B applies "to Schedule RTS as Schedule RSS" are the RatePlanModifier
+scl:residential-suburban
+(us/wa/scl/electricity/residential-suburban/versions/2026-01-01/). Every
+charge here is the unmultiplied rate, which is what a customer in Renton pays.
+The energy PriceSet carries scl:rts-2026-01-01-summary-energy, the
+subtotal that modifier's multiplier is based on.
 
 The schedule has no seasons and no blocks. The six TimeBrackets do not
 overlap and together cover every hour: Off-Peak, allDays 00:00-06:00; Peak, customDays Monday through
@@ -113,9 +117,8 @@ validated_on = "2026-10-05"
 complete = false
 deferrals = [
  "City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in scl:rts-2026-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
- "SMC 21.49.030.B: \"The same franchise and tax multipliers and suburban undergrounding charges apply to Schedule RTS as Schedule RSS.\" Not carried. The RSS multipliers increase all charges by location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila 7.19%; Lake Forest Park 8.04%; Normandy Park 6.38%), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction with no multiplier, such as Renton, pays.",
 ]
-applicable_modifiers = []
+applicable_modifiers = ["residential-suburban"]
 
 # Review ----------------------------------------------------------------------
 [review]

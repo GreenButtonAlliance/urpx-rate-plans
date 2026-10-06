@@ -190,6 +190,20 @@ def build(sched, date):
                                              "urpx:intervalDuration": "P1D"},
                "urpx:referencesLedger": ref(led_b)}
 
+    energy_ps = {"@type": "urpx:PriceSet", "@id": f"{v}-ps-energy-charge", "urpx:startDate": date,
+                 "urpx:hasPrice": energy_prices}
+    if sched == "rts":
+        # The subtotal scl:residential-suburban's franchise and tax multiplier is
+        # based on: every RTS energy charge. One is in effect at any instant.
+        energy_ps["urpx:hasPriceSummary"] = [{
+            "@type": "urpx:PriceSummary", "@id": f"{v}-summary-energy",
+            "urpx:name": ("Energy subtotal for RTS: its Peak, Mid-Peak and Off-Peak energy charges. "
+                          "SMC 21.49.030.A: \"All charges in Schedule RSS shall be increased by the following "
+                          "percentages respective of the location of service\", applied to RTS by 21.49.030.B. "
+                          "scl:residential-suburban takes its percentage of this subtotal, and separately of "
+                          "the Base Service Charge."),
+            "urpx:includesPrice": [ref(p["@id"]) for p in energy_prices]}]
+
     version = {
         "@type": "urpx:RatePlanVersion",
         "@id": v,
@@ -254,9 +268,7 @@ def build(sched, date):
                                "urpx:referencesPriceDefinition": ref(f"{v}-pd-base-service-charge"),
                                "urpx:startDate": date, "urpx:name": "Base Service Charge",
                                "urpx:unitPrice": dollars(base)}],
-            "urpx:hasPriceSet": [
-                {"@type": "urpx:PriceSet", "@id": f"{v}-ps-energy-charge", "urpx:startDate": date,
-                 "urpx:hasPrice": energy_prices}]},
+            "urpx:hasPriceSet": [energy_ps]},
         "urpx:offeredBy": {
             "@type": "urpx:UtilityOperator", "@id": "org:utility-scl", "urpx:legalName": "Seattle City Light",
             "urpx:organizationType": ref("urpx:utilityOrganization"),
@@ -318,6 +330,14 @@ merge in this form, these brackets have to be remodeled.
 def notes(sched, date):
     p = PLAN[sched]
     year = date[:4]
+    suburban = ("" if sched == "rtc" else """ The franchise and
+tax multipliers and the Shoreline and Burien undergrounding charges that
+21.49.030.B applies "to Schedule RTS as Schedule RSS" are the RatePlanModifier
+scl:residential-suburban
+(us/wa/scl/electricity/residential-suburban/versions/""" + date + """/). Every
+charge here is the unmultiplied rate, which is what a customer in Renton pays.
+The energy PriceSet carries scl:rts-""" + date + """-summary-energy, the
+subtotal that modifier's multiplier is based on.""")
     out = f"""
 Read from Ordinance 127473 (Council Bill 121231), which amends SMC 21.49.030.
 The Schedule {p['code']} table is on ordinance page 11 and the period
@@ -332,10 +352,7 @@ carries the column headed "Effective January 1, {year}".
 
 Schedules RTC and RTS are each a RatePlan of their own: each has its own rate
 table in SMC 21.49.030.B, its own Base Service Charge and its own energy
-charges. RTS differs from RTC only in its energy charges; the franchise and
-tax multipliers and the Shoreline and Burien undergrounding charges that
-21.49.030.B applies "to Schedule RTS as Schedule RSS" are not carried (see
-[modeling].deferrals).
+charges. RTS differs from RTC only in its energy charges.{suburban}
 
 The schedule has no seasons and no blocks. The six TimeBrackets do not
 overlap and together cover every hour: Off-Peak, allDays 00:00-06:00; Peak, customDays Monday through
@@ -406,17 +423,6 @@ def deferrals(sched, date):
         f"After {LAST_DATED_YEAR} each such Sunday holiday needs a further dated entry, until "
         "urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
     ]
-    if sched == "rts":
-        out.append(
-            "SMC 21.49.030.B: \"The same franchise and tax multipliers and suburban undergrounding charges apply "
-            "to Schedule RTS as Schedule RSS.\" Not carried. The RSS multipliers increase all charges by "
-            "location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline "
-            + {"2026-01-01": "8.00%; Tukwila 7.19%; Lake Forest Park 8.04%; Normandy Park 6.38%",
-               "2027-01-01": "8.00%; Tukwila 7.05%; Lake Forest Park 8.04%; Normandy Park 6.38%",
-               "2028-01-01": "8.00%; Tukwila 7.07%; Lake Forest Park 8.04%; Normandy Park 6.38%"}[date]
-            + "), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and "
-            "Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction "
-            "with no multiplier, such as Renton, pays.")
     return out
 
 
@@ -425,7 +431,7 @@ README = """# SCL Schedule {code} ({name}), {date}
 Seattle City Light's optional residential time-of-use schedule for customers {where}, Seattle Municipal Code 21.49.030.B as amended by Ordinance 127473. This version carries the ordinance column headed "Effective January 1, {year}".
 
 **This filing uses `urpx:daysOfWeek`, proposed in [urpx-org/urpx#71](https://github.com/urpx-org/urpx/pull/71) and not in any URPX release. It does not validate against the v0.5.1 SHACL on that property**: `TimeBracketShape` is closed, so each bracket carrying `urpx:daysOfWeek` fails it. `dev/validate-with-base.py` excepts exactly those results under `DAYS_OF_WEEK_EXCEPTION`. The pinned clj-urpx resolves `urpx:customDays` on every day, so this filing is withheld from the marginal-rate baseline and the scenario cost models until clj-urpx 0.39.0 (`dev/withheld-filings.json`).
-
+{modifier}
 ## Files
 
 - `scl_{sched}_{date}.pdf`: Ordinance 127473 as `Ord_127473.pdf` on clerk.seattle.gov. Schedule {code} is on page 11.
@@ -442,6 +448,11 @@ Seattle City Light's optional residential time-of-use schedule for customers {wh
 | Energy Off-Peak (12am-6am every day) | {off} cents per kWh | ${off_d} per kWh |
 
 Holidays are the six NERC holidays City Light names: New Year's Day, Memorial Day, Independence Day, Labor Day, Thanksgiving Day and Christmas Day. One falling on a Sunday is observed the following Monday; one falling on a Saturday stays on Saturday.
+"""
+
+
+MODIFIER_README = """
+Every charge below is the unmultiplied rate, which a customer in Renton pays. The suburban franchise and tax multipliers and the Shoreline and Burien undergrounding charges are the modifier [`scl:residential-suburban`](../../../residential-suburban/versions/{date}/), which takes its percentage of this filing's energy subtotal `scl:rts-{date}-summary-energy` and of its Base Service Charge.
 """
 
 
@@ -472,7 +483,7 @@ def write_manifest(sched, date, pdf):
         "[modeling]", "complete = false", "deferrals = ["]
     for x in deferrals(sched, date):
         lines.append(" " + q(x) + ",")
-    lines += ["]", "applicable_modifiers = []", "",
+    lines += ["]", "applicable_modifiers = " + ('["residential-suburban"]' if sched == "rts" else "[]"), "",
               "# Review ----------------------------------------------------------------------",
               "[review]", 'status = "draft"',
               'notes = "Uses urpx:daysOfWeek from urpx-org/urpx#71, which is in no URPX release."', ""]
@@ -499,5 +510,6 @@ if __name__ == "__main__":
             (d / "README.md").write_text(README.format(
                 code=PLAN[sched]["code"], name=PLAN[sched]["name"], where=PLAN[sched]["where"], date=date,
                 year=date[:4], sched=sched, base=base, off=off, mid=mid, peak=peak, base_d=dollars(base),
-                off_d=dollars(off), mid_d=dollars(mid), peak_d=dollars(peak)))
+                off_d=dollars(off), mid_d=dollars(mid), peak_d=dollars(peak),
+                modifier="" if sched == "rtc" else MODIFIER_README.format(date=date)))
             print("wrote", d)

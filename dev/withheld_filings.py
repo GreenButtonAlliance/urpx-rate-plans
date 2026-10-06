@@ -18,10 +18,10 @@ It refuses rather than withholding in two cases:
 
 Run it to print what is withheld:  python3 dev/withheld_filings.py
 
-WHEN clj-urpx 0.39.0 LANDS (the SCL RTC and RTS entries)
+WHEN clj-urpx 0.39.0 LANDS (the SCL RTC, RTS and residential-suburban entries)
 
   1. Pin it in deps.edn. This module then refuses until step 2.
-  2. Remove both entries from dev/withheld-filings.json.
+  2. Remove all three entries from dev/withheld-filings.json.
   3. clojure -M:validate --record-baseline, and review the diff. Only new
      plan|us/wa/scl/... rows may appear (plus whatever 0.39.0 itself moves).
      Hand-checked expected marginals for the 2026-01-01 versions, energy only
@@ -35,8 +35,30 @@ WHEN clj-urpx 0.39.0 LANDS (the SCL RTC and RTS entries)
      (e.g. 2026-07-19 18:00 Pacific: Mid-Peak, 0.1409 / 0.1428) and a
      Monday-observed holiday (2027-07-05 18:00, on the 2027 versions: Mid-Peak,
      0.1479 / 0.1489).
+     scl:residential-suburban composes with RTS through its jurisdiction
+     dimension, which has no nomination yet: add one to
+     profile-alternative-nominations in dev/validate_v020.clj for each
+     version's scl:residential-suburban-<date>-pa-jurisdiction (Shoreline
+     exercises the multiplier and all five undergrounding charges). Hand-checked
+     marginals, RTS 2026-01-01 plus scl:residential-suburban-2026-01-01, energy
+     only; the modeled value is unrounded, and City Light's published cell is
+     it rounded half up to $0.0001 before undergrounding:
+       Shoreline, Saturday 17:00 Peak   0.1632 x 1.08 + 0.0069 = 0.183156
+                                        (multiplied part 0.176256, published 0.1763)
+       Shoreline, any day 02:00          0.0816 x 1.08 + 0.0069 = 0.095028
+       Burien, Saturday 17:00 Peak      0.1632 x 1.08 + 0.0050 = 0.181256
+       SeaTac or King County, Peak      0.1632 x 1.08          = 0.176256
+       Tukwila, weekday 17:00 Peak      0.1632 x 1.0719        = 0.17493408 (published 0.1749)
+       Lake Forest Park, Sunday 10:00   0.1428 x 1.0804        = 0.15428112 (published 0.1543)
+       Normandy Park, any day 02:00     0.0816 x 1.0638        = 0.08680608 (published 0.0868)
+     The Base Service Charge multiplier is outside the marginal: Shoreline
+     0.3945 x 0.08 = 0.03156 per day on top of 0.3945 (published 0.4261). On
+     the 2027 versions Tukwila Mid-Peak is 0.1489 x 1.0705 = 0.15939745. The
+     off-peak values above already resolve on the pinned 0.37.0; the Peak and
+     Sunday ones need 0.39.0.
   4. python3 dev/check_all.py, which regenerates the scenario cost models with
-     scl:rtc and scl:rts as bases, then dev/gate.sh --full.
+     scl:rtc and scl:rts as bases and RTS plus scl:residential-suburban, one
+     model per jurisdiction, then dev/gate.sh --full.
   5. Remove "withheld from resolution" from the SCL READMEs.
 """
 from __future__ import annotations

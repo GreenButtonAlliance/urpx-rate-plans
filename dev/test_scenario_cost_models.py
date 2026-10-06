@@ -64,10 +64,11 @@ tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
 expect("supersession finds eleven plan identities", len(REAL["superseded"]), 11)
-# SCL RTC and RTS are filed for 2027-01-01 and 2028-01-01 as well as 2026-01-01.
-# At the currency instant the later four are not yet effective, and the 2026
-# versions they follow are in force, not superseded.
-expect("four versions are not yet effective", len(REAL["not_yet_effective"]), 4)
+# SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
+# 2028-01-01 as well as 2026-01-01. At the currency instant the later six are
+# not yet effective, and the 2026 versions they follow are in force, not
+# superseded.
+expect("six versions are not yet effective", len(REAL["not_yet_effective"]), 6)
 expect("no composition is built on a superseded version",
        [a for a in REAL["compositions"]
         if a["base"] in REAL["superseded"] or set(a["modifiers"]) & set(REAL["superseded"])],
@@ -282,8 +283,15 @@ print()
 print("=== cross-check against the independently generated pairings report ===")
 import json  # noqa: E402
 
+import withheld_filings  # noqa: E402
+
 PAIRINGS = json.loads((REPO / "reports" / "modifier-base-pairings.json").read_text())
-plan_level = sum(len(v["applicable_to"]) for v in PAIRINGS["by_modifier"].values())
+# Less the pairings onto a base dev/withheld-filings.json withholds from every
+# composition (scl:residential-suburban onto scl:rts).
+WITHHELD_PLANS = {v["plan"] for v in REAL["versions"].values()
+                  if v["kind"] == "plan" and withheld_filings.withheld(v.get("home"))}
+plan_level = sum(len(set(v["applicable_to"]) - WITHHELD_PLANS)
+                 for v in PAIRINGS["by_modifier"].values())
 version_level = len([a for a in REAL["compositions"] if a["modifiers"]])
 # Each modifier identity has exactly one current version and each base identity
 # exactly one current version, so the version-level pairing count must land on
@@ -293,7 +301,6 @@ version_level = len([a for a in REAL["compositions"] if a["modifiers"]])
 expect("base-plus-one-modifier compositions match the plan-level pairing count",
        version_level, plan_level)
 # Less the bases dev/withheld-filings.json withholds from every composition.
-import withheld_filings  # noqa: E402
 expect("base-only compositions match the current base count",
        len([a for a in REAL["compositions"] if not a["modifiers"]]),
        len({v["plan"] for v in REAL["versions"].values()

@@ -405,6 +405,8 @@ CARE and FERA discount a percentage of the bill rather than a per-unit rate, so 
 
 **Whether the two programs share a subtotal depends on the tariff, not on convenience.** SCE excludes the same two items from both (the PUCRF, and the Climate Credit, which Special Condition 12 applies after the taxes the discount precedes), so CARE and FERA share one subtotal and differ only in rate. SDG&E carves the fixed charge out of both and CARE additionally excludes the charges it is exempt from, so FERA pays the DWR Bond Charge and the Wildfire Fund NBC that CARE does not, and the same plan needs two subtotals with different members.
 
+**The same shape carries an increase.** Seattle City Light's suburban franchise and tax multipliers raise every Schedule RTS charge by a percentage set by the customer's jurisdiction, so `scl:residential-suburban` carries a positive `urpx:multiplier` per jurisdiction, as a `urpx:ProfileAlternative`. Because the percentage covers the per-day Base Service Charge too, and a per-day charge cannot be summed with per-kWh ones, each alternative applies it twice: over the RTS energy subtotal and over the Base Service Charge Price itself.
+
 `dev/lint_discount_summaries.py` re-derives each subtotal from the tariff rule and runs in the gate, because a price added to a plan but not to its subtotal makes the discount too small while every other check stays green.
 
 **One property that is optional in the shapes but load-bearing here**, and not visible to SHACL. A `urpx:Ledger` with no `urpx:referencesMetricInput` keeps its tiers but falls out of the marginal-rate aggregate, which the pinned clj-urpx now refuses rather than answering with a legal-looking zero.

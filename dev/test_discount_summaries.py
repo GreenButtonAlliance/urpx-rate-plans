@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 # SPDX-License-Identifier: CDLA-Permissive-2.0
-"""Negative tests for the discount-subtotal lint's SCE generation rule.
+"""Negative tests for the discount-subtotal lint's SCE generation rule and its
+SCL suburban multiplier rule.
 
 Each case copies the four 2026-03-20 SCE residential bases, sce:care and
-sce:da-crs into a temporary `us/` tree, alters them, and asserts the lint's
-verdict on the copy.
+sce:da-crs (or the SCL RTS filings and scl:residential-suburban) into a
+temporary `us/` tree, alters them, and asserts the lint's verdict on the copy.
 
 Run: python3 dev/test_discount_summaries.py
 """
@@ -161,6 +162,50 @@ def test_arithmetic(tmp: Path) -> None:
           any(p.get("kind") == "double-counted" and p.get("discount") == OFFSET for p in ps))
 
 
+SCL_DATES = ["2026-01-01", "2027-01-01"]
+SCL_ENERGY = "scl:residential-suburban-2026-01-01-price-shoreline-franchise-tax-energy"
+
+
+def scl_originals() -> dict[tuple[str, str], dict]:
+    docs = {}
+    for d in SCL_DATES:
+        docs[("rts", d)] = json.loads(corpus.filing_path("scl", "rts", d).read_text())
+        docs[("residential-suburban", d)] = json.loads(corpus.filing_path(
+            "scl", "residential-suburban", d, "rate-plan-modifier").read_text())
+    return docs
+
+
+def scl_problems(tmp: Path, docs: dict[tuple[str, str], dict]) -> list[dict]:
+    out = []
+    for (name, d), doc in docs.items():
+        kind = "rate-plan" if name == "rts" else "rate-plan-modifier"
+        p = tmp / "us" / "wa" / "scl" / "electricity" / name / "versions" / d / f"{kind}_scl_{name}_{d}.jsonld"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(doc))
+        out.append(p)
+    return L.check(out)[0]
+
+
+def test_scl(tmp: Path) -> None:
+    print("\nSCL suburban franchise and tax multipliers")
+    ps = scl_problems(tmp / "scl-clean", scl_originals())
+    check("RTS 2026 and 2027 and their modifier versions are clean", ps == [], json.dumps(ps)[:400])
+
+    docs = scl_originals()
+    sid, base = "scl:rts-2026-01-01-summary-energy", "scl:rts-2026-01-01-price-base-service-charge"
+    node(docs[("rts", "2026-01-01")], sid)["urpx:includesPrice"].append({"@id": base})
+    p = summary_problem(scl_problems(tmp / "scl-base", docs), sid)
+    check("the per-day Base Service Charge in the energy subtotal FAILS, naming it unexpected",
+          p is not None and p["unexpected"] == [base] and p["missing"] == [], str(p))
+
+    docs = scl_originals()
+    node(docs[("residential-suburban", "2026-01-01")], SCL_ENERGY)["urpx:basedOnPrice"] = [
+        {"@id": "scl:rts-2027-01-01-summary-energy"}]
+    ps = [p for p in scl_problems(tmp / "scl-year", docs) if p.get("discount") == SCL_ENERGY]
+    check("a 2026 multiplier based on the 2027 subtotal FAILS as another year's",
+          len(ps) == 1 and ps[0].get("wrong_year") == ["scl:rts-2027-01-01-summary-energy"], str(ps))
+
+
 def test_corpus() -> None:
     print("\nThe live corpus")
     p = subprocess.run([sys.executable, str(LINT)], capture_output=True, text=True)
@@ -177,9 +222,10 @@ if __name__ == "__main__":
         test_membership(Path(tmp))
         test_candidates(Path(tmp))
         test_arithmetic(Path(tmp))
+        test_scl(Path(tmp))
     test_corpus()
     print()
     if failures:
         print(f"{len(failures)} failure(s): {', '.join(failures)}")
         raise SystemExit(1)
-    print("discount-subtotal lint: every generation guard fired and the corpus stayed clean")
+    print("discount-subtotal lint: every generation and SCL guard fired and the corpus stayed clean")
