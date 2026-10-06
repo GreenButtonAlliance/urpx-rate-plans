@@ -16,6 +16,9 @@ Method:
      sha256 of the UTF-8 bytes.
 
 Literals keep their lexical form: xsd:decimal "1.50" and "1.5" hash differently.
+The one exception is a negative zero: "-0.00000" hashes as "0.00000", because
+the two are the same value and a parser that reads the number back (Java's
+BigDecimal, for one) cannot write the sign.
 
 URDNA2015 via pyld would also do; pyld is not in dev/requirements.txt and rdflib
 is, so this uses rdflib. The two do not produce the same hash, and a recorded
@@ -26,13 +29,15 @@ Run: python3 dev/rdf_hash.py FILE...   prints "<sha256>  <file>" per file
 from __future__ import annotations
 
 import hashlib
+import re
 import sys
 from pathlib import Path
 
-from rdflib import Graph
+from rdflib import Graph, Literal
 from rdflib.compare import to_canonical_graph
 
 BASE = "urn:x-rdf-hash:base/"
+NEGATIVE_ZERO = re.compile(r"-(0+(?:\.0*)?|\.0+)(?:[eE][-+]?\d+)?")
 
 
 def graph_of(text: str) -> Graph:
@@ -41,9 +46,18 @@ def graph_of(text: str) -> Graph:
     return g
 
 
+def unsign_zero(g: Graph) -> Graph:
+    """Drop the sign from every literal whose lexical form is a negative zero."""
+    for s, p, o in list(g):
+        if isinstance(o, Literal) and NEGATIVE_ZERO.fullmatch(str(o)):
+            g.remove((s, p, o))
+            g.add((s, p, Literal(str(o)[1:], datatype=o.datatype, lang=o.language)))
+    return g
+
+
 def rdf_sha256_text(text: str) -> str:
     """The canonical RDF hash of a JSON-LD document given as text."""
-    canonical = to_canonical_graph(graph_of(text))
+    canonical = to_canonical_graph(unsign_zero(graph_of(text)))
     lines = sorted(
         line for line in canonical.serialize(format="nt").splitlines() if line.strip()
     )

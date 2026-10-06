@@ -6,13 +6,13 @@ Each filing's JSON-LD is generated from Clojure source written with `urpx.dsl`. 
 
 All 9 Seattle City Light documents (RTC and RTS 2026 to 2028, and the residential-suburban modifier 2026 to 2028) generate from one source tree with the same RDF hash as the committed files. The SCL source is 309 lines in 4 namespaces; RTS is 28, most of it a rates table copied from the ordinance's year columns. The committed RTC 2026 JSON-LD alone is 689 lines.
 
-clj-urpx 0.39.0 loads all 88 corpus documents and emits 81 of them RDF-identically. The other 7 lose `ProgramEnrollment`, `SourcePublication` and `RateCase` nodes, or a `-0.00000` that becomes `0.00000`.
+clj-urpx 0.39.0 loads all 88 corpus documents and emits 81 of them RDF-identically. Six of the other 7 lose `ProgramEnrollment`, `SourcePublication` and `RateCase` nodes; in the seventh a `-0.00000` becomes `0.00000`, which `dev/rdf_hash.py` now hashes alike.
 
 ## Requirements
 
 1. Generated equals committed. The gate fails on any document whose regenerated RDF hash differs from the committed file.
 2. Typed definitions. Every definition is made with one macro, `defurpx`, naming its kind with a keyword. The value is validated against that kind's Malli schema when the namespace loads; a failure names the file, the line of the form, and the path to the bad value inside it.
-3. Generation by registry. `defurpx` registers each definition; the generator writes every definition of kind `:document`. There is no manifest of documents.
+3. Generation by kind. Each definition's kind is in its var metadata; `(defs-of-kind kind nses)` returns the definitions of a kind in the namespaces given, and the generator writes every `:document` among them. There is no manifest of documents and no global registry.
 4. Shared data is keyed by the date it takes effect and read as of each version's date. It is never edited in place, so an older version regenerates unchanged after a newer one is added.
 5. References across documents are full IRIs, forward or back. A modifier names its base plan's Prices and tiers through the same function the base uses to mint them.
 6. A sentence that restates table facts (rates, hours, multipliers) is generated from the tables. Other prose is a template filled from the definitions.
@@ -30,7 +30,7 @@ clj-urpx 0.39.0 loads all 88 corpus documents and emits 81 of them RDF-identical
    "2028-01-01" {:base-service-charge 77.22M :peak 17.86M :mid-peak 15.63M :off-peak 8.93M}})
 ```
 
-`(defurpx kind name doc? value)` expands to a `def` whose var carries `{:urpx/kind kind}`, the docstring, file and line; validates the value against `(kind-schema kind)`, a multimethod whose `:default` refuses an unknown kind; and registers the var. A malformed row fails at load:
+`(defurpx kind name doc? value)` validates the value against `(kind-schema kind)`, a multimethod whose `:default` refuses an unknown kind, then expands to a `def` whose var carries `{:urpx/kind kind}`, the docstring, file and line. Validation runs at macroexpansion, before the `def`, so a failed re-evaluation interns nothing. Kinds that clj-urpx defines are qualified `:urpx.kind/*`; the corpus's kinds are qualified in its own namespaces. A malformed row fails at load:
 
 ```
 Invalid :rates bad-rates/rtc-rates (bad/bad_rates.clj:4)
@@ -62,9 +62,9 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 
 ## What goes to clj-urpx
 
-Generic, for clj-urpx: `defurpx`, the kind multimethod and registry; the kinds that are not corpus-specific; fixes for the gaps below; the expansion helpers once a second utility has used them; a clj-kondo hook shipped with the library.
+For clj-urpx: `defurpx` and the kind multimethod; fixes for the gaps below; a clj-kondo hook shipped with the library; later, the date-keyed lookups (`as-of`, version dates).
 
-Corpus-specific, here: the utility and schedule namespaces, the date-keyed shared data, the generator entry point, and the gate's equality check.
+Here: the utility and schedule namespaces; the kinds `:utility`, `:source`, `:document`, `:holidays`, `:rates`, `:percentages`, `:jurisdictions`, `:undergrounding` and `:description`; the TOU and alternatives expansion helpers; the generator entry point; and the gate's equality check. Kinds and helpers move to clj-urpx once PSE Schedules 307 and 327 show they generalize.
 
 ## Gaps in urpx.dsl 0.39.0
 
@@ -73,20 +73,25 @@ Each has a working workaround in the SCL spike.
 | Gap | Workaround |
 |---|---|
 | `dsl-scope` local ids drop their prefix | build every `@id` as a full CURIE |
+| two keywords in one scope (`:scl/summer`, `:pge/summer`) yield the same `@id` with no error | full CURIEs |
 | references must be declared before use, so a version cannot name its enclosing plan | references are CURIE strings, forward or back |
 | a qualified keyword value inside a scope is read as a local reference, so `:urpx/allDays` throws | vocabulary values as plain keywords converted to references |
 | `condition-expression` rejects short keys (`:root-node`): `alias-map` reads the wrapped schema without dereferencing it | dereference before deriving aliases |
 | unknown keys are kept silently | refuse any key that is neither a schema key nor its alias |
 | `urpx:offeredBy` is in no version schema | passed through unvalidated |
 | no builder for `ComparisonNode`, `UtilityOperator`, `OrganizationIdentity`, `OrganizationName` | raw maps |
-| no way to write an RDF list (`hasPossibleValues`) | literal `@list` maps |
-| `"24:00"` throws `DateTimeException`, though xsd:time allows 24:00:00 | mapped to `"00:00:00"` |
-| a double such as `0.1610` emits `"0.161"` | BigDecimals with explicit scale |
+| `{:jsonld/list [...]}` emits `@list`, but no helper builds it and no schema checks it (`hasPossibleValues`) | literal `@list` maps |
+| `"24:00:00"` throws `DateTimeException`, though xsd:time allows it | mapped to `"00:00:00"`; a bare `"24:00"` is the authoring layer's to convert |
+| a double such as `0.1610` emits `"0.161"` | BigDecimals with explicit scale; builders will refuse doubles in xsd:decimal fields |
 | `ProgramEnrollment`, `SourcePublication`, `RateCase` are dropped on load | none needed for SCL |
+
+## Scope references
+
+`dsl-scope` stays, reworked: the caller supplies the function from keyword to `@id` (by default the keyword's namespace and name as a CURIE), a repeated `@id` refuses, and keyword references resolve when the scope exits, with one error listing every unresolved key and the builder that used it.
 
 ## Acceptance
 
-The 9 SCL documents, regenerated from source on clj-urpx's release, with the same RDF hashes. Then PSE Schedules 307 and 327, which share 19 riders and two Summary-Sheet versions: the first test of the helpers on a second utility.
+The 9 SCL documents, regenerated from source on each clj-urpx release, with the same RDF hashes as at a pinned commit, checked in both directions so a missing or extra document fails. Then PSE Schedules 307 and 327, which share 19 riders and two Summary-Sheet versions: the first test of the helpers on a second utility.
 
 ## Open questions
 

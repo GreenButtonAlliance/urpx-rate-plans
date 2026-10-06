@@ -85,6 +85,18 @@ def main() -> int:
     renamed = json.loads(json.dumps(blank).replace("ex:q", "ex:qq"))
     check("changing a predicate changes the hash", rdf_sha256_text(json.dumps(renamed)) != h)
 
+    def price(v):
+        return json.dumps({"@context": {"ex": "http://example.org/",
+                                        "xsd": "http://www.w3.org/2001/XMLSchema#"},
+                           "@id": "ex:s",
+                           "ex:price": {"@value": v, "@type": "xsd:decimal"}})
+    check("a negative zero hashes as zero",
+          rdf_sha256_text(price("-0.00000")) == rdf_sha256_text(price("0.00000")))
+    check("a negative zero keeps its scale",
+          rdf_sha256_text(price("-0.00000")) != rdf_sha256_text(price("0.0")))
+    check("a negative nonzero value keeps its sign",
+          rdf_sha256_text(price("-0.00001")) != rdf_sha256_text(price("0.00001")))
+
     print(f"{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
     return 1 if failures else 0
 
