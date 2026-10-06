@@ -43,6 +43,9 @@
     },
     "urpx:gYearValue": {
       "@type": "xsd:gYear"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -63,7 +66,7 @@
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },
-      "urpx:description": "Schedule CCA-CRS — CCA Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers served by a Community Choice Aggregator (CCA) instead of Bundled SCE service. Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh), CTC ($0.00014/kWh), FRC ($0.00619/kWh), and PCIA (vintage-discriminated, identical PCIA values to Schedule DA-CRS — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 to $0.02624 for 2023). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `departureVintage` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the OAT reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, CCA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service; this OAT-side adjustment is NOT modeled here. CCA-CRS Sheet 3 has a richer customer-subgroup exemption table than DA-CRS — CCA customers on Medical Baseline are WFC-exempt; CCA customers on CARE are WFC-exempt + FRC-exempt; CCA customers on FERA are FRC-exempt; Continuous DA/CCA customers are WFC + PCIA-exempt; Returning Continuous DA customers are WFC-exempt. Only the default CCA Customers subgroup is captured by the Eligibility Rule here; the subgroup exemptions are stacking interactions with already-modeled CARE / FERA modifiers and are deferred to a follow-up issue.",
+      "urpx:description": "Schedule CCA-CRS — CCA Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers served by a Community Choice Aggregator (CCA) instead of Bundled SCE service. Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh), CTC ($0.00014/kWh), FRC ($0.00619/kWh), and PCIA (vintage-discriminated, identical PCIA values to Schedule DA-CRS — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 to $0.02624 for 2023). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `departureVintage` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the OAT reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, CCA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service; this OAT-side adjustment is NOT modeled here. The base plan's SCE Generation, which each base schedule applies only to Bundled Service Customers, is offset by one Price carrying urpx:multiplier -1 over that base's generation urpx:PriceSummary. CCA-CRS Sheet 3 has a richer customer-subgroup exemption table than DA-CRS — CCA customers on Medical Baseline are WFC-exempt; CCA customers on CARE are WFC-exempt + FRC-exempt; CCA customers on FERA are FRC-exempt; Continuous DA/CCA customers are WFC + PCIA-exempt; Returning Continuous DA customers are WFC-exempt. Only the default CCA Customers subgroup is captured by the Eligibility Rule here; the subgroup exemptions are stacking interactions with already-modeled CARE / FERA modifiers and are deferred to a follow-up issue.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
@@ -824,6 +827,17 @@
               "urpx:referencesMetricInput": {
                 "@id": "sce:cca-crs-mi-energy"
               }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:cca-crs-ledger-oat-generation",
+              "urpx:name": "CCA-CRS offset of the base plan's SCE Generation",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:cca-crs-mi-energy"
+              }
             }
           ],
           "urpx:hasPriceDefinition": [
@@ -894,6 +908,23 @@
               "urpx:referencesLedger": {
                 "@id": "sce:cca-crs-ledger-pcia"
               }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:cca-crs-pd-oat-generation-offset",
+              "urpx:name": "Offset of the base plan's SCE Generation and DWR Energy Credit, which a CCA Service customer does not take from SCE",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:cca-crs-ledger-oat-generation"
+              }
             }
           ]
         }
@@ -931,6 +962,30 @@
             "urpx:startDate": "2026-01-01",
             "urpx:name": "Fixed Recovery Charge",
             "urpx:unitPrice": "0.00619"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:cca-crs-price-oat-generation-offset-2026-03-20",
+            "urpx:name": "Offset of the generation subtotal of whichever SCE residential base plan the customer is on. Schedule D Sheet 6 (90638-E) Special Condition 4.c and Schedule TOU-D Sheet 21 (91040-E) Special Condition 11.c: CCA Service Customers are billed for \"Delivery Service as displayed in this Rate Schedule and Generation charges determined by the CCA plus the applicable charges as shown in Schedule CCA-CRS\".",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:cca-crs-pd-oat-generation-offset"
+            },
+            "urpx:startDate": "2026-03-20",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sce:d-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-03-20-summary-generation"
+              }
+            ]
           }
         ],
         "urpx:hasPriceSetAlternatives": [

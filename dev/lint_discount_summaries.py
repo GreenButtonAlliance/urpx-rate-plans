@@ -61,6 +61,19 @@ THE RULES, each traceable to a sentence in the source schedule:
     CARE does not, and the two programs need different member lists on the same
     plan.
 
+  SCE GENERATION, every residential base's Rates table, footnote 2 ("Generation
+    = The Generation rates are applicable only to Bundled Service Customers",
+    Schedule D Sheet 2; "The Gen rates ..." on each Schedule TOU-D option's
+    sheet) with Special Condition 4.b/4.c of Schedule D and 11.b/11.c of
+    Schedule TOU-D, which bill Direct Access and CCA Service customers for
+    Delivery Service and not SCE Generation. sce:da-crs and sce:cca-crs cancel
+    it with multiplier -1 over a per-base subtotal whose @id ends
+    "-summary-generation". Its members are exactly the base's Prices whose
+    PriceDefinition carries urpx:billPortion urpx:supplyPortion: the Generation
+    column and the DWR Energy Credit, which the same Special Condition provides
+    to Bundled Service Customers. A discount naming one such subtotal must name
+    every one of its utility.
+
 Both utilities say TOTAL BILL. A bill carries each charge once, at the rate
 applicable to the usage being billed, so a charge that varies by TOU period or
 by service tier belongs in the subtotal once and not once per band. URPX says the
@@ -106,6 +119,11 @@ EXCLUDE_FIXED = re.compile(r"(base-services-charge|minimum-bill)")
 # Price's @id ends "-ppp-net-of-care-surcharge" and belongs in the subtotal.
 EXCLUDE_EXEMPT = re.compile(r"(dwr-bc|wf-nbc|-price-udc-care-surcharge$)")
 EXCLUDE_SCE = re.compile(r"(price-pucrf|price-climate-credit)")
+GENERATION = "-summary-generation"
+
+
+class Refused(Exception):
+    """Nothing to check, so a clean verdict would be vacuous."""
 
 # Properties that distinguish two Prices sharing one PriceDefinition. Naming
 # them is what lets the DEFINITIONS failure say WHY the two are not the same
@@ -144,6 +162,14 @@ def ref_id(x):
     return x.get("@id") if isinstance(x, dict) else x
 
 
+def rel(path: Path) -> str:
+    """`path` relative to the repository, or whole when it lies outside it."""
+    try:
+        return str(path.relative_to(REPO))
+    except ValueError:
+        return str(path)
+
+
 def utility_of(path: Path) -> str:
     """Utility segment, located by the `us` root rather than a fixed index.
 
@@ -175,6 +201,25 @@ def expected(path: Path, utility: str, program: str) -> list[str]:
 
     walk(doc, visit)
     return out
+
+
+def expected_generation(path: Path) -> list[str]:
+    """Prices whose PriceDefinition is billed as urpx:supplyPortion."""
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    pds: dict[str, dict] = {}
+    prices: list[dict] = []
+
+    def visit(d):
+        t = node_type(d)
+        if t == "urpx:PriceDefinition" and d.get("@id"):
+            pds[d["@id"]] = d
+        elif t == "urpx:Price" and d.get("@id"):
+            prices.append(d)
+
+    walk(doc, visit)
+    return [p["@id"] for p in prices
+            if ref_id((pds.get(ref_id(p.get("urpx:referencesPriceDefinition"))) or {})
+                      .get("urpx:billPortion")) == "urpx:supplyPortion"]
 
 
 class Filing:
@@ -341,7 +386,7 @@ def check_definitions(filings: list[Filing]) -> tuple[list[dict], int]:
                                  if k in DISCRIMINATORS})
                 problems.append({
                     "summary": sid,
-                    "file": str(f.path.relative_to(REPO)),
+                    "file": rel(f.path),
                     "definition": pd,
                     "members": [(m, str(f.unit(m))) for m in mem],
                     "discriminators": differ,
@@ -410,7 +455,7 @@ def check_arithmetic(filings: list[Filing]) -> tuple[list[dict], int]:
                         problems.append({
                             "kind": "unvaluable",
                             "discount": did, "summary": sid, "band": band,
-                            "file": str(base.path.relative_to(REPO)),
+                            "file": rel(base.path),
                             "members": sorted(blind),
                         })
                         continue
@@ -448,7 +493,7 @@ def check_arithmetic(filings: list[Filing]) -> tuple[list[dict], int]:
                     problems.append({
                         "kind": "double-counted",
                         "discount": did, "summary": sid, "band": band,
-                        "file": str(base.path.relative_to(REPO)),
+                        "file": rel(base.path),
                         "named": str(named),
                         "once_lo": str(lo), "once_hi": str(hi),
                         "modeled": str(mult * named),
@@ -472,7 +517,7 @@ def check_arithmetic(filings: list[Filing]) -> tuple[list[dict], int]:
             problems.append({
                 "kind": "uneven-bands",
                 "discount": did, "summary": sid,
-                "file": str(base.path.relative_to(REPO)),
+                "file": rel(base.path),
                 "counts": dict(sorted(counts.items())),
                 "values": {b: v for b, (_, v, _) in sorted(bands.items())
                            if b is not None},
@@ -480,14 +525,11 @@ def check_arithmetic(filings: list[Filing]) -> tuple[list[dict], int]:
     return problems, evaluated
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--json", action="store_true")
-    args = ap.parse_args()
+def check(files) -> tuple[list[dict], dict]:
+    """Every problem in `files`, and the counts a clean verdict reports.
 
-    files = corpus.all_filing_jsonld()
-    corpus.require_nonempty(files, "rate-plan filings")
-
+    Raises Refused when a check would pass over nothing.
+    """
     filings = [Filing(Path(f)) for f in files]
 
     summaries: dict[str, tuple[Path, list[str]]] = {}
@@ -509,13 +551,11 @@ def main() -> int:
                  if cands and not any(c in summaries for c in cands)}
 
     if not summaries:
-        print("REFUSED: no urpx:PriceSummary anywhere; this linter would pass "
-              "vacuously.", file=sys.stderr)
-        return 3
+        raise Refused("no urpx:PriceSummary anywhere; this linter would pass "
+                      "vacuously.")
     if not candidates:
-        print("REFUSED: no urpx:Price carries a urpx:multiplier, so there is no "
-              "discount to check.", file=sys.stderr)
-        return 3
+        raise Refused("no urpx:Price carries a urpx:multiplier, so there is no "
+                      "discount to check.")
 
     problems: list[dict] = []
 
@@ -524,11 +564,12 @@ def main() -> int:
         utility = utility_of(path)
         program = ("care" if "-care-" in sid else
                    "fera" if "-fera-" in sid else "shared")
-        want = expected(path, utility, "care" if program == "shared" else program)
+        want = (expected_generation(path) if sid.endswith(GENERATION) else
+                expected(path, utility, "care" if program == "shared" else program))
         missing = sorted(set(want) - set(members))
         extra = sorted(set(members) - set(want))
         if missing or extra:
-            problems.append({"summary": sid, "file": str(path.relative_to(REPO)),
+            problems.append({"summary": sid, "file": rel(path),
                              "missing": missing, "unexpected": extra})
 
     for did in sorted(line_item):
@@ -548,7 +589,7 @@ def main() -> int:
         stray = sorted(p for p in per_plan if p not in applicable)
         if unresolved or uncovered or repeated or stray:
             problems.append({"line_item_discount": did,
-                             "file": str(owner[did].path.relative_to(REPO)),
+                             "file": rel(owner[did].path),
                              "unresolved": unresolved, "uncovered": uncovered,
                              "repeated": repeated, "stray": stray})
 
@@ -557,6 +598,13 @@ def main() -> int:
         if pid in line_item:
             continue
         util = pid.split(":")[0]
+        if any(c.endswith(GENERATION) for c in cands):
+            want = {s for s in all_sums
+                    if s.split(":")[0] == util and s.endswith(GENERATION)}
+            gap = sorted(want - set(cands))
+            if gap:
+                problems.append({"discount": pid, "missing_candidates": gap})
+            continue
         # A CARE discount names the CARE subtotals, a FERA discount the FERA ones,
         # and where a utility publishes one shared subtotal both name it. Demanding
         # every summary of the utility would require CARE to name FERA's.
@@ -574,28 +622,42 @@ def main() -> int:
     # rather than reporting "clean" over nothing to check.
     dup_problems, groups = check_definitions(filings)
     if groups == 0:
-        print("REFUSED: no summary member resolves to a urpx:PriceDefinition, so "
-              "the duplicate-definition check has nothing to group on and would "
-              "pass vacuously.", file=sys.stderr)
-        return 3
+        raise Refused("no summary member resolves to a urpx:PriceDefinition, so "
+                      "the duplicate-definition check has nothing to group on and "
+                      "would pass vacuously.")
     problems.extend(dup_problems)
 
     math_problems, evaluated = check_arithmetic(filings)
     if evaluated == 0:
-        print("REFUSED: no (discount, subtotal) pair resolved to a summary in "
-              "this corpus, so no subtotal arithmetic was compared and this "
-              "linter would pass vacuously.", file=sys.stderr)
-        return 3
+        raise Refused("no (discount, subtotal) pair resolved to a summary in "
+                      "this corpus, so no subtotal arithmetic was compared and "
+                      "this linter would pass vacuously.")
     problems.extend(math_problems)
+    return problems, {"summaries": len(summaries), "discounts": len(candidates),
+                      "groups": groups, "evaluated": evaluated}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--json", action="store_true")
+    args = ap.parse_args()
+
+    files = corpus.all_filing_jsonld()
+    corpus.require_nonempty(files, "rate-plan filings")
+    try:
+        problems, n = check(files)
+    except Refused as e:
+        print(f"REFUSED: {e}", file=sys.stderr)
+        return 3
 
     if args.json:
         print(json.dumps(problems, indent=2))
         return 1 if problems else 0
 
     if not problems:
-        print(f"discount subtotals: clean ({len(summaries)} summaries, "
-              f"{len(candidates)} discount prices, {groups} summary/definition "
-              f"groups, {evaluated} subtotal values compared)")
+        print(f"discount subtotals: clean ({n['summaries']} summaries, "
+              f"{n['discounts']} discount prices, {n['groups']} summary/definition "
+              f"groups, {n['evaluated']} subtotal values compared)")
         return 0
 
     print(f"discount subtotals: {len(problems)} problem(s)\n")

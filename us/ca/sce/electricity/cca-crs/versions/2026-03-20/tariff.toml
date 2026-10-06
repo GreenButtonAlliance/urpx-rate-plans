@@ -47,9 +47,9 @@ Per-sheet effective dates within the source PDF:
 ## Modifier shape
 
 Mirror of Schedule DA-CRS (see us/ca/sce/electricity/da-crs/.../tariff.toml for
-the detailed shape description). 4 PriceDefinitions on 4 Ledgers +
-23 Prices (3 fixed + 20 vintage-discriminated PCIA, gated by
-hasApplicabilityRule on `CCA Vintage Year` CustomOperandNode).
+the detailed shape description). 5 PriceDefinitions on 5 Ledgers +
+24 Prices (3 fixed + 20 vintage-discriminated PCIA + the Generation
+offset over the four bases' generation PriceSummaries).
 applicableToRatePlan: [sce:d, sce:tou-d-4-9pm, sce:tou-d-5-8pm,
 sce:tou-d-prime].
 
@@ -77,12 +77,15 @@ modeling note below.
 
 ## Modeling deferrals
 
-Same 4 deferrals as the DA-CRS sibling (see
+As in the DA-CRS sibling (see
 us/ca/sce/electricity/da-crs/.../tariff.toml):
 
  1. OAT-side DWRBC subtraction not modeled.
- 2. Zero-out of OAT Generation rate for CCA customers not modeled
- (CCA customer buys energy from CCA, not SCE).
+ 2. OAT Generation offset, modeled: a CCA customer is billed
+ "Generation charges determined by the CCA" (Schedule D Sheet 6 SC
+ 4.c, TOU-D Sheet 21 SC 11.c), not SCE Generation. Same shape as
+ DA-CRS: a Price with urpx:multiplier -1 over each base's generation
+ PriceSummary.
  3. Customer-subgroup variants beyond default CCA (subgroups 3-8 in
  the table above) need separate EligibilityRules / per-subgroup
  modifier filings.
@@ -101,7 +104,6 @@ validated_on = "2026-09-20"
 complete = false
 deferrals = [
  "Sheet 2 OAT exception clause is unmodeled: \"With the exception of the CTC and WFC, all charges, terms, and conditions of the customer's Otherwise Applicable Tariff (OAT), or contract rate shall apply.\" The base schedule's own Wildfire Fund charge is therefore not payable by a CCA customer (Schedule D Sheet 3 footnote 9: \"DA and CCA Service Customers are not subject to the WFC rate component of this Schedule but instead pay the WFC as provided by Schedule DA-CRS or Schedule CCA-CRS\"), but nothing here removes it. Composing this modifier onto sce:d or any TOU-D base charges WFC twice, 0.00591/kWh from the base plus 0.00591/kWh from Sheet 4. Expressible at v0.5.1: a Price carrying urpx:multiplier -1.0 and urpx:basedOnPrice naming each base's WFC Price, with no urpx:unitPrice; that shape conforms in a merged graph, and its value is the multiplier times the basis unit price. Because it names a WFC Price in each base, only one base can be composed at a time: with two bases in one graph the basis is not unique. Work, not a blocker.",
- "SCE Generation is not payable by a CCA customer and the model leaves it in effect. Schedule D Sheet 2 footnote 2: \"Generation = The Generation rates are applicable only to Bundled Service Customers.\" Schedule D's Billing Calculation SC c and TOU-D Sheet 21 SC 11.c bill a CCA customer for Delivery Service plus Generation charges determined by the CCA plus Schedule CCA-CRS. Composing this modifier leaves sce:price-generation-2026-03-20 at 0.11761/kWh in effect on sce:d, and the six per-period Generation Prices on each TOU-D base. Same route as the WFC removal above. Expressible at v0.5.1: urpx:multiplier and urpx:basedOnPrice are both on PriceShape and basedOnPrice alone satisfies its sh:xone.",
  "Sheet 3 \"Applicability and Exemption\" table and Sheet 11 Special Condition 1.b price eight customer groups with different per-component applicability; only the default CCA Customers group (rows 1 and 2) is modeled. CCA customers on Medical Baseline are exempt from WFC; on CARE, from WFC and FRC; on FERA, from FRC; Continuous DA/CCA customers, from WFC and PCIA; Returning Continuous DA customers, from WFC. Sheet 3 footnote i adds the union rule: \"If a customer qualifies for multiple customer groups, all exemptions from all eligible customer groups will apply.\" A consumer applying this filing to any of those customers charges components the tariff exempts. Expressible with the hasApplicabilityRule to ConditionExpression to CustomOperandNode pattern this filing already uses for the 20 PCIA vintages; no separate per-subgroup filings and no EligibilityRule extension are needed. Adding those gates changes none of the rates this filing carries; it narrows which customer groups each Price reaches. Source inconsistency worth recording: Sheet 11 SC 1.b.i and 1.b.ii omit FRC from the component lists for Continuous DA/CCA and Returning Continuous DA customers, while Sheet 3 rows 6 and 7 mark FRC Applicable; the Sheet 3 table is the more complete statement.",
  "Sheet 1 applies this Schedule to CCA Customers, Community Aggregator (CA) Customers, and \"any Customer served under Bundled Service and Schedule PC-TBS during the transitional period\", and prices all four components for each. The single EligibilityRule tests Energy Service Type equals \"Community Choice Aggregation\", which does not reach the CA group (Sheet 3 row 2) or the Transitional Bundled Service group (Sheet 3 row 8, Sheet 12 Special Condition 2). The source names CCA and CA as separate groups on Sheet 1 and again on Sheet 3, and Special Condition 3 names a real CA (the City of Cerritos Community Aggregator), so treating one predicate as gating both is not supported by the text.",
  "PCIA vintage determination and retention, Special Conditions 1.c, 2 and 4 (Sheets 11 and 12). This filing takes \"CCA Vintage Year\" as a supplied customer attribute, so the 20 vintage Prices are selectable but the rules that select among them are absent. The parts divide. SC 1.c.vi is expressible at v0.5.1 and is unbuilt work, not a blocker: \"If the PCIA Vintage Determination Date is on or after January 1st and before July 1st, the PCIA vintage shall be set for the prior year. If the PCIA Vintage Determination Date is on or after July 1st and before January 1st, the PCIA vintage shall be set for the current year\" collapses to a half-open interval per vintage, vintage N applying when the determination date falls in [N-07-01, N+1-07-01), and that restates as a gate rather than a derivation. ConditionExpressionShape's rootNode accepts a BooleanOperationNode, BooleanOperationNodeShape carries andOperator over unbounded operandNodes, ComparisonNodeShape's operator sh:in includes greaterThanOrEqualOperator and lessThanOperator, and CustomOperandNodeShape carries urpx:dateValue as xsd:date; a candidate built that way on the 2020 vintage Price conforms merged with the four bases. SC 1.c.i through v (which of several dates is the determination date), SC 2.b (\"A CCA Customer shall retain customer's original PCIA Vintage\"), SC 2.a (\"TBS Customers retain all applicable CRS exemptions while served on Schedule PC-TBS, or while taking Bundled Service as prescribed in Rule 23\") and SC 4 (a customer switching between DA and CCA retains the original vintage and exemption status) all define or carry forward a supplied customer attribute rather than gating a price, and v0.5.1 has no vocabulary that derives an operand: ConditionExpression gates a Price, it does not compute one.",
@@ -115,4 +117,4 @@ applicable_modifiers = []
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "first filing of Schedule CCA-CRS. Generated by dev/derive-sce-crs-2026-03-20.py from manually-extracted source values. Mirror of Schedule DA-CRS — same 4 PriceDefinitions, same 20 PCIA vintages, same Domestic-class values; only Eligibility predicate (CCA Service) and PCIA vintage-property name (CCA Vintage Year) differ. Compose marginal at sce:d goes 0.26226 → 0.27459 (same +0.01233 delta as DA-CRS). CCA-CRS Sheet 3 customer-subgroup exemption table is richer than DA-CRS — see [extraction.notes] for the 8-subgroup table; only default CCA captured here."
+notes = "first filing of Schedule CCA-CRS. Generated by dev/derive-sce-crs-2026-03-20.py from manually-extracted source values. Mirror of Schedule DA-CRS — same 5 PriceDefinitions, same 20 PCIA vintages, same Domestic-class values; only Eligibility predicate (CCA Service) and PCIA vintage-property name (CCA Vintage Year) differ. Composed marginal at sce:d goes 0.31085 → 0.20557 (same +0.01233 and -0.11761 Generation offset as DA-CRS). CCA-CRS Sheet 3 customer-subgroup exemption table is richer than DA-CRS — see [extraction.notes] for the 8-subgroup table; only default CCA captured here."

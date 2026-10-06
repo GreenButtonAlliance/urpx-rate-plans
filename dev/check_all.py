@@ -95,6 +95,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),
     ("test_holiday_calendars",      ["python3", "dev/test_holiday_calendars.py"]),
     ("test_price_layer_conditions", ["python3", "dev/test_price_layer_conditions.py"]),
+    ("test_discount_summaries",     ["python3", "dev/test_discount_summaries.py"]),
 ]
 
 
