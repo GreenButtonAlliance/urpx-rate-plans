@@ -20,7 +20,7 @@ git config --unset core.hooksPath
 
 ### `pre-commit`
 
-Triggers when any `us/**/*.toml`, `us/**/*.jsonld`, or any generator in `dev/` is staged. Re-runs the generators (the list lives in `dev/check_all.py`, so the hook does not keep its own) and stages any resulting `reports/` changes into the same commit, then runs `dev/gate.sh --fast`.
+Triggers when any `us/**/*.toml`, `us/**/*.jsonld`, or any generator in `dev/` is staged. Re-runs the generators (the list lives in `dev/check_all.py`, so the hook does not keep its own) on a temporary checkout of the staged tree and stages any resulting `reports/` changes into the same commit, then runs `dev/gate.sh --fast`. Unstaged edits never reach the generated reports. A regenerated report is also copied into the working tree unless the working copy has unstaged edits of its own, in which case only the index gets it. `dev/gate.sh --fast` runs against the working tree.
 
 **The hook blocks.** A gate failure aborts the commit with the gate's own exit code (1 regression, 2 drift, 3 refused). There is no CI in this repository, so the hook is the only automatic check.
 

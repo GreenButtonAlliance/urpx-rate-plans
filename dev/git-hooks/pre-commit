@@ -2,9 +2,9 @@
 # Pre-commit hook: regenerate derived reports when tariff filings change.
 #
 # When any us/**/*.toml or us/**/*.jsonld is staged, re-runs the report
-# generators (the list lives in dev/check_all.py) and stages any resulting reports/ changes into the
-# same commit. Docs-only commits (README, LAYOUT, etc.) skip the hook
-# and don't slow down.
+# generators (the list lives in dev/check_all.py) against the staged tree and
+# stages any resulting reports/ changes into the same commit. Docs-only commits
+# (README, LAYOUT, etc.) skip the hook and don't slow down.
 #
 # Install (one-time, per-checkout):
 #
@@ -61,20 +61,74 @@ if [ "${URPXT_SKIP_REPORTS:-0}" = "1" ]; then
     echo "pre-commit: URPXT_SKIP_REPORTS=1 - skipping report regeneration (gate still runs)"
 else
 
-echo "pre-commit: tariff filings staged → regenerating reports..."
+echo "pre-commit: tariff filings staged → regenerating reports from the index..."
+
+# Generate from what is being committed, not from the working tree. Running the
+# generators in the checkout pulled unstaged edits to their inputs into reports
+# staged with an unrelated commit. So the staged tree is checked out into a
+# throwaway repository (borrowing this one's objects, so nothing is copied but
+# the files), the generators run there, and only the reports/ paths they change
+# are staged back. git rather than a bare directory, because
+# list_rate_identifiers reads `git ls-files`.
+tmp_root=${TMPDIR:-/tmp}
+gen_root=$(mktemp -d "${tmp_root%/}/pre-commit-reports.XXXXXX")
+trap 'rm -rf "$gen_root"' EXIT
+index_tree=$(git write-tree)
+objects="$(cd "$(git rev-parse --git-common-dir)" && pwd)/objects"
+in_gen_root() {
+    (
+        # git exports these to hooks; they would point the throwaway
+        # repository back at this one.
+        unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX GIT_OBJECT_DIRECTORY
+        cd "$gen_root" && "$@"
+    )
+}
+in_gen_root git init -q .
+echo "$objects" > "$gen_root/.git/objects/info/alternates"
+in_gen_root git read-tree "$index_tree"
+in_gen_root git checkout-index -a
 
 # Defer to dev/check_all.py for WHICH generators run. Keeping a second list here
 # is what let backfill_modeling.py go uncommitted: check_all ran it and the hook
 # did not, so its output drifted and check_all exited 2 on a clean checkout.
-if ! python3 dev/check_all.py --generators-only; then
+if ! in_gen_root python3 dev/check_all.py --generators-only; then
     echo "pre-commit: one or more report generators failed - commit aborted."
     echo "pre-commit: re-stage and retry, or use 'git commit --no-verify' to bypass."
     exit 1
 fi
 
-# Stage any newly-regenerated reports into this commit
-if ! git diff --quiet reports/; then
-    git add reports/
+# Stage each reports/ path the generators changed. The working copy is brought
+# along only when it held exactly the staged version; a working copy with edits
+# of its own is left alone, and only the index gets the regenerated file.
+changes="$gen_root/.git/hook-changes"
+in_gen_root git status --porcelain -z --untracked-files=all -- reports/ > "$changes"
+staged_any=0
+while IFS= read -r -d '' entry; do
+    st=${entry:0:2}
+    path=${entry:3}
+    if git ls-files --error-unmatch -- "$path" > /dev/null 2>&1; then
+        git diff --quiet -- "$path" && in_sync=1 || in_sync=0
+    elif [ ! -e "$path" ] || cmp -s "$gen_root/$path" "$path"; then
+        in_sync=1
+    else
+        in_sync=0
+    fi
+    if [ "$st" = " D" ]; then
+        git rm -q --cached -- "$path"
+        [ "$in_sync" -eq 1 ] && rm -f "$path"
+    elif [ "$in_sync" -eq 1 ]; then
+        mkdir -p "$(dirname "$path")"
+        cp "$gen_root/$path" "$path"
+        git add -- "$path"
+    else
+        blob=$(git hash-object -w -- "$gen_root/$path")
+        git update-index --add --cacheinfo "100644,$blob,$path"
+        echo "pre-commit: $path has unstaged edits; staged the regenerated file and left the working copy as is"
+    fi
+    staged_any=1
+done < "$changes"
+
+if [ "$staged_any" -eq 1 ]; then
     echo "pre-commit: staged regenerated files in reports/"
 else
     echo "pre-commit: reports/ already current — no changes to stage."
