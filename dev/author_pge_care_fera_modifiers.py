@@ -41,7 +41,7 @@ CONTEXT = {
 OFFERED_BY = {
     "@type": "urpx:UtilityOperator",
     "@id": "org:utility-pge",
-    "urpx:legalName": "Pacific Gas & Electric Company",
+    "urpx:legalName": "Pacific Gas and Electric Company",
     "urpx:organizationType": {"@id": "urpx:utilityOrganization"},
     "urpx:hasIdentity": {
         "@id": "org:utility-pge-identity",
@@ -49,7 +49,7 @@ OFFERED_BY = {
         "urpx:hasName": {
             "@id": "org:utility-pge-name",
             "@type": "urpx:OrganizationName",
-            "urpx:name": "Pacific Gas & Electric Company",
+            "urpx:name": "Pacific Gas and Electric Company",
         },
         "urpx:hasIdentifier": {
             "@id": "org:utility-pge-eia",

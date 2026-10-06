@@ -310,7 +310,7 @@ Each `us/<subdivision>/<utility>/` directory contains a `utility.toml` recording
 utility               = "pge"
 
 short_name            = "PG&E"
-legal_name            = "Pacific Gas & Electric Company"
+legal_name            = "Pacific Gas and Electric Company"
 utility_class         = "iou"
 eia_id                = "14328"
 midas_party_names     = ["Pacific Gas and Electric"]

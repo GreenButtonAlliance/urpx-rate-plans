@@ -128,7 +128,7 @@ def test_export(tmp: Path) -> None:
               for p in (REPO / SCHEDULE).glob("versions/*/*.jsonld")))
     readme = (target / "README.md").read_text()
     for needle, what in [
-        ("Pacific Gas & Electric Company", "the utility's name from utility.toml"),
+        ("Pacific Gas and Electric Company", "the utility's name from utility.toml"),
         ("California (`us-ca`)", "the jurisdiction"),
         ("https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf", "the source URL"),
         ("2026-04-26", "the first capture date"),
@@ -147,7 +147,7 @@ def test_export(tmp: Path) -> None:
 
     body = X.pr_body(sub, PR_TEMPLATE, "commodity")
     check("PR body fills every field", "(the version this submission targets" not in body
-          and "yes / no" not in body and "**Utility:** Pacific Gas & Electric Company (PG&E)" in body)
+          and "yes / no" not in body and "**Utility:** Pacific Gas and Electric Company (PG&E)" in body)
     check("PR body drops the template's SPDX comment", "SPDX" not in body)
     check("PR body names where each PDF is placed",
           all(f"`{COMMODITY_PATH}/{p}`" in body for p in PDFS))
