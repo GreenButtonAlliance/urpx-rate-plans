@@ -15,10 +15,10 @@ Status glyphs:
 
 - Base RatePlan filings: **49**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **189**
+- Applicable-modifier slots across all bases: **188**
   - present and complete: 13
   - present but incomplete: 146
-  - missing: 30
+  - missing: 29
 - Asymmetries between modifier-side and base-side declarations: **1**
 
 ## Asymmetries
@@ -40,8 +40,8 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | Modifier (utility:slug) | Claimed by # bases | Bases |
 |---|---:|---|
 | `pge:medical-baseline` | 7 | `electricity/e-1/versions/2026-03-01`, `electricity/e-elec/versions/2026-01-01`, `electricity/e-elec/versions/2026-03-27`, `electricity/e-tou-c/versions/2026-03-01`, `electricity/e-tou-c/versions/2026-03-27`, `electricity/e-tou-d/versions/2026-03-27`, `electricity/ev2/versions/2026-03-27` |
-| `sce:hpwh-baseline` | 5 | `electricity/tou-d-4-9pm/versions/2025-11-15`, `electricity/tou-d-4-9pm/versions/2026-03-20`, `electricity/tou-d-5-8pm/versions/2025-11-15`, `electricity/tou-d-5-8pm/versions/2026-03-20`, `electricity/tou-d-prime/versions/2026-03-20` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
+| `sce:hpwh-baseline` | 4 | `electricity/tou-d-4-9pm/versions/2025-11-15`, `electricity/tou-d-4-9pm/versions/2026-03-20`, `electricity/tou-d-5-8pm/versions/2025-11-15`, `electricity/tou-d-5-8pm/versions/2026-03-20` |
 | `smud:hga` | 3 | `electricity/fixed/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-low-use/versions/2026-01-01` |
 | `smud:reo` | 3 | `electricity/fixed/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-low-use/versions/2026-01-01` |
 | `smud:standby` | 3 | `electricity/fixed/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-low-use/versions/2026-01-01` |
@@ -571,7 +571,6 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-03-20` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-03-20` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-03-20` |
-| `hpwh-baseline` | ✗ missing | — |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
 | `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20` |
