@@ -75,7 +75,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | Utility | Class | Residential | Covered | % | Modeled tariffs |
 |---|---|---:|---:|---:|---|
 | Puget Sound Energy | iou | 1,091,599 | 9,000 | 0.8% | 307, 327 |
-| Seattle City Light | pou | 459,964 | 0 | 0.0% | — |
+| Seattle City Light | pou | 459,964 | 0 | 0.0% | rtc (no estimate), rts (no estimate) |
 
 ### Largest unmodeled customer pools
 
@@ -84,7 +84,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | Utility | Uncovered customers | Existing modeled | Notes |
 |---|---:|---|---|
 | Puget Sound Energy | 1,082,599 | 307, 327 | |
-| Seattle City Light | 459,964 | (none) | |
+| Seattle City Light | 459,964 | rtc (no estimate), rts (no estimate) | |
 
 ## All modeled filings
 
@@ -134,6 +134,8 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | sce | tou-d-5-8pm | rate-plan | 2025-11-15, 2026-03-20 |
 | CA | sce | tou-d-prime | rate-plan | 2025-11-15, 2026-03-20 |
 | CA | sce | tou-d-prime-cpp | modifier | 2026-03-20 |
+| WA | scl | rtc | rate-plan | 2026-01-01, 2027-01-01, 2028-01-01 |
+| WA | scl | rts | rate-plan | 2026-01-01, 2027-01-01, 2028-01-01 |
 | CA | sdge | care | modifier | 2025-10-01 |
 | CA | sdge | dr | rate-plan | 2026-04-01 |
 | CA | sdge | dr-ses | rate-plan | 2026-04-01 |

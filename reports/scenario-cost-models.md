@@ -131,7 +131,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-11 version nodes, over as many plan identities, each holding more than one distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.
+15 version nodes, over 13 plan identities, each holding more than one distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -146,6 +146,10 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-2026-03-20` | 2026-03-20 |
 | `sce:tou-d-5-8pm` | `sce:tou-d-5-8pm-2025-11-15` | 2025-11-15 | `sce:tou-d-5-8pm-2026-03-20` | 2026-03-20 |
 | `sce:tou-d-prime` | `sce:tou-d-prime-2025-11-15` | 2025-11-15 | `sce:tou-d-prime-2026-03-20` | 2026-03-20 |
+| `scl:rtc` | `scl:rtc-2026-01-01` | 2026-01-01 | `scl:rtc-2028-01-01` | 2028-01-01 |
+| `scl:rtc` | `scl:rtc-2027-01-01` | 2027-01-01 | `scl:rtc-2028-01-01` | 2028-01-01 |
+| `scl:rts` | `scl:rts-2026-01-01` | 2026-01-01 | `scl:rts-2028-01-01` | 2028-01-01 |
+| `scl:rts` | `scl:rts-2027-01-01` | 2027-01-01 | `scl:rts-2028-01-01` | 2028-01-01 |
 
 ## Provenance
 

@@ -59,6 +59,26 @@
   [root]
   (mapv #(io/file root %) (paths root)))
 
+(defn withheld-dirs
+  "The schedule directories dev/withheld-filings.json withholds from
+   resolution, repo-relative with a trailing slash. dev/withheld_filings.py
+   reads the same file and refuses once the pinned clj-urpx makes an entry
+   stale."
+  [root]
+  (let [f (io/file root "dev" "withheld-filings.json")]
+    (if-not (.exists f)
+      []
+      (let [s (slurp f)
+            m (if (System/getProperty "babashka.version")
+                ((requiring-resolve 'cheshire.core/parse-string) s)
+                ((requiring-resolve 'clojure.data.json/read-str) s))]
+        (mapv #(get % "schedule_dir") (get m "withheld"))))))
+
+(defn withheld?
+  "True when the repo-relative `path` lies under a withheld schedule directory."
+  [root path]
+  (boolean (some #(str/starts-with? path %) (withheld-dirs root))))
+
 (defn -main [& args]
   (let [lines (if (= args ["--all"])
                 (for [k (keys (get (layout ".") "kinds"))

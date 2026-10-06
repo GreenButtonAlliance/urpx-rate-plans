@@ -525,14 +525,26 @@
                     (println (format "    ✗ %s — %s" (kw->iri (:base f)) reason))))
                 false))))))))
 
+(defn- validate-withheld
+  "Load, coerce and Malli-validate a filing withheld from resolution, and
+   resolve nothing: see dev/withheld-filings.json."
+  [kind path]
+  (if (case kind
+        :rate-plan          (plan-valid? path)
+        :rate-plan-modifier (modifier-valid? path))
+    (do (println "load+coerce ✓  withheld from resolution (dev/withheld-filings.json)") true)
+    (do (println "validate ✗") false)))
+
 (defn validate-one [width [kind label path] pairings base-iri-lookup]
   (print (pad label width) "")
   (flush)
   (try
     (boolean
-     (case kind
-       :rate-plan          (validate-rate-plan path)
-       :rate-plan-modifier (validate-rate-plan-modifier path pairings base-iri-lookup)))
+     (if (layout/withheld? "." path)
+       (validate-withheld kind path)
+       (case kind
+         :rate-plan          (validate-rate-plan path)
+         :rate-plan-modifier (validate-rate-plan-modifier path pairings base-iri-lookup))))
     (catch Exception e
       (println "load+coerce ✗  " (.getMessage e))
       false)))
@@ -665,7 +677,9 @@
                ;; recording it that way keeps the grid rectangular.
                [[(str "plan|" path)
                  (at-each-instant (constantly {:status :load-error :error (.getMessage e)}))]])))
-         filings)))
+         ;; Withheld filings get no rows at all: the pinned clj-urpx would
+         ;; record a wrong rate for them. See dev/withheld-filings.json.
+         (remove (fn [[_ _ path]] (layout/withheld? "." path)) filings))))
 
 (defn- cells
   "The {key -> {instant-id -> row}} grid flattened to {[key instant-id] -> row}.

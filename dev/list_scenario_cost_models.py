@@ -318,7 +318,8 @@ def render_md(d: dict) -> str:
 
     w("## Superseded versions excluded")
     w("")
-    w(f"{len(d['superseded'])} version nodes, over as many plan identities, each holding more than one "
+    n_plans = len({d["versions"][vid]["plan"] for vid in d["superseded"]})
+    w(f"{len(d['superseded'])} version nodes, over {n_plans} plan identities, each holding more than one "
       f"distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.")
     w("")
     w("| Plan | Superseded version | Effective | Current version | Effective |")

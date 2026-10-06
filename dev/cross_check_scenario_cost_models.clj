@@ -121,7 +121,11 @@
 (def ^:private paths
   (try
     (require 'urpx-rate-plans)
-    ((resolve 'urpx-rate-plans/paths) ".")
+    ;; Filings withheld from resolution (dev/withheld-filings.json) are left
+    ;; out here as dev/scenario_cost_models.py leaves them out of every
+    ;; composition, so both sides enumerate over the same bases.
+    (vec (remove #((resolve 'urpx-rate-plans/withheld?) "." %)
+                 ((resolve 'urpx-rate-plans/paths) ".")))
     (catch Throwable t (emit "documents-error" (one-line t)))))
 
 (def ^:private documents

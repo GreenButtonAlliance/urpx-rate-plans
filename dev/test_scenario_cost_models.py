@@ -63,7 +63,9 @@ REAL = A.build()
 tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
-expect("supersession finds eleven plan identities", len(REAL["superseded"]), 11)
+# Fifteen: the reports judge currency by succession alone, so SCL RTC and RTS,
+# filed for 2026-01-01, 2027-01-01 and 2028-01-01, each contribute two.
+expect("supersession finds fifteen versions", len(REAL["superseded"]), 15)
 expect("no composition is built on a superseded version",
        [a for a in REAL["compositions"]
         if a["base"] in REAL["superseded"] or set(a["modifiers"]) & set(REAL["superseded"])],
@@ -285,10 +287,13 @@ version_level = len([a for a in REAL["compositions"] if a["modifiers"]])
 # up here as a shortfall.
 expect("base-plus-one-modifier compositions match the plan-level pairing count",
        version_level, plan_level)
+# Less the bases dev/withheld-filings.json withholds from every composition.
+import withheld_filings  # noqa: E402
 expect("base-only compositions match the current base count",
        len([a for a in REAL["compositions"] if not a["modifiers"]]),
        len({v["plan"] for v in REAL["versions"].values()
-            if v["kind"] == "plan" and v["id"] not in REAL["superseded"]}))
+            if v["kind"] == "plan" and v["id"] not in REAL["superseded"]
+            and not withheld_filings.withheld(v.get("home"))}))
 
 print()
 print("=== applicableToRatePlanVersion ADDS, it does not narrow (URPX Decision #090) ===")

@@ -1,0 +1,17 @@
+{
+  "note": "Filings kept out of the marginal-rate baseline (dev/validate_v020.clj) and out of the scenario cost model enumeration (dev/scenario_cost_models.py and the clj-urpx side of dev/cross_check_scenario_cost_models.clj) because the pinned clj-urpx cannot resolve them correctly. Each entry names the clj-urpx release that can. Once deps.edn pins that release or later, dev/withheld_filings.py refuses until the entry is removed, which is the prompt to record the filing's baseline cells and regenerate the scenario cost models.",
+  "withheld": [
+    {
+      "schedule_dir": "us/wa/scl/electricity/rtc/",
+      "until_clj_urpx": "0.39.0",
+      "cites": "https://github.com/urpx-org/urpx/pull/71",
+      "reason": "Uses urpx:daysOfWeek with urpx:customDays. clj-urpx before 0.39.0 matches urpx:customDays on every day, so a Sunday 17:00 matches both the Peak and the Sunday Mid-Peak bracket."
+    },
+    {
+      "schedule_dir": "us/wa/scl/electricity/rts/",
+      "until_clj_urpx": "0.39.0",
+      "cites": "https://github.com/urpx-org/urpx/pull/71",
+      "reason": "Uses urpx:daysOfWeek with urpx:customDays. clj-urpx before 0.39.0 matches urpx:customDays on every day, so a Sunday 17:00 matches both the Peak and the Sunday Mid-Peak bracket."
+    }
+  ]
+}

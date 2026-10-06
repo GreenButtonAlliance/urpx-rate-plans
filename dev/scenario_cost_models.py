@@ -48,6 +48,7 @@ import re
 import zoneinfo
 
 import corpus
+import withheld_filings
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 BASELINE = REPO / "dev" / "baseline" / "marginal-rates.edn"
@@ -576,6 +577,11 @@ def pair_candidates(bases: dict[str, dict], modifiers: list[dict],
             f"{COMBINE_AT_MOST_ONE_MODIFIER!r} only; widening it is a change "
             f"in both this repository and clj-urpx."
         )
+    # A base the pinned clj-urpx cannot resolve correctly is left out of every
+    # composition, and so out of every scenario cost model; see
+    # dev/withheld-filings.json. Its filing still rolls up, as unmeasured.
+    bases = {plan: base for plan, base in bases.items()
+             if not withheld_filings.withheld(base.get("home"))}
     for base in sorted(bases.values(), key=lambda v: v["id"]):
         yield base, None
     by_version = {base["id"]: base for base in bases.values()}
@@ -1012,7 +1018,12 @@ def roll_up_to_filings(versions, superseded, compositions) -> list[dict]:
             outcome, reason = SUPERSEDED, "every version node in this filing has been superseded"
         else:
             candidates = [a for v in live for a in by_version.get(v["id"], [])]
-            if not candidates:
+            held = withheld_filings.withheld(rel_dir + "/")
+            if held:
+                outcome, reason = UNMEASURED, (
+                    f"withheld from resolution until clj-urpx {held['until_clj_urpx']} "
+                    f"({held['cites']}); see dev/withheld-filings.json")
+            elif not candidates:
                 outcome, reason = UNMEASURED, "no composition draws on this filing"
             else:
                 best = min(candidates, key=lambda a: OUTCOME_RANK.index(a["outcome"]))

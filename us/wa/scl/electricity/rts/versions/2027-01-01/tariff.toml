@@ -1,0 +1,118 @@
+# Identity --------------------------------------------------------------------
+utility = "scl"
+schedule = "rts"
+effective_date = "2027-01-01"
+
+# This filing uses urpx:daysOfWeek, proposed in urpx-org/urpx#71 and in no URPX
+# release. It does not validate against the v0.5.1 SHACL on that property. See
+# [extraction].notes and README.md.
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf"
+sha256 = "938a8929392a82ff858d5ed79382ebbc9adc5e1f879b3c7113948de9f83d58cc"
+retrieved_on = "2026-10-05"
+media_type = "application/pdf"
+filing_type = "ordinance"
+filing_id = "Ordinance 127473"
+landing_page = "https://library.municode.com/wa/seattle/codes/municipal_code?nodeId=TIT21UT_SUBTITLE_IVLIPO_CH21.49SELIDE"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+docket = "Council Bill 121231"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.09.0"
+extracted_on = "2026-10-05"
+notes = """
+Read from Ordinance 127473 (Council Bill 121231), which amends SMC 21.49.030.
+The Schedule RTS table is on ordinance page 11 and the period
+definitions on pages 11 and 12. Read from the page rendered as an image as
+well as from pdftotext -layout, because the ordinance carries legislative
+markup: the 2024 and 2025 columns are struck ((...)) and the 2027 and 2028
+columns are underlined additions, so a value is bound to its year by its
+column header, not by its position after markup is stripped. This filing
+carries the column headed "Effective January 1, 2027".
+
+## Unreleased vocabulary: urpx:daysOfWeek (urpx-org/urpx#71)
+
+This filing uses urpx:daysOfWeek, proposed in urpx-org/urpx#71
+(https://github.com/urpx-org/urpx/pull/71) and in no URPX release. Its
+Monday-through-Saturday and Sunday brackets carry urpx:dayType
+urpx:customDays with urpx:daysOfWeek naming the days. It does not validate
+against the v0.5.1 SHACL on that property: TimeBracketShape is sh:closed and
+does not admit it, so pyshacl reports one sh:ClosedConstraintComponent result
+per such bracket and listed day. dev/validate-with-base.py excepts exactly those results
+(DAYS_OF_WEEK_EXCEPTION), and every other result still fails. If #71 does not
+merge in this form, these brackets have to be remodeled.
+
+## Structure
+
+Schedules RTC and RTS are each a RatePlan of their own: each has its own rate
+table in SMC 21.49.030.B, its own Base Service Charge and its own energy
+charges. RTS differs from RTC only in its energy charges; the franchise and
+tax multipliers and the Shoreline and Burien undergrounding charges that
+21.49.030.B applies "to Schedule RTS as Schedule RSS" are not carried (see
+[modeling].deferrals).
+
+The schedule has no seasons and no blocks. The six TimeBrackets do not
+overlap and together cover every hour: Off-Peak, allDays 00:00-06:00; Peak, customDays Monday through
+Saturday 17:00-21:00 excluding holidays; Mid-Peak, customDays Monday through
+Saturday 06:00-17:00 and 21:00-24:00 excluding holidays, customDays Sunday
+06:00-24:00 excluding holidays, and allDays 06:00-24:00 on holidays only.
+
+## Holidays
+
+SMC 21.49.030.B names "holidays" without listing them. City Light's
+residential Time of Use page (https://www.seattle.gov/city-light/residential-services/billing-information/time-of-use,
+retrieved 2026-10-05) states which and how they are observed: "City light
+observes holidays defined by the North American Electric Reliability
+Corporation (NERC)": New Year's Day, Memorial Day, Independence Day, Labor
+Day, Thanksgiving Day, Christmas Day. "If any of these fall on a Sunday, the
+NERC holiday is observed on the following Monday. If they fall on a Saturday,
+the holiday remains on that Saturday." Per LAYOUT.md section 4.4 that stated
+rule governs rather than RCW 1.16.050. New Year's Day, Independence Day and
+Christmas Day carry no urpx:observanceRule, so each resolves on its actual
+date and a Saturday one stays on Saturday; the Monday after each that falls
+on a Sunday is carried as a dated urpx:Holiday through 2040. The
+other three always fall on a Monday or Thursday.
+
+## Dating
+
+Dated 2027-01-01, the effective date the ordinance prints on the column this
+filing carries. Ordinance 127473 enacts it: the column is an underlined
+addition, and the ordinance takes effect as provided by SMC 1.04.020 and
+1.04.070 after its July 22, 2026 approval. Bounded at 2028-01-01 by the next column.
+
+## Initial effective date
+
+urpx:initialEffectiveDate is 2024-01-01. Ordinance 126677 (Council Bill
+120411) added Schedules RTC and RTS to SMC 21.49.030 as "Time-of-Day" rates,
+with a single column headed "Effective January 1, 2024"; Ordinance 127122
+renamed them "Time-of-Use".
+"""
+
+# Validation ------------------------------------------------------------------
+# shacl_passed is false: against the v0.5.1 shapes every bracket carrying
+# urpx:daysOfWeek fails TimeBracketShape's sh:closed (urpx-org/urpx#71).
+[validation]
+shacl_passed = false
+validator = "pyshacl (URPX v0.5.1) + clj-urpx"
+validated_on = "2026-10-05"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in scl:rts-2027-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
+ "SMC 21.49.030.B: \"The same franchise and tax multipliers and suburban undergrounding charges apply to Schedule RTS as Schedule RSS.\" Not carried. The RSS multipliers increase all charges by location of service (in the column this filing carries: Burien, King County, SeaTac and Shoreline 8.00%; Tukwila 7.05%; Lake Forest Park 8.04%; Normandy Park 6.38%), and per-kWh undergrounding charges of 0.05 to 0.37 cents apply in parts of Shoreline and Burien. Every charge here is the unmultiplied rate, which is what a customer in a jurisdiction with no multiplier, such as Renton, pays.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Uses urpx:daysOfWeek from urpx-org/urpx#71, which is in no URPX release."
