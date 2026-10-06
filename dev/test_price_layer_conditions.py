@@ -167,7 +167,7 @@ def test_corpus() -> None:
     p = subprocess.run([sys.executable, str(LINT)], capture_output=True, text=True)
     check("the lint passes the corpus", p.returncode == 0, p.stderr[-400:])
     r = L.run(corpus.all_filing_jsonld())
-    check("exactly the two allowlisted versions carry price-layer conditions",
+    check("exactly the allowlisted versions carry price-layer conditions",
           sorted(r["layer"]) == sorted(L.ALLOWLIST), str(sorted(r["layer"])))
     check("it scans a non-trivial number of CustomOperandNodes", r["found"] >= 500, str(r["found"]))
 

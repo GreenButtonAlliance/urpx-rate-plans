@@ -1,0 +1,84 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "d"
+effective_date = "2026-10-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D.pdf"
+sha256 = "3105a5dec91e90811683c89fbf1620af7cd6d19a2c8e7e8c0a4a434052b05bb2"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5897-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Decision 26-04-033 (Advice 5897-E)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from SCE's live tariff book with the fetch
+path of dev/fetch_tariff_documents.py. SharePoint's download endpoint answered
+with the PDF inside a multipart/form-data envelope; the committed file is that
+envelope's one part body, extracted byte for byte, and the sha256 recorded
+above is its hash.
+
+Advice 5897-E reissued Schedule D Sheets 2, 3, 6 and 7 (91558-E to 91561-E)
+effective October 1, 2026; Sheets 1, 4, 5, 8 and 9 are unchanged since
+November 15, 2025 (Advice 5654-E).
+
+Supersession. The 2026-03-20 version's rate sheets (90841-E, 90842-E) were
+cancelled on June 1, 2026 by Advice 5829-E (91130-E, 91131-E), as printed in
+data/documents/sce/ELECTRIC_SCHEDULES_D.pdf (retrieved 2026-09-23). That issue
+is not in this corpus. The 2026-03-20 version therefore carries
+urpx:expirationDateTime 2026-06-01 (LAYOUT.md section 9), and June 1 to
+September 30, 2026 is a gap in this schedule's versions.
+
+Price changes from the 2026-03-20 version, $ (per kWh unless a per-day
+charge):
+ price-generation: 0.11761 -> 0.11255
+ price-distribution: 0.17586 -> 0.17910
+ d-price-transmission: 0.02586 -> 0.02481
+ d-price-nsgc: 0.00829 -> 0.00866
+ d-price-pppc: 0.00527 -> 0.00556
+ price-cia-baseline: -0.03740 -> -0.03496
+ price-cia-nonbaseline: 0.06368 -> 0.05605
+ d-price-fixed-recovery-charge: 0.00619 -> 0.01118
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "SJV Pilot Bill Protection Discount (Sheet 8, Special Condition 8, Cal. P.U.C. Sheet 90640-E): 20 percent off the bill in participation years 1 through 5, and 10 or 20 percent in years 6 through 10. Not built. This is work, not a blocker: under URPX v0.5.1 the pilot-participation gate is a urpx:ApplicabilityRule on the Price whose ConditionExpression compares a urpx:CustomOperandNode carrying urpx:customConditionProperty, and the 20 percent is the multiplier plus basedOnPrice pattern sce:care already applies to sce:d-2026-10-01-summary-discountable. Two parts stay unexpressed: the 10-year window runs from the participant's own first Bill Protection Discount and urpx:Price carries only absolute dates, and Sheet 8 leaves the years 6 through 10 rate to a future SCE evaluation rather than stating it.",
+ "Transitional Community Solar Discount (Sheet 9, Special Condition 9, Cal. P.U.C. Sheet 90641-E): 20 percent monthly bill credit for SJV Pilot participants eligible for CSGT or DAC-GT when neither is available, over the same 10-year bill protection period, excluded for customers with onsite solar under SASH, DAC-SASH or NEM. Not built, on the same footing as Special Condition 8 above.",
+ "California Climate Credit carry-forward (Sheet 7, Special Condition 5, Cal. P.U.C. Sheet 91561-E): the $(36.00) credit is priced, but Special Condition 5 also says any portion not consumed in the billing period in which it is applied rolls over to each subsequent billing period until fully consumed, and that is not expressed. The nearest v0.5.1 vocabulary is urpx:settlementInterval on the Ledger, an xsd:duration naming a fixed accumulation period, which does not state an unbounded roll-forward.",
+ "Baseline Allocation, the boundary between the Baseline and Over Baseline energy rates (Sheets 2 and 3, footnote *): the schedule prices $0.19011 per kWh at or below the allocation and $0.28112 above it, but says only that the allocations are 'as described in Preliminary Statement, Part H, Baseline Service'. Part H is not a source of this filing, so the kWh boundary is not sourced here. This is a source gap, not a URPX gap.",
+ "CORRECTION, not an absence: sce:d-2026-10-01-tiers-baseline-nonbaseline records bounds of 0 to 1.0 and above 1.0 while declaring referencesMetricInput to sce:d-2026-10-01-mi-energy, whose MetricSpecification carries unitOfMeasure urpx:kWh. Read in its declared unit the model says the baseline tier ends at 1.0 kWh. The intended meaning is a fraction of the customer's Baseline Allocation. Fixable now: pointing the ServiceTiers at a metric denominated urpx:ratio conforms under v0.5.1. Any consumer that selects a tier by usage reads the baseline boundary as 1.0 kWh rather than the customer's allocation.",
+ "CORRECTION, not an absence: the California Climate Credit's urpx:ApplicabilityRule asserts urpx:month --04 and --10, which this filing's source does not state. Special Condition 5 on Sheet 7 names no month and Sheets 2 and 3 say only 'semi-annually'. The months are carried over from the 2025-11-15 source, which does state them. Either re-source them from a current SCE document or drop them.",
+ "Base Services Charge component split (Sheet 3): the $0.794 per meter per day total is carried as one Price, but the sheet also prints its Distribution part of $0.491, itself a BSC Distribution Charge of $0.422 and a BSC Surcharge of $0.069, and a Public Purpose Programs part of $0.303. The $0.069 surcharge is the quantity Special Condition 4 on Sheets 6 and 7 exempts DRAH, CARE and FERA customers from; sce/care and sce/fera price that exemption as a separate credit and sce/deed-restricted does not. Expressible now, purely additional PriceDefinitions summing to the same $0.794.",
+]
+applicable_modifiers = [
+ "care",
+ "cca-crs",
+ "da-crs",
+ "deed-restricted",
+ "fera",
+ "medical-baseline",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-20 version by dev/author_sce_2026_10_01.py: every Price reconciled to the Advice 5897-E sheets, prose and citations rewritten for them. See [extraction] notes for the price changes and the supersession gap."

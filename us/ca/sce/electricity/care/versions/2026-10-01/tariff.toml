@@ -1,0 +1,77 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "care"
+effective_date = "2026-10-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-CARE.pdf"
+sha256 = "fbb88944d1c6a9beccdf34d34c61485793fda0115a4946301b5e37a10b62c778"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5897-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Decision 26-04-033 (Advice 5897-E)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from SCE's live tariff book with the fetch
+path of dev/fetch_tariff_documents.py. SharePoint's download endpoint answered
+with the PDF inside a multipart/form-data envelope; the committed file is that
+envelope's one part body, extracted byte for byte, and the sha256 recorded
+above is its hash.
+
+Schedule D-CARE as of 2026-10-01: Sheet 1 (91562-E, Advice 5897-E) effective
+October 1, 2026; Sheet 2 (91082-E, Advice 5813-E, the Special Condition 2
+income limits) effective June 1, 2026; Sheet 4 (91323-E, Advice 5837-E)
+effective June 25, 2026; Sheets 3, 5 and 6 unchanged since 2025 or March 20,
+2026. Sheet 1 adds an exemption from a "CARE exempted Public Purpose Programs
+Charge of ($0.025) per meter per day", recorded as a deferral.
+
+Supersession. The 2026-03-20 version's Sheet 1 (90844-E) was cancelled by
+91134-E, which 91322-E (Advice 5837-E, June 25, 2026) in turn cancels. 91134-E
+is in no document in hand. Its number falls in the block of Advice 5829-E's
+sheets (91130-E to 91133-E on Schedule D, 91196-E to 91203-E on Schedule
+TOU-D), all of which are effective June 1, 2026, so the 2026-03-20 version
+carries urpx:expirationDateTime 2026-06-01, and June 1 to September 30, 2026
+is a gap in this modifier's versions. The June 25, 2026 Sheet 1 printed
+$0.209, $0.069 and $(0.168) for the CARE Surcharge, BSC Surcharge and BSC
+Discount.
+
+Price changes from the 2026-03-20 version, $ (per kWh unless a per-day
+charge):
+ care-price-frc-exemption: -0.00619 -> -0.01118
+ care-price-bsc-surcharge-exemption: -0.064 -> -0.069
+ care-price-bsc-discount: -0.155 -> -0.164
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "CARE Surcharge exemption (Sheet 1, RATES, Cal. P.U.C. Sheet 91562-E): CARE customers are exempt from the CARE Surcharge of $0.215 per meter per day. Expressible now: it is the same per-meter-per-day credit shape as the $(0.069) Base Services Charge Surcharge exemption this filing already carries. Unbuilt, not blocked. Schedule D Sheet 3 footnote 5 places the California Alternate Rates for Energy Surcharge inside the Public Purpose Programs Charge, and the only per-meter-per-day PPPC on that sheet is the $0.303 component of the $0.794 Base Services Charge that sce:d, sce:tou-d-4-9pm, sce:tou-d-5-8pm and sce:tou-d-prime each model as a single price. What this corpus does not hold is SCE's decomposition of that $0.303, so the credit cannot be reconciled against a published figure before it is added.",
+ "CARE exempted Public Purpose Programs Charge (Sheet 1, Cal. P.U.C. Sheet 91562-E, new under Advice 5897-E): \"CARE Customers are exempt from paying the CARE Surcharge of $0.215 per meter per day, the CARE exempted Public Purpose Programs Charge of ($0.025) per meter per day, the Wildfire Fund Non-Bypassable Charge of $0.00591 per kWh, and the Fixed Recovery Charge of $0.01118 per kWh.\" The amount is printed as a credit, and the sheet does not say which charge it is part of or how an exemption from a negative amount is billed. Not modeled until that is settled.",
+ "San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (Sheet 6, Special Condition 14, Cal. P.U.C. Sheet 90647-E): 20 percent of the monthly bill in pilot years 1 through 5, and 10 percent or 20 percent in years 6 through 10, the choice settled by an SCE evaluation of participants' total energy cost savings. Expressible now as a Price carrying urpx:multiplier over the base plan's discountable PriceSummary, gated by urpx:hasApplicabilityRule on SJV Pilot participation. Unbuilt. The same provision is Schedule D Special Condition 8 and is recorded as a deferral on sce:d.",
+ "Transitional Community Solar Discount (Sheet 6, Special Condition 15, Cal. P.U.C. Sheet 90647-E): a 20 percent monthly bill credit to SJV Pilot participants over the same 10 year bill protection period, payable when neither the Community Solar-Green Tariff nor the Disadvantaged Communities-Green Tariff is available to them. Same price shape and same pilot-participation gate as Special Condition 14. The same provision is Schedule D Special Condition 9 and is recorded as a deferral on sce:d.",
+ "Sheet 1 APPLICABILITY (Cal. P.U.C. Sheet 91562-E) states two eligibility predicates the model does not carry. Verbatim: \"Applicable to domestic service to California Alternate Rates for Energy (CARE) households residing in a permanent Single-Family Accommodation or Multifamily Accommodation where the customer meets all the Special Conditions of this Schedule. Customers enrolled in the CARE program are not eligible for the Family Electric Rate Assistance (FERA) program.\" The EligibilityRule carries residential customer kind AND Program Enrollment = CARE, and neither the accommodation-type predicate nor the FERA exclusion. The exclusion is expressible: cpau:e-nse-1-2025-09-01-cn-nem-successor is a notEqualsOperator test of the same shape.",
+ "Special Condition 4 (application), Special Condition 5 (commencement), Special Condition 7 (verification) and Special Condition 9 (rebilling) are conditions of service on this Schedule's own sheets, unmodeled. Special Condition 2's income table (Sheet 2, Cal. P.U.C. Sheet 91082-E, Advice 5813-E: from $43,280 at one to two persons up to $111,440 at eight, plus $11,360 per additional person, effective June 1, 2026) and Special Condition 3's Group Living Facility definition are the substantive eligibility content the EligibilityRule's description paraphrases without encoding.",
+ "Special Condition 13, Arrearage Management Plan (Sheet 5, Cal. P.U.C. Sheet 91034-E): forgiveness of 1/12 of an eligible Customer's arrearage after each on-time payment, the remainder forgiven after 12 on-time payments, capped at $8,000 per instance of enrollment. It changes what the customer owes and is stated on this filing's own sheet; it is not in the model.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-20 version by dev/author_sce_2026_10_01.py: every Price reconciled to the Advice 5897-E sheets, prose and citations rewritten for them. See [extraction] notes for the price changes and the supersession gap."

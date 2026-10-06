@@ -13,6 +13,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:initialEffectiveDate": {
       "@type": "xsd:date"
     },
@@ -68,6 +71,7 @@
       },
       "urpx:description": "Schedule DA-CRS — Direct Access Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers who have elected Direct Access (DA) service from a third-party Energy Service Provider (ESP). Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh, Wildfire Fund Non-Bypassable Charge), CTC ($0.00014/kWh, Competition Transition Charge), FRC ($0.00619/kWh, Fixed Recovery Charge), and PCIA (Power Charge Indifference Adjustment, vintage-discriminated by customer's DA enrollment year — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 vintages (credits, where DA customers' departing-load is below market price) to $0.02624 for 2023 vintage). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `departureVintage` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the Otherwise Applicable Tariff (OAT) reconciliation prose on TOU-D Sheet 20 SC 11 / Schedule D Sheet 6 SC 4, DA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service before billing-determinant multiplication; this OAT-side adjustment is NOT modeled here (would require itemizing DWRBC as a separate PriceDefinition in the base TOU-D / Schedule D filings). The base plan's SCE Generation, which each base schedule applies only to Bundled Service Customers, is offset by one Price carrying urpx:multiplier -1 over that base's generation urpx:PriceSummary. Customer-subgroup exemption table on Sheet 3 distinguishes DA, PC-TBS, GTSR-GR, GTSR-CR — only the default DA subgroup is captured by the Eligibility Rule here. Sibling Schedule CCA-CRS (modeled at ca/iou/sce/cca-crs/) carries identical Domestic-class PCIA values for CCA-Service customers.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
+      "urpx:expirationDateTime": "2026-06-25T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
         "@id": "urpx:electricity"
@@ -977,13 +981,25 @@
                 "@id": "sce:d-2026-03-20-summary-generation"
               },
               {
+                "@id": "sce:d-2026-10-01-summary-generation"
+              },
+              {
                 "@id": "sce:tou-d-4-9pm-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-10-01-summary-generation"
               },
               {
                 "@id": "sce:tou-d-5-8pm-2026-03-20-summary-generation"
               },
               {
+                "@id": "sce:tou-d-5-8pm-2026-10-01-summary-generation"
+              },
+              {
                 "@id": "sce:tou-d-prime-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-10-01-summary-generation"
               }
             ]
           }

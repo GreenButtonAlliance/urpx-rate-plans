@@ -13,6 +13,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -71,6 +74,7 @@
       },
       "urpx:description": "California Alternate Rates for Energy (CARE) program — income-qualified bill discount applied as an overlay to any SCE residential base rate plan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME, and others). CPUC-mandated program; SCE's implementation is defined in Schedule D-CARE and articulated in each base schedule's Special Condition 8. Eligibility: customer must meet the definition of a CARE Household per Schedule D-CARE — typically 200% of the Federal Poverty Guidelines or participation in qualifying public-assistance programs. As of 2026-04-30 SCE has ~1.5M customers enrolled in CARE (~30% of SCE residential), making this the highest-customer-impact RatePlanModifier in the corpus. CARE provides several distinct benefits: (1) a 32.5% bill discount on the pre-PUCRF / pre-tax subtotal (modeled as a urpx:Price carrying urpx:multiplier -0.325 over the discountable urpx:PriceSummary of the base plan the customer takes), (2) exemption from the Wildfire Fund Non-Bypassable Charge (modeled as $-0.00591/kWh credit), (3) exemption from the Fixed Recovery Charge (modeled as $-0.00619/kWh credit), (4) exemption from the Base Services Charge Surcharge component (modeled as $-0.064/meter/day credit), and (5) a Base Services Charge Discount (modeled as $-0.155/meter/day credit). Net per-kWh credit from line-item exemptions: $-0.01210/kWh. Net per-meter-per-day credit from BSC adjustments: $-0.219/meter/day. Special Condition 8 also references a 'CARE Surcharge of $0.208/meter/day' that CARE customers are exempt from paying — this is a non-CARE-customer-funded surcharge that supports the CARE program; it is NOT itemized in the SCE TOU-D base rate-sheet line items currently modeled in this corpus, so the exemption is not modeled as a credit (modeling deferred until base rate plans track this surcharge as a non-CARE-only line item). Bill calculation correctness with this modifier therefore captures the percentage discount and the line-item exemptions, and underrepresents the full CARE customer benefit by the $0.208/meter/day CARE Surcharge avoidance alone. That remaining gap closes when base SCE filings itemize the CARE Surcharge.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
+      "urpx:expirationDateTime": "2026-06-01T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
         "@id": "urpx:electricity"
@@ -401,10 +405,16 @@
                 "@id": "sce:d-2026-03-20-summary-discountable"
               },
               {
+                "@id": "sce:d-2026-10-01-summary-discountable"
+              },
+              {
                 "@id": "sce:tou-d-4-9pm-2025-11-15-summary-discountable"
               },
               {
                 "@id": "sce:tou-d-4-9pm-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-10-01-summary-discountable"
               },
               {
                 "@id": "sce:tou-d-5-8pm-2025-11-15-summary-discountable"
@@ -413,10 +423,16 @@
                 "@id": "sce:tou-d-5-8pm-2026-03-20-summary-discountable"
               },
               {
+                "@id": "sce:tou-d-5-8pm-2026-10-01-summary-discountable"
+              },
+              {
                 "@id": "sce:tou-d-prime-2025-11-15-summary-discountable"
               },
               {
                 "@id": "sce:tou-d-prime-2026-03-20-summary-discountable"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-10-01-summary-discountable"
               }
             ]
           }
@@ -463,7 +479,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "Sheet 1 of Schedule D-CARE states a 32.5 percent discount applied to a CARE customer's bill prior to the Public Utilities Commission Reimbursement Fee and any applicable user fees, taxes and late payment charges. This filing models it as a urpx:Price carrying urpx:multiplier -0.325 over the discountable subtotal of whichever SCE residential base plan the customer takes service under. The price names all eight candidate subtotals, four schedules at two effective dates each, read disjunctively so that the one present in the consumer's graph applies. Those subtotals are defined by the base filings rather than by this one; each holds the per-kWh charges of its plan, from thirteen on Schedule D to twenty-four on TOU-D-PRIME at this date, and each omits the Reimbursement Fee by the sentence above, the California Climate Credit, which Special Condition 12 applies after city and county utility users' taxes, and the Base Services Charge, which this filing instead adjusts through two per-meter-per-day credits. The four line items of the same Sheet 1 are carried alongside the percentage: the Wildfire Fund Non-Bypassable Charge exemption of $0.00591 per kWh, the Fixed Recovery Charge exemption of $0.00619 per kWh, the Base Services Charge Surcharge exemption of $0.064 per meter per day, and the Base Services Charge Discount of $(0.155) per meter per day. Three benefits of the schedule remain unrepresented, and they are why this claim is partial. Sheet 1 exempts CARE customers from the CARE Surcharge of $0.208 per meter per day, which no SCE residential rate sheet in this corpus itemizes, so that exemption has no base charge to cancel. Special Condition 14 grants the San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount, 20 percent in pilot years 1 through 5 and 10 or 20 percent in years 6 through 10, and Special Condition 15 a 20 percent Transitional Community Solar Discount; both are limited to pilot participants, and this filing carries no condition on pilot participation to gate them on. Several other Special Conditions are out of scope rather than missing: the CARE Household income test of Special Condition 2, the application, commencement, verification and notice rules of Special Conditions 4, 5, 7 and 8, the rebilling of Special Condition 9, and the Arrearage Management Plan debt forgiveness of Special Condition 13 are eligibility and account administration rather than rates. The California Climate Credit of Special Condition 12 is carried on the base rate plans this modifier overlays.",
+          "urpx:description": "Sheet 1 of Schedule D-CARE states a 32.5 percent discount applied to a CARE customer's bill prior to the Public Utilities Commission Reimbursement Fee and any applicable user fees, taxes and late payment charges. This filing models it as a urpx:Price carrying urpx:multiplier -0.325 over the discountable subtotal of whichever SCE residential base plan the customer takes service under. The price names all twelve candidate subtotals, four schedules at three effective dates each, read disjunctively so that the one present in the consumer's graph applies. Those subtotals are defined by the base filings rather than by this one; each holds the per-kWh charges of its plan, from thirteen on Schedule D to twenty-four on TOU-D-PRIME at this date, and each omits the Reimbursement Fee by the sentence above, the California Climate Credit, which Special Condition 12 applies after city and county utility users' taxes, and the Base Services Charge, which this filing instead adjusts through two per-meter-per-day credits. The four line items of the same Sheet 1 are carried alongside the percentage: the Wildfire Fund Non-Bypassable Charge exemption of $0.00591 per kWh, the Fixed Recovery Charge exemption of $0.00619 per kWh, the Base Services Charge Surcharge exemption of $0.064 per meter per day, and the Base Services Charge Discount of $(0.155) per meter per day. Three benefits of the schedule remain unrepresented, and they are why this claim is partial. Sheet 1 exempts CARE customers from the CARE Surcharge of $0.208 per meter per day, which no SCE residential rate sheet in this corpus itemizes, so that exemption has no base charge to cancel. Special Condition 14 grants the San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount, 20 percent in pilot years 1 through 5 and 10 or 20 percent in years 6 through 10, and Special Condition 15 a 20 percent Transitional Community Solar Discount; both are limited to pilot participants, and this filing carries no condition on pilot participation to gate them on. Several other Special Conditions are out of scope rather than missing: the CARE Household income test of Special Condition 2, the application, commencement, verification and notice rules of Special Conditions 4, 5, 7 and 8, the rebilling of Special Condition 9, and the Arrearage Management Plan debt forgiveness of Special Condition 13 are eligibility and account administration rather than rates. The California Climate Credit of Special Condition 12 is carried on the base rate plans this modifier overlays.",
           "urpx:evaluatedOn": "2026-09-21T00:00:00"
         }
       }

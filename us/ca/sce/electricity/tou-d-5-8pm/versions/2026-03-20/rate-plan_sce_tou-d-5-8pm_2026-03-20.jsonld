@@ -13,6 +13,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -90,6 +93,7 @@
       "@id": "sce:tou-d-5-8pm-2026-03-20",
       "urpx:description": "Voluntary residential time-of-use schedule with summer on-peak 5:00 p.m.-8:00 p.m. weekdays. Alternate CPUC mass-migration default — assigned to inland climate zones (where peak demand window aligns with later-evening loads). Replaces the prior Basic Charge + Minimum Charge structure with an income-graduated Base Services Charge (BSC) of $0.794/meter/day per Decision 24-05-028, with a Deed-Restricted discount of $(0.332)/meter/day available to customers in qualifying deed-restricted housing. CARE/FERA discounts (32.5% and 18% respectively) and the related BSC surcharge exemption + BSC discount adjustments are documented in Special Conditions and modeled separately as RatePlanModifiers at ca/iou/sce/care/ and ca/iou/sce/fera/; the Deed-Restricted discount referenced above is modeled at ca/iou/sce/deed-restricted/. Climate Credit ($-36.00/household, semi-annually) is applied per Special Conditions. The Baseline Credit applies up to 100 percent of the Baseline Allocation: Tier 1 of sce:tou-d-5-8pm-2026-03-20-tiers-baseline carries the Preliminary Statement Part H allocation for each Baseline Region and Basic or All-Electric Allocation in kWh per day, and the credit is priced on Tier 1 only. The Heat Pump Water Heater allocation Part H adds is the modifier sce:tou-d-5-8pm-hpwh, a second document in this filing's directory. Special Condition 1 (Sheet 13) names eight holidays: New Year's Day, Presidents' Day, Memorial Day, Independence Day, Labor Day, Veterans Day, Thanksgiving Day and Christmas. Sheet 12 prices them in the Weekends-and-Holidays column, so a holiday landing on a summer weekday takes Mid-Peak rather than On-Peak across the 5 p.m. to 8 p.m. window; the winter weekday and weekend/holiday columns are identical, so holiday status moves no winter price. Modeled as a urpx:HolidayCalendar with urpx:includeHolidays / urpx:includeNonHolidays on the summer 5 p.m. to 8 p.m. brackets. SCE's observance rule (a holiday falling on Sunday is recognized the following Monday, with no change for one falling on Saturday) matches none of URPX v0.5.1's four urpx:ObservanceRuleValue individuals, so no urpx:observanceRule is attached and each holiday resolves on its actual date. The single consequence is that the Monday after an Independence Day falling on a Sunday resolves to On-Peak rather than the Mid-Peak Sheet 12 directs.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
+      "urpx:expirationDateTime": "2026-06-01T00:00:00",
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },

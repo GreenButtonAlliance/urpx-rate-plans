@@ -43,14 +43,14 @@ REPO = Path(__file__).resolve().parent.parent
 SCE = REPO / "us/ca/sce/electricity"
 
 SCHEDULES = ["tou-d-4-9pm", "tou-d-5-8pm"]
-DATES = ["2025-11-15", "2026-03-20"]
+DATES = ["2025-11-15", "2026-03-20", "2026-10-01"]
 
 # Preliminary Statement Part H, paragraph 3: Sheet 2 (Cal. P.U.C. Sheet 74486-E)
 # summer and Sheet 3 (74487-E) winter, both effective October 1, 2022 under
 # Advice 4864-E and in force until Advice 5897-E replaced them on October 1,
 # 2026. kWh per day, (Basic, All-Electric).
 REGIONS = ["5", "6", "8", "9", "10", "13", "14", "15", "16"]
-ALLOCATION = {
+ALLOCATION_2022 = {
     "summer": {"5": ("17.0", "16.8"), "6": ("11.4", "8.7"), "8": ("12.8", "9.9"),
                "9": ("16.9", "12.5"), "10": ("19.3", "15.9"), "13": ("22.2", "24.2"),
                "14": ("19.2", "18.5"), "15": ("45.0", "24.0"), "16": ("14.7", "13.5")},
@@ -58,21 +58,49 @@ ALLOCATION = {
                "9": ("12.0", "13.9"), "10": ("12.1", "16.4"), "13": ("12.2", "23.0"),
                "14": ("11.9", "21.1"), "15": ("9.7", "17.4"), "16": ("12.4", "23.2")},
 }
+# The same paragraph as reissued effective October 1, 2026 under Advice 5897-E
+# (Decision 26-04-033): Sheet 2 (91543-E) summer and Sheet 3 (91544-E) winter.
+ALLOCATION_2026 = {
+    "summer": {"5": ("16.5", "15.6"), "6": ("11.6", "8.5"), "8": ("13.1", "10.0"),
+               "9": ("17.1", "12.9"), "10": ("19.8", "16.0"), "13": ("22.2", "22.7"),
+               "14": ("20.1", "19.2"), "15": ("41.1", "23.3"), "16": ("14.9", "13.5")},
+    "winter": {"5": ("18.3", "24.2"), "6": ("10.5", "11.8"), "8": ("9.7", "11.6"),
+               "9": ("11.5", "13.2"), "10": ("11.6", "15.2"), "13": ("11.5", "19.6"),
+               "14": ("11.9", "20.9"), "15": ("8.8", "16.1"), "16": ("12.5", "23.3")},
+}
 # The same sheets' Heat Pump Water Heater Allocation columns, kWh per day.
 HPWH = {"summer": ("1.9", "1.9"), "winter": ("2.6", "3.0")}
 CODES = [("basic", "Basic"), ("all-electric", "All-Electric")]
 OPTION = {"tou-d-4-9pm": "Schedule TOU-D Option 4-9 PM", "tou-d-5-8pm": "Schedule TOU-D Option 5-8 PM"}
 
-PART_H_PDF = "sce_prelim-h_2024-08-15.pdf"
 PART_H_URL = ("https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/"
               "Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Preliminary%20Statements/"
               "ELECTRIC_PRELIM_H.pdf")
-PART_H_RETRIEVED = "2026-05-04"
+
+
+class PartH:
+    """One edition of Preliminary Statement Part H Sheets 2 and 3, as vendored."""
+
+    def __init__(self, pdf, retrieved, leaves, effective, advice, docket, allocation):
+        self.pdf, self.retrieved, self.leaves = pdf, retrieved, leaves
+        self.effective, self.advice, self.docket, self.allocation = effective, advice, docket, allocation
+
+
+PART_H_2022 = PartH("sce_prelim-h_2024-08-15.pdf", "2026-05-04", ("74486-E", "74487-E"),
+                    "October 1, 2022", "4864-E",
+                    "Decision 22-08-001 (Preliminary Statement Part H Sheets 2 and 3, Advice 4864-E)",
+                    ALLOCATION_2022)
+PART_H_2026 = PartH("sce_prelim-h_2026-10-01.pdf", "2026-10-06", ("91543-E", "91544-E"),
+                    "October 1, 2026", "5897-E",
+                    "Decision 26-04-033 (Preliminary Statement Part H Sheets 2 and 3, Advice 5897-E)",
+                    ALLOCATION_2026)
+# The edition in force at each base version's effective date.
+PART_H = {"2025-11-15": PART_H_2022, "2026-03-20": PART_H_2022, "2026-10-01": PART_H_2026}
 
 # Option name and the sheets whose footnote states the baseline rules, per
 # base version.
 SHEETS = {"tou-d-4-9pm": "Sheets 2 and 3", "tou-d-5-8pm": "Sheets 4 and 5"}
-CREDIT = {"2025-11-15": "0.10449", "2026-03-20": "0.10108"}
+CREDIT = {"2025-11-15": "0.10449", "2026-03-20": "0.10108", "2026-10-01": "0.09101"}
 
 
 def hpwh_description(sched: str, date: str) -> str:
@@ -80,7 +108,8 @@ def hpwh_description(sched: str, date: str) -> str:
         "Preliminary Statement Part H, paragraph 3, adds a Heat Pump Water Heater (HPWH) baseline quantity "
         "for customers attesting to having a HPWH and served under Schedule TOU-D-4-9 or TOU-D-5-8: 1.9 kWh "
         "per day in summer for the Basic and the All-Electric Allocation, and 2.6 (Basic) and 3.0 "
-        "(All-Electric) kWh per day in winter (Sheets 2 and 3, Cal. P.U.C. Sheets 74486-E and 74487-E). This "
+        f"(All-Electric) kWh per day in winter (Sheets 2 and 3, Cal. P.U.C. Sheets {PART_H[date].leaves[0]} and "
+        f"{PART_H[date].leaves[1]}). This "
         f"version adds them to the baseline ladder of sce:{sched}-{date}: each of its 72 urpx:ServiceBracket "
         "names that version's Tier 1 or Tier 2 with urpx:adjustsServiceTier, a Baseline Region and allocation "
         "with urpx:referencesProfileAlternative, and a season, and offsets Tier 1's upper bound and Tier 2's "
@@ -198,13 +227,13 @@ def bracket(bid, season_id, alt, lower=None, lower_op=None, upper=None, upper_op
     return b
 
 
-def service_tiers(v: str) -> dict:
+def service_tiers(v: str, date: str) -> dict:
     t1, t2 = [], []
     for season in ("summer", "winter"):
         sid = f"{v}-season-{season}"
         for region in REGIONS:
             for i, (code, _) in enumerate(CODES):
-                x = ALLOCATION[season][region][i]
+                x = PART_H[date].allocation[season][region][i]
                 alt = alternative_id(v, region, code)
                 t1.append(bracket(f"{v}-bracket-t1-r{region}-{code}-{season}", sid, alt,
                                   "0", "urpx:greaterThanOrEqualOperator",
@@ -270,7 +299,7 @@ def ladder(sched: str, date: str) -> None:
         if k == "urpx:hasServiceTiers":
             continue
         if k == "urpx:hasLedger":
-            new_bm["urpx:hasServiceTiers"] = [service_tiers(v)]
+            new_bm["urpx:hasServiceTiers"] = [service_tiers(v, date)]
         new_bm[k] = x
     pe["urpx:hasBillingModel"] = new_bm
     version["urpx:hasPlanElements"] = insert_after(pe, "urpx:hasBillingModel",
@@ -372,10 +401,10 @@ def hpwh(sched: str, date: str, evaluation: str, description: str) -> dict:
                     "urpx:fileName": "ELECTRIC_PRELIM_H.pdf",
                     "urpx:mediaType": ref("urpx:applicationPdf"),
                     "urpx:accessURL": PART_H_URL,
-                    "urpx:dateRetrieved": PART_H_RETRIEVED,
+                    "urpx:dateRetrieved": PART_H[date].retrieved,
                     "urpx:dataSourceType": ref("urpx:utilityWebsiteSource"),
                     "urpx:pageStart": 2, "urpx:pageEnd": 3,
-                    "urpx:leafStart": "74486-E", "urpx:leafEnd": "74487-E"},
+                    "urpx:leafStart": PART_H[date].leaves[0], "urpx:leafEnd": PART_H[date].leaves[1]},
                 "urpx:hasEligibilityRule": [{
                     "@type": "urpx:EligibilityRule",
                     "@id": f"{v}-er-hpwh-attested",
@@ -503,21 +532,23 @@ NEW_DEFERRALS = [
 
 def extraction_note(sched: str, date: str) -> str:
     v = f"sce:{sched}-{date}"
+    h = PART_H[date]
+    dated = ("dated by its latest sheets (4 to 6, effective\nAugust 15, 2024)" if h is PART_H_2022
+             else "dated by its latest sheets (2 and 3, effective\nOctober 1, 2026)")
     note = f"""
-Baseline ladder (added 2026-10-06). The rate sheet footnote ({SHEETS[sched]}):
+Baseline ladder. The rate sheet footnote ({SHEETS[sched]}):
 "The Baseline Credit applies up to 100% of the Baseline Allocation,
 regardless of Time-of-Use time period. Additional Baseline Allocations apply
 for Customers with Heat Pump Water Heaters served under this Option. The
 Baseline Allocation is set forth in Preliminary Statement, Part H." Part H
-paragraph 3, Sheet 2 (Cal. P.U.C. Sheet 74486-E, summer) and Sheet 3
-(74487-E, winter), both effective October 1, 2022 under Advice 4864-E, gives
+paragraph 3, Sheet 2 (Cal. P.U.C. Sheet {h.leaves[0]}, summer) and Sheet 3
+({h.leaves[1]}, winter), both effective {h.effective} under Advice {h.advice}, gives
 them in kWh per day by Baseline Region (5, 6, 8, 9, 10, 13, 14, 15, 16) and
 Basic or All-Electric Allocation: 36 cells. Each is a Tier 1 bracket from 0 to
 the allocation and a Tier 2 bracket above it in {v}-tiers-baseline,
 qualified by the version's season and by a ProfileAlternative on the custom
 dimensions baselineRegion and baselineCode. Part H is vendored here as
-sce_prelim-h_2024-08-15.pdf, dated by its latest sheets (4 to 6, effective
-August 15, 2024). The Baseline Credit has its own ledger over the kWh
+{h.pdf}, {dated}. The Baseline Credit has its own ledger over the kWh
 MetricInput {v}-mi-energy-baseline, priced $({CREDIT[date]}) on Tier 1 and 0
 on Tier 2; both Prices are in {v}-summary-discountable.
 
@@ -532,15 +563,6 @@ validate against the v0.5.1 shapes; dev/validate-with-base.py excepts exactly
 the results #80 would remove, under BOUND_OFFSET_EXCEPTION. clj-urpx 0.42.0
 resolves the offsets. The modifier is in effect exactly when this version is.
 """
-    if date == "2026-03-20":
-        note += """
-Part H Sheets 2 and 3 were reissued effective October 1, 2026 under Advice
-5897-E (Sheets 91543-E and 91544-E) with revised Baseline Allocations and the
-same HPWH Allocations, and Schedule TOU-D was reissued on the same date. Both
-belong to a TOU-D version effective 2026-10-01, which this corpus does not yet
-hold; the allocations here are the ones in force from this version's
-effective date until then.
-"""
     return note
 
 
@@ -553,17 +575,17 @@ def manifest(sched: str, date: str) -> None:
         src_end = text.index("\n\n", src_start)
         body = text[src_start + len("[source]\n"):src_end]
         indented = "\n".join("  " + l for l in body.splitlines())
-        pdf = base_path(sched, date).parent / PART_H_PDF
+        pdf = base_path(sched, date).parent / PART_H[date].pdf
         text = (text[:src_start] + "[source]\n\n  [source.base]\n" + indented + "\n\n"
                 "  # Preliminary Statement Part H: the Baseline Allocations bounding Tier 1 and the\n"
                 "  # HPWH Allocation the second document in this directory adds to them.\n"
                 "  [source.prelim_h]\n"
                 f"  url = {toml_str(PART_H_URL)}\n"
                 f'  sha256 = "{sha256(pdf)}"\n'
-                f'  retrieved_on = "{PART_H_RETRIEVED}"\n'
+                f'  retrieved_on = "{PART_H[date].retrieved}"\n'
                 '  media_type = "application/pdf"\n'
                 '  filing_type = "advice-letter"\n'
-                '  filing_id = "SCE-AL-4864-E"' + text[src_end:])
+                f'  filing_id = "SCE-AL-{PART_H[date].advice}"' + text[src_end:])
         reg_start = text.index("[regulator]\n")
         reg_end = text.index("\n\n", reg_start)
         body = text[reg_start + len("[regulator]\n"):reg_end]
@@ -571,8 +593,14 @@ def manifest(sched: str, date: str) -> None:
         text = (text[:reg_start] + "[regulator]\n  [regulator.base]\n" + indented + "\n\n"
                 "  [regulator.prelim_h]\n"
                 '  authority = "puc"\n'
-                '  docket = "Decision 22-08-001 (Preliminary Statement Part H Sheets 2 and 3, Advice 4864-E)"'
+                f'  docket = "{PART_H[date].docket}"'
                 + text[reg_end:])
+        ex = text.index("[extraction]")
+        n0 = text.index('notes = """', ex) + len('notes = """')
+        n1 = text.index('"""', n0)
+        text = text[:n1].rstrip("\n") + "\n" + extraction_note(sched, date) + text[n1:]
+
+    if "\nBaseline ladder" not in text:
         ex = text.index("[extraction]")
         n0 = text.index('notes = """', ex) + len('notes = """')
         n1 = text.index('"""', n0)

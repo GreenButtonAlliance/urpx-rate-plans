@@ -303,6 +303,8 @@
 (def profile-alternative-nominations
   {"sce:cca-crs-2026-03-20-pa-pcia-vintage" "sce:cca-crs-2026-03-20-pa-vintage-2001"
    "sce:da-crs-2026-03-20-pa-pcia-vintage"  "sce:da-crs-2026-03-20-pa-vintage-2001"
+   "sce:cca-crs-2026-10-01-pa-pcia-vintage" "sce:cca-crs-2026-10-01-pa-vintage-2001"
+   "sce:da-crs-2026-10-01-pa-pcia-vintage"  "sce:da-crs-2026-10-01-pa-vintage-2001"
    ;; Shoreline exercises the multiplier and all five undergrounding charges.
    "scl:residential-suburban-2026-01-01-pa-jurisdiction" "scl:residential-suburban-2026-01-01-pa-shoreline"
    "scl:residential-suburban-2027-01-01-pa-jurisdiction" "scl:residential-suburban-2027-01-01-pa-shoreline"
@@ -465,6 +467,25 @@
                      (not (.isAfter exp at))))
                  vs))))
 
+;; The mirror case: a modifier version that has not begun at the instant.
+;; sce:tou-d-4-9pm-hpwh-2026-10-01 targets the 2026-10-01 tiers, which the
+;; base version composed at a summer 2026 probe does not carry, so clj-urpx
+;; refuses :unresolvable-adjusted-tier before it reaches the version window.
+;; That refusal, from a modifier whose every version begins after the
+;; instant, is recorded as :not-yet-effective. Other not-yet-effective
+;; modifiers are left to clj-urpx as before.
+(defn- unstarted-modifier?
+  "True when every version of `modifier` begins after `instant`."
+  [modifier ^java.time.ZonedDateTime instant]
+  (let [v  (:urpx/hasRatePlanModifierVersion modifier)
+        vs (if (map? v) [v] v)
+        at (.toLocalDateTime instant)]
+    (and (seq vs)
+         (every? (fn [ver]
+                   (when-let [eff (some-> (:urpx/effectiveDateTime ver) as-local)]
+                     (.isAfter eff at)))
+                 vs))))
+
 (defn- compose-modifier-with-base
   "Compose `modifier` into the latest version of `base-kw`'s base RatePlan
    filing, resolved at `instant`. Returns a map: :status ∈ #{:ok :refused :no-corpus-base :error},
@@ -498,12 +519,17 @@
                 reason   (:reason data)
                 mod-iri  (:jsonld/id modifier)
                 expected (get condition-gated-expected mod-iri)
+                unstarted (and (= reason :unresolvable-adjusted-tier)
+                               (unstarted-modifier? modifier instant))
                 ok?      (or (legitimate-refusals reason)
                              (expired-before? data instant)
                              (not-yet-effective? data instant)
+                             unstarted
                              (and (= reason :condition-gated-tier) (some? expected)))]
             (if ok?
-              {:status :refused :reason (refusal-reason data instant) :base-version (:date base-info)}
+              {:status :refused
+               :reason (if unstarted :not-yet-effective (refusal-reason data instant))
+               :base-version (:date base-info)}
               {:status :error :error (.getMessage e) :base-version (:date base-info)}))))))
     {:status :no-corpus-base}))
 

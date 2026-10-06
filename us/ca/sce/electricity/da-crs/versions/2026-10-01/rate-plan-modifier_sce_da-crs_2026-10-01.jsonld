@@ -1,0 +1,1446 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "sce": "https://rate-plans.grid-coordination.energy/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:gYearValue": {
+      "@type": "xsd:gYear"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "sce:doc-da-crs-2026-10-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:da-crs",
+    "urpx:name": "Schedule DA-CRS",
+    "urpx:modifierUniqueIdentifier": "DA-CRS",
+    "urpx:initialEffectiveDate": "2023-07-27",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:da-crs-2026-10-01",
+      "urpx:version": "2026-10-01",
+      "urpx:modifierVersionNumber": "2026-10-01",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Schedule DA-CRS — Direct Access Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers who have elected Direct Access (DA) service from a third-party Energy Service Provider (ESP). Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh, Wildfire Fund Non-Bypassable Charge), CTC ($0.00014/kWh, Competition Transition Charge), FRC ($0.01118/kWh, Fixed Recovery Charge), and PCIA (Power Charge Indifference Adjustment, vintage-discriminated by customer's DA enrollment year — 20 vintages from 2001 through 2026, ranging from $-0.00645 for 2025/2026 vintages (credits, where DA customers' departing-load is below market price) to $0.02631 for 2023 vintage). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `departureVintage` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the Otherwise Applicable Tariff (OAT) reconciliation prose on TOU-D Sheet 15 SC 9 / Schedule D Sheet 6 SC 4, DA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service before billing-determinant multiplication; this OAT-side adjustment is NOT modeled here (would require itemizing DWRBC as a separate PriceDefinition in the base TOU-D / Schedule D filings). The base plan's SCE Generation, which each base schedule applies only to Bundled Service Customers, is offset by one Price carrying urpx:multiplier -1 over that base's generation urpx:PriceSummary. Customer-subgroup exemption table on Sheet 3 distinguishes DA, PC-TBS, GTSR-GR, GTSR-CR — only the default DA subgroup is captured by the Eligibility Rule here. Sibling Schedule CCA-CRS (sce:cca-crs) carries identical Domestic-class PCIA values for CCA-Service customers.",
+      "urpx:effectiveDateTime": "2026-10-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sce:d"
+        },
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_DA-CRS.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_DA-CRS.pdf",
+        "urpx:dateRetrieved": "2026-10-06",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 3,
+        "urpx:pageEnd": 10,
+        "urpx:leafStart": "74861-E",
+        "urpx:leafEnd": "91570-E"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:da-crs-2026-10-01-er-eligible",
+          "urpx:name": "DA-CRS-eligible customer",
+          "urpx:description": "Customer is enrolled in Direct Access service. The cost-responsibility surcharge under this Schedule recovers stranded power-procurement costs allocated to customers who have departed Bundled Service. Eligibility is by enrollment record; PCIA value depends on the customer's vintage year (year of departing-load enrollment) — see per-Price ApplicabilityRule gates below.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:da-crs-2026-10-01-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sce:da-crs-2026-10-01-cn-eligible",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "@id": "sce:da-crs-2026-10-01-cn-eligible-left-operand",
+                "urpx:customConditionProperty": "Energy Service Type"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "@id": "sce:da-crs-2026-10-01-cn-eligible-right-operand",
+                "urpx:stringValue": "Direct Access"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "sce:da-crs-2026-10-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:da-crs-2026-10-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:da-crs-2026-10-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "sce:da-crs-2026-10-01-pa-pcia-vintage",
+          "urpx:name": "PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "sce:da-crs-2026-10-01-pa-pcia-vintage-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "sce:da-crs-2026-10-01-ad-pcia-vintage",
+                "urpx:dimensionDisplayName": "PCIA Vintage Year",
+                "urpx:customDimensionProperty": "departureVintage",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "2001",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2004",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2009",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2010",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2011",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2012",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2013",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2014",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2015",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2016",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2017",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2018",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2019",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2020",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2021",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2022",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2023",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2024",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2025",
+                      "@type": "xsd:gYear"
+                    },
+                    {
+                      "@value": "2026",
+                      "@type": "xsd:gYear"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2001",
+              "urpx:name": "PCIA vintage 2001",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2001",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2001",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2001-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2001-right-operand",
+                    "urpx:gYearValue": "2001"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2004",
+              "urpx:name": "PCIA vintage 2004",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2004",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2004",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2004-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2004-right-operand",
+                    "urpx:gYearValue": "2004"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2009",
+              "urpx:name": "PCIA vintage 2009",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2009",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2009",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2009-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2009-right-operand",
+                    "urpx:gYearValue": "2009"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2010",
+              "urpx:name": "PCIA vintage 2010",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2010",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2010",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2010-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2010-right-operand",
+                    "urpx:gYearValue": "2010"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2011",
+              "urpx:name": "PCIA vintage 2011",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2011",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2011",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2011-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2011-right-operand",
+                    "urpx:gYearValue": "2011"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2012",
+              "urpx:name": "PCIA vintage 2012",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2012",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2012",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2012-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2012-right-operand",
+                    "urpx:gYearValue": "2012"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2013",
+              "urpx:name": "PCIA vintage 2013",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2013",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2013",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2013-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2013-right-operand",
+                    "urpx:gYearValue": "2013"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2014",
+              "urpx:name": "PCIA vintage 2014",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2014",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2014",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2014-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2014-right-operand",
+                    "urpx:gYearValue": "2014"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2015",
+              "urpx:name": "PCIA vintage 2015",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2015",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2015",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2015-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2015-right-operand",
+                    "urpx:gYearValue": "2015"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2016",
+              "urpx:name": "PCIA vintage 2016",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2016",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2016",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2016-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2016-right-operand",
+                    "urpx:gYearValue": "2016"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2017",
+              "urpx:name": "PCIA vintage 2017",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2017",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2017",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2017-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2017-right-operand",
+                    "urpx:gYearValue": "2017"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2018",
+              "urpx:name": "PCIA vintage 2018",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2018",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2018",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2018-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2018-right-operand",
+                    "urpx:gYearValue": "2018"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2019",
+              "urpx:name": "PCIA vintage 2019",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2019",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2019",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2019-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2019-right-operand",
+                    "urpx:gYearValue": "2019"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2020",
+              "urpx:name": "PCIA vintage 2020",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2020",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2020",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2020-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2020-right-operand",
+                    "urpx:gYearValue": "2020"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2021",
+              "urpx:name": "PCIA vintage 2021",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2021",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2021",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2021-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2021-right-operand",
+                    "urpx:gYearValue": "2021"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2022",
+              "urpx:name": "PCIA vintage 2022",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2022",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2022",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2022-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2022-right-operand",
+                    "urpx:gYearValue": "2022"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2023",
+              "urpx:name": "PCIA vintage 2023",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2023",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2023",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2023-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2023-right-operand",
+                    "urpx:gYearValue": "2023"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2024",
+              "urpx:name": "PCIA vintage 2024",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2024",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2024",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2024-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2024-right-operand",
+                    "urpx:gYearValue": "2024"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2025",
+              "urpx:name": "PCIA vintage 2025",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2025",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2025",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2025-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2025-right-operand",
+                    "urpx:gYearValue": "2025"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:da-crs-2026-10-01-pa-vintage-2026",
+              "urpx:name": "PCIA vintage 2026",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:da-crs-2026-10-01-cx-pa-vintage-2026",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2026",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2026-left-operand",
+                    "urpx:customConditionProperty": "departureVintage"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:da-crs-2026-10-01-cn-pa-vintage-2026-right-operand",
+                    "urpx:gYearValue": "2026"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "sce:da-crs-2026-10-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:da-crs-2026-10-01-ledger-wfc",
+              "urpx:name": "DA-CRS Wildfire Fund Non-Bypassable Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:da-crs-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:da-crs-2026-10-01-ledger-ctc",
+              "urpx:name": "DA-CRS Competition Transition Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:da-crs-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:da-crs-2026-10-01-ledger-frc",
+              "urpx:name": "DA-CRS Fixed Recovery Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:da-crs-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:da-crs-2026-10-01-ledger-pcia",
+              "urpx:name": "DA-CRS Power Charge Indifference Adjustment (vintage-conditional)",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:da-crs-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:da-crs-2026-10-01-ledger-oat-generation",
+              "urpx:name": "DA-CRS offset of the base plan's SCE Generation",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:da-crs-2026-10-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:da-crs-2026-10-01-pd-wfc",
+              "urpx:name": "Wildfire Fund Non-Bypassable Charge (WFC)",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:da-crs-2026-10-01-ledger-wfc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:da-crs-2026-10-01-pd-ctc",
+              "urpx:name": "Competition Transition Charge (CTC)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:da-crs-2026-10-01-ledger-ctc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:da-crs-2026-10-01-pd-frc",
+              "urpx:name": "Fixed Recovery Charge (FRC)",
+              "urpx:chargeType": {
+                "@id": "urpx:recoverySurcharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:da-crs-2026-10-01-ledger-frc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:da-crs-2026-10-01-pd-pcia",
+              "urpx:name": "Power Charge Indifference Adjustment (PCIA) — vintage-discriminated by customer's enrollment year",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:da-crs-2026-10-01-ledger-pcia"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:da-crs-2026-10-01-pd-oat-generation-offset",
+              "urpx:name": "Offset of the base plan's SCE Generation and DWR Energy Credit, which a Direct Access customer does not take from SCE",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:da-crs-2026-10-01-ledger-oat-generation"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "sce:da-crs-2026-10-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:da-crs-price-wfc-2026-10-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:da-crs-2026-10-01-pd-wfc"
+            },
+            "urpx:startDate": "2026-10-01",
+            "urpx:name": "Wildfire Fund Non-Bypassable Charge",
+            "urpx:unitPrice": "0.00591"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:da-crs-price-ctc-2026-10-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:da-crs-2026-10-01-pd-ctc"
+            },
+            "urpx:startDate": "2026-10-01",
+            "urpx:name": "Competition Transition Charge",
+            "urpx:unitPrice": "0.00014"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:da-crs-price-frc-2026-10-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:da-crs-2026-10-01-pd-frc"
+            },
+            "urpx:startDate": "2026-10-01",
+            "urpx:name": "Fixed Recovery Charge",
+            "urpx:unitPrice": "0.01118"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:da-crs-price-oat-generation-offset-2026-10-01",
+            "urpx:name": "Offset of the generation subtotal of whichever SCE residential base plan the customer is on. Schedule D Sheet 6 (91560-E) Special Condition 4.b and Schedule TOU-D Sheet 15 (91703-E) Special Condition 9.b: Direct Access Customers \"purchase energy from an Energy Service Provider\" and are billed for Delivery Service plus \"the applicable charges as shown in Schedule DA-CRS\".",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:da-crs-2026-10-01-pd-oat-generation-offset"
+            },
+            "urpx:startDate": "2026-10-01",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sce:d-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:d-2026-10-01-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-4-9pm-2026-10-01-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-5-8pm-2026-10-01-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-03-20-summary-generation"
+              },
+              {
+                "@id": "sce:tou-d-prime-2026-10-01-summary-generation"
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": [
+          {
+            "@type": "urpx:PriceSetAlternatives",
+            "@id": "sce:da-crs-2026-10-01-psa-pcia-by-vintage",
+            "urpx:name": "PCIA, varies by PCIA vintage year",
+            "urpx:referencesProfileAlternatives": {
+              "@id": "sce:da-crs-2026-10-01-pa-pcia-vintage"
+            },
+            "urpx:hasPriceSetAlternative": [
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2001",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2001"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2001-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2001 Vintage",
+                    "urpx:unitPrice": "0.00009"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2004",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2004"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2004-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2004 Vintage",
+                    "urpx:unitPrice": "0.00009"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2009",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2009"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2009-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2009 Vintage",
+                    "urpx:unitPrice": "0.01747"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2010",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2010"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2010-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2010 Vintage",
+                    "urpx:unitPrice": "0.02082"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2011",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2011"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2011-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2011 Vintage",
+                    "urpx:unitPrice": "0.02515"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2012",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2012"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2012-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2012 Vintage",
+                    "urpx:unitPrice": "0.02570"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2013",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2013"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2013-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2013 Vintage",
+                    "urpx:unitPrice": "0.02615"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2014",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2014"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2014-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2014 Vintage",
+                    "urpx:unitPrice": "0.02449"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2015",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2015"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2015-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2015 Vintage",
+                    "urpx:unitPrice": "0.02373"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2016",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2016"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2016-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2016 Vintage",
+                    "urpx:unitPrice": "0.02327"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2017",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2017"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2017-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2017 Vintage",
+                    "urpx:unitPrice": "0.02328"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2018",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2018"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2018-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2018 Vintage",
+                    "urpx:unitPrice": "0.02317"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2019",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2019"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2019-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2019 Vintage",
+                    "urpx:unitPrice": "0.02147"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2020",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2020"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2020-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2020 Vintage",
+                    "urpx:unitPrice": "0.02021"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2021",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2021"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2021-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2021 Vintage",
+                    "urpx:unitPrice": "0.02012"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2022",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2022"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2022-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2022 Vintage",
+                    "urpx:unitPrice": "0.02425"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2023",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2023"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2023-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2023 Vintage",
+                    "urpx:unitPrice": "0.02631"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2024",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2024"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2024-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2024 Vintage",
+                    "urpx:unitPrice": "0.01178"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2025",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2025"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2025-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2025 Vintage",
+                    "urpx:unitPrice": "-0.00645"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSetAlternative",
+                "@id": "sce:da-crs-2026-10-01-psa-pcia-v2026",
+                "urpx:referencesProfileAlternative": {
+                  "@id": "sce:da-crs-2026-10-01-pa-vintage-2026"
+                },
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "sce:da-crs-price-pcia-v2026-2026-10-01",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "sce:da-crs-2026-10-01-pd-pcia"
+                    },
+                    "urpx:startDate": "2026-10-01",
+                    "urpx:name": "PCIA — 2026 Vintage",
+                    "urpx:unitPrice": "-0.00645"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sce-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sce-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Southern California Edison Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sce-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "17609"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "sce:da-crs"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sce:cc-da-crs-2026-10-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-da-crs-2026-10-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing prices Schedule DA-CRS for a default Direct Access customer only, and the Applicability and Exemption table on Sheet 3 sets out eight customer groups whose component-level exemptions it does not represent. DA customers on Medical Baseline are exempt from the Wildfire Fund Non-Bypassable Charge; DA customers on CARE are exempt from that charge and from the Fixed Recovery Charge; DA customers on FERA are exempt from the Fixed Recovery Charge; Continuous DA customers are exempt from the Wildfire Fund charge and the Power Charge Indifference Adjustment; Returning Continuous DA customers are exempt from the Wildfire Fund charge. Applying this filing to any of those customers charges components the tariff exempts. The PCIA Vintage Methodology in Special Condition 1.c is not represented either: the filing treats the vintage year as a supplied customer attribute, whereas the tariff fixes Continuous DA customers at the 2001 vintage and derives every other customer's vintage from SCE's acceptance date of the Six-Month Notice to Switch to DA Service, with a determination date before July 1 setting the prior year and one on or after July 1 setting the current year. Special Condition 2, covering Green Rate customers on Schedules GTSR-GR and GTSR-CR whose vintage follows their subscription start date, and Special Condition 3, under which vintage and exemption status survive a switch between DA and CCA service, are also absent. The thirteen non-residential rate groups in the Sheet 4 through Sheet 10 tables are out of scope rather than missing: only the Domestic row belongs in a residential corpus.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}

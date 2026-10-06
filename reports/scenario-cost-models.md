@@ -31,9 +31,9 @@ A scenario cost model is identified by its own components: the base version IRI,
 
 | Outcome | Compositions | Scenario cost models |
 |---|---:|---:|
-| **servable** | 141 | 2190 |
+| **servable** | 110 | 438 |
 | **not priced per kWh** | 9 | 108 |
-| **blocked** | 8 | 35 |
+| **blocked** | 39 | 1787 |
 | **not measured** | 4 | 522 |
 | **total** | 162 | 2855 |
 
@@ -47,7 +47,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | Utility | Servable | Not priced per kWh | Blocked | Not measured | Total |
 |---|---:|---:|---:|---:|---:|
 | PG&E (IOU) | 18 | 0 | 5 | 4 | 27 |
-| SCE (IOU) | 31 | 0 | 1 | 0 | 32 |
+| SCE (IOU) | 0 | 0 | 32 | 0 | 32 |
 | SDG&E (IOU) | 37 | 0 | 0 | 0 | 37 |
 | PSE (IOU) | 0 | 0 | 2 | 0 | 2 |
 | SCL (POU) | 3 | 0 | 0 | 0 | 3 |
@@ -69,7 +69,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `cpau:e-3-2007-07-01` + `cpau:e-eec-1-2025-09-01` | :no-energy-ledger |
 | `cpau:e-3-2007-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
 
-## Blocked (8)
+## Blocked (39)
 
 | Composition | Reason |
 |---|---|
@@ -80,7 +80,38 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `pge:ev2-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pse:307-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
 | `pse:327-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
-| `sce:tou-d-prime-2026-03-20` + `sce:tou-d-prime-cpp-2026-03-20` | :condition-gated-tier |
+| `sce:d-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
+| `sce:d-2026-10-01` + `sce:care-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:d-2026-10-01` + `sce:cca-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:d-2026-10-01` + `sce:da-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:d-2026-10-01` + `sce:deed-restricted-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:d-2026-10-01` + `sce:fera-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:d-2026-10-01` + `sce:medical-baseline-2025-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:care-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:cca-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:da-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:deed-restricted-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:fera-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:medical-baseline-2025-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-4-9pm-2026-10-01` + `sce:tou-d-4-9pm-hpwh-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
+| `sce:tou-d-5-8pm-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:care-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:cca-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:da-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:deed-restricted-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:fera-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:medical-baseline-2025-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-5-8pm-2026-10-01` + `sce:tou-d-5-8pm-hpwh-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
+| `sce:tou-d-prime-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
+| `sce:tou-d-prime-2026-10-01` + `sce:care-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:cca-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:da-crs-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:deed-restricted-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:fera-2026-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:medical-baseline-2025-10-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `sce:tou-d-prime-2026-10-01` + `sce:tou-d-prime-cpp-2026-10-01` | resolves at some probe instants and refuses at others: :condition-gated-tier, :outside-version-window |
 
 ## Not measured (4)
 
@@ -111,11 +142,11 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `pge:ev2-vintage-pcia-2026-03-27-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:ev2-vintage-pcia-2026-03-27-psa-vpcia-20` | no |
 | `pge:nbt-2025-10-17-pa-vintage`<br>NBT export compensation vintage (NBT Interconnection Vintage Year), fixed for the customer's lock-in period, and for the 2025 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 5 | 1 | `urpx:PriceSetAlternative`<br>`pge:nbt-2025-10-17-psa-export-202` | no |
 | `pge:pa-baseline-territory-code`<br>Baseline territory × code (PG&E residential baseline allowance dimensions) | 20 | 1 | `urpx:ServiceBracket`<br>`pge:bracket-t` | no |
-| `sce:cca-crs-2026-03-20-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:cca-crs-2026-03-20-psa-pcia-v20` | `sce:cca-crs-2026-03-20-pa-vintage-2001` |
-| `sce:da-crs-2026-03-20-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:da-crs-2026-03-20-psa-pcia-v20` | `sce:da-crs-2026-03-20-pa-vintage-2001` |
+| `sce:cca-crs-2026-10-01-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:cca-crs-2026-10-01-psa-pcia-v20` | `sce:cca-crs-2026-10-01-pa-vintage-2001` |
+| `sce:da-crs-2026-10-01-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:da-crs-2026-10-01-psa-pcia-v20` | `sce:da-crs-2026-10-01-pa-vintage-2001` |
 | `sce:nbt-2025-04-23-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period, and for the NBT25 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 6 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-04-23-psa-export-n` | no |
-| `sce:tou-d-4-9pm-2026-03-20-pa-baseline-region-code`<br>Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3) | 18 | 8 | `urpx:ServiceBracket`<br>`sce:tou-d-4-9pm-` | no |
-| `sce:tou-d-5-8pm-2026-03-20-pa-baseline-region-code`<br>Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3) | 18 | 8 | `urpx:ServiceBracket`<br>`sce:tou-d-5-8pm-` | no |
+| `sce:tou-d-4-9pm-2026-10-01-pa-baseline-region-code`<br>Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3) | 18 | 8 | `urpx:ServiceBracket`<br>`sce:tou-d-4-9pm-` | no |
+| `sce:tou-d-5-8pm-2026-10-01-pa-baseline-region-code`<br>Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3) | 18 | 8 | `urpx:ServiceBracket`<br>`sce:tou-d-5-8pm-` | no |
 | `scl:residential-suburban-2026-01-01-pa-jurisdiction`<br>Location of service: the suburban jurisdiction the customer is served in | 7 | 1 | `urpx:PriceSetAlternative`<br>`scl:residential-suburban-2026-01-01-psa-` | `scl:residential-suburban-2026-01-01-pa-shoreline` |
 | `sdge:nbt-2025-01-27-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period | 5 | 1 | `urpx:PriceSetAlternative`<br>`sdge:nbt-2025-01-27-psa-export-nbt` | no |
 
@@ -131,11 +162,11 @@ And 2 pairs never co-occur across those 18: CARE with FERA; CCA with Smart Rate.
 
 Three things would close the gap. A way to say two modifiers are mutually exclusive, which URPX v0.5.1 does not have. A baseline that composes a base with more than one modifier at a time, which the present one does not do. And a selection recorded per open dimension, so that a rate can be attributed to the alternative it belongs to rather than to the composition as a whole.
 
-The corpus already models the same exclusivity both ways. PG&E states income tier as a `urpx:ProfileAlternatives` dimension whose alternatives are mutually exclusive by construction. Elsewhere CARE and FERA are separate `urpx:RatePlanModifier`s with nothing to say they cannot both apply, and 13 base versions here accept both of them: `sce:d-2026-03-20`, `sce:tou-d-4-9pm-2026-03-20`, `sce:tou-d-5-8pm-2026-03-20`, `sce:tou-d-prime-2026-03-20`, `sdge:dr-2026-04-01`, `sdge:dr-ses-2026-04-01`, `sdge:ev-tou-2-2026-04-01`, `sdge:ev-tou-2026-04-01`, `sdge:ev-tou-5-2026-04-01`, `sdge:tou-dr-2026-04-01`, `sdge:tou-dr1-2026-04-01`, `sdge:tou-dr2-2026-04-01`, `sdge:tou-elec-2026-04-01`. One shape is machine-checkable and the other is not.
+The corpus already models the same exclusivity both ways. PG&E states income tier as a `urpx:ProfileAlternatives` dimension whose alternatives are mutually exclusive by construction. Elsewhere CARE and FERA are separate `urpx:RatePlanModifier`s with nothing to say they cannot both apply, and 13 base versions here accept both of them: `sce:d-2026-10-01`, `sce:tou-d-4-9pm-2026-10-01`, `sce:tou-d-5-8pm-2026-10-01`, `sce:tou-d-prime-2026-10-01`, `sdge:dr-2026-04-01`, `sdge:dr-ses-2026-04-01`, `sdge:ev-tou-2-2026-04-01`, `sdge:ev-tou-2026-04-01`, `sdge:ev-tou-5-2026-04-01`, `sdge:tou-dr-2026-04-01`, `sdge:tou-dr1-2026-04-01`, `sdge:tou-dr2-2026-04-01`, `sdge:tou-elec-2026-04-01`. One shape is machine-checkable and the other is not.
 
 ## Superseded versions excluded
 
-13 version nodes, over 13 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+25 version nodes, over 16 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -143,15 +174,27 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | `pge:e-tou-c-2026-03-27` | 2026-03-27 |
 | `pse:307` | `pse:307-2026-05-01` | 2026-05-01 | `pse:307-2026-10-01` | 2026-10-01 |
 | `pse:327` | `pse:327-2026-05-01` | 2026-05-01 | `pse:327-2026-10-01` | 2026-10-01 |
-| `sce:care` | `sce:care-2025-11-15` | 2025-11-15 | `sce:care-2026-03-20` | 2026-03-20 |
-| `sce:d` | `sce:d-2025-11-15` | 2025-11-15 | `sce:d-2026-03-20` | 2026-03-20 |
-| `sce:deed-restricted` | `sce:deed-restricted-2025-11-15` | 2025-11-15 | `sce:deed-restricted-2026-03-20` | 2026-03-20 |
-| `sce:fera` | `sce:fera-2025-11-15` | 2025-11-15 | `sce:fera-2026-03-20` | 2026-03-20 |
-| `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-2026-03-20` | 2026-03-20 |
-| `sce:tou-d-4-9pm-hpwh` | `sce:tou-d-4-9pm-hpwh-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-hpwh-2026-03-20` | 2026-03-20 |
-| `sce:tou-d-5-8pm` | `sce:tou-d-5-8pm-2025-11-15` | 2025-11-15 | `sce:tou-d-5-8pm-2026-03-20` | 2026-03-20 |
-| `sce:tou-d-5-8pm-hpwh` | `sce:tou-d-5-8pm-hpwh-2025-11-15` | 2025-11-15 | `sce:tou-d-5-8pm-hpwh-2026-03-20` | 2026-03-20 |
-| `sce:tou-d-prime` | `sce:tou-d-prime-2025-11-15` | 2025-11-15 | `sce:tou-d-prime-2026-03-20` | 2026-03-20 |
+| `sce:care` | `sce:care-2025-11-15` | 2025-11-15 | `sce:care-2026-10-01` | 2026-10-01 |
+| `sce:care` | `sce:care-2026-03-20` | 2026-03-20 | `sce:care-2026-10-01` | 2026-10-01 |
+| `sce:cca-crs` | `sce:cca-crs-2026-03-20` | 2026-03-20 | `sce:cca-crs-2026-10-01` | 2026-10-01 |
+| `sce:d` | `sce:d-2025-11-15` | 2025-11-15 | `sce:d-2026-10-01` | 2026-10-01 |
+| `sce:d` | `sce:d-2026-03-20` | 2026-03-20 | `sce:d-2026-10-01` | 2026-10-01 |
+| `sce:da-crs` | `sce:da-crs-2026-03-20` | 2026-03-20 | `sce:da-crs-2026-10-01` | 2026-10-01 |
+| `sce:deed-restricted` | `sce:deed-restricted-2025-11-15` | 2025-11-15 | `sce:deed-restricted-2026-10-01` | 2026-10-01 |
+| `sce:deed-restricted` | `sce:deed-restricted-2026-03-20` | 2026-03-20 | `sce:deed-restricted-2026-10-01` | 2026-10-01 |
+| `sce:fera` | `sce:fera-2025-11-15` | 2025-11-15 | `sce:fera-2026-10-01` | 2026-10-01 |
+| `sce:fera` | `sce:fera-2026-03-20` | 2026-03-20 | `sce:fera-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2026-03-20` | 2026-03-20 | `sce:tou-d-4-9pm-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-4-9pm-hpwh` | `sce:tou-d-4-9pm-hpwh-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-hpwh-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-4-9pm-hpwh` | `sce:tou-d-4-9pm-hpwh-2026-03-20` | 2026-03-20 | `sce:tou-d-4-9pm-hpwh-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-5-8pm` | `sce:tou-d-5-8pm-2025-11-15` | 2025-11-15 | `sce:tou-d-5-8pm-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-5-8pm` | `sce:tou-d-5-8pm-2026-03-20` | 2026-03-20 | `sce:tou-d-5-8pm-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-5-8pm-hpwh` | `sce:tou-d-5-8pm-hpwh-2025-11-15` | 2025-11-15 | `sce:tou-d-5-8pm-hpwh-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-5-8pm-hpwh` | `sce:tou-d-5-8pm-hpwh-2026-03-20` | 2026-03-20 | `sce:tou-d-5-8pm-hpwh-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-prime` | `sce:tou-d-prime-2025-11-15` | 2025-11-15 | `sce:tou-d-prime-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-prime` | `sce:tou-d-prime-2026-03-20` | 2026-03-20 | `sce:tou-d-prime-2026-10-01` | 2026-10-01 |
+| `sce:tou-d-prime-cpp` | `sce:tou-d-prime-cpp-2026-03-20` | 2026-03-20 | `sce:tou-d-prime-cpp-2026-10-01` | 2026-10-01 |
 
 ## Not yet effective
 

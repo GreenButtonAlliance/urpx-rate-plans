@@ -1,0 +1,92 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "tou-d-prime-cpp"
+effective_date = "2026-10-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256 = "852f46e429f8792c17808c042a08e6ae1fb7fd56aae5299e9fdb90e650af7906"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5897-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Decision 26-04-033 (Advice 5897-E)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from SCE's live tariff book with the fetch
+path of dev/fetch_tariff_documents.py. SharePoint's download endpoint answered
+with the PDF inside a multipart/form-data envelope; the committed file is that
+envelope's one part body, extracted byte for byte, and the sha256 recorded
+above is its hash.
+
+Advice 5897-E (Decision 26-04-033) reissued all 19 sheets of Schedule TOU-D
+effective October 1, 2026, Cal. P.U.C. Sheets 91689-E (Sheet 1) through
+91707-E (Sheet 19). The schedule now holds six rate options, Option 4-9 PM,
+4-9 PM-CPP, 5-8 PM, 5-8 PM-CPP, PRIME and PRIME-CPP. Rates are on Sheets 2 to
+7. Special Condition 1 (TOU periods, the CPP Event Window, holidays and
+seasons) is on Sheets 8 and 9; Special Condition 3 (Critical Peak Pricing) on
+Sheets 10 to 12; Special Condition 4 (PRIME Separately-Metered EV Option) on
+Sheet 12; Special Conditions 5 to 7 (Change of Rate Schedule, CARE, FERA) on
+Sheet 13; Special Condition 8 (Arrearage Management Plan) on Sheet 14; Special
+Condition 9 (Billing Calculation, with the DRAH terms) on Sheets 15 and 16;
+Special Condition 10 (California Climate Credit) on Sheet 16; the SJV Pilot
+Bill Protection Discount (Special Condition 12) on Sheets 17 and 18, where its
+continuation is headed 13; the Transitional Community Solar Discount (Special
+Condition 14) on Sheet 18; and EV Submetering on Sheet 19. The TOU periods,
+holidays and seasons are unchanged from the 2026-03-20 version.
+
+Supersession. The 2026-03-20 version's rate sheets (90937-E to 90942-E) were
+cancelled on June 1, 2026 by Advice 5829-E (91196-E to 91201-E), and Schedule
+TOU-D was reissued again on June 25, 2026 under Advice 5837-E, both as printed
+in data/documents/sce/ELECTRIC_SCHEDULES_TOU-D.pdf (retrieved 2026-09-23).
+Neither issue is in this corpus. The 2026-03-20 version therefore carries
+urpx:expirationDateTime 2026-06-01 (LAYOUT.md section 9), and June 1 to
+September 30, 2026 is a gap in this modifier's versions.
+
+Critical Peak Pricing. Special Condition 3 now calls 20 CPP Events per
+calendar year, each of 3 hours, and Special Condition 1 makes the 4:00 p.m. to
+9:00 p.m. period a CPP Event Window within which SCE designates the three-hour
+CPP Event Energy Charge Period. The 2026-03-20 source called 12 to 15 Events
+of 4:00 p.m. to 9:00 p.m. The Maximum Available Credit now applies to CPP
+Customers continuing dual participation with Schedule D-SDP, without the
+Option A-CPP and B-CPP references, which Advice 5897-E removes with Options A
+and B. Special Condition 3.f adds a 12-month minimum participation period.
+
+Price changes from the 2026-03-20 version, $ (per kWh unless a per-day
+charge):
+ tou-d-prime-cpp-price-max-credit: -0.58794 -> -0.41944
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "CPP time windows are not modeled, so both CPP prices apply at every hour. Special Condition 1 (Sheets 8 and 9): the CPP Event Window is \"the five-hour period from 4:00 p.m. to 9:00 p.m. during which SCE may designate the three-hour CPP Event Energy Charge Period\"; the CPP Event Energy Charge applies in that designated period, and during the Summer Season the CPP Non-Event Energy Credit Period is the hours of the window outside it, the whole window when no Event is called. This filing carries no TOUSchedule, TOUPeriod or TimeBracket. The window is expressible at v0.5.1 with urpx:hasTOUSchedule on the modifier's BillingModel (precedent: smud:tou-pev-credit); which three hours SCE designates is event data, not tariff data.",
+ "Maximum Available Credit is carried as an additive credit of -0.41944 per kWh, but the schedule makes it a cap. Sheet 6 footnote: \"The Maximum Available Credit is the capped credit amount for CPP Customers dual participating in other demand response programs.\" Special Condition 3.d (Sheet 11): \"For CPP Customers eligible to continue to dually participate with Schedule D-SDP, the sum of credits provided by the dual participating demand response program of this Schedule will be capped.\" URPX v0.5.1 has no vocabulary for a bound on the sum of two credits: bounds exist only on ServiceBracket, and priceFloor / priceCeiling are DynamicPricing runtime clamps. Stop publishing it as an additive Price.",
+ "Summer-only applicability is recorded on the Price rather than the PriceDefinition. Both credit Prices carry urpx:hasApplicabilityRule with month --06 --07 --08 --09, and neither PriceDefinition carries a month of its own. Moving the rule to the PriceDefinition is the modeling fix; URPX expresses the constraint either way.",
+ "Exported generation is not distinguished. Special Condition 3 (Sheet 10): \"During the Summer Season, exported generation during the CPP Non-Event Energy Credit Period may result in charges under this Schedule. Exported generation during the CPP Event Energy Charge Period may result in applicable CPP Event energy credits, regardless of the season in which the CPP Event occurs.\" All three CPP prices share one direction-less MetricInput, sce:tou-d-prime-cpp-2026-10-01-mi-energy, so nothing in this filing separates imported from exported kWh. urpx:flowDirection on a MetricSpecification is the v0.5.1 route. Work, not a blocker.",
+ "Bill Protection is not modeled. Special Condition 3.e (Sheet 11): \"A Customer served on CPP will receive a one-time Bill Protection credit for the positive sum, if any, in total CPP Event Energy Charges and total CPP Summer Non-Event Energy Credits as calculated under a the applicable Option with CPP, and as measured over a period of up to 12 months from the date the Customer elects an Option with CPP.\" What cannot be computed is its amount, the conditional positive-part arithmetic in 'the positive sum, if any'; v0.5.1 has no cap, floor or greater-of vocabulary outside DynamicPricing runtime clamps.",
+ "Special Conditions 3.a to 3.c (Sheet 10) trigger and bound the CPP Event Energy Charge this filing prices at $0.80000/kWh, and none of it is in the model. Verbatim: \"SCE may, at its discretion, call a CPP Event any day.\" \"20 CPP Events are called per calendar year. Each CPP Event has a duration of 3 hours, for a total of 60 hours per calendar year.\" \"SCE will begin to notify Customers no later than 3:00 p.m. the day before a CPP Event.\" DynamicPricingShape and PriceUpdateRuleShape are both sh:closed and neither admits an event count, a duration, a notice interval or a trigger criterion, so this is a blocked deferral rather than unbuilt work.",
+ "Special Condition 3.d's limits (Sheet 11: Bundled Service Customers only; Direct Access, CCA Service and Schedule S customers ineligible; no dual enrollment in other demand response programs) and Special Condition 3.f's 12-month minimum participation (Sheet 12) are availability terms the single EligibilityRule does not encode.",
+ "The Maximum Available Credit Price is gated on a customer attribute this filing cannot decide: its ApplicabilityRule compares the CustomOperandNode 'Grandfathered D-SDP Dual Participation' to true, and whether a given customer continues dual participation with Schedule D-SDP is stated by no property of the document. A per-unit rate summed over the three Prices therefore rests on assuming the gate holds, so dev/baseline/marginal-rates.edn records this filing as refused rather than carrying a rate.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-20 version by dev/author_sce_2026_10_01.py: every Price reconciled to the Advice 5897-E sheets, prose and citations rewritten for them. See [extraction] notes for the price changes and the supersession gap."

@@ -57,6 +57,11 @@ ALLOWLIST = {
         "Grandfathered D-SDP Dual Participation on the maximum-credit Price, is a customer "
         "attribute gating one credit cap rather than a choice among exclusive prices, so it has "
         "no alternative to select either."),
+    "sce:tou-d-prime-cpp-2026-10-01": (
+        "Is CPP Event Today, " + _DYNAMIC + " The version's other price-layer condition, "
+        "Grandfathered D-SDP Dual Participation on the maximum-credit Price, is a customer "
+        "attribute gating one credit cap rather than a choice among exclusive prices, so it has "
+        "no alternative to select either."),
 }
 
 
