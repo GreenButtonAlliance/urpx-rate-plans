@@ -71,7 +71,8 @@ LOOKUPS = REPO / "data" / "midas" / "lookups"
 SEGMENT_UTILITY = utilities.segment_utility()
 
 # GridX feeds as published by the price server (per
-# ~/projects/grid/repo/price-server-user-guide/README.md as of 2026-05-29).
+# https://github.com/grid-coordination/price-server-user-guide README.md as of
+# 2026-05-29).
 # Matched case-insensitively against MIDAS AltRateName / RateName tokens.
 GRIDX_FEEDS = {
     "PG&E": [
