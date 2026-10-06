@@ -5,17 +5,34 @@ effective_date = "2026-03-20"
 
 # Source ----------------------------------------------------------------------
 [source]
-url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
-sha256 = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
-retrieved_on = "2026-05-04"
-media_type = "application/pdf"
-filing_type = "advice-letter"
-filing_id = "SCE-AL-5771-E"
+
+  [source.base]
+  url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+  sha256 = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+  retrieved_on = "2026-05-04"
+  media_type = "application/pdf"
+  filing_type = "advice-letter"
+  filing_id = "SCE-AL-5771-E"
+
+  # Preliminary Statement Part H: the Baseline Allocations bounding Tier 1 and the
+  # HPWH Allocation the second document in this directory adds to them.
+  [source.prelim_h]
+  url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Preliminary%20Statements/ELECTRIC_PRELIM_H.pdf"
+  sha256 = "898b6a89bf63455d37964670b54847544865dcd1da988275940f6a12cb389325"
+  retrieved_on = "2026-05-04"
+  media_type = "application/pdf"
+  filing_type = "advice-letter"
+  filing_id = "SCE-AL-4864-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority = "puc"
-docket = "Decision 26-03-013 (Sheet 21) / Resolution E-5217 + Decision 24-05-028 (rate sheets and Special Conditions)"
+  [regulator.base]
+  authority = "puc"
+  docket = "Decision 26-03-013 (Sheet 21) / Resolution E-5217 + Decision 24-05-028 (rate sheets and Special Conditions)"
+
+  [regulator.prelim_h]
+  authority = "puc"
+  docket = "Decision 22-08-001 (Preliminary Statement Part H Sheets 2 and 3, Advice 4864-E)"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
@@ -142,6 +159,41 @@ Modeling deferrals:
  ($-0.15170/kWh), and Maximum Available Credit (-$0.58794/kWh).
  Not modeled here. Sibling deferral to (PRIME-CPP);
  if both CPP variants get modeled together, file a unifying issue.
+
+Baseline ladder (added 2026-10-06). The rate sheet footnote (Sheets 2 and 3):
+"The Baseline Credit applies up to 100% of the Baseline Allocation,
+regardless of Time-of-Use time period. Additional Baseline Allocations apply
+for Customers with Heat Pump Water Heaters served under this Option. The
+Baseline Allocation is set forth in Preliminary Statement, Part H." Part H
+paragraph 3, Sheet 2 (Cal. P.U.C. Sheet 74486-E, summer) and Sheet 3
+(74487-E, winter), both effective October 1, 2022 under Advice 4864-E, gives
+them in kWh per day by Baseline Region (5, 6, 8, 9, 10, 13, 14, 15, 16) and
+Basic or All-Electric Allocation: 36 cells. Each is a Tier 1 bracket from 0 to
+the allocation and a Tier 2 bracket above it in sce:tou-d-4-9pm-2026-03-20-tiers-baseline,
+qualified by the version's season and by a ProfileAlternative on the custom
+dimensions baselineRegion and baselineCode. Part H is vendored here as
+sce_prelim-h_2024-08-15.pdf, dated by its latest sheets (4 to 6, effective
+August 15, 2024). The Baseline Credit has its own ledger over the kWh
+MetricInput sce:tou-d-4-9pm-2026-03-20-mi-energy-baseline, priced $(0.10108) on Tier 1 and 0
+on Tier 2; both Prices are in sce:tou-d-4-9pm-2026-03-20-summary-discountable.
+
+Heat Pump Water Heater allocation.
+rate-plan-modifier_sce_tou-d-4-9pm-hpwh_2026-03-20.jsonld, a second document in this
+directory, carries Part H's HPWH Allocation (1.9 kWh per day in summer for
+both allocations; 2.6 Basic and 3.0 All-Electric in winter) as adjusting
+ServiceBrackets on this version's Tier 1 upper and Tier 2 lower bounds. They
+use urpx:adjustsServiceTier, urpx:lowerBoundOffset and urpx:upperBoundOffset,
+proposed in urpx-org/urpx#80 and in no URPX release, so the document does not
+validate against the v0.5.1 shapes; dev/validate-with-base.py excepts exactly
+the results #80 would remove, under BOUND_OFFSET_EXCEPTION. clj-urpx 0.40.0
+resolves the offsets. The modifier is in effect exactly when this version is.
+
+Part H Sheets 2 and 3 were reissued effective October 1, 2026 under Advice
+5897-E (Sheets 91543-E and 91544-E) with revised Baseline Allocations and the
+same HPWH Allocations, and Schedule TOU-D was reissued on the same date. Both
+belong to a TOU-D version effective 2026-10-01, which this corpus does not yet
+hold; the allocations here are the ones in force from this version's
+effective date until then.
 """
 
 # Validation ------------------------------------------------------------------
@@ -154,8 +206,8 @@ validated_on = "2026-09-21"
 [modeling]
 complete = false
 deferrals = [
- "Baseline Credit bound (Sheet 2 and Sheet 3, footnote to the $(0.10108) per kWh line): the credit applies only up to 100 percent of the customer's Baseline Allocation, but this filing carries it as an unbounded per-kWh price, so a consumer credits every kWh and overstates the credit for any customer above baseline. The bound is expressible under v0.5.1 without the absolute allocation: a urpx:ServiceTiers on a urpx:ratio-denominated metric, tier 1 bounded [0, 1.0] and tier 2 above 1.0, with the credit's PriceDefinition scoped to tier 1. Checked with pyshacl against the v0.5.1 shapes on this filing; the work is unbuilt. Do not copy sce:d-2026-03-20-tiers-baseline-nonbaseline, which puts the same 0 to 1.0 bounds on a urpx:kWh metric and so reads as a baseline tier ending at 1.0 kWh.",
- "Additional Baseline Allocation for customers with a Heat Pump Water Heater (Sheet 2 and Sheet 3, same footnote): the extension is stated only as a cross-reference to Preliminary Statement Part H, which is not in this corpus, so the allocation quantities cannot be sourced from the filed document. Expressing the extension as an additive delta rather than a precomputed absolute bound is also still open upstream (urpx-org/urpx issue 32).",
+ "Preliminary Statement Part H, paragraph 3: \"The total billable baseline quantity is determined based upon the total number of winter days and total number of summer days during the billing period. Total billable baseline is then proportionately billed to winter and summer periods based upon the percentage of customer-consumption registered during the winter and summer seasons.\" The Tier 1 and Tier 2 brackets carry the Sheet 2 and Sheet 3 quantities as kWh-per-day bounds on a kWh MetricInput, qualified by season, as pge:e-tou-c-baseline-tier does. Nothing in the filing states the daily basis, the multiplication by the days of each season in a billing period, or the proration by consumption, so a consumer must scale the bounds to the billing period itself.",
+ "Preliminary Statement Part H, paragraph 4: \"The standard Medical Baseline Allocation will be 16.5 kWh per day\", provided \"in addition to the applicable Baseline Allocation set forth in Paragraph 3\". Not modeled: the Tier 1 and Tier 2 bounds here carry the paragraph 3 allocation only, and sce:medical-baseline carries the Schedule MB-E Wildfire Fund exemption and no allocation. An adjusting-bracket modifier of the form this filing's HPWH document uses (urpx-org/urpx#80) is the available route.",
  "San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (Sheet 25, Special Condition 15): 20 percent of the monthly bill in pilot years 1 through 5, then 10 percent or 20 percent in years 6 through 10 depending on SCE's evaluation of participants' energy cost savings. Not modeled: the discount is gated on SJV Pilot participation, and a Price carrying it without that gate would discount every customer on the schedule. The percentage-of-subtotal shape itself is the one sce/care and sce/fera already ship against this filing's urpx:PriceSummary. Special Condition 15 begins mid-clause on Sheet 25, so the years 1 through 5 figure is cross-cited to Schedule D's Sheet 8 rather than to this PDF.",
  "Transitional Community Solar Discount (Sheet 25, Special Condition 16): 20 percent monthly bill credit over the same 10-year bill protection period, for SJV Pilot participants who cannot take the Community Solar-Green Tariff or the Disadvantaged Communities-Green Tariff. Same pilot-participation gate as Special Condition 15.",
  "California Climate Credit carry-forward (Sheet 21, Special Condition 12): the $(36.00) per household credit is priced, but the roll-over of any portion not consumed in a billing period to subsequent billing periods is not expressed, so a consumer whose bill is smaller than the credit drops the remainder. Whether URPX can express it is not established: urpx:BillingCycle and settlementInterval exist, and no filing in this corpus uses them.",
@@ -170,7 +222,7 @@ applicable_modifiers = [
  "da-crs",
  "deed-restricted",
  "fera",
- "hpwh-baseline",
+ "tou-d-4-9pm-hpwh",
  "medical-baseline",
 ]
 

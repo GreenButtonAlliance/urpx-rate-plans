@@ -67,6 +67,12 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -82,7 +88,7 @@
     "urpx:hasRatePlanVersion": {
       "@type": "urpx:RatePlanVersion",
       "@id": "sce:tou-d-4-9pm-2026-03-20",
-      "urpx:description": "Voluntary residential time-of-use schedule with summer on-peak 4:00 p.m.-9:00 p.m. weekdays. Assigned by CPUC mass-migration default rules to a portion of SCE's residential customer base by climate zone. Replaces the prior Basic Charge + Minimum Charge structure with an income-graduated Base Services Charge (BSC) of $0.794/meter/day per Decision 24-05-028, with a Deed-Restricted discount of $(0.332)/meter/day available to customers in qualifying deed-restricted housing. CARE/FERA discounts (32.5% and 18% respectively) and the related BSC surcharge exemption + BSC discount adjustments are documented in Special Conditions and modeled separately as RatePlanModifiers at ca/iou/sce/care/ and ca/iou/sce/fera/; the Deed-Restricted discount referenced above is modeled at ca/iou/sce/deed-restricted/. Climate Credit ($-36.00/household, semi-annually) is applied per Special Conditions. Heat Pump Water Heater (HPWH) customers receive an additional baseline allocation per Preliminary Statement Part H (modeling deferred — baseline credit modifier not yet captured). Special Condition 1 (Sheet 13) names eight holidays: New Year's Day, Presidents' Day, Memorial Day, Independence Day, Labor Day, Veterans Day, Thanksgiving Day and Christmas. Sheet 12 prices them in the Weekends-and-Holidays column, so a holiday landing on a summer weekday takes Mid-Peak rather than On-Peak across the 4 p.m. to 9 p.m. window; the winter weekday and weekend/holiday columns are identical, so holiday status moves no winter price. Modeled as a urpx:HolidayCalendar with urpx:includeHolidays / urpx:includeNonHolidays on the summer 4 p.m. to 9 p.m. brackets. SCE's observance rule (a holiday falling on Sunday is recognized the following Monday, with no change for one falling on Saturday) matches none of URPX v0.5.1's four urpx:ObservanceRuleValue individuals, so no urpx:observanceRule is attached and each holiday resolves on its actual date. The single consequence is that the Monday after an Independence Day falling on a Sunday resolves to On-Peak rather than the Mid-Peak Sheet 12 directs.",
+      "urpx:description": "Voluntary residential time-of-use schedule with summer on-peak 4:00 p.m.-9:00 p.m. weekdays. Assigned by CPUC mass-migration default rules to a portion of SCE's residential customer base by climate zone. Replaces the prior Basic Charge + Minimum Charge structure with an income-graduated Base Services Charge (BSC) of $0.794/meter/day per Decision 24-05-028, with a Deed-Restricted discount of $(0.332)/meter/day available to customers in qualifying deed-restricted housing. CARE/FERA discounts (32.5% and 18% respectively) and the related BSC surcharge exemption + BSC discount adjustments are documented in Special Conditions and modeled separately as RatePlanModifiers at ca/iou/sce/care/ and ca/iou/sce/fera/; the Deed-Restricted discount referenced above is modeled at ca/iou/sce/deed-restricted/. Climate Credit ($-36.00/household, semi-annually) is applied per Special Conditions. The Baseline Credit applies up to 100 percent of the Baseline Allocation: Tier 1 of sce:tou-d-4-9pm-2026-03-20-tiers-baseline carries the Preliminary Statement Part H allocation for each Baseline Region and Basic or All-Electric Allocation in kWh per day, and the credit is priced on Tier 1 only. The Heat Pump Water Heater allocation Part H adds is the modifier sce:tou-d-4-9pm-hpwh, a second document in this filing's directory. Special Condition 1 (Sheet 13) names eight holidays: New Year's Day, Presidents' Day, Memorial Day, Independence Day, Labor Day, Veterans Day, Thanksgiving Day and Christmas. Sheet 12 prices them in the Weekends-and-Holidays column, so a holiday landing on a summer weekday takes Mid-Peak rather than On-Peak across the 4 p.m. to 9 p.m. window; the winter weekday and weekend/holiday columns are identical, so holiday status moves no winter price. Modeled as a urpx:HolidayCalendar with urpx:includeHolidays / urpx:includeNonHolidays on the summer 4 p.m. to 9 p.m. brackets. SCE's observance rule (a holiday falling on Sunday is recognized the following Monday, with no change for one falling on Saturday) matches none of URPX v0.5.1's four urpx:ObservanceRuleValue individuals, so no urpx:observanceRule is attached and each holiday resolves on its actual date. The single consequence is that the Monday after an Independence Day falling on a Sunday resolves to On-Peak rather than the Mid-Peak Sheet 12 directs.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
@@ -343,6 +349,24 @@
           },
           {
             "@type": "urpx:MetricInput",
+            "@id": "sce:tou-d-4-9pm-2026-03-20-mi-energy-baseline",
+            "urpx:name": "kWh Energy Consumption, baseline-tier reference metric",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sce:ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
             "@id": "sce:tou-d-4-9pm-2026-03-20-mi-meter-count",
             "urpx:name": "Per Meter Prices",
             "urpx:metricInputType": {
@@ -580,6 +604,1185 @@
               }
             ]
           },
+          "urpx:hasServiceTiers": [
+            {
+              "@type": "urpx:ServiceTiers",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-tiers-baseline",
+              "urpx:referencesMetricInput": {
+                "@id": "sce:tou-d-4-9pm-2026-03-20-mi-energy-baseline"
+              },
+              "urpx:hasServiceTier": [
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-tier-baseline-t1",
+                  "urpx:name": "Tier 1, Baseline Service: kWh per day up to 100 percent of the Baseline Allocation",
+                  "urpx:serviceTierNumber": 1,
+                  "urpx:hasServiceBracket": [
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r5-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "17.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r5-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "16.8",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r6-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "11.4",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r6-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "8.7",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r8-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.8",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r8-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "9.9",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r9-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "16.9",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r9-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.5",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r10-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "19.3",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r10-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "15.9",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r13-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "22.2",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r13-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "24.2",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r14-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "19.2",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r14-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "18.5",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r15-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "45.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r15-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "24.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r16-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "14.7",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r16-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "13.5",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r5-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "18.4",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r5-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "27.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r6-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "11.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r6-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.6",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r8-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "10.3",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r8-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.3",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r9-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r9-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "13.9",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r10-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.1",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r10-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "16.4",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r13-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.2",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r13-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "23.0",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r14-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "11.9",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r14-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "21.1",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r15-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "9.7",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r15-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "17.4",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r16-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "12.4",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t1-r16-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric"
+                      },
+                      "urpx:lowerBound": "0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOrEqualOperator"
+                      },
+                      "urpx:upperBound": "23.2",
+                      "urpx:upperBoundOperator": {
+                        "@id": "urpx:lessThanOrEqualOperator"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:ServiceTier",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-tier-baseline-t2",
+                  "urpx:name": "Tier 2, Nonbaseline Service: kWh per day above 100 percent of the Baseline Allocation",
+                  "urpx:serviceTierNumber": 2,
+                  "urpx:hasServiceBracket": [
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r5-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic"
+                      },
+                      "urpx:lowerBound": "17.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r5-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric"
+                      },
+                      "urpx:lowerBound": "16.8",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r6-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic"
+                      },
+                      "urpx:lowerBound": "11.4",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r6-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric"
+                      },
+                      "urpx:lowerBound": "8.7",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r8-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic"
+                      },
+                      "urpx:lowerBound": "12.8",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r8-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric"
+                      },
+                      "urpx:lowerBound": "9.9",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r9-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic"
+                      },
+                      "urpx:lowerBound": "16.9",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r9-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric"
+                      },
+                      "urpx:lowerBound": "12.5",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r10-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic"
+                      },
+                      "urpx:lowerBound": "19.3",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r10-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric"
+                      },
+                      "urpx:lowerBound": "15.9",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r13-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic"
+                      },
+                      "urpx:lowerBound": "22.2",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r13-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric"
+                      },
+                      "urpx:lowerBound": "24.2",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r14-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic"
+                      },
+                      "urpx:lowerBound": "19.2",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r14-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric"
+                      },
+                      "urpx:lowerBound": "18.5",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r15-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic"
+                      },
+                      "urpx:lowerBound": "45.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r15-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric"
+                      },
+                      "urpx:lowerBound": "24.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r16-basic-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic"
+                      },
+                      "urpx:lowerBound": "14.7",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r16-all-electric-summer",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-summer"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric"
+                      },
+                      "urpx:lowerBound": "13.5",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r5-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic"
+                      },
+                      "urpx:lowerBound": "18.4",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r5-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric"
+                      },
+                      "urpx:lowerBound": "27.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r6-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic"
+                      },
+                      "urpx:lowerBound": "11.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r6-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric"
+                      },
+                      "urpx:lowerBound": "12.6",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r8-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic"
+                      },
+                      "urpx:lowerBound": "10.3",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r8-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric"
+                      },
+                      "urpx:lowerBound": "12.3",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r9-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic"
+                      },
+                      "urpx:lowerBound": "12.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r9-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric"
+                      },
+                      "urpx:lowerBound": "13.9",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r10-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic"
+                      },
+                      "urpx:lowerBound": "12.1",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r10-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric"
+                      },
+                      "urpx:lowerBound": "16.4",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r13-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic"
+                      },
+                      "urpx:lowerBound": "12.2",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r13-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric"
+                      },
+                      "urpx:lowerBound": "23.0",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r14-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic"
+                      },
+                      "urpx:lowerBound": "11.9",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r14-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric"
+                      },
+                      "urpx:lowerBound": "21.1",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r15-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic"
+                      },
+                      "urpx:lowerBound": "9.7",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r15-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric"
+                      },
+                      "urpx:lowerBound": "17.4",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r16-basic-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic"
+                      },
+                      "urpx:lowerBound": "12.4",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ServiceBracket",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-bracket-t2-r16-all-electric-winter",
+                      "urpx:appliesInSeason": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-season-winter"
+                      },
+                      "urpx:referencesProfileAlternative": {
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric"
+                      },
+                      "urpx:lowerBound": "23.2",
+                      "urpx:lowerBoundOperator": {
+                        "@id": "urpx:greaterThanOperator"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
           "urpx:hasLedger": [
             {
               "@type": "urpx:Ledger",
@@ -601,6 +1804,17 @@
               },
               "urpx:referencesMetricInput": {
                 "@id": "sce:tou-d-4-9pm-2026-03-20-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-ledger-baseline-credit",
+              "urpx:name": "Baseline Credit",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:tou-d-4-9pm-2026-03-20-mi-energy-baseline"
               }
             },
             {
@@ -1021,7 +2235,7 @@
                 "@id": "urpx:deliveryPortion"
               },
               "urpx:referencesLedger": {
-                "@id": "sce:tou-d-4-9pm-2026-03-20-ledger-energy-delivery"
+                "@id": "sce:tou-d-4-9pm-2026-03-20-ledger-baseline-credit"
               }
             },
             {
@@ -1104,6 +2318,1017 @@
               },
               "urpx:referencesLedger": {
                 "@id": "sce:tou-d-4-9pm-2026-03-20-ledger-climate-credit"
+              }
+            }
+          ]
+        },
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-region-code",
+          "urpx:name": "Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3)",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-region-code-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "urpx:dimensionDisplayName": "Baseline Region",
+                "urpx:customDimensionProperty": "baselineRegion",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "5",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "6",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "8",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "9",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "10",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "13",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "14",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "15",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "16",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "urpx:AlternativeDimension",
+                "urpx:dimensionDisplayName": "Baseline Allocation",
+                "urpx:customDimensionProperty": "baselineCode",
+                "urpx:hasPossibleValues": {
+                  "@list": [
+                    {
+                      "@value": "Basic",
+                      "@type": "xsd:string"
+                    },
+                    {
+                      "@value": "All-Electric",
+                      "@type": "xsd:string"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic",
+              "urpx:name": "Baseline Region 5, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-region-right-operand",
+                        "urpx:stringValue": "5"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric",
+              "urpx:name": "Baseline Region 5, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-region-right-operand",
+                        "urpx:stringValue": "5"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r5-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic",
+              "urpx:name": "Baseline Region 6, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-region-right-operand",
+                        "urpx:stringValue": "6"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric",
+              "urpx:name": "Baseline Region 6, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-region-right-operand",
+                        "urpx:stringValue": "6"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r6-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic",
+              "urpx:name": "Baseline Region 8, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-region-right-operand",
+                        "urpx:stringValue": "8"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric",
+              "urpx:name": "Baseline Region 8, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-region-right-operand",
+                        "urpx:stringValue": "8"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r8-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic",
+              "urpx:name": "Baseline Region 9, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-region-right-operand",
+                        "urpx:stringValue": "9"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric",
+              "urpx:name": "Baseline Region 9, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-region-right-operand",
+                        "urpx:stringValue": "9"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r9-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic",
+              "urpx:name": "Baseline Region 10, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-region-right-operand",
+                        "urpx:stringValue": "10"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric",
+              "urpx:name": "Baseline Region 10, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-region-right-operand",
+                        "urpx:stringValue": "10"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r10-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic",
+              "urpx:name": "Baseline Region 13, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-region-right-operand",
+                        "urpx:stringValue": "13"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric",
+              "urpx:name": "Baseline Region 13, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-region-right-operand",
+                        "urpx:stringValue": "13"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r13-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic",
+              "urpx:name": "Baseline Region 14, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-region-right-operand",
+                        "urpx:stringValue": "14"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric",
+              "urpx:name": "Baseline Region 14, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-region-right-operand",
+                        "urpx:stringValue": "14"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r14-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic",
+              "urpx:name": "Baseline Region 15, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-region-right-operand",
+                        "urpx:stringValue": "15"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric",
+              "urpx:name": "Baseline Region 15, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-region-right-operand",
+                        "urpx:stringValue": "15"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r15-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic",
+              "urpx:name": "Baseline Region 16, Basic Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-region-right-operand",
+                        "urpx:stringValue": "16"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-basic-code-right-operand",
+                        "urpx:stringValue": "Basic"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric",
+              "urpx:name": "Baseline Region 16, All-Electric Allocation",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-condition-expression",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-root-node",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-region",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-region-left-operand",
+                        "urpx:customConditionProperty": "baselineRegion"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-region-right-operand",
+                        "urpx:stringValue": "16"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-code",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-code-left-operand",
+                        "urpx:customConditionProperty": "baselineCode"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "sce:tou-d-4-9pm-2026-03-20-pa-baseline-r16-all-electric-code-right-operand",
+                        "urpx:stringValue": "All-Electric"
+                      }
+                    }
+                  ]
+                }
               }
             }
           ]
@@ -1380,14 +3605,25 @@
                   "@id": "sce:tou-d-4-9pm-2026-03-20-pd-baseline-credit"
                 },
                 "urpx:name": "Baseline Credit",
-                "urpx:unitPrice": "-0.10108"
+                "urpx:unitPrice": "-0.10108",
+                "urpx:serviceTierNumber": 1
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sce:tou-d-4-9pm-2026-03-20-price-baseline-credit-nonbaseline",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sce:tou-d-4-9pm-2026-03-20-pd-baseline-credit"
+                },
+                "urpx:name": "Baseline Credit, Tier 2 (above 100 percent of the Baseline Allocation)",
+                "urpx:unitPrice": "0.00000",
+                "urpx:serviceTierNumber": 2
               }
             ],
             "urpx:hasPriceSummary": [
               {
                 "@type": "urpx:PriceSummary",
                 "@id": "sce:tou-d-4-9pm-2026-03-20-summary-discountable",
-                "urpx:name": "Discountable subtotal for TOU-D-4-9PM. The 23 bill components the CARE and FERA percentage discounts both apply to. Schedule D-CARE Sheet 1 applies the discount before the PUCRF, user fees, taxes and late payment charges, so the PUCRF is excluded, and the California Climate Credit is excluded because Special Condition 12 applies it after those taxes. Both programs discount the same components and differ only in rate, so one subtotal serves both.",
+                "urpx:name": "Discountable subtotal for TOU-D-4-9PM. The 24 Prices (the bill's 23 components, with the Baseline Credit priced on both baseline tiers) the CARE and FERA percentage discounts both apply to. Schedule D-CARE Sheet 1 applies the discount before the PUCRF, user fees, taxes and late payment charges, so the PUCRF is excluded, and the California Climate Credit is excluded because Special Condition 12 applies it after those taxes. Both programs discount the same components and differ only in rate, so one subtotal serves both.",
                 "urpx:includesPrice": [
                   {
                     "@id": "sce:tou-d-4-9pm-2026-03-20-price-gen-summer-on-peak"
@@ -1451,6 +3687,9 @@
                   },
                   {
                     "@id": "sce:tou-d-4-9pm-2026-03-20-price-baseline-credit"
+                  },
+                  {
+                    "@id": "sce:tou-d-4-9pm-2026-03-20-price-baseline-credit-nonbaseline"
                   },
                   {
                     "@id": "sce:tou-d-4-9pm-2026-03-20-price-fixed-recovery-charge"
@@ -1530,7 +3769,7 @@
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "Three things published for Option 4-9 PM are not represented in this filing. First, the Baseline Credit of $(0.10108) per kWh: the rate sheet footnote states that it applies up to 100 percent of the Baseline Allocation, with additional allocations for customers who have a Heat Pump Water Heater, the allocations being set out in Preliminary Statement Part H. The filing carries the credit as an unbounded per-kilowatt-hour amount with no allocation quantity attached, so a consumer computing a bill will credit every kilowatt-hour rather than only those within baseline, overstating the credit for a customer above baseline. Second, the Option 4-9 PM-CPP variant printed on the same Sheet 2: a CPP Event Energy Charge of $0.80000 per kWh, a Summer on-peak non-event energy credit of $(0.15170) per kWh, and a Summer Season Maximum Available Credit of $(0.58794) per kWh, none of them modeled. Third, the two pilot bill discounts in Special Conditions 15 and 16: the San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (20 percent in years 1 through 5, then 10 or 20 percent in years 6 through 10) and the 20 percent Transitional Community Solar Discount. Several Special Conditions are out of scope rather than missing: the twelve-month rate change restriction in Special Condition 7, the Arrearage Management Plan debt forgiveness in Special Condition 10, and the Discontinued TOU Period provisions of Special Condition 14, whose own terms expired for all customers on July 31, 2022, govern account administration rather than price. The Deed Restricted Base Services Charge adjustment of $(0.332) per meter per day and the CARE and FERA discount lines are cross-references to separate schedules, each filed as its own modifier in this corpus.",
+          "urpx:description": "Two things published for Option 4-9 PM are not represented in this filing. First, the Option 4-9 PM-CPP variant printed on the same Sheet 2: a CPP Event Energy Charge of $0.80000 per kWh, a Summer on-peak non-event energy credit of $(0.15170) per kWh, and a Summer Season Maximum Available Credit of $(0.58794) per kWh, none of them modeled. Second, the two pilot bill discounts in Special Conditions 15 and 16: the San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (20 percent in years 1 through 5, then 10 or 20 percent in years 6 through 10) and the 20 percent Transitional Community Solar Discount. Several Special Conditions are out of scope rather than missing: the twelve-month rate change restriction in Special Condition 7, the Arrearage Management Plan debt forgiveness in Special Condition 10, and the Discontinued TOU Period provisions of Special Condition 14, whose own terms expired for all customers on July 31, 2022, govern account administration rather than price. The Deed Restricted Base Services Charge adjustment of $(0.332) per meter per day and the CARE and FERA discount lines are cross-references to separate schedules, each filed as its own modifier in this corpus. Two things Preliminary Statement Part H states are not represented either: how the kWh-per-day allocations bounding Tier 1 of sce:tou-d-4-9pm-2026-03-20-tiers-baseline scale to a billing period, and the Medical Baseline Allocation it adds to them.",
           "urpx:evaluatedOn": "2026-09-21T00:00:00"
         }
       }

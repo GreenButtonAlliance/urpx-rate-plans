@@ -446,6 +446,25 @@
       :error   (do (println (format "load+coerce ✓ resolve ✗  %s" (:error r)))
                    false))))
 
+;; A modifier version whose window has closed at the instant is refused before
+;; it reaches clj-urpx. clj-urpx checks an adjusting urpx:ServiceBracket's
+;; target "at any instant", ahead of the version window, so composing
+;; sce:tou-d-4-9pm-hpwh-2025-11-15 with the base version in force in 2026
+;; refused :unresolvable-adjusted-tier: its targets are the 2025-11-15 tiers,
+;; which that base no longer carries. The answer the window gives is the one
+;; every other expired modifier version already records.
+(defn- expired-modifier?
+  "True when every version of `modifier` has ended by `instant`."
+  [modifier ^java.time.ZonedDateTime instant]
+  (let [v  (:urpx/hasRatePlanModifierVersion modifier)
+        vs (if (map? v) [v] v)
+        at (.toLocalDateTime instant)]
+    (and (seq vs)
+         (every? (fn [ver]
+                   (when-let [exp (some-> (:urpx/expirationDateTime ver) as-local)]
+                     (not (.isAfter exp at))))
+                 vs))))
+
 (defn- compose-modifier-with-base
   "Compose `modifier` into the latest version of `base-kw`'s base RatePlan
    filing, resolved at `instant`. Returns a map: :status ∈ #{:ok :refused :no-corpus-base :error},
@@ -465,6 +484,8 @@
   [modifier base-kw base-iri-lookup instant]
   (if-let [base-info (some-> (get base-iri-lookup base-kw) seq (base-at instant))]
     (let [base (load-plan! (:path base-info))]
+      (if (expired-modifier? modifier instant)
+        {:status :refused :reason :outside-version-window :base-version (:date base-info)}
       (try
         (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant
                                                             {:profile-alternatives (nominations-for base modifier)})]
@@ -483,7 +504,7 @@
                              (and (= reason :condition-gated-tier) (some? expected)))]
             (if ok?
               {:status :refused :reason (refusal-reason data instant) :base-version (:date base-info)}
-              {:status :error :error (.getMessage e) :base-version (:date base-info)})))))
+              {:status :error :error (.getMessage e) :base-version (:date base-info)}))))))
     {:status :no-corpus-base}))
 
 (defn- validate-rate-plan-modifier [path pairings base-iri-lookup]

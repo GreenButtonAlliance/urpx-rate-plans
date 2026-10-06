@@ -63,7 +63,7 @@ REAL = A.build()
 tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
-expect("supersession finds eleven plan identities", len(REAL["superseded"]), 11)
+expect("supersession finds thirteen plan identities", len(REAL["superseded"]), 13)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
 # 2028-01-01 as well as 2026-01-01. At the currency instant the later six are
 # not yet effective, and the 2026 versions they follow are in force, not

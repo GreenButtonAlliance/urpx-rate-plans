@@ -130,8 +130,8 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | sce | fera | modifier | 2025-11-15, 2026-03-20 |
 | CA | sce | medical-baseline | modifier | 2025-10-01 |
 | CA | sce | nbt | modifier | 2025-04-23 |
-| CA | sce | tou-d-4-9pm | rate-plan | 2025-11-15, 2026-03-20 |
-| CA | sce | tou-d-5-8pm | rate-plan | 2025-11-15, 2026-03-20 |
+| CA | sce | tou-d-4-9pm | rate-plan | 2025-11-15, 2025-11-15, 2026-03-20, 2026-03-20 |
+| CA | sce | tou-d-5-8pm | rate-plan | 2025-11-15, 2025-11-15, 2026-03-20, 2026-03-20 |
 | CA | sce | tou-d-prime | rate-plan | 2025-11-15, 2026-03-20 |
 | CA | sce | tou-d-prime-cpp | modifier | 2026-03-20 |
 | WA | scl | residential-suburban | modifier | 2026-01-01, 2027-01-01, 2028-01-01 |

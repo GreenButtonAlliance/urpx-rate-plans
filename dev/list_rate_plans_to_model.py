@@ -73,12 +73,15 @@ def attribute_by_source(invs) -> dict[str, dict[str, set[str]]]:
             util, sched, _ = corpus.parse_filing_path(toml)
         except ValueError:
             continue
-        url = (corpus.load_toml(toml).get("source") or {}).get("url")
-        if not url:
-            continue
-        hit = by_doc.get(util, {}).get(nk(url))
-        if hit:
-            out.setdefault(util, {}).setdefault(hit, set()).add(sched)
+        # A multi-source manifest (LAYOUT.md section 4.2) names its documents in
+        # [source.<name>] sub-tables rather than in [source] itself.
+        src = corpus.load_toml(toml).get("source") or {}
+        urls = [src["url"]] if "url" in src else [v["url"] for v in src.values()
+                                                   if isinstance(v, dict) and v.get("url")]
+        for url in urls:
+            hit = by_doc.get(util, {}).get(nk(url))
+            if hit:
+                out.setdefault(util, {}).setdefault(hit, set()).add(sched)
     return out
 
 

@@ -65,9 +65,9 @@ The two do not track each other and must not be collapsed. 4 of 86 filings carry
 | `medical-baseline` | 2025-10-01 | servable | 4 | no |  |
 | `nbt` | 2025-04-23 | servable | 1 | no |  |
 | `tou-d-4-9pm` | 2025-11-15 | superseded | 0 | no | every version node in this filing has been superseded |
-| `tou-d-4-9pm` | 2026-03-20 | servable | 7 | no |  |
+| `tou-d-4-9pm` | 2026-03-20 | servable | 9 | no |  |
 | `tou-d-5-8pm` | 2025-11-15 | superseded | 0 | no | every version node in this filing has been superseded |
-| `tou-d-5-8pm` | 2026-03-20 | servable | 7 | no |  |
+| `tou-d-5-8pm` | 2026-03-20 | servable | 9 | no |  |
 | `tou-d-prime` | 2025-11-15 | superseded | 0 | no | every version node in this filing has been superseded |
 | `tou-d-prime` | 2026-03-20 | servable | 9 | no |  |
 | `tou-d-prime-cpp` | 2026-03-20 | blocked | 1 | no | :condition-gated-tier |
