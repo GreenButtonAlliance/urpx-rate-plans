@@ -6,7 +6,7 @@ Each filing's JSON-LD is generated from Clojure source written with `urpx.dsl`. 
 
 All 9 Seattle City Light documents (RTC and RTS 2026 to 2028, and the residential-suburban modifier 2026 to 2028) generate from one source tree with the same RDF hash as the committed files. The SCL source is 309 lines in 4 namespaces; RTS is 28, most of it a rates table copied from the ordinance's year columns. The committed RTC 2026 JSON-LD alone is 689 lines.
 
-clj-urpx 0.40.0 loads all 88 corpus documents and emits 82 of them RDF-identically. The other 6, all PG&E, lose their `ProgramEnrollment` and `SourcePublication` nodes, and four of them their `RateCase` nodes.
+clj-urpx 0.42.0 loads all 92 corpus documents and emits 86 of them RDF-identically. The other 6, all PG&E, lose their `ProgramEnrollment` nodes.
 
 ## Requirements
 
@@ -83,7 +83,7 @@ Each has a working workaround in the SCL spike.
 | `{:jsonld/list [...]}` emits `@list`, but no helper builds it and no schema checks it (`hasPossibleValues`) | literal `@list` maps |
 | `"24:00:00"` throws `DateTimeException`, though xsd:time allows it | mapped to `"00:00:00"`; a bare `"24:00"` is the authoring layer's to convert |
 | a double such as `0.1610` emits `"0.161"` | BigDecimals with explicit scale; builders will refuse doubles in xsd:decimal fields |
-| `ProgramEnrollment`, `SourcePublication`, `RateCase` are dropped on load | none needed for SCL |
+| `ProgramEnrollment` is dropped on load (`SourcePublication` and `RateCase` load since 0.42.0) | none needed for SCL |
 
 ## Scope references
 
