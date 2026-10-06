@@ -283,6 +283,25 @@ Two shapes were considered for tracking which modifiers a base RatePlan accepts:
 
 The lint that consumes `applicable_modifiers` lives at `dev/lint_modifier_coverage.py` and emits `reports/modifier-coverage.md`.
 
+### 4.5. Sandbox export records (`[[sandbox]]`)
+
+A filing exported to a urpx-org/urpx-data-sandbox submission (§9b) carries one `[[sandbox]]` record per submission directory, at the end of its `tariff.toml` under a `# Sandbox` banner. `dev/export_sandbox.py --record` writes it and rewrites everything after the banner, so nothing else belongs there.
+
+```toml
+# Sandbox ---------------------------------------------------------------------
+[[sandbox]]
+path          = "submissions/us/us-ca/pge/electric"         # in the sandbox
+exported_from = "d5d5fd8cb2c7fe8eddc859df2f9ec07f96cec629"  # this repository's commit
+exported_on   = "2026-10-05"
+pr            = 12                                          # added by hand once opened
+merge_commit  = "..."                                       # added by hand once merged
+
+  [sandbox.rdf_sha256]
+  "rate-plan_pge_e-tou-c_2026-03-01.jsonld" = "a1dfcb37..."
+```
+
+`rdf_sha256` holds the canonical RDF hash (`dev/rdf_hash.py`) of each of the filing's documents as exported. It hashes triples, not bytes: rdflib parses the JSON-LD against a fixed base IRI, `rdflib.compare.to_canonical_graph` relabels blank nodes, and the sha256 is taken over the sorted N-Triples lines. Reformatting or reordering the JSON keeps the hash; changing any IRI or literal moves it. Re-exporting to the same path replaces the record, keeping `pr` and dropping `merge_commit`.
+
 ## 5. Per-utility discovery manifest: `utility.toml`
 
 Each `us/<subdivision>/<utility>/` directory contains a `utility.toml` recording who the utility is and where it publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.
@@ -450,6 +469,24 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 
    If that leaves a gap before this filing's own effective date, the gap is real: a rate change happened that this corpus never captured. Leave it visible. `reports/version-continuity.md` lists gaps as backlog to backfill from the utility's historical archive, and fails only on overlaps.
 10. Commit. Optionally open a PR if review is required.
+
+## 9b. Exporting to urpx-data-sandbox
+
+This repository is the source of truth; a sandbox submission is an export of it.
+
+```bash
+# Every version of a schedule, into a checkout of urpx-org/urpx-data-sandbox
+python3 dev/export_sandbox.py --sandbox ../urpx-data-sandbox \
+    --pr-body /tmp/pr-body.md us/ca/pge/electricity/e-tou-c
+```
+
+It writes the submission directory: each filing's JSON-LD unchanged, each vendored source PDF (matched to `[source]` by sha256), and a README carrying what the sandbox's submission template asks for, derived from `tariff.toml`, `utility.toml` and the JSON-LD. `--pr-body` writes the sandbox's pull request template filled in. Pass filing directories instead of a schedule directory to export a subset; export every document the submission needs to conform as one graph, since gate 1 sees only what is submitted.
+
+`--layout commodity` (the default) writes `submissions/<country>/<country>-<subdivision>/<utility>/<commodity>/`, the depth the sandbox documents; `--layout schedule` adds `/<schedule>/`. The target must be empty or hold only files the export writes; `--replace` clears it first.
+
+Without `--record` the export prints the `[[sandbox]]` record (§4.5) it would write. Pass `--record` once the submission is real; it refuses while the exported filings have uncommitted changes, since `exported_from` would then not name what was exported. Add `pr` and `merge_commit` by hand as the pull request progresses.
+
+`dev/check_sandbox_drift.py` compares each recorded document three ways and reports it unchanged, changed in the sandbox (edited there: review and fold in here), changed here (re-export), changed in both, missing in the sandbox, or missing here. It reads the sandbox from a checkout named by `--sandbox` or `URPX_SANDBOX_CHECKOUT` (its working tree, so keep it at `main`), otherwise from `gh api`; an unreachable sandbox is reported as skipped. Exit 0 unchanged or no records, 1 drift, 3 refused. `dev/gate.sh --full` runs it as an informational step.
 
 ## 10. Future considerations
 

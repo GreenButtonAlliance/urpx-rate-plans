@@ -154,6 +154,46 @@
         "reviewed_on": { "type": "string", "format": "date" },
         "notes": { "type": "string" }
       }
+    },
+
+    "sandbox": {
+      "type": "array",
+      "description": "One record per urpx-org/urpx-data-sandbox submission this filing was exported to, written by dev/export_sandbox.py and read by dev/check_sandbox_drift.py. See LAYOUT.md §4.5.",
+      "items": {
+        "type": "object",
+        "required": ["path", "exported_from", "rdf_sha256"],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^submissions/[a-z0-9][a-z0-9/-]*[a-z0-9]$",
+            "description": "The submission directory, relative to the sandbox repository root."
+          },
+          "exported_from": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$",
+            "description": "The commit of this repository the documents were exported from."
+          },
+          "exported_on": { "type": "string", "format": "date" },
+          "rdf_sha256": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "Canonical RDF hash (dev/rdf_hash.py) of each exported document, keyed by file name.",
+            "propertyNames": { "pattern": "^[^/]+\\.jsonld$" },
+            "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          },
+          "pr": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The sandbox pull request number, once opened."
+          },
+          "merge_commit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$",
+            "description": "The sandbox commit the pull request merged as."
+          }
+        }
+      }
     }
   }
 }

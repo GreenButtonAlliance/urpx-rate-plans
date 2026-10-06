@@ -632,6 +632,14 @@ case "$MODE" in
         record 1
     fi
 
+    # Exported filings against urpx-data-sandbox (LAYOUT.md §4.5). Informational:
+    # the sandbox changes outside this repository, so its state must not decide
+    # this gate. Reads URPX_SANDBOX_CHECKOUT when set, else gh api; an unreachable
+    # sandbox is reported as skipped. With no [[sandbox]] record it says so.
+    note "Sandbox drift (informational)"
+    python3 dev/check_sandbox_drift.py 2>&1 | sed 's/^/  /'
+    echo "  This step does not affect the exit code."
+
     note "REUSE licensing"
     if command -v reuse >/dev/null 2>&1; then
         if reuse lint > /tmp/gate-reuse.log 2>&1; then
