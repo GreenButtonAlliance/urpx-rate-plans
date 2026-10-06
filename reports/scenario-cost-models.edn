@@ -29,15 +29,15 @@
   :probe-instants 21}
 
  :totals
-  {:compositions 156
-   :scenario-cost-models 1279
+  {:compositions 157
+   :scenario-cost-models 1280
    :servable 136
    :not-priced-per-kwh 9
-   :blocked 7
+   :blocked 8
    :not-measured 4}
 
  :superseded
-  ["pge:e-elec-2026-01-01" "pge:e-tou-c-2026-03-01" "pse:307-2026-05-01" "sce:care-2025-11-15" "sce:d-2025-11-15" "sce:deed-restricted-2025-11-15" "sce:fera-2025-11-15" "sce:tou-d-4-9pm-2025-11-15" "sce:tou-d-5-8pm-2025-11-15" "sce:tou-d-prime-2025-11-15"]
+  ["pge:e-elec-2026-01-01" "pge:e-tou-c-2026-03-01" "pse:307-2026-05-01" "pse:327-2026-05-01" "sce:care-2025-11-15" "sce:d-2025-11-15" "sce:deed-restricted-2025-11-15" "sce:fera-2025-11-15" "sce:tou-d-4-9pm-2025-11-15" "sce:tou-d-5-8pm-2025-11-15" "sce:tou-d-prime-2025-11-15"]
 
  :compositions
  [
@@ -486,6 +486,13 @@
    :outcome :blocked
    :reason "resolves at some probe instants and refuses at others: :not-yet-effective"
    :baseline-keys ["plan|us/wa/pse/electricity/307/versions/2026-10-01/rate-plan_pse_307_2026-10-01.jsonld"]}
+  {:base "pse:327-2026-10-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :blocked
+   :reason "resolves at some probe instants and refuses at others: :not-yet-effective"
+   :baseline-keys ["plan|us/wa/pse/electricity/327/versions/2026-10-01/rate-plan_pse_327_2026-10-01.jsonld"]}
   {:base "sce:d-2026-03-20"
    :modifiers []
    :open-dimensions []
@@ -4099,6 +4106,9 @@
    :outcome :not-measured}
   "https://rate-plans.grid-coordination.energy/pse/scm-307-2026-10-01"
   {:name "Residential Service Time-of-Use [pse:307-2026-10-01]"
+   :outcome :blocked}
+  "https://rate-plans.grid-coordination.energy/pse/scm-327-2026-10-01"
+  {:name "Residential Service Time-of-Use with Super Off-Peak [pse:327-2026-10-01]"
    :outcome :blocked}
   "https://rate-plans.grid-coordination.energy/sce/scm-d-2026-03-20"
   {:name "Schedule D Domestic Service [sce:d-2026-03-20]"

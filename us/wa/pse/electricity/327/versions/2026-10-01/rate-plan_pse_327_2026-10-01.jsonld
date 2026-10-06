@@ -1,0 +1,1910 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "pse": "https://rate-plans.grid-coordination.energy/pse/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "pse:doc-327-2026-10-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "pse:327",
+    "urpx:name": "Residential Service Time-of-Use with Super Off-Peak",
+    "urpx:ratePlanUniqueIdentifier": "327",
+    "urpx:initialEffectiveDate": "2023-10-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "pse:327-2026-10-01",
+      "urpx:description": "Puget Sound Energy's optional residential time-of-use schedule with a super off-peak period, WN U-60 Electric Tariff G Schedule 327, sheets 327 through 327-C (327, 327-A and 327-B issued September 22, 2025 under Advice No. 2025-39, effective December 12, 2025, Docket UE-250725). It is a schedule in its own right rather than a rider on Schedule 7 or Schedule 307: it prices its own Basic Charge and a three-period time-of-use Energy Charge, and a Customer leaves it by changing to Schedule 7. The Energy Charge here is the sheet 327-A column headed 'Beginning January 29, 2026'. Winter is October 1 through March 31 and Summer April 1 through September 30; in both, Peak is 7am-10am and 5pm-8pm on weekdays and Off-Peak is 10am-5pm and 8pm-11pm on weekdays and 7am-11pm on weekends and the eleven legal holidays sheet 327-B lists. Super Off-Peak is 11pm-7am every day of the year at one price. Each supplemental schedule that prices Schedule 327 per kWh is carried as its own Price with the rate that schedule states for Schedule 327, and each PriceDefinition cites the schedule and sheet. This version is the set of rates in force from October 1, 2026, the effective date of the 25th Revision of Sheet 129-B (Schedule 129 Low Income Program, $0.009204 per kWh).",
+      "urpx:effectiveDateTime": "2026-10-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:riderUpdate"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "elec_sch_327.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_327.pdf",
+        "urpx:dateRetrieved": "2026-10-05",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 4,
+        "urpx:leafStart": "327",
+        "urpx:leafEnd": "327-C"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "pse:327-2026-10-01-er-residential",
+          "urpx:name": "Eligibility for Schedule 327 Residential Service Time-of-Use with Super Off-Peak",
+          "urpx:description": "Sheet 327, AVAILABILITY: available to a Customer eligible for Schedule 7 Residential Service where PSE determines that adequate metering is available, on or after October 1, 2023; participation is limited to 2,500 Customer accounts; PSE may limit participation for study purposes; a Customer taking optional Schedule 171 service is not eligible. ENROLLMENT: the Customer must complete PSE's enrollment process. Schedule 7 limits residential service to service delivered through one meter to a single-family unit and used principally for domestic purposes, including an adult family home. The condition expression tests only that the customer is residential.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "pse:327-2026-10-01-er-residential-condition-expression",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "pse:327-2026-10-01-er-residential-condition-expression-root-node",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "pse:327-2026-10-01-er-residential-condition-expression-root-node-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "pse:327-2026-10-01-er-residential-condition-expression-root-node-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "pse:327-2026-10-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "pse:327-2026-10-01-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--04",
+              "--05",
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "pse:327-2026-10-01-season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03"
+            ]
+          }
+        ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "pse:327-2026-10-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-new-years-day",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-martin-luther-king-jr-day",
+              "urpx:holidayName": "Martin Luther King, Jr. Day",
+              "urpx:holidayRule": "Third Monday in January"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-presidents-day",
+              "urpx:holidayName": "Presidents' Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-memorial-day",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-juneteenth",
+              "urpx:holidayName": "Juneteenth",
+              "urpx:holidayRule": "June 19",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-veterans-day",
+              "urpx:holidayName": "Veterans' Day",
+              "urpx:holidayRule": "November 11",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-thanksgiving-day",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2026",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2026-11-27",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2027",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2027-11-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2028",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2028-11-24",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2029",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2029-11-23",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2030",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2030-11-29",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2031",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2031-11-28",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2032",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2032-11-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2033",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2033-11-25",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2034",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2034-11-24",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2035",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2035-11-23",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2036",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2036-11-28",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2037",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2037-11-27",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2038",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2038-11-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2039",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2039-11-25",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-native-american-heritage-day-2040",
+              "urpx:holidayName": "Native American Heritage Day",
+              "urpx:holidayDate": {
+                "@value": "2040-11-23",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "pse:327-2026-10-01-holiday-christmas-day",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            }
+          ]
+        },
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "pse:327-2026-10-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "pse:ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "pse:327-2026-10-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "pse:327-2026-10-01-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "pse:327-2026-10-01-tou-schedule",
+            "urpx:referencesMetricInput": {
+              "@id": "pse:327-2026-10-01-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "pse:327-2026-10-01-tou-tier-peak",
+                "urpx:tierSourceName": "Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "pse:327-2026-10-01-tou-period-summer-peak",
+                    "urpx:name": "Summer Peak (weekdays 7am-10am and 5pm-8pm, not on a legal holiday)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-peak-morning",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-peak-evening",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "pse:327-2026-10-01-tou-period-winter-peak",
+                    "urpx:name": "Winter Peak (weekdays 7am-10am and 5pm-8pm, not on a legal holiday)",
+                    "urpx:touPeriodNumber": 3,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-peak-morning",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-peak-evening",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "pse:327-2026-10-01-tou-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "pse:327-2026-10-01-tou-period-summer-off-peak",
+                    "urpx:name": "Summer Off-Peak (weekdays 10am-5pm and 8pm-11pm; 7am-11pm on weekends and legal holidays)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-off-peak-weekday-midday",
+                        "urpx:startTime": "10:00:00",
+                        "urpx:endTime": "17:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-off-peak-weekday-evening",
+                        "urpx:startTime": "20:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-off-peak-holiday-morning",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-off-peak-holiday-evening",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-off-peak-weekend",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "pse:327-2026-10-01-tou-period-winter-off-peak",
+                    "urpx:name": "Winter Off-Peak (weekdays 10am-5pm and 8pm-11pm; 7am-11pm on weekends and legal holidays)",
+                    "urpx:touPeriodNumber": 4,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-off-peak-weekday-midday",
+                        "urpx:startTime": "10:00:00",
+                        "urpx:endTime": "17:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-off-peak-weekday-evening",
+                        "urpx:startTime": "20:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-off-peak-holiday-morning",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-off-peak-holiday-evening",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-off-peak-weekend",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "pse:327-2026-10-01-tou-tier-super-off-peak",
+                "urpx:tierSourceName": "Super Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:superOffPeakTier"
+                },
+                "urpx:touTierNumber": 3,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "pse:327-2026-10-01-tou-period-summer-super-off-peak",
+                    "urpx:name": "Summer Super Off-Peak (daily 11pm-7am)",
+                    "urpx:touPeriodNumber": 5,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-super-off-peak-early",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "07:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-summer-super-off-peak-late",
+                        "urpx:startTime": "23:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "pse:327-2026-10-01-tou-period-winter-super-off-peak",
+                    "urpx:name": "Winter Super Off-Peak (daily 11pm-7am)",
+                    "urpx:touPeriodNumber": 6,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-super-off-peak-early",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "07:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "pse:327-2026-10-01-time-bracket-winter-super-off-peak-late",
+                        "urpx:startTime": "23:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "pse:327-2026-10-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pse:327-2026-10-01-ledger-energy-charge",
+              "urpx:name": "Time-of-Use Energy Charge (Schedule 327)",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pse:327-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments",
+              "urpx:name": "Electricity Charge adjustments by supplemental schedules",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pse:327-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges",
+              "urpx:name": "Additional Electricity Charges and other charges and credits by supplemental schedules",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pse:327-2026-10-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pse:327-2026-10-01-ledger-basic-charge",
+              "urpx:name": "Basic Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pse:327-2026-10-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-energy-charge-summer-peak",
+              "urpx:name": "Time-of-Use Energy Charge, Summer Peak (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-energy-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-energy-charge-summer-off-peak",
+              "urpx:name": "Time-of-Use Energy Charge, Summer Off-Peak (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-energy-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-energy-charge-winter-peak",
+              "urpx:name": "Time-of-Use Energy Charge, Winter Peak (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-energy-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-energy-charge-winter-off-peak",
+              "urpx:name": "Time-of-Use Energy Charge, Winter Off-Peak (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-energy-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-energy-charge-summer-super-off-peak",
+              "urpx:name": "Time-of-Use Energy Charge, Summer Super Off-Peak (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 5,
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-energy-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-energy-charge-winter-super-off-peak",
+              "urpx:name": "Time-of-Use Energy Charge, Winter Super Off-Peak (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 6,
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-energy-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-111",
+              "urpx:name": "Greenhouse Gas Emissions Cap and Invest Adjustment (Schedule 111)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentTariff"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_111.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_111.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "111-C",
+                "urpx:leafEnd": "111-C"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-111-supplemental",
+              "urpx:name": "Greenhouse Gas Emissions Cap and Invest Adjustment Supplemental Rate (Schedule 111)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentTariff"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_111.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_111.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "111-K",
+                "urpx:leafEnd": "111-K"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-129",
+              "urpx:name": "Low Income Program (Schedule 129)",
+              "urpx:chargeType": {
+                "@id": "urpx:publicBenefits"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_129.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_129.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "129-B",
+                "urpx:leafEnd": "129-B"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-129d",
+              "urpx:name": "Bill Discount Rate Rider (Schedule 129D)",
+              "urpx:chargeType": {
+                "@id": "urpx:publicBenefits"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_129d.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_129d.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "129D-A",
+                "urpx:leafEnd": "129D-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-140",
+              "urpx:name": "Property Tax Tracker (Schedule 140)",
+              "urpx:chargeType": {
+                "@id": "urpx:taxAdjustment"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_140.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_140.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "140-B",
+                "urpx:leafEnd": "140-B"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141a",
+              "urpx:name": "Energy Charge Credit Recovery Adjustment (Schedule 141A)",
+              "urpx:chargeType": {
+                "@id": "urpx:recoverySurcharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141a.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141a.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141A-A",
+                "urpx:leafEnd": "141A-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141cei",
+              "urpx:name": "Clean Energy Implementation Tracker (Schedule 141CEI)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141cei.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141cei.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141CEI-A",
+                "urpx:leafEnd": "141CEI-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141col",
+              "urpx:name": "Colstrip Adjustment Rider (Schedule 141COL)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141col.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141col.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141COL-B",
+                "urpx:leafEnd": "141COL-B"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141n",
+              "urpx:name": "Rates Not Subject to Refund Rate Adjustment (Schedule 141N)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141n.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141n.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141N",
+                "urpx:leafEnd": "141N"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141pfg",
+              "urpx:name": "Participatory Funding Grants Rate Adjustment (Schedule 141PFG)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141pfg.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141pfg.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141PFG",
+                "urpx:leafEnd": "141PFG"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141r",
+              "urpx:name": "Rates Subject to Refund Rate Adjustment (Schedule 141R)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141r.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141r.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141R",
+                "urpx:leafEnd": "141R"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141tep",
+              "urpx:name": "Transportation Electrification Plan Adjustment Rider (Schedule 141TEP)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141tep.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141tep.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141TEP-A",
+                "urpx:leafEnd": "141TEP-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141tex",
+              "urpx:name": "Targeted Exception Rate Adjustment (Schedule 141TEX)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141tex.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141tex.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141TEX-A",
+                "urpx:leafEnd": "141TEX-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-141wfp",
+              "urpx:name": "Wildfire Prevention Tracker (Schedule 141WFP)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_141wfp.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_141wfp.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "141WFP-A",
+                "urpx:leafEnd": "141WFP-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-142",
+              "urpx:name": "Revenue Decoupling Adjustment Mechanism (Schedule 142)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentTariff"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_142.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_142.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "142-H",
+                "urpx:leafEnd": "142-H"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-electricity-charge-adjustments"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-95",
+              "urpx:name": "Power Cost Adjustment Clause (Schedule 95)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_095.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_095.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "95",
+                "urpx:leafEnd": "95"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-95-supplemental",
+              "urpx:name": "Power Cost Adjustment Clause Supplemental Rate (Schedule 95)",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_095.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_095.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "95-E.3",
+                "urpx:leafEnd": "95-E.3"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-120",
+              "urpx:name": "Electricity Conservation Service Rider (Schedule 120)",
+              "urpx:chargeType": {
+                "@id": "urpx:efficiencyFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_120.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_120.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "120",
+                "urpx:leafEnd": "120"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-194",
+              "urpx:name": "Residential and Farm Energy Exchange Benefit (Schedule 194)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditTariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_194.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_194.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "194-A",
+                "urpx:leafEnd": "194-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-95a",
+              "urpx:name": "Federal Incentive Tracker (Schedule 95A)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditTariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_095a.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_095a.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "95-G",
+                "urpx:leafEnd": "95-G"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-sch-137",
+              "urpx:name": "Temporary Customer Charge or Credit (Schedule 137)",
+              "urpx:chargeType": {
+                "@id": "urpx:tariffRider"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasDataSourceReference": {
+                "@type": "urpx:DataSourceReference",
+                "urpx:fileName": "elec_sch_137.pdf",
+                "urpx:accessURL": "https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_137.pdf",
+                "urpx:mediaType": {
+                  "@id": "urpx:applicationPdf"
+                },
+                "urpx:dateRetrieved": "2026-10-05",
+                "urpx:dataSourceType": {
+                  "@id": "urpx:utilityWebsiteSource"
+                },
+                "urpx:leafStart": "137-A",
+                "urpx:leafEnd": "137-A"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-additional-electricity-charges"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pse:327-2026-10-01-pd-basic-charge",
+              "urpx:name": "Basic Charge, single phase (Schedule 327)",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "pse:327-2026-10-01-pd-basic-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pse:327-2026-10-01-ledger-basic-charge"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "pse:327-2026-10-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "pse:327-2026-10-01-price-basic-charge",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pse:327-2026-10-01-pd-basic-charge"
+            },
+            "urpx:startDate": "2026-10-01",
+            "urpx:name": "Basic Charge, single phase",
+            "urpx:unitPrice": "7.49"
+          }
+        ],
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "pse:327-2026-10-01-ps-energy-charge",
+            "urpx:startDate": "2026-10-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-energy-charge-summer-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-energy-charge-summer-peak"
+                },
+                "urpx:name": "Energy Charge, Summer Peak",
+                "urpx:unitPrice": "0.271839"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-energy-charge-summer-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-energy-charge-summer-off-peak"
+                },
+                "urpx:name": "Energy Charge, Summer Off-Peak",
+                "urpx:unitPrice": "0.122055"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-energy-charge-winter-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-energy-charge-winter-peak"
+                },
+                "urpx:name": "Energy Charge, Winter Peak",
+                "urpx:unitPrice": "0.503575"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-energy-charge-winter-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-energy-charge-winter-off-peak"
+                },
+                "urpx:name": "Energy Charge, Winter Off-Peak",
+                "urpx:unitPrice": "0.127088"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-energy-charge-summer-super-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-energy-charge-summer-super-off-peak"
+                },
+                "urpx:name": "Energy Charge, Summer Super Off-Peak",
+                "urpx:unitPrice": "0.075542"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-energy-charge-winter-super-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-energy-charge-winter-super-off-peak"
+                },
+                "urpx:name": "Energy Charge, Winter Super Off-Peak",
+                "urpx:unitPrice": "0.075542"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "pse:327-2026-10-01-ps-supplemental-schedules",
+            "urpx:startDate": "2026-10-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-111",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-111"
+                },
+                "urpx:name": "Greenhouse Gas Emissions Cap and Invest Adjustment (Schedule 111)",
+                "urpx:unitPrice": "-0.012600"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-111-supplemental",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-111-supplemental"
+                },
+                "urpx:name": "Greenhouse Gas Emissions Cap and Invest Adjustment Supplemental Rate (Schedule 111)",
+                "urpx:unitPrice": "0.002963"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-129",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-129"
+                },
+                "urpx:name": "Low Income Program (Schedule 129)",
+                "urpx:unitPrice": "0.009204"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-129d",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-129d"
+                },
+                "urpx:name": "Bill Discount Rate Rider (Schedule 129D)",
+                "urpx:unitPrice": "0.002958"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-140",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-140"
+                },
+                "urpx:name": "Property Tax Tracker (Schedule 140)",
+                "urpx:unitPrice": "0.002010"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141a",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141a"
+                },
+                "urpx:name": "Energy Charge Credit Recovery Adjustment (Schedule 141A)",
+                "urpx:unitPrice": "0.002010"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141cei",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141cei"
+                },
+                "urpx:name": "Clean Energy Implementation Tracker (Schedule 141CEI)",
+                "urpx:unitPrice": "0.000000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141col",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141col"
+                },
+                "urpx:name": "Colstrip Adjustment Rider (Schedule 141COL)",
+                "urpx:unitPrice": "-0.001183"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141n",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141n"
+                },
+                "urpx:name": "Rates Not Subject to Refund Rate Adjustment (Schedule 141N)",
+                "urpx:unitPrice": "0.000000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141pfg",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141pfg"
+                },
+                "urpx:name": "Participatory Funding Grants Rate Adjustment (Schedule 141PFG)",
+                "urpx:unitPrice": "0.000000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141r",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141r"
+                },
+                "urpx:name": "Rates Subject to Refund Rate Adjustment (Schedule 141R)",
+                "urpx:unitPrice": "0.000000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141tep",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141tep"
+                },
+                "urpx:name": "Transportation Electrification Plan Adjustment Rider (Schedule 141TEP)",
+                "urpx:unitPrice": "0.000520"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141tex",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141tex"
+                },
+                "urpx:name": "Targeted Exception Rate Adjustment (Schedule 141TEX)",
+                "urpx:unitPrice": "0.000457"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-141wfp",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-141wfp"
+                },
+                "urpx:name": "Wildfire Prevention Tracker (Schedule 141WFP)",
+                "urpx:unitPrice": "0.002246"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-142",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-142"
+                },
+                "urpx:name": "Revenue Decoupling Adjustment Mechanism (Schedule 142)",
+                "urpx:unitPrice": "-0.000166"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-95",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-95"
+                },
+                "urpx:name": "Power Cost Adjustment Clause (Schedule 95)",
+                "urpx:unitPrice": "0.035046"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-95-supplemental",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-95-supplemental"
+                },
+                "urpx:name": "Power Cost Adjustment Clause Supplemental Rate (Schedule 95)",
+                "urpx:unitPrice": "0.003673"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-120",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-120"
+                },
+                "urpx:name": "Electricity Conservation Service Rider (Schedule 120)",
+                "urpx:unitPrice": "0.009409"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-194",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-194"
+                },
+                "urpx:name": "Residential and Farm Energy Exchange Benefit (Schedule 194)",
+                "urpx:unitPrice": "-0.006648"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-95a",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-95a"
+                },
+                "urpx:name": "Federal Incentive Tracker (Schedule 95A)",
+                "urpx:unitPrice": "-0.002378"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "pse:327-2026-10-01-price-sch-137",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pse:327-2026-10-01-pd-sch-137"
+                },
+                "urpx:name": "Temporary Customer Charge or Credit (Schedule 137)",
+                "urpx:unitPrice": "0.000000"
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-pse",
+        "urpx:legalName": "Puget Sound Energy, Inc.",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-pse-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-pse-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Puget Sound Energy, Inc."
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-pse-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "15500"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "pse:327"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "pse:cc-327-2026-10-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "pse:cc-327-2026-10-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Sheet 327-A prices the Basic Charge at \"$7.49 single phase or $17.99 three phase\". Only the single-phase $7.49 is carried, as a Price with no condition, so it applies to every customer and a three-phase customer's monthly charge is $10.50 low. (2) Schedule 81 (Tax Adjustment) increases \"the rates and charges named in this tariff\" by the effect of a municipal tax that varies by jurisdiction, from 2.136 percent to 9.119 percent in the Sheet 81 tables. Not carried; the Summary Sheet also excludes it (\"Rates in this summary include the effect of all supplemental rate schedules except Schedule 81\"). A bill inside a taxing jurisdiction resolves low by that percentage of every charge. (3) Sheet 327-B BILL PROTECTION: an annual bill credit, for low-income Customers selected for bill protection in the pilot that ended September 30, 2025, of Energy Charge costs more than 10 percent above what Schedule 7 would have charged. Not carried. It reaches only those pilot participants, and its value is a bill recomputed under Schedule 7, which no Price here can state. (4) Exemptions in the supplemental schedules are not carried: neither Schedule 111 rate applies to a Customer taking optional Schedule 139 service or registered as a National Security Entity, and Schedule 141A does not apply to a Customer who took Schedule 139 service on or before that schedule's original effective date. Both rates are carried as Prices with no condition, so such a customer resolves $0.009637 per kWh low on Schedule 111 (whose net rate is a credit) and $0.002010 per kWh high on Schedule 141A. (5) Native American Heritage Day is carried as dated urpx:Holiday entries for each year from this version's year through 2040. Sheet 327-B defines it as \"The Friday immediately following the fourth Thursday in November\", which a rule of the form \"Fourth Friday in November\" gets wrong in years when November 1 is a Friday, so no rule string is carried. Each year after 2040 needs a further dated entry.",
+          "urpx:evaluatedOn": "2026-10-05T00:00:00"
+        }
+      }
+    }
+  }
+}
