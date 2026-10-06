@@ -6,7 +6,7 @@ Each filing's JSON-LD is generated from Clojure source written with `urpx.dsl`. 
 
 All 9 Seattle City Light documents (RTC and RTS 2026 to 2028, and the residential-suburban modifier 2026 to 2028) generate from one source tree with the same RDF hash as the committed files. The SCL source is 309 lines in 4 namespaces; RTS is 28, most of it a rates table copied from the ordinance's year columns. The committed RTC 2026 JSON-LD alone is 689 lines.
 
-clj-urpx 0.39.0 loads all 88 corpus documents and emits 81 of them RDF-identically. Six of the other 7 lose `ProgramEnrollment`, `SourcePublication` and `RateCase` nodes; in the seventh a `-0.00000` becomes `0.00000`, which `dev/rdf_hash.py` now hashes alike.
+clj-urpx 0.40.0 loads all 88 corpus documents and emits 82 of them RDF-identically. The other 6, all PG&E, lose their `ProgramEnrollment` and `SourcePublication` nodes, and four of them their `RateCase` nodes.
 
 ## Requirements
 
