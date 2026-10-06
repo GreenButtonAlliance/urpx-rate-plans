@@ -37,7 +37,8 @@ Exit codes: 0 conforming, 1 violations or a new baseline key, 2 a baseline key
 is gone (an improvement, refresh deliberately), 3 refused (the harness cannot produce a
 meaningful answer, e.g. the data and the shapes share no vocabulary).
 
-Run from the project root. The URPX checkout is found at $URPX_CHECKOUT.
+Run from the project root. The URPX checkout is ../urpx, a clone of urpx-org/urpx
+next to this repository; set URPX_CHECKOUT to use a different one.
 """
 from __future__ import annotations
 
@@ -52,11 +53,9 @@ import rdflib
 from pyshacl import validate
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-# The URPX standard is cloned outside this project family. Override with
-# URPX_CHECKOUT to point at a different working copy.
-URPX_REPO = Path(
-    os.environ.get("URPX_CHECKOUT", Path.home() / "projects" / "URPX" / "repo" / "urpx")
-)
+# A clone of urpx-org/urpx next to this repository. Override with URPX_CHECKOUT
+# to point at a different working copy.
+URPX_REPO = Path(os.environ.get("URPX_CHECKOUT", REPO_ROOT.parent / "urpx"))
 SHAPES_PATH = "shacl/urpx-shacl.ttl"
 ONTOLOGY_PATH = "ontology/urpx-ontology.ttl"
 
@@ -102,7 +101,7 @@ def _read_at_rev(rev: str, rel_path: str) -> str:
         raise SystemExit(
             f"ERROR: no URPX checkout at {URPX_REPO}. The shapes are read from it at a "
             f"pinned revision and are deliberately not vendored here. Clone urpx-org/urpx "
-            f"next to this repository."
+            f"next to this repository, or set URPX_CHECKOUT to an existing clone."
         )
     try:
         return _urpx_git("show", f"{rev}:{rel_path}").stdout
