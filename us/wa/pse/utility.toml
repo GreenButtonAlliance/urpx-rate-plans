@@ -1,0 +1,86 @@
+# Puget Sound Energy (PSE) utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §5.
+#
+# No tariff is modeled here yet.
+
+utility = "pse"
+
+# Identity. Read through dev/utilities.py; see
+# schema/utility-manifest.schema.json for what each field means.
+#
+# legal_name: as PSE states it in its Form 10-K for fiscal 2025, filed with the
+# SEC 2026-02-19 (CIK 81100),
+# https://www.sec.gov/Archives/edgar/data/81100/000108539226000008/psd-20251231.htm,
+# retrieved 2026-10-05. The first filing's urpx:legalName must agree with it;
+# dev/lint_utility_manifests.py enforces that.
+#
+# eia_id: EIA-861 2024, Utility_Data_2024.xlsx, Utility Number 15500, Utility
+# Name "Puget Sound Energy Inc", State WA, Ownership Type Investor Owned, BA
+# Code PSEI. https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip,
+# retrieved 2026-10-05.
+short_name = "PSE"
+legal_name = "Puget Sound Energy, Inc."
+utility_class = "iou"
+eia_id = "15500"
+
+# Where PSE publishes electric tariffs.
+tariff_index_urls = [
+ # PRIMARY (tariff library): currently effective electric rate schedules and
+ # rules. Per-schedule PDFs are served from
+ # https://www.pse.com/-/media/Project/PSE/Portal/Rate-documents/Electric/elec_sch_<NNN>.pdf
+ # (e.g. elec_sch_307.pdf). The page lists them through a client-side search
+ # widget, so a plain fetch returns the heading and not the list.
+ "https://www.pse.com/en/pages/rates/electric-tariffs-and-rules",
+
+ # Rate schedule summaries: per-schedule itemized prices including supplemental
+ # schedules, current and prior years. A derived document: the Summary Sheet's
+ # own header gives the rate schedules precedence on any discrepancy (bead
+ # URPXT-zw5.2), so use it to reconcile, not as a source.
+ "https://www.pse.com/en/pages/rates/schedule-summaries",
+
+ # Advice-letter and docket listing: the Washington UTC docket search. Each
+ # tariff sheet's footer names its docket, and a docket page sits at
+ # https://www.utc.wa.gov/casedocket/<year>/<number>.
+ "https://www.utc.wa.gov/documents-and-proceedings/dockets",
+]
+
+scrape_notes = """
+## Regulatory
+
+PSE is an investor-owned utility regulated by the Washington Utilities and
+Transportation Commission (UTC). "Our tariffs and rules are approved by the
+Utilities and Transportation Commission (UTC)"
+(https://www.pse.com/en/pages/rates/electric-tariffs-and-rules, retrieved
+2026-10-05). tariff.toml [regulator] uses authority = "puc", which the tariff
+manifest schema defines to cover state-commission equivalents, with the UTC
+docket as docket (precedent: us/ca/pge/, us/ca/sdge/).
+
+## Tariff sheet recordkeeping
+
+Each sheet of PSE's electric tariff (WN U-60, Electric Tariff G) carries in its
+footer an issue date, an effective date, an Advice No. and the authorizing UTC
+order and docket. Schedule 307 as fetched 2026-10-05 (sha256
+9e9a71cf3087d5ac5f9ea1b4b771851efdfd884c375867ae655a82283d1fc237) reads
+"Issued: September 22, 2025 / Effective: December 12, 2025 / Advice No.:
+2025-39 / By Authority of Order 01 of the Washington Utilities and
+Transportation Commission in Docket UE-250725". The docket page for that one
+is https://www.utc.wa.gov/casedocket/2025/250725.
+
+## Holidays
+
+Schedule 307 (sheet 307-B, fetched 2026-10-05) lists the days it treats as
+legal holidays and states no weekend observance rule. Its list matches the
+dated holidays in RCW 1.16.050(1)(b) through (l): New Year's Day, Martin
+Luther King Jr. Day, Presidents' Day, Memorial Day, Juneteenth, Independence
+Day, Labor Day, Veterans Day, Thanksgiving Day, Native American Heritage Day,
+Christmas Day. Per LAYOUT.md §4.4, with no stated observance rule the
+approving state's law governs, which is RCW 1.16.050(5)
+(https://app.leg.wa.gov/RCW/default.aspx?cite=1.16.050, retrieved 2026-10-05):
+
+ "(5) Whenever any state legal holiday: (a) Other than Sunday, falls upon a
+ Sunday, the following Monday is the legal holiday; or (b) Falls upon a
+ Saturday, the preceding Friday is the legal holiday."
+
+Check each PSE schedule's own holiday text before applying this; a rule the
+tariff states wins.
+"""

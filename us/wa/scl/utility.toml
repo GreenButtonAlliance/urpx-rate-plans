@@ -1,0 +1,88 @@
+# Seattle City Light (SCL) utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §5.
+#
+# No tariff is modeled here yet.
+
+utility = "scl"
+
+# Identity. Read through dev/utilities.py; see
+# schema/utility-manifest.schema.json for what each field means.
+#
+# legal_name: the name SCL's own pages use ("Seattle City Light was created by
+# the citizens of Seattle in 1902", footer of the residential rates page below,
+# retrieved 2026-10-05); Seattle Municipal Code chapter 21.49 is titled
+# "Seattle City Light Department". The EIA respondent is the City of Seattle
+# itself. The first filing's urpx:legalName must agree with whatever is
+# recorded here; dev/lint_utility_manifests.py enforces that.
+#
+# eia_id: EIA-861 2024, Utility_Data_2024.xlsx, Utility Number 16868, Utility
+# Name "City of Seattle - (WA)", State WA, Ownership Type Municipal, BA Code SCL.
+# https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip, retrieved
+# 2026-10-05.
+short_name = "SCL"
+legal_name = "Seattle City Light"
+utility_class = "pou"
+eia_id = "16868"
+
+# Where SCL publishes electric rates.
+tariff_index_urls = [
+ # Residential rates landing page: current Flat and Time of Use prices for
+ # Seattle and each suburban jurisdiction (Burien, SeaTac, Shoreline,
+ # unincorporated King County, Lake Forest Park, Normandy Park, Tukwila,
+ # Renton), plus the Burien and Shoreline undergrounding charges.
+ "https://www.seattle.gov/city-light/residential-services/billing-information/rates",
+
+ # Residential Time of Use page: period definitions and the holiday list and
+ # observance rule quoted in scrape_notes.
+ "https://www.seattle.gov/city-light/residential-services/billing-information/time-of-use",
+
+ # PRIMARY (schedule inventory and source of record): Seattle Municipal Code
+ # chapter 21.49, Seattle City Light Department, as consolidated by Municode.
+ # Section 21.49.030 holds the residential schedules RSC, RSS, RTC and RTS;
+ # .052 and .055 the small and medium general service schedules.
+ "https://library.municode.com/wa/seattle/codes/municipal_code?nodeId=TIT21UT_SUBTITLE_IVLIPO_CH21.49SELIDE",
+]
+
+scrape_notes = """
+## Regulatory
+
+SCL is a department of the City of Seattle. Its rates are set by Seattle City
+Council ordinance and codified in Seattle Municipal Code chapter 21.49. The
+Washington Utilities and Transportation Commission "regulates private,
+investor-owned electric and natural gas utilities"
+(https://www.utc.wa.gov/regulated-industries/utilities/energy, retrieved
+2026-10-05). tariff.toml [regulator] uses authority = "city-council" and
+filing_type = "ordinance" (precedent: us/ca/ladwp/).
+
+Municode's rendering of SMC 21.49.030 (retrieved 2026-10-05) reads "Amended by
+Ordinance No. 127473":
+ https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf
+Ordinance PDFs follow the pattern
+https://clerk.seattle.gov/~archives/Ordinances/Ord_<number>.pdf.
+
+## Fetching
+
+Municode is a JavaScript application: curl returns a page shell with none of
+the code text. Render it in a browser (spel) to read the consolidated code.
+The ordinance PDFs carry legislative markup; see bead URPXT-zw5 for the
+column-to-year binding hazard when extracting rate tables from them.
+
+## Holidays
+
+SMC 21.49.030 prices Peak as "5 p.m. to 9 p.m. Mondays through Saturdays,
+excluding holidays" (Municode rendering, retrieved 2026-10-05). SCL's
+residential Time of Use page states which holidays and how they are observed
+(https://www.seattle.gov/city-light/residential-services/billing-information/time-of-use,
+retrieved 2026-10-05):
+
+ "City light observes holidays defined by the North American Electric
+ Reliability Corporation (NERC)." New Year's Day, Memorial Day,
+ Independence Day, Labor Day, Thanksgiving Day, Christmas Day. "If any of
+ these fall on a Sunday, the NERC holiday is observed on the following
+ Monday. If they fall on a Saturday, the holiday remains on that Saturday."
+
+Per LAYOUT.md §4.4 a rule the utility states wins over the state statute, so
+this rule, not RCW 1.16.050(5), governs SCL's calendar. Expressing it needs
+urpx:mondayIfSundayObservance (urpx-org/urpx#77); until then each
+Sunday-observed Monday is a dated urpx:Holiday.
+"""
