@@ -344,10 +344,7 @@ NEW_URPX_NS = "https://urpx.org/ns/ontology/"
 
 URPX_NAMESPACE_REVS = {
     "https://urpx-org.github.io/urpx/ontology/": "v0.2.1",
-    # The candidate branch was deleted from origin once PR #60 merged. 95eb8e22
-    # was its tip and is the revision this corpus was migrated against; repoint
-    # to the v0.5.1 tag once it is cut.
-    "https://urpx.org/ns/ontology/": "95eb8e22",
+    "https://urpx.org/ns/ontology/": "v0.5.1",
 }
 
 
