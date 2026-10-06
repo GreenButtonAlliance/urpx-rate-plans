@@ -416,6 +416,6 @@ Modeled here, cited no document this inventory names: `cpp`, `eapr`, `fixed`, `m
 
 ## Utilities with filings but no inventory
 
-Modeled here, with no source yet read that says what else they publish: `cpau`, `ladwp`.
+Modeled here, with no source yet read that says what else they publish: `cpau`, `ladwp`, `pse`.
 Adding a source for one of these is what turns its filings into a fraction of a known whole.
 

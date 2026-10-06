@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **39**
+- Base RatePlan filings: **40**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **182**
+- Applicable-modifier slots across all bases: **183**
   - present and complete: 10
   - present but incomplete: 146
-  - missing: 26
+  - missing: 27
 - Asymmetries between modifier-side and base-side declarations: **1**
 
 ## Asymmetries
@@ -46,6 +46,7 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `smud:standby` | 3 | `electricity/fixed/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-low-use/versions/2026-01-01` |
 | `smud:three-phase` | 3 | `electricity/fixed/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-low-use/versions/2026-01-01` |
 | `ladwp:ev-discount` | 1 | `electricity/r-1b/versions/2026-04-01` |
+| `pse:7bdr` | 1 | `electricity/307/versions/2026-05-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
@@ -347,6 +348,21 @@ Base deferrals:
 | `e-rsmart` | ~ present-incomplete | `us/ca/pge/electricity/e-rsmart/versions/2025-10-31` |
 | `ev2-vintage-pcia` | ~ present-incomplete | `us/ca/pge/electricity/ev2/versions/2026-03-27` |
 | `medical-baseline` | ✗ missing | — |
+
+### PSE
+
+#### `307` @ 2026-05-01  &nbsp; base: ~
+
+Base deferrals:
+- Sheet 307-A prices the Basic Charge at "$7.49 single phase or $17.99 three phase". Only the single-phase $7.49 is carried, as a Price with no condition, so it applies to every customer and a three-phase customer's monthly charge is $10.50 low.
+- Schedule 81 (Tax Adjustment) increases "the rates and charges named in this tariff" by the effect of a municipal tax that varies by jurisdiction, from 2.136 percent to 9.119 percent in the Sheet 81 tables. Not carried; the Summary Sheet also excludes it ("Rates in this summary include the effect of all supplemental rate schedules except Schedule 81"). A bill inside a taxing jurisdiction resolves low by that percentage of every charge.
+- Sheet 307-B BILL PROTECTION: an annual bill credit, for low-income Customers selected for bill protection in the pilot that ended September 30, 2025, of Energy Charge costs more than 10 percent above what Schedule 7 would have charged. Not carried. It reaches only those pilot participants, and its value is a bill recomputed under Schedule 7, which no Price here can state.
+- Exemptions in the supplemental schedules are not carried: neither Schedule 111 rate applies to a Customer taking optional Schedule 139 service or registered as a National Security Entity, and Schedule 141A does not apply to a Customer who took Schedule 139 service on or before that schedule's original effective date. Both rates are carried as Prices with no condition, so such a customer resolves $0.009637 per kWh low on Schedule 111 (whose net rate is a credit) and $0.002010 per kWh high on Schedule 141A.
+- Native American Heritage Day is carried as dated urpx:Holiday entries for each year from this version's year through 2040. Sheet 307-B defines it as "The Friday immediately following the fourth Thursday in November", which a rule of the form "Fourth Friday in November" gets wrong in years when November 1 is a Friday, so no rule string is carried. Each year after 2040 needs a further dated entry.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `7bdr` | ✗ missing | — |
 
 ### SCE
 

@@ -10,11 +10,11 @@ A scenario cost model is URPX's `urpx:ScenarioCostModel`, read as a fully-determ
 
 A scenario cost model is identified by its own components: the base version IRI, the sorted modifier version IRIs, and the sorted alternative selections. Its IRI is derived from those alone, as [`doc/scenario-cost-models.md`](../doc/scenario-cost-models.md) specifies. A MIDAS RIN is an optional external attestation, attached only where it is confidently derivable. It is never the identity, and this report neither reads nor assigns one.
 
-[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 1278 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
+[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 1279 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
 
 ## What this report counts
 
-**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 856 compositions, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
+**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 857 compositions, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
 
 **Superseded versions are excluded.** Nobody takes service under a superseded version. Supersession is derived from the data, never from directory names, because a directory count is not a version count. Two filing directories can hold one version node: CPAU E-1 is filed at 2025-07-01 and again at 2025-09-01, and both carry `cpau:e-1-2025-07-01`, because the base rates did not change and only the modifiers operative at the snapshot did.
 
@@ -24,18 +24,18 @@ A scenario cost model is identified by its own components: the base version IRI,
 
 | | Count |
 |---|---:|
-| Compositions enumerated (base + at most one modifier) | 155 |
-| of which base alone | 33 |
+| Compositions enumerated (base + at most one modifier) | 156 |
+| of which base alone | 34 |
 | of which base + one modifier | 122 |
-| Scenario cost models, open dimensions expanded | 1278 |
+| Scenario cost models, open dimensions expanded | 1279 |
 
 | Outcome | Compositions | Scenario cost models |
 |---|---:|---:|
 | **servable** | 136 | 615 |
 | **not priced per kWh** | 9 | 108 |
-| **blocked** | 6 | 33 |
+| **blocked** | 7 | 34 |
 | **not measured** | 4 | 522 |
-| **total** | 155 | 1278 |
+| **total** | 156 | 1279 |
 
 - **servable** resolves to a number at every probe instant.
 - **not priced per kWh** resolves, and legitimately prices nothing per kWh. CPAU E-14 and E-16 are street lighting: they price per lamp, per fixture and per month. This is not a defect.
@@ -49,6 +49,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | PG&E (IOU) | 18 | 0 | 5 | 4 | 27 |
 | SCE (IOU) | 29 | 0 | 1 | 0 | 30 |
 | SDG&E (IOU) | 37 | 0 | 0 | 0 | 37 |
+| PSE (IOU) | 0 | 0 | 1 | 0 | 1 |
 | CPAU (POU) | 26 | 9 | 0 | 0 | 35 |
 | SMUD (POU) | 18 | 0 | 0 | 0 | 18 |
 | LADWP (POU) | 8 | 0 | 0 | 0 | 8 |
@@ -67,7 +68,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `cpau:e-3-2007-07-01` + `cpau:e-eec-1-2025-09-01` | :no-energy-ledger |
 | `cpau:e-3-2007-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
 
-## Blocked (6)
+## Blocked (7)
 
 | Composition | Reason |
 |---|---|
@@ -76,6 +77,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `pge:e-tou-c-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pge:e-tou-d-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pge:ev2-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
+| `pse:307-2026-05-01` | resolves at some probe instants and refuses at others: :outside-version-window |
 | `sce:tou-d-prime-2026-03-20` + `sce:tou-d-prime-cpp-2026-03-20` | :condition-gated-tier |
 
 ## Not measured (4)
@@ -112,7 +114,7 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `sce:nbt-2025-04-23-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period, and for the NBT25 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 6 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-04-23-psa-export-n` | no |
 | `sdge:nbt-2025-01-27-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period | 5 | 1 | `urpx:PriceSetAlternative`<br>`sdge:nbt-2025-01-27-psa-export-nbt` | no |
 
-The baseline exercised a specific selection in 114 of the 1278 scenario cost models: 106 leave no dimension open, and 8 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
+The baseline exercised a specific selection in 115 of the 1279 scenario cost models: 107 leave no dimension open, and 8 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
 
 ## What a fuller enumeration would need
 
