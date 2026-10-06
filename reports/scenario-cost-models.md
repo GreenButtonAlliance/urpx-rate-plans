@@ -131,7 +131,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-15 version nodes, over 13 plan identities, each holding more than one distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.
+11 version nodes, over 11 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -146,15 +146,22 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-2026-03-20` | 2026-03-20 |
 | `sce:tou-d-5-8pm` | `sce:tou-d-5-8pm-2025-11-15` | 2025-11-15 | `sce:tou-d-5-8pm-2026-03-20` | 2026-03-20 |
 | `sce:tou-d-prime` | `sce:tou-d-prime-2025-11-15` | 2025-11-15 | `sce:tou-d-prime-2026-03-20` | 2026-03-20 |
-| `scl:rtc` | `scl:rtc-2026-01-01` | 2026-01-01 | `scl:rtc-2028-01-01` | 2028-01-01 |
-| `scl:rtc` | `scl:rtc-2027-01-01` | 2027-01-01 | `scl:rtc-2028-01-01` | 2028-01-01 |
-| `scl:rts` | `scl:rts-2026-01-01` | 2026-01-01 | `scl:rts-2028-01-01` | 2028-01-01 |
-| `scl:rts` | `scl:rts-2027-01-01` | 2027-01-01 | `scl:rts-2028-01-01` | 2028-01-01 |
+
+## Not yet effective
+
+4 version nodes take effect after 2026-10-06T17:00:00-07:00. They are not current, take part in no scenario cost model, and do not supersede the version in force.
+
+| Plan | Version | Effective |
+|---|---|---|
+| `scl:rtc` | `scl:rtc-2027-01-01` | 2027-01-01 |
+| `scl:rtc` | `scl:rtc-2028-01-01` | 2028-01-01 |
+| `scl:rts` | `scl:rts-2027-01-01` | 2027-01-01 |
+| `scl:rts` | `scl:rts-2028-01-01` | 2028-01-01 |
 
 ## Provenance
 
 Servability is read from `dev/baseline/marginal-rates.edn`, not re-resolved here. The figures are as of that baseline: 21 probe instants per key, resolved by clj-urpx 0.37.0. A composition counts as servable only when every one of its baseline rows resolved at every one of those instants. Re-record the baseline deliberately (`clojure -M:validate --record-baseline`) and this report moves with it.
 
-Every baseline row is accounted for: each is either reached by a composition here or belongs to a superseded version. A row that is neither makes this generator refuse rather than report.
+Every baseline row is accounted for: each is either reached by a composition here or belongs to a superseded or not-yet-effective version. A row that is neither makes this generator refuse rather than report.
 
 `reports/ready-for-use.md` rolls these outcomes up to one row per filing directory. `[modeling].complete` in each `tariff.toml` answers a different question, whether the JSON-LD fully captures its source PDF, and is not used here.

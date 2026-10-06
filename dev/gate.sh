@@ -36,6 +36,12 @@ if [ -n "${URPX_RATE_PLANS_VENV:-}" ]; then
     source "$URPX_RATE_PLANS_VENV/bin/activate"
 fi
 
+# The instant at which "current" is judged, for the scenario cost model
+# cross-check below and for every report dev/scenario_cost_models.py feeds. One
+# place: dev/currency-instant.json.
+CURRENCY_AT=$(python3 -c 'import json; print(json.load(open("dev/currency-instant.json"))["at"])') || {
+    echo "REFUSED: cannot read dev/currency-instant.json" >&2; exit 3; }
+
 MODE=${1:---fast}
 shift || true
 
@@ -339,7 +345,7 @@ case "$MODE" in
     # and urpx:name minted by clj-urpx's implementations of this repository's
     # IRI and name rules.
     #
-    # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
+    # BOTH PARAMETERS BELOW ARE PINNED, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
     # --at: every count is a count AT AN INSTANT. A scenario cost model is current
     # when every one of its components is current, so the set is a property of the corpus AT A TIME
@@ -347,13 +353,12 @@ case "$MODE" in
     # start failing the morning a version is superseded, with a diff that looks
     # like an implementation disagreement and is not; worse, two sides both
     # drifting to "now" can agree while answering a question neither intended.
-    # The instant must also be no earlier than the newest urpx:effectiveDateTime
-    # in the corpus: reports/scenario-cost-models.jsonld is current by
-    # succession, so a version filed for a later date than the instant puts its
-    # predecessor in the enumeration and itself in the document. It moved from
-    # 2026-07-15T17:00 to 2026-10-06T17:00 (the october-weekday-peak probe) when
-    # pse:307-2026-10-01 superseded pse:307-2026-05-01; at both instants the
-    # corpus enumerates 156 pairs and 1279 models.
+    # It is $CURRENCY_AT, read from dev/currency-instant.json, which is also the
+    # instant reports/scenario-cost-models.jsonld and the other reports judge
+    # currency at, so a version filed for a later date is not yet effective in
+    # both. It moved from 2026-07-15T17:00 to 2026-10-06T17:00 (the
+    # october-weekday-peak probe) when pse:307-2026-10-01 superseded
+    # pse:307-2026-05-01.
     #
     # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
     # STATES THIS. No property anywhere says two modifiers exclude or combine, so
@@ -375,7 +380,7 @@ case "$MODE" in
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
     if python3 dev/cross_check_scenario_cost_models.py \
-           --at 2026-10-06T17:00-07:00 \
+           --at "$CURRENCY_AT" \
            --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
         cat /tmp/gate-scenario-cost-models.log
     else
@@ -556,7 +561,7 @@ case "$MODE" in
     # and urpx:name minted by clj-urpx's implementations of this repository's
     # IRI and name rules.
     #
-    # BOTH PARAMETERS BELOW ARE PINNED HERE, VISIBLY, AND NEITHER HAS A DEFAULT.
+    # BOTH PARAMETERS BELOW ARE PINNED, VISIBLY, AND NEITHER HAS A DEFAULT.
     #
     # --at: every count is a count AT AN INSTANT. A scenario cost model is current
     # when every one of its components is current, so the set is a property of the corpus AT A TIME
@@ -564,13 +569,12 @@ case "$MODE" in
     # start failing the morning a version is superseded, with a diff that looks
     # like an implementation disagreement and is not; worse, two sides both
     # drifting to "now" can agree while answering a question neither intended.
-    # The instant must also be no earlier than the newest urpx:effectiveDateTime
-    # in the corpus: reports/scenario-cost-models.jsonld is current by
-    # succession, so a version filed for a later date than the instant puts its
-    # predecessor in the enumeration and itself in the document. It moved from
-    # 2026-07-15T17:00 to 2026-10-06T17:00 (the october-weekday-peak probe) when
-    # pse:307-2026-10-01 superseded pse:307-2026-05-01; at both instants the
-    # corpus enumerates 156 pairs and 1279 models.
+    # It is $CURRENCY_AT, read from dev/currency-instant.json, which is also the
+    # instant reports/scenario-cost-models.jsonld and the other reports judge
+    # currency at, so a version filed for a later date is not yet effective in
+    # both. It moved from 2026-07-15T17:00 to 2026-10-06T17:00 (the
+    # october-weekday-peak probe) when pse:307-2026-10-01 superseded
+    # pse:307-2026-05-01.
     #
     # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
     # STATES THIS. No property anywhere says two modifiers exclude or combine, so
@@ -592,7 +596,7 @@ case "$MODE" in
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
     if python3 dev/cross_check_scenario_cost_models.py \
-           --at 2026-10-06T17:00-07:00 \
+           --at "$CURRENCY_AT" \
            --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
         cat /tmp/gate-scenario-cost-models.log
     else

@@ -63,9 +63,11 @@ REAL = A.build()
 tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
-# Fifteen: the reports judge currency by succession alone, so SCL RTC and RTS,
-# filed for 2026-01-01, 2027-01-01 and 2028-01-01, each contribute two.
-expect("supersession finds fifteen versions", len(REAL["superseded"]), 15)
+expect("supersession finds eleven plan identities", len(REAL["superseded"]), 11)
+# SCL RTC and RTS are filed for 2027-01-01 and 2028-01-01 as well as 2026-01-01.
+# At the currency instant the later four are not yet effective, and the 2026
+# versions they follow are in force, not superseded.
+expect("four versions are not yet effective", len(REAL["not_yet_effective"]), 4)
 expect("no composition is built on a superseded version",
        [a for a in REAL["compositions"]
         if a["base"] in REAL["superseded"] or set(a["modifiers"]) & set(REAL["superseded"])],
@@ -103,7 +105,10 @@ def supersession_is_not_a_no_op():
     for vid in [v["id"] for v in list(versions.values())
                 if v["plan"] == plan and v["id"] != earlier]:
         del versions[vid]
-    return A.derive_supersession(versions)
+    # Every superseded version also carries an expirationDateTime that has
+    # passed, which supersedes it on its own; drop it to test succession alone.
+    versions[earlier]["expires"] = None
+    return A.derive_supersession(versions, at=REAL["currency_instant"])
 
 
 expect("dropping the later version un-supersedes the earlier one",
@@ -293,6 +298,7 @@ expect("base-only compositions match the current base count",
        len([a for a in REAL["compositions"] if not a["modifiers"]]),
        len({v["plan"] for v in REAL["versions"].values()
             if v["kind"] == "plan" and v["id"] not in REAL["superseded"]
+            and v["id"] not in REAL["not_yet_effective"]
             and not withheld_filings.withheld(v.get("home"))}))
 
 print()

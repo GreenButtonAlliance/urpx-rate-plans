@@ -45,6 +45,7 @@ SERVES_LABEL = {
     A.NOT_PRICED: "not priced per kWh",
     A.BLOCKED: "blocked",
     A.UNMEASURED: "not measured",
+    A.NOT_YET_EFFECTIVE: "not yet effective",
     A.SUPERSEDED: "superseded",
 }
 SERVES_KW = {
@@ -52,6 +53,7 @@ SERVES_KW = {
     A.NOT_PRICED: "not-priced-per-kwh",
     A.BLOCKED: "blocked",
     A.UNMEASURED: "not-measured",
+    A.NOT_YET_EFFECTIVE: "not-yet-effective",
     A.SUPERSEDED: "superseded",
 }
 
@@ -96,7 +98,7 @@ def render_md(d: dict) -> str:
     w("")
     w("| Servability | Filings |")
     w("|---|---:|")
-    for k in (A.SERVABLE, A.NOT_PRICED, A.BLOCKED, A.UNMEASURED, A.SUPERSEDED):
+    for k in (A.SERVABLE, A.NOT_PRICED, A.BLOCKED, A.UNMEASURED, A.NOT_YET_EFFECTIVE, A.SUPERSEDED):
         if tally[k]:
             w(f"| {SERVES_LABEL[k]} | {tally[k]} |")
     w(f"| **total** | {len(rows)} |")
@@ -107,6 +109,8 @@ def render_md(d: dict) -> str:
     w("- **blocked** every composition drawing on this filing refuses, for a reason that is a gap or "
       "an undecided selection.")
     w("- **not measured** no composition drawing on this filing has a baseline row.")
+    w("- **not yet effective** every version node in this filing takes effect after the instant in "
+      "`dev/currency-instant.json`.")
     w("- **superseded** every version node in this filing has been superseded by a later one, so "
       "nobody takes service under it and it takes part in no scenario cost model.")
     w("")
@@ -163,6 +167,7 @@ def render_edn(d: dict) -> str:
     w(";;   :not-priced-per-kwh resolves, and legitimately prices nothing per kWh")
     w(";;   :blocked            refuses: a gap or an undecided selection")
     w(";;   :not-measured       no composition here has a baseline row")
+    w(";;   :not-yet-effective  every version node here takes effect after the currency instant")
     w(";;   :superseded         every version node here has been superseded")
     w(";;")
     w(";; :captures-source-pdf is [modeling].complete from the filing's own")
@@ -171,7 +176,7 @@ def render_edn(d: dict) -> str:
     w("")
     w("{:totals")
     w("  {" + " ".join(f":{SERVES_KW[k]} {tally[k]}"
-                       for k in (A.SERVABLE, A.NOT_PRICED, A.BLOCKED, A.UNMEASURED, A.SUPERSEDED)
+                       for k in (A.SERVABLE, A.NOT_PRICED, A.BLOCKED, A.UNMEASURED, A.NOT_YET_EFFECTIVE, A.SUPERSEDED)
                        if tally[k])
       + f" :filings {len(rows)}"
       + f" :captures-source-pdf {sum(1 for r in rows if r['complete'])}}}")

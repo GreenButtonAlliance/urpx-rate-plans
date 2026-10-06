@@ -319,19 +319,35 @@ def render_md(d: dict) -> str:
     w("## Superseded versions excluded")
     w("")
     n_plans = len({d["versions"][vid]["plan"] for vid in d["superseded"]})
-    w(f"{len(d['superseded'])} version nodes, over {n_plans} plan identities, each holding more than one "
-      f"distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.")
+    at = d["currency_instant"].isoformat()
+    w(f"{len(d['superseded'])} version nodes, over {n_plans} plan identities, superseded at {at} "
+      f"(`dev/currency-instant.json`): a later version of the same plan is in force there, or the "
+      f"version's `urpx:expirationDateTime` has passed.")
     w("")
     w("| Plan | Superseded version | Effective | Current version | Effective |")
     w("|---|---|---|---|---|")
+    out_of_force = set(d["superseded"]) | set(d["not_yet_effective"])
     for vid in d["superseded"]:
         v = d["versions"][vid]
         cur = [x for x in d["versions"].values()
-               if x["plan"] == v["plan"] and x["id"] not in d["superseded"]]
+               if x["plan"] == v["plan"] and x["id"] not in out_of_force]
         c = cur[0] if cur else None
         w(f"| `{v['plan']}` | `{vid}` | {v['effective'][:10]} | "
           f"`{c['id'] if c else ''}` | {c['effective'][:10] if c else ''} |")
     w("")
+
+    if d["not_yet_effective"]:
+        w("## Not yet effective")
+        w("")
+        w(f"{len(d['not_yet_effective'])} version nodes take effect after {at}. They are not current, "
+          f"take part in no scenario cost model, and do not supersede the version in force.")
+        w("")
+        w("| Plan | Version | Effective |")
+        w("|---|---|---|")
+        for vid in d["not_yet_effective"]:
+            v = d["versions"][vid]
+            w(f"| `{v['plan']}` | `{vid}` | {v['effective'][:10]} |")
+        w("")
 
     w("## Provenance")
     w("")
@@ -342,7 +358,7 @@ def render_md(d: dict) -> str:
       f"(`clojure -M:validate --record-baseline`) and this report moves with it.")
     w("")
     w("Every baseline row is accounted for: each is either reached by a composition here or belongs "
-      "to a superseded version. A row that is neither makes this generator refuse rather than report.")
+      "to a superseded or not-yet-effective version. A row that is neither makes this generator refuse rather than report.")
     w("")
     w("`reports/ready-for-use.md` rolls these outcomes up to one row per filing directory. "
       "`[modeling].complete` in each `tariff.toml` answers a different question, whether the JSON-LD "
@@ -399,6 +415,9 @@ def render_edn(d: dict) -> str:
     w("")
     w(" :superseded")
     w("  [" + " ".join(f'"{v}"' for v in d["superseded"]) + "]")
+    w("")
+    w(" :not-yet-effective")
+    w("  [" + " ".join(f'"{v}"' for v in d["not_yet_effective"]) + "]")
     w("")
     w(" :compositions")
     w(" [")

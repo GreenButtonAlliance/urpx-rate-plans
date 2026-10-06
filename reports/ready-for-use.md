@@ -20,13 +20,15 @@ The two do not track each other and must not be collapsed. 1 of 83 filings carry
 | not priced per kWh | 3 |
 | blocked | 4 |
 | not measured | 2 |
-| superseded | 14 |
+| not yet effective | 4 |
+| superseded | 10 |
 | **total** | 83 |
 
 - **servable** at least one composition drawing on this filing resolves at every probe instant.
 - **not priced per kWh** the filing resolves and legitimately prices nothing per kWh. CPAU E-14 and E-16 are street lighting. This is not a defect.
 - **blocked** every composition drawing on this filing refuses, for a reason that is a gap or an undecided selection.
 - **not measured** no composition drawing on this filing has a baseline row.
+- **not yet effective** every version node in this filing takes effect after the instant in `dev/currency-instant.json`.
 - **superseded** every version node in this filing has been superseded by a later one, so nobody takes service under it and it takes part in no scenario cost model.
 
 ## By utility
@@ -102,12 +104,12 @@ The two do not track each other and must not be collapsed. 1 of 83 filings carry
 
 | Schedule | Effective | Servability | Compositions drawing on it | Captures its source PDF | Notes |
 |---|---|---|---:|---|---|
-| `rtc` | 2026-01-01 | superseded | 0 | no | every version node in this filing has been superseded |
-| `rtc` | 2027-01-01 | superseded | 0 | no | every version node in this filing has been superseded |
-| `rtc` | 2028-01-01 | not measured | 0 | no | withheld from resolution until clj-urpx 0.39.0 (https://github.com/urpx-org/urpx/pull/71); see dev/withheld-filings.json |
-| `rts` | 2026-01-01 | superseded | 0 | no | every version node in this filing has been superseded |
-| `rts` | 2027-01-01 | superseded | 0 | no | every version node in this filing has been superseded |
-| `rts` | 2028-01-01 | not measured | 0 | no | withheld from resolution until clj-urpx 0.39.0 (https://github.com/urpx-org/urpx/pull/71); see dev/withheld-filings.json |
+| `rtc` | 2026-01-01 | not measured | 0 | no | withheld from resolution until clj-urpx 0.39.0 (https://github.com/urpx-org/urpx/pull/71); see dev/withheld-filings.json |
+| `rtc` | 2027-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
+| `rtc` | 2028-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
+| `rts` | 2026-01-01 | not measured | 0 | no | withheld from resolution until clj-urpx 0.39.0 (https://github.com/urpx-org/urpx/pull/71); see dev/withheld-filings.json |
+| `rts` | 2027-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
+| `rts` | 2028-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
 
 ### CPAU (POU): 13 of 16 servable
 

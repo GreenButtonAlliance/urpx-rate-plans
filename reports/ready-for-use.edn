@@ -9,6 +9,7 @@
 ;;   :not-priced-per-kwh resolves, and legitimately prices nothing per kWh
 ;;   :blocked            refuses: a gap or an undecided selection
 ;;   :not-measured       no composition here has a baseline row
+;;   :not-yet-effective  every version node here takes effect after the currency instant
 ;;   :superseded         every version node here has been superseded
 ;;
 ;; :captures-source-pdf is [modeling].complete from the filing's own
@@ -16,7 +17,7 @@
 ;; capture its source PDF? The two axes are deliberately not collapsed.
 
 {:totals
-  {:servable 60 :not-priced-per-kwh 3 :blocked 4 :not-measured 2 :superseded 14 :filings 83 :captures-source-pdf 1}
+  {:servable 60 :not-priced-per-kwh 3 :blocked 4 :not-measured 2 :not-yet-effective 4 :superseded 10 :filings 83 :captures-source-pdf 1}
 
  :filings
  [
@@ -75,12 +76,12 @@
   {:utility :sce   :name "tou-d-prime"      :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-prime"      :date "2026-03-20" :serves :servable            :compositions 9   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-prime-cpp"  :date "2026-03-20" :serves :blocked             :compositions 1   :captures-source-pdf false}
-  {:utility :scl   :name "rtc"              :date "2026-01-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :scl   :name "rtc"              :date "2027-01-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :scl   :name "rtc"              :date "2028-01-01" :serves :not-measured        :compositions 0   :captures-source-pdf false}
-  {:utility :scl   :name "rts"              :date "2026-01-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :scl   :name "rts"              :date "2027-01-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :scl   :name "rts"              :date "2028-01-01" :serves :not-measured        :compositions 0   :captures-source-pdf false}
+  {:utility :scl   :name "rtc"              :date "2026-01-01" :serves :not-measured        :compositions 0   :captures-source-pdf false}
+  {:utility :scl   :name "rtc"              :date "2027-01-01" :serves :not-yet-effective   :compositions 0   :captures-source-pdf false}
+  {:utility :scl   :name "rtc"              :date "2028-01-01" :serves :not-yet-effective   :compositions 0   :captures-source-pdf false}
+  {:utility :scl   :name "rts"              :date "2026-01-01" :serves :not-measured        :compositions 0   :captures-source-pdf false}
+  {:utility :scl   :name "rts"              :date "2027-01-01" :serves :not-yet-effective   :compositions 0   :captures-source-pdf false}
+  {:utility :scl   :name "rts"              :date "2028-01-01" :serves :not-yet-effective   :compositions 0   :captures-source-pdf false}
   {:utility :sdge  :name "care"             :date "2025-10-01" :serves :servable            :compositions 9   :captures-source-pdf false}
   {:utility :sdge  :name "dr"               :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}
   {:utility :sdge  :name "dr-ses"           :date "2026-04-01" :serves :servable            :compositions 4   :captures-source-pdf false}

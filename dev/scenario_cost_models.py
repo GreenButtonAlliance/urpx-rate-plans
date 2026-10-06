@@ -79,13 +79,28 @@ CORPUS_ZONE = zoneinfo.ZoneInfo("America/Los_Angeles")
 # mystery diff; see dev/cross_check_scenario_cost_models.py.
 COMBINE_AT_MOST_ONE_MODIFIER = "at-most-one-modifier"
 
+# The instant at which every report decides which version of a plan is current.
+# Read from dev/currency-instant.json, the one place it is stated; dev/gate.sh
+# passes the same value to the clj-urpx cross-check.
+CURRENCY_INSTANT_FILE = REPO / "dev" / "currency-instant.json"
+
+
+def currency_instant() -> datetime.datetime:
+    raw = json.loads(CURRENCY_INSTANT_FILE.read_text())["at"]
+    at = datetime.datetime.fromisoformat(raw)
+    if at.tzinfo is None:
+        raise Refuse(f"{CURRENCY_INSTANT_FILE.name} gives {raw!r}, which carries no offset.")
+    return at
+
+
 SERVABLE = "servable"
 NOT_PRICED = "not-priced-per-kwh"
 BLOCKED = "blocked"
 UNMEASURED = "unmeasured"
 SUPERSEDED = "superseded"
+NOT_YET_EFFECTIVE = "not-yet-effective"
 
-OUTCOME_RANK = [SERVABLE, NOT_PRICED, BLOCKED, UNMEASURED, SUPERSEDED]
+OUTCOME_RANK = [SERVABLE, NOT_PRICED, BLOCKED, UNMEASURED, NOT_YET_EFFECTIVE, SUPERSEDED]
 
 
 class Refuse(SystemExit):
@@ -342,6 +357,7 @@ def collect_versions() -> dict[str, dict]:
             "kind": kind,
             "plan": plan[0],
             "effective": node["urpx:effectiveDateTime"],
+            "expires": node.get("urpx:expirationDateTime"),
             "home": home_rel,
             "files": sorted({rel for rel, _u, _n in occs}),
             "applies_to": sorted(authority),
@@ -371,7 +387,7 @@ def not_yet_effective(versions: dict[str, dict], at: datetime.datetime | None) -
     """Versions whose urpx:effectiveDateTime is after `at`: filed, not in force.
 
     Distinct from superseded, and neither is current. `at` of None applies no
-    instant at all, which is what the reports do.
+    instant at all.
     """
     if at is None:
         return set()
@@ -390,10 +406,10 @@ def derive_supersession(versions: dict[str, dict], at: datetime.datetime | None 
     `at` pins the instant supersession is judged at. With an instant, only
     versions in force at it can supersede anything, and a version filed for a
     later date does not yet displace the one in force; it is reported by
-    not_yet_effective instead. With None the latest version of each plan wins
-    regardless of date, which is what the reports have always done and what they
-    still do. The corpus carries no urpx:expirationDateTime, so a version's
-    window has no end bound here and currency is decided by succession alone.
+    not_yet_effective instead, and a version whose urpx:expirationDateTime is
+    at or before `at` has ended and is superseded whether or not a successor is
+    in the corpus. With None the latest version of each plan wins regardless of
+    date; the reports pass currency_instant().
     """
     by_plan: dict[str, list[dict]] = collections.defaultdict(list)
     future = not_yet_effective(versions, at)
@@ -414,7 +430,19 @@ def derive_supersession(versions: dict[str, dict], at: datetime.datetime | None 
                 f"be ordered."
             )
         superseded |= {v["id"] for v in vs if v["effective"] != latest}
+    if at is not None:
+        for v in versions.values():
+            if v["id"] not in future and v.get("expires") and _as_instant(v, v["expires"]) <= at:
+                superseded.add(v["id"])
     return superseded
+
+
+def _as_instant(version: dict, raw) -> datetime.datetime:
+    try:
+        parsed = datetime.datetime.fromisoformat(str(raw))
+    except ValueError:
+        raise Refuse(f'{version["id"]} carries {raw!r}, which is not an ISO 8601 date-time.')
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=CORPUS_ZONE)
 
 
 # ---------------------------------------------------------------------------
@@ -865,17 +893,20 @@ def model_document(models: list[tuple], versions: dict[str, dict]) -> dict:
 def build() -> dict:
     """The full enumeration the reports are generated from.
 
-    No instant: currency here is succession alone, the latest version of each
-    plan identity. The cross-check against clj-urpx pins an instant instead and
-    calls enumerate_pairs, because two implementations answering "current" as of
-    different moments would disagree for a reason that is not a disagreement.
+    Currency is judged at currency_instant(), the instant dev/gate.sh also
+    passes to the cross-check against clj-urpx, so the reports and the
+    cross-check say "current" about the same moment. A version filed for a later
+    date is not yet effective there: it is not current, and it does not
+    supersede the version in force.
     """
     versions = collect_versions()
-    superseded = derive_supersession(versions)
+    at = currency_instant()
+    superseded = derive_supersession(versions, at=at)
+    future = not_yet_effective(versions, at)
     baseline = load_baseline()
     nominations = load_nominations()
 
-    current = {k: v for k, v in versions.items() if k not in superseded}
+    current = {k: v for k, v in versions.items() if k not in superseded and k not in future}
     bases = {v["plan"]: v for v in current.values() if v["kind"] == "plan"}
     modifiers = [v for v in current.values() if v["kind"] == "modifier"]
     if not bases:
@@ -940,8 +971,8 @@ def build() -> dict:
     # superseded, or a composition it failed to find, and those must be told
     # apart rather than both passing quietly.
     referenced = {k for a in compositions for k in a["baseline_keys"]}
-    superseded_files = {f for vid in superseded for f in versions[vid]["files"]}
-    superseded_homes = {versions[vid]["home"] for vid in superseded if versions[vid]["home"]}
+    superseded_files = {f for vid in superseded | future for f in versions[vid]["files"]}
+    superseded_homes = {versions[vid]["home"] for vid in superseded | future if versions[vid]["home"]}
     unattributed = []
     for key in baseline["rows"]:
         if key in referenced:
@@ -963,11 +994,13 @@ def build() -> dict:
             + "\n  ".join(sorted(unattributed))
         )
 
-    filings = roll_up_to_filings(versions, superseded, compositions)
+    filings = roll_up_to_filings(versions, superseded, compositions, future)
 
     return {
         "versions": versions,
         "superseded": sorted(superseded),
+        "not_yet_effective": sorted(future),
+        "currency_instant": at,
         "baseline": baseline,
         "nominations": nominations,
         "dimensions": known_dimensions,
@@ -977,7 +1010,7 @@ def build() -> dict:
     }
 
 
-def roll_up_to_filings(versions, superseded, compositions) -> list[dict]:
+def roll_up_to_filings(versions, superseded, compositions, future=frozenset()) -> list[dict]:
     """One row per tariff.toml directory, scored by the compositions its version
     nodes take part in.
 
@@ -1012,9 +1045,11 @@ def roll_up_to_filings(versions, superseded, compositions) -> list[dict]:
                 f"{rel_dir} holds a tariff.toml but no version node, so nothing "
                 f"can be said about what it serves."
             )
-        live = [v for v in present if v["id"] not in superseded]
+        live = [v for v in present if v["id"] not in superseded and v["id"] not in future]
         dead = [v for v in present if v["id"] in superseded]
-        if not live:
+        if not live and any(v["id"] in future for v in present):
+            outcome, reason = NOT_YET_EFFECTIVE, "every version node in this filing takes effect after the currency instant"
+        elif not live:
             outcome, reason = SUPERSEDED, "every version node in this filing has been superseded"
         else:
             candidates = [a for v in live for a in by_version.get(v["id"], [])]
