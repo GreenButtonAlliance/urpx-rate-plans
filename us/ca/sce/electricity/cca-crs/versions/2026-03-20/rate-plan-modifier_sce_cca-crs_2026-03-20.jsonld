@@ -63,7 +63,7 @@
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },
-      "urpx:description": "Schedule CCA-CRS — CCA Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers served by a Community Choice Aggregator (CCA) instead of Bundled SCE service. Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh), CTC ($0.00014/kWh), FRC ($0.00619/kWh), and PCIA (vintage-discriminated, identical PCIA values to Schedule DA-CRS — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 to $0.02624 for 2023). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `pciaVintageYear` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the OAT reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, CCA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service; this OAT-side adjustment is NOT modeled here. CCA-CRS Sheet 3 has a richer customer-subgroup exemption table than DA-CRS — CCA customers on Medical Baseline are WFC-exempt; CCA customers on CARE are WFC-exempt + FRC-exempt; CCA customers on FERA are FRC-exempt; Continuous DA/CCA customers are WFC + PCIA-exempt; Returning Continuous DA customers are WFC-exempt. Only the default CCA Customers subgroup is captured by the Eligibility Rule here; the subgroup exemptions are stacking interactions with already-modeled CARE / FERA modifiers and are deferred to a follow-up issue.",
+      "urpx:description": "Schedule CCA-CRS — CCA Cost Responsibility Surcharge. Recovers stranded power-procurement costs allocated to residential customers served by a Community Choice Aggregator (CCA) instead of Bundled SCE service. Applied as an overlay to the customer's base SCE residential RatePlan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM, TOU-D-PRIME). Composed of four components for the Domestic customer class: WFC ($0.00591/kWh), CTC ($0.00014/kWh), FRC ($0.00619/kWh), and PCIA (vintage-discriminated, identical PCIA values to Schedule DA-CRS — 20 vintages from 2001 through 2026, ranging from $-0.00644 for 2025/2026 to $0.02624 for 2023). The twenty PCIA vintages are mutually exclusive: exactly one applies to a customer, selected by the `departureVintage` attribute. They are filed as a urpx:ProfileAlternatives of twenty urpx:ProfileAlternative paired with a urpx:PriceSetAlternatives of twenty urpx:PriceSetAlternative, so a consumer selects one vintage rather than summing all twenty. Per the OAT reconciliation prose on TOU-D Sheet 18 SC 11 / Schedule D Sheet 6 SC 4, CCA customer's OAT charges apply EXCEPT the DWRBC component is subtracted from total Delivery Service; this OAT-side adjustment is NOT modeled here. CCA-CRS Sheet 3 has a richer customer-subgroup exemption table than DA-CRS — CCA customers on Medical Baseline are WFC-exempt; CCA customers on CARE are WFC-exempt + FRC-exempt; CCA customers on FERA are FRC-exempt; Continuous DA/CCA customers are WFC + PCIA-exempt; Returning Continuous DA customers are WFC-exempt. Only the default CCA Customers subgroup is captured by the Eligibility Rule here; the subgroup exemptions are stacking interactions with already-modeled CARE / FERA modifiers and are deferred to a follow-up issue.",
       "urpx:effectiveDateTime": "2026-03-20T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
@@ -166,7 +166,7 @@
                 "@type": "urpx:AlternativeDimension",
                 "@id": "sce:cca-crs-2026-03-20-ad-pcia-vintage",
                 "urpx:dimensionDisplayName": "PCIA Vintage Year",
-                "urpx:customDimensionProperty": "pciaVintageYear",
+                "urpx:customDimensionProperty": "departureVintage",
                 "urpx:hasPossibleValues": {
                   "@list": [
                     {
@@ -271,7 +271,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2001-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -297,7 +297,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2004-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -323,7 +323,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2009-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -349,7 +349,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2010-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -375,7 +375,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2011-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -401,7 +401,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2012-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -427,7 +427,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2013-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -453,7 +453,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2014-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -479,7 +479,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2015-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -505,7 +505,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2016-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -531,7 +531,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2017-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -557,7 +557,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2018-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -583,7 +583,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2019-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -609,7 +609,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2020-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -635,7 +635,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2021-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -661,7 +661,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2022-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -687,7 +687,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2023-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -713,7 +713,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2024-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -739,7 +739,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2025-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
@@ -765,7 +765,7 @@
                   "urpx:leftOperand": {
                     "@type": "urpx:CustomOperandNode",
                     "@id": "sce:cca-crs-2026-03-20-cn-pa-vintage-2026-left-operand",
-                    "urpx:customConditionProperty": "pciaVintageYear"
+                    "urpx:customConditionProperty": "departureVintage"
                   },
                   "urpx:rightOperand": {
                     "@type": "urpx:CustomOperandNode",
