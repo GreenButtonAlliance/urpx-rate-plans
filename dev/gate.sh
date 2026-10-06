@@ -45,6 +45,22 @@ CURRENCY_AT=$(python3 -c 'import json; print(json.load(open("dev/currency-instan
 MODE=${1:---fast}
 shift || true
 
+# One log directory per run, so gates running at once in different worktrees
+# cannot print each other's evidence. Removed on a green run; kept on any other
+# exit so the logs behind a failure survive.
+tmp_root=${TMPDIR:-/tmp}
+LOGDIR=$(mktemp -d "${tmp_root%/}/gate.XXXXXX") || { echo "gate: mktemp failed" >&2; exit 3; }
+cleanup_logdir() {
+    rc=$?
+    if [ "$rc" -eq 0 ]; then
+        rm -rf "$LOGDIR"
+    elif ! rmdir "$LOGDIR" 2>/dev/null; then
+        echo "  logs kept in $LOGDIR"
+    fi
+    return "$rc"
+}
+trap cleanup_logdir EXIT
+
 # Conditions are tracked independently rather than as a single worsening number.
 # They are categories, not severities: taking the max would let drift (2) mask a
 # regression (1), and a regression is the one you must not miss.
@@ -89,11 +105,11 @@ touched_utilities() {
 
 run_clojure_gate() {
     note "Clojure consumer path"
-    if clojure -M:validate > /tmp/gate-clj.log 2>&1; then
-        tail -1 /tmp/gate-clj.log
+    if clojure -M:validate > "$LOGDIR"/clj.log 2>&1; then
+        tail -1 "$LOGDIR"/clj.log
     else
-        tail -1 /tmp/gate-clj.log
-        grep '✗' /tmp/gate-clj.log || true
+        tail -1 "$LOGDIR"/clj.log
+        grep '✗' "$LOGDIR"/clj.log || true
         record 1
     fi
 
@@ -102,11 +118,11 @@ run_clojure_gate() {
     # regression that drops a whole class of charge leaves the gate green,
     # which is how 89 recurring charges went missing across all 40 base plans.
     note "Resolution coverage"
-    if clojure -M:coverage > /tmp/gate-coverage.log 2>&1; then
-        tail -1 /tmp/gate-coverage.log
+    if clojure -M:coverage > "$LOGDIR"/coverage.log 2>&1; then
+        tail -1 "$LOGDIR"/coverage.log
     else
         rc=$?
-        cat /tmp/gate-coverage.log
+        cat "$LOGDIR"/coverage.log
         record "$rc"
     fi
 
@@ -133,11 +149,11 @@ run_clojure_gate() {
     # itself. Re-record by hand and review the diff:
     #   clojure -M:validate --record-baseline
     note "Marginal-rate baseline"
-    if clojure -M:validate --check-baseline > /tmp/gate-marginal.log 2>&1; then
-        tail -1 /tmp/gate-marginal.log
+    if clojure -M:validate --check-baseline > "$LOGDIR"/marginal.log 2>&1; then
+        tail -1 "$LOGDIR"/marginal.log
     else
         rc=$?
-        cat /tmp/gate-marginal.log
+        cat "$LOGDIR"/marginal.log
         record "$rc"
     fi
 
@@ -155,12 +171,12 @@ run_clojure_gate() {
     if [ "$MODE" = "--fast" ] && ! git diff --cached --name-only |
             grep -qE '/nbt/|/e-elec/|/tou-d-prime/|/ev-tou-5/|^dev/check_nbt_export\.clj$|^dev/remodel_nbt\.py$|^deps\.edn$'; then
         echo "  skipped in --fast: nothing staged that it checks"
-    elif clojure -M:nbt-export > /tmp/gate-nbt-export.log 2>&1; then
-        tail -1 /tmp/gate-nbt-export.log
+    elif clojure -M:nbt-export > "$LOGDIR"/nbt-export.log 2>&1; then
+        tail -1 "$LOGDIR"/nbt-export.log
     else
         rc=$?
-        grep -E '✗|\.\.\.|REFUSED' /tmp/gate-nbt-export.log | head -40
-        tail -1 /tmp/gate-nbt-export.log
+        grep -E '✗|\.\.\.|REFUSED' "$LOGDIR"/nbt-export.log | head -40
+        tail -1 "$LOGDIR"/nbt-export.log
         record "$rc"
     fi
 }
@@ -177,11 +193,11 @@ SCM_URPX_REV=cd13ce8a
 run_scm_shacl() {
     note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
     if python3 dev/validate-with-base.py --merged --urpx-rev "$SCM_URPX_REV" \
-           --with reports/scenario-cost-models.jsonld --keys > /tmp/gate-scm-shacl.log 2>&1; then
-        cat /tmp/gate-scm-shacl.log
+           --with reports/scenario-cost-models.jsonld --keys > "$LOGDIR"/scm-shacl.log 2>&1; then
+        cat "$LOGDIR"/scm-shacl.log
     else
         rc=$?
-        head -40 /tmp/gate-scm-shacl.log
+        head -40 "$LOGDIR"/scm-shacl.log
         record "$rc"
     fi
 }
@@ -194,29 +210,29 @@ case "$MODE" in
     # a new filing is exactly what the pre-commit gate sees. Catching it at the
     # next audit instead is how 509 of these accumulated.
     note "IRI scope"
-    if python3 dev/lint_iri_scope.py > /tmp/gate-iriscope.log 2>&1; then
-        tail -1 /tmp/gate-iriscope.log
+    if python3 dev/lint_iri_scope.py > "$LOGDIR"/iriscope.log 2>&1; then
+        tail -1 "$LOGDIR"/iriscope.log
     else
         rc=$?
-        cat /tmp/gate-iriscope.log
+        cat "$LOGDIR"/iriscope.log
         record $rc
     fi
 
     note "Blank nodes"
-    if python3 dev/name_blank_nodes.py --check > /tmp/gate-blank.log 2>&1; then
-        tail -1 /tmp/gate-blank.log
+    if python3 dev/name_blank_nodes.py --check > "$LOGDIR"/blank.log 2>&1; then
+        tail -1 "$LOGDIR"/blank.log
     else
         rc=$?
-        cat /tmp/gate-blank.log
+        cat "$LOGDIR"/blank.log
         record $rc
     fi
 
     note "Copy agreement"
-    if python3 dev/normalize_copies.py --check > /tmp/gate-copies.log 2>&1; then
-        tail -1 /tmp/gate-copies.log
+    if python3 dev/normalize_copies.py --check > "$LOGDIR"/copies.log 2>&1; then
+        tail -1 "$LOGDIR"/copies.log
     else
         rc=$?
-        cat /tmp/gate-copies.log
+        cat "$LOGDIR"/copies.log
         record $rc
     fi
 
@@ -226,20 +242,20 @@ case "$MODE" in
     # applicableToRatePlanVersion for five months and neither the copy gate nor
     # any lint could see it, because that property is deliberately off the list.
     note "Copy divergence"
-    if python3 dev/lint_copy_divergence.py > /tmp/gate-divergence.log 2>&1; then
-        tail -1 /tmp/gate-divergence.log
+    if python3 dev/lint_copy_divergence.py > "$LOGDIR"/divergence.log 2>&1; then
+        tail -1 "$LOGDIR"/divergence.log
     else
         rc=$?
-        cat /tmp/gate-divergence.log
+        cat "$LOGDIR"/divergence.log
         record $rc
     fi
 
     note "Discount subtotals"
-    if python3 dev/lint_discount_summaries.py > /tmp/gate-discounts.log 2>&1; then
-        tail -1 /tmp/gate-discounts.log
+    if python3 dev/lint_discount_summaries.py > "$LOGDIR"/discounts.log 2>&1; then
+        tail -1 "$LOGDIR"/discounts.log
     else
         rc=$?
-        cat /tmp/gate-discounts.log
+        cat "$LOGDIR"/discounts.log
         record $rc
     fi
 
@@ -259,11 +275,11 @@ case "$MODE" in
     # no readable item, or a presence claim pointing at a directory that holds
     # no filing. Each leaves the comparison with no second side.
     note "Completeness agreement"
-    if python3 dev/lint_completeness_agreement.py > /tmp/gate-completeness.log 2>&1; then
-        tail -1 /tmp/gate-completeness.log
+    if python3 dev/lint_completeness_agreement.py > "$LOGDIR"/completeness.log 2>&1; then
+        tail -1 "$LOGDIR"/completeness.log
     else
         rc=$?
-        cat /tmp/gate-completeness.log
+        cat "$LOGDIR"/completeness.log
         record $rc
     fi
 
@@ -272,11 +288,11 @@ case "$MODE" in
     # here compares a sentence to the node it sits on. It prints what it declined
     # to judge on every run, because it declines most of what it reads.
     note "Prose versus structure"
-    if python3 dev/lint_prose_structure.py > /tmp/gate-prose.log 2>&1; then
-        head -1 /tmp/gate-prose.log
+    if python3 dev/lint_prose_structure.py > "$LOGDIR"/prose.log 2>&1; then
+        head -1 "$LOGDIR"/prose.log
     else
         rc=$?
-        cat /tmp/gate-prose.log
+        cat "$LOGDIR"/prose.log
         record $rc
     fi
 
@@ -304,11 +320,11 @@ case "$MODE" in
     # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
     # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
     note "Holiday calendars"
-    if python3 dev/lint_holiday_calendars.py > /tmp/gate-holidays.log 2>&1; then
-        tail -1 /tmp/gate-holidays.log
+    if python3 dev/lint_holiday_calendars.py > "$LOGDIR"/holidays.log 2>&1; then
+        tail -1 "$LOGDIR"/holidays.log
     else
         rc=$?
-        cat /tmp/gate-holidays.log
+        cat "$LOGDIR"/holidays.log
         record $rc
     fi
 
@@ -317,20 +333,20 @@ case "$MODE" in
     # urpx:ProfileAlternative. Two event-day filings are allowlisted.
     # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
     note "Price-layer conditions"
-    if python3 dev/lint_price_layer_conditions.py > /tmp/gate-price-layer.log 2>&1; then
-        tail -1 /tmp/gate-price-layer.log
+    if python3 dev/lint_price_layer_conditions.py > "$LOGDIR"/price-layer.log 2>&1; then
+        tail -1 "$LOGDIR"/price-layer.log
     else
         rc=$?
-        cat /tmp/gate-price-layer.log
+        cat "$LOGDIR"/price-layer.log
         record $rc
     fi
 
     note "MIDAS rate identifiers"
-    if python3 dev/lint_rate_identifiers.py > /tmp/gate-rins.log 2>&1; then
-        head -1 /tmp/gate-rins.log
+    if python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
+        head -1 "$LOGDIR"/rins.log
     else
         rc=$?
-        cat /tmp/gate-rins.log
+        cat "$LOGDIR"/rins.log
         record $rc
     fi
 
@@ -381,11 +397,11 @@ case "$MODE" in
     note "Scenario cost models: clj-urpx cross-check"
     if python3 dev/cross_check_scenario_cost_models.py \
            --at "$CURRENCY_AT" \
-           --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
-        cat /tmp/gate-scenario-cost-models.log
+           --combine at-most-one-modifier > "$LOGDIR"/scenario-cost-models.log 2>&1; then
+        cat "$LOGDIR"/scenario-cost-models.log
     else
         rc=$?
-        cat /tmp/gate-scenario-cost-models.log
+        cat "$LOGDIR"/scenario-cost-models.log
         record $rc
     fi
 
@@ -402,11 +418,11 @@ case "$MODE" in
     # corpus.json declares the layout once; every walker it lists must see the
     # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
     note "Corpus walkers agree"
-    if python3 dev/check_walkers.py > /tmp/gate-walkers.log 2>&1; then
-        cat /tmp/gate-walkers.log
+    if python3 dev/check_walkers.py > "$LOGDIR"/walkers.log 2>&1; then
+        cat "$LOGDIR"/walkers.log
     else
         rc=$?
-        cat /tmp/gate-walkers.log
+        cat "$LOGDIR"/walkers.log
         record $rc
     fi
 
@@ -428,9 +444,9 @@ case "$MODE" in
     run_clojure_gate
 
     note "Generators, schema, drift"
-    python3 dev/check_all.py > /tmp/gate-checkall.log 2>&1
+    python3 dev/check_all.py > "$LOGDIR"/checkall.log 2>&1
     ca=$?
-    tail -3 /tmp/gate-checkall.log
+    tail -3 "$LOGDIR"/checkall.log
     [ $ca -eq 2 ] && record 2
     [ $ca -eq 1 ] && record 1
 
@@ -444,29 +460,29 @@ case "$MODE" in
     echo "  are expected and do not affect the exit code."
 
     note "IRI scope"
-    if python3 dev/lint_iri_scope.py > /tmp/gate-iriscope.log 2>&1; then
-        tail -1 /tmp/gate-iriscope.log
+    if python3 dev/lint_iri_scope.py > "$LOGDIR"/iriscope.log 2>&1; then
+        tail -1 "$LOGDIR"/iriscope.log
     else
         rc=$?
-        cat /tmp/gate-iriscope.log
+        cat "$LOGDIR"/iriscope.log
         record $rc
     fi
 
     note "Blank nodes"
-    if python3 dev/name_blank_nodes.py --check > /tmp/gate-blank.log 2>&1; then
-        tail -1 /tmp/gate-blank.log
+    if python3 dev/name_blank_nodes.py --check > "$LOGDIR"/blank.log 2>&1; then
+        tail -1 "$LOGDIR"/blank.log
     else
         rc=$?
-        cat /tmp/gate-blank.log
+        cat "$LOGDIR"/blank.log
         record $rc
     fi
 
     note "Copy agreement"
-    if python3 dev/normalize_copies.py --check > /tmp/gate-copies.log 2>&1; then
-        tail -1 /tmp/gate-copies.log
+    if python3 dev/normalize_copies.py --check > "$LOGDIR"/copies.log 2>&1; then
+        tail -1 "$LOGDIR"/copies.log
     else
         rc=$?
-        cat /tmp/gate-copies.log
+        cat "$LOGDIR"/copies.log
         record $rc
     fi
 
@@ -476,29 +492,29 @@ case "$MODE" in
     # applicableToRatePlanVersion for five months and neither the copy gate nor
     # any lint could see it, because that property is deliberately off the list.
     note "Copy divergence"
-    if python3 dev/lint_copy_divergence.py > /tmp/gate-divergence.log 2>&1; then
-        tail -1 /tmp/gate-divergence.log
+    if python3 dev/lint_copy_divergence.py > "$LOGDIR"/divergence.log 2>&1; then
+        tail -1 "$LOGDIR"/divergence.log
     else
         rc=$?
-        cat /tmp/gate-divergence.log
+        cat "$LOGDIR"/divergence.log
         record $rc
     fi
 
     note "Discount subtotals"
-    if python3 dev/lint_discount_summaries.py > /tmp/gate-discounts.log 2>&1; then
-        tail -1 /tmp/gate-discounts.log
+    if python3 dev/lint_discount_summaries.py > "$LOGDIR"/discounts.log 2>&1; then
+        tail -1 "$LOGDIR"/discounts.log
     else
         rc=$?
-        cat /tmp/gate-discounts.log
+        cat "$LOGDIR"/discounts.log
         record $rc
     fi
 
     note "Completeness agreement"
-    if python3 dev/lint_completeness_agreement.py > /tmp/gate-completeness.log 2>&1; then
-        tail -1 /tmp/gate-completeness.log
+    if python3 dev/lint_completeness_agreement.py > "$LOGDIR"/completeness.log 2>&1; then
+        tail -1 "$LOGDIR"/completeness.log
     else
         rc=$?
-        cat /tmp/gate-completeness.log
+        cat "$LOGDIR"/completeness.log
         record $rc
     fi
 
@@ -507,11 +523,11 @@ case "$MODE" in
     # here compares a sentence to the node it sits on. It prints what it declined
     # to judge on every run, because it declines most of what it reads.
     note "Prose versus structure"
-    if python3 dev/lint_prose_structure.py > /tmp/gate-prose.log 2>&1; then
-        head -1 /tmp/gate-prose.log
+    if python3 dev/lint_prose_structure.py > "$LOGDIR"/prose.log 2>&1; then
+        head -1 "$LOGDIR"/prose.log
     else
         rc=$?
-        cat /tmp/gate-prose.log
+        cat "$LOGDIR"/prose.log
         record $rc
     fi
 
@@ -520,11 +536,11 @@ case "$MODE" in
     # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
     # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
     note "Holiday calendars"
-    if python3 dev/lint_holiday_calendars.py > /tmp/gate-holidays.log 2>&1; then
-        tail -1 /tmp/gate-holidays.log
+    if python3 dev/lint_holiday_calendars.py > "$LOGDIR"/holidays.log 2>&1; then
+        tail -1 "$LOGDIR"/holidays.log
     else
         rc=$?
-        cat /tmp/gate-holidays.log
+        cat "$LOGDIR"/holidays.log
         record $rc
     fi
 
@@ -533,20 +549,20 @@ case "$MODE" in
     # urpx:ProfileAlternative. Two event-day filings are allowlisted.
     # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
     note "Price-layer conditions"
-    if python3 dev/lint_price_layer_conditions.py > /tmp/gate-price-layer.log 2>&1; then
-        tail -1 /tmp/gate-price-layer.log
+    if python3 dev/lint_price_layer_conditions.py > "$LOGDIR"/price-layer.log 2>&1; then
+        tail -1 "$LOGDIR"/price-layer.log
     else
         rc=$?
-        cat /tmp/gate-price-layer.log
+        cat "$LOGDIR"/price-layer.log
         record $rc
     fi
 
     note "MIDAS rate identifiers"
-    if python3 dev/lint_rate_identifiers.py > /tmp/gate-rins.log 2>&1; then
-        head -1 /tmp/gate-rins.log
+    if python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
+        head -1 "$LOGDIR"/rins.log
     else
         rc=$?
-        cat /tmp/gate-rins.log
+        cat "$LOGDIR"/rins.log
         record $rc
     fi
 
@@ -597,11 +613,11 @@ case "$MODE" in
     note "Scenario cost models: clj-urpx cross-check"
     if python3 dev/cross_check_scenario_cost_models.py \
            --at "$CURRENCY_AT" \
-           --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
-        cat /tmp/gate-scenario-cost-models.log
+           --combine at-most-one-modifier > "$LOGDIR"/scenario-cost-models.log 2>&1; then
+        cat "$LOGDIR"/scenario-cost-models.log
     else
         rc=$?
-        cat /tmp/gate-scenario-cost-models.log
+        cat "$LOGDIR"/scenario-cost-models.log
         record $rc
     fi
 
@@ -610,29 +626,29 @@ case "$MODE" in
     # corpus.json declares the layout once; every walker it lists must see the
     # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
     note "Corpus walkers agree"
-    if python3 dev/check_walkers.py > /tmp/gate-walkers.log 2>&1; then
-        cat /tmp/gate-walkers.log
+    if python3 dev/check_walkers.py > "$LOGDIR"/walkers.log 2>&1; then
+        cat "$LOGDIR"/walkers.log
     else
         rc=$?
-        cat /tmp/gate-walkers.log
+        cat "$LOGDIR"/walkers.log
         record $rc
     fi
 
     # Every way the clj-urpx namespace can go missing fails the cross-check above
     # rather than passing it. Exit 1 a case passed.
     note "Cross-check namespace negative fixtures"
-    if python3 dev/test_cross_check_namespaces.py > /tmp/gate-xc-ns.log 2>&1; then
-        tail -1 /tmp/gate-xc-ns.log
+    if python3 dev/test_cross_check_namespaces.py > "$LOGDIR"/xc-ns.log 2>&1; then
+        tail -1 "$LOGDIR"/xc-ns.log
     else
-        cat /tmp/gate-xc-ns.log
+        cat "$LOGDIR"/xc-ns.log
         record 1
     fi
 
     note "Version-dispatch negative fixtures"
-    if python3 dev/test_dispatch.py > /tmp/gate-dispatch.log 2>&1; then
-        tail -1 /tmp/gate-dispatch.log
+    if python3 dev/test_dispatch.py > "$LOGDIR"/dispatch.log 2>&1; then
+        tail -1 "$LOGDIR"/dispatch.log
     else
-        cat /tmp/gate-dispatch.log
+        cat "$LOGDIR"/dispatch.log
         record 1
     fi
 
@@ -646,10 +662,10 @@ case "$MODE" in
 
     note "REUSE licensing"
     if command -v reuse >/dev/null 2>&1; then
-        if reuse lint > /tmp/gate-reuse.log 2>&1; then
+        if reuse lint > "$LOGDIR"/reuse.log 2>&1; then
             echo "  reuse lint clean"
         else
-            tail -4 /tmp/gate-reuse.log
+            tail -4 "$LOGDIR"/reuse.log
             record 1
         fi
     else
