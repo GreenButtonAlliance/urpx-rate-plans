@@ -1,6 +1,6 @@
 # Contributing to urpx-rate-plans
 
-Thanks for your interest in contributing! This repo is a corpus of [URPX](https://github.com/urpx-org/urpx) rate-plan serializations of California utility tariffs, plus the source PDFs they were extracted from. The first BHAG (see [README.md](./README.md)) is to model all California residential tariffs in customer-count priority order.
+Thanks for your interest in contributing! This repo is a corpus of [URPX](https://github.com/urpx-org/urpx) rate-plan serializations of US utility tariffs, all of them Californian so far, plus the source PDFs they were extracted from. The first BHAG (see [README.md](./README.md)) is to model all California residential tariffs in customer-count priority order.
 
 We are URPX newbies (see the [Disclaimer](./README.md#disclaimer) in the README) — outside review of our modeling is genuinely welcome.
 

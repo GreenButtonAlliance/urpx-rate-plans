@@ -10,7 +10,7 @@ Each rate plan is expressed in the [URPX ontology](https://github.com/urpx-org/u
 
 The initial motivation is to enable the [Grid Coordination Price Server](https://github.com/grid-coordination/price-server-user-guide) to ingest these URPX rate plans and publish [OpenADR 3](https://www.openadr.org/) programs and *computed* prices derived from the rate-plan structures. The price server is the consumer; this corpus is the source of truth for what the underlying tariffs say.
 
-**Current focus & priority: California electricity.** Every organization the CEC MIDAS feed carries as selling electricity in the state is catalogued in [`reports/california-parties.md`](./reports/california-parties.md), which carries its own as-of date. The directory hierarchy is jurisdiction-first (`us/ca/...`), so other states and other countries can be added without restructuring.
+**Current focus & priority: California electricity.** Every organization the CEC MIDAS feed carries as selling electricity in the state is catalogued in [`reports/california-parties.md`](./reports/california-parties.md), which carries its own as-of date. The directory hierarchy is jurisdiction-first (`us/ca/...`, `us/wa/...`), so other states and other countries can be added without restructuring. Washington has discovery manifests for Seattle City Light and Puget Sound Energy and no filing yet.
 
 ## Disclaimer
 
@@ -59,7 +59,7 @@ As of 2026-09-23, 71 filings hold 72 rate plans: 39 base plans and 33 standalone
 
 Every filing serializes against URPX v0.5.1 and validates clean under both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/main/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx), which loads, coerces and resolves a price at a known instant.
 
-Statewide residential reach is in [`reports/coverage.md`](./reports/coverage.md).
+Residential reach, per state and in total, is in [`reports/coverage.md`](./reports/coverage.md).
 
 **Cross-corpus utility identification**: every rate plan's `urpx:offeredBy` `urpx:UtilityOperator` carries an `urpx:OrganizationIdentifier` whose `urpx:scheme` is `urpx:eiaScheme`; PG&E's `skos:notation` is 14328. All 72 carry one. It is a stable join key against the [EIA-861 detailed data files](https://www.eia.gov/electricity/data/eia861/), which avoids matching on `legalName` variants.
 
@@ -89,7 +89,7 @@ What this corpus cannot express in URPX v0.5.1, and what it has not yet converte
 
 ### Utilities covered
 
-As of 2026-09-23, six utilities have filings: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Others have a discovery manifest and no filing yet, which is a normal state and not an incomplete one.
+As of 2026-09-23, six utilities have filings, all in California: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Others have a discovery manifest and no filing yet, which is a normal state and not an incomplete one.
 
 [`reports/rate-plans-to-model.md`](./reports/rate-plans-to-model.md) has the per-schedule detail for the three utilities whose own schedule list has been read. CPAU and LADWP have no inventory source yet, so nothing there bounds their backlog. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization the CEC MIDAS feed carries. CPAU sells here and MIDAS does not carry it, so a seller absent from that report is not necessarily absent from California.
 
