@@ -100,13 +100,14 @@ listing on PRIME is informational, not exclusive.
 
 ## Modeling deferrals
 
- 1. **$5.00 effective Minimum Charge**: Schedule MB-E says "the
- effective Minimum Charge will be $5.00". Buildable at v0.5.1 as a
- PriceDefinition with chargeType `urpx:minimumCharge` and a
- CalculationMethod carrying `urpx:intervalDuration`, which conforms
- in the merged SCE graph. The sheet states no period, so reading
- $5.00 as monthly is an inference. The floor arithmetic has no URPX
- expression, so such a Price records the amount and enforces nothing.
+ 1. **$5.00 effective Minimum Charge**: Sheet 90597-E says only "the
+ effective Minimum Charge will be $5.00", with no unit or period. The
+ 2025-11-15 base sheets priced "Minimum Charge (Medical Baseline)" at
+ $0.173 per meter per day against a regular $0.346; the active
+ 2026-03-20 base sheets carry no residential Minimum Charge except on
+ closed TOU-D Option A. A minimum charge is a floor on the bill, which
+ URPX v0.5.1 cannot state (urpx-org/urpx#76 proposes min and max value
+ expressions).
 
  2. **Medical Baseline allocation extension** (extra kWh in the
  baseline tier per Preliminary Statement Part H): Sheet MB-E
@@ -118,11 +119,9 @@ listing on PRIME is informational, not exclusive.
  upstream as urpx-org/urpx discussion #32. Deferred.
 
  3. **Closed-schedule Minimum Charge reduction**: TOU-D Sheets 8/9
- (closed Option A) and Sheets 10/11 (closed Option B) have
- "Minimum Charge (Medical Baseline) 50% reduction"
- ($0.346 → $0.173 per meter per day). Not applicable to active
- residential bases; modeled here only conceptually for
- completeness. Closed-schedule grandfather paths deferred.
+ (closed Option A) price "Minimum Charge (Medical Baseline)" at $0.173
+ per meter per day against a regular $0.346. Closed options are not
+ modeled.
 """
 
 # Validation ------------------------------------------------------------------
@@ -135,7 +134,7 @@ validated_on = "2026-09-20"
 [modeling]
 complete = false
 deferrals = [
- "Schedule MB-E Sheet 1 (Revised Cal. P.U.C. Sheet 90597-E, RATES) prices an effective Minimum Charge of $5.00, and the model carries no Price for it. Buildable under URPX v0.5.1, not blocked: PriceDefinitionShape admits chargeType urpx:minimumCharge and urpx:minimumBill, CalculationMethod carries intervalDuration, and sce:d already ships that exact shape for its Base Services Charge (urpx:minimumBill + P1D). A candidate PriceDefinition of urpx:minimumCharge with intervalDuration P1M and a Price of 5.00 conforms against the v0.5.1 shapes in the merged SCE graph (checked 2026-09-21 with pyshacl against urpx-org/urpx abdfb521). Settle the period before building it: the sheet states $5.00 with no period, and the only SCE residential Minimum Charges published anywhere in this corpus are $0.346 and $0.173 per meter per day on the CLOSED TOU-D Options A and B, so reading $5.00 as monthly is an inference, not a source fact, and the active SCE residential sheets carry no Minimum Charge row for it to override. The separate point, that the floor arithmetic has no URPX expression so the Price records the datum and enforces nothing, is corpus-wide and lives in MODELING-GAPS.md.",
+ "Schedule MB-E Sheet 1 (Revised Cal. P.U.C. Sheet 90597-E) says only that \"the effective Minimum Charge will be $5.00\", with no unit or period, and the model carries no Price for it. The 2025-11-15 SCE base sheets (Schedule D, and TOU-D Options 4-9 PM, 5-8 PM and A) priced \"Minimum Charge (Medical Baseline)\" at $0.173 per meter per day against a regular Minimum Charge of $0.346. The active 2026-03-20 base sheets carry no residential Minimum Charge: Schedule D replaced it with the Base Services Charge of $0.424 per meter per day, and the TOU-D schedule (filed here under tou-d-4-9pm, tou-d-5-8pm, tou-d-prime and tou-d-prime-cpp) lists one only on closed Option A, Sheets 8 and 9. The $5.00 therefore has no Minimum Charge on an active Otherwise Applicable Tariff to override. A minimum charge is a floor on the bill, which URPX v0.5.1 has no way to state; urpx-org/urpx#76 proposes min and max value expressions.",
  "The WFC exemption is transcribed as a fixed -$0.00591/kWh rather than expressed as a cancellation, and its Price declares startDate 2026-01-01 while this version is effective 2025-10-01, so the first quarter of the version's own window carries no credit and a medical baseline customer is billed the full WFC there. The base WFC over that window was $0.00595/kWh (sce:d 2025-11-15), not $0.00591 (sce:d 2026-03-20), so the pinned literal was also the wrong magnitude for it. Schedule MB-E prices the removal of whatever the WFC currently is (\"the Wildfire Fund Non-Bypassable Charge (WFC) shall not apply\"), which URPX v0.5.1 states directly: a Price with multiplier -1 and basedOnPrice naming the base plan's WFC Price, composed one base at a time so each credit resolves against a single unambiguous basis. Rebuilding it this way also removes the standing re-sync obligation every time SCE refiles the WFC.",
 ]
 
