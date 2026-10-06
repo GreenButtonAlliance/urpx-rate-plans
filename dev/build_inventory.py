@@ -63,7 +63,7 @@ import utilities  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "inventories"
-UA = {"User-Agent": "urpx-tariffs/1.0 (+https://github.com/grid-coordination/urpx-rate-plans)"}
+UA = {"User-Agent": "urpx-rate-plans/1.0 (+https://github.com/grid-coordination/urpx-rate-plans)"}
 
 # MIDAS party segment -> utility directory. Only segments whose feed names a
 # schedule rather than a composition appear here; see midas() for why, and
@@ -247,7 +247,7 @@ def sdge_tariff_portal(offline: bool):
 
     def get(path):
         return json.loads(urllib.request.urlopen(urllib.request.Request(
-            f"{SDGE_API}/{path}", headers={"User-Agent": "urpx-tariffs/1.0",
+            f"{SDGE_API}/{path}", headers={"User-Agent": "urpx-rate-plans/1.0",
                                            "Accept": "application/json"}),
             timeout=60).read())
 

@@ -32,7 +32,7 @@ FILING_DIR = Path("ca/iou/pge/nbt/versions/2025-10-17")
 DEFAULT_VALUES_JSON = Path("/tmp/pge-nbt-eec-values.json")
 DEFAULT_JSONLD = FILING_DIR / "rate-plan-modifier_pge_nbt_2025-10-17.jsonld"
 
-# When the corpus repo isn't named "urpx-tariffs", REPO_ROOT will be wrong.
+# When the corpus repo isn't named "urpx-rate-plans", REPO_ROOT will be wrong.
 # Allow override via flag if needed.
 
 MONTHS = ["January", "February", "March", "April", "May", "June",

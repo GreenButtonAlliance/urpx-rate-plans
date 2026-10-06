@@ -3,7 +3,7 @@
 Migrate CPAU rate-plan JSON-LD from URPX v0.1.x (as on urpx-org/urpx PR #7
 cpau-rate-plans branch, head e8ed4f0) to URPX v0.2.0-candidate.
 
-Also translates IRI prefix urpx:cpau-* to cpau:* per urpx-tariffs convention,
+Also translates IRI prefix urpx:cpau-* to cpau:* per urpx-rate-plans convention,
 and produces filings ready to drop into ca/pou/cpau/<schedule>/versions/<date>/.
 
 Usage: python3 migrate-cpau-v020.py <input.jsonld> <output.jsonld>

@@ -10,7 +10,7 @@ in the Palo Alto Green Program under the 100% Renewable Option.
 Source PDF sha256 574e49454b107e17c37da8796d1c1d48268b826e3e23c846ee23a30a28c8b9e0
 retrieved from paloalto.gov 2026-04-30.
 
-This is the FIRST STANDALONE MODIFIER FILING in the urpx-tariffs corpus.
+This is the FIRST STANDALONE MODIFIER FILING in the urpx-rate-plans corpus.
 Prior modifier modeling has been embedded in base RatePlan @graphs (e.g.
 PG&E vintage PCIA, CPAU E-1 2025-09-01 multi-source).
 

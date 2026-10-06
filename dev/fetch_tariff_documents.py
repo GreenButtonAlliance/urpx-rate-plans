@@ -64,7 +64,7 @@ REPO = Path(__file__).resolve().parent.parent
 DB = REPO / "data" / "midas" / "midas.sqlite"
 OUT = REPO / "data" / "documents"
 MANIFEST = REPO / "data" / "documents.json"
-UA = {"User-Agent": "urpx-tariffs/1.0 (+https://github.com/grid-coordination/urpx-rate-plans)"}
+UA = {"User-Agent": "urpx-rate-plans/1.0 (+https://github.com/grid-coordination/urpx-rate-plans)"}
 # SharePoint refuses the polite identifier; it serves a browser string.
 BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"}

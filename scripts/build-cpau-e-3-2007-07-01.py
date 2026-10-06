@@ -5,7 +5,7 @@ Build ca/pou/cpau/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld.
 CPAU Schedule E-3: Customer-Owned Generation. Buyback rates that the
 utility pays to customers operating their own (non-NEM-eligible)
 generation facilities. Effective 2007-07-01 — long-stable, never
-re-issued (oldest filing in the urpx-tariffs corpus).
+re-issued (oldest filing in the urpx-rate-plans corpus).
 
 Source PDF sha256 fdc56b03b2d143c5f39e9bf2d5cbf555ee259cfad025792be426c543606b0de6
 retrieved from paloalto.gov 2026-04-30.
@@ -315,7 +315,7 @@ rpv = {
         "meter case only (Section C.1): 2 seasons; flat per-kWh energy "
         "buyback (applies to both Firm and Non-Firm power); plus a Firm-only "
         "$4.32/kW/month capacity credit. Reverse-flow direction throughout — "
-        "first reverse-flow filing in the urpx-tariffs corpus (the existing "
+        "first reverse-flow filing in the urpx-rate-plans corpus (the existing "
         "CPAU E-EEC-1 / E-NSE-1 modifiers are also reverse-flow but ride "
         "inside CPAU E-1 2025-09-01's @graph). DEFERRED to follow-up: "
         "Section C.2 with-interval-meter TOU buyback (3 TOU periods Summer + "

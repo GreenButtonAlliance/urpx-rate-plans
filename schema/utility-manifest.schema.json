@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:grid-coordination:urpx-tariffs:schema:utility-manifest:v1",
+  "$id": "urn:grid-coordination:urpx-rate-plans:schema:utility-manifest:v1",
   "title": "URPX Utility Discovery Manifest",
   "description": "Per-utility manifest at <country>/<subdivision>/<utility>/utility.toml, e.g. us/ca/pge/utility.toml. Points to where the utility publishes its tariffs so that scrapers can discover unmodeled schedules and detect updates to modeled ones. Distinct from the per-filing tariff.toml: tariff.toml pins a specific snapshot (URL + sha256 + retrieval date), utility.toml points at the discovery surface where future snapshots can be found. It also carries the utility's identity, which generators previously held as python literals: a display name, the regulatory class, the legal name and EIA identifier, and the MIDAS party segments and party names. One authoritative place on disk, read through dev/utilities.py. Identity fields other than utility_class are optional because the repository cannot attest all of them for every party: legal_name and eia_id are taken from the corpus JSON-LD where a filing exists, and on a manifest-only utility only where the manifest cites a source; dev/lint_utility_manifests.py holds both to the filings once there are any.",
   "type": "object",

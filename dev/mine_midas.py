@@ -66,7 +66,7 @@ CENSUS = STORE / "census.json"
 LOOKUPS = STORE / "lookups"
 
 API = "https://midasapi.energy.ca.gov/api/ValueData"
-UA = "urpx-tariffs metadata miner (github.com/grid-coordination/urpx-rate-plans)"
+UA = "urpx-rate-plans metadata miner (github.com/grid-coordination/urpx-rate-plans)"
 
 COLS = ["rid", "rate_name", "alt_rate_name_1", "alt_rate_name_2", "rate_type",
         "sector", "end_use", "rate_plan_url", "api_url", "signup_close_date",
