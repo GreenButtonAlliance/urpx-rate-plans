@@ -25,13 +25,13 @@
 
 {:baseline
  {:file "dev/baseline/marginal-rates.edn"
-  :clj-urpx-version "0.37.0"
-  :probe-instants 21}
+  :clj-urpx-version "0.39.0"
+  :probe-instants 22}
 
  :totals
-  {:compositions 157
-   :scenario-cost-models 1280
-   :servable 136
+  {:compositions 160
+   :scenario-cost-models 1289
+   :servable 139
    :not-priced-per-kwh 9
    :blocked 8
    :not-measured 4}
@@ -677,6 +677,24 @@
    :outcome :blocked
    :reason ":condition-gated-tier"
    :baseline-keys ["compose|us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/rate-plan-modifier_sce_tou-d-prime-cpp_2026-03-20.jsonld|sce:tou-d-prime"]}
+  {:base "scl:rtc-2026-01-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :servable
+   :baseline-keys ["plan|us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld"]}
+  {:base "scl:rts-2026-01-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :servable
+   :baseline-keys ["plan|us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld"]}
+  {:base "scl:rts-2026-01-01"
+   :modifiers ["scl:residential-suburban-2026-01-01"]
+   :open-dimensions ["scl:residential-suburban-2026-01-01-pa-jurisdiction"]
+   :selections 7
+   :outcome :servable
+   :baseline-keys ["compose|us/wa/scl/electricity/residential-suburban/versions/2026-01-01/rate-plan-modifier_scl_residential-suburban_2026-01-01.jsonld|scl:rts"]}
   {:base "sdge:dr-2026-04-01"
    :modifiers []
    :open-dimensions []
@@ -4674,6 +4692,33 @@
   "https://rate-plans.grid-coordination.energy/sce/scm-tou-d-prime-2026-03-20--tou-d-prime-cpp-2026-03-20"
   {:name "Schedule TOU-D Time-Of-Use Domestic — Option PRIME [sce:tou-d-prime-2026-03-20] + Schedule TOU-D Option PRIME-CPP (Critical Peak Pricing variant of Option PRIME) [sce:tou-d-prime-cpp-2026-03-20]"
    :outcome :blocked}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rtc-2026-01-01"
+  {:name "Residential: City Time-of-Use [scl:rtc-2026-01-01]"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01]"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--0bff65e18d3d"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in Burien"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--456eded5107c"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in Normandy Park"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--595dd32d58d8"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in Unincorporated King County"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--7444632267c7"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in SeaTac"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--7485be508d57"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in Lake Forest Park"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--864f0ff78a1b"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in Shoreline"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/scl/scm-rts-2026-01-01--residential-suburban-2026-01-01--f5c62aead5c3"
+  {:name "Residential: Suburban Time-of-Use [scl:rts-2026-01-01] + Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges [scl:residential-suburban-2026-01-01]; Service location in Tukwila"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/sdge/scm-dr-2026-04-01"
   {:name "Schedule DR Residential Service [sdge:dr-2026-04-01]"
    :outcome :servable}

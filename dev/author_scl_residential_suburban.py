@@ -339,8 +339,7 @@ headed "Effective January 1, 2025".
 
 This filing uses no unreleased vocabulary, but it composes only with Schedule
 RTS, whose brackets use urpx:daysOfWeek (urpx-org/urpx#71,
-https://github.com/urpx-org/urpx/pull/71). It is withheld from resolution with
-RTS until clj-urpx 0.39.0 (dev/withheld-filings.json).
+https://github.com/urpx-org/urpx/pull/71).
 
 ## Which table
 
@@ -419,7 +418,7 @@ README = """# SCL residential suburban multipliers and undergrounding charges on
 
 The suburban franchise and tax multipliers and suburban undergrounding charges that Seattle Municipal Code 21.49.030 applies to Schedule RSS and, by 21.49.030.B, to Schedule RTS (Residential: Suburban Time-of-Use), as amended by Ordinance 127473. This version carries the multiplier column headed "Effective January 1, {year}" and composes with `scl:rts-{date}`.
 
-**This filing depends on [urpx-org/urpx#71](https://github.com/urpx-org/urpx/pull/71) through Schedule RTS**, whose brackets use `urpx:daysOfWeek`. It is withheld from resolution with RTS until clj-urpx 0.39.0 (`dev/withheld-filings.json`).
+**This filing depends on [urpx-org/urpx#71](https://github.com/urpx-org/urpx/pull/71) through Schedule RTS**, whose brackets use `urpx:daysOfWeek`.
 
 ## Files
 

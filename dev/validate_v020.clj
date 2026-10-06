@@ -136,6 +136,8 @@
     :why "the SDG&E EV 00-06 weekday super-off-peak band, which is the band the discriminator defect mispriced"}
    {:id "summer-weekend-peak"      :at (at 2026 7 18 17)
     :why "Sat: the same clock hour as summer-weekday-peak, and the weekend price wherever a plan discriminates by day type"}
+   {:id "summer-sunday-peak"       :at (at 2026 7 19 18)
+    :why "Sun 18: Peak hours on Monday through Saturday for SCL RTC and RTS, which price Sunday Mid-Peak through urpx:daysOfWeek; no other probe falls on a Sunday"}
    {:id "summer-holiday-peak"      :at (at 2026 9 7 17)
     :why "Labor Day: the third day type. 8 rows move against the same hour on a weekday, all of them CPAU E-4-TOU, CPAU E-7-TOU, PG&E E-TOU-D or a composition over one"}
    {:id "summer-holiday-morning"   :at (at 2026 9 7 7)
@@ -169,8 +171,8 @@
    {:id "may-weekday-peak"         :at (at 2026 5 5 17)
     :why "Tue: the one month where CPAU E-2 through E-7 are in summer and everything else, CPAU E-1-TOU included, is in winter"}])
 
-;; The human report below resolves one instant rather than all 21: 73 filings by
-;; 21 instants is a wall of output, and the report is for reading. The baseline
+;; The human report below resolves one instant rather than all 22: 73 filings by
+;; 22 instants is a wall of output, and the report is for reading. The baseline
 ;; is the part that asserts, and it asserts at every one of them.
 (def probe-instant (:at (first probe-instants)))
 
@@ -300,7 +302,11 @@
 ;; per-vintage cells is a one-time verification, not a per-commit gate.
 (def profile-alternative-nominations
   {"sce:cca-crs-2026-03-20-pa-pcia-vintage" "sce:cca-crs-2026-03-20-pa-vintage-2001"
-   "sce:da-crs-2026-03-20-pa-pcia-vintage"  "sce:da-crs-2026-03-20-pa-vintage-2001"})
+   "sce:da-crs-2026-03-20-pa-pcia-vintage"  "sce:da-crs-2026-03-20-pa-vintage-2001"
+   ;; Shoreline exercises the multiplier and all five undergrounding charges.
+   "scl:residential-suburban-2026-01-01-pa-jurisdiction" "scl:residential-suburban-2026-01-01-pa-shoreline"
+   "scl:residential-suburban-2027-01-01-pa-jurisdiction" "scl:residential-suburban-2027-01-01-pa-shoreline"
+   "scl:residential-suburban-2028-01-01-pa-jurisdiction" "scl:residential-suburban-2028-01-01-pa-shoreline"})
 
 (defn- nominations-for
   "The entries of `profile-alternative-nominations` whose container is in
@@ -339,26 +345,35 @@
       edn/read-string))
 
 (defn- build-base-iri-lookup
-  "{base-iri-keyword → {:path <jsonld path> :date <YYYY-MM-DD>}} keyed on the
-   IRI built from the filename's <utility>_<slug>. When multiple versions of
-   the same base exist, the most recent date wins."
+  "{base-iri-keyword → [{:path <jsonld path> :date <YYYY-MM-DD>} ...]} keyed on
+   the IRI built from the filename's <utility>_<slug>, every version of the
+   base, oldest first. `base-at` picks one per instant."
   [filings]
-  (reduce
-   (fn [acc [kind _ path]]
-     (if-not (= kind :rate-plan)
-       acc
-       (let [fname (last (str/split path #"/"))
-             [_ utility slug date]
-             (re-matches #"rate-plan_([^_]+)_([^_]+)_(\d{4}-\d{2}-\d{2})\.jsonld" fname)]
-         (if-not date
-           acc
-           (let [iri-kw   (keyword utility slug)
-                 existing (get acc iri-kw)]
-             (if (or (nil? existing) (pos? (compare date (:date existing))))
-               (assoc acc iri-kw {:path path :date date})
-               acc))))))
-   {}
-   filings))
+  (update-vals
+   (reduce
+    (fn [acc [kind _ path]]
+      (if-not (= kind :rate-plan)
+        acc
+        (let [fname (last (str/split path #"/"))
+              [_ utility slug date]
+              (re-matches #"rate-plan_([^_]+)_([^_]+)_(\d{4}-\d{2}-\d{2})\.jsonld" fname)]
+          (if-not date
+            acc
+            (update acc (keyword utility slug) (fnil conj []) {:path path :date date})))))
+    {}
+    filings)
+   #(vec (sort-by :date %))))
+
+(defn- base-at
+  "The version of a base to compose against at `instant`: the latest one whose
+   date is on or before the instant's local date in the probe zone, or the
+   latest of all when every version is later. Taking the latest of all at every
+   instant composed scl:residential-suburban-2026-01-01 with scl:rts-2028-01-01,
+   which is not yet effective at any probe instant, so every cell refused."
+  [versions ^ZonedDateTime instant]
+  (let [day (str (.toLocalDate (.withZoneSameInstant instant la)))]
+    (or (last (filter #(not (pos? (compare (:date %) day))) versions))
+        (last versions))))
 
 ;; Load, coercion and Malli validation are per FILING, not per instant, so they
 ;; are cached: 19 instants over 73 filings would otherwise repeat them 19 times
@@ -448,7 +463,7 @@
    `legitimate-refusals` for why accepting these does not make the gate
    vacuous."
   [modifier base-kw base-iri-lookup instant]
-  (if-let [base-info (get base-iri-lookup base-kw)]
+  (if-let [base-info (some-> (get base-iri-lookup base-kw) seq (base-at instant))]
     (let [base (load-plan! (:path base-info))]
       (try
         (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant
