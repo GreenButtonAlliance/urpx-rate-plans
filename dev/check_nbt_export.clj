@@ -8,10 +8,10 @@
    month by month, weekday against weekend, per interconnection vintage: 4,608
    to 5,760 mutually exclusive Prices per filing, of which one applies at any
    instant. A gap in the modifier's brackets contributes no Price at that
-   instant (URPX-zoq) and does not throw, and the marginal-rate baseline cannot
+   instant and does not throw, and the marginal-rate baseline cannot
    see it, because export ledgers are excluded from the import marginal; here
    it is zero tiers where one is expected. A mistyped :profile-alternatives
-   container key refuses (URPX-ljo), and here that is a refused segment.
+   container key refuses, and here that is a refused segment.
 
    WHAT IS CHECKED. Each NBT modifier is composed with the latest filing of
    every base plan its urpx:applicableToRatePlan names. For each

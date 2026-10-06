@@ -292,7 +292,7 @@ case "$MODE" in
     # identifier at all.
     # A filing whose text or brackets say holidays are priced differently must
     # carry a urpx:HolidayCalendar, or record in [modeling].deferrals that it
-    # does not. Thirteen TOU filings stated the rule and carried none (URPXT-4fg).
+    # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
     # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
     note "Holiday calendars"
     if python3 dev/lint_holiday_calendars.py > /tmp/gate-holidays.log 2>&1; then
@@ -305,7 +305,7 @@ case "$MODE" in
 
     # A free-text condition on a Price, PriceSet or PriceDefinition makes
     # mutually exclusive prices read as concurrent; the selection belongs on a
-    # urpx:ProfileAlternative (URPXT-1zd). Two event-day filings are allowlisted.
+    # urpx:ProfileAlternative. Two event-day filings are allowlisted.
     # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
     note "Price-layer conditions"
     if python3 dev/lint_price_layer_conditions.py > /tmp/gate-price-layer.log 2>&1; then
@@ -502,7 +502,7 @@ case "$MODE" in
 
     # A filing whose text or brackets say holidays are priced differently must
     # carry a urpx:HolidayCalendar, or record in [modeling].deferrals that it
-    # does not. Thirteen TOU filings stated the rule and carried none (URPXT-4fg).
+    # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
     # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
     note "Holiday calendars"
     if python3 dev/lint_holiday_calendars.py > /tmp/gate-holidays.log 2>&1; then
@@ -515,7 +515,7 @@ case "$MODE" in
 
     # A free-text condition on a Price, PriceSet or PriceDefinition makes
     # mutually exclusive prices read as concurrent; the selection belongs on a
-    # urpx:ProfileAlternative (URPXT-1zd). Two event-day filings are allowlisted.
+    # urpx:ProfileAlternative. Two event-day filings are allowlisted.
     # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
     note "Price-layer conditions"
     if python3 dev/lint_price_layer_conditions.py > /tmp/gate-price-layer.log 2>&1; then
@@ -621,11 +621,10 @@ case "$MODE" in
             echo "  reuse lint clean"
         else
             tail -4 /tmp/gate-reuse.log
-            echo "  KNOWN FAILING: tracked by URPXT-gate.5"
             record 1
         fi
     else
-        echo "  reuse not installed; skipped (URPXT-gate.5 installs it)"
+        echo "  reuse not installed; skipped"
     fi
     ;;
 

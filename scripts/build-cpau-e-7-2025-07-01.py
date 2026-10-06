@@ -38,13 +38,11 @@ NOTABLE DIFFERENCES from CPAU E-4:
 - TES (Thermal Energy Storage) carve-out (Section D.4) is identical to
   E-4's D.3 — same noon-6pm weekday demand window for TES customers.
 
-DEFERRED to existing follow-up issues:
-  - Section D.6 Primary Voltage Discount (2.8% for >2 kV) — the project tracker
-    (originally filed for E-4 TOU; broaden scope; note rate variance
-    across schedules)
-  - Section D.7 Standby Charge — the project tracker (originally filed for E-4 TOU;
-    broaden; note rate variance)
-  - Section D.4 TES carve-out — URPXT-* (filed for E-4; same shape applies)
+DEFERRED (each also deferred for E-4 TOU):
+  - Section D.6 Primary Voltage Discount (2.8% for >2 kV); the rate varies
+    across schedules
+  - Section D.7 Standby Charge; the rate varies across schedules
+  - Section D.4 TES carve-out; same shape as E-4
   - Section D.3 site-aggregation — file new upstream URPX issue if the
     feature is needed for downstream consumers
 

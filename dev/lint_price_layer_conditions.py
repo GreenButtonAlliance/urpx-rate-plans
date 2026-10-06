@@ -8,7 +8,7 @@ A free-text condition on a price cannot be evaluated by a consumer, and a set of
 prices told apart only by such conditions reads as concurrent, so mutually
 exclusive prices get summed. URPX has a selection layer for that: a
 urpx:ProfileAlternative carries the condition, and the PriceSetAlternative or
-PriceDefinition naming it is selected declaratively (URPXT-1zd). A condition on
+PriceDefinition naming it is selected declaratively. A condition on
 a ProfileAlternative or an EligibilityRule is not in the price layer and passes.
 
 THE OWNING NODE is the nearest ancestor whose type is not condition machinery
@@ -49,8 +49,7 @@ VERSIONS = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 
 _DYNAMIC = ("an event-day predicate: whether an event is called on the day being priced is a "
             "live signal, not a customer or service attribute, so no ProfileAlternative can "
-            "select it. That is the dynamic-pricing case URPX has not defined "
-            "(urpx-dev SPEC-URPX-ONT-042/043).")
+            "select it. That is the dynamic-pricing case URPX has not defined.")
 ALLOWLIST = {
     "pge:e-rsmart-2025-10-31": "SmartRate Credit Applicable, " + _DYNAMIC,
     "sce:tou-d-prime-cpp-2026-03-20": (

@@ -4,7 +4,7 @@
 """Fail a filing that states a holiday rule and carries no urpx:HolidayCalendar.
 
 Without a calendar a holiday resolves to whatever its weekday or weekend day type
-gives. Thirteen TOU filings were in that state until 03f5ec3 (URPXT-4fg), each
+gives. Thirteen TOU filings were in that state until 03f5ec3, each
 saying in its own prose that holidays are priced differently.
 
 A FILING STATES A HOLIDAY RULE when either signal fires:

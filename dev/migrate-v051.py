@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: CDLA-Permissive-2.0
 """Migrate corpus filings from URPX v0.2.x to v0.5.1, one utility at a time.
 
-This script ships in the real repository rather than the shadow one, because a
-published dataset should carry the script that produced it. The July 2026
+This script ships in the repository because a published dataset should carry
+the script that produced it. The July 2026
 conversion is unreproducible precisely because no script survived it.
 
 TWELVE ORDERED TRANSFORMS. T5 runs before T3/T4 because splitting a publication
@@ -274,7 +274,7 @@ def t9_supersedes(doc, log):
     corpus models yet.
 
     So the link is dropped rather than re-homed, and the lineage it recorded is
-    temporarily unexpressed. That is deliberate and tracked as URPXT-ask1: the
+    temporarily unexpressed. That is deliberate: the
     placement being removed is the one upstream issue #16 explicitly instructed
     on 2026-05-01, and v0.5.0 reversed it without a recorded discussion.
     """
@@ -285,7 +285,7 @@ def t9_supersedes(doc, log):
             d.pop("urpx:supersedes"); n += 1
     walk(doc, visit)
     if n:
-        log(f"T9 {n} supersedes dropped from version node(s); lineage pending URPXT-ask1")
+        log(f"T9 {n} supersedes dropped from version node(s); lineage not yet re-expressed")
 
 
 def t10_back_links(doc, log):

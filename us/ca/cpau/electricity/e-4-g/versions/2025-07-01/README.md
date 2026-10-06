@@ -39,7 +39,7 @@ Two URPX-team / clj-urpx threads were in flight while building this filing:
 
 1. **`urpx-org/urpx#23`** — *how should a standalone modifier filing express `applicableToRatePlan` when the base RatePlan is in a separate file?* SHACL closed-world validation can't see the base RatePlan declaration across files, so setting `applicableToRatePlan = {"@id": "cpau:e-4"}` reports a class-membership violation. **Path taken**: omit `applicableToRatePlan` and describe the relationship in prose, matching the URPX-team's standalone-modifier test case pattern (`pge-e-tou-c-vintage-pcia-2026-03-01`). Retrofit once the URPX team responds with the intended pattern.
 
-2. **clj-urpx ``** — loader support for standalone `RatePlanModifier` filings. Originally `core/load-rate-plan` expected a top-level `urpx:RatePlan`; modifier-only filings need a parallel `core/load-rate-plan-modifier` entry point. **Resolved** in `clj-urpx@994f2e7`; the filing now load+coerce+validates end-to-end.
+2. **clj-urpx** — loader support for standalone `RatePlanModifier` filings. Originally `core/load-rate-plan` expected a top-level `urpx:RatePlan`; modifier-only filings need a parallel `core/load-rate-plan-modifier` entry point. **Resolved** in `clj-urpx@994f2e7`; the filing now load+coerce+validates end-to-end.
 
 3. **Composer** — combining a base RatePlan + modifier(s) into a single bill calculation is deferred until `urpx-org/urpx#23` converges on the consumer convention. The validate harness reports `resolve N/A — modifier requires base composition` for modifier filings.
 
