@@ -6,7 +6,7 @@ effective_date = "2026-03-20"
 # Source ----------------------------------------------------------------------
 [source]
 url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D-CARE.pdf"
-sha256 = "f1cd8a7faa61014d86d735d7ae80583113a2c14c8ced3fe1efd9baa0d497ea95"
+sha256 = "e47fc33395361f6ac48ee06076c2d2e03821a0a12c93edee3fde4f7e2f380d83"
 retrieved_on = "2026-05-04"
 media_type = "application/pdf"
 filing_type = "advice-letter"
@@ -93,6 +93,16 @@ Modeling deferrals (unchanged from 2025-11-15):
  exemption credit has no base item to cancel. Modeling deferred
  until base rate plans separately track the CARE Surcharge as a
  non-CARE-only line item.
+
+Source bytes. [source]: the server answered the 2026-05-04 download with the
+PDF inside a multipart/form-data envelope (one part, filename
+ELECTRIC_SCHEDULES_D-CARE.pdf, Content-Length 466155), and that envelope,
+sha256 f1cd8a7faa61014d86d735d7ae80583113a2c14c8ced3fe1efd9baa0d497ea95, was
+committed here as the PDF until 2026-10-06. The committed file is now the
+part's body, extracted byte for byte with dev/fetch_tariff_documents.py
+--unwrap, and the sha256 recorded above is its hash. The envelope's boundary
+is generated per response, so an envelope hash identifies one response, not
+the document.
 """
 
 # Validation ------------------------------------------------------------------

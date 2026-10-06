@@ -6,7 +6,7 @@ effective_date = "2026-03-20"
 # Source ----------------------------------------------------------------------
 [source]
 url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_D.pdf"
-sha256 = "bb5ae3e440eababf03181b3176cafb469acb41afd40aa4cad6cefca6c833e9f9"
+sha256 = "cffdcd86939c224c2779d56c609df4e4f380009bcc8d8fe925f72df3f099ef63"
 retrieved_on = "2026-05-04"
 media_type = "application/pdf"
 filing_type = "advice-letter"
@@ -117,6 +117,16 @@ RatePlanModifiers, each naming sce:d in urpx:applicableToRatePlan, so they
 are cross-references rather than absences here. SCE's PCIA is recovered
 inside the bundled Generation rate (Sheet 8, Special Condition 7), which is
 priced here, so this Schedule has no separate PCIA line to carry.
+
+Source bytes. [source]: the server answered the 2026-05-04 download with the
+PDF inside a multipart/form-data envelope (one part, filename
+ELECTRIC_SCHEDULES_D.pdf, Content-Length 682357), and that envelope, sha256
+bb5ae3e440eababf03181b3176cafb469acb41afd40aa4cad6cefca6c833e9f9, was
+committed here as the PDF until 2026-10-06. The committed file is now the
+part's body, extracted byte for byte with dev/fetch_tariff_documents.py
+--unwrap, and the sha256 recorded above is its hash. The envelope's boundary
+is generated per response, so an envelope hash identifies one response, not
+the document.
 """
 
 # Validation ------------------------------------------------------------------

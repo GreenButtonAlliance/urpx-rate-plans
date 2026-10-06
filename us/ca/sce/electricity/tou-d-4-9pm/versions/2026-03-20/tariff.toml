@@ -8,7 +8,7 @@ effective_date = "2026-03-20"
 
   [source.base]
   url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
-  sha256 = "aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc"
+  sha256 = "2af0b2e97f2beb02fb84159dadd72c91b5ebc194bf3a3d450932541d80e7b053"
   retrieved_on = "2026-05-04"
   media_type = "application/pdf"
   filing_type = "advice-letter"
@@ -18,7 +18,7 @@ effective_date = "2026-03-20"
   # HPWH Allocation the second document in this directory adds to them.
   [source.prelim_h]
   url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Preliminary%20Statements/ELECTRIC_PRELIM_H.pdf"
-  sha256 = "898b6a89bf63455d37964670b54847544865dcd1da988275940f6a12cb389325"
+  sha256 = "4998d048de8f8e25c96b539ca9424343359135d419df6fa910f59ce5fce845cc"
   retrieved_on = "2026-05-04"
   media_type = "application/pdf"
   filing_type = "advice-letter"
@@ -194,6 +194,24 @@ same HPWH Allocations, and Schedule TOU-D was reissued on the same date. Both
 belong to a TOU-D version effective 2026-10-01, which this corpus does not yet
 hold; the allocations here are the ones in force from this version's
 effective date until then.
+
+Source bytes. [source.base]: the server answered the 2026-05-04 download with
+the PDF inside a multipart/form-data envelope (one part, filename
+ELECTRIC_SCHEDULES_TOU-D.pdf, Content-Length 2088177), and that envelope,
+sha256 aadbe85df805c38ac05d129a5a264f8c90830dd69cc8ffe55743a442ef853ccc, was
+committed here as the PDF until 2026-10-06. The committed file is now the
+part's body, extracted byte for byte with dev/fetch_tariff_documents.py
+--unwrap, and the sha256 recorded above is its hash. [source.prelim_h]: the
+server answered the 2026-05-04 download of Part H with the PDF inside a
+multipart/form-data envelope (one part, filename ELECTRIC_PRELIM_H.pdf,
+Content-Length 447508, envelope sha256
+e54ae55e3b49d5398a981ebfba3d714cba0c90de100e7addde8a6706bdde0f16). Part H was
+first committed as that part's body cut at its last %%EOF, sha256
+898b6a89bf63455d37964670b54847544865dcd1da988275940f6a12cb389325, one byte
+short of the part; the committed file is now the whole part, extracted with
+dev/fetch_tariff_documents.py --unwrap, and the sha256 recorded above is its
+hash. The envelope's boundary is generated per response, so an envelope hash
+identifies one response, not the document.
 """
 
 # Validation ------------------------------------------------------------------

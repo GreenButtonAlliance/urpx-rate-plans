@@ -6,7 +6,7 @@ effective_date = "2025-04-23"
 # Source ----------------------------------------------------------------------
 [source]
 url = "https://www.sce.com/sites/default/files/custom-files/PDF_Files/ELECTRIC_SCHEDULES_NBT.pdf"
-sha256 = "d5912ac6da836c1a16f21b7b55615c6dcea5a0eede4e2d6ad23a905b85829a47"
+sha256 = "486e41262c342d585e8246d6bb425930060c3dbffa924f15da2199cc1256ed39"
 retrieved_on = "2026-05-29"
 media_type = "application/pdf"
 filing_type = "advice-letter"
@@ -156,6 +156,16 @@ NBT-PS (Paired Storage), NBT-MT (Multiple Tariff Facility). PG&E has 6
 NBTA). The PG&E "S / EXP / EXP-OTR" split by size and customer class
 is folded into SCE's Eligible Rates section (Sheet 2) rather than
 sub-schedules. Sibling filings for SCE NBT-A and NBT-PS deferred.
+
+Source bytes. [source]: the server answered the 2026-05-29 download with the
+PDF inside a multipart/form-data envelope (one part, filename
+ELECTRIC_SCHEDULES_NBT.pdf, Content-Length 880651), and that envelope, sha256
+d5912ac6da836c1a16f21b7b55615c6dcea5a0eede4e2d6ad23a905b85829a47, was
+committed here as the PDF until 2026-10-06. The committed file is now the
+part's body, extracted byte for byte with dev/fetch_tariff_documents.py
+--unwrap, and the sha256 recorded above is its hash. The envelope's boundary
+is generated per response, so an envelope hash identifies one response, not
+the document.
 """
 
 # Validation ------------------------------------------------------------------

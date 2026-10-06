@@ -99,6 +99,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("test_discount_summaries",     ["python3", "dev/test_discount_summaries.py"]),
     ("test_rdf_hash",               ["python3", "dev/test_rdf_hash.py"]),
     ("test_sandbox_export",         ["python3", "dev/test_sandbox_export.py"]),
+    ("test_fetch_unwrap",           ["python3", "dev/test_fetch_unwrap.py"]),
 ]
 
 

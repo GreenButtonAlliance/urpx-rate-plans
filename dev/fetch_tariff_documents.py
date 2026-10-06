@@ -35,6 +35,7 @@ mine itself (LAYOUT.md section 10b).
     python3 dev/fetch_tariff_documents.py            # fetch what is new or changed
     python3 dev/fetch_tariff_documents.py --recheck  # ignore stored validators
     python3 dev/fetch_tariff_documents.py --status   # what is known, no network
+    python3 dev/fetch_tariff_documents.py --unwrap F # unwrap a hand-fetched file
 """
 from __future__ import annotations
 
@@ -134,6 +135,10 @@ def content_key(body: bytes) -> str | None:
     return hashlib.sha256(out.stdout).hexdigest()
 
 
+class EnvelopeError(ValueError):
+    """Bytes that begin like a multipart envelope but do not parse as one."""
+
+
 def unwrap_multipart(body: bytes) -> bytes:
     """SharePoint returns the file inside a multipart/form-data envelope.
 
@@ -141,14 +146,73 @@ def unwrap_multipart(body: bytes) -> bytes:
     with a boundary marker rather than %PDF-. Hashing those would record the
     envelope, and the envelope's boundary changes per response, so the sha256
     would differ on every fetch of an unchanged document.
+
+    The document is the one part's body: everything after the blank line ending
+    the part headers and before the CRLF that opens the closing delimiter
+    (RFC 2046 section 5.1.1). That includes any end-of-line after the PDF's
+    %%EOF; the part's Content-Length counts it. The first version cut at the
+    last %%EOF and dropped those bytes. Bytes that do not begin with "--" are
+    returned unchanged; an envelope that does not parse as exactly one part, or
+    whose body disagrees with its Content-Length, raises EnvelopeError.
     """
-    if body[:5] == b"%PDF-" or b"%PDF-" not in body[:4096]:
+    if not body.startswith(b"--"):
         return body
-    start = body.find(b"%PDF-")
-    end = body.rfind(b"%%EOF")
-    if start < 0 or end < 0:
-        return body
-    return body[start:end + 5]
+    eol = body.find(b"\r\n")
+    boundary = body[2:eol] if eol > 2 else b""
+    if not boundary or len(boundary) > 70:
+        raise EnvelopeError("no boundary on the first line")
+    head_end = body.find(b"\r\n\r\n", eol)
+    if head_end < 0:
+        raise EnvelopeError("the part headers never end")
+    headers = {}
+    for line in body[eol + 2:head_end].split(b"\r\n"):
+        name, sep, value = line.partition(b":")
+        if not sep:
+            raise EnvelopeError(f"malformed part header {line[:60]!r}")
+        headers[name.strip().lower()] = value.strip()
+    start = head_end + 4
+    delimiter = b"\r\n--" + boundary
+    end = body.find(delimiter, start)
+    if end < 0:
+        raise EnvelopeError("no closing boundary")
+    if body[end + len(delimiter):end + len(delimiter) + 2] != b"--":
+        raise EnvelopeError("more than one part")
+    if body[end + len(delimiter) + 2:].strip(b"\r\n") != b"":
+        raise EnvelopeError("bytes after the closing boundary")
+    part = body[start:end]
+    if b"content-length" in headers and int(headers[b"content-length"]) != len(part):
+        raise EnvelopeError(f"part is {len(part)} bytes against Content-Length "
+                            f"{headers[b'content-length'].decode()}")
+    return part
+
+
+def unwrap_files(paths: list[str]) -> int:
+    """Unwrap committed or downloaded files in place, for documents fetched by hand.
+
+    SCE documents fetched with the curl recipe in us/ca/sce/utility.toml arrive
+    wrapped exactly as the fetcher's do. A file that is already a PDF is left
+    alone. Refuses, changing nothing, if a result is not a PDF.
+    """
+    out = []
+    for p in paths:
+        raw = Path(p).read_bytes()
+        try:
+            pdf = unwrap_multipart(raw)
+        except EnvelopeError as e:
+            print(f"REFUSING: {p}: {e}", file=sys.stderr)
+            return 3
+        if pdf[:5] != b"%PDF-" or not pdf.rstrip(b"\r\n").endswith(b"%%EOF"):
+            print(f"REFUSING: {p}: not a PDF after unwrapping", file=sys.stderr)
+            return 3
+        out.append((p, raw, pdf))
+    for p, raw, pdf in out:
+        if pdf is raw:
+            print(f"{p}: already a PDF, sha256 {hashlib.sha256(raw).hexdigest()}")
+            continue
+        Path(p).write_bytes(pdf)
+        print(f"{p}: envelope sha256 {hashlib.sha256(raw).hexdigest()} ({len(raw)} bytes) -> "
+              f"PDF sha256 {hashlib.sha256(pdf).hexdigest()} ({len(pdf)} bytes)")
+    return 0
 
 
 def filename(url: str, target: dict, res: dict) -> str:
@@ -314,11 +378,21 @@ def fetch(url: str, prior: dict | None, recheck: bool, target: dict | None = Non
             req.add_header("If-Modified-Since", prior["last_modified"])
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
-            body = r.read()
+            raw = r.read()
             h = r.headers
+            media_type = (h.get("Content-Type") or "").split(";")[0].strip() or None
+            # An envelope can arrive from any host fronting SharePoint, so it is
+            # unwrapped here too, and what is inside it is what gets judged.
+            try:
+                body = unwrap_multipart(raw)
+            except EnvelopeError as e:
+                return {"outcome": "not-a-document", "status": r.status,
+                        "note": f"a multipart envelope that does not parse: {e}"}
+            if body is not raw and body[:5] == b"%PDF-":
+                media_type = "application/pdf"
             out = {"status": r.status, "bytes": len(body),
                    "sha256": hashlib.sha256(body).hexdigest(),
-                   "media_type": (h.get("Content-Type") or "").split(";")[0].strip() or None,
+                   "media_type": media_type,
                    "etag": h.get("ETag"), "last_modified": h.get("Last-Modified"),
                    "final_url": r.url if r.url != url else None}
             # A 200 of text/html at a URL ending .pdf is a redirect to an error
@@ -358,7 +432,13 @@ def fetch_sharepoint(url: str, target: dict) -> dict:
         dl = (f"https://{SP_HOST}/teams/Public/TM2/_layouts/15/download.aspx"
               f"?SourceUrl={urllib.parse.quote(srv)}")
         with op.open(urllib.request.Request(dl, headers=dict(BROWSER_UA)), timeout=120) as r:
-            body = unwrap_multipart(r.read())
+            raw = r.read()
+        try:
+            body = unwrap_multipart(raw)
+        except EnvelopeError as e:
+            return {"outcome": "not-a-document", "status": 200,
+                    "note": f"the download endpoint answered 200 with a multipart "
+                            f"envelope that does not parse: {e}"}
         if body[:5] != b"%PDF-":
             return {"outcome": "not-a-document", "status": 200,
                     "note": "the download endpoint answered 200 with something "
@@ -399,8 +479,13 @@ def main() -> int:
     ap.add_argument("--recheck", action="store_true",
                     help="ignore stored ETag/Last-Modified and fetch every document")
     ap.add_argument("--status", action="store_true", help="report the manifest, no network")
+    ap.add_argument("--unwrap", nargs="+", metavar="FILE",
+                    help="unwrap SharePoint multipart envelopes in these files in place, "
+                         "no network; for documents fetched by hand")
     ap.add_argument("--workers", type=int, default=4)
     args = ap.parse_args()
+    if args.unwrap:
+        return unwrap_files(args.unwrap)
 
     targets = load_targets()
     prior = {}

@@ -170,7 +170,9 @@ ANONYMOUS DOWNLOAD RECIPE
 Both /_layouts/15/download.aspx?SourceUrl=<path> and the _api $value endpoint
 return HTTP 200 with the PDF wrapped in a multipart/form-data envelope: the
 bytes start with a boundary marker, not %PDF-. Strip the wrapper before
-hashing or the sha256 records the envelope. Fetching the rendered file path
+hashing or the sha256 records the envelope: step 4 below does it, keeping the
+part's body byte for byte. Twelve source PDFs were committed as envelopes
+because this recipe had no such step. Fetching the rendered file path
 directly returns 403 even with the cookie.
 
 SharePoint anonymous-share folders use opaque share-token URLs in the
@@ -189,6 +191,10 @@ navigating the share-token URL in a real browser.
  BASE="https://edisonintl.sharepoint.com/teams/Public/TM2/_layouts/15/download.aspx"
  SRC="/teams/Public/TM2/Shared Documents/Public/Regulatory/<full-path-to-pdf>"
  curl -sL -o "$(basename "$SRC")" -b "FedAuth=$FEDAUTH" "${BASE}?SourceUrl=${SRC}"
+
+ # 4. Unwrap the envelope in place. Refuses, changing nothing, unless
+ # every result is a PDF.
+ python3 dev/fetch_tariff_documents.py --unwrap "$(basename "$SRC")"
 
 The cookie has a limited lifespan (minutes to a few hours, not days);
 pull a target set in one session. Cache canonical URLs in each filing's

@@ -6,7 +6,7 @@ effective_date = "2026-03-20"
 # Source ----------------------------------------------------------------------
 [source]
 url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-CRS.pdf"
-sha256 = "b0b32770715fabab09ca94a8595ace3bde4e948b11085d6c602a066cc5201728"
+sha256 = "90b283b1c7d757b28d673a33175b0d8d512adde1f4cec1ac6a2e93377e53b043"
 retrieved_on = "2026-05-04"
 media_type = "application/pdf"
 filing_type = "advice-letter"
@@ -91,6 +91,16 @@ us/ca/sce/electricity/da-crs/.../tariff.toml):
  modifier filings.
  4. PCIA + CARE / FERA / Medical-Baseline stacking exemptions
  deferred to a follow-up issue.
+
+Source bytes. [source]: the server answered the 2026-05-04 download with the
+PDF inside a multipart/form-data envelope (one part, filename
+ELECTRIC_SCHEDULES_CCA-CRS.pdf, Content-Length 986399), and that envelope,
+sha256 b0b32770715fabab09ca94a8595ace3bde4e948b11085d6c602a066cc5201728, was
+committed here as the PDF until 2026-10-06. The committed file is now the
+part's body, extracted byte for byte with dev/fetch_tariff_documents.py
+--unwrap, and the sha256 recorded above is its hash. The envelope's boundary
+is generated per response, so an envelope hash identifies one response, not
+the document.
 """
 
 # Validation ------------------------------------------------------------------

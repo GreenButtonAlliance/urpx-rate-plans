@@ -746,15 +746,7 @@ run, against PG&E's cheap `304`s.
 `retrieved_on` means when these bytes were first seen rather than when the URL
 was last checked, for the same reason given in section 10b.
 
-**SCE's documents need two extra steps, and both are easy to get silently wrong.**
-Fetching the rendered file path returns 403 even holding the share cookie; the
-`_layouts/15/download.aspx` endpoint is what answers. What it answers with is the
-PDF inside a `multipart/form-data` envelope, so the bytes begin with a boundary
-marker rather than `%PDF-`. Hashing them unstripped would be worse than useless:
-the boundary is regenerated per response, so an unchanged document would hash
-differently on every fetch and every run would report a change. The envelope is
-stripped before hashing, and the fetcher refuses a payload that is still not a
-PDF afterwards.
+**SCE's documents need two extra steps, and both are easy to get silently wrong.** Fetching the rendered file path returns 403 even holding the share cookie; the `_layouts/15/download.aspx` endpoint is what answers. What it answers with is the PDF inside a `multipart/form-data` envelope, so the bytes begin with a boundary marker rather than `%PDF-`. Hashing them unstripped would be worse than useless: the boundary is regenerated per response, so an unchanged document would hash differently on every fetch and every run would report a change. The envelope is stripped before hashing, keeping the part's body byte for byte (any end-of-line after `%%EOF` included, as its `Content-Length` counts), and the fetcher refuses a payload that is still not a PDF afterwards. A document downloaded by hand is unwrapped with `python3 dev/fetch_tariff_documents.py --unwrap <file>`, and `dev/test_fetch_unwrap.py` fails if any tracked `.pdf` does not begin with `%PDF-`.
 
 ## 11. Reports: what each one measures
 
