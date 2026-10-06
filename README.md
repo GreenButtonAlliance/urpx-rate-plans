@@ -55,13 +55,13 @@ Version order comes from each filing's `versions/<date>/` and `urpx:effectiveDat
 
 ## Status
 
-As of 2026-09-23, 71 filings hold 72 rate plans: 39 base plans and 33 standalone modifiers. One directory, PG&E E-TOU-C 2026-03-01, packages a base with a sibling modifier, and four PG&E vintage-PCIA modifiers are bundled inline in their bases' `@graph`.
+Each filing directory holds a base rate plan or a standalone modifier; [`reports/ready-for-use.md`](./reports/ready-for-use.md) lists them by utility with current counts. One directory, PG&E E-TOU-C 2026-03-01, packages a base with a sibling modifier, and PG&E's vintage-PCIA modifiers are bundled inline in their bases' `@graph`.
 
 Every filing serializes against URPX v0.5.1 and validates clean under both `pyshacl` against the [URPX SHACL shapes](https://github.com/urpx-org/urpx/blob/main/shacl/urpx-shacl.ttl) and [clj-urpx](https://github.com/grid-coordination/clj-urpx), which loads, coerces and resolves a price at a known instant.
 
 Residential reach, per state and in total, is in [`reports/coverage.md`](./reports/coverage.md).
 
-**Cross-corpus utility identification**: every rate plan's `urpx:offeredBy` `urpx:UtilityOperator` carries an `urpx:OrganizationIdentifier` whose `urpx:scheme` is `urpx:eiaScheme`; PG&E's `skos:notation` is 14328. All 72 carry one. It is a stable join key against the [EIA-861 detailed data files](https://www.eia.gov/electricity/data/eia861/), which avoids matching on `legalName` variants.
+**Cross-corpus utility identification**: every rate plan's `urpx:offeredBy` `urpx:UtilityOperator` carries an `urpx:OrganizationIdentifier` whose `urpx:scheme` is `urpx:eiaScheme`; PG&E's `skos:notation` is 14328. Every filing carries one. It is a stable join key against the [EIA-861 detailed data files](https://www.eia.gov/electricity/data/eia861/), which avoids matching on `legalName` variants.
 
 **SHACL-validating ≠ bill-calculation-complete.** All filings pass pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx), but most carry at least one documented modeling deferral tied to an open URPX vocabulary question. Each filing's `tariff.toml [modeling].deferrals` lists what's deferred and why; the [MODELING-GAPS.md](./MODELING-GAPS.md) section below cross-references them.
 
