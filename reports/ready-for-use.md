@@ -92,7 +92,7 @@ The two do not track each other and must not be collapsed. 1 of 74 filings carry
 
 | Schedule | Effective | Servability | Compositions drawing on it | Captures its source PDF | Notes |
 |---|---|---|---:|---|---|
-| `307` | 2026-05-01 | blocked | 1 | no | resolves at some probe instants and refuses at others: :outside-version-window |
+| `307` | 2026-05-01 | blocked | 1 | no | resolves at some probe instants and refuses at others: :not-yet-effective, :outside-version-window |
 
 ### CPAU (POU): 13 of 16 servable
 

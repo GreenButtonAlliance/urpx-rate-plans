@@ -77,7 +77,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `pge:e-tou-c-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pge:e-tou-d-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pge:ev2-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
-| `pse:307-2026-05-01` | resolves at some probe instants and refuses at others: :outside-version-window |
+| `pse:307-2026-05-01` | resolves at some probe instants and refuses at others: :not-yet-effective, :outside-version-window |
 | `sce:tou-d-prime-2026-03-20` + `sce:tou-d-prime-cpp-2026-03-20` | :condition-gated-tier |
 
 ## Not measured (4)
