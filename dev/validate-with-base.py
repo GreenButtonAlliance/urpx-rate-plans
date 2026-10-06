@@ -192,6 +192,42 @@ def violation_keys(results_graph: rdflib.Graph) -> list[tuple[str, str, str]]:
     return sorted(keys)
 
 
+# --- the urpx-org/urpx#71 exception -------------------------------------------
+# DAYS_OF_WEEK_EXCEPTION. urpx-org/urpx#71 adds urpx:daysOfWeek to
+# TimeBracketShape. Seattle City Light's RTC and RTS filings use it, ahead of any
+# URPX release, to say Monday through Saturday. At a shape revision without #71,
+# TimeBracketShape is sh:closed and reports one sh:ClosedConstraintComponent
+# result per bracket and value. Exactly those results are dropped here: path
+# urpx:daysOfWeek, that component, and a focus node typed urpx:TimeBracket in the
+# data. Anything else, including any other result on such a bracket, still
+# counts. At a revision whose shapes name urpx:daysOfWeek as a path the
+# exception drops nothing. Delete this block, and its call in validate_files,
+# once the pinned revisions carry #71.
+DAYS_OF_WEEK_EXCEPTION = {
+    "path": "https://urpx.org/ns/ontology/daysOfWeek",
+    "component": "http://www.w3.org/ns/shacl#ClosedConstraintComponent",
+    "focus_type": "https://urpx.org/ns/ontology/TimeBracket",
+    "cites": "https://github.com/urpx-org/urpx/pull/71",
+}
+
+
+def except_days_of_week(keys, data_graph: rdflib.Graph, shapes_graph: rdflib.Graph):
+    """(keys with DAYS_OF_WEEK_EXCEPTION's results removed, how many were removed)."""
+    path = rdflib.URIRef(DAYS_OF_WEEK_EXCEPTION["path"])
+    if (None, SH.path, path) in shapes_graph:
+        return keys, 0
+    bracket = rdflib.URIRef(DAYS_OF_WEEK_EXCEPTION["focus_type"])
+
+    def excepted(k):
+        focus, p, comp = k
+        return (p == DAYS_OF_WEEK_EXCEPTION["path"]
+                and comp == DAYS_OF_WEEK_EXCEPTION["component"]
+                and (rdflib.URIRef(focus), rdflib.RDF.type, bracket) in data_graph)
+
+    kept = [k for k in keys if not excepted(k)]
+    return kept, len(keys) - len(kept)
+
+
 # --- version dispatch ---------------------------------------------------------
 # During the per-utility migration waves the corpus carries TWO vocabularies at
 # once. Each file declares which one it uses via its @context urpx binding, and
@@ -297,6 +333,12 @@ def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
         inference="rdfs" if rdfs else None, advanced=True,
     )
     keys = violation_keys(results_graph)
+    keys, excepted = except_days_of_week(keys, g, shapes)
+    if excepted:
+        conforms = not keys
+        if verbose:
+            print(f"EXCEPT  {label}: {excepted} result(s) for urpx:daysOfWeek on a "
+                  f"urpx:TimeBracket, under DAYS_OF_WEEK_EXCEPTION (urpx-org/urpx#71)")
 
     if verbose:
         n = f"{len(files)} files" + (f" + {len(extra)} derived" if extra else "")
