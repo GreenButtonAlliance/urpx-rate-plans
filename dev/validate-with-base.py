@@ -192,40 +192,139 @@ def violation_keys(results_graph: rdflib.Graph) -> list[tuple[str, str, str]]:
     return sorted(keys)
 
 
-# --- the urpx-org/urpx#71 exception -------------------------------------------
-# DAYS_OF_WEEK_EXCEPTION. urpx-org/urpx#71 adds urpx:daysOfWeek to
-# TimeBracketShape. Seattle City Light's RTC and RTS filings use it, ahead of any
-# URPX release, to say Monday through Saturday. At a shape revision without #71,
-# TimeBracketShape is sh:closed and reports one sh:ClosedConstraintComponent
-# result per bracket and value. Exactly those results are dropped here: path
-# urpx:daysOfWeek, that component, and a focus node typed urpx:TimeBracket in the
-# data. Anything else, including any other result on such a bracket, still
-# counts. At a revision whose shapes name urpx:daysOfWeek as a path the
-# exception drops nothing. Delete this block, and its call in validate_files,
-# once the pinned revisions carry #71.
-DAYS_OF_WEEK_EXCEPTION = {
-    "path": "https://urpx.org/ns/ontology/daysOfWeek",
-    "component": "http://www.w3.org/ns/shacl#ClosedConstraintComponent",
-    "focus_type": "https://urpx.org/ns/ontology/TimeBracket",
-    "cites": "https://github.com/urpx-org/urpx/pull/71",
-}
+# --- shape exceptions for proposed URPX terms --------------------------------
+# A filing may use a term proposed in an open urpx-org/urpx pull request ahead of
+# any URPX release. At a shape revision without that proposal the corpus fails
+# on exactly the results the proposal's own shape changes would remove, and
+# nothing else. SHAPE_EXCEPTIONS names those results, one entry per pull
+# request, so that they and only they are dropped:
+#
+#   defines   the terms the proposal adds. An entry switches itself off, and
+#             drops nothing, when the shapes in use name any of them as an
+#             sh:path, so it cannot outlive the release that carries it.
+#   results   (path, component, focus test) triples. A result is excepted only
+#             when its sh:resultPath and sh:sourceConstraintComponent match and
+#             its focus node passes the test against the data graph. Every
+#             other result, including any other result on the same node, still
+#             counts.
+#
+# Delete an entry, and the filings stop needing it, once the pinned revisions
+# carry its pull request. dev/test_shape_exceptions.py holds the negatives.
+URPX = rdflib.Namespace("https://urpx.org/ns/ontology/")
+_BOUND_TERMS = (URPX.lowerBound, URPX.lowerBoundOperator, URPX.upperBound, URPX.upperBoundOperator)
+_OFFSET_TERMS = (URPX.lowerBoundOffset, URPX.upperBoundOffset)
 
 
-def except_days_of_week(keys, data_graph: rdflib.Graph, shapes_graph: rdflib.Graph):
-    """(keys with DAYS_OF_WEEK_EXCEPTION's results removed, how many were removed)."""
-    path = rdflib.URIRef(DAYS_OF_WEEK_EXCEPTION["path"])
-    if (None, SH.path, path) in shapes_graph:
-        return keys, 0
-    bracket = rdflib.URIRef(DAYS_OF_WEEK_EXCEPTION["focus_type"])
+def _typed(g: rdflib.Graph, node, cls) -> bool:
+    return (node, rdflib.RDF.type, cls) in g
 
-    def excepted(k):
-        focus, p, comp = k
-        return (p == DAYS_OF_WEEK_EXCEPTION["path"]
-                and comp == DAYS_OF_WEEK_EXCEPTION["component"]
-                and (rdflib.URIRef(focus), rdflib.RDF.type, bracket) in data_graph)
 
-    kept = [k for k in keys if not excepted(k)]
-    return kept, len(keys) - len(kept)
+def _time_bracket(g, node) -> bool:
+    return _typed(g, node, URPX.TimeBracket)
+
+
+def _service_bracket(g, node) -> bool:
+    return _typed(g, node, URPX.ServiceBracket)
+
+
+def _adjusting_bracket(g, node) -> bool:
+    """A bracket urpx-org/urpx#80's shapes admit: exactly one
+    urpx:adjustsServiceTier naming a urpx:ServiceTier that hosts no adjusting
+    bracket itself, at least one offset, each offset single and xsd:decimal, and
+    no bound or bound operator (the fourth sh:or branch)."""
+    if not _service_bracket(g, node):
+        return False
+    targets = set(g.objects(node, URPX.adjustsServiceTier))
+    if len(targets) != 1:
+        return False
+    target = next(iter(targets))
+    if not _typed(g, target, URPX.ServiceTier):
+        return False
+    if any((b, URPX.adjustsServiceTier, None) in g for b in g.objects(target, URPX.hasServiceBracket)):
+        return False
+    offsets = [list(g.objects(node, t)) for t in _OFFSET_TERMS]
+    if not any(offsets) or any(len(o) > 1 for o in offsets):
+        return False
+    if any(getattr(o, "datatype", None) != rdflib.XSD.decimal for os_ in offsets for o in os_):
+        return False
+    return not any((node, t, None) in g for t in _BOUND_TERMS)
+
+
+def _host_tier(g, node) -> bool:
+    """A tier #80's second ServiceTier branch admits: no urpx:serviceTierNumber,
+    and only adjusting brackets, at least one of them."""
+    brackets = list(g.objects(node, URPX.hasServiceBracket))
+    return (_typed(g, node, URPX.ServiceTier)
+            and (node, URPX.serviceTierNumber, None) not in g
+            and bool(brackets) and all(_adjusting_bracket(g, b) for b in brackets))
+
+
+def _bounds_only_billing_model(g, node) -> bool:
+    """A billing model #80's BillingModelShape admits without a price
+    definition: one hosting an adjusting bracket."""
+    if not _typed(g, node, URPX.BillingModel) or (node, URPX.hasPriceDefinition, None) in g:
+        return False
+    return any(_adjusting_bracket(g, b)
+               for st in g.objects(node, URPX.hasServiceTiers)
+               for t in g.objects(st, URPX.hasServiceTier)
+               for b in g.objects(t, URPX.hasServiceBracket))
+
+
+SH_CLOSED = str(SH.ClosedConstraintComponent)
+SH_OR = str(SH.OrConstraintComponent)
+SH_MIN = str(SH.MinCountConstraintComponent)
+
+SHAPE_EXCEPTIONS = [
+    {
+        "name": "DAYS_OF_WEEK_EXCEPTION",
+        "cites": "https://github.com/urpx-org/urpx/pull/71",
+        "summary": "urpx:daysOfWeek on a urpx:TimeBracket",
+        "defines": (URPX.daysOfWeek,),
+        "results": (
+            (str(URPX.daysOfWeek), SH_CLOSED, _time_bracket),
+        ),
+    },
+    {
+        "name": "BOUND_OFFSET_EXCEPTION",
+        "cites": "https://github.com/urpx-org/urpx/pull/80",
+        "summary": "adjusting urpx:ServiceBracket, its host urpx:ServiceTier and billing model",
+        "defines": (URPX.adjustsServiceTier, URPX.lowerBoundOffset, URPX.upperBoundOffset),
+        "results": (
+            (str(URPX.adjustsServiceTier), SH_CLOSED, _adjusting_bracket),
+            (str(URPX.lowerBoundOffset), SH_CLOSED, _adjusting_bracket),
+            (str(URPX.upperBoundOffset), SH_CLOSED, _adjusting_bracket),
+            # ServiceBracketShape's three branches all require a bound or forbid
+            # neither; #80 adds the branch an adjusting bracket satisfies.
+            ("None", SH_OR, _adjusting_bracket),
+            (str(URPX.serviceTierNumber), SH_MIN, _host_tier),
+            (str(URPX.hasPriceDefinition), SH_MIN, _bounds_only_billing_model),
+        ),
+    },
+]
+
+
+def active_exceptions(shapes_graph: rdflib.Graph) -> list[dict]:
+    """The entries whose terms the shapes in use do not define."""
+    return [e for e in SHAPE_EXCEPTIONS
+            if not any((None, SH.path, t) in shapes_graph for t in e["defines"])]
+
+
+def except_proposed_terms(keys, data_graph: rdflib.Graph, shapes_graph: rdflib.Graph):
+    """(keys with every active entry's results removed, {entry name: count removed})."""
+    removed: dict[str, int] = {}
+    kept = []
+    entries = active_exceptions(shapes_graph)
+    for k in keys:
+        focus, path, comp = k
+        node = rdflib.URIRef(focus) if not focus.startswith("_:") else rdflib.BNode(focus[2:])
+        hit = next((e for e in entries
+                    for (p, c, test) in e["results"]
+                    if p == path and c == comp and test(data_graph, node)), None)
+        if hit is None:
+            kept.append(k)
+        else:
+            removed[hit["name"]] = removed.get(hit["name"], 0) + 1
+    return kept, removed
 
 
 # --- version dispatch ---------------------------------------------------------
@@ -333,12 +432,14 @@ def validate_files(files: list[Path], label: str, *, rdfs: bool = False,
         inference="rdfs" if rdfs else None, advanced=True,
     )
     keys = violation_keys(results_graph)
-    keys, excepted = except_days_of_week(keys, g, shapes)
-    if excepted:
+    keys, removed = except_proposed_terms(keys, g, shapes)
+    if removed:
         conforms = not keys
         if verbose:
-            print(f"EXCEPT  {label}: {excepted} result(s) for urpx:daysOfWeek on a "
-                  f"urpx:TimeBracket, under DAYS_OF_WEEK_EXCEPTION (urpx-org/urpx#71)")
+            for e in SHAPE_EXCEPTIONS:
+                if e["name"] in removed:
+                    print(f"EXCEPT  {label}: {removed[e['name']]} result(s) for {e['summary']}, "
+                          f"under {e['name']} ({e['cites']})")
 
     if verbose:
         n = f"{len(files)} files" + (f" + {len(extra)} derived" if extra else "")

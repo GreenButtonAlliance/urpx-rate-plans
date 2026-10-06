@@ -90,6 +90,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("lint_price_layer_conditions", ["python3", "dev/lint_price_layer_conditions.py"]),
     ("coverage_evaluations",        ["python3", "dev/resync_coverage_evaluations.py", "--check"]),
     ("test_dispatch",               ["python3", "dev/test_dispatch.py"]),
+    ("test_shape_exceptions",       ["python3", "dev/test_shape_exceptions.py"]),
     ("test_scenario_cost_models",   ["python3", "dev/test_scenario_cost_models.py"]),
     ("test_prose_structure",        ["python3", "dev/test_prose_structure.py"]),
     ("test_rate_identifiers",       ["python3", "dev/test_rate_identifiers.py"]),
