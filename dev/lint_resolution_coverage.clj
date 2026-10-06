@@ -30,6 +30,12 @@
                       urpx:hasApplicabilityRule, so a month or season gate can
                       correctly exclude it at the probe instant. The
                       California Climate Credit (April and October) is this.
+     out of window    the resolution carries
+                      :urpx.resolved/outside-version-window: the filing's own
+                      urpx:effectiveDateTime is after the probe instant, or its
+                      urpx:expirationDateTime is before it, and clj-urpx
+                      returns no ledgers. dev/validate_v020.clj admits the same
+                      case as a refusal.
 
    Anything else fails. The declared set comes from the COERCED plan rather
    than the raw JSON-LD, which is what confines it to the base plan's own
@@ -127,16 +133,18 @@
       (println "         gate was not updated. Refusing to report 0/0 as success.")
       (System/exit 3))
     (let [rows (for [path paths
-                     :let [plan (-> path core/load-rate-plan coerce/coerce-rate-plan)
-                           decl (declared-ledgers plan)
-                           got  (set (keep :urpx.resolved/ledger-id
-                                           (:urpx.resolved/ledgers
-                                            (try (price/resolve-prices plan probe-instant)
-                                                 (catch Exception _ nil)))))]
+                     :let [plan     (-> path core/load-rate-plan coerce/coerce-rate-plan)
+                           decl     (declared-ledgers plan)
+                           res      (try (price/resolve-prices plan probe-instant)
+                                         (catch Exception _ nil))
+                           got      (set (keep :urpx.resolved/ledger-id
+                                               (:urpx.resolved/ledgers res)))]
                      lid  (sort (remove got decl))]
                  {:file (last (str/split path #"/"))
                   :ledger lid
-                  :reason (classify plan lid)})
+                  :reason (if (:urpx.resolved/outside-version-window res)
+                            "out of window (the version is not in force at the probe instant)"
+                            (classify plan lid))})
           total-declared (reduce + (map #(-> % core/load-rate-plan coerce/coerce-rate-plan
                                              declared-ledgers count)
                                         paths))

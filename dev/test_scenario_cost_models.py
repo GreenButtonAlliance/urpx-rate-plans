@@ -63,7 +63,7 @@ REAL = A.build()
 tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
-expect("supersession finds nine plan identities", len(REAL["superseded"]), 9)
+expect("supersession finds ten plan identities", len(REAL["superseded"]), 10)
 expect("no composition is built on a superseded version",
        [a for a in REAL["compositions"]
         if a["base"] in REAL["superseded"] or set(a["modifiers"]) & set(REAL["superseded"])],

@@ -120,7 +120,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | pge | e-tou-d | rate-plan | 2026-03-27 |
 | CA | pge | ev2 | rate-plan | 2026-03-27 |
 | CA | pge | nbt | modifier | 2025-10-17 |
-| WA | pse | 307 | rate-plan | 2026-05-01 |
+| WA | pse | 307 | rate-plan | 2026-05-01, 2026-10-01 |
 | CA | sce | care | modifier | 2025-11-15, 2026-03-20 |
 | CA | sce | cca-crs | modifier | 2026-03-20 |
 | CA | sce | d | rate-plan | 2025-11-15, 2026-03-20 |

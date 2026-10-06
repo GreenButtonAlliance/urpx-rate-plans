@@ -77,7 +77,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `pge:e-tou-c-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pge:e-tou-d-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `pge:ev2-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
-| `pse:307-2026-05-01` | resolves at some probe instants and refuses at others: :not-yet-effective, :outside-version-window |
+| `pse:307-2026-10-01` | resolves at some probe instants and refuses at others: :not-yet-effective |
 | `sce:tou-d-prime-2026-03-20` + `sce:tou-d-prime-cpp-2026-03-20` | :condition-gated-tier |
 
 ## Not measured (4)
@@ -130,12 +130,13 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-9 version nodes, over as many plan identities, each holding more than one distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.
+10 version nodes, over as many plan identities, each holding more than one distinct version `@id`. All but the latest `urpx:effectiveDateTime` are superseded.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
 | `pge:e-elec` | `pge:e-elec-2026-01-01` | 2026-01-01 | `pge:e-elec-2026-03-27` | 2026-03-27 |
 | `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | `pge:e-tou-c-2026-03-27` | 2026-03-27 |
+| `pse:307` | `pse:307-2026-05-01` | 2026-05-01 | `pse:307-2026-10-01` | 2026-10-01 |
 | `sce:care` | `sce:care-2025-11-15` | 2025-11-15 | `sce:care-2026-03-20` | 2026-03-20 |
 | `sce:d` | `sce:d-2025-11-15` | 2025-11-15 | `sce:d-2026-03-20` | 2026-03-20 |
 | `sce:deed-restricted` | `sce:deed-restricted-2025-11-15` | 2025-11-15 | `sce:deed-restricted-2026-03-20` | 2026-03-20 |

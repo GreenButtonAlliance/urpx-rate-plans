@@ -21,7 +21,7 @@ import tempfile
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 CHECK = ["python3", "dev/cross_check_scenario_cost_models.py",
-         "--at", "2026-07-15T17:00-07:00", "--combine", "at-most-one-modifier"]
+         "--at", "2026-10-06T17:00-07:00", "--combine", "at-most-one-modifier"]
 
 failures: list[str] = []
 

@@ -347,6 +347,13 @@ case "$MODE" in
     # start failing the morning a version is superseded, with a diff that looks
     # like an implementation disagreement and is not; worse, two sides both
     # drifting to "now" can agree while answering a question neither intended.
+    # The instant must also be no earlier than the newest urpx:effectiveDateTime
+    # in the corpus: reports/scenario-cost-models.jsonld is current by
+    # succession, so a version filed for a later date than the instant puts its
+    # predecessor in the enumeration and itself in the document. It moved from
+    # 2026-07-15T17:00 to 2026-10-06T17:00 (the october-weekday-peak probe) when
+    # pse:307-2026-10-01 superseded pse:307-2026-05-01; at both instants the
+    # corpus enumerates 156 pairs and 1279 models.
     #
     # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
     # STATES THIS. No property anywhere says two modifiers exclude or combine, so
@@ -368,7 +375,7 @@ case "$MODE" in
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
     if python3 dev/cross_check_scenario_cost_models.py \
-           --at 2026-07-15T17:00-07:00 \
+           --at 2026-10-06T17:00-07:00 \
            --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
         cat /tmp/gate-scenario-cost-models.log
     else
@@ -557,6 +564,13 @@ case "$MODE" in
     # start failing the morning a version is superseded, with a diff that looks
     # like an implementation disagreement and is not; worse, two sides both
     # drifting to "now" can agree while answering a question neither intended.
+    # The instant must also be no earlier than the newest urpx:effectiveDateTime
+    # in the corpus: reports/scenario-cost-models.jsonld is current by
+    # succession, so a version filed for a later date than the instant puts its
+    # predecessor in the enumeration and itself in the document. It moved from
+    # 2026-07-15T17:00 to 2026-10-06T17:00 (the october-weekday-peak probe) when
+    # pse:307-2026-10-01 superseded pse:307-2026-05-01; at both instants the
+    # corpus enumerates 156 pairs and 1279 models.
     #
     # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
     # STATES THIS. No property anywhere says two modifiers exclude or combine, so
@@ -578,7 +592,7 @@ case "$MODE" in
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
     if python3 dev/cross_check_scenario_cost_models.py \
-           --at 2026-07-15T17:00-07:00 \
+           --at 2026-10-06T17:00-07:00 \
            --combine at-most-one-modifier > /tmp/gate-scenario-cost-models.log 2>&1; then
         cat /tmp/gate-scenario-cost-models.log
     else
