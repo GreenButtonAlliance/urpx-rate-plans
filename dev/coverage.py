@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Compute corpus coverage of California residential utility customers.
+"""Compute corpus coverage of residential utility customers, per state and in total.
 
 Walks the us/<subdivision>/<utility>/<carrier>/<schedule>/versions/<date>/ tree, matches
 each modeled rate plan against dev/coverage-estimates.toml, and reports:
 
-  - Per-utility: residential customers, modeled rate plans, covered count, %
-  - Statewide: total residential, total covered, overall coverage %
-  - Largest unmodeled targets (prioritization signal)
+  - Totals: residential customers tracked, covered, coverage %, per state and overall
+  - Per state, per utility: residential customers, modeled rate plans, covered count, %
+  - Per state, largest unmodeled targets (prioritization signal)
 
 Also emits reports/coverage.md as a human-readable summary suitable for
 linking from README.md.
@@ -38,6 +38,7 @@ class ModeledRatePlan:
     schedule: str
     versions: list[str] = field(default_factory=list)
     is_modifier: bool = False
+    state: str = ""           # the <subdivision> directory, e.g. "ca"
 
 
 @dataclass
@@ -45,6 +46,7 @@ class UtilityCoverage:
     utility_id: str
     name: str
     util_class: str
+    state: str
     total_residential: int
     modeled_tariffs: list[str] = field(default_factory=list)
     unmodeled_tariffs: list[str] = field(default_factory=list)
@@ -72,7 +74,8 @@ def discover_modeled_rate_plans() -> dict[tuple[str, str], ModeledRatePlan]:
         is_modifier = jsonld.name.startswith("rate-plan-modifier_")
         key = (util, sched)
         if key not in found:
-            found[key] = ModeledRatePlan(util, sched, is_modifier=is_modifier)
+            found[key] = ModeledRatePlan(util, sched, is_modifier=is_modifier,
+                                         state=corpus.subdivision_of(jsonld))
         elif not is_modifier:
             # A schedule is a base plan if it has a base plan, whatever else sits
             # beside it. One directory holds both: PG&E E-TOU-C 2026-03-01 packages
@@ -98,6 +101,30 @@ def discover_modeled_rate_plans() -> dict[tuple[str, str], ModeledRatePlan]:
 
 def load_estimates() -> dict:
     return corpus.load_toml(ESTIMATES_PATH)
+
+
+def check_states(estimates: dict, modeled: dict[tuple[str, str], ModeledRatePlan]) -> None:
+    """Refuse unless every utility names a declared state, and the state agrees
+    with the directory its filings sit under.
+
+    A missing state would drop a utility from every per-state section; a wrong
+    one would count its customers toward another state's coverage.
+    """
+    declared = estimates.get("state", {})
+    states_of: dict[str, set[str]] = {}
+    for (util, _), info in modeled.items():
+        states_of.setdefault(util, set()).add(info.state)
+    for util_id, d in estimates.get("utility", {}).items():
+        st = d.get("state")
+        if st not in declared:
+            raise SystemExit(
+                f"ERROR: [utility.{util_id}] in {ESTIMATES_PATH.name} has state "
+                f"{st!r}, which has no [state.<code>] table. Every utility names one.")
+        on_disk = states_of.get(util_id, set())
+        if on_disk and on_disk != {st}:
+            raise SystemExit(
+                f"ERROR: [utility.{util_id}] says state {st!r} but its filings sit "
+                f"under {sorted(on_disk)}.")
 
 
 def compute_coverage(
@@ -126,6 +153,7 @@ def compute_coverage(
             utility_id=util_id,
             name=util_data.get("name", util_id),
             util_class=util_data.get("class", "?"),
+            state=util_data["state"],
             total_residential=total,
         )
         tariffs = util_data.get("tariffs", {})
@@ -161,67 +189,107 @@ def _estimate_count(tariff_data: dict, util_total: int) -> int:
     return 0
 
 
+def _pct(covered: int, total: int) -> float:
+    return 100.0 * covered / total if total else 0.0
+
+
+def by_state(coverage: list[UtilityCoverage], estimates: dict) -> list[tuple[str, str, list[UtilityCoverage]]]:
+    """[(code, name, utilities)] for every declared state, largest first."""
+    names = {code: d.get("name", code.upper()) for code, d in estimates.get("state", {}).items()}
+    groups: dict[str, list[UtilityCoverage]] = {code: [] for code in names}
+    for cov in coverage:
+        groups[cov.state].append(cov)
+    out = [(code, names[code], groups[code]) for code in names]
+    out.sort(key=lambda g: (-sum(c.total_residential for c in g[2]), g[0]))
+    return out
+
+
+def _state_note(utils: list[UtilityCoverage]) -> str:
+    """Why a state reads 0%, when the reason is that nothing is modeled yet."""
+    if not any(c.modeled_tariffs for c in utils):
+        return "no filings yet, so 0% by construction"
+    return ""
+
+
 def render_markdown(
     coverage: list[UtilityCoverage],
     total_residential: int,
     total_covered: int,
     modeled: dict[tuple[str, str], ModeledRatePlan],
+    estimates: dict,
 ) -> str:
-    pct = 100.0 * total_covered / total_residential if total_residential else 0.0
+    states = by_state(coverage, estimates)
     lines: list[str] = []
-    lines.append("# CA Residential Rate Plan Coverage")
+    lines.append("# Residential Rate Plan Coverage")
     lines.append("")
     lines.append(
         "Auto-generated by `dev/coverage.py` from `dev/coverage-estimates.toml`. "
         "Do not edit by hand — refine the estimates TOML and re-run."
     )
     lines.append("")
-    lines.append("## Statewide")
+    lines.append("## Totals")
     lines.append("")
-    lines.append(f"- Total residential customers tracked: **{total_residential:,}**")
-    lines.append(f"- Customers covered by modeled rate plans: **{total_covered:,}**")
-    lines.append(f"- Coverage: **{pct:.1f}%**")
-    lines.append("")
-    lines.append("## Per-utility")
-    lines.append("")
-    lines.append(
-        "| Utility | Class | Residential | Covered | % | Modeled tariffs |"
-    )
-    lines.append("|---|---|---:|---:|---:|---|")
-    for cov in coverage:
-        modeled_str = ", ".join(cov.modeled_tariffs) if cov.modeled_tariffs else "—"
-        lines.append(
-            f"| {cov.name} | {cov.util_class} | {cov.total_residential:,} | "
-            f"{cov.covered_count:,} | {cov.coverage_pct:.1f}% | {modeled_str} |"
-        )
+    lines.append("| State | Residential | Covered | Coverage | Note |")
+    lines.append("|---|---:|---:|---:|---|")
+    for code, name, utils in states:
+        res = sum(c.total_residential for c in utils)
+        cov = sum(c.covered_count for c in utils)
+        lines.append(f"| {name} | {res:,} | {cov:,} | {_pct(cov, res):.1f}% | {_state_note(utils)} |")
+    lines.append(f"| **All states** | **{total_residential:,}** | **{total_covered:,}** | "
+                 f"**{_pct(total_covered, total_residential):.1f}%** | |")
     lines.append("")
 
-    # Prioritization: largest unmodeled-customer pools.
-    lines.append("## Largest unmodeled customer pools")
-    lines.append("")
-    lines.append(
-        "Sorted by number of residential customers without a modeled default. "
-        "Top of list = highest-leverage modeling work."
-    )
-    lines.append("")
-    unmodeled = [c for c in coverage if c.coverage_pct < 99.5]
-    unmodeled.sort(key=lambda c: c.total_residential - c.covered_count, reverse=True)
-    lines.append("| Utility | Uncovered customers | Existing modeled | Notes |")
-    lines.append("|---|---:|---|---|")
-    for cov in unmodeled[:10]:
-        gap = cov.total_residential - cov.covered_count
-        modeled_str = ", ".join(cov.modeled_tariffs) if cov.modeled_tariffs else "(none)"
-        lines.append(f"| {cov.name} | {gap:,} | {modeled_str} | |")
-    lines.append("")
+    for code, name, utils in states:
+        res = sum(c.total_residential for c in utils)
+        covd = sum(c.covered_count for c in utils)
+        lines.append(f"## {name}")
+        lines.append("")
+        lines.append(f"- Total residential customers tracked: **{res:,}**")
+        lines.append(f"- Customers covered by modeled rate plans: **{covd:,}**")
+        note = _state_note(utils)
+        lines.append(f"- Coverage: **{_pct(covd, res):.1f}%**" + (f" ({note})" if note else ""))
+        lines.append("")
+        lines.append("### Per-utility")
+        lines.append("")
+        lines.append(
+            "| Utility | Class | Residential | Covered | % | Modeled tariffs |"
+        )
+        lines.append("|---|---|---:|---:|---:|---|")
+        for cov in utils:
+            modeled_str = ", ".join(cov.modeled_tariffs) if cov.modeled_tariffs else "—"
+            lines.append(
+                f"| {cov.name} | {cov.util_class} | {cov.total_residential:,} | "
+                f"{cov.covered_count:,} | {cov.coverage_pct:.1f}% | {modeled_str} |"
+            )
+        lines.append("")
+
+        # Prioritization: largest unmodeled-customer pools.
+        lines.append("### Largest unmodeled customer pools")
+        lines.append("")
+        lines.append(
+            "Sorted by number of residential customers without a modeled default. "
+            "Top of list = highest-leverage modeling work."
+        )
+        lines.append("")
+        unmodeled = [c for c in utils if c.coverage_pct < 99.5]
+        unmodeled.sort(key=lambda c: c.total_residential - c.covered_count, reverse=True)
+        lines.append("| Utility | Uncovered customers | Existing modeled | Notes |")
+        lines.append("|---|---:|---|---|")
+        for cov in unmodeled[:10]:
+            gap = cov.total_residential - cov.covered_count
+            modeled_str = ", ".join(cov.modeled_tariffs) if cov.modeled_tariffs else "(none)"
+            lines.append(f"| {cov.name} | {gap:,} | {modeled_str} | |")
+        lines.append("")
 
     # All modeled filings (including modifiers).
     lines.append("## All modeled filings")
     lines.append("")
-    lines.append("| Utility | Schedule | Type | Versions |")
-    lines.append("|---|---|---|---|")
+    lines.append("| State | Utility | Schedule | Type | Versions |")
+    lines.append("|---|---|---|---|---|")
     for (util, sched), info in sorted(modeled.items()):
         kind = "modifier" if info.is_modifier else "rate-plan"
-        lines.append(f"| {util} | {sched} | {kind} | {', '.join(info.versions)} |")
+        lines.append(f"| {info.state.upper()} | {util} | {sched} | {kind} | "
+                     f"{', '.join(info.versions)} |")
     lines.append("")
     return "\n".join(lines)
 
@@ -230,35 +298,41 @@ def render_text(
     coverage: list[UtilityCoverage],
     total_residential: int,
     total_covered: int,
+    estimates: dict,
 ) -> str:
-    pct = 100.0 * total_covered / total_residential if total_residential else 0.0
     lines = []
     lines.append("=" * 78)
-    lines.append("CA RESIDENTIAL TARIFF CORPUS COVERAGE")
+    lines.append("RESIDENTIAL TARIFF CORPUS COVERAGE")
     lines.append("=" * 78)
     lines.append(f"Total residential customers tracked:  {total_residential:>12,}")
     lines.append(f"Covered by modeled rate plans:        {total_covered:>12,}")
-    lines.append(f"Statewide coverage:                       {pct:>6.1f}%")
-    lines.append("")
-    lines.append(
-        f"{'Utility':<48}{'Class':<6}{'Residential':>13}"
-        f"{'Covered':>11}{'%':>7}"
-    )
-    lines.append("-" * 85)
-    for cov in coverage:
+    lines.append(f"Coverage, all states:                     {_pct(total_covered, total_residential):>6.1f}%")
+    for code, name, utils in by_state(coverage, estimates):
+        res = sum(c.total_residential for c in utils)
+        covd = sum(c.covered_count for c in utils)
+        note = _state_note(utils)
+        lines.append("")
+        lines.append(f"{name.upper()}: {covd:,} of {res:,} residential customers, "
+                     f"{_pct(covd, res):.1f}%" + (f" ({note})" if note else ""))
         lines.append(
-            f"{cov.name[:46]:<48}{cov.util_class:<6}"
-            f"{cov.total_residential:>13,}{cov.covered_count:>11,}"
-            f"{cov.coverage_pct:>6.1f}%"
+            f"{'Utility':<48}{'Class':<6}{'Residential':>13}"
+            f"{'Covered':>11}{'%':>7}"
         )
-    lines.append("")
-    lines.append("Top unmodeled customer pools (largest first):")
-    unmodeled = [c for c in coverage if c.coverage_pct < 99.5]
-    unmodeled.sort(key=lambda c: c.total_residential - c.covered_count, reverse=True)
-    for cov in unmodeled[:8]:
-        gap = cov.total_residential - cov.covered_count
-        modeled_str = ", ".join(cov.modeled_tariffs) if cov.modeled_tariffs else "(none)"
-        lines.append(f"  {cov.name[:42]:<44}{gap:>10,}  modeled: {modeled_str}")
+        lines.append("-" * 85)
+        for cov in utils:
+            lines.append(
+                f"{cov.name[:46]:<48}{cov.util_class:<6}"
+                f"{cov.total_residential:>13,}{cov.covered_count:>11,}"
+                f"{cov.coverage_pct:>6.1f}%"
+            )
+        lines.append("")
+        lines.append("Top unmodeled customer pools (largest first):")
+        unmodeled = [c for c in utils if c.coverage_pct < 99.5]
+        unmodeled.sort(key=lambda c: c.total_residential - c.covered_count, reverse=True)
+        for cov in unmodeled[:8]:
+            gap = cov.total_residential - cov.covered_count
+            modeled_str = ", ".join(cov.modeled_tariffs) if cov.modeled_tariffs else "(none)"
+            lines.append(f"  {cov.name[:42]:<44}{gap:>10,}  modeled: {modeled_str}")
     return "\n".join(lines)
 
 
@@ -273,13 +347,14 @@ def main() -> int:
 
     estimates = load_estimates()
     modeled = discover_modeled_rate_plans()
+    check_states(estimates, modeled)
     coverage, total_res, total_cov = compute_coverage(estimates, modeled)
 
-    print(render_text(coverage, total_res, total_cov))
+    print(render_text(coverage, total_res, total_cov, estimates))
 
     if args.write_report:
         REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-        md = render_markdown(coverage, total_res, total_cov, modeled)
+        md = render_markdown(coverage, total_res, total_cov, modeled, estimates)
         REPORT_PATH.write_text(md)
         print(f"\nWrote Markdown report to {REPORT_PATH.relative_to(REPO_ROOT)}")
 

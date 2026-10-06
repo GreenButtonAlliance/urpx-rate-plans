@@ -1,7 +1,9 @@
-# California residential customer-count estimates per utility and tariff.
+# Residential customer-count estimates per utility and tariff.
 #
-# Used by dev/coverage.py to compute corpus coverage: what fraction of CA
-# residential utility customers have their rate modeled in this repo.
+# Used by dev/coverage.py to compute corpus coverage: what fraction of each
+# state's residential utility customers have their rate modeled in this repo.
+# Every [utility.<u>] names its `state`, the <subdivision> directory its
+# filings sit under, and every state named has a [state.<code>] table.
 #
 # Two distinct metrics matter for IOUs (where Community Choice Aggregators
 # split delivery from generation):
@@ -38,6 +40,12 @@ schedules are not counted toward residential coverage but may be tracked
 separately for future commercial coverage work.
 """
 
+[state.ca]
+name = "California"
+
+[state.wa]
+name = "Washington"
+
 # ---------------------------------------------------------------------------
 # IOUs — CPUC-regulated investor-owned utilities. Tariff governs delivery
 # for all customers; generation only for bundled (non-CCA) customers.
@@ -45,6 +53,7 @@ separately for future commercial coverage work.
 
 [utility.pge]
 name = "Pacific Gas and Electric Company"
+state = "ca"
 class = "iou"
 total_residential = 5500000
 bundled_residential = 1856780
@@ -81,6 +90,7 @@ notes = "Opt-in all-electric rate (heat pump + induction + EV). Small but growin
 
 [utility.sce]
 name = "Southern California Edison"
+state = "ca"
 class = "iou"
 total_residential = 5000000
 bundled_residential = 3219520
@@ -136,6 +146,7 @@ notes = "CPP variants of TOU-D-4-9PM, TOU-D-5-8PM, and TOU-D-PRIME (combined). S
 
 [utility.sdge]
 name = "San Diego Gas & Electric"
+state = "ca"
 class = "iou"
 total_residential = 1400000
 bundled_residential = 307982
@@ -199,6 +210,7 @@ notes = "Older EV TOU schedule, predecessor to EV-TOU-5. Closed to new enrollmen
 
 [utility.liberty]
 name = "Liberty Utilities (Tahoe Region)"
+state = "ca"
 class = "iou"
 total_residential = 43902
 bundled_residential = 43902
@@ -208,6 +220,7 @@ as_of = "2024"
 
 [utility.pacificorp]
 name = "PacifiCorp (CA service area)"
+state = "ca"
 class = "iou"
 total_residential = 36273
 bundled_residential = 36273
@@ -217,6 +230,7 @@ as_of = "2024"
 
 [utility.bear-valley]
 name = "Bear Valley Electric Service"
+state = "ca"
 class = "iou"
 total_residential = 23327
 bundled_residential = 23327
@@ -231,6 +245,7 @@ as_of = "2024"
 
 [utility.ladwp]
 name = "Los Angeles Department of Water and Power"
+state = "ca"
 class = "pou"
 total_residential = 1410191
 bundled_residential = 1410191
@@ -265,6 +280,7 @@ notes = "Large TOU Residential — specialty rate for single-family customers wi
 
 [utility.smud]
 name = "Sacramento Municipal Utility District"
+state = "ca"
 class = "pou"
 total_residential = 592557
 bundled_residential = 592557
@@ -306,6 +322,7 @@ notes = "Critical Peak Pricing overlay on TOD. Voluntary opt-in. Small enrollmen
 
 [utility.iid]
 name = "Imperial Irrigation District"
+state = "ca"
 class = "pou"
 total_residential = 142078
 bundled_residential = 142078
@@ -315,6 +332,7 @@ as_of = "2024"
 
 [utility.anaheim]
 name = "City of Anaheim Public Utilities"
+state = "ca"
 class = "pou"
 total_residential = 105839
 bundled_residential = 105839
@@ -323,6 +341,7 @@ as_of = "2024"
 
 [utility.modesto]
 name = "Modesto Irrigation District"
+state = "ca"
 class = "pou"
 total_residential = 103650
 bundled_residential = 103650
@@ -331,6 +350,7 @@ as_of = "2024"
 
 [utility.riverside]
 name = "City of Riverside Public Utilities"
+state = "ca"
 class = "pou"
 total_residential = 100450
 bundled_residential = 100450
@@ -339,6 +359,7 @@ as_of = "2024"
 
 [utility.turlock]
 name = "Turlock Irrigation District"
+state = "ca"
 class = "pou"
 total_residential = 80575
 bundled_residential = 80575
@@ -347,6 +368,7 @@ as_of = "2024"
 
 [utility.glendale]
 name = "City of Glendale Water and Power"
+state = "ca"
 class = "pou"
 total_residential = 77563
 bundled_residential = 77563
@@ -355,6 +377,7 @@ as_of = "2024"
 
 [utility.roseville]
 name = "Roseville Electric"
+state = "ca"
 class = "pou"
 total_residential = 63052
 bundled_residential = 63052
@@ -363,6 +386,7 @@ as_of = "2024"
 
 [utility.pasadena]
 name = "Pasadena Water and Power"
+state = "ca"
 class = "pou"
 total_residential = 58551
 bundled_residential = 58551
@@ -371,6 +395,7 @@ as_of = "2024"
 
 [utility.santaclara]
 name = "Silicon Valley Power (City of Santa Clara)"
+state = "ca"
 class = "pou"
 total_residential = 50949
 bundled_residential = 50949
@@ -379,6 +404,7 @@ as_of = "2024"
 
 [utility.burbank]
 name = "Burbank Water and Power"
+state = "ca"
 class = "pou"
 total_residential = 46157
 bundled_residential = 46157
@@ -387,6 +413,7 @@ as_of = "2024"
 
 [utility.redding]
 name = "Redding Electric Utility"
+state = "ca"
 class = "pou"
 total_residential = 38170
 bundled_residential = 38170
@@ -395,6 +422,7 @@ as_of = "2024"
 
 [utility.alameda]
 name = "Alameda Municipal Power"
+state = "ca"
 class = "pou"
 total_residential = 33174
 bundled_residential = 33174
@@ -403,6 +431,7 @@ as_of = "2024"
 
 [utility.cpau]
 name = "City of Palo Alto Utilities"
+state = "ca"
 class = "pou"
 total_residential = 26249
 bundled_residential = 26249
@@ -421,6 +450,7 @@ notes = "Opt-in residential TOU. Small enrollment."
 
 [utility.lodi]
 name = "City of Lodi Electric Utility"
+state = "ca"
 class = "pou"
 total_residential = 23751
 bundled_residential = 23751
@@ -429,6 +459,7 @@ as_of = "2024"
 
 [utility.colton]
 name = "City of Colton Electric Department"
+state = "ca"
 class = "pou"
 total_residential = 17472
 bundled_residential = 17472
@@ -437,6 +468,7 @@ as_of = "2024"
 
 [utility.azusa]
 name = "Azusa Light & Water"
+state = "ca"
 class = "pou"
 total_residential = 15599
 bundled_residential = 15599
@@ -445,6 +477,7 @@ as_of = "2024"
 
 [utility.merced]
 name = "Merced Irrigation District"
+state = "ca"
 class = "pou"
 total_residential = 11366
 bundled_residential = 11366
@@ -453,9 +486,44 @@ as_of = "2024"
 
 [utility.sf]
 name = "City and County of San Francisco (Hetch Hetchy)"
+state = "ca"
 class = "pou"
 total_residential = 2618
 bundled_residential = 2618
 source_url = "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_6.pdf"
 source_notes = "Tiny — Hetch Hetchy serves municipal accounts mostly; ~2.6K residential. Not a meaningful coverage target."
+as_of = "2024"
+
+# ---------------------------------------------------------------------------
+# Washington. No filing yet, so coverage is zero by construction; the counts
+# are here so the report states that rather than omitting the state.
+#
+# Source for both: EIA-861 2024 final data, Sales_Ult_Cust_2024.xlsx,
+# RESIDENTIAL Customers Count, retrieved 2026-10-05. Part A (bundled) only:
+# neither utility reports residential delivery-only customers (PSE's Part C
+# row is 0; SCL has none), so total = bundled. 2024 rather than the 2025 early
+# release, which EIA marks "inappropriate for aggregation", because this
+# report aggregates; the 2025 early-release figures are in source_notes.
+# ---------------------------------------------------------------------------
+
+[utility.pse]
+name = "Puget Sound Energy"
+state = "wa"
+class = "iou"
+total_residential = 1091599
+bundled_residential = 1091599
+source_url = "https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip"
+source_notes = "EIA-861 2024 Sales_Ult_Cust, Utility Number 15500, Part A Bundled, residential customers 1,091,599. 2025 early release (https://www.eia.gov/electricity/data/eia861/zip/f8612025er.zip, released August 2026): 1,104,338."
+tariff_index_url = "https://www.pse.com/en/pages/rates/electric-tariffs-and-rules"
+as_of = "2024"
+
+[utility.scl]
+name = "Seattle City Light"
+state = "wa"
+class = "pou"
+total_residential = 459964
+bundled_residential = 459964
+source_url = "https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip"
+source_notes = "EIA-861 2024 Sales_Ult_Cust, Utility Number 16868 (City of Seattle - (WA)), Part A Bundled, residential customers 459,964. 2025 early release (https://www.eia.gov/electricity/data/eia861/zip/f8612025er.zip, released August 2026): 472,309."
+tariff_index_url = "https://www.seattle.gov/city-light/residential-services/billing-information/rates"
 as_of = "2024"
