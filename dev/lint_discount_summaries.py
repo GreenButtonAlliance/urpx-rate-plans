@@ -60,6 +60,19 @@ THE RULES, each traceable to a sentence in the source schedule:
     exemptions, so it pays the DWR Bond Charge and the Wildfire Fund NBC that
     CARE does not, and the two programs need different member lists on the same
     plan.
+  PG&E CARE, Schedule D-CARE Sheet 1: "total bundled volumetric charges less
+    charges from which they are exempt (Wildfire Fund Charge, Wildfire Hardening
+    Charge, Recovery Bond Charge, Recovery Bond Credit, and the CARE surcharge
+    portion of the public purpose program charge ...) ... (except for the
+    California Climate Credit, which will not be discounted)". The base services
+    charge is not volumetric. No base publishes the CARE surcharge portion, so
+    the PPP charge is a member whole.
+  PG&E FERA, Schedule E-FERA Sheet 1: "total bundled volumetric charges",
+    "after FERA customers are exempted from the Wildfire Hardening Charge,
+    Recovery Bond Charge, and the Recovery Bond Credit". FERA pays the Wildfire
+    Fund Charge, so it is a FERA member and not a CARE one. A PG&E base filing
+    also inlines a vintage-PCIA modifier, whose Prices are not the plan's and are
+    no member of either subtotal.
 
   SCE GENERATION, every residential base's Rates table, footnote 2 ("Generation
     = The Generation rates are applicable only to Bundled Service Customers",
@@ -119,6 +132,11 @@ EXCLUDE_FIXED = re.compile(r"(base-services-charge|minimum-bill)")
 # Price's @id ends "-ppp-net-of-care-surcharge" and belongs in the subtotal.
 EXCLUDE_EXEMPT = re.compile(r"(dwr-bc|wf-nbc|-price-udc-care-surcharge$)")
 EXCLUDE_SCE = re.compile(r"(price-pucrf|price-climate-credit)")
+EXCLUDE_PGE_BOTH = re.compile(r"(price-base-charge|price-climate-credit)")
+EXCLUDE_PGE = {
+    "care": re.compile(r"(price-wildfire-fund|price-wildfire-hardening|price-recovery-bond)"),
+    "fera": re.compile(r"(price-wildfire-hardening|price-recovery-bond)"),
+}
 GENERATION = "-summary-generation"
 
 
@@ -197,9 +215,24 @@ def expected(path: Path, utility: str, program: str) -> list[str]:
             return
         if utility == "sdge" and program == "care" and EXCLUDE_EXEMPT.search(pid):
             return
+        if utility == "pge" and (EXCLUDE_PGE_BOTH.search(pid)
+                                 or EXCLUDE_PGE[program].search(pid)):
+            return
         out.append(pid)
 
-    walk(doc, visit)
+    if utility == "pge":
+        # The base version only: the filing also inlines a modifier version.
+        for v in versions_of(doc):
+            walk(v, visit)
+    else:
+        walk(doc, visit)
+    return out
+
+
+def versions_of(doc) -> list[dict]:
+    out: list[dict] = []
+    walk(doc, lambda d: out.append(d)
+         if node_type(d) == "urpx:RatePlanVersion" else None)
     return out
 
 
@@ -381,6 +414,14 @@ def check_definitions(filings: list[Filing]) -> tuple[list[dict], int]:
             groups += len(by_pd)
             for pd, mem in sorted(by_pd.items()):
                 if len(mem) < 2:
+                    continue
+                # Rungs of one block-tier ladder, told apart by
+                # urpx:serviceTierNumber on the Price (pge:e-1's Conservation
+                # Incentive Adjustment). They are alternatives per kWh, and the
+                # resolver and check_arithmetic both keep only the lowest rung,
+                # so naming every rung counts the charge once.
+                tiers = [f.tier_of(m) for m in mem]
+                if None not in tiers and len(set(tiers)) == len(tiers):
                     continue
                 differ = sorted({k for m in mem for k in f.prices[m]
                                  if k in DISCRIMINATORS})
@@ -608,7 +649,7 @@ def check(files) -> tuple[list[dict], dict]:
         # A CARE discount names the CARE subtotals, a FERA discount the FERA ones,
         # and where a utility publishes one shared subtotal both name it. Demanding
         # every summary of the utility would require CARE to name FERA's.
-        prog = "care" if "care-price" in pid or ":care-" in pid else "fera"
+        prog = "care" if re.search(r"(care-price|[:-]care-)", pid) else "fera"
         want = {
             s for s in all_sums
             if s.split(":")[0] == util

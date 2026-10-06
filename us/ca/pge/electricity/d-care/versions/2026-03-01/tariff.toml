@@ -1,0 +1,63 @@
+# Identity --------------------------------------------------------------------
+utility = "pge"
+schedule = "d-care"
+effective_date = "2026-03-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_D-CARE.pdf"
+sha256 = "4aa4fa77f58170d368ec27f66da7e8cd990071ebbdb02138b392bfe89bbbcee6"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7846-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 7846-E (Sheet 1, 61093-E, eff 2026-03-01) / Advice 7469-E (Sheet 2, 59087-E, eff 2025-01-01)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-05"
+notes = """
+Two sheets. Sheet 1 (61093-E, Advice 7846-E, effective March 1, 2026) states the
+discount base; Sheet 2 (59087-E, Advice 7469-E, effective January 1, 2025) prices
+it: A. D-CARE Discount 35.000%, B. Delivery Minimum Bill Discount 50.000%,
+C. Master-Meter D-CARE Discount 35.000%, D. Master-Meter Delivery Minimum Bill
+Discount 50.000%. Dated by the newer sheet.
+
+Sheet 1 APPLICABILITY: "CARE service is available on Schedules E-1, E-TOU-C,
+E-TOU-D, EV2, E-ELEC, EM, ES, ESR, ET and EM-TOU." The first five are the
+residential bases this corpus holds, and urpx:applicableToRatePlan names them.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as pge:e-1-income-tier
+and pge:e-tou-c-baseline-tier do.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-05"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "The CARE surcharge portion of the public purpose program charge is exempt under Sheet 1 and is neither exempted nor removed from the discount base, because no document on disk publishes it. Each base schedule prints one figure, \"Public Purpose Programs (all usage) $0.00614\"; Schedule E-CARE prints a per-kWh PPP discount ($0.01488) for nonresidential schedules only and refers the component to Preliminary Statement Part I, which this corpus does not hold. Each CARE-discountable subtotal therefore names the whole PPP Price, and no exemption Price cancels the surcharge. A CARE marginal rate is overstated by 0.65 times the surcharge, which lies between 0 and $0.00614/kWh, so by at most $0.0039910/kWh on every base.",
+ "Rate B, the 50.000 percent Delivery Minimum Bill Discount, has nothing to apply to: none of the five bases carries a delivery minimum bill. Each prices a base services charge instead, and Sheet 1 assigns a CARE customer to Income Tier 1 of it with no further discount.",
+ "Nothing selects Income Tier 1. Sheet 1: \"Customers whose otherwise applicable rate includes a base services charge will be assigned to Tier 1\". The base services charge is a urpx:ProfileAlternative on each base (on pge:e-1 it is in the sibling pge:e-1-income-tier modifier, which a composition with this modifier does not include), and nothing in URPX ties a modifier to an alternative, so a scenario cost model can pair this modifier with the Income Tier 2 or Tier 3 base services charge.",
+ "The master-meter provisions (Sheet 1, Rates C and D) are not modeled: a discount of 35.000 percent of total bundled charges multiplied by the number of CARE units divided by the total number of units, and 50.000 percent of the delivery minimum bill, for master-metered customers on Schedules EM, ES, ESR, ET and EM-TOU, none of which this corpus holds.",
+ "Direct access and community choice aggregation customers are not modeled. Sheet 1: \"The CARE discount will be calculated for direct access and community choice aggregation customers based on the total charges as if they were subject to bundled service rates. Discounts will be applied as a reduction to distribution charges.\" This version declares bundled service, and a departed customer's composition would need both this modifier and the base's vintage-PCIA modifier.",
+ "The E-TOU-C Conservation Incentive Adjustment is outside the E-TOU-C subtotal. It is a bundled volumetric charge, ($0.02786) on baseline usage and $0.05354 over baseline, priced in the pge:e-tou-c-baseline-tier modifier rather than in the base, and a subtotal names only its base's Prices. A composition of E-TOU-C with this modifier carries no Conservation Incentive Adjustment at all, nor the discount on it, which would take $0.0097510/kWh off the discount on baseline usage and add $0.0187390/kWh to it over baseline.",
+ "Eligibility is carried as residential customer kind and enrollment in pge:program-care. The qualifying criteria of Electric Rule 19.1, which this corpus does not hold, the Special Condition 2 limit to the primary residence, and its rule that a FERA participant cannot concurrently participate in CARE are not data.",
+ "pge:e-tou-c-2026-03-01, in force from this version's effective date until 2026-03-27, carries no CARE-discountable subtotal and is not a candidate of any exemption Price, so this modifier composes with the current E-TOU-C version only.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First PG&E CARE filing. Four exemption Prices (urpx:multiplier -1 over the composed base's Wildfire Fund Charge, Wildfire Hardening Charge, Recovery Bond Charge and Recovery Bond Credit) and the 35 percent discount (urpx:multiplier -0.35 over the base's CARE-discountable urpx:PriceSummary), each naming its candidates in pge:e-1, pge:e-elec, pge:e-tou-c, pge:e-tou-d and pge:ev2."

@@ -1,0 +1,470 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "pge": "https://rate-plans.grid-coordination.energy/pge/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "pge:doc-e-fera-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "pge:e-fera",
+    "urpx:name": "Schedule E-FERA Family Electric Rate Assistance",
+    "urpx:modifierUniqueIdentifier": "E-FERA",
+    "urpx:initialEffectiveDate": "2026-06-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "pge:e-fera-2026-06-01",
+      "urpx:version": "2026-06-01",
+      "urpx:modifierVersionNumber": "2026-06-01",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "FERA discount applied to PG&E residential base plans E-1, E-TOU-C, E-TOU-D, EV2 and E-ELEC. Sheet 1: \"Customers taking service on this rate schedule will receive an 18 percent discount on their total bundled volumetric charges on their otherwise applicable rate schedule\", and \"Discounts will be applied as a residual reduction to distribution charges, after FERA customers are exempted from the Wildfire Hardening Charge, Recovery Bond Charge, and the Recovery Bond Credit.\" Those exemptions are carried as urpx:multiplier -1 over the composed base's own charge, and the discount as urpx:multiplier -0.18 over the base's FERA-discountable urpx:PriceSummary, which includes the generation charges; each names its candidates in all five base plans, read as alternatives. The base services charge is not discounted: Sheet 1 assigns a FERA customer to Income Tier 2, which each base prices as a urpx:ProfileAlternative.",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "pge:e-1"
+        },
+        {
+          "@id": "pge:e-elec"
+        },
+        {
+          "@id": "pge:e-tou-c"
+        },
+        {
+          "@id": "pge:e-tou-d"
+        },
+        {
+          "@id": "pge:ev2"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELEC_SCHEDS_E-FERA.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-FERA.pdf",
+        "urpx:dateRetrieved": "2026-09-23",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 3,
+        "urpx:leafStart": "61123-E",
+        "urpx:leafEnd": "55923-E"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "pge:e-fera-2026-06-01-er-eligible",
+          "urpx:name": "FERA-enrolled residential customer",
+          "urpx:description": "Residential customer enrolled in FERA. Sheet 1 APPLICABILITY requires \"a total gross annual household income of between 200%+$1, be below 250% of federal poverty guidelines, and have three or more persons residing full time in their household\"; Special Condition 2 limits it to the primary residence and states that \"Customers or sub-metered tenants participating in the California Alternate Rates for Energy (CARE) program cannot concurrently participate in the FERA program.\"",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "pge:e-fera-2026-06-01-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "pge:e-fera-2026-06-01-bn-residential-and-enrolled",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "pge:e-fera-2026-06-01-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "pge:e-fera-2026-06-01-cn-residential-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "pge:e-fera-2026-06-01-cn-residential-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "pge:e-fera-2026-06-01-cn-program-enrollment",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "pge:e-fera-2026-06-01-cn-program-enrollment-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasProgramEnrollment"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "pge:e-fera-2026-06-01-cn-program-enrollment-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "pge:program-fera"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "pge:e-fera-2026-06-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "pge:e-fera-2026-06-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "pge:e-fera-2026-06-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "pge:e-fera-2026-06-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pge:e-fera-2026-06-01-ledger-wildfire-hardening-exemption",
+              "urpx:name": "FERA Wildfire Hardening Charge exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-fera-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pge:e-fera-2026-06-01-ledger-recovery-bond-exemption",
+              "urpx:name": "FERA Recovery Bond Charge exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-fera-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pge:e-fera-2026-06-01-ledger-recovery-bond-credit-exemption",
+              "urpx:name": "FERA Recovery Bond Credit exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-fera-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "pge:e-fera-2026-06-01-ledger-bill-discount",
+              "urpx:name": "FERA 18 percent discount on the discountable volumetric subtotal",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "pge:e-fera-2026-06-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pge:e-fera-2026-06-01-pd-wildfire-hardening-exemption",
+              "urpx:name": "FERA Wildfire Hardening Charge exemption",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-fera-2026-06-01-ledger-wildfire-hardening-exemption"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pge:e-fera-2026-06-01-pd-recovery-bond-exemption",
+              "urpx:name": "FERA Recovery Bond Charge exemption",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-fera-2026-06-01-ledger-recovery-bond-exemption"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pge:e-fera-2026-06-01-pd-recovery-bond-credit-exemption",
+              "urpx:name": "FERA Recovery Bond Credit exemption",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-fera-2026-06-01-ledger-recovery-bond-credit-exemption"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "pge:e-fera-2026-06-01-pd-bill-discount",
+              "urpx:name": "FERA 18 percent discount on the discountable volumetric subtotal",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "pge:e-fera-2026-06-01-ledger-bill-discount"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "pge:e-fera-2026-06-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:e-fera-2026-06-01-price-wildfire-hardening-exemption",
+            "urpx:name": "FERA Wildfire Hardening Charge exemption: the negative of the Wildfire Hardening Charge Price of whichever base plan this is composed with",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-fera-2026-06-01-pd-wildfire-hardening-exemption"
+            },
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "pge:e-1-2026-03-01-price-wildfire-hardening"
+              },
+              {
+                "@id": "pge:e-elec-2026-03-27-price-wildfire-hardening"
+              },
+              {
+                "@id": "pge:e-tou-c-2026-03-27-price-wildfire-hardening"
+              },
+              {
+                "@id": "pge:e-tou-d-2026-03-27-price-wildfire-hardening"
+              },
+              {
+                "@id": "pge:ev2-2026-03-27-price-wildfire-hardening"
+              }
+            ],
+            "urpx:startDate": "2026-06-01"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:e-fera-2026-06-01-price-recovery-bond-exemption",
+            "urpx:name": "FERA Recovery Bond Charge exemption: the negative of the Recovery Bond Charge Price of whichever base plan this is composed with",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-fera-2026-06-01-pd-recovery-bond-exemption"
+            },
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "pge:e-1-2026-03-01-price-recovery-bond"
+              },
+              {
+                "@id": "pge:e-elec-2026-03-27-price-recovery-bond"
+              },
+              {
+                "@id": "pge:e-tou-c-2026-03-27-price-recovery-bond"
+              },
+              {
+                "@id": "pge:e-tou-d-2026-03-27-price-recovery-bond"
+              },
+              {
+                "@id": "pge:ev2-2026-03-27-price-recovery-bond"
+              }
+            ],
+            "urpx:startDate": "2026-06-01"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:e-fera-2026-06-01-price-recovery-bond-credit-exemption",
+            "urpx:name": "FERA Recovery Bond Credit exemption: the negative of the Recovery Bond Credit Price of whichever base plan this is composed with",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-fera-2026-06-01-pd-recovery-bond-credit-exemption"
+            },
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "pge:e-1-2026-03-01-price-recovery-bond-credit"
+              },
+              {
+                "@id": "pge:e-elec-2026-03-27-price-recovery-bond-credit"
+              },
+              {
+                "@id": "pge:e-tou-c-2026-03-27-price-recovery-bond-credit"
+              },
+              {
+                "@id": "pge:e-tou-d-2026-03-27-price-recovery-bond-credit"
+              },
+              {
+                "@id": "pge:ev2-2026-03-27-price-recovery-bond-credit"
+              }
+            ],
+            "urpx:startDate": "2026-06-01"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "pge:e-fera-2026-06-01-price-bill-discount",
+            "urpx:name": "FERA 18 percent discount on the base plan's FERA-discountable volumetric subtotal, per Schedule E-FERA Sheet 1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "pge:e-fera-2026-06-01-pd-bill-discount"
+            },
+            "urpx:multiplier": "-0.18",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "pge:e-1-2026-03-01-summary-fera-discountable"
+              },
+              {
+                "@id": "pge:e-elec-2026-03-27-summary-fera-discountable"
+              },
+              {
+                "@id": "pge:e-tou-c-2026-03-27-summary-fera-discountable"
+              },
+              {
+                "@id": "pge:e-tou-d-2026-03-27-summary-fera-discountable"
+              },
+              {
+                "@id": "pge:ev2-2026-03-27-summary-fera-discountable"
+              }
+            ],
+            "urpx:startDate": "2026-06-01"
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-pge",
+        "urpx:legalName": "Pacific Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-pge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-pge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Pacific Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-pge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "14328"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "pge:e-fera"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "pge:cc-e-fera-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "pge:cc-e-fera-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 7 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) The discount took effect before this version. Sheet 1, which states it, has been effective since March 1, 2026, and this version is dated June 1, 2026 by Sheet 2's income table; the corpus holds no E-FERA version for March 1 through May 31, 2026. (2) The 50 percent discount \"on the delivery minimum bill amount, if applicable\" has nothing to apply to: none of the five bases carries a delivery minimum bill. Each prices a base services charge instead, and Sheet 1 assigns a FERA customer to Income Tier 2 of it. (3) Nothing selects Income Tier 2. Sheet 1: \"Customers enrolled on E-FERA are assigned to Income Tier 2 for a base services charge if their otherwise applicable rate includes a base services charge.\" The base services charge is a urpx:ProfileAlternative on each base (on pge:e-1 it is in the sibling pge:e-1-income-tier modifier, which a composition with this modifier does not include), and nothing in URPX ties a modifier to an alternative, so a scenario cost model can pair this modifier with the Income Tier 1 or Tier 3 base services charge. (4) The master-meter provision is not modeled: Sheet 1 takes the FERA discount on the total non-CARE portion of bundled charges, multiplied by the number of FERA units divided by the number of non-CARE units, for customers served under Schedules ES, ESL, ESR, ESRL, ET or ETL, none of which this corpus holds. (5) Direct access and community choice aggregation customers are not modeled. Sheet 1: \"The FERA discount will be calculated for direct access and community choice aggregation customers based on the total charges as if they were subject to bundled service rates.\" This version declares bundled service, and a departed customer's composition would need both this modifier and the base's vintage-PCIA modifier. (6) The E-TOU-C Conservation Incentive Adjustment is outside the E-TOU-C subtotal. It is a bundled volumetric charge, ($0.02786) on baseline usage and $0.05354 over baseline, priced in the pge:e-tou-c-baseline-tier modifier rather than in the base, and a subtotal names only its base's Prices. A composition of E-TOU-C with this modifier carries no Conservation Incentive Adjustment at all, nor the discount on it, which would take $0.0050148/kWh off the discount on baseline usage and add $0.0096372/kWh to it over baseline. (7) Eligibility is carried as residential customer kind and enrollment in pge:program-fera. The Sheet 1 and Sheet 2 income criteria (200 percent plus $1 to 250 percent of federal poverty guidelines, $43,281 to $54,100 for one or two persons through $111,441 to $139,300 for eight, plus $11,360 to $14,200 per additional person), the three-or-more-persons requirement, the Special Condition 2 limit to the primary residence, the exclusion of CARE participants, of master-metered customers without sub-metering on Schedule EM or EM TOU and of Schedule E-CARE customers are not data.",
+          "urpx:evaluatedOn": "2026-10-05T00:00:00"
+        }
+      }
+    }
+  }
+}

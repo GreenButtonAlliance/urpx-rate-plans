@@ -29,9 +29,9 @@
   :probe-instants 21}
 
  :totals
-  {:compositions 145
-   :scenario-cost-models 1214
-   :servable 126
+  {:compositions 155
+   :scenario-cost-models 1278
+   :servable 136
    :not-priced-per-kwh 9
    :blocked 6
    :not-measured 4}
@@ -315,6 +315,12 @@
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"]}
   {:base "pge:e-1-2026-03-01"
+   :modifiers ["pge:d-care-2026-03-01"]
+   :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code"]
+   :selections 20
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld|pge:e-1"]}
+  {:base "pge:e-1-2026-03-01"
    :modifiers ["pge:e-1-income-tier-2026-03-01"]
    :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code" "pge:e-1-income-tier-2026-03-01-pa-income-tier"]
    :selections 60
@@ -328,6 +334,12 @@
    :reason "no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files"
    :baseline-keys []}
   {:base "pge:e-1-2026-03-01"
+   :modifiers ["pge:e-fera-2026-06-01"]
+   :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code"]
+   :selections 20
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/e-fera/versions/2026-06-01/rate-plan-modifier_pge_e-fera_2026-06-01.jsonld|pge:e-1"]}
+  {:base "pge:e-1-2026-03-01"
    :modifiers ["pge:e-rsmart-2025-10-31"]
    :open-dimensions ["pge:e-1-2026-03-01-pa-baseline-territory-code"]
    :selections 20
@@ -340,6 +352,18 @@
    :selections 3
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/e-elec/versions/2026-03-27/rate-plan_pge_e-elec_2026-03-27.jsonld"]}
+  {:base "pge:e-elec-2026-03-27"
+   :modifiers ["pge:d-care-2026-03-01"]
+   :open-dimensions ["pge:e-elec-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld|pge:e-elec"]}
+  {:base "pge:e-elec-2026-03-27"
+   :modifiers ["pge:e-fera-2026-06-01"]
+   :open-dimensions ["pge:e-elec-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/e-fera/versions/2026-06-01/rate-plan-modifier_pge_e-fera_2026-06-01.jsonld|pge:e-elec"]}
   {:base "pge:e-elec-2026-03-27"
    :modifiers ["pge:e-rsmart-2025-10-31"]
    :open-dimensions ["pge:e-elec-2026-03-27-pa-income-tier"]
@@ -359,6 +383,18 @@
    :selections 3
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld"]}
+  {:base "pge:e-tou-c-2026-03-27"
+   :modifiers ["pge:d-care-2026-03-01"]
+   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld|pge:e-tou-c"]}
+  {:base "pge:e-tou-c-2026-03-27"
+   :modifiers ["pge:e-fera-2026-06-01"]
+   :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/e-fera/versions/2026-06-01/rate-plan-modifier_pge_e-fera_2026-06-01.jsonld|pge:e-tou-c"]}
   {:base "pge:e-tou-c-2026-03-27"
    :modifiers ["pge:e-rsmart-2025-10-31"]
    :open-dimensions ["pge:e-tou-c-2026-03-27-pa-income-tier"]
@@ -386,6 +422,18 @@
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/e-tou-d/versions/2026-03-27/rate-plan_pge_e-tou-d_2026-03-27.jsonld"]}
   {:base "pge:e-tou-d-2026-03-27"
+   :modifiers ["pge:d-care-2026-03-01"]
+   :open-dimensions ["pge:e-tou-d-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld|pge:e-tou-d"]}
+  {:base "pge:e-tou-d-2026-03-27"
+   :modifiers ["pge:e-fera-2026-06-01"]
+   :open-dimensions ["pge:e-tou-d-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/e-fera/versions/2026-06-01/rate-plan-modifier_pge_e-fera_2026-06-01.jsonld|pge:e-tou-d"]}
+  {:base "pge:e-tou-d-2026-03-27"
    :modifiers ["pge:e-rsmart-2025-10-31"]
    :open-dimensions ["pge:e-tou-d-2026-03-27-pa-income-tier"]
    :selections 3
@@ -405,6 +453,18 @@
    :selections 3
    :outcome :servable
    :baseline-keys ["plan|us/ca/pge/electricity/ev2/versions/2026-03-27/rate-plan_pge_ev2_2026-03-27.jsonld"]}
+  {:base "pge:ev2-2026-03-27"
+   :modifiers ["pge:d-care-2026-03-01"]
+   :open-dimensions ["pge:ev2-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld|pge:ev2"]}
+  {:base "pge:ev2-2026-03-27"
+   :modifiers ["pge:e-fera-2026-06-01"]
+   :open-dimensions ["pge:ev2-2026-03-27-pa-income-tier"]
+   :selections 3
+   :outcome :servable
+   :baseline-keys ["compose|us/ca/pge/electricity/e-fera/versions/2026-06-01/rate-plan-modifier_pge_e-fera_2026-06-01.jsonld|pge:ev2"]}
   {:base "pge:ev2-2026-03-27"
    :modifiers ["pge:e-rsmart-2025-10-31"]
    :open-dimensions ["pge:ev2-2026-03-27-pa-income-tier"]
@@ -1729,6 +1789,66 @@
   "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--bbabeb181e6f"
   {:name "Residential Services [pge:e-1-2026-03-01]; Baseline Territory V, Code H"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--128dae67619f"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory P, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--12a1055242d9"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory R, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--1735b7502cfb"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory X, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--2e12af0e2320"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory T, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--39e6a35cec1e"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory T, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--3f3a592a6901"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory Z, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--50b667b0bf6c"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory S, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--6331cf2119c3"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory V, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--68ac70d4867b"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory Y, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--68e10258dd1c"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory V, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--79c0aa5ddd63"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory Z, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--7aa98508b8d6"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory R, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--7b76f89ac02d"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory W, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--9e98fc45a965"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory X, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--a864128279ae"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory P, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--b39cd66b9baf"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory S, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--beccce6d778c"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory Q, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--cc109bc4e8f0"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory Q, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--cd7681d12835"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory Y, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d-care-2026-03-01--e84ee78bb0d5"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Baseline Territory W, Code B"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--d85406b2c54c"
   {:name "Residential Services [pge:e-1-2026-03-01]; Baseline Territory Q, Code B"
    :outcome :servable}
@@ -2992,6 +3112,66 @@
   "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-1-vintage-pcia-2026-03-01--ff5d8bd4e220"
   {:name "Residential Services [pge:e-1-2026-03-01] + Vintaged Power Charge Indifference Adjustment (E-1) [pge:e-1-vintage-pcia-2026-03-01]; Baseline Territory P, Code H; Departure vintage 2019"
    :outcome :not-measured}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--068a53fe1c6f"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory W, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--06aaecd6b43a"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory S, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--0a6d2bab47d3"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory Z, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--0b34eda10ca2"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory P, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--1acc212d33ea"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory T, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--262f7f502c7e"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory Y, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--4189d72a1026"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory X, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--43e1bd7d8da9"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory V, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--49d0b88cd66f"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory R, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--4c8d498dbf0d"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory S, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--5c1b0b2a5a31"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory P, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--5e973e61d23a"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory X, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--a34d48b39eef"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory Z, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--a3fdcd44b1dd"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory Y, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--a3fddb610824"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory W, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--ae464cdbfc1f"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory R, Code B"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--b72648b66fba"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory Q, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--ce7370fa445b"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory T, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--ec08391c96b9"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory V, Code H"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-fera-2026-06-01--f893a2db8669"
+  {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Baseline Territory Q, Code B"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-1-2026-03-01--e-rsmart-2025-10-31--00ae4d580395"
   {:name "Residential Services [pge:e-1-2026-03-01] + Schedule E-RSMART (Residential SmartRate Program) [pge:e-rsmart-2025-10-31]; Baseline Territory P, Code H"
    :outcome :blocked}
@@ -3064,6 +3244,24 @@
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--291186d914f7"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27]; Income Tier 1 — CARE-eligible"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--d-care-2026-03-01--54701a5d9acb"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--d-care-2026-03-01--5a7aa657322b"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--d-care-2026-03-01--7cca7a906653"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--e-fera-2026-06-01--341b47f29af1"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--e-fera-2026-06-01--6fd49e8dc224"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--e-fera-2026-06-01--d23168d00390"
+  {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-elec-2026-03-27--e-rsmart-2025-10-31--02b14e8a6c25"
   {:name "Residential Time-of-Use (Electric Home) Service [pge:e-elec-2026-03-27] + Schedule E-RSMART (Residential SmartRate Program) [pge:e-rsmart-2025-10-31]; Income Tier 3 — neither CARE nor FERA (standard)"
    :outcome :blocked}
@@ -3126,6 +3324,24 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--a92a182c1ca3"
   {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--d-care-2026-03-01--3bdb5b7e6a79"
+  {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--d-care-2026-03-01--69e274ba1d8e"
+  {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--d-care-2026-03-01--93c4e109fe72"
+  {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--e-fera-2026-06-01--45c266dcc67a"
+  {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--e-fera-2026-06-01--5bd270f1dd84"
+  {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--e-fera-2026-06-01--9d51f7d38407"
+  {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 3 — neither CARE nor FERA (standard)"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-c-2026-03-27--e-rsmart-2025-10-31--2d8c89a48b2a"
   {:name "Residential Time-Of-Use (Peak Pricing 4-9 p.m. Every Day) [pge:e-tou-c-2026-03-27] + Schedule E-RSMART (Residential SmartRate Program) [pge:e-rsmart-2025-10-31]; Income Tier 1 — CARE-eligible"
@@ -3487,6 +3703,24 @@
   "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--950ca5b4a660"
   {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27]; Income Tier 2 — FERA-eligible"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--d-care-2026-03-01--208751b4958c"
+  {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--d-care-2026-03-01--8f1d2951d3c3"
+  {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--d-care-2026-03-01--d7705063f008"
+  {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--e-fera-2026-06-01--59685bb6f9b8"
+  {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--e-fera-2026-06-01--cdfd28ce51c5"
+  {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--e-fera-2026-06-01--cf409822652e"
+  {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-e-tou-d-2026-03-27--e-rsmart-2025-10-31--18b1e3cd3e6f"
   {:name "Residential Time-Of-Use (Peak Pricing 5-8 p.m. Non-Holiday Weekdays) [pge:e-tou-d-2026-03-27] + Schedule E-RSMART (Residential SmartRate Program) [pge:e-rsmart-2025-10-31]; Income Tier 3 — neither CARE nor FERA (standard)"
    :outcome :blocked}
@@ -3666,6 +3900,24 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--9c47757135c9"
   {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--d-care-2026-03-01--493f87481c3a"
+  {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--d-care-2026-03-01--5c0b0546ea80"
+  {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--d-care-2026-03-01--df90dc499981"
+  {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule D-CARE Line-Item Discount for California Alternate Rates for Energy (CARE) Customers [pge:d-care-2026-03-01]; Income Tier 3 — neither CARE nor FERA (standard)"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--e-fera-2026-06-01--55aa7e16caa0"
+  {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 1 — CARE-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--e-fera-2026-06-01--5b88def27227"
+  {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 2 — FERA-eligible"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--e-fera-2026-06-01--7c5765d5b1ee"
+  {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule E-FERA Family Electric Rate Assistance [pge:e-fera-2026-06-01]; Income Tier 3 — neither CARE nor FERA (standard)"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/pge/scm-ev2-2026-03-27--e-rsmart-2025-10-31--6d453b7d3f3f"
   {:name "Residential Time-Of-Use Service for Plug-In Electric Vehicle Customers [pge:ev2-2026-03-27] + Schedule E-RSMART (Residential SmartRate Program) [pge:e-rsmart-2025-10-31]; Income Tier 1 — CARE-eligible"

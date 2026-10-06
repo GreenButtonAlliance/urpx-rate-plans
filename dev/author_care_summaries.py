@@ -37,9 +37,24 @@ WHAT EACH TARIFF EXCLUDES, which is why the member lists differ:
   SDG&E FERA (Schedule FERA Sheet 1): "less any minimum bill amount or base
     services charge". FERA grants no exemptions, so it pays the DWR Bond Charge
     and the Wildfire Fund NBC and CARE does not. Same plan, different members.
+  PG&E CARE (D-CARE Sheet 1): "total bundled volumetric charges less charges from
+    which they are exempt (Wildfire Fund Charge, Wildfire Hardening Charge,
+    Recovery Bond Charge, Recovery Bond Credit, and the CARE surcharge portion of
+    the public purpose program charge ...) ... (except for the California Climate
+    Credit, which will not be discounted)". The base services charge is not
+    volumetric. No base publishes the CARE surcharge portion, so the PPP charge
+    stays whole in the subtotal.
+  PG&E FERA (E-FERA Sheet 1): "total bundled volumetric charges", "after FERA
+    customers are exempted from the Wildfire Hardening Charge, Recovery Bond
+    Charge, and the Recovery Bond Credit". FERA pays the Wildfire Fund Charge.
+
+PG&E base filings inline a vintage-PCIA modifier, so members are read from the
+urpx:RatePlanVersion alone, and only the current version of each plan gets a
+subtotal (--current-only), since a superseded version takes part in no scenario
+cost model.
 
 Usage:
-    python3 dev/author_care_summaries.py [--utility sdge] [--dry-run]
+    python3 dev/author_care_summaries.py [--utility sdge] [--current-only] [--dry-run]
 """
 from __future__ import annotations
 
@@ -63,10 +78,19 @@ EXCLUDE_BOTH = re.compile(r"(base-services-charge|minimum-bill)")
 EXCLUDE_CARE_ONLY = re.compile(r"(dwr-bc|wf-nbc)")
 # Excluded from both on SCE: named by the tariff as applied after the discount.
 EXCLUDE_SCE = re.compile(r"(price-pucrf|price-climate-credit)")
+# PG&E: the base services charge (one Price per income tier) and the Climate
+# Credit for both programs; the charges each program is exempt from.
+EXCLUDE_PGE_BOTH = re.compile(r"(price-base-charge|price-climate-credit)")
+EXCLUDE_PGE = {
+    "care": re.compile(r"(price-wildfire-fund|price-wildfire-hardening|price-recovery-bond)"),
+    "fera": re.compile(r"(price-wildfire-hardening|price-recovery-bond)"),
+}
+# The directory each program's modifier is filed under.
+MODIFIER_DIRS = {"pge": {"care": "d-care", "fera": "e-fera"}}
 
 PROGRAMS = {
-    "care": {"sdge": "-0.35", "sce": "-0.325"},
-    "fera": {"sdge": "-0.18", "sce": "-0.18"},
+    "care": {"sdge": "-0.35", "sce": "-0.325", "pge": "-0.35"},
+    "fera": {"sdge": "-0.18", "sce": "-0.18", "pge": "-0.18"},
 }
 
 
@@ -104,7 +128,17 @@ def plan_members(path: Path, utility: str):
             prices.append((d["@id"], ps))
             counts[ps] += 1
 
-    walk(doc, visit)
+    if utility == "pge":
+        # Only the base version's own Prices: the filing also inlines a
+        # vintage-PCIA RatePlanModifierVersion.
+        versions = []
+        walk(doc, lambda d, _c: versions.append(d)
+             if node_type(d) == "urpx:RatePlanVersion" else None)
+        if len(versions) != 1:
+            raise SystemExit(f"REFUSED: {path.name} has {len(versions)} RatePlanVersions")
+        walk(versions[0], visit)
+    else:
+        walk(doc, visit)
     if not prices:
         raise SystemExit(f"REFUSED: {path.name} has no Price nodes")
 
@@ -114,6 +148,9 @@ def plan_members(path: Path, utility: str):
         if utility == "sce" and EXCLUDE_SCE.search(pid):
             return False
         if program == "care" and utility == "sdge" and EXCLUDE_CARE_ONLY.search(pid):
+            return False
+        if utility == "pge" and (EXCLUDE_PGE_BOTH.search(pid)
+                                 or EXCLUDE_PGE[program].search(pid)):
             return False
         return True
 
@@ -132,6 +169,7 @@ def summary_id(plan_slug: str, date: str, program: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--utility", default="sdge")
+    ap.add_argument("--current-only", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     u = args.utility
@@ -142,7 +180,8 @@ def main() -> int:
     )
     # Only plans the modifiers actually apply to.
     applicable: set[str] = set()
-    for mod in ("care", "fera"):
+    for prog in ("care", "fera"):
+        mod = MODIFIER_DIRS.get(u, {}).get(prog, prog)
         for m in corpus.all_filing_jsonld():
             if f"/{u}/electricity/{mod}/" not in str(m):
                 continue
@@ -156,6 +195,11 @@ def main() -> int:
 
             walk(doc, visit)
 
+    latest: dict[str, str] = {}
+    for b in bases:
+        slug, date = corpus.parse_filing_path(Path(b))[1:]
+        latest[slug] = max(latest.get(slug, date), date)
+
     made: dict[str, list[str]] = {"care": [], "fera": []}
     for b in bases:
         path = Path(b)
@@ -163,6 +207,8 @@ def main() -> int:
         if f"{u}:{slug}" not in applicable:
             continue
         date = path.parent.name
+        if args.current_only and date != latest[slug]:
+            continue
         care, fera, host, doc = plan_members(path, u)
 
         pfx = f"{u}:{slug}"
@@ -253,6 +299,25 @@ def _name(u: str, slug: str, program: str, n: int) -> str:
                 f"applies it after those taxes. Both programs discount the same "
                 f"components and differ only in rate, so one subtotal serves both.")
     p = program.upper()
+    if u == "pge" and program == "care":
+        return (f"CARE-discountable subtotal for {slug.upper()}. The {n} volumetric "
+                f"charges the Schedule D-CARE percentage discount applies to: "
+                f"\"total bundled volumetric charges less charges from which they "
+                f"are exempt\" (Sheet 1). Excludes the Wildfire Fund Charge, the "
+                f"Wildfire Hardening Charge, the Recovery Bond Charge and the "
+                f"Recovery Bond Credit, and the base services charge, which is not "
+                f"volumetric. The Public Purpose Programs charge is included whole: "
+                f"Sheet 1 also exempts its CARE surcharge portion, which the base "
+                f"schedule does not publish.")
+    if u == "pge":
+        return (f"FERA-discountable subtotal for {slug.upper()}. The {n} volumetric "
+                f"charges the Schedule E-FERA percentage discount applies to: "
+                f"\"total bundled volumetric charges\", generation included, "
+                f"\"after FERA customers are exempted from the Wildfire Hardening "
+                f"Charge, Recovery Bond Charge, and the Recovery Bond Credit\" "
+                f"(Sheet 1). Excludes those three and the base services charge, "
+                f"which is not volumetric. Unlike CARE, the Wildfire Fund Charge is "
+                f"inside this subtotal.")
     if u == "sce":
         return (f"{p}-discountable subtotal for {slug.upper()}. The {n} bill "
                 f"components the {p} percentage discount applies to. Schedule "
