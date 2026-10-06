@@ -38,6 +38,7 @@ import sys
 REPO = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "dev"))
 import corpus  # noqa: E402
+import utilities  # noqa: E402
 GAPS = REPO / "MODELING-GAPS.md"
 FIRST_LIST = "## We have not found a way to express these"
 SECOND_LIST = "## Not yet modeled"
@@ -54,7 +55,9 @@ BUILDABLE_CLAIM = re.compile(
     r"expressible under|buildable now|pyshacl[- ]conforms|conforms against"
     r"|work, not a blocker|wrong as written", re.I)
 
-UTILITIES = ("PG&E", "SCE", "SDG&E", "CPAU", "LADWP", "SMUD")
+# Display name -> slug for every utility with filings, from the utility.toml
+# manifests, so a utility in a new state is matched without editing this file.
+UTIL_SLUG = {u.short_name: u.slug for u in utilities.ordered()}
 
 
 def deferrals() -> dict[tuple[str, str], list[str]]:
@@ -79,13 +82,11 @@ def named_filings(bullet: str, known: dict) -> set[tuple[str, str]]:
     Matching the schedule token alone is wrong: a bullet citing CPAU Section
     D.7.a would match SCE's Schedule D. The utility has to be adjacent.
     """
-    util_slug = {"PG&E": "pge", "SCE": "sce", "SDG&E": "sdge",
-                 "CPAU": "cpau", "LADWP": "ladwp", "SMUD": "smud"}
     found: set[tuple[str, str]] = set()
-    for u in UTILITIES:
+    for u, util_slug in UTIL_SLUG.items():
         for m in re.finditer(re.escape(u) + r"\s+([A-Za-z][A-Za-z0-9-]{0,24})", bullet):
             slug = m.group(1).lower().rstrip(".,;:")
-            key = (util_slug[u], slug)
+            key = (util_slug, slug)
             if key in known:
                 found.add(key)
     return found

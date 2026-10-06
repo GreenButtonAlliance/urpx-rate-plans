@@ -110,6 +110,19 @@ def utility_of(path: Path) -> str:
     return parse_filing_path(path)[0]
 
 
+def utility_dir(path: Path) -> Path:
+    """The <country>/<subdivision>/<utility>/ directory holding a filing path,
+    anchored on `versions` as parse_filing_path is."""
+    parts = path.resolve().relative_to(REPO).parts
+    parse_filing_path(path)
+    return REPO.joinpath(*parts[:parts.index("versions") - 2])
+
+
+def subdivision_of(path: Path) -> str:
+    """The subdivision (state) code for a filing path, e.g. "ca" or "wa"."""
+    return utility_dir(path).parent.name
+
+
 # Manifest filenames. Spelled in one place because three different files
 # spelled them, and a rename would have had to find all three.
 TARIFF_MANIFEST = "tariff.toml"
@@ -166,7 +179,7 @@ def is_modifier_dir(d: Path) -> bool:
 
 
 def filing_dir(utility: str, schedule: str, date: str,
-               subdivision: str = "ca", country: str = "us",
+               subdivision: str | None = None, country: str = "us",
                carrier: str = DEFAULT_CARRIER) -> Path:
     """Compose the path to one filing directory, and REFUSE if it is not there.
 
@@ -180,7 +193,18 @@ def filing_dir(utility: str, schedule: str, date: str,
     tree COUNTRY_ROOTS does not walk, writes the filing into it, and prints the
     byte count. Every lint then passes over a corpus that quietly lost the file.
     Resolving through here turns that silent success into a refusal.
+
+    With no `subdivision`, it is the one directory under `country` that holds a
+    `utility` directory, so a caller does not name the state.
     """
+    if subdivision is None:
+        homes = sorted(p.parent.name for p in (REPO / country).glob(f"*/{utility}")
+                       if p.is_dir())
+        if len(homes) != 1:
+            raise SystemExit(
+                f"ERROR: utility {utility!r} sits under {len(homes)} subdivisions of "
+                f"{country}/ ({homes}); pass subdivision= to say which.")
+        subdivision = homes[0]
     d = REPO / country / subdivision / utility / carrier / schedule / "versions" / date
     if not d.is_dir():
         raise SystemExit(

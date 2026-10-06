@@ -111,9 +111,8 @@ def _check() -> None:
       - ORDER and the set of modeled utilities differ, so a section would be
         dropped from a report or an unknown slug looked up.
 
-    A manifest WITHOUT filings is not an error. Fifteen of the twenty-one are
-    community choice aggregators with a discovery manifest and nothing modeled
-    yet, which LAYOUT.md calls a normal state.
+    A manifest WITHOUT filings is not an error; LAYOUT.md §5 calls it a normal
+    state, and dev/lint_utility_manifests.py prints the current split.
     """
     modeled = set(corpus.utilities_with_filings())
     known = set(ALL)

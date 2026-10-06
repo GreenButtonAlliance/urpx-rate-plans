@@ -97,7 +97,8 @@ def main() -> int:
     for jsonld in corpus.all_filing_jsonld():
         util, _, _ = corpus.parse_filing_path(jsonld)
         if util not in seen:
-            problems.append(f"us/ca/{util}/: has filings but no utility.toml, so "
+            where = corpus.utility_dir(jsonld).relative_to(REPO)
+            problems.append(f"{where}/: has filings but no utility.toml, so "
                             f"nothing records where its tariffs are published")
             seen[util] = jsonld  # report once
 
@@ -107,27 +108,30 @@ def main() -> int:
     # the wrong utility in EIA-861, and legal_name is what four spellings of the
     # same three utilities came from in the first place.
     corpus_says: dict[str, dict[str, set[str]]] = {}
+    manifest_of: dict[str, Path] = {}
     for jsonld in corpus.all_filing_jsonld():
         util, _, _ = corpus.parse_filing_path(jsonld)
+        manifest_of[util] = corpus.utility_dir(jsonld) / corpus.UTILITY_MANIFEST
         txt = jsonld.read_text()
         for field, pattern in (("legal_name", r'"urpx:legalName"\s*:\s*"([^"]+)"'),
                                ("eia_id", r'"skos:notation"\s*:\s*"?(\d{3,6})"?')):
             for m in re.finditer(pattern, txt):
                 corpus_says.setdefault(util, {}).setdefault(field, set()).add(m.group(1))
     for util, fields in sorted(corpus_says.items()):
-        manifest = REPO / "us" / "ca" / util / corpus.UTILITY_MANIFEST
+        manifest = manifest_of[util]
         if not manifest.exists():
             continue
+        rel = manifest.relative_to(REPO)
         doc = tomllib.loads(manifest.read_text())
         for field, values in sorted(fields.items()):
             declared = doc.get(field)
             if declared is None:
                 problems.append(
-                    f"us/ca/{util}/{corpus.UTILITY_MANIFEST}: the corpus asserts "
+                    f"{rel}: the corpus asserts "
                     f"{field} {sorted(values)} but the manifest states none")
             elif declared not in values:
                 problems.append(
-                    f"us/ca/{util}/{corpus.UTILITY_MANIFEST}: {field} is "
+                    f"{rel}: {field} is "
                     f"{declared!r} but the corpus JSON-LD asserts {sorted(values)}")
 
     if problems:
