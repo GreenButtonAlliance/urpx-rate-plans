@@ -22,12 +22,10 @@ git config --unset core.hooksPath
 
 Triggers when any `us/**/*.toml`, `us/**/*.jsonld`, or any generator in `dev/` is staged. Re-runs the generators (the list lives in `dev/check_all.py`, so the hook does not keep its own) and stages any resulting `reports/` changes into the same commit, then runs `dev/gate.sh --fast`.
 
-**The hook blocks.** A gate failure aborts the commit with the gate's own exit code (1 regression, 2 drift, 3 refused). It previously did not block, deferring that to CI; there is no CI in this repository, so that deferral was to nothing.
+**The hook blocks.** A gate failure aborts the commit with the gate's own exit code (1 regression, 2 drift, 3 refused). There is no CI in this repository, so the hook is the only automatic check.
 
 Set `URPXT_SKIP_REPORTS=1` to skip only the regeneration and staging while still running the gate, for commits meant to be read as data. `--no-verify` disarms everything and is the deliberate escape hatch. Docs-only commits (`README.md`, `LAYOUT.md`, `dev/git-hooks/*`, etc.) skip the hook and aren't slowed down.
 
 Activates `~/env/py/p3newa/bin/activate` if present (the generators need rdflib, pyshacl, etc.).
 
 If a generator fails, the commit is aborted with a non-zero exit. Re-stage / fix and retry, or pass `git commit --no-verify` to bypass intentionally (e.g. for a revert that needs to desync reports).
-
-Per the user's note when this hook landed: the hook regenerates derived artifacts but does NOT block on lint failures — that's `dev/check_all.py`'s job, which is intended for CI (and exits non-zero on drift). The hook is the "keep me from forgetting" half; `check_all` is the "verify clean" half.
