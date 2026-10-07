@@ -8,7 +8,7 @@ The suburban franchise and tax multipliers and suburban undergrounding charges t
 
 - `scl_residential-suburban_2027-01-01.pdf`: Ordinance 127473 as `Ord_127473.pdf` on clerk.seattle.gov. The multiplier table is on page 9, the undergrounding charges on pages 9 and 10.
 - `tariff.toml`: provenance, how the tables were read, reconciliation against City Light's published prices.
-- `rate-plan-modifier_scl_residential-suburban_2027-01-01.jsonld`: the URPX serialization.
+- `rate-plan-modifier_scl_residential-suburban_2027-01-01.jsonld`: the URPX serialization, generated from the Clojure source in `src/rate_plans/us/wa/scl/` (`doc/dsl-source.md`). Edit the source, not this file, and write it with `python3 dev/check_generated.py --write`; the gate fails when the two disagree.
 
 ## Rates
 

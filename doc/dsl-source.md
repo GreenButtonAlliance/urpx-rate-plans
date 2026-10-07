@@ -58,7 +58,28 @@ These are the kinds SCL needed. Seasons, tiers and demand charges add kinds when
 
 ## Layout
 
-Source lives under `src/rate_plans/`, following the namespace-to-path rule and mirroring the corpus: `rate_plans/us/wa/scl/common.clj` holds what every SCL filing shares, and `rate_plans/us/wa/scl/rts.clj` one schedule. Generic namespaces (`rate_plans/tou.clj` and the like) know nothing about a utility. `corpus.json` gains a source kind so the walkers find them.
+Source lives under `src/rate_plans/`, following the namespace-to-path rule and mirroring the corpus. The generic namespaces know nothing about a utility.
+
+| Namespace | Holds |
+|---|---|
+| `rate-plans.defs` | the corpus's kinds, `:rate-plans.kind/*`, and `as-of` |
+| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, and writing a package |
+| `rate-plans.tou` | a time-of-use rate plan expanded from its tables |
+| `rate-plans.alternatives` | a modifier whose customer chooses one alternative along one dimension |
+| `rate-plans.gen` | the generator |
+| `rate-plans.us.wa.scl.common` | what every SCL schedule shares |
+| `rate-plans.us.wa.scl.rtc`, `.rts`, `.residential-suburban` | one schedule each |
+
+`corpus.json` lists these files as the kind `clojure-source`, under its own root `src`, and the generator loads every namespace of that kind.
+
+| Command | Does |
+|---|---|
+| `clojure -M:generate [out]` | writes every version of every `:document` to `<out>/<corpus path>`; `<out>` defaults to a new temporary directory |
+| `python3 dev/check_generated.py` | the gate's check: each generated document equals its committed file by `dev/rdf_hash.py` |
+| `python3 dev/check_generated.py --write` | writes into the tree each generated document that is new or differs, then checks |
+| `clojure -M -m test-dsl-validation` | each invalid fixture under `dev/fixtures/dsl/` fails to load with an error naming its file, line and bad values |
+
+`clj-kondo --lint src` reads the `defurpx` hook clj-urpx exports, copied into `.clj-kondo/imports` with `clj-kondo --lint "$(clojure -Spath)" --copy-configs --skip-lint`.
 
 ## What goes to clj-urpx
 
@@ -68,7 +89,7 @@ Here: the utility and schedule namespaces; the kinds `:utility`, `:source`, `:do
 
 ## Gaps in urpx.dsl 0.39.0
 
-Each has a working workaround in the SCL spike.
+Each has a working workaround in the SCL source.
 
 | Gap | Workaround |
 |---|---|
@@ -91,7 +112,9 @@ Each has a working workaround in the SCL spike.
 
 ## Acceptance
 
-The 9 SCL documents, regenerated from source on each clj-urpx release, with the same RDF hashes as at a pinned commit, checked in both directions so a missing or extra document fails. Then PSE Schedules 307 and 327, which share 19 riders and two Summary-Sheet versions: the first test of the helpers on a second utility.
+The 9 SCL documents are generated from `src/rate_plans/us/wa/scl/`, and `dev/check_generated.py` requires each to have the same RDF hash as its committed file. Its scope is every utility the generator writes a document for: a committed document of such a utility that is not generated fails as MISSING, a generated one with no committed file as EXTRA, and a hash that cannot be computed as NOHASH. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
+
+Next, PSE Schedules 307 and 327, which share 19 riders and two Summary-Sheet versions: the first test of the helpers on a second utility.
 
 ## Open questions
 

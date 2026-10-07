@@ -10,7 +10,7 @@ Every charge below is the unmultiplied rate, which a customer in Renton pays. Th
 
 - `scl_rts_2028-01-01.pdf`: Ordinance 127473 as `Ord_127473.pdf` on clerk.seattle.gov. Schedule RTS is on page 11.
 - `tariff.toml`: provenance, how the columns were read, holiday handling, deferrals.
-- `rate-plan_scl_rts_2028-01-01.jsonld`: the URPX serialization.
+- `rate-plan_scl_rts_2028-01-01.jsonld`: the URPX serialization, generated from the Clojure source in `src/rate_plans/us/wa/scl/` (`doc/dsl-source.md`). Edit the source, not this file, and write it with `python3 dev/check_generated.py --write`; the gate fails when the two disagree.
 
 ## Rates
 

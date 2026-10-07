@@ -107,7 +107,8 @@ which is why the corpus is read as one graph (§2).
     "rate-plan": { "include": ["**/versions/*/rate-plan_*.jsonld"] },
     "rate-plan-modifier": { "include": ["**/versions/*/rate-plan-modifier_*.jsonld"] },
     "tariff-manifest": { "include": ["**/versions/*/tariff.toml"] },
-    "utility-manifest": { "include": ["*/*/utility.toml"] }
+    "utility-manifest": { "include": ["*/*/utility.toml"] },
+    "clojure-source": { "roots": ["src"], "include": ["rate_plans/*.clj", "rate_plans/**/*.clj"] }
   },
   "documents": ["rate-plan", "rate-plan-modifier"],
   "walkers": [ { "language": "python", "path": "dev/corpus.py", "cli": "python3 dev/corpus.py" } ]
@@ -119,7 +120,7 @@ The fields, with descriptions and media types omitted above:
 | Field | Meaning |
 |---|---|
 | `roots` | Top-level directories. Adding a country means adding it here. |
-| `kinds` | Each kind of file, with `include` globs evaluated under every root. `*` matches within one path segment; `**` matches across segments. |
+| `kinds` | Each kind of file, with `include` globs evaluated under every root, or under the kind's own `roots` when it lists them. `*` matches within one path segment; `**` matches across segments. `clojure-source` is the Clojure source documents are generated from ([doc/dsl-source.md](./doc/dsl-source.md)), under its own root `src`. |
 | `documents` | The kinds a consumer loads as the corpus. Fixtures under `dev/fixtures/` match no kind, so no walker returns them. |
 | `walkers` | Reference implementations: `language`, repo-relative `path`, in-language `api` entry point, and the `cli` command run from the repository root. |
 
@@ -461,7 +462,7 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 2. Create the directory: `<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/`, e.g. `us/ca/...` or `us/wa/...`.
 3. Write `tariff.toml` with `utility`, `schedule` and `effective_date` at the top level, and a `[source]` table carrying `url`, `sha256` (compute locally) and `retrieved_on`. `schema/tariff-manifest.schema.json` is the authority on what is required.
 4. Run extraction (e.g. `mineru -p source.pdf -o extracted/ -b pipeline`).
-5. Convert to URPX JSON-LD as `rate-plan_<utility>_<schedule>_<date>.jsonld`.
+5. Convert to URPX JSON-LD as `rate-plan_<utility>_<schedule>_<date>.jsonld`. A utility with Clojure source under `src/rate_plans/` (Seattle City Light) has its JSON-LD generated from it: add the version to the source and write it with `python3 dev/check_generated.py --write` ([doc/dsl-source.md](./doc/dsl-source.md)).
 6. Validate with `clj-urpx` (SHACL) — record outcome in `[validation]`.
 7. Record modeling-completeness state in `[modeling]` (§4.4): set `complete = true` and `deferrals = []` if the source PDF is fully captured; otherwise list the deferred parts. On base RatePlan filings, also populate `applicable_modifiers` with every RatePlanModifier the source tariff names — *including modifiers not yet modeled in the corpus*, since this list is what drives the modifier-coverage gap report.
 8. Lint cross-filing consistency (RatePlan-level fields match prior filings of this schedule).
