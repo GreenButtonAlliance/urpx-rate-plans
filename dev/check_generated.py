@@ -5,7 +5,8 @@
 
 Runs the generator (`clojure -M:generate`, src/rate_plans/gen.clj) into a
 temporary directory and compares each generated document with the file at the
-same path in this tree by dev/rdf_hash.py. The tree is the working tree, or the
+same path in this tree, byte for byte. On a mismatch dev/rdf_hash.py names the
+reason: DIFF when the RDF differs, FORMAT when only the bytes do. The tree is the working tree, or the
 staged tree when the pre-commit hook runs dev/check_all.py in its checkout of
 the index.
 
@@ -13,17 +14,15 @@ The comparison covers every utility the generator writes a document for: each
 corpus document under such a utility's directory must be generated, and each
 generated document must be committed. A committed document the generator did
 not write is MISSING, a generated one with no committed file is EXTRA, a hash
-that cannot be computed is NOHASH, and differing hashes are DIFF. Each fails.
+that cannot be computed is NOHASH, differing hashes are DIFF, and equal hashes
+over differing bytes are FORMAT. Each fails.
 
     python3 dev/check_generated.py           check
     python3 dev/check_generated.py --write   write into the working tree each
-                                             generated document that is EXTRA
-                                             or DIFF, then check
+                                             generated document whose bytes
+                                             differ, then check
 
---write leaves a document whose RDF hash already equals the generated one as it
-is, so formatting alone never churns a committed file.
-
-Exit codes: 0 all equal, 1 a document differs, is missing or extra, or the
+Exit codes: 0 all byte-identical, 1 a document differs, is missing or extra, or the
 generator failed, 3 refused (the generator wrote nothing).
 """
 from __future__ import annotations
@@ -49,6 +48,10 @@ def generate(out: Path) -> list[str] | None:
         print(f"FAIL  the generator exited {proc.returncode}")
         return None
     return sorted(p.relative_to(out).as_posix() for p in out.rglob("*.jsonld"))
+
+
+def same_bytes(a: Path, b: Path) -> bool:
+    return a.read_bytes() == b.read_bytes()
 
 
 def hash_or_none(path: Path) -> str | None:
@@ -86,27 +89,27 @@ def main(argv: list[str]) -> int:
         same = 0
         for path in generated:
             mine, theirs = out / path, REPO / path
-            want = hash_or_none(theirs) if theirs.exists() else None
-            got = hash_or_none(mine)
-            if write and got and want != got:
+            if write and not (theirs.exists() and same_bytes(mine, theirs)):
                 theirs.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(mine, theirs)
                 print(f"WROTE   {path}")
-                want = hash_or_none(theirs)
             if not theirs.exists():
                 print(f"EXTRA   {path}")
                 fail = 1
-            elif want is None or got is None:
-                print(f"NOHASH  {path}")
-                fail = 1
-            elif want != got:
-                print(f"DIFF    {path}")
-                fail = 1
-            else:
+            elif same_bytes(mine, theirs):
                 same += 1
+            else:
+                want, got = hash_or_none(theirs), hash_or_none(mine)
+                if want is None or got is None:
+                    print(f"NOHASH  {path}")
+                elif want != got:
+                    print(f"DIFF    {path}")
+                else:
+                    print(f"FORMAT  {path}")
+                fail = 1
 
     print(f"{same} of {len(generated)} generated documents equal their committed "
-          f"files by RDF hash; {len(committed)} committed under {', '.join(scope)}")
+          f"files byte for byte; {len(committed)} committed under {', '.join(scope)}")
     return fail
 
 

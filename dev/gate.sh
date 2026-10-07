@@ -203,8 +203,8 @@ run_scm_shacl() {
 }
 
 # Every document with Clojure source under src/ (doc/dsl-source.md), regenerated
-# and compared with its committed file by RDF hash, in the working tree. About
-# 4 s. --full runs the same check inside dev/check_all.py.
+# and compared with its committed file byte for byte, in the working tree.
+# About 4 s. --full runs the same check inside dev/check_all.py.
 # Exit 1 a document differs, is missing or extra, 3 refused.
 run_generated() {
     note "Generated from source"

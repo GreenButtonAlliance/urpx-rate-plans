@@ -73,7 +73,7 @@ REPO = Path(__file__).resolve().parent.parent
 # test_rate_identifiers fires every one of those guards against broken input.
 #
 # check_generated regenerates every document that has Clojure source under src/
-# and requires each to equal its committed file by RDF hash. In the pre-commit
+# and requires each to equal its committed file byte for byte. In the pre-commit
 # hook it runs in the checkout of the index, so it judges the staged tree.
 # test_dsl_validation requires each invalid fixture under dev/fixtures/dsl/ to
 # fail to load with an error naming its file, line and bad values.

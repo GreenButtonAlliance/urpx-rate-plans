@@ -1,689 +1,829 @@
 {
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": [
+    {
+      "urpx:name": "Residential: City Time-of-Use",
+      "urpx:ratePlanUniqueIdentifier": "RTC",
+      "urpx:initialEffectiveDate": "2024-01-01",
+      "urpx:timezoneIdentifier": "America/Los_Angeles",
+      "urpx:hasRatePlanVersion": {
+        "urpx:commodity": [
+          {
+            "@id": "urpx:electricity"
+          }
+        ],
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:effectiveDateTime": "2027-01-01T00:00:00",
+        "@id": "scl:rtc-2027-01-01",
+        "urpx:hasPlanElements": {
+          "urpx:hasHolidayCalendar": {
+            "urpx:hasHoliday": [
+              {
+                "urpx:holidayName": "New Year's Day",
+                "urpx:holidayRule": "January 1",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-new-years-day"
+              },
+              {
+                "urpx:holidayName": "Memorial Day",
+                "urpx:holidayRule": "Last Monday in May",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-memorial-day"
+              },
+              {
+                "urpx:holidayName": "Independence Day",
+                "urpx:holidayRule": "July 4",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-independence-day"
+              },
+              {
+                "urpx:holidayName": "Labor Day",
+                "urpx:holidayRule": "First Monday in September",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-labor-day"
+              },
+              {
+                "urpx:holidayName": "Thanksgiving Day",
+                "urpx:holidayRule": "Fourth Thursday in November",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-thanksgiving-day"
+              },
+              {
+                "urpx:holidayName": "Christmas Day",
+                "urpx:holidayRule": "December 25",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-christmas-day"
+              },
+              {
+                "urpx:holidayName": "Independence Day (observed)",
+                "urpx:holidayDate": "2027-07-05",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-independence-day-2027-07-05"
+              },
+              {
+                "urpx:holidayName": "Independence Day (observed)",
+                "urpx:holidayDate": "2032-07-05",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-independence-day-2032-07-05"
+              },
+              {
+                "urpx:holidayName": "Christmas Day (observed)",
+                "urpx:holidayDate": "2033-12-26",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-christmas-day-2033-12-26"
+              },
+              {
+                "urpx:holidayName": "New Year's Day (observed)",
+                "urpx:holidayDate": "2034-01-02",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-new-years-day-2034-01-02"
+              },
+              {
+                "urpx:holidayName": "Independence Day (observed)",
+                "urpx:holidayDate": "2038-07-05",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-independence-day-2038-07-05"
+              },
+              {
+                "urpx:holidayName": "Christmas Day (observed)",
+                "urpx:holidayDate": "2039-12-26",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-christmas-day-2039-12-26"
+              },
+              {
+                "urpx:holidayName": "New Year's Day (observed)",
+                "urpx:holidayDate": "2040-01-02",
+                "@type": "urpx:Holiday",
+                "@id": "scl:rtc-2027-01-01-holiday-new-years-day-2040-01-02"
+              }
+            ],
+            "@type": "urpx:HolidayCalendar",
+            "@id": "scl:rtc-2027-01-01-holidays"
+          },
+          "urpx:hasMetricInput": [
+            {
+              "urpx:name": "kWh Energy Consumption Prices",
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:hasMetricSpecification": {
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                },
+                "@type": "urpx:MetricSpecification",
+                "@id": "scl:ms-energy"
+              },
+              "@type": "urpx:MetricInput",
+              "@id": "scl:rtc-2027-01-01-mi-energy"
+            },
+            {
+              "urpx:name": "Per Meter Prices",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              },
+              "@type": "urpx:MetricInput",
+              "@id": "scl:rtc-2027-01-01-mi-meter-count"
+            }
+          ],
+          "urpx:hasBillingModel": {
+            "urpx:hasTOUSchedule": [
+              {
+                "urpx:referencesMetricInput": [
+                  {
+                    "@id": "scl:rtc-2027-01-01-mi-energy"
+                  }
+                ],
+                "urpx:hasTOUTier": [
+                  {
+                    "urpx:tierSourceName": "Energy Peak",
+                    "urpx:touTierStandardName": {
+                      "@id": "urpx:peakTier"
+                    },
+                    "urpx:touTierNumber": 1,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "urpx:name": "Peak (5pm-9pm Mondays through Saturdays, not on a holiday)",
+                        "urpx:touPeriodNumber": 1,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "urpx:startTime": "17:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:dayType": {
+                              "@id": "urpx:customDays"
+                            },
+                            "urpx:daysOfWeek": [
+                              {
+                                "@id": "urpx:monday"
+                              },
+                              {
+                                "@id": "urpx:tuesday"
+                              },
+                              {
+                                "@id": "urpx:wednesday"
+                              },
+                              {
+                                "@id": "urpx:thursday"
+                              },
+                              {
+                                "@id": "urpx:friday"
+                              },
+                              {
+                                "@id": "urpx:saturday"
+                              }
+                            ],
+                            "urpx:includeHolidays": false,
+                            "@type": "urpx:TimeBracket",
+                            "@id": "scl:rtc-2027-01-01-time-bracket-peak-mon-sat"
+                          }
+                        ],
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "scl:rtc-2027-01-01-tou-period-peak"
+                      }
+                    ],
+                    "@type": "urpx:TOUTier",
+                    "@id": "scl:rtc-2027-01-01-tou-tier-peak"
+                  },
+                  {
+                    "urpx:tierSourceName": "Energy Mid-Peak",
+                    "urpx:touTierStandardName": {
+                      "@id": "urpx:midPeakTier"
+                    },
+                    "urpx:touTierNumber": 2,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "urpx:name": "Mid-Peak (6am-5pm and 9pm-12am Mondays through Saturdays; 6am-12am Sundays and holidays)",
+                        "urpx:touPeriodNumber": 2,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "urpx:startTime": "06:00:00",
+                            "urpx:endTime": "17:00:00",
+                            "urpx:dayType": {
+                              "@id": "urpx:customDays"
+                            },
+                            "urpx:daysOfWeek": [
+                              {
+                                "@id": "urpx:monday"
+                              },
+                              {
+                                "@id": "urpx:tuesday"
+                              },
+                              {
+                                "@id": "urpx:wednesday"
+                              },
+                              {
+                                "@id": "urpx:thursday"
+                              },
+                              {
+                                "@id": "urpx:friday"
+                              },
+                              {
+                                "@id": "urpx:saturday"
+                              }
+                            ],
+                            "urpx:includeHolidays": false,
+                            "@type": "urpx:TimeBracket",
+                            "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-mon-sat-day"
+                          },
+                          {
+                            "urpx:startTime": "21:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:dayType": {
+                              "@id": "urpx:customDays"
+                            },
+                            "urpx:daysOfWeek": [
+                              {
+                                "@id": "urpx:monday"
+                              },
+                              {
+                                "@id": "urpx:tuesday"
+                              },
+                              {
+                                "@id": "urpx:wednesday"
+                              },
+                              {
+                                "@id": "urpx:thursday"
+                              },
+                              {
+                                "@id": "urpx:friday"
+                              },
+                              {
+                                "@id": "urpx:saturday"
+                              }
+                            ],
+                            "urpx:includeHolidays": false,
+                            "@type": "urpx:TimeBracket",
+                            "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-mon-sat-late"
+                          },
+                          {
+                            "urpx:startTime": "06:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:dayType": {
+                              "@id": "urpx:customDays"
+                            },
+                            "urpx:daysOfWeek": [
+                              {
+                                "@id": "urpx:sunday"
+                              }
+                            ],
+                            "urpx:includeHolidays": false,
+                            "@type": "urpx:TimeBracket",
+                            "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-sunday"
+                          },
+                          {
+                            "urpx:startTime": "06:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            },
+                            "urpx:includeHolidays": true,
+                            "urpx:includeNonHolidays": false,
+                            "@type": "urpx:TimeBracket",
+                            "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-holiday"
+                          }
+                        ],
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "scl:rtc-2027-01-01-tou-period-mid-peak"
+                      }
+                    ],
+                    "@type": "urpx:TOUTier",
+                    "@id": "scl:rtc-2027-01-01-tou-tier-mid-peak"
+                  },
+                  {
+                    "urpx:tierSourceName": "Energy Off-Peak",
+                    "urpx:touTierStandardName": {
+                      "@id": "urpx:offPeakTier"
+                    },
+                    "urpx:touTierNumber": 3,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "urpx:name": "Off-Peak (12am-6am every day)",
+                        "urpx:touPeriodNumber": 3,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "06:00:00",
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            },
+                            "@type": "urpx:TimeBracket",
+                            "@id": "scl:rtc-2027-01-01-time-bracket-off-peak-every-day"
+                          }
+                        ],
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "scl:rtc-2027-01-01-tou-period-off-peak"
+                      }
+                    ],
+                    "@type": "urpx:TOUTier",
+                    "@id": "scl:rtc-2027-01-01-tou-tier-off-peak"
+                  }
+                ],
+                "@type": "urpx:TOUSchedule",
+                "@id": "scl:rtc-2027-01-01-tou-schedule"
+              }
+            ],
+            "urpx:hasLedger": [
+              {
+                "urpx:name": "Time-of-Use Energy Charge (Schedule RTC)",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": [
+                  {
+                    "@id": "scl:rtc-2027-01-01-mi-energy"
+                  }
+                ],
+                "@type": "urpx:Ledger",
+                "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
+              },
+              {
+                "urpx:name": "Base Service Charge",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:referencesMetricInput": [
+                  {
+                    "@id": "scl:rtc-2027-01-01-mi-meter-count"
+                  }
+                ],
+                "@type": "urpx:Ledger",
+                "@id": "scl:rtc-2027-01-01-ledger-base-service-charge"
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "urpx:name": "Energy Charge, Peak (Schedule RTC)",
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:usageCharge"
+                  }
+                ],
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:touPeriodNumber": 1,
+                "urpx:referencesLedger": {
+                  "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
+                },
+                "@type": "urpx:PriceDefinition",
+                "@id": "scl:rtc-2027-01-01-pd-energy-charge-peak"
+              },
+              {
+                "urpx:name": "Energy Charge, Mid-Peak (Schedule RTC)",
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:usageCharge"
+                  }
+                ],
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:touPeriodNumber": 2,
+                "urpx:referencesLedger": {
+                  "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
+                },
+                "@type": "urpx:PriceDefinition",
+                "@id": "scl:rtc-2027-01-01-pd-energy-charge-mid-peak"
+              },
+              {
+                "urpx:name": "Energy Charge, Off-Peak (Schedule RTC)",
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:usageCharge"
+                  }
+                ],
+                "urpx:chargeCategory": {
+                  "@id": "urpx:auxiliaryCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:touPeriodNumber": 3,
+                "urpx:referencesLedger": {
+                  "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
+                },
+                "@type": "urpx:PriceDefinition",
+                "@id": "scl:rtc-2027-01-01-pd-energy-charge-off-peak"
+              },
+              {
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:customerCharge"
+                  }
+                ],
+                "@id": "scl:rtc-2027-01-01-pd-base-service-charge",
+                "urpx:chargeCategory": {
+                  "@id": "urpx:serviceCharge"
+                },
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:baseQuantity": "1",
+                "urpx:name": "Base Service Charge, per meter per day (Schedule RTC)",
+                "urpx:hasCalculationMethod": {
+                  "urpx:intervalDuration": "P1D",
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "scl:rtc-2027-01-01-pd-base-service-charge-calculation-method"
+                },
+                "@type": "urpx:PriceDefinition",
+                "urpx:referencesLedger": {
+                  "@id": "scl:rtc-2027-01-01-ledger-base-service-charge"
+                }
+              }
+            ],
+            "@type": "urpx:BillingModel",
+            "@id": "scl:rtc-2027-01-01-plan-elements-billing-model"
+          },
+          "@type": "urpx:PlanElements",
+          "@id": "scl:rtc-2027-01-01-plan-elements"
+        },
+        "urpx:priceCurrency": "USD",
+        "urpx:hasPrices": {
+          "urpx:hasPrice": [
+            {
+              "urpx:referencesPriceDefinition": {
+                "@id": "scl:rtc-2027-01-01-pd-base-service-charge"
+              },
+              "urpx:startDate": "2027-01-01",
+              "urpx:name": "Base Service Charge",
+              "urpx:unitPrice": "0.5518",
+              "@type": "urpx:Price",
+              "@id": "scl:rtc-2027-01-01-price-base-service-charge"
+            }
+          ],
+          "urpx:hasPriceSet": [
+            {
+              "urpx:startDate": "2027-01-01",
+              "urpx:hasPrice": [
+                {
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "scl:rtc-2027-01-01-pd-energy-charge-peak"
+                  },
+                  "urpx:name": "Energy Peak",
+                  "urpx:unitPrice": "0.1690",
+                  "@type": "urpx:Price",
+                  "@id": "scl:rtc-2027-01-01-price-energy-charge-peak"
+                },
+                {
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "scl:rtc-2027-01-01-pd-energy-charge-mid-peak"
+                  },
+                  "urpx:name": "Energy Mid-Peak",
+                  "urpx:unitPrice": "0.1479",
+                  "@type": "urpx:Price",
+                  "@id": "scl:rtc-2027-01-01-price-energy-charge-mid-peak"
+                },
+                {
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "scl:rtc-2027-01-01-pd-energy-charge-off-peak"
+                  },
+                  "urpx:name": "Energy Off-Peak",
+                  "urpx:unitPrice": "0.0845",
+                  "@type": "urpx:Price",
+                  "@id": "scl:rtc-2027-01-01-price-energy-charge-off-peak"
+                }
+              ],
+              "@type": "urpx:PriceSet",
+              "@id": "scl:rtc-2027-01-01-ps-energy-charge"
+            }
+          ],
+          "@type": "urpx:Prices",
+          "@id": "scl:rtc-2027-01-01-prices"
+        },
+        "urpx:description": "Seattle City Light Schedule RTC (Residential: City Time-of-Use), the optional residential time-of-use schedule for customers inside the City of Seattle, Seattle Municipal Code 21.49.030.B as amended by Ordinance 127473 (Council Bill 121231, passed July 21, 2026, approved July 22, 2026). This version carries the column headed 'Effective January 1, 2027': Base Service Charge 55.18 cents per meter per day; Energy Off-Peak 8.45, Mid-Peak 14.79 and Peak 16.90 cents per kWh. Off-Peak is 12 a.m. to 6 a.m. every day; Mid-Peak is 6 a.m. to 5 p.m. and 9 p.m. to 12 a.m. Mondays through Saturdays and 6 a.m. to 12 a.m. on Sundays and holidays; Peak is 5 p.m. to 9 p.m. Mondays through Saturdays, other than on a holiday. There are no seasons and no blocks. The Monday-through-Saturday and Sunday brackets name their days with urpx:daysOfWeek, proposed in urpx-org/urpx#71 and in no URPX release yet. Superseded on 2028-01-01 by the ordinance's next column.",
+        "urpx:changeReason": {
+          "@id": "urpx:rateCase"
+        },
+        "urpx:forRatePlan": {
+          "@id": "scl:rtc"
+        },
+        "urpx:expirationDateTime": "2028-01-01T00:00:00",
+        "urpx:hasEligibilityRule": [
+          {
+            "urpx:name": "Eligibility for Schedule RTC (Residential: City Time-of-Use)",
+            "urpx:description": "SMC 21.49.030.B as amended by Ordinance 127473: Schedules RTC and RTS are optional rate schedules available to customers who meet eligibility requirements outlined in City Light's Department Policy and Procedure (DPP) 500 P III-434, as amended, or successor rule. Customers may return to their default rate schedule but will not be able to re-enroll in Schedule RTC or RTS until 12 months from the time of unenrollment. City Light's residential Time of Use page requires an advanced meter and a Utility Services Website profile, and does not offer the rate to net metering customers. 21.49.030.C limits normal residential service to single-phase. The condition expression tests only that the customer is residential.",
+            "urpx:hasConditionExpression": {
+              "urpx:rootNode": {
+                "urpx:operator": {
+                  "@id": "urpx:equalsOperator"
+                },
+                "urpx:leftOperand": {
+                  "urpx:conditionProperty": {
+                    "@id": "urpx:hasCustomerKind"
+                  },
+                  "@type": "urpx:ObjectOperandNode",
+                  "@id": "scl:rtc-2027-01-01-er-residential-condition-expression-root-node-left-operand"
+                },
+                "urpx:rightOperand": {
+                  "urpx:referencesValue": {
+                    "@id": "urpx:residentialKind"
+                  },
+                  "@type": "urpx:ObjectOperandNode",
+                  "@id": "scl:rtc-2027-01-01-er-residential-condition-expression-root-node-right-operand"
+                },
+                "@type": "urpx:ComparisonNode",
+                "@id": "scl:rtc-2027-01-01-er-residential-condition-expression-root-node"
+              },
+              "@type": "urpx:ConditionExpression",
+              "@id": "scl:rtc-2027-01-01-er-residential-condition-expression"
+            },
+            "@type": "urpx:EligibilityRule",
+            "@id": "scl:rtc-2027-01-01-er-residential"
+          }
+        ],
+        "urpx:isDefault": false,
+        "urpx:customerChoice": {
+          "@id": "urpx:voluntaryChoice"
+        },
+        "urpx:hasDataSourceReference": [
+          {
+            "urpx:fileName": "Ord_127473.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf",
+            "urpx:dateRetrieved": "2026-10-05",
+            "urpx:dataSourceType": {
+              "@id": "urpx:regulatoryWebsiteSource"
+            },
+            "urpx:pageStart": 10,
+            "urpx:pageEnd": 12,
+            "@type": "urpx:DataSourceReference"
+          }
+        ],
+        "urpx:hasCoverageClaim": {
+          "urpx:completenessResult": {
+            "@id": "urpx:partial"
+          },
+          "urpx:selfContained": true,
+          "urpx:explainedBy": [
+            {
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in scl:rtc-2027-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
+              "urpx:evaluatedOn": "2026-10-05T00:00:00",
+              "@type": "urpx:Evaluation",
+              "@id": "scl:cc-rtc-2027-01-01-evaluation"
+            }
+          ],
+          "@type": "urpx:CoverageClaim",
+          "@id": "scl:cc-rtc-2027-01-01"
+        },
+        "urpx:offeredBy": {
+          "urpx:legalName": "Seattle City Light",
+          "urpx:organizationType": {
+            "@id": "urpx:utilityOrganization"
+          },
+          "urpx:hasIdentity": [
+            {
+              "urpx:hasName": {
+                "urpx:name": "Seattle City Light",
+                "@type": "urpx:OrganizationName",
+                "@id": "org:utility-scl-name"
+              },
+              "urpx:hasIdentifier": [
+                {
+                  "urpx:scheme": {
+                    "@id": "urpx:eiaScheme"
+                  },
+                  "skos:notation": "16868",
+                  "@type": "urpx:OrganizationIdentifier",
+                  "@id": "org:utility-scl-eia"
+                }
+              ],
+              "@type": "urpx:OrganizationIdentity",
+              "@id": "org:utility-scl-identity"
+            }
+          ],
+          "@type": "urpx:UtilityOperator",
+          "@id": "org:utility-scl"
+        },
+        "@type": "urpx:RatePlanVersion"
+      },
+      "@type": "urpx:RatePlan",
+      "@id": "scl:rtc"
+    }
+  ],
+  "@type": "urpx:URPXPackage",
+  "@id": "scl:doc-rtc-2027-01-01",
   "@context": {
-    "urpx": "https://urpx.org/ns/ontology/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "org": "https://rate-plans.grid-coordination.energy/organizations/",
-    "scl": "https://rate-plans.grid-coordination.energy/scl/",
-    "urpx:unitPrice": {
-      "@type": "xsd:decimal"
-    },
-    "urpx:effectiveDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:effectiveDateTime": {
+    "urpx:expectedEndDateTime": {
       "@type": "xsd:dateTime"
     },
-    "urpx:baseQuantity": {
-      "@type": "xsd:decimal"
+    "urpx:dateTimeApproved": {
+      "@type": "xsd:dateTime"
     },
-    "urpx:startTime": {
+    "urpx:endDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:timeValue": {
       "@type": "xsd:time"
     },
-    "urpx:endTime": {
-      "@type": "xsd:time"
-    },
-    "urpx:initialEffectiveDate": {
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "urpx:expirationDate": {
       "@type": "xsd:date"
     },
-    "urpx:startDate": {
+    "urpx:dateTimePublished": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:dateModified": {
       "@type": "xsd:date"
-    },
-    "urpx:url": {
-      "@type": "xsd:anyURI"
-    },
-    "urpx:month": {
-      "@type": "xsd:gMonth"
-    },
-    "urpx:intervalDuration": {
-      "@type": "xsd:duration"
-    },
-    "urpx:touTierNumber": {
-      "@type": "xsd:integer"
     },
     "urpx:touPeriodNumber": {
       "@type": "xsd:integer"
     },
-    "urpx:pageStart": {
-      "@type": "xsd:integer"
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
     },
-    "urpx:pageEnd": {
-      "@type": "xsd:integer"
+    "urpx:settlementInterval": {
+      "@type": "xsd:duration"
     },
-    "urpx:accessURL": {
-      "@type": "xsd:anyURI"
+    "urpx:gMonthValue": {
+      "@type": "xsd:gMonth"
     },
-    "urpx:dateRetrieved": {
+    "urpx:dateCreated": {
       "@type": "xsd:date"
-    },
-    "urpx:includeHolidays": {
-      "@type": "xsd:boolean"
-    },
-    "urpx:includeNonHolidays": {
-      "@type": "xsd:boolean"
     },
     "urpx:targetURPXVersion": {
       "@type": "xsd:anyURI"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:amount": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:expectedEndDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:endDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:lowerBoundOffset": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:integerValue": {
+      "@type": "xsd:integer"
+    },
+    "urpx:holidayDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:basePrice": {
+      "@type": "xsd:decimal"
+    },
+    "schema": "http://schema.org/",
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
     "urpx:evaluatedOn": {
       "@type": "xsd:dateTime"
     },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:identityValidFrom": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:datePublished": {
+      "@type": "xsd:date"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:adder": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateApproved": {
+      "@type": "xsd:date"
+    },
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:constraintProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "scl": "https://rate-plans.grid-coordination.energy/scl/",
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:currentPrice": {
+      "@type": "xsd:decimal"
+    },
     "urpx:expirationDateTime": {
       "@type": "xsd:dateTime"
-    }
-  },
-  "@type": "urpx:URPXPackage",
-  "@id": "scl:doc-rtc-2027-01-01",
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
-  "urpx:hasRatePlan": {
-    "@type": "urpx:RatePlan",
-    "@id": "scl:rtc",
-    "urpx:name": "Residential: City Time-of-Use",
-    "urpx:ratePlanUniqueIdentifier": "RTC",
-    "urpx:initialEffectiveDate": "2024-01-01",
-    "urpx:timezoneIdentifier": "America/Los_Angeles",
-    "urpx:hasRatePlanVersion": {
-      "@type": "urpx:RatePlanVersion",
-      "@id": "scl:rtc-2027-01-01",
-      "urpx:description": "Seattle City Light Schedule RTC (Residential: City Time-of-Use), the optional residential time-of-use schedule for customers inside the City of Seattle, Seattle Municipal Code 21.49.030.B as amended by Ordinance 127473 (Council Bill 121231, passed July 21, 2026, approved July 22, 2026). This version carries the column headed 'Effective January 1, 2027': Base Service Charge 55.18 cents per meter per day; Energy Off-Peak 8.45, Mid-Peak 14.79 and Peak 16.90 cents per kWh. Off-Peak is 12 a.m. to 6 a.m. every day; Mid-Peak is 6 a.m. to 5 p.m. and 9 p.m. to 12 a.m. Mondays through Saturdays and 6 a.m. to 12 a.m. on Sundays and holidays; Peak is 5 p.m. to 9 p.m. Mondays through Saturdays, other than on a holiday. There are no seasons and no blocks. The Monday-through-Saturday and Sunday brackets name their days with urpx:daysOfWeek, proposed in urpx-org/urpx#71 and in no URPX release yet. Superseded on 2028-01-01 by the ordinance's next column.",
-      "urpx:effectiveDateTime": "2027-01-01T00:00:00",
-      "urpx:expirationDateTime": "2028-01-01T00:00:00",
-      "urpx:changeReason": {
-        "@id": "urpx:rateCase"
-      },
-      "urpx:priceCurrency": "USD",
-      "urpx:commodity": {
-        "@id": "urpx:electricity"
-      },
-      "urpx:serviceRole": {
-        "@id": "urpx:bundledServiceRole"
-      },
-      "urpx:customerChoice": {
-        "@id": "urpx:voluntaryChoice"
-      },
-      "urpx:isDefault": false,
-      "urpx:hasDataSourceReference": {
-        "@type": "urpx:DataSourceReference",
-        "urpx:fileName": "Ord_127473.pdf",
-        "urpx:mediaType": {
-          "@id": "urpx:applicationPdf"
-        },
-        "urpx:accessURL": "https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf",
-        "urpx:dateRetrieved": "2026-10-05",
-        "urpx:dataSourceType": {
-          "@id": "urpx:regulatoryWebsiteSource"
-        },
-        "urpx:pageStart": 10,
-        "urpx:pageEnd": 12
-      },
-      "urpx:hasEligibilityRule": [
-        {
-          "@type": "urpx:EligibilityRule",
-          "@id": "scl:rtc-2027-01-01-er-residential",
-          "urpx:name": "Eligibility for Schedule RTC (Residential: City Time-of-Use)",
-          "urpx:description": "SMC 21.49.030.B as amended by Ordinance 127473: Schedules RTC and RTS are optional rate schedules available to customers who meet eligibility requirements outlined in City Light's Department Policy and Procedure (DPP) 500 P III-434, as amended, or successor rule. Customers may return to their default rate schedule but will not be able to re-enroll in Schedule RTC or RTS until 12 months from the time of unenrollment. City Light's residential Time of Use page requires an advanced meter and a Utility Services Website profile, and does not offer the rate to net metering customers. 21.49.030.C limits normal residential service to single-phase. The condition expression tests only that the customer is residential.",
-          "urpx:hasConditionExpression": {
-            "@type": "urpx:ConditionExpression",
-            "@id": "scl:rtc-2027-01-01-er-residential-condition-expression",
-            "urpx:rootNode": {
-              "@type": "urpx:ComparisonNode",
-              "@id": "scl:rtc-2027-01-01-er-residential-condition-expression-root-node",
-              "urpx:operator": {
-                "@id": "urpx:equalsOperator"
-              },
-              "urpx:leftOperand": {
-                "@type": "urpx:ObjectOperandNode",
-                "@id": "scl:rtc-2027-01-01-er-residential-condition-expression-root-node-left-operand",
-                "urpx:conditionProperty": {
-                  "@id": "urpx:hasCustomerKind"
-                }
-              },
-              "urpx:rightOperand": {
-                "@type": "urpx:ObjectOperandNode",
-                "@id": "scl:rtc-2027-01-01-er-residential-condition-expression-root-node-right-operand",
-                "urpx:referencesValue": {
-                  "@id": "urpx:residentialKind"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "urpx:hasPlanElements": {
-        "@type": "urpx:PlanElements",
-        "@id": "scl:rtc-2027-01-01-plan-elements",
-        "urpx:hasHolidayCalendar": {
-          "@type": "urpx:HolidayCalendar",
-          "@id": "scl:rtc-2027-01-01-holidays",
-          "urpx:hasHoliday": [
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-new-years-day",
-              "urpx:holidayName": "New Year's Day",
-              "urpx:holidayRule": "January 1"
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-memorial-day",
-              "urpx:holidayName": "Memorial Day",
-              "urpx:holidayRule": "Last Monday in May"
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-independence-day",
-              "urpx:holidayName": "Independence Day",
-              "urpx:holidayRule": "July 4"
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-labor-day",
-              "urpx:holidayName": "Labor Day",
-              "urpx:holidayRule": "First Monday in September"
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-thanksgiving-day",
-              "urpx:holidayName": "Thanksgiving Day",
-              "urpx:holidayRule": "Fourth Thursday in November"
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-christmas-day",
-              "urpx:holidayName": "Christmas Day",
-              "urpx:holidayRule": "December 25"
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-independence-day-2027-07-05",
-              "urpx:holidayName": "Independence Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2027-07-05",
-                "@type": "xsd:date"
-              }
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-independence-day-2032-07-05",
-              "urpx:holidayName": "Independence Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2032-07-05",
-                "@type": "xsd:date"
-              }
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-christmas-day-2033-12-26",
-              "urpx:holidayName": "Christmas Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2033-12-26",
-                "@type": "xsd:date"
-              }
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-new-years-day-2034-01-02",
-              "urpx:holidayName": "New Year's Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2034-01-02",
-                "@type": "xsd:date"
-              }
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-independence-day-2038-07-05",
-              "urpx:holidayName": "Independence Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2038-07-05",
-                "@type": "xsd:date"
-              }
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-christmas-day-2039-12-26",
-              "urpx:holidayName": "Christmas Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2039-12-26",
-                "@type": "xsd:date"
-              }
-            },
-            {
-              "@type": "urpx:Holiday",
-              "@id": "scl:rtc-2027-01-01-holiday-new-years-day-2040-01-02",
-              "urpx:holidayName": "New Year's Day (observed)",
-              "urpx:holidayDate": {
-                "@value": "2040-01-02",
-                "@type": "xsd:date"
-              }
-            }
-          ]
-        },
-        "urpx:hasMetricInput": [
-          {
-            "@type": "urpx:MetricInput",
-            "@id": "scl:rtc-2027-01-01-mi-energy",
-            "urpx:name": "kWh Energy Consumption Prices",
-            "urpx:metricInputType": {
-              "@id": "urpx:measuredMetricInput"
-            },
-            "urpx:hasMetricSpecification": {
-              "@type": "urpx:MetricSpecification",
-              "@id": "scl:ms-energy",
-              "urpx:measurementKind": {
-                "@id": "urpx:energy"
-              },
-              "urpx:unitOfMeasure": {
-                "@id": "urpx:kWh"
-              }
-            }
-          },
-          {
-            "@type": "urpx:MetricInput",
-            "@id": "scl:rtc-2027-01-01-mi-meter-count",
-            "urpx:name": "Per Meter Prices",
-            "urpx:metricInputType": {
-              "@id": "urpx:profileMetricInput"
-            },
-            "urpx:profileMetricProperty": {
-              "@id": "urpx:meterCount"
-            }
-          }
-        ],
-        "urpx:hasBillingModel": {
-          "@type": "urpx:BillingModel",
-          "@id": "scl:rtc-2027-01-01-plan-elements-billing-model",
-          "urpx:hasTOUSchedule": {
-            "@type": "urpx:TOUSchedule",
-            "@id": "scl:rtc-2027-01-01-tou-schedule",
-            "urpx:referencesMetricInput": {
-              "@id": "scl:rtc-2027-01-01-mi-energy"
-            },
-            "urpx:hasTOUTier": [
-              {
-                "@type": "urpx:TOUTier",
-                "@id": "scl:rtc-2027-01-01-tou-tier-peak",
-                "urpx:tierSourceName": "Energy Peak",
-                "urpx:touTierStandardName": {
-                  "@id": "urpx:peakTier"
-                },
-                "urpx:touTierNumber": 1,
-                "urpx:hasTOUPeriod": [
-                  {
-                    "@type": "urpx:TOUPeriod",
-                    "@id": "scl:rtc-2027-01-01-tou-period-peak",
-                    "urpx:name": "Peak (5pm-9pm Mondays through Saturdays, not on a holiday)",
-                    "urpx:touPeriodNumber": 1,
-                    "urpx:hasTimeBracket": [
-                      {
-                        "@type": "urpx:TimeBracket",
-                        "@id": "scl:rtc-2027-01-01-time-bracket-peak-mon-sat",
-                        "urpx:startTime": "17:00:00",
-                        "urpx:endTime": "21:00:00",
-                        "urpx:dayType": {
-                          "@id": "urpx:customDays"
-                        },
-                        "urpx:daysOfWeek": [
-                          {
-                            "@id": "urpx:monday"
-                          },
-                          {
-                            "@id": "urpx:tuesday"
-                          },
-                          {
-                            "@id": "urpx:wednesday"
-                          },
-                          {
-                            "@id": "urpx:thursday"
-                          },
-                          {
-                            "@id": "urpx:friday"
-                          },
-                          {
-                            "@id": "urpx:saturday"
-                          }
-                        ],
-                        "urpx:includeHolidays": false
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "@type": "urpx:TOUTier",
-                "@id": "scl:rtc-2027-01-01-tou-tier-mid-peak",
-                "urpx:tierSourceName": "Energy Mid-Peak",
-                "urpx:touTierStandardName": {
-                  "@id": "urpx:midPeakTier"
-                },
-                "urpx:touTierNumber": 2,
-                "urpx:hasTOUPeriod": [
-                  {
-                    "@type": "urpx:TOUPeriod",
-                    "@id": "scl:rtc-2027-01-01-tou-period-mid-peak",
-                    "urpx:name": "Mid-Peak (6am-5pm and 9pm-12am Mondays through Saturdays; 6am-12am Sundays and holidays)",
-                    "urpx:touPeriodNumber": 2,
-                    "urpx:hasTimeBracket": [
-                      {
-                        "@type": "urpx:TimeBracket",
-                        "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-mon-sat-day",
-                        "urpx:startTime": "06:00:00",
-                        "urpx:endTime": "17:00:00",
-                        "urpx:dayType": {
-                          "@id": "urpx:customDays"
-                        },
-                        "urpx:daysOfWeek": [
-                          {
-                            "@id": "urpx:monday"
-                          },
-                          {
-                            "@id": "urpx:tuesday"
-                          },
-                          {
-                            "@id": "urpx:wednesday"
-                          },
-                          {
-                            "@id": "urpx:thursday"
-                          },
-                          {
-                            "@id": "urpx:friday"
-                          },
-                          {
-                            "@id": "urpx:saturday"
-                          }
-                        ],
-                        "urpx:includeHolidays": false
-                      },
-                      {
-                        "@type": "urpx:TimeBracket",
-                        "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-mon-sat-late",
-                        "urpx:startTime": "21:00:00",
-                        "urpx:endTime": "00:00:00",
-                        "urpx:dayType": {
-                          "@id": "urpx:customDays"
-                        },
-                        "urpx:daysOfWeek": [
-                          {
-                            "@id": "urpx:monday"
-                          },
-                          {
-                            "@id": "urpx:tuesday"
-                          },
-                          {
-                            "@id": "urpx:wednesday"
-                          },
-                          {
-                            "@id": "urpx:thursday"
-                          },
-                          {
-                            "@id": "urpx:friday"
-                          },
-                          {
-                            "@id": "urpx:saturday"
-                          }
-                        ],
-                        "urpx:includeHolidays": false
-                      },
-                      {
-                        "@type": "urpx:TimeBracket",
-                        "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-sunday",
-                        "urpx:startTime": "06:00:00",
-                        "urpx:endTime": "00:00:00",
-                        "urpx:dayType": {
-                          "@id": "urpx:customDays"
-                        },
-                        "urpx:daysOfWeek": [
-                          {
-                            "@id": "urpx:sunday"
-                          }
-                        ],
-                        "urpx:includeHolidays": false
-                      },
-                      {
-                        "@type": "urpx:TimeBracket",
-                        "@id": "scl:rtc-2027-01-01-time-bracket-mid-peak-holiday",
-                        "urpx:startTime": "06:00:00",
-                        "urpx:endTime": "00:00:00",
-                        "urpx:dayType": {
-                          "@id": "urpx:allDays"
-                        },
-                        "urpx:includeHolidays": true,
-                        "urpx:includeNonHolidays": false
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "@type": "urpx:TOUTier",
-                "@id": "scl:rtc-2027-01-01-tou-tier-off-peak",
-                "urpx:tierSourceName": "Energy Off-Peak",
-                "urpx:touTierStandardName": {
-                  "@id": "urpx:offPeakTier"
-                },
-                "urpx:touTierNumber": 3,
-                "urpx:hasTOUPeriod": [
-                  {
-                    "@type": "urpx:TOUPeriod",
-                    "@id": "scl:rtc-2027-01-01-tou-period-off-peak",
-                    "urpx:name": "Off-Peak (12am-6am every day)",
-                    "urpx:touPeriodNumber": 3,
-                    "urpx:hasTimeBracket": [
-                      {
-                        "@type": "urpx:TimeBracket",
-                        "@id": "scl:rtc-2027-01-01-time-bracket-off-peak-every-day",
-                        "urpx:startTime": "00:00:00",
-                        "urpx:endTime": "06:00:00",
-                        "urpx:dayType": {
-                          "@id": "urpx:allDays"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "urpx:hasLedger": [
-            {
-              "@type": "urpx:Ledger",
-              "@id": "scl:rtc-2027-01-01-ledger-energy-charge",
-              "urpx:name": "Time-of-Use Energy Charge (Schedule RTC)",
-              "urpx:ledgerType": {
-                "@id": "urpx:bundledLedger"
-              },
-              "urpx:referencesMetricInput": {
-                "@id": "scl:rtc-2027-01-01-mi-energy"
-              }
-            },
-            {
-              "@type": "urpx:Ledger",
-              "@id": "scl:rtc-2027-01-01-ledger-base-service-charge",
-              "urpx:name": "Base Service Charge",
-              "urpx:ledgerType": {
-                "@id": "urpx:bundledLedger"
-              },
-              "urpx:referencesMetricInput": {
-                "@id": "scl:rtc-2027-01-01-mi-meter-count"
-              }
-            }
-          ],
-          "urpx:hasPriceDefinition": [
-            {
-              "@type": "urpx:PriceDefinition",
-              "@id": "scl:rtc-2027-01-01-pd-energy-charge-peak",
-              "urpx:name": "Energy Charge, Peak (Schedule RTC)",
-              "urpx:chargeType": {
-                "@id": "urpx:usageCharge"
-              },
-              "urpx:chargeCategory": {
-                "@id": "urpx:auxiliaryCharge"
-              },
-              "urpx:billPortion": {
-                "@id": "urpx:bundledPortion"
-              },
-              "urpx:touPeriodNumber": 1,
-              "urpx:referencesLedger": {
-                "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
-              }
-            },
-            {
-              "@type": "urpx:PriceDefinition",
-              "@id": "scl:rtc-2027-01-01-pd-energy-charge-mid-peak",
-              "urpx:name": "Energy Charge, Mid-Peak (Schedule RTC)",
-              "urpx:chargeType": {
-                "@id": "urpx:usageCharge"
-              },
-              "urpx:chargeCategory": {
-                "@id": "urpx:auxiliaryCharge"
-              },
-              "urpx:billPortion": {
-                "@id": "urpx:bundledPortion"
-              },
-              "urpx:touPeriodNumber": 2,
-              "urpx:referencesLedger": {
-                "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
-              }
-            },
-            {
-              "@type": "urpx:PriceDefinition",
-              "@id": "scl:rtc-2027-01-01-pd-energy-charge-off-peak",
-              "urpx:name": "Energy Charge, Off-Peak (Schedule RTC)",
-              "urpx:chargeType": {
-                "@id": "urpx:usageCharge"
-              },
-              "urpx:chargeCategory": {
-                "@id": "urpx:auxiliaryCharge"
-              },
-              "urpx:billPortion": {
-                "@id": "urpx:bundledPortion"
-              },
-              "urpx:touPeriodNumber": 3,
-              "urpx:referencesLedger": {
-                "@id": "scl:rtc-2027-01-01-ledger-energy-charge"
-              }
-            },
-            {
-              "@type": "urpx:PriceDefinition",
-              "@id": "scl:rtc-2027-01-01-pd-base-service-charge",
-              "urpx:name": "Base Service Charge, per meter per day (Schedule RTC)",
-              "urpx:chargeType": {
-                "@id": "urpx:customerCharge"
-              },
-              "urpx:chargeCategory": {
-                "@id": "urpx:serviceCharge"
-              },
-              "urpx:billPortion": {
-                "@id": "urpx:bundledPortion"
-              },
-              "urpx:baseQuantity": "1",
-              "urpx:hasCalculationMethod": {
-                "@type": "urpx:CalculationMethod",
-                "@id": "scl:rtc-2027-01-01-pd-base-service-charge-calculation-method",
-                "urpx:intervalDuration": "P1D"
-              },
-              "urpx:referencesLedger": {
-                "@id": "scl:rtc-2027-01-01-ledger-base-service-charge"
-              }
-            }
-          ]
-        }
-      },
-      "urpx:hasPrices": {
-        "@type": "urpx:Prices",
-        "@id": "scl:rtc-2027-01-01-prices",
-        "urpx:hasPrice": [
-          {
-            "@type": "urpx:Price",
-            "@id": "scl:rtc-2027-01-01-price-base-service-charge",
-            "urpx:referencesPriceDefinition": {
-              "@id": "scl:rtc-2027-01-01-pd-base-service-charge"
-            },
-            "urpx:startDate": "2027-01-01",
-            "urpx:name": "Base Service Charge",
-            "urpx:unitPrice": "0.5518"
-          }
-        ],
-        "urpx:hasPriceSet": [
-          {
-            "@type": "urpx:PriceSet",
-            "@id": "scl:rtc-2027-01-01-ps-energy-charge",
-            "urpx:startDate": "2027-01-01",
-            "urpx:hasPrice": [
-              {
-                "@type": "urpx:Price",
-                "@id": "scl:rtc-2027-01-01-price-energy-charge-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "scl:rtc-2027-01-01-pd-energy-charge-peak"
-                },
-                "urpx:name": "Energy Peak",
-                "urpx:unitPrice": "0.1690"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "scl:rtc-2027-01-01-price-energy-charge-mid-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "scl:rtc-2027-01-01-pd-energy-charge-mid-peak"
-                },
-                "urpx:name": "Energy Mid-Peak",
-                "urpx:unitPrice": "0.1479"
-              },
-              {
-                "@type": "urpx:Price",
-                "@id": "scl:rtc-2027-01-01-price-energy-charge-off-peak",
-                "urpx:referencesPriceDefinition": {
-                  "@id": "scl:rtc-2027-01-01-pd-energy-charge-off-peak"
-                },
-                "urpx:name": "Energy Off-Peak",
-                "urpx:unitPrice": "0.0845"
-              }
-            ]
-          }
-        ]
-      },
-      "urpx:offeredBy": {
-        "@type": "urpx:UtilityOperator",
-        "@id": "org:utility-scl",
-        "urpx:legalName": "Seattle City Light",
-        "urpx:organizationType": {
-          "@id": "urpx:utilityOrganization"
-        },
-        "urpx:hasIdentity": {
-          "@id": "org:utility-scl-identity",
-          "@type": "urpx:OrganizationIdentity",
-          "urpx:hasName": {
-            "@id": "org:utility-scl-name",
-            "@type": "urpx:OrganizationName",
-            "urpx:name": "Seattle City Light"
-          },
-          "urpx:hasIdentifier": {
-            "@id": "org:utility-scl-eia",
-            "@type": "urpx:OrganizationIdentifier",
-            "urpx:scheme": {
-              "@id": "urpx:eiaScheme"
-            },
-            "skos:notation": "16868"
-          }
-        }
-      },
-      "urpx:forRatePlan": {
-        "@id": "scl:rtc"
-      },
-      "urpx:hasCoverageClaim": {
-        "@id": "scl:cc-rtc-2027-01-01",
-        "@type": "urpx:CoverageClaim",
-        "urpx:completenessResult": {
-          "@id": "urpx:partial"
-        },
-        "urpx:selfContained": true,
-        "urpx:explainedBy": {
-          "@type": "urpx:Evaluation",
-          "@id": "scl:cc-rtc-2027-01-01-evaluation",
-          "urpx:evaluationKind": {
-            "@id": "urpx:coverageEvaluation"
-          },
-          "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in scl:rtc-2027-01-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26, 2040-01-02. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
-          "urpx:evaluatedOn": "2026-10-05T00:00:00"
-        }
-      }
+    },
+    "urpx:minimumTenure": {
+      "@type": "xsd:duration"
+    },
+    "urpx:dateTimeValue": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:cancelledOn": {
+      "@type": "xsd:date"
+    },
+    "urpx:identityValidTo": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateValue": {
+      "@type": "xsd:date"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:cancelledOnDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:upperBoundOffset": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:decimalValue": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:booleanValue": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateTimeReceived": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:durationValue": {
+      "@type": "xsd:duration"
+    },
+    "urpx": "https://urpx.org/ns/ontology/",
+    "urpx:dateReceived": {
+      "@type": "xsd:date"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:dateTimeCreated": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:dateTimeModified": {
+      "@type": "xsd:dateTime"
+    },
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:startDateTime": {
+      "@type": "xsd:dateTime"
     }
   }
 }
