@@ -7,6 +7,8 @@ Successor to the 2026-03-01 filing under [`../2026-03-01/`](../2026-03-01/). She
 - `pge_e-tou-c_2026-03-27.pdf` — source PDF (sha256 in `tariff.toml`). The composite PG&E tariff PDF mixes sheets at different revisions: Sheet 1 stays at 7846-E / 2026-03-01 (61124-E), Sheet 2 advances to 7869-E / 2026-03-27 (61249-E), Sheets 3–10 stay at 7846-E.
 - `tariff.toml` — provenance, source URL + sha256, regulator, validation status
 - `rate-plan_pge_e-tou-c_2026-03-27.jsonld` — URPX serialization
+- `rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`: the Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) as adjusting brackets on this version's tiers (urpx-org/urpx#80), and the Medical Baseline Wildfire Fund Charge exemption
+- `pge_rule-19_2023-03-23.pdf`: PG&E Electric Rule 19, Medical Baseline Quantities (sha256 in `tariff.toml`)
 
 ## What changed vs. 2026-03-01
 

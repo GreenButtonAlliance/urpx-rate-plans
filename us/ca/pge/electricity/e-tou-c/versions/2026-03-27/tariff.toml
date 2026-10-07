@@ -5,17 +5,34 @@ effective_date = "2026-03-27"
 
 # Source ----------------------------------------------------------------------
 [source]
-url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf"
-sha256 = "009732f62b898e905156b823a147e74c6bfaf7b39fbe41398021d72ce78e81ce"
-retrieved_on = "2026-04-28"
-media_type = "application/pdf"
-filing_type = "advice-letter"
-filing_id = "PGE-AL-7869-E"
+
+  [source.base]
+  url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf"
+  sha256 = "009732f62b898e905156b823a147e74c6bfaf7b39fbe41398021d72ce78e81ce"
+  retrieved_on = "2026-04-28"
+  media_type = "application/pdf"
+  filing_type = "advice-letter"
+  filing_id = "PGE-AL-7869-E"
+
+  # Electric Rule 19: the Standard Medical Baseline Quantity the second document in this
+  # directory adds to the baseline ladder.
+  [source.rule_19]
+  url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_RULES_19.pdf"
+  sha256 = "ac2a90558e3b5158ae1f26410a677f69b3c0c188735e70a78a48369fc2bb8546"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "advice-letter"
+  filing_id = "PGE-AL-6865-E"
 
 # Regulatory ------------------------------------------------------------------
 [regulator]
-authority = "puc"
-docket = "D.26-03-013"
+  [regulator.base]
+  authority = "puc"
+  docket = "D.26-03-013"
+
+  [regulator.rule_19]
+  authority = "puc"
+  docket = "D.22-11-033"
 
 # Extraction ------------------------------------------------------------------
 [extraction]
@@ -34,7 +51,7 @@ complete = false
 deferrals = [
  "Sheet 8: CCA, Direct Access and Transitional Bundled Service customers pay every charge in the Unbundling of Total Rates EXCEPT the Bundled Power Charge Indifference Adjustment and the generation charge, taking the applicable Vintaged PCIA instead. This package carries the 18 vintage rates but nothing suppresses the base plan's four seasonal generation Prices or its Bundled PCIA (-$0.01011/kWh), so a consumer composing base plus modifier bills a departed customer PG&E generation plus both adjustments. The filing's own urpx:CoverageClaim on pge:e-tou-c-vintage-pcia-2026-03-01 already records this as urpx:partial. Expressible under v0.5.1 as a suppression Price (multiplier -1 plus basedOnPrice, which the pinned consumer resolves) or as hasApplicabilityRule on the base Prices (which it does not). Work, not a blocker.",
  "Sheet 4 prices the Base Services Charge by component, per income tier, $ per customer per day: Distribution (-$0.10751 / -$0.02710 / $0.36945), Public Purpose Program ($0.19131 / $0.31065 / $0.31065), Nuclear Decommissioning ($0.00000 all tiers), New System Generation Charge ($0.11333 all tiers). The model carries only the three Sheet 2 bundled totals ($0.19713 / $0.39688 / $0.79343), which the components sum to exactly, so no number is wrong today. What is lost is the delivery-versus-supply split of the fixed charge, which is what Sheet 8's CCA/DA treatment needs, and the model already unbundles the energy side this way. Expressible now: three more PriceDefinitions, each with a three-alternative PriceSetAlternatives mirroring the existing Base Services Charge structure.",
- "Sheet 1 and Special Condition 11 (Sheet 10) exempt CARE and Medical Baseline customers from the Wildfire Fund Charge: 'Customers receiving a medical baseline allowance shall pay for all usage based on the rates shown below and shall not pay the Wildfire Fund Charge' (Sheet 1), and the charge 'applies to all retail sales, excluding CARE and Medical Baseline sales' (Sheet 10). The model's Wildfire Fund Charge Price ($0.00591/kWh) carries no condition. The CARE half is carried by pge:d-care, whose exemption Price is urpx:multiplier -1 over this Price. The Medical Baseline half is not modeled, and no PG&E Medical Baseline schedule is modeled.",
+ "Rule 19 Part F: \"If PG&E finds that you need more than the standard 16.438 kWh per day, it will increase your daily Medical Baseline Quantity. In determining how many Additional Quantities you will be assigned, PG&E will round its calculation of your total daily kWh medical needs up to the nearest increment of 16.438 kWh.\" pge:e-tou-c-medical-baseline-2026-03-27 carries one Standard Medical Baseline Quantity. An additional quantity is a per-customer multiple PG&E assigns, so it is a customer attribute rather than a tariff figure; it is expressible as further adjusting brackets once a multiple is chosen, and nothing in this corpus chooses one.",
  "Sheet 1 defines Income Tier 2 by two disjuncts: (a) FERA-eligible households, or (b) residents of an affordable rental unit in a property listed in the California Housing Partnership's database and restricted to incomes at or below 80 percent of Area Median Income. The tier-2 ProfileAlternative gates only on hasProgramEnrollment = pge:program-fera, so a qualifying (b) customer resolves to Income Tier 3 and is billed $0.79343 per customer per day where the schedule prices $0.39688. Expressible now as an orOperator disjunct over a CustomOperandNode, the construct this file's vintage-PCIA alternatives already use for customConditionProperty 'departureVintage'.",
  "Sheet 1, RATES: 'TOU period usage is assigned to tiers on a pro-rated basis. For example, if twenty percent of a customer's usage is in the peak period, then twenty percent of the total usage in each tier will be treated as on-peak usage.' This is the rule composing this version's TOU dimension with its baseline tiers, and neither is stated to depend on the other. Under v0.5.1, CalculationMethodShape is sh:closed and the only slot is the free-text calculationFormula, so the rule can be recorded as prose but not as a computable composition. Standard-level, not a modeling oversight.",
  "Sheet 3's line item New System Generation Charge (all usage), $0.00000 per kWh, has no PriceDefinition and no Price. Zero-valued, so no bill is wrong and the 20 modeled components still reconstruct the Sheet 2 totals, but the unbundled component list is incomplete against the sheet and the omission becomes a wrong number the first time PG&E sets the charge nonzero.",
@@ -46,10 +63,10 @@ applicable_modifiers = [
  "e-fera",
  "e-rsmart",
  "e-tou-c-vintage-pcia",
- "medical-baseline",
+ "e-tou-c-medical-baseline",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Sheet 2 reissued under AL 7869-E (D.26-03-013) effective 2026-03-27, cancelling sheet 61125-E (the 2026-03-01 sheet 2). The composite tariff PDF mixes sheets at different revisions: Sheet 1 stays at 7846-E / 2026-03-01 (61124-E), Sheet 2 advances to 7869-E / 2026-03-27 (61249-E), Sheets 3-10 stay at 7846-E. Substantive change: California Climate Credit ($-36.18 per household, semi-annual April / October) is REMOVED — the rest of the rates are identical to 2026-03-01. Vintage PCIA tables (sheets 3-10) are unchanged, so the vintage-PCIA RatePlanModifierVersion stays at its 2026-03-01 effective date (AL 7846-E provenance preserved). DERIVED FROM ../2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld by removing the climate-credit ledger / PriceDefinition / Price / household-count MetricInput, advancing the base RatePlanVersion's effective date, swapping TariffPublication AL 7846-E → 7869-E, and adopting urpx:RateCase pge:rc-d-26-03-013. The Conservation Incentive Adjustment and the baseline allowance matrix are in this version: pge:e-tou-c-2026-03-27-tiers-baseline, over the 60-cell income tier, territory and code container pge:e-tou-c-2026-03-27-pa-income-territory-code."
+notes = "Sheet 2 reissued under AL 7869-E (D.26-03-013) effective 2026-03-27, cancelling sheet 61125-E (the 2026-03-01 sheet 2). The composite tariff PDF mixes sheets at different revisions: Sheet 1 stays at 7846-E / 2026-03-01 (61124-E), Sheet 2 advances to 7869-E / 2026-03-27 (61249-E), Sheets 3-10 stay at 7846-E. Substantive change: California Climate Credit ($-36.18 per household, semi-annual April / October) is REMOVED — the rest of the rates are identical to 2026-03-01. Vintage PCIA tables (sheets 3-10) are unchanged, so the vintage-PCIA RatePlanModifierVersion stays at its 2026-03-01 effective date (AL 7846-E provenance preserved). DERIVED FROM ../2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld by removing the climate-credit ledger / PriceDefinition / Price / household-count MetricInput, advancing the base RatePlanVersion's effective date, swapping TariffPublication AL 7846-E → 7869-E, and adopting urpx:RateCase pge:rc-d-26-03-013. The Conservation Incentive Adjustment and the baseline allowance matrix are in this version: pge:e-tou-c-2026-03-27-tiers-baseline, over the 60-cell income tier, territory and code container pge:e-tou-c-2026-03-27-pa-income-territory-code. The Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) and the Medical Baseline Wildfire Fund Charge exemption are pge:e-tou-c-medical-baseline, a second document in this directory, whose adjusting brackets (urpx-org/urpx#80) move this version's tier bounds; Rule 19 is vendored here as pge_rule-19_2023-03-23.pdf."

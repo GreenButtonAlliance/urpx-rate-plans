@@ -38,13 +38,13 @@ The two do not track each other and must not be collapsed. 4 of 153 filings carr
 | Schedule | Effective | Servability | Compositions drawing on it | Captures its source PDF | Notes |
 |---|---|---|---:|---|---|
 | `d-care` | 2026-03-01 | servable | 5 | no |  |
-| `e-1` | 2026-03-01 | servable | 8 | no |  |
+| `e-1` | 2026-03-01 | servable | 10 | no |  |
 | `e-elec` | 2026-01-01 | superseded | 0 | no | every version node in this filing has been superseded |
 | `e-elec` | 2026-03-27 | servable | 5 | no |  |
 | `e-fera` | 2026-06-01 | servable | 5 | no |  |
 | `e-rsmart` | 2025-10-31 | blocked | 5 | no | :condition-gated-tier |
-| `e-tou-c` | 2026-03-01 | not measured | 1 | no | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files; 1 of 2 version nodes here are superseded (pge:e-tou-c-2026-03-01); the outcome is for the rest |
-| `e-tou-c` | 2026-03-27 | servable | 6 | no |  |
+| `e-tou-c` | 2026-03-01 | not measured | 1 | no | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files; 2 of 3 version nodes here are superseded (pge:e-tou-c-2026-03-01, pge:e-tou-c-medical-baseline-2026-03-01); the outcome is for the rest |
+| `e-tou-c` | 2026-03-27 | servable | 8 | no |  |
 | `e-tou-d` | 2026-03-27 | servable | 6 | no |  |
 | `ev2` | 2026-03-27 | servable | 6 | no |  |
 | `nbt` | 2025-10-17 | servable | 1 | no |  |

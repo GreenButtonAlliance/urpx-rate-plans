@@ -264,8 +264,12 @@ def files_of(sub: Submission) -> dict[str, Path]:
     out: dict[str, Path] = {}
     for f in sub.filings:
         for p in [doc.path for doc in f.documents] + [pdf.path for pdf in f.pdfs]:
-            if p.name in out and out[p.name] != p:
+            # One source document vendored in several version directories, such
+            # as PG&E Electric Rule 19, is the same bytes under the same name.
+            if p.name in out and out[p.name] != p and out[p.name].read_bytes() != p.read_bytes():
                 raise ExportError(f"two files would share the name {p.name}")
+            if p.name in out:
+                continue
             out[p.name] = p
     return out
 

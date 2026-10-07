@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CDLA-Permissive-2.0
 """Tests for dev/export_sandbox.py and dev/check_sandbox_drift.py.
 
-Exports PG&E E-TOU-C (both versions) into a
+Exports PG&E E-TOU-C (both versions and their medical baseline modifiers) into a
 minimal stand-in for a urpx-data-sandbox checkout under a temporary directory,
 checks the tree, README, pull request body and [[sandbox]] record it produces,
 then drives the drift check through each of its states against copies. Nothing
@@ -31,9 +31,12 @@ DRIFT = REPO / "dev" / "check_sandbox_drift.py"
 SCHEDULE = Path("us/ca/pge/electricity/e-tou-c")
 DOCS = {
     "rate-plan_pge_e-tou-c_2026-03-01.jsonld",
+    "rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld",
     "rate-plan_pge_e-tou-c_2026-03-27.jsonld",
+    "rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld",
 }
-PDFS = {"pge_e-tou-c_2026-03-01.pdf", "pge_e-tou-c_2026-03-27.pdf"}
+# pge_rule-19_2023-03-23.pdf is vendored in both version directories and exported once.
+PDFS = {"pge_e-tou-c_2026-03-01.pdf", "pge_e-tou-c_2026-03-27.pdf", "pge_rule-19_2023-03-23.pdf"}
 COMMODITY_PATH = "submissions/us/us-ca/pge/electric"
 SHA = "0123456789abcdef0123456789abcdef01234567"
 

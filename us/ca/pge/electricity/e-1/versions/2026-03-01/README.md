@@ -6,6 +6,8 @@
 - `tariff.toml` — provenance, source URL + sha256, regulator, validation status
 - `rate-plan_pge_e-1_2026-03-01.jsonld` — URPX serialization of the rate plan and the vintaged-PCIA modifier
 - `rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld` — the Base Services Charge, at its three income tiers
+- `rate-plan-modifier_pge_e-1-medical-baseline_2026-03-01.jsonld`: the Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) as adjusting brackets on this version's tiers (urpx-org/urpx#80), and the Medical Baseline Wildfire Fund Charge exemption
+- `pge_rule-19_2023-03-23.pdf`: PG&E Electric Rule 19, Medical Baseline Quantities (sha256 in `tariff.toml`)
 
 ## What's in the JSON-LD
 
