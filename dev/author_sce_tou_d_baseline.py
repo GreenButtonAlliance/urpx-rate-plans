@@ -561,7 +561,7 @@ ServiceBrackets on this version's Tier 1 upper and Tier 2 lower bounds. They
 use urpx:adjustsServiceTier, urpx:lowerBoundOffset and urpx:upperBoundOffset,
 proposed in urpx-org/urpx#80 and in no URPX release, so the document does not
 validate against the v0.5.1 shapes; dev/validate-with-base.py excepts exactly
-the results #80 would remove, under BOUND_OFFSET_EXCEPTION. clj-urpx 0.43.0
+the results #80 would remove, under BOUND_OFFSET_EXCEPTION. clj-urpx 0.44.0
 resolves the offsets. The modifier is in effect exactly when this version is.
 """
     return note
