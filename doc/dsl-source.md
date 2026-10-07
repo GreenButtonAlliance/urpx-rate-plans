@@ -1,10 +1,10 @@
 # Filings authored as Clojure source
 
-Each filing's JSON-LD is generated from Clojure source written with `urpx.dsl`. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every document to equal its committed copy by RDF hash (`dev/rdf_hash.py`).
+The 9 Seattle City Light documents are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
 
 ## Evidence
 
-All 9 Seattle City Light documents (RTC and RTS 2026 to 2028, and the residential-suburban modifier 2026 to 2028) generate from one source tree with the same RDF hash as the committed files. The SCL source is 309 lines in 4 namespaces; RTS is 28, most of it a rates table copied from the ordinance's year columns. The committed RTC 2026 JSON-LD alone is 689 lines.
+All 9 Seattle City Light documents (RTC and RTS 2026 to 2028, and the residential-suburban modifier 2026 to 2028) generate from one source tree and equal the committed files byte for byte. The SCL source is 401 lines in 4 namespaces, over 942 lines of generic namespaces in `src/rate_plans/`; RTS is 31, most of it a rates table copied from the ordinance's year columns. The committed RTC 2026 JSON-LD alone is 829 lines.
 
 clj-urpx 0.43.0 loads all 117 corpus documents and emits 111 of them RDF-identically. The other 6, all PG&E, lose their `ProgramEnrollment` nodes.
 
@@ -83,7 +83,7 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 
 ## What goes to clj-urpx
 
-For clj-urpx: `defurpx` and the kind multimethod; fixes for the gaps below; a clj-kondo hook shipped with the library; later, the date-keyed lookups (`as-of`, version dates).
+In clj-urpx: `defurpx` and the kind multimethod (`urpx.defs`), and the clj-kondo hook it exports. To move there: fixes for the gaps below; later, the date-keyed lookups (`as-of`, version dates).
 
 Here: the utility and schedule namespaces; the kinds `:utility`, `:source`, `:document`, `:holidays`, `:rates`, `:percentages`, `:jurisdictions`, `:undergrounding` and `:description`; the TOU and alternatives expansion helpers; the generator entry point; and the gate's equality check. Kinds and helpers move to clj-urpx once PSE Schedules 307 and 327 show they generalize.
 
