@@ -372,6 +372,20 @@ case "$MODE" in
         record $rc
     fi
 
+    # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
+    # by @context coercion, whose lexical form that type does not admit, such as
+    # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
+    # a literal on parse, so pyshacl and every rdflib-based check here miss it.
+    # Exit 1 an ill-typed literal, 3 refused.
+    note "Numeric literals"
+    if python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
+        tail -1 "$LOGDIR"/numeric.log
+    else
+        rc=$?
+        cat "$LOGDIR"/numeric.log
+        record $rc
+    fi
+
     note "MIDAS rate identifiers"
     if python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
         head -1 "$LOGDIR"/rins.log
@@ -588,6 +602,20 @@ case "$MODE" in
     else
         rc=$?
         cat "$LOGDIR"/price-layer.log
+        record $rc
+    fi
+
+    # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
+    # by @context coercion, whose lexical form that type does not admit, such as
+    # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
+    # a literal on parse, so pyshacl and every rdflib-based check here miss it.
+    # Exit 1 an ill-typed literal, 3 refused.
+    note "Numeric literals"
+    if python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
+        tail -1 "$LOGDIR"/numeric.log
+    else
+        rc=$?
+        cat "$LOGDIR"/numeric.log
         record $rc
     fi
 
