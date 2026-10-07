@@ -6,7 +6,7 @@ What this corpus does not yet model, and why. There are two lists because there 
 
 [urpx-org/urpx discussion #37](https://github.com/urpx-org/urpx/discussions/37) is the example. It assumed a sum of per-account demand could not be stated. The reviewer asked what `urpx:ConditionExpression` could not do here, we tried it, and it validated. What survived was a narrower claim: nothing tells a consumer which accounts the sum ranges over.
 
-So before anything is added below, build the minimal document and run `pyshacl` against the shipped shapes. "We cannot express this" and "we have not worked out how to express this" are different claims.
+So before anything is added below, build the minimal document and SHACL-validate it against the shipped shapes (`dev/shacl.sh <file>`). "We cannot express this" and "we have not worked out how to express this" are different claims.
 
 [README](./README.md) describes what the corpus *does* contain. Each filing's `tariff.toml [modeling].deferrals` records its own. This file is the corpus-wide view.
 

@@ -22,6 +22,11 @@
 # There is no CI in this repository (.github/ does not exist), so this script run
 # from the pre-commit hook is the ONLY automatic trigger. Do not treat CI as a
 # fallback for anything.
+#
+# Every SHACL step goes through dev/shacl.sh: com.dcj/clj-shacl, in the nREPL
+# named by .nrepl-port when one answers, else in a fresh JVM. For the comparison
+# period, URPX_SHACL_ENGINE=pyshacl dev/gate.sh runs the same steps on pyshacl
+# (dev/validate-with-base.py); dev/check_shacl_parity.py compares the two.
 
 set -uo pipefail
 
@@ -192,7 +197,7 @@ run_clojure_gate() {
 SCM_URPX_REV=cd13ce8a
 run_scm_shacl() {
     note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
-    if python3 dev/validate-with-base.py --merged --urpx-rev "$SCM_URPX_REV" \
+    if dev/shacl.sh --merged --urpx-rev "$SCM_URPX_REV" \
            --with reports/scenario-cost-models.jsonld --keys > "$LOGDIR"/scm-shacl.log 2>&1; then
         cat "$LOGDIR"/scm-shacl.log
     else
@@ -467,7 +472,7 @@ case "$MODE" in
     # About 40 s, so --fast runs it only when the commit stages a filing, the
     # emitted document or its generator. --full always runs it.
     if git diff --cached --name-only |
-            grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/validate-with-base\.py$'; then
+            grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/validate-with-base\.py$|^dev/shacl_gate\.clj$|^dev/shape-exceptions\.json$'; then
         run_scm_shacl
     else
         note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
@@ -497,7 +502,7 @@ case "$MODE" in
     else
         for u in $targets; do
             note "Baseline: $u"
-            python3 dev/validate-with-base.py --check-baseline --utility "$u"
+            dev/shacl.sh --check-baseline --utility "$u"
             record $?
         done
     fi
@@ -514,11 +519,11 @@ case "$MODE" in
     [ $ca -eq 1 ] && record 1
 
     note "Baseline: every merged mode"
-    python3 dev/validate-with-base.py --check-baseline
+    dev/shacl.sh --check-baseline
     record $?
 
     note "Per-file diagnostic (informational)"
-    python3 dev/validate-with-base.py --per-file 2>/dev/null | tail -1
+    dev/shacl.sh --per-file 2>/dev/null | tail -1
     echo "  Cross-file references are unresolved in this mode, so failures here"
     echo "  are expected and do not affect the exit code."
 
@@ -721,8 +726,11 @@ case "$MODE" in
         record 1
     fi
 
-    note "Version-dispatch negative fixtures"
-    if python3 dev/test_dispatch.py > "$LOGDIR"/dispatch.log 2>&1; then
+    # Version dispatch and the shape exceptions, on clj-shacl. The pyshacl
+    # versions, dev/test_dispatch.py and dev/test_shape_exceptions.py, run in
+    # dev/check_all.py above while pyshacl stays.
+    note "Version-dispatch and shape-exception negative fixtures"
+    if clojure -M -m test-shacl-gate > "$LOGDIR"/dispatch.log 2>&1; then
         tail -1 "$LOGDIR"/dispatch.log
     else
         cat "$LOGDIR"/dispatch.log

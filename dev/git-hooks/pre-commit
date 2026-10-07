@@ -41,10 +41,12 @@ set -euo pipefail
 # against, so a re-record could land unverified.
 # src/ is matched because the documents generated from it are checked against
 # their committed files only here and in the gate.
+# dev/shape-exceptions.json and deps.edn are matched because the SHACL step
+# reads the one and pins its engine in the other.
 # ACMRD, not ACMR: D is deletion. Removing a filing is a corpus change like any
 # other, and under ACMR a commit that only deleted filings matched nothing here
 # and skipped the gate outright.
-if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld|pdf)|src/.*\.clj|dev/[^/]+\.(py|sh|clj)|dev/baseline/.*\.(edn|json))$'; then
+if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld|pdf)|src/.*\.clj|dev/[^/]+\.(py|sh|clj)|dev/shape-exceptions\.json|deps\.edn|dev/baseline/.*\.(edn|json))$'; then
     exit 0
 fi
 
