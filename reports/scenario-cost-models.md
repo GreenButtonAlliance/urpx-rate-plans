@@ -73,21 +73,21 @@ A scenario cost model is identified by its own components: the base version IRI,
 
 | Composition | Reason |
 |---|---|
-| `pge:e-1-2026-03-01` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
-| `pge:e-elec-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
-| `pge:e-tou-c-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
-| `pge:e-tou-d-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
-| `pge:ev2-2026-03-27` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
+| `pge:e-1-2026-06-01` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
+| `pge:e-elec-2026-08-28` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
+| `pge:e-tou-c-2026-06-01` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
+| `pge:e-tou-d-2026-06-01` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
+| `pge:ev2-2026-06-01` + `pge:e-rsmart-2025-10-31` | :condition-gated-tier |
 | `sce:tou-d-prime-2026-10-01` + `sce:tou-d-prime-cpp-2026-10-01` | resolves at some probe instants and refuses at others: :condition-gated-tier |
 
 ## Not measured (4)
 
 | Composition | Reason |
 |---|---|
-| `pge:e-1-2026-03-01` + `pge:e-1-vintage-pcia-2026-03-01` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
-| `pge:e-tou-c-2026-03-27` + `pge:e-tou-c-vintage-pcia-2026-03-01` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
-| `pge:e-tou-d-2026-03-27` + `pge:e-tou-d-vintage-pcia-2026-03-27` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
-| `pge:ev2-2026-03-27` + `pge:ev2-vintage-pcia-2026-03-27` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
+| `pge:e-1-2026-06-01` + `pge:e-1-vintage-pcia-2026-03-01` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
+| `pge:e-tou-c-2026-06-01` + `pge:e-tou-c-vintage-pcia-2026-03-01` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
+| `pge:e-tou-d-2026-06-01` + `pge:e-tou-d-vintage-pcia-2026-03-27` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
+| `pge:ev2-2026-06-01` + `pge:ev2-vintage-pcia-2026-03-27` | no baseline row: the modifier is inline in a base filing, and the baseline composes only standalone modifier files |
 
 ## Open dimensions
 
@@ -97,17 +97,17 @@ A dimension a composition's components leave open. The corpus states the alterna
 |---|---:|---:|---|---|
 | `cpau:e-hra-2023-01-01-pa-hydro`<br>Hydro Stabilization Reserve level and projected hydro generation | 16 | 10 | `urpx:PriceDefinition`<br>`cpau:e-hra-2023-01-01-pd-` | no |
 | `cpau:e3-pa-buyback-configuration`<br>Buyback table (Section C.1 without, C.2 with an interval meter) and type of power (Firm or Non-Firm, Special Note 1) | 4 | 3 | `urpx:PriceSetAlternative`<br>`cpau:e3-psa-buyback-` | no |
-| `pge:e-1-2026-03-01-pa-baseline-territory-code`<br>Baseline Territory and Baseline Code (Special Condition 2, Sheet 4) | 20 | 7 | `urpx:ServiceBracket`<br>`pge:e-1-2026-03-01-bracket-` | no |
-| `pge:e-1-income-tier-2026-03-01-pa-income-tier`<br>Income tier (CARE / FERA / standard) | 3 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-income-tier-2026-03-01-psa-bsc-tier-` | no |
+| `pge:e-1-2026-06-01-pa-baseline-territory-code`<br>Baseline Territory and Baseline Code (Special Condition 2, Sheet 4) | 20 | 7 | `urpx:ServiceBracket`<br>`pge:e-1-2026-06-01-bracket-` | no |
+| `pge:e-1-income-tier-2026-06-01-pa-income-tier`<br>Income tier (CARE / FERA / standard) | 3 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-income-tier-2026-06-01-psa-bsc-tier-` | no |
 | `pge:e-1-vintage-pcia-2026-03-01-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-vintage-pcia-2026-03-01-psa-vpcia-20` | no |
-| `pge:e-elec-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 5 | `urpx:PriceSetAlternative`<br>`pge:e-elec-2026-03-27-psa-bsc-tier-` | no |
-| `pge:e-tou-c-2026-03-27-pa-income-territory-code`<br>Income tier (CARE / FERA / standard) by Baseline Territory and Baseline Code (Sheet 1 RATES; Special Condition 1, Sheet 5) | 60 | 6 | `urpx:PriceSetAlternative`, `urpx:ServiceBracket`<br>`pge:e-tou-c-2026-03-27-` | no |
+| `pge:e-elec-2026-08-28-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 5 | `urpx:PriceSetAlternative`<br>`pge:e-elec-2026-08-28-psa-bsc-tier-` | no |
+| `pge:e-tou-c-2026-06-01-pa-income-territory-code`<br>Income tier (CARE / FERA / standard) by Baseline Territory and Baseline Code (Sheet 1 RATES; Special Condition 1, Sheet 5) | 60 | 6 | `urpx:PriceSetAlternative`, `urpx:ServiceBracket`<br>`pge:e-tou-c-2026-06-01-` | no |
 | `pge:e-tou-c-vintage-pcia-2026-03-01-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-tou-c-vintage-pcia-2026-03-01-psa-vpcia-20` | no |
-| `pge:e-tou-d-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 5 | `urpx:PriceSetAlternative`<br>`pge:e-tou-d-2026-03-27-psa-bsc-tier-` | no |
+| `pge:e-tou-d-2026-06-01-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 5 | `urpx:PriceSetAlternative`<br>`pge:e-tou-d-2026-06-01-psa-bsc-tier-` | no |
 | `pge:e-tou-d-vintage-pcia-2026-03-27-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-tou-d-vintage-pcia-2026-03-27-psa-vpcia-20` | no |
-| `pge:ev2-2026-03-27-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 5 | `urpx:PriceSetAlternative`<br>`pge:ev2-2026-03-27-psa-bsc-tier-` | no |
+| `pge:ev2-2026-06-01-pa-income-tier`<br>Income tier (CARE / FERA / Standard) | 3 | 5 | `urpx:PriceSetAlternative`<br>`pge:ev2-2026-06-01-psa-bsc-tier-` | no |
 | `pge:ev2-vintage-pcia-2026-03-27-pa-departure-vintage`<br>Vintaged PCIA — departure-vintage year | 18 | 1 | `urpx:PriceSetAlternative`<br>`pge:ev2-vintage-pcia-2026-03-27-psa-vpcia-20` | no |
-| `pge:nbt-2025-10-17-pa-vintage`<br>NBT export compensation vintage (NBT Interconnection Vintage Year), fixed for the customer's lock-in period, and for the 2025 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 5 | 1 | `urpx:PriceSetAlternative`<br>`pge:nbt-2025-10-17-psa-export-202` | no |
+| `pge:nbt-2026-08-28-pa-vintage`<br>NBT export compensation vintage (NBT Interconnection Vintage Year), fixed for the customer's lock-in period, and for the 2025 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 5 | 1 | `urpx:PriceSetAlternative`<br>`pge:nbt-2026-08-28-psa-export-202` | no |
 | `sce:cca-crs-2026-10-01-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:cca-crs-2026-10-01-psa-pcia-v20` | `sce:cca-crs-2026-10-01-pa-vintage-2001` |
 | `sce:da-crs-2026-10-01-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:da-crs-2026-10-01-psa-pcia-v20` | `sce:da-crs-2026-10-01-pa-vintage-2001` |
 | `sce:nbt-2025-04-23-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period, and for the NBT25 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 6 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-04-23-psa-export-n` | no |
@@ -132,7 +132,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-85 version nodes, over 44 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+95 version nodes, over 50 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -150,9 +150,19 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `cpau:e-7-tou` | `cpau:e-7-tou-2025-07-01` | 2025-07-01 | `cpau:e-7-tou-2026-07-01` | 2026-07-01 |
 | `cpau:e-eec-1` | `cpau:e-eec-1-2025-09-01` | 2025-09-01 | `cpau:e-eec-1-2026-07-01` | 2026-07-01 |
 | `cpau:e-nse-1` | `cpau:e-nse-1-2025-09-01` | 2025-09-01 | `cpau:e-nse-1-2026-07-01` | 2026-07-01 |
-| `pge:e-elec` | `pge:e-elec-2026-01-01` | 2026-01-01 | `pge:e-elec-2026-03-27` | 2026-03-27 |
-| `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | `pge:e-tou-c-2026-03-27` | 2026-03-27 |
-| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-01` | 2026-03-01 | `pge:e-tou-c-medical-baseline-2026-03-27` | 2026-03-27 |
+| `pge:e-1` | `pge:e-1-2026-03-01` | 2026-03-01 | `pge:e-1-2026-06-01` | 2026-06-01 |
+| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-03-01` | 2026-03-01 | `pge:e-1-income-tier-2026-06-01` | 2026-06-01 |
+| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-03-01` | 2026-03-01 | `pge:e-1-medical-baseline-2026-06-01` | 2026-06-01 |
+| `pge:e-elec` | `pge:e-elec-2026-01-01` | 2026-01-01 | `pge:e-elec-2026-08-28` | 2026-08-28 |
+| `pge:e-elec` | `pge:e-elec-2026-03-27` | 2026-03-27 | `pge:e-elec-2026-08-28` | 2026-08-28 |
+| `pge:e-elec` | `pge:e-elec-2026-06-01` | 2026-06-01 | `pge:e-elec-2026-08-28` | 2026-08-28 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | `pge:e-tou-c-2026-06-01` | 2026-06-01 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-03-27` | 2026-03-27 | `pge:e-tou-c-2026-06-01` | 2026-06-01 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-01` | 2026-03-01 | `pge:e-tou-c-medical-baseline-2026-06-01` | 2026-06-01 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-27` | 2026-03-27 | `pge:e-tou-c-medical-baseline-2026-06-01` | 2026-06-01 |
+| `pge:e-tou-d` | `pge:e-tou-d-2026-03-27` | 2026-03-27 | `pge:e-tou-d-2026-06-01` | 2026-06-01 |
+| `pge:ev2` | `pge:ev2-2026-03-27` | 2026-03-27 | `pge:ev2-2026-06-01` | 2026-06-01 |
+| `pge:nbt` | `pge:nbt-2025-10-17` | 2025-10-17 | `pge:nbt-2026-08-28` | 2026-08-28 |
 | `pse:307` | `pse:307-2026-05-01` | 2026-05-01 | `pse:307-2026-10-01` | 2026-10-01 |
 | `pse:327` | `pse:327-2026-05-01` | 2026-05-01 | `pse:327-2026-10-01` | 2026-10-01 |
 | `sce:care` | `sce:care-2025-11-15` | 2025-11-15 | `sce:care-2026-10-01` | 2026-10-01 |

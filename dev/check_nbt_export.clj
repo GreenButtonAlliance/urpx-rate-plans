@@ -17,7 +17,9 @@
    every base plan its urpx:applicableToRatePlan names. For each
    alternative the modifier declares, urpx.schedule/price-segments walks twelve
    months from the first month boundary on or after the later of the two
-   filings' dates. For every segment and every ledger on a urpx:reverse
+   filings' dates. A modifier version that has ended (urpx:expirationDateTime)
+   is composed instead with the newest base filing dated before its end, and
+   the walk stops at that end. For every segment and every ledger on a urpx:reverse
    MetricInput it asserts: no :urpx.interval/refused; the ledger appears once;
    :urpx.resolved/flow-direction is urpx:reverse; no
    :urpx.resolved/unselected-alternatives; exactly one tier; no
@@ -75,6 +77,7 @@
   "The filings this check owns. Discovery below refuses if the corpus holds an
    NBT-shaped modifier that is not listed, so a new one cannot go unchecked."
   #{"us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld"
+    "us/ca/pge/electricity/nbt/versions/2026-08-28/rate-plan-modifier_pge_nbt_2026-08-28.jsonld"
     "us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld"
     "us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld"})
 
@@ -109,6 +112,19 @@
     :months all-months :reason acc-plus-2025-only}
    {:alternative "pge:nbt-2025-10-17-pa-vintage-2026"
     :ledgers #{"pge:nbt-ledger-acc-plus-residential" "pge:nbt-ledger-acc-plus-low-income"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "pge:nbt-2026-08-28-pa-vintage-2025-residential"
+    :ledgers #{"pge:nbt-2026-08-28-ledger-acc-plus-low-income"} :months all-months :reason other-segment}
+   {:alternative "pge:nbt-2026-08-28-pa-vintage-2025-low-income"
+    :ledgers #{"pge:nbt-2026-08-28-ledger-acc-plus-residential"} :months all-months :reason other-segment}
+   {:alternative "pge:nbt-2026-08-28-pa-vintage-2023"
+    :ledgers #{"pge:nbt-2026-08-28-ledger-acc-plus-residential" "pge:nbt-2026-08-28-ledger-acc-plus-low-income"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "pge:nbt-2026-08-28-pa-vintage-2024"
+    :ledgers #{"pge:nbt-2026-08-28-ledger-acc-plus-residential" "pge:nbt-2026-08-28-ledger-acc-plus-low-income"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "pge:nbt-2026-08-28-pa-vintage-2026"
+    :ledgers #{"pge:nbt-2026-08-28-ledger-acc-plus-residential" "pge:nbt-2026-08-28-ledger-acc-plus-low-income"}
     :months all-months :reason acc-plus-2025-only}
    {:alternative "sce:nbt-2025-04-23-pa-vintage-nbt23"
     :ledgers #{"sce:nbt-ledger-acc-plus-non-equity" "sce:nbt-ledger-acc-plus-equity"}
@@ -282,22 +298,37 @@
 ;; Corpus
 ;; ---------------------------------------------------------------------------
 
-(defn- latest-base-file [base-iri]
-  (let [[u slug] (str/split base-iri #":" 2)
-        re (re-pattern (str ".*/rate-plan_" u "_" slug "_(\\d{4}-\\d{2}-\\d{2})\\.jsonld$"))]
-    (->> (layout/paths "." ["rate-plan"])
-         (keep #(when-let [[_ d] (re-matches re %)] [d %]))
-         sort last)))
+(defn- latest-base-file
+  "The newest filing of base-iri, or with `before`, the newest dated before it."
+  ([base-iri] (latest-base-file base-iri nil))
+  ([base-iri before]
+   (let [[u slug] (str/split base-iri #":" 2)
+         re (re-pattern (str ".*/rate-plan_" u "_" slug "_(\\d{4}-\\d{2}-\\d{2})\\.jsonld$"))]
+     (->> (layout/paths "." ["rate-plan"])
+          (keep #(when-let [[_ d] (re-matches re %)] [d %]))
+          (filter (fn [[d]] (or (nil? before) (neg? (compare d before)))))
+          sort last))))
 
 (defn- file-date [path] (second (re-find #"_(\d{4}-\d{2}-\d{2})\.jsonld$" path)))
 
 (defn- window
-  "Twelve months from the first month boundary on or after `date`."
-  [^String date]
-  (let [d (LocalDate/parse date)
-        s (if (= 1 (.getDayOfMonth d)) d (.plusMonths (.withDayOfMonth d 1) 1))
-        start (.atStartOfDay s la)]
-    [start (.plusMonths start 12)]))
+  "Twelve months from the first month boundary on or after `date`, ending
+   earlier at `until` (a version's expiration date) when one is given."
+  ([^String date] (window date nil))
+  ([^String date until]
+   (let [d (LocalDate/parse date)
+         s (if (= 1 (.getDayOfMonth d)) d (.plusMonths (.withDayOfMonth d 1) 1))
+         start (.atStartOfDay s la)
+         end (.plusMonths start 12)
+         stop (when until (.atStartOfDay (LocalDate/parse (subs until 0 10)) la))]
+     [start (if (and stop (.isBefore ^ZonedDateTime stop end)) stop end)])))
+
+(defn- expiration
+  "The urpx:expirationDateTime of the modifier version in a raw document, if any."
+  [raw]
+  (some #(when (= "urpx:RatePlanModifierVersion" (get % "@type"))
+           (let [x (get % "urpx:expirationDateTime")] (if (map? x) (get x "@value") x)))
+        (nodes raw)))
 
 ;; ---------------------------------------------------------------------------
 ;; The walk
@@ -393,7 +424,10 @@
                        modifier (-> (get subst path path) core/load-rate-plan-modifier
                                     coerce/coerce-rate-plan-modifier)]
                  base-iri (:applicable exp)
-                 :let [[bdate bpath] (or (latest-base-file base-iri)
+                 :let [until (expiration raw)
+                       ;; An NBT version that has ended is composed with the base filing
+                       ;; dated before its end, over the months up to that end.
+                       [bdate bpath] (or (latest-base-file base-iri (some-> until (subs 0 10)))
                                          (refuse (str path ": no base filing for " base-iri)))
                        base  (-> (get subst bpath bpath) core/load-rate-plan coerce/coerce-rate-plan)
                        mpred (holidays/derive-predicate modifier)
@@ -403,7 +437,7 @@
                        exp   (assoc exp :holiday? hpred)
                        cal   (calendar-violations hsrc hpred)
                        by-id (reduce merge (map index/build-index [base modifier]))
-                       win   (window (let [md (file-date path)] (if (pos? (compare bdate md)) bdate md)))]
+                       win   (window (let [md (file-date path)] (if (pos? (compare bdate md)) bdate md)) until)]
                  alt (sort (keys (:alternatives exp)))]
              {:exp exp :base base :modifier modifier :by-id by-id :alt alt :window win
               :stale stale :calendar cal :holiday-source hsrc

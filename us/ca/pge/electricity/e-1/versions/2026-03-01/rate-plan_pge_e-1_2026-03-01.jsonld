@@ -16,6 +16,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -85,6 +88,7 @@
           "@id": "pge:e-1-2026-03-01",
           "urpx:description": "Default non-TOU residential schedule. Energy is billed at three tiered rates based on percentage of baseline allowance: Tier 1 (0-100%), Tier 2 (101-400%), Tier 2 Continued (over 400%). Generation and Distribution components are tier-agnostic; the tier-varying piece is the Conservation Incentive Adjustment. The baseline allowance itself varies by baseline territory (10) and baseline code (B basic, H all-electric), and this version carries all 20 cells as urpx:ProfileAlternative nodes over two urpx:AlternativeDimension nodes, with 20 cell-scoped urpx:ServiceBracket nodes on each of the six urpx:ServiceTier nodes: 120 brackets holding the 40 kWh/day quantities of Special Condition 2, Sheet 4 (Cal. P.U.C. Sheet 61099-E), Tier 2 ending at four times Tier 1. Which cell applies is the caller's to name; nothing here selects one. Season is carried by the identity of the six tiers, three summer rungs and three winter rungs, and by no urpx:appliesInSeason. Two sibling urpx:RatePlanModifier versions complete the schedule: the Vintaged PCIA for CCA, DA and TBS customers, in this document, and the daily Base Services Charge at its three income tiers (CARE, FERA, standard), in rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld. Every customer pays a Base Services Charge, so that modifier is not elective even though urpx:hasModifierOptions is the only vocabulary for the link. (urpx:initialEffectiveDate is set to 2001-01-01 as a placeholder for the post-restructuring modern PG&E E-1 era; the schedule predates this.) The Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) is the modifier pge:e-1-medical-baseline, a second document in this filing's directory.",
           "urpx:effectiveDateTime": "2026-03-01T00:00:00",
+          "urpx:expirationDateTime": "2026-06-01T00:00:00",
           "urpx:changeReason": {
             "@id": "urpx:rateCase"
           },
@@ -4876,9 +4880,14 @@
               }
             ]
           },
-          "urpx:applicableToRatePlanVersion": {
-            "@id": "pge:e-1-2026-03-01"
-          },
+          "urpx:applicableToRatePlanVersion": [
+            {
+              "@id": "pge:e-1-2026-03-01"
+            },
+            {
+              "@id": "pge:e-1-2026-06-01"
+            }
+          ],
           "urpx:offeredBy": {
             "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",

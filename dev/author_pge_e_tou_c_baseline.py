@@ -7,7 +7,7 @@ The ladder was a sibling RatePlanModifier, pge:e-tou-c-baseline-tier, so every
 composition without it (the base alone, and the base with D-CARE, E-FERA,
 E-RSMART or the vintage PCIA) carried no Conservation Incentive Adjustment and no
 tier bounds, and a modifier adjusting those bounds could never compose with the
-base under a one-modifier policy. Each base version, 2026-03-01 and 2026-03-27,
+base under a one-modifier policy. Each base version, 2026-03-01, 2026-03-27 and 2026-06-01,
 now carries in its own document:
 
   - a kWh MetricInput `<version>-mi-energy-baseline` and a Conservation Incentive
@@ -46,11 +46,11 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 PGE = REPO / "us/ca/pge/electricity"
 SCHED = PGE / "e-tou-c"
-DATES = ["2026-03-01", "2026-03-27"]
+DATES = ["2026-03-01", "2026-03-27", "2026-06-01"]
 OVERLAY = SCHED / "versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld"
 
 # Special Condition 1, Sheet 5 (Cal. P.U.C. Sheet 61128-E), Baseline Quantities
-# in kWh per day, identical in both versions' PDFs (checked 2026-10-07).
+# in kWh per day, identical in all three versions' PDFs (checked 2026-10-07).
 #   territory: (Code B summer, Code B winter, Code H summer, Code H winter)
 TERRITORIES = ["P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"]
 QUANTITY = {

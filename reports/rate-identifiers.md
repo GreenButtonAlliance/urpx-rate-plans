@@ -26,7 +26,7 @@ The token count exceeds the node count because 5 attestations cite more than one
 
 | Filing | Identifiers | Attestations | Prices citing one |
 |---|---:|---:|---:|
-| `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 4 | 4 | 2,304 |
+| `us/ca/pge/electricity/nbt/versions/2026-08-28/rate-plan-modifier_pge_nbt_2026-08-28.jsonld` | 4 | 4 | 2,304 |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 10 | 10 | 5,088 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 10 | 10 | 5,760 |
 
@@ -39,13 +39,14 @@ Those are the filings. The same strings are also written down outside the corpus
 | `reports/midas-coverage.md` | 8,960 | 8,959 |
 | `reports/midas-coverage.json` | 8,959 | 8,959 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5,760 | 10 |
-| `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 2,880 | 4 |
+| `us/ca/pge/electricity/nbt/versions/2026-08-28/rate-plan-modifier_pge_nbt_2026-08-28.jsonld` | 2,880 | 4 |
 | `dev/test_rate_identifiers.py` | 31 | 7 |
 | `doc/midas-rins-and-scenario-cost-models.md` | 21 | 19 |
 | `scripts/tag-pge-nbt-prices-with-midas-rins.py` | 10 | 5 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/README.md` | 10 | 10 |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/tariff.toml` | 7 | 6 |
-| `us/ca/pge/electricity/nbt/versions/2025-10-17/tariff.toml` | 4 | 4 |
+| `dev/author_pge_2026.py` | 4 | 4 |
+| `us/ca/pge/electricity/nbt/versions/2026-08-28/tariff.toml` | 4 | 4 |
 | `dev/list_rate_identifiers.py` | 2 | 2 |
 | `LAYOUT.md` | 1 | 1 |
 | `dev/mine_midas.py` | 1 | 1 |
@@ -69,10 +70,10 @@ Those are the filings. The same strings are also written down outside the corpus
 
 | Utility | Composition | Charge | Vintage | Identifier expression | Prices | State |
 |---|---|---|---|---|---:|---|
-| pge | `pge:e-elec-2026-03-27` + `pge:nbt-2025-10-17` | `pge:nbt-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2023 | `USCA-PGXX-3500-0000 — E-ELEC NBT23-CCA` | 576 | **confirmed** |
-| pge | `pge:e-elec-2026-03-27` + `pge:nbt-2025-10-17` | `pge:nbt-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2024 | `USCA-PGXX-3600-0000 — E-ELEC NBT24-CCA` | 576 | **confirmed** |
-| pge | `pge:e-elec-2026-03-27` + `pge:nbt-2025-10-17` | `pge:nbt-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2025 | `USCA-PGXX-3900-0000 — E-ELEC NBT25-CCA` | 576 | **confirmed** |
-| pge | `pge:e-elec-2026-03-27` + `pge:nbt-2025-10-17` | `pge:nbt-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2026 | `USCA-PGXX-4000-0000 — E-ELEC NBT26-CCA` | 576 | **confirmed** |
+| pge | `pge:e-elec-2026-08-28` + `pge:nbt-2026-08-28` | `pge:nbt-2026-08-28-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2023 | `USCA-PGXX-3500-0000 — E-ELEC NBT23-CCA` | 576 | **confirmed** |
+| pge | `pge:e-elec-2026-08-28` + `pge:nbt-2026-08-28` | `pge:nbt-2026-08-28-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2024 | `USCA-PGXX-3600-0000 — E-ELEC NBT24-CCA` | 576 | **confirmed** |
+| pge | `pge:e-elec-2026-08-28` + `pge:nbt-2026-08-28` | `pge:nbt-2026-08-28-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2025 | `USCA-PGXX-3900-0000 — E-ELEC NBT25-CCA` | 576 | **confirmed** |
+| pge | `pge:e-elec-2026-08-28` + `pge:nbt-2026-08-28` | `pge:nbt-2026-08-28-pd-export-rate-delivery` | NBT Interconnection Vintage Year = 2026 | `USCA-PGXX-4000-0000 — E-ELEC NBT26-CCA` | 576 | **confirmed** |
 | sce | `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | `sce:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT23 | `USCA-SCXX-0603-0000` | 576 | **confirmed** |
 | sce | `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | `sce:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT24 | `USCA-SCXX-0604-0000` | 576 | **confirmed** |
 | sce | `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | `sce:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT25 | `USCA-SCXX-0605-0000` | 576 | **confirmed** |
@@ -151,7 +152,7 @@ An identifier names a composition. The corpus composition it was keyed to expres
 
 | Filing | Vintages cited | Condition property | `urpx:ProfileAlternatives` declared here | Open dimensions of the keyed compositions |
 |---|---:|---|---:|---|
-| `us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld` | 4 | `NBT Interconnection Vintage Year` | 1 | `pge:e-elec-2026-03-27-pa-income-tier`, `pge:nbt-2025-10-17-pa-vintage` |
+| `us/ca/pge/electricity/nbt/versions/2026-08-28/rate-plan-modifier_pge_nbt_2026-08-28.jsonld` | 4 | `NBT Interconnection Vintage Year` | 1 | `pge:e-elec-2026-08-28-pa-income-tier`, `pge:nbt-2026-08-28-pa-vintage` |
 | `us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld` | 5 | `NBT Vintage Label` | 1 | `sce:nbt-2025-04-23-pa-vintage` |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld` | 5 | `NBT Vintage Label` | 1 | `sdge:nbt-2025-01-27-pa-vintage` |
 

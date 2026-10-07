@@ -50,17 +50,21 @@ so that column, not the gap list, is the number that predicts the next one.
 | `ladwp:lifeline` | `ladwp:lifeline-2008-09-01` | 2008-09-01 | open | 2026-05-04 | 156 |
 | `ladwp:nem` | `ladwp:nem-2008-09-01` | 2008-09-01 | open | 2026-05-01 | 159 |
 | `pge:d-care` | `pge:d-care-2026-03-01` | 2026-03-01 | open | 2026-09-23 | 14 |
-| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-03-01` | 2026-03-01 | open | 2026-10-07 | 0 |
-| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-03-01` | 2026-03-01 | open | 2026-10-07 | 0 |
+| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
+| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-1-vintage-pcia` | `pge:e-1-vintage-pcia-2026-03-01` | 2026-03-01 | open | unrecorded |  |
 | `pge:e-fera` | `pge:e-fera-2026-06-01` | 2026-06-01 | open | 2026-09-23 | 14 |
 | `pge:e-rsmart` | `pge:e-rsmart-2025-10-31` | 2025-10-31 | open | 2026-05-29 | 131 |
 | `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-01` | 2026-03-01 | 2026-03-27 | 2026-10-07 | 0 |
-| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-27` | 2026-03-27 | open | 2026-10-07 | 0 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-tou-c-vintage-pcia` | `pge:e-tou-c-vintage-pcia-2026-03-01` | 2026-03-01 | open | unrecorded |  |
 | `pge:e-tou-d-vintage-pcia` | `pge:e-tou-d-vintage-pcia-2026-03-27` | 2026-03-27 | open | unrecorded |  |
 | `pge:ev2-vintage-pcia` | `pge:ev2-vintage-pcia-2026-03-27` | 2026-03-27 | open | unrecorded |  |
-| `pge:nbt` | `pge:nbt-2025-10-17` | 2025-10-17 | open | 2026-05-29 | 131 |
+| `pge:nbt` | `pge:nbt-2025-10-17` | 2025-10-17 | 2026-08-28 | 2026-05-29 | 131 |
+| `pge:nbt` | `pge:nbt-2026-08-28` | 2026-08-28 | open | 2026-09-23 | 14 |
 | `sce:care` | `sce:care-2025-11-15` | 2025-11-15 | 2026-01-01 | 2026-04-30 | 160 |
 | `sce:care` | `sce:care-2026-03-20` | 2026-03-20 | 2026-06-01 | 2026-05-04 | 156 |
 | `sce:care` | `sce:care-2026-06-01` | 2026-06-01 | 2026-10-01 | 2026-09-23 | 14 |
@@ -132,13 +136,19 @@ so that column, not the gap list, is the number that predicts the next one.
 | `cpau:e-7-tou` | `cpau:e-7-tou-2026-07-01` | 2026-07-01 | open | 2026-10-06 | 1 |
 | `ladwp:r-1a` | `ladwp:r-1a-2026-04-01` | 2026-04-01 | open | 2026-04-30 | 160 |
 | `ladwp:r-1b` | `ladwp:r-1b-2026-04-01` | 2026-04-01 | open | 2026-04-30 | 160 |
-| `pge:e-1` | `pge:e-1-2026-03-01` | 2026-03-01 | open | 2026-10-07 | 0 |
+| `pge:e-1` | `pge:e-1-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-1` | `pge:e-1-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-elec` | `pge:e-elec-2026-01-01` | 2026-01-01 | 2026-03-01 | 2026-01-05 | 275 |
-| `pge:e-elec` | `pge:e-elec-2026-03-27` | 2026-03-27 | open | 2026-04-29 | 161 |
+| `pge:e-elec` | `pge:e-elec-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-04-29 | 161 |
+| `pge:e-elec` | `pge:e-elec-2026-06-01` | 2026-06-01 | 2026-08-28 | 2026-09-23 | 14 |
+| `pge:e-elec` | `pge:e-elec-2026-08-28` | 2026-08-28 | open | 2026-09-23 | 14 |
 | `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | 2026-03-27 | 2026-10-07 | 0 |
-| `pge:e-tou-c` | `pge:e-tou-c-2026-03-27` | 2026-03-27 | open | 2026-10-07 | 0 |
-| `pge:e-tou-d` | `pge:e-tou-d-2026-03-27` | 2026-03-27 | open | 2026-04-26 | 164 |
-| `pge:ev2` | `pge:ev2-2026-03-27` | 2026-03-27 | open | 2026-04-27 | 163 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
+| `pge:e-tou-d` | `pge:e-tou-d-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-04-26 | 164 |
+| `pge:e-tou-d` | `pge:e-tou-d-2026-06-01` | 2026-06-01 | open | 2026-09-23 | 14 |
+| `pge:ev2` | `pge:ev2-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-04-27 | 163 |
+| `pge:ev2` | `pge:ev2-2026-06-01` | 2026-06-01 | open | 2026-09-23 | 14 |
 | `pse:307` | `pse:307-2026-05-01` | 2026-05-01 | 2026-10-01 | 2026-10-05 | 2 |
 | `pse:307` | `pse:307-2026-10-01` | 2026-10-01 | open | 2026-10-05 | 2 |
 | `pse:327` | `pse:327-2026-05-01` | 2026-05-01 | 2026-10-01 | 2026-10-05 | 2 |

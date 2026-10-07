@@ -16,6 +16,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -92,6 +95,7 @@
       },
       "urpx:description": "PG&E Electric Rule 19, Part A: \"The Standard Medical Baseline Quantity is 16.438 kWh per day (approximately) year-round.\" Schedule E-1 Special Condition 7 (Sheet 5, Cal. P.U.C. Sheet 61100-E): \"Standard medical quantities are added to the baseline usage from Special Condition 2 to increase the maximum level of usage subject to baseline (Tier 1) rates.\" Its heading names the two results: Code M, Basic Plus Medical Quantities, is Code B plus the medical quantity, and Code S, All-Electric Plus Medical Quantities, is Code H plus it. This version adds 16.438 kWh per day to the Tier 1 upper bound and the Tier 2 lower bound of pge:e-1-2026-03-01, and 65.752 kWh per day, four times 16.438, to the Tier 2 upper bound and the Tier 2 Continued lower bound, because Tier 2 ends at four times the baseline quantity and the medical quantity is part of the baseline. Sheet 1 prints Tier 2 as \"Tier 2 Usage (101% - 400% of Baseline)\" and Tier 2 Continued as \"Over 400% of Baseline\". The quantity is the same in every baseline territory, code and season, so each of the 8 urpx:ServiceBracket here names one base tier with urpx:adjustsServiceTier and no territory, code or season, one per season for each of the four bounds, because each of the six base tiers is season-specific; the Code B or Code H cell selected on the base decides which bound moves. Rule 19 Part A also states that \"The Standard Medical Baseline Quantity used for automated billing is calculated using the unrounded quotient of the following equation: 6,000 kWh per year divided by 365 days. Any billing that requires hand calculations will use 16.438 kWh per day.\" The quotient (16.438356...) has no terminating decimal form, so this version carries 16.438, the figure Rule 19 prints. Customers receiving a medical baseline allowance do not pay the Wildfire Fund Charge (Sheet 1, Cal. P.U.C. Sheet 61247-E, and Special Condition 12, Sheet 7, Cal. P.U.C. Sheet 61102-E: the charge \"applies to all retail sales, excluding CARE and Medical Baseline sales\"), so this version also carries an exemption Price at urpx:multiplier -1 over pge:e-1-2026-03-01-price-wildfire-fund, the shape pge:d-care uses. urpx:adjustsServiceTier, urpx:lowerBoundOffset and urpx:upperBoundOffset are proposed in urpx-org/urpx#80 and are in no URPX release.",
       "urpx:effectiveDateTime": "2026-03-01T00:00:00",
+      "urpx:expirationDateTime": "2026-06-01T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
         "@id": "urpx:electricity"

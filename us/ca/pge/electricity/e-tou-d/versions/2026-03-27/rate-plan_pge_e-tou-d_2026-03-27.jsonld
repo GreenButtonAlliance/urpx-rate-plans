@@ -16,6 +16,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -94,6 +97,7 @@
           "@id": "pge:e-tou-d-2026-03-27",
           "urpx:description": "Voluntary residential TOU schedule with a narrow weekday-only peak window (5-8 p.m. Mon-Fri non-holiday). Holidays (New Year's, Presidents, Memorial, Independence, Labor, Veterans, Thanksgiving, Christmas) are off-peak even when they fall on a weekday — modeled via urpx:includeHolidays/includeNonHolidays booleans on TimeBracket. Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). E-TOU-D has NO baseline credit and NO Conservation Incentive Adjustment (unlike E-TOU-C / E-1) — over- and under-baseline kWh are billed at the same rate. Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file.",
           "urpx:effectiveDateTime": "2026-03-27T00:00:00",
+          "urpx:expirationDateTime": "2026-06-01T00:00:00",
           "urpx:changeReason": {
             "@id": "urpx:rateCase"
           },
@@ -2705,9 +2709,14 @@
           "urpx:hasRateCase": {
             "@id": "pge:rc-d-26-03-013"
           },
-          "urpx:applicableToRatePlanVersion": {
-            "@id": "pge:e-tou-d-2026-03-27"
-          },
+          "urpx:applicableToRatePlanVersion": [
+            {
+              "@id": "pge:e-tou-d-2026-03-27"
+            },
+            {
+              "@id": "pge:e-tou-d-2026-06-01"
+            }
+          ],
           "urpx:offeredBy": {
             "@type": "urpx:UtilityOperator",
             "@id": "org:utility-pge",
@@ -2787,7 +2796,7 @@
       "@id": "pge:rc-d-26-03-013",
       "urpx:caseNumber": "D.26-03-013",
       "urpx:name": "CPUC Decision D.26-03-013",
-      "urpx:url": "https://docs.cpuc.ca.gov/PublishedDocs/Published/G000/M999/K999/26-03-013.PDF"
+      "urpx:url": "https://docs.cpuc.ca.gov/PublishedDocs/Published/G000/M603/K306/603306591.PDF"
     },
     {
       "@type": "urpx:SourcePublication",

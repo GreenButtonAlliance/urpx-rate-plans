@@ -1,0 +1,90 @@
+# Identity --------------------------------------------------------------------
+utility = "pge"
+schedule = "e-elec"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ELEC.pdf"
+sha256 = "58d2bebe3aa8b46ae35a920d10ec22fde08b6be127c39e89668074924cdd077a"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7921-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "D.26-04-036"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual-diff"
+extracted_on = "2026-10-07"
+notes = """
+Source bytes.
+https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ELEC.pdf as
+served on 2026-10-07; the bytes equal
+data/documents/pge/ELEC_SCHEDS_E-ELEC.pdf, first retrieved 2026-09-23
+(data/documents.json).
+
+Sheets in force on 2026-06-01:
+ Sheet 1: 61116-E, Advice 7846-E, effective 2026-03-01
+ Sheet 2: 61363-E, Advice 7921-E, effective 2026-06-01
+ Sheet 3: 61118-E, Advice 7846-E, effective 2026-03-01
+ Sheet 4: 61119-E, Advice 7846-E, effective 2026-03-01
+ Sheet 5: 61120-E, Advice 7846-E, effective 2026-03-01
+ Sheet 6: 61121-E, Advice 7846-E, effective 2026-03-01
+
+Sheet 1 in force on 2026-06-01 is 61116-E (Advice 7846-E), printed in the
+2026-03-27 directory's document; the document vendored here is the current
+one, whose Sheet 1 is the 2026-08-28 reissue 61545-E and whose other sheets
+are those in force on 2026-06-01.
+
+Advice 7921-E (Decision D.26-04-036), effective 2026-06-01, reissues Sheet 2
+(61363-E, cancelling 61248-E) to state the California Climate Credit, ($36.18)
+per household, as a semi-annual payment in the August and September bill
+cycles. The 2026-03-27 version carries no Climate Credit, because Advice
+7869-E paused it from 2026-03-27. No other value on that sheet changed, and
+every other sheet is the one the 2026-03-27 version's document carries.
+
+Reconciliation. In each season and period cell, generation, distribution and
+the all-usage components sum to the Sheet 2 total (0.55214, 0.39026, 0.33358,
+0.32063, 0.29854, 0.28468). Every modeled per-kWh price is printed on the
+sheets in force, as are the Base Services Charges (0.19713, 0.39688, 0.79343)
+and the ($36.18) Climate Credit.
+
+Supersession. Sheet 2 (61363-E) cancels 61248-E, the sheet of the 2026-03-27
+version it replaces, effective 2026-06-01; the 2026-03-27 version ends there.
+
+Derived from the 2026-03-27 version by dev/author_pge_2026.py.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-07"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet 5 (AL 7846-E, leaf 61120-E) prices the Vintaged Power Charge Indifference Adjustment as 18 per-kWh rates, 2009 Vintage $0.02973 through 2026 Vintage $(0.01011), payable by DA, CCA and TBS customers under Special Condition 4. Not modeled; the only PCIA in the model is the single Sheet 3 Bundled PCIA at $(0.01011). Expressible under v0.5.1 and already built for the sibling filing issued under the same advice letter: pge:e-tou-c-vintage-pcia-2026-03-01 carries all 18 as a RatePlanModifierVersion with an 18-member ProfileAlternatives over vintage year plus a CCA/DA/TBS boolean gate, and its values are identical to this schedule's table. Port that modifier and add it to applicable_modifiers. Work, not a blocker.",
+ "Sheet 2 (AL 7921-E, leaf 61363-E) defines Income Tier 2 as customers who either (a) take service on FERA or (b) live in an affordable rental unit within a property listed in the California Housing Partnership's database restricted to residents at or below 80 percent of Area Median Income. The model gates Tier 2 on hasProgramEnrollment equals pge:program-fera alone, so a qualifying branch-(b) customer not on FERA falls through to the Standard alternative and is billed $0.79343 per meter per day instead of $0.39688, exactly double. Expressible: urpx:conditionProperty carries no sh:in in the v0.5.1 shapes (any IRI is accepted) and CustomOperandNode.customConditionProperty is available, so branch (b) can be OR'd into the Tier 2 expression with a matching third negation on the Standard branch. All five PG&E residential filings share this gap, so fix them together.",
+ "Special Condition 4 (Sheets 4 and 5) prices Direct Access, Community Choice Aggregation and Transitional Bundled Service customers as paying every charge in the Unbundling of Total Rates except the Bundled Power Charge Indifference Adjustment and the generation charge. Not modeled: pge:program-cca, pge:program-da and pge:program-tbs are declared in @graph and referenced nowhere else in the document. Expressible as a modifier Price with multiplier -1 and basedOnPrice naming the generation and Bundled PCIA Prices. Unbuilt across the whole PG&E residential set (zero urpx:multiplier uses in e-1, e-tou-c, e-tou-d, ev2, e-elec). The related cross-references (Schedule TBCC commodity prices, Schedule E-FFS franchise fee surcharge, DA CRS and CCA CRS exemptions) are other schedules' pricing and are out of scope for this filing.",
+ "Special Condition 7 (Sheet 6) states the Wildfire Fund Charge 'applies to all retail sales, excluding CARE and Medical Baseline sales'; the model carries it as an unconditional $0.00591/kWh Price, so it prices the CARE and Medical Baseline sales the tariff excludes. The CARE half is carried by pge:d-care, whose exemption Price is urpx:multiplier -1 over this Price. The Medical Baseline half is not modeled for this schedule; pge:e-1-medical-baseline and pge:e-tou-c-medical-baseline carry it for Schedules E-1 and E-TOU-C only.",
+ "Sheet 3 also prices the Base Services Charge by component (Distribution, Public Purpose Program, Nuclear Decommissioning, New System Generation Charge, each at three income tiers, 12 figures). Only the three bundled totals are modeled. The components do sum to the modeled totals, so nothing resolves wrong, but the filing is asymmetric: energy is modeled unbundled and the base charge bundled. This is the convention across all five PG&E residential filings, not an e-elec slip; it matters for a DA or CCA consumer needing the delivery-only components. Lowest-weight item in this list.",
+]
+applicable_modifiers = [
+ "d-care",
+ "e-fera",
+ "e-rsmart",
+ "medical-baseline",
+ "nbt",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-27 version by dev/author_pge_2026.py; see [extraction] notes for the sheets in force, what moved and the reconciliation."

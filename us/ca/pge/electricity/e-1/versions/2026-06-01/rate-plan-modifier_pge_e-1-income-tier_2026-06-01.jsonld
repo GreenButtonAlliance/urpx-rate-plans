@@ -1,0 +1,457 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "pge": "https://rate-plans.grid-coordination.energy/pge/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dimensionProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:dateReceived": {
+      "@type": "xsd:date"
+    },
+    "urpx:gYearValue": {
+      "@type": "xsd:gYear"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@id": "pge:doc-e-1-income-tier-2026-06-01",
+      "@type": "urpx:URPXPackage",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "pge:e-1-income-tier",
+        "urpx:name": "E-1 Base Services Charge by income tier",
+        "urpx:initialEffectiveDate": "2026-03-01",
+        "urpx:timezoneIdentifier": "America/Los_Angeles",
+        "urpx:modifierUniqueIdentifier": "E-1-INCOME-TIER",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "pge:e-1-income-tier-2026-06-01",
+          "urpx:modifierVersionNumber": "2026-06-01",
+          "urpx:description": "The Base Services Charge of Schedule E-1, a flat amount per customer per day at three income tiers: 0.19713 for Income Tier 1 (CARE), 0.39688 for Income Tier 2 (FERA) and 0.79343 for Income Tier 3, per Sheet 1 (Cal. P.U.C. Sheet 61362-E). Every E-1 customer pays one of the three, so this modifier is not elective; it is separate from the base plan because urpx:PlanElements allows one urpx:hasProfileAlternatives container and the base plan spends its container on the 20-cell baseline Territory x Code matrix that sets the energy tier boundaries. A caller nominates income tier here and baseline Territory and Code on the base plan, one container each.",
+          "urpx:changeReason": {
+            "@id": "urpx:regulatoryOrder"
+          },
+          "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "pge:e-1"
+            }
+          ],
+          "urpx:applicableToRatePlanVersion": [
+            {
+              "@id": "pge:e-1-2026-06-01"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "urpx:fileName": "ELEC_SCHEDS_E-1.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-1.pdf",
+            "urpx:dateRetrieved": "2026-10-07",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1,
+            "urpx:leafStart": "61362-E",
+            "urpx:leafEnd": "61362-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7921-e"
+            }
+          },
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "pge:e-1-income-tier-2026-06-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "pge:e-1-income-tier-2026-06-01-mi-meter-count",
+                "urpx:name": "Per Meter Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:meterCount"
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "pge:e-1-income-tier-2026-06-01-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:e-1-income-tier-2026-06-01-ledger-base-charge",
+                  "urpx:name": "Base Services Charge",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:e-1-income-tier-2026-06-01-mi-meter-count"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-1-income-tier-2026-06-01-pd-base-charge",
+                  "urpx:name": "Base Services Charge",
+                  "urpx:chargeType": {
+                    "@id": "urpx:minimumBill"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:serviceCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "pge:e-1-income-tier-2026-06-01-pd-base-charge-calculation-method",
+                    "urpx:intervalDuration": "P1D"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-1-income-tier-2026-06-01-ledger-base-charge"
+                  }
+                }
+              ]
+            },
+            "urpx:hasProfileAlternatives": {
+              "@type": "urpx:ProfileAlternatives",
+              "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier",
+              "urpx:name": "Income tier (CARE / FERA / standard)",
+              "urpx:hasAlternativeDimensions": {
+                "@type": "urpx:AlternativeDimensions",
+                "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-alternative-dimensions",
+                "urpx:hasAlternativeDimension": [
+                  {
+                    "@type": "urpx:AlternativeDimension",
+                    "urpx:dimensionDisplayName": "Program Enrollment",
+                    "urpx:dimensionProperty": "https://urpx.org/ns/ontology/hasProgramEnrollment",
+                    "urpx:hasPossibleValues": {
+                      "@list": [
+                        {
+                          "@id": "pge:program-care"
+                        },
+                        {
+                          "@id": "pge:program-fera"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "urpx:hasProfileAlternative": [
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-care",
+                  "urpx:name": "Income Tier 1, CARE-eligible",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-income-tier-2026-06-01-cx-income-tier-care",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-1-income-tier-2026-06-01-cn-care",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-1-income-tier-2026-06-01-cn-care-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-1-income-tier-2026-06-01-cn-care-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "pge:program-care"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-fera",
+                  "urpx:name": "Income Tier 2, FERA-eligible",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-income-tier-2026-06-01-cx-income-tier-fera",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-1-income-tier-2026-06-01-cn-fera",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-1-income-tier-2026-06-01-cn-fera-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-1-income-tier-2026-06-01-cn-fera-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "pge:program-fera"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-standard",
+                  "urpx:name": "Income Tier 3, neither CARE nor FERA",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-1-income-tier-2026-06-01-cx-income-tier-standard",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-1-income-tier-2026-06-01-bn-income-tier-standard",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-income-tier-2026-06-01-cn-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-1-income-tier-2026-06-01-cn-not-care-left-operand",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-1-income-tier-2026-06-01-cn-not-care-right-operand",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-1-income-tier-2026-06-01-cn-not-fera",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-1-income-tier-2026-06-01-cn-not-fera-left-operand",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-1-income-tier-2026-06-01-cn-not-fera-right-operand",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-fera"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "pge:e-1-income-tier-2026-06-01-prices",
+            "urpx:hasPriceSetAlternatives": [
+              {
+                "@type": "urpx:PriceSetAlternatives",
+                "@id": "pge:e-1-income-tier-2026-06-01-psa-bsc-by-income-tier",
+                "urpx:name": "Base Services Charge by income tier",
+                "urpx:referencesProfileAlternatives": {
+                  "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier"
+                },
+                "urpx:hasPriceSetAlternative": [
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:e-1-income-tier-2026-06-01-psa-bsc-tier-1",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-care"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:e-1-income-tier-2026-06-01-price-base-charge-tier-1",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:e-1-income-tier-2026-06-01-pd-base-charge"
+                        },
+                        "urpx:startDate": "2026-06-01",
+                        "urpx:name": "Base Services Charge, Income Tier 1 (CARE-eligible)",
+                        "urpx:unitPrice": "0.19713"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:e-1-income-tier-2026-06-01-psa-bsc-tier-2",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-fera"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:e-1-income-tier-2026-06-01-price-base-charge-tier-2",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:e-1-income-tier-2026-06-01-pd-base-charge"
+                        },
+                        "urpx:startDate": "2026-06-01",
+                        "urpx:name": "Base Services Charge, Income Tier 2 (FERA-eligible)",
+                        "urpx:unitPrice": "0.39688"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:e-1-income-tier-2026-06-01-psa-bsc-tier-3",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:e-1-income-tier-2026-06-01-pa-income-tier-standard"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:e-1-income-tier-2026-06-01-price-base-charge-tier-3",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:e-1-income-tier-2026-06-01-pd-base-charge"
+                        },
+                        "urpx:startDate": "2026-06-01",
+                        "urpx:name": "Base Services Charge, Income Tier 3 (no qualifying enrollment)",
+                        "urpx:unitPrice": "0.79343"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-pge",
+            "urpx:legalName": "Pacific Gas and Electric Company",
+            "urpx:organizationType": {
+              "@id": "urpx:utilityOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-pge-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-pge-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Pacific Gas and Electric Company"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-pge-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "14328"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "pge:e-1-income-tier"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "pge:cc-e-1-income-tier-2026-06-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-e-1-income-tier-2026-06-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "The three income-tier totals are carried and are the amounts a customer is billed. Sheet 3 (Cal. P.U.C. Sheet 61098-E) also publishes the same charge by component, 4 components x 3 income tiers = 12 values, and none of the 12 appears here. The components sum to the totals, so no bill is wrong; the published unbundling is absent. Income Tier 2 is also narrower here than on Sheet 1: it is gated on FERA enrollment alone, and Sheet 1 admits a second branch, a resident of an affordable rental unit in the California Housing Partnership database restricted to 80 percent of Area Median Income, who resolves to Tier 3 here and is billed 0.79343 rather than 0.39688. Both are listed in the filing's tariff.toml [modeling].deferrals."
+            }
+          }
+        }
+      }
+    }
+  ]
+}

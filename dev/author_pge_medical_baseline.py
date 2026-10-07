@@ -91,13 +91,16 @@ def etou_c_adjust(bv: str) -> list[tuple[str, str, str]]:
             (f"{bv}-tier-baseline-t2c", "urpx:lowerBoundOffset", FOUR_TIMES)]
 
 
-def e1_adjust(_bv: str) -> list[tuple[str, str, str]]:
+def e1_adjust(bv: str) -> list[tuple[str, str, str]]:
+    # The 2026-03-01 version's six tiers predate version scoping (pge:tier-summer-t1);
+    # later versions scope them to the version.
+    stem = "pge:" if bv == "pge:e-1-2026-03-01" else f"{bv}-"
     out = []
     for season in ("summer", "winter"):
-        out += [(f"pge:tier-{season}-t1", "urpx:upperBoundOffset", STANDARD),
-                (f"pge:tier-{season}-t2", "urpx:lowerBoundOffset", STANDARD),
-                (f"pge:tier-{season}-t2", "urpx:upperBoundOffset", FOUR_TIMES),
-                (f"pge:tier-{season}-t2c", "urpx:lowerBoundOffset", FOUR_TIMES)]
+        out += [(f"{stem}tier-{season}-t1", "urpx:upperBoundOffset", STANDARD),
+                (f"{stem}tier-{season}-t2", "urpx:lowerBoundOffset", STANDARD),
+                (f"{stem}tier-{season}-t2", "urpx:upperBoundOffset", FOUR_TIMES),
+                (f"{stem}tier-{season}-t2c", "urpx:lowerBoundOffset", FOUR_TIMES)]
     return out
 
 
@@ -119,10 +122,15 @@ ETOUC_SHEETS = {
                "the 400 percent figure, which the base version's manifest records as a deferral."),
 }
 
+# Sheet 1 of E-1 was reissued 2026-06-01 (Advice 7921-E) as 61362-E.
+E1_SHEETS_0601 = dict(E1_SHEETS, wfc=E1_SHEETS["wfc"].replace("61247-E", "61362-E"))
+
 TARGETS = [
     Target("e-1", "2026-03-01", e1_adjust, E1_SHEETS),
+    Target("e-1", "2026-06-01", e1_adjust, E1_SHEETS_0601),
     Target("e-tou-c", "2026-03-01", etou_c_adjust, ETOUC_SHEETS),
     Target("e-tou-c", "2026-03-27", etou_c_adjust, ETOUC_SHEETS),
+    Target("e-tou-c", "2026-06-01", etou_c_adjust, ETOUC_SHEETS),
 ]
 
 

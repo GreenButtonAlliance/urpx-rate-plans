@@ -1,0 +1,1808 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "pge": "https://rate-plans.grid-coordination.energy/pge/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dimensionProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:dateReceived": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@id": "pge:doc-e-elec-2026-08-28",
+      "@type": "urpx:URPXPackage",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlan": {
+        "@type": "urpx:RatePlan",
+        "@id": "pge:e-elec",
+        "urpx:name": "Residential Time-of-Use (Electric Home) Service",
+        "urpx:initialEffectiveDate": "2022-12-01",
+        "urpx:timezoneIdentifier": "America/Los_Angeles",
+        "urpx:hasRatePlanVersion": {
+          "@type": "urpx:RatePlanVersion",
+          "@id": "pge:e-elec-2026-08-28",
+          "urpx:description": "Optional residential TOU schedule for customers with qualifying electric technologies (EV charging, energy storage, electric heat pump) or NBT enrollment. Sheet 1 (61545-E) reissued under PG&E Advice Letter 7975-E effective 2026-08-28: a residential customer billed on the Net Billing Tariff who is transitioned to the PURPA Compliant tariff over a contractor's willful prevailing wage violation may stay on this schedule without a qualifying technology. Prices are those of Sheet 2 (61363-E, Advice 7921-E, effective 2026-06-01), unchanged from the 2026-06-01 version. Base Services Charge by income tier: $0.19713 (Tier 1, CARE), $0.39688 (Tier 2, FERA), $0.79343 (Tier 3). The California Climate Credit, ($36.18) per household as a semi-annual payment in the August and September bill cycles, is in this version, as in the 2026-06-01 one, priced in calendar months --08 and --09 on a urpx:householdCount MetricInput.",
+          "urpx:effectiveDateTime": "2026-08-28T00:00:00",
+          "urpx:changeReason": {
+            "@id": "urpx:correction"
+          },
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:hasRateCase": {
+            "@id": "pge:rc-d-26-04-036"
+          },
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "urpx:fileName": "ELEC_SCHEDS_E-ELEC.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-ELEC.pdf",
+            "urpx:dateRetrieved": "2026-09-23",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 6,
+            "urpx:leafStart": "61118-E",
+            "urpx:leafEnd": "61545-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7975-e"
+            }
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "pge:e-elec-2026-08-28-er-residential",
+              "urpx:name": "Residential customer",
+              "urpx:description": "Available to PG&E residential customers (individually-metered, whole-house service).",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:e-elec-2026-08-28-cx-residential",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "pge:e-elec-2026-08-28-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "pge:e-elec-2026-08-28-cn-residential-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "pge:e-elec-2026-08-28-cn-residential-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "pge:e-elec-2026-08-28-er-qualifying-technology",
+              "urpx:name": "Qualifying electric technology: storage, EV, heat pump, NBT enrollment, or a former NBT customer moved to the PURPA Compliant tariff",
+              "urpx:description": "Available to customers who have one or more of: a currently registered battery-electric vehicle (BEV) or plug-in hybrid (PHEV) — both map to urpx:evChargingDER since URPX's DERTypeValue enum does not distinguish them; energy storage (per Special Condition interconnection requirements); or an electric heat pump as primary water-heating or climate-control source. Customers billed on the Net Billing Tariff (NBT) must take service on E-ELEC and are not required to have any of the qualifying technologies above; the NBT condition is therefore included as a fourth OR-leaf. Sheet 1 (61545-E): \"If a NBT residential customer is transitioned to the PURPA Compliant tariff due to a willful prevailing wage violation by their contractor, that customer may continue to be served under this rate schedule without the technology requirements.\" That is a fifth OR-leaf, enrollment in the PURPA Compliant tariff, which names the prevailing wage transition in its value.",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:e-elec-2026-08-28-cx-qualifying-technology",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "pge:e-elec-2026-08-28-bn-qualifying-technology-or",
+                  "urpx:operator": {
+                    "@id": "urpx:orOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-storage",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-storage-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:derType"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-storage-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:storageDER"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-ev-charging",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-ev-charging-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:derType"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-ev-charging-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:evChargingDER"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-heat-pump",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-heat-pump-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasHVAC"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-heat-pump-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:airSourceHeatPump"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-nbt",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-nbt-left-operand",
+                        "urpx:customConditionProperty": "Program Enrollment"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-nbt-right-operand",
+                        "urpx:stringValue": "Net Billing Tariff (NBT)"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-purpa",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-purpa-left-operand",
+                        "urpx:customConditionProperty": "Program Enrollment"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-purpa-right-operand",
+                        "urpx:stringValue": "PURPA Compliant tariff (transitioned from NBT over a contractor's willful prevailing wage violation)"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "pge:e-elec-2026-08-28-plan-elements",
+            "urpx:hasSeasons": [
+              {
+                "@type": "urpx:Season",
+                "@id": "pge:e-elec-2026-08-28-season-summer",
+                "urpx:seasonName": "Summer",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              {
+                "@type": "urpx:Season",
+                "@id": "pge:e-elec-2026-08-28-season-winter",
+                "urpx:seasonName": "Winter",
+                "urpx:month": [
+                  "--10",
+                  "--11",
+                  "--12",
+                  "--01",
+                  "--02",
+                  "--03",
+                  "--04",
+                  "--05"
+                ]
+              }
+            ],
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "pge:e-elec-2026-08-28-mi-energy",
+                "urpx:name": "kWh Energy Consumption Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:measuredMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "pge:ms-energy",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:energy"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kWh"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "pge:e-elec-2026-08-28-mi-meter-count",
+                "urpx:name": "Per Meter Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:meterCount"
+                }
+              },
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "pge:e-elec-2026-08-28-mi-household-count",
+                "urpx:name": "Per Household Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:householdCount"
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "pge:e-elec-2026-08-28-plan-elements-billing-model",
+              "urpx:hasTOUSchedule": {
+                "@type": "urpx:TOUSchedule",
+                "@id": "pge:e-elec-2026-08-28-tou-e-elec",
+                "urpx:referencesMetricInput": {
+                  "@id": "pge:e-elec-2026-08-28-mi-energy"
+                },
+                "urpx:hasTOUTier": [
+                  {
+                    "@type": "urpx:TOUTier",
+                    "@id": "pge:e-elec-2026-08-28-tou-tier-peak",
+                    "urpx:tierSourceName": "Peak",
+                    "urpx:touTierStandardName": {
+                      "@id": "urpx:peakTier"
+                    },
+                    "urpx:touTierNumber": 1,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "pge:e-elec-2026-08-28-tou-period-summer-peak",
+                        "urpx:name": "Summer Peak Period",
+                        "urpx:touPeriodNumber": 1,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-summer-peak",
+                            "urpx:startTime": "16:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "pge:e-elec-2026-08-28-tou-period-winter-peak",
+                        "urpx:name": "Winter Peak Period",
+                        "urpx:touPeriodNumber": 2,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-winter-peak",
+                            "urpx:startTime": "16:00:00",
+                            "urpx:endTime": "21:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUTier",
+                    "@id": "pge:e-elec-2026-08-28-tou-tier-part-peak",
+                    "urpx:tierSourceName": "Part-Peak",
+                    "urpx:touTierStandardName": {
+                      "@id": "urpx:midPeakTier"
+                    },
+                    "urpx:touTierNumber": 2,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "pge:e-elec-2026-08-28-tou-period-summer-part-peak",
+                        "urpx:name": "Summer Part-Peak Period",
+                        "urpx:touPeriodNumber": 3,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-summer-part-peak-1",
+                            "urpx:startTime": "15:00:00",
+                            "urpx:endTime": "16:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-summer-part-peak-2",
+                            "urpx:startTime": "21:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "pge:e-elec-2026-08-28-tou-period-winter-part-peak",
+                        "urpx:name": "Winter Part-Peak Period",
+                        "urpx:touPeriodNumber": 4,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-winter-part-peak-1",
+                            "urpx:startTime": "15:00:00",
+                            "urpx:endTime": "16:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          },
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-winter-part-peak-2",
+                            "urpx:startTime": "21:00:00",
+                            "urpx:endTime": "00:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUTier",
+                    "@id": "pge:e-elec-2026-08-28-tou-tier-off-peak",
+                    "urpx:tierSourceName": "Off-Peak",
+                    "urpx:touTierStandardName": {
+                      "@id": "urpx:offPeakTier"
+                    },
+                    "urpx:touTierNumber": 3,
+                    "urpx:hasTOUPeriod": [
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "pge:e-elec-2026-08-28-tou-period-summer-off-peak",
+                        "urpx:name": "Summer Off-Peak Period",
+                        "urpx:touPeriodNumber": 5,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-summer-off-peak",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "15:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-summer"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "@type": "urpx:TOUPeriod",
+                        "@id": "pge:e-elec-2026-08-28-tou-period-winter-off-peak",
+                        "urpx:name": "Winter Off-Peak Period",
+                        "urpx:touPeriodNumber": 6,
+                        "urpx:hasTimeBracket": [
+                          {
+                            "@type": "urpx:TimeBracket",
+                            "@id": "pge:e-elec-2026-08-28-time-bracket-winter-off-peak",
+                            "urpx:startTime": "00:00:00",
+                            "urpx:endTime": "15:00:00",
+                            "urpx:appliesInSeason": {
+                              "@id": "pge:e-elec-2026-08-28-season-winter"
+                            },
+                            "urpx:dayType": {
+                              "@id": "urpx:allDays"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:e-elec-2026-08-28-ledger-energy-supply",
+                  "urpx:name": "Energy Supply Prices",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:supplyLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:e-elec-2026-08-28-mi-energy"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery",
+                  "urpx:name": "Energy Delivery Prices",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:deliveryLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:e-elec-2026-08-28-mi-energy"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:e-elec-2026-08-28-ledger-adjustments",
+                  "urpx:name": "Adjustment Prices",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:e-elec-2026-08-28-mi-energy"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:e-elec-2026-08-28-ledger-service",
+                  "urpx:name": "Service Price",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:e-elec-2026-08-28-mi-meter-count"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:e-elec-2026-08-28-ledger-climate-credit",
+                  "urpx:name": "California Climate Credit",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:e-elec-2026-08-28-mi-household-count"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-gen-summer-peak",
+                  "urpx:name": "Generation Summer Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:touPeriodNumber": 1,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-gen-summer-part-peak",
+                  "urpx:name": "Generation Summer Part-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:touPeriodNumber": 3,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-gen-summer-off-peak",
+                  "urpx:name": "Generation Summer Off-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:touPeriodNumber": 5,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-gen-winter-peak",
+                  "urpx:name": "Generation Winter Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:touPeriodNumber": 2,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-gen-winter-part-peak",
+                  "urpx:name": "Generation Winter Part-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:touPeriodNumber": 4,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-gen-winter-off-peak",
+                  "urpx:name": "Generation Winter Off-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:touPeriodNumber": 6,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-pcia",
+                  "urpx:name": "Bundled PCIA",
+                  "urpx:chargeType": {
+                    "@id": "urpx:adjustmentPowerCost"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-supply"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-dist-summer-peak",
+                  "urpx:name": "Distribution Summer Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:touPeriodNumber": 1,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-dist-summer-part-peak",
+                  "urpx:name": "Distribution Summer Part-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:touPeriodNumber": 3,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-dist-summer-off-peak",
+                  "urpx:name": "Distribution Summer Off-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:touPeriodNumber": 5,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-dist-winter-peak",
+                  "urpx:name": "Distribution Winter Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:touPeriodNumber": 2,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-dist-winter-part-peak",
+                  "urpx:name": "Distribution Winter Part-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:touPeriodNumber": 4,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-dist-winter-off-peak",
+                  "urpx:name": "Distribution Winter Off-Peak",
+                  "urpx:chargeType": {
+                    "@id": "urpx:usageCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:auxiliaryCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:touPeriodNumber": 6,
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-new-sys-gen",
+                  "urpx:name": "New System Generation Charge",
+                  "urpx:chargeType": {
+                    "@id": "urpx:generation"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:infrastructure"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-transmission",
+                  "urpx:name": "Transmission",
+                  "urpx:chargeType": {
+                    "@id": "urpx:transmission"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-transmission-adj",
+                  "urpx:name": "Transmission Rate Adjustments",
+                  "urpx:chargeType": {
+                    "@id": "urpx:transmission"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-reliability",
+                  "urpx:name": "Reliability Services",
+                  "urpx:chargeType": {
+                    "@id": "urpx:reliabilityCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-energy-delivery"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-public-purpose",
+                  "urpx:name": "Public Purpose Programs",
+                  "urpx:chargeType": {
+                    "@id": "urpx:publicBenefits"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:regulatory"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-nuclear",
+                  "urpx:name": "Nuclear Decommissioning",
+                  "urpx:chargeType": {
+                    "@id": "urpx:environmentalFunding"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:environmental"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-ctc",
+                  "urpx:name": "Competition Transition Charges",
+                  "urpx:chargeType": {
+                    "@id": "urpx:transitionCharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-energy-cost-recovery",
+                  "urpx:name": "Energy Cost Recovery Amount",
+                  "urpx:chargeType": {
+                    "@id": "urpx:recoverySurcharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-wildfire-fund",
+                  "urpx:name": "Wildfire Fund Charge",
+                  "urpx:chargeType": {
+                    "@id": "urpx:environmentalFunding"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:environmental"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-wildfire-hardening",
+                  "urpx:name": "Wildfire Hardening Charge",
+                  "urpx:chargeType": {
+                    "@id": "urpx:environmentalFunding"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:environmental"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-recovery-bond",
+                  "urpx:name": "Recovery Bond Charge",
+                  "urpx:chargeType": {
+                    "@id": "urpx:recoverySurcharge"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-recovery-bond-credit",
+                  "urpx:name": "Recovery Bond Credit",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditMisc"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-adjustments"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-base-charge",
+                  "urpx:name": "Base Services Charge",
+                  "urpx:chargeType": {
+                    "@id": "urpx:minimumBill"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:serviceCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "pge:e-elec-2026-08-28-pd-base-charge-calculation-method",
+                    "urpx:intervalDuration": "P1D"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-service"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:e-elec-2026-08-28-pd-climate-credit",
+                  "urpx:name": "California Climate Credit",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditEnergy"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:environmental"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "urpx:month": [
+                      "--08",
+                      "--09"
+                    ]
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:e-elec-2026-08-28-ledger-climate-credit"
+                  }
+                }
+              ]
+            },
+            "urpx:hasProfileAlternatives": {
+              "@type": "urpx:ProfileAlternatives",
+              "@id": "pge:e-elec-2026-08-28-pa-income-tier",
+              "urpx:name": "Income tier (CARE / FERA / Standard)",
+              "urpx:hasAlternativeDimensions": {
+                "@type": "urpx:AlternativeDimensions",
+                "@id": "pge:e-elec-2026-08-28-pa-income-tier-alternative-dimensions",
+                "urpx:hasAlternativeDimension": [
+                  {
+                    "@type": "urpx:AlternativeDimension",
+                    "urpx:dimensionDisplayName": "Program Enrollment",
+                    "urpx:dimensionProperty": "https://urpx.org/ns/ontology/hasProgramEnrollment",
+                    "urpx:hasPossibleValues": {
+                      "@list": [
+                        {
+                          "@id": "pge:program-care"
+                        },
+                        {
+                          "@id": "pge:program-fera"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "urpx:hasProfileAlternative": [
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-elec-2026-08-28-pa-income-tier-care",
+                  "urpx:name": "Income Tier 1 — CARE-eligible",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-elec-2026-08-28-cx-pa-care",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-pa-care",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-pa-care-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-pa-care-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "pge:program-care"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-elec-2026-08-28-pa-income-tier-fera",
+                  "urpx:name": "Income Tier 2 — FERA-eligible",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-elec-2026-08-28-cx-pa-fera",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "pge:e-elec-2026-08-28-cn-pa-fera",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-pa-fera-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "pge:e-elec-2026-08-28-cn-pa-fera-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "pge:program-fera"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:e-elec-2026-08-28-pa-income-tier-standard",
+                  "urpx:name": "Income Tier 3 — neither CARE nor FERA (standard)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:e-elec-2026-08-28-cx-pa-standard",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:e-elec-2026-08-28-bn-pa-standard",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-elec-2026-08-28-cn-pa-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-elec-2026-08-28-cn-pa-not-care-left-operand",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-elec-2026-08-28-cn-pa-not-care-right-operand",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:e-elec-2026-08-28-cn-pa-not-fera",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-elec-2026-08-28-cn-pa-not-fera-left-operand",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "pge:e-elec-2026-08-28-cn-pa-not-fera-right-operand",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-fera"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "pge:e-elec-2026-08-28-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "pge:e-elec-2026-08-28-price-climate-credit",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pge:e-elec-2026-08-28-pd-climate-credit"
+                },
+                "urpx:startDate": "2026-08-28",
+                "urpx:name": "California Climate Credit",
+                "urpx:unitPrice": "-36.18"
+              }
+            ],
+            "urpx:hasPriceSet": [
+              {
+                "@type": "urpx:PriceSet",
+                "@id": "pge:e-elec-2026-08-28-ps-generation-charges",
+                "urpx:startDate": "2026-01-01",
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-gen-summer-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-gen-summer-peak"
+                    },
+                    "urpx:name": "Generation Summer Peak",
+                    "urpx:unitPrice": "0.26299"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-gen-summer-part-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-gen-summer-part-peak"
+                    },
+                    "urpx:name": "Generation Summer Part-Peak",
+                    "urpx:unitPrice": "0.16388"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-gen-summer-off-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-gen-summer-off-peak"
+                    },
+                    "urpx:name": "Generation Summer Off-Peak",
+                    "urpx:unitPrice": "0.11878"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-gen-winter-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-gen-winter-peak"
+                    },
+                    "urpx:name": "Generation Winter Peak",
+                    "urpx:unitPrice": "0.10086"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-gen-winter-part-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-gen-winter-part-peak"
+                    },
+                    "urpx:name": "Generation Winter Part-Peak",
+                    "urpx:unitPrice": "0.08089"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-gen-winter-off-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-gen-winter-off-peak"
+                    },
+                    "urpx:name": "Generation Winter Off-Peak",
+                    "urpx:unitPrice": "0.06754"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-pcia",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-pcia"
+                    },
+                    "urpx:name": "Bundled PCIA",
+                    "urpx:unitPrice": "-0.01011"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSet",
+                "@id": "pge:e-elec-2026-08-28-ps-distribution-charges",
+                "urpx:startDate": "2026-01-01",
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-dist-summer-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-dist-summer-peak"
+                    },
+                    "urpx:name": "Distribution Summer Peak",
+                    "urpx:unitPrice": "0.23199"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-dist-summer-part-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-dist-summer-part-peak"
+                    },
+                    "urpx:name": "Distribution Summer Part-Peak",
+                    "urpx:unitPrice": "0.16922"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-dist-summer-off-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-dist-summer-off-peak"
+                    },
+                    "urpx:name": "Distribution Summer Off-Peak",
+                    "urpx:unitPrice": "0.15764"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-dist-winter-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-dist-winter-peak"
+                    },
+                    "urpx:name": "Distribution Winter Peak",
+                    "urpx:unitPrice": "0.16261"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-dist-winter-part-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-dist-winter-part-peak"
+                    },
+                    "urpx:name": "Distribution Winter Part-Peak",
+                    "urpx:unitPrice": "0.16049"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-dist-winter-off-peak",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-dist-winter-off-peak"
+                    },
+                    "urpx:name": "Distribution Winter Off-Peak",
+                    "urpx:unitPrice": "0.15998"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-new-sys-gen",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-new-sys-gen"
+                    },
+                    "urpx:name": "New System Generation Charge",
+                    "urpx:unitPrice": "0.00000"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-transmission",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-transmission"
+                    },
+                    "urpx:name": "Transmission",
+                    "urpx:unitPrice": "0.04638"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-transmission-adj",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-transmission-adj"
+                    },
+                    "urpx:name": "Transmission Rate Adjustments",
+                    "urpx:unitPrice": "0.00453"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-reliability",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-reliability"
+                    },
+                    "urpx:name": "Reliability Services",
+                    "urpx:unitPrice": "0.00013"
+                  }
+                ],
+                "urpx:hasPriceSummary": [
+                  {
+                    "@type": "urpx:PriceSummary",
+                    "@id": "pge:e-elec-2026-08-28-summary-care-discountable",
+                    "urpx:name": "CARE-discountable subtotal for E-ELEC. The 21 volumetric charges the Schedule D-CARE percentage discount applies to: \"total bundled volumetric charges less charges from which they are exempt\" (Sheet 1). Excludes the Wildfire Fund Charge, the Wildfire Hardening Charge, the Recovery Bond Charge and the Recovery Bond Credit, and the base services charge, which is not volumetric. The Public Purpose Programs charge is included whole: Sheet 1 also exempts its CARE surcharge portion, which the base schedule does not publish.",
+                    "urpx:includesPrice": [
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-summer-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-summer-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-summer-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-winter-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-winter-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-winter-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-pcia"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-summer-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-summer-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-summer-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-winter-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-winter-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-winter-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-new-sys-gen"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-transmission"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-transmission-adj"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-reliability"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-public-purpose"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-nuclear"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-ctc"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-energy-cost-recovery"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSummary",
+                    "@id": "pge:e-elec-2026-08-28-summary-fera-discountable",
+                    "urpx:name": "FERA-discountable subtotal for E-ELEC. The 22 volumetric charges the Schedule E-FERA percentage discount applies to: \"total bundled volumetric charges\", generation included, \"after FERA customers are exempted from the Wildfire Hardening Charge, Recovery Bond Charge, and the Recovery Bond Credit\" (Sheet 1). Excludes those three and the base services charge, which is not volumetric. Unlike CARE, the Wildfire Fund Charge is inside this subtotal.",
+                    "urpx:includesPrice": [
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-summer-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-summer-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-summer-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-winter-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-winter-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-gen-winter-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-pcia"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-summer-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-summer-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-summer-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-winter-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-winter-part-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-dist-winter-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-new-sys-gen"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-transmission"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-transmission-adj"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-reliability"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-public-purpose"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-nuclear"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-ctc"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-energy-cost-recovery"
+                      },
+                      {
+                        "@id": "pge:e-elec-2026-08-28-price-wildfire-fund"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSet",
+                "@id": "pge:e-elec-2026-08-28-ps-adjustment-charges",
+                "urpx:startDate": "2026-01-01",
+                "urpx:hasPrice": [
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-public-purpose",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-public-purpose"
+                    },
+                    "urpx:name": "Public Purpose Programs",
+                    "urpx:unitPrice": "0.00614"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-nuclear",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-nuclear"
+                    },
+                    "urpx:name": "Nuclear Decommissioning",
+                    "urpx:unitPrice": "-0.00002"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-ctc",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-ctc"
+                    },
+                    "urpx:name": "Competition Transition Charges",
+                    "urpx:unitPrice": "0.00027"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-energy-cost-recovery",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-energy-cost-recovery"
+                    },
+                    "urpx:name": "Energy Cost Recovery Amount",
+                    "urpx:unitPrice": "0.00002"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-wildfire-fund",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-wildfire-fund"
+                    },
+                    "urpx:name": "Wildfire Fund Charge",
+                    "urpx:unitPrice": "0.00591"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-wildfire-hardening",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-wildfire-hardening"
+                    },
+                    "urpx:name": "Wildfire Hardening Charge",
+                    "urpx:unitPrice": "0.00391"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-recovery-bond",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-recovery-bond"
+                    },
+                    "urpx:name": "Recovery Bond Charge",
+                    "urpx:unitPrice": "0.00857"
+                  },
+                  {
+                    "@type": "urpx:Price",
+                    "@id": "pge:e-elec-2026-08-28-price-recovery-bond-credit",
+                    "urpx:referencesPriceDefinition": {
+                      "@id": "pge:e-elec-2026-08-28-pd-recovery-bond-credit"
+                    },
+                    "urpx:name": "Recovery Bond Credit",
+                    "urpx:unitPrice": "-0.00857"
+                  }
+                ]
+              }
+            ],
+            "urpx:hasPriceSetAlternatives": [
+              {
+                "@type": "urpx:PriceSetAlternatives",
+                "@id": "pge:e-elec-2026-08-28-psa-bsc-by-income-tier",
+                "urpx:name": "Base Services Charge — varies by income tier (CARE / FERA / Standard)",
+                "urpx:referencesProfileAlternatives": {
+                  "@id": "pge:e-elec-2026-08-28-pa-income-tier"
+                },
+                "urpx:hasPriceSetAlternative": [
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:e-elec-2026-08-28-psa-bsc-tier-1",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:e-elec-2026-08-28-pa-income-tier-care"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:e-elec-2026-08-28-price-base-charge-tier-1",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:e-elec-2026-08-28-pd-base-charge"
+                        },
+                        "urpx:startDate": "2026-08-28",
+                        "urpx:name": "Base Services Charge — Income Tier 1 (CARE-eligible)",
+                        "urpx:unitPrice": "0.19713"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:e-elec-2026-08-28-psa-bsc-tier-2",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:e-elec-2026-08-28-pa-income-tier-fera"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:e-elec-2026-08-28-price-base-charge-tier-2",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:e-elec-2026-08-28-pd-base-charge"
+                        },
+                        "urpx:startDate": "2026-08-28",
+                        "urpx:name": "Base Services Charge — Income Tier 2 (FERA-eligible)",
+                        "urpx:unitPrice": "0.39688"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:e-elec-2026-08-28-psa-bsc-tier-3",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:e-elec-2026-08-28-pa-income-tier-standard"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:e-elec-2026-08-28-price-base-charge-tier-3",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:e-elec-2026-08-28-pd-base-charge"
+                        },
+                        "urpx:startDate": "2026-08-28",
+                        "urpx:name": "Base Services Charge — Income Tier 3 (no qualifying enrollment)",
+                        "urpx:unitPrice": "0.79343"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-pge",
+            "urpx:legalName": "Pacific Gas and Electric Company",
+            "urpx:organizationType": {
+              "@id": "urpx:utilityOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-pge-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-pge-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Pacific Gas and Electric Company"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-pge-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "14328"
+              }
+            }
+          },
+          "urpx:forRatePlan": {
+            "@id": "pge:e-elec"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "pge:cc-e-elec-2026-08-28",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-e-elec-2026-08-28-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Sheet 5 (AL 7846-E, leaf 61120-E) prices the Vintaged Power Charge Indifference Adjustment as 18 per-kWh rates, 2009 Vintage $0.02973 through 2026 Vintage $(0.01011), payable by DA, CCA and TBS customers under Special Condition 4. Not modeled; the only PCIA in the model is the single Sheet 3 Bundled PCIA at $(0.01011). Expressible under v0.5.1 and already built for the sibling filing issued under the same advice letter: pge:e-tou-c-vintage-pcia-2026-03-01 carries all 18 as a RatePlanModifierVersion with an 18-member ProfileAlternatives over vintage year plus a CCA/DA/TBS boolean gate, and its values are identical to this schedule's table. Port that modifier and add it to applicable_modifiers. Work, not a blocker. (2) Sheet 2 (AL 7921-E, leaf 61363-E) defines Income Tier 2 as customers who either (a) take service on FERA or (b) live in an affordable rental unit within a property listed in the California Housing Partnership's database restricted to residents at or below 80 percent of Area Median Income. The model gates Tier 2 on hasProgramEnrollment equals pge:program-fera alone, so a qualifying branch-(b) customer not on FERA falls through to the Standard alternative and is billed $0.79343 per meter per day instead of $0.39688, exactly double. Expressible: urpx:conditionProperty carries no sh:in in the v0.5.1 shapes (any IRI is accepted) and CustomOperandNode.customConditionProperty is available, so branch (b) can be OR'd into the Tier 2 expression with a matching third negation on the Standard branch. All five PG&E residential filings share this gap, so fix them together. (3) Special Condition 4 (Sheets 4 and 5) prices Direct Access, Community Choice Aggregation and Transitional Bundled Service customers as paying every charge in the Unbundling of Total Rates except the Bundled Power Charge Indifference Adjustment and the generation charge. Not modeled: pge:program-cca, pge:program-da and pge:program-tbs are declared in @graph and referenced nowhere else in the document. Expressible as a modifier Price with multiplier -1 and basedOnPrice naming the generation and Bundled PCIA Prices. Unbuilt across the whole PG&E residential set (zero urpx:multiplier uses in e-1, e-tou-c, e-tou-d, ev2, e-elec). The related cross-references (Schedule TBCC commodity prices, Schedule E-FFS franchise fee surcharge, DA CRS and CCA CRS exemptions) are other schedules' pricing and are out of scope for this filing. (4) Special Condition 7 (Sheet 6) states the Wildfire Fund Charge 'applies to all retail sales, excluding CARE and Medical Baseline sales'; the model carries it as an unconditional $0.00591/kWh Price, so it prices the CARE and Medical Baseline sales the tariff excludes. The CARE half is carried by pge:d-care, whose exemption Price is urpx:multiplier -1 over this Price. The Medical Baseline half is not modeled for this schedule; pge:e-1-medical-baseline and pge:e-tou-c-medical-baseline carry it for Schedules E-1 and E-TOU-C only. (5) Sheet 3 also prices the Base Services Charge by component (Distribution, Public Purpose Program, Nuclear Decommissioning, New System Generation Charge, each at three income tiers, 12 figures). Only the three bundled totals are modeled. The components do sum to the modeled totals, so nothing resolves wrong, but the filing is asymmetric: energy is modeled unbundled and the base charge bundled. This is the convention across all five PG&E residential filings, not an e-elec slip; it matters for a DA or CCA consumer needing the delivery-only components. Lowest-weight item in this list.",
+              "urpx:evaluatedOn": "2026-10-07T00:00:00"
+            }
+          }
+        },
+        "urpx:ratePlanUniqueIdentifier": "E-ELEC"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-care",
+      "urpx:programName": "California Alternate Rates for Energy (CARE)",
+      "urpx:programType": {
+        "@id": "urpx:lowIncomeProgram"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-fera",
+      "urpx:programName": "Family Electric Rate Assistance (FERA)",
+      "urpx:programType": {
+        "@id": "urpx:moderateIncomeProgram"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-cca",
+      "urpx:programName": "Community Choice Aggregation (CCA)",
+      "urpx:programType": {
+        "@id": "urpx:communityChoiceAggregation"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-da",
+      "urpx:programName": "Direct Access (DA)"
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-tbs",
+      "urpx:programName": "Transitional Bundled Service (TBS)"
+    },
+    {
+      "@type": "urpx:RateCase",
+      "@id": "pge:rc-d-26-04-036",
+      "urpx:caseNumber": "D.26-04-036",
+      "urpx:name": "CPUC Decision D.26-04-036",
+      "urpx:description": "Decision Ordering Immediate Improvements to the California Climate Credit, Rulemaking 25-07-013, adopted April 30, 2026. The url is the proposed decision the CPUC's announcement of the vote links as the proposal approved.",
+      "urpx:url": "https://docs.cpuc.ca.gov/PublishedDocs/Published/G000/M605/K823/605823091.PDF"
+    },
+    {
+      "@type": "urpx:SourcePublication",
+      "@id": "pge:al-7975-e",
+      "urpx:name": "PG&E Advice Letter 7975-E",
+      "urpx:filingNumber": "7975-E",
+      "urpx:issuingAuthority": "California Public Utilities Commission",
+      "urpx:publicationType": {
+        "@id": "urpx:tariffSupplement"
+      },
+      "urpx:description": "PG&E Advice Letter 7975-E, Clean-Up of Electric Tariffs, a Tier 1 submittal effective on submittal, 2026-08-28, pending final disposition. It reissues Sheet 1 of Schedule E-ELEC and Sheets 1, 5, 12, 24, 32 and 37 of Schedule NBT; it states that it increases no rate or charge.",
+      "urpx:effectiveDate": "2026-08-28",
+      "urpx:dateReceived": "2026-08-28"
+    }
+  ]
+}

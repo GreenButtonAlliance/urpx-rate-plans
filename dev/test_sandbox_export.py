@@ -34,9 +34,12 @@ DOCS = {
     "rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld",
     "rate-plan_pge_e-tou-c_2026-03-27.jsonld",
     "rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld",
+    "rate-plan_pge_e-tou-c_2026-06-01.jsonld",
+    "rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld",
 }
-# pge_rule-19_2023-03-23.pdf is vendored in both version directories and exported once.
-PDFS = {"pge_e-tou-c_2026-03-01.pdf", "pge_e-tou-c_2026-03-27.pdf", "pge_rule-19_2023-03-23.pdf"}
+# pge_rule-19_2023-03-23.pdf is vendored in every version directory and exported once.
+PDFS = {"pge_e-tou-c_2026-03-01.pdf", "pge_e-tou-c_2026-03-27.pdf", "pge_e-tou-c_2026-06-01.pdf",
+        "pge_rule-19_2023-03-23.pdf"}
 COMMODITY_PATH = "submissions/us/us-ca/pge/electric"
 SHA = "0123456789abcdef0123456789abcdef01234567"
 
@@ -123,7 +126,7 @@ def test_export(tmp: Path) -> None:
     target = sb / COMMODITY_PATH
     check("lands at the sandbox's documented depth", sub.rel_path == COMMODITY_PATH, sub.rel_path)
     names = {p.name for p in target.iterdir()}
-    check("writes the three documents, both PDFs and a README",
+    check("writes every document, every PDF and a README",
           names == DOCS | PDFS | {"README.md"}, str(sorted(names)))
     check("copies every document byte for byte",
           all((target / p.name).read_bytes() == p.read_bytes()
@@ -162,8 +165,8 @@ def test_export(tmp: Path) -> None:
 
     print("export, schedule layout")
     sb2 = make_sandbox(tmp / "sb-schedule")
-    sub2 = X.export([REPO / SCHEDULE / "versions/2026-03-01", REPO / SCHEDULE / "versions/2026-03-27"],
-                    sb2, "schedule")
+    sub2 = X.export([REPO / SCHEDULE / "versions/2026-03-01", REPO / SCHEDULE / "versions/2026-03-27",
+                     REPO / SCHEDULE / "versions/2026-06-01"], sb2, "schedule")
     t2 = sb2 / sub2.rel_path
     check("adds the schedule level", sub2.rel_path == COMMODITY_PATH + "/e-tou-c", sub2.rel_path)
     check("writes the same files", {p.name for p in t2.iterdir()} == DOCS | PDFS | {"README.md"})
