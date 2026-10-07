@@ -1,0 +1,697 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "sdge": "https://rate-plans.grid-coordination.energy/sdge/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "sdge:doc-care-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sdge:care",
+    "urpx:name": "Schedule E-CARE California Alternate Rates for Energy",
+    "urpx:modifierUniqueIdentifier": "E-CARE",
+    "urpx:initialEffectiveDate": "2001-08-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sdge:care-2026-06-01",
+      "urpx:version": "2026-06-01",
+      "urpx:modifierVersionNumber": "2026-06-01",
+      "urpx:changeReason": {
+        "@id": "urpx:regulatoryOrder"
+      },
+      "urpx:description": "California Alternate Rates for Energy (CARE) program: income-qualified bill discount applied as an overlay to any SDG&E residential base rate plan (Schedule DR, DR-SES, EV-TOU, EV-TOU-2, EV-TOU-5, TOU-DR, TOU-DR1, TOU-DR2, TOU-ELEC). CPUC-mandated program; SDG&E's implementation is defined in Schedule E-CARE per Decision 24-05-028 (intended discount rate 35%). Eligibility: household income no more than the Schedule E-CARE Special Condition 4 income table ($43,280 for one or two persons rising to $111,440 for eight, plus $11,360 for each additional person). CARE provides several distinct benefits: (1) a 35% line-item bill discount (modeled as urpx:multiplier -0.35 on sdge:care-price-bill-discount-2026-06-01, over each base plan's CARE-discountable subtotal), (2) exemption from the California Wildfire Fund Charge (modeled as $-0.00591/kWh credit), (3) exemption from the Department of Water Resources Bond Charge (modeled as $-0.00000/kWh credit; currently zero but tracked for future use), (4) exemption from the CARE Surcharge that funds the program (modeled as urpx:multiplier -1 over the composed base plan's own CARE Surcharge Price, which each base splits out of its Public Purpose Programs Charge: $0.00864/kWh on the 'All Other Residential CARE Schedules' and $0.01062/kWh on EV-TOU, per Sheet 2), and (5) a Base Services Charge reduction from the standard $0.79343/day to $0.19713/day (modeled as $-0.59630/day BSC adjustment). Net per-kWh credit from line-item exemptions: $-0.01455/kWh, or $-0.01653/kWh on EV-TOU. Net per-meter-per-day credit from BSC adjustment: $-0.59630/day. Bill calculation with this modifier captures the line-item exemptions, the BSC reduction and the percentage discount. It still misstates the benefit for Schedule EV-TOU customers, whose fixed charge is a minimum bill that Schedule E-CARE halves rather than a base services charge. Customers receiving FERA discount are NOT eligible for CARE simultaneously (per Schedule FERA applicability statement). CARE Medical Baseline customers also receive Medical Baseline Program co-benefits via Schedule E-MEDICAL (NOT modeled: blocked on urpx-org/urpx#32 OPEN, additive baseline allowance vocabulary).",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sdge:dr"
+        },
+        {
+          "@id": "sdge:dr-ses"
+        },
+        {
+          "@id": "sdge:ev-tou"
+        },
+        {
+          "@id": "sdge:ev-tou-2"
+        },
+        {
+          "@id": "sdge:ev-tou-5"
+        },
+        {
+          "@id": "sdge:tou-dr"
+        },
+        {
+          "@id": "sdge:tou-dr1"
+        },
+        {
+          "@id": "sdge:tou-dr2"
+        },
+        {
+          "@id": "sdge:tou-elec"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "sdge_care_2026-06-01.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=383&tarfYear=2026",
+        "urpx:dateRetrieved": "2026-10-06",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 2,
+        "urpx:pageEnd": 3,
+        "urpx:leafStart": "64350-E",
+        "urpx:leafEnd": "64762-E"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sdge:care-2026-06-01-er-eligible",
+          "urpx:name": "CARE-eligible residential customer",
+          "urpx:description": "Customer must be a residential customer enrolled in the CARE program per Schedule E-CARE eligibility requirements (Special Condition 4): household income no more than the Special Condition 4 income table. Application + eligibility declaration required (Special Condition 2); SDG&E applies discount no later than one billing period after approval (Special Condition 3). Customers may be rebilled for periods when eligibility was not met. Customers receiving FERA discount are NOT eligible for CARE simultaneously.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sdge:care-2026-06-01-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sdge:care-2026-06-01-bn-residential-and-enrolled",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:care-2026-06-01-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:care-2026-06-01-cn-residential-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:care-2026-06-01-cn-residential-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:care-2026-06-01-cn-program-enrollment",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:care-2026-06-01-cn-program-enrollment-left-operand",
+                    "urpx:customConditionProperty": "Program Enrollment"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:care-2026-06-01-cn-program-enrollment-right-operand",
+                    "urpx:stringValue": "California Alternate Rates for Energy (CARE)"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "sdge:care-2026-06-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:care-2026-06-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sdge:care-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:care-2026-06-01-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "sdge:care-2026-06-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:care-2026-06-01-ledger-wf-nbc",
+              "urpx:name": "CARE Wildfire Fund Charge Exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:care-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:care-2026-06-01-ledger-dwr-bc",
+              "urpx:name": "CARE DWR Bond Charge Exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:care-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:care-2026-06-01-ledger-care-surcharge",
+              "urpx:name": "CARE Surcharge Exemption",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:care-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:care-2026-06-01-ledger-bsc-adjustment",
+              "urpx:name": "CARE Base Services Charge Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:care-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:care-2026-06-01-ledger-bill-discount",
+              "urpx:name": "CARE Percentage Bill Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:care-2026-06-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:care-2026-06-01-pd-wf-nbc-exemption",
+              "urpx:name": "CARE Wildfire Fund Charge Exemption (cancels base WF-NBC of $0.00591/kWh)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:care-2026-06-01-ledger-wf-nbc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:care-2026-06-01-pd-dwr-bc-exemption",
+              "urpx:name": "CARE Department of Water Resources Bond Charge Exemption (cancels base DWR-BC, currently $0.00000/kWh)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:care-2026-06-01-ledger-dwr-bc"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:care-2026-06-01-pd-care-surcharge-exemption",
+              "urpx:name": "CARE Surcharge Exemption (cancels the CARE Surcharge in the base plan's Public Purpose Programs Charge: $0.00864/kWh on the All Other Residential CARE Schedules, $0.01062/kWh on DM and EV-TOU, per Schedule E-CARE Sheet 2)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:care-2026-06-01-ledger-care-surcharge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:care-pd-bsc-adjustment-2026-06-01",
+              "urpx:name": "CARE Base Services Charge Adjustment (reduces standard $0.79343/day BSC to CARE $0.19713/day, ~75% reduction per Decision 24-05-028 income-graduated fixed charge)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "sdge:care-pd-bsc-adjustment-2026-06-01-calculation-method",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:care-2026-06-01-ledger-bsc-adjustment"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:care-2026-06-01-pd-bill-discount",
+              "urpx:name": "CARE 35 percent discount on the discountable bill subtotal",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:care-2026-06-01-ledger-bill-discount"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "sdge:care-2026-06-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:care-price-wf-nbc-exemption-2026-06-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:care-2026-06-01-pd-wf-nbc-exemption"
+            },
+            "urpx:startDate": "2026-06-01",
+            "urpx:name": "CARE WF-NBC Exemption Credit",
+            "urpx:unitPrice": "-0.00591"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:care-price-dwr-bc-exemption-2026-06-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:care-2026-06-01-pd-dwr-bc-exemption"
+            },
+            "urpx:startDate": "2026-06-01",
+            "urpx:name": "CARE DWR-BC Exemption Credit",
+            "urpx:unitPrice": "-0.00000"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:care-price-care-surcharge-exemption-2026-06-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:care-2026-06-01-pd-care-surcharge-exemption"
+            },
+            "urpx:startDate": "2026-06-01",
+            "urpx:name": "CARE Surcharge Exemption Credit, the negative of the CARE Surcharge Price of whichever base plan this is composed with",
+            "urpx:multiplier": "-1",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sdge:dr-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-09-30-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-04-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-06-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-08-01-price-udc-care-surcharge"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-care-surcharge"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:care-price-bsc-adjustment-2026-06-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:care-pd-bsc-adjustment-2026-06-01"
+            },
+            "urpx:startDate": "2026-06-01",
+            "urpx:name": "CARE BSC Adjustment Credit",
+            "urpx:unitPrice": "-0.59630"
+          },
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:care-price-bill-discount-2026-06-01",
+            "urpx:name": "CARE 35 percent bill discount applied to the discountable subtotal of the composed base plan, per Schedule E-CARE Sheet 1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:care-2026-06-01-pd-bill-discount"
+            },
+            "urpx:multiplier": "-0.35",
+            "urpx:basedOnPrice": [
+              {
+                "@id": "sdge:dr-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-09-30-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-04-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-06-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-08-01-summary-care-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-09-30-summary-care-discountable"
+              }
+            ],
+            "urpx:startDate": "2026-06-01"
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sdge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sdge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "San Diego Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sdge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16609"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "sdge:care"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sdge:cc-care-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-care-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries five pieces of the CARE benefit. Four are per-unit amounts: the Wildfire Fund Charge exemption ($0.00591 per kWh), the Department of Water Resources Bond Charge exemption (currently $0.00000), the CARE Surcharge exemption ($0.00864 per kWh, or $0.01062 on Schedule EV-TOU, carried as the negative of the composed base plan's own CARE Surcharge Price) and the Base Services Charge reduction from $0.79343 to $0.19713 per day. The fifth is the percentage discount, and it is modeled here. Sheet 1 sets the residential CARE discount at 35 percent, applied as a fixed CARE line-item discount pursuant to D.24-05-028, and Sheet 2 states it as 0.35000 applied to the total bill less any applicable exemptions, minimum bill amount and base services charge, as calculated for bundled service customers. The price sdge:care-price-bill-discount-2026-06-01 carries that as a urpx:multiplier of -0.35, and its urpx:basedOnPrice names the CARE-discountable urpx:PriceSummary of each of the nine base plans this overlay declares itself applicable to, at each of their effective dates, so the discount resolves against whichever of them the customer is on. Each of those summaries is the Sheet 2 base written out as a list of that plan's own prices: it names the energy, delivery and surcharge components, with the Public Purpose Programs Charge net of the CARE Surcharge, and it omits the base services charge or minimum bill together with the CARE Surcharge, the Department of Water Resources Bond Charge and the California Wildfire Fund Charge, which this overlay exempts separately. The lists run from 10 members on Schedule DR to 24 on Schedule EV-TOU-5. Sheet 4 Special Condition 8 sanctions that shape, permitting the CARE discount to be reflected either through separately stated discounted rates for each applicable service schedule or, alternatively, as an overall discount to the otherwise calculated customer, demand and energy charges. The claim stays partial, and five published provisions are why. The alternative form of benefit (b) on Sheet 1, a 50 percent minimum bill in place of a reduced base services charge, which is the form the benefit takes on Schedule EV-TOU, a plan this overlay declares itself applicable to and which has a minimum bill rather than a base services charge; that plan's rate sheet sets the minimum bill at $0.413 per day and halves it to $0.207 per day for CARE, Medical Baseline and FERA customers, while this overlay instead delivers a base services charge credit against a charge Schedule EV-TOU does not have. The Non-Residential CARE structure on Sheet 2, with its own 0.35000 discount and its own exemption list. The Medical Baseline co-benefits that Sheet 2 extends to CARE Medical Baseline customers under Schedule E-MEDICAL pursuant to D.25-09-006, for which no filing exists in this corpus. Sheet 8 Special Condition 20 PEV submetering, under which the CARE discount applies to the submetered PEV charging load as well as to the load at the primary meter where the equipment meets the D.22-08-024 submetering protocol. And the Special Condition 4 income table ($43,280 for a one or two person household rising to $111,440 for eight, plus $11,360 for each additional person), since eligibility is expressed only as residential customer kind plus enrollment in the CARE program. The remaining special conditions are out of scope rather than missing: the carry-through of the otherwise applicable schedule's own conditions (1), application and recertification (2), commencement (3), verification (5), backbilling (6), notice of change (7), the above-400-percent-of-baseline documentation and 600 percent retention conditions (9), the single-family and submetered-tenant location and qualification rules (10 through 13), and the facility certification rules for non-profit group living, Homekey and agricultural employee housing (14 through 19) are program-administration procedures rather than rates.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}

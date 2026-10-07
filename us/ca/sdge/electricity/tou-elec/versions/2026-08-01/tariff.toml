@@ -1,0 +1,96 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "tou-elec"
+effective_date = "2026-08-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1065"
+sha256 = "74358b51e78432053cda6551a75fa9186037db7ecad8cd312415bd88858d2317"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4868-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4868-E (effective 2026-08-01)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Schedule TOU-ELEC as served by
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1065
+(the PDF behind the tariffsprd.sdge.com viewer URL in [source]), retrieved
+2026-09-23 by dev/fetch_tariff_documents.py (data/documents/sdge/) with the
+X-Azure-FDID header documented in us/ca/sdge/utility.toml. SDG&E regenerates
+the PDF per request, so the sha256 is of the committed bytes.
+
+Sheets in force on 2026-08-01:
+ Sheet 1: 64949-E, Advice 4868-E, effective 2026-08-01
+ Sheet 2: 64950-E, Advice 4868-E, effective 2026-08-01
+ Sheet 3: 64951-E, Advice 4868-E, effective 2026-08-01
+ Sheet 4: 64397-E, Advice 4791-E, effective 2026-04-01
+ Sheet 5: 64398-E, Advice 4791-E, effective 2026-04-01
+ Sheet 6: 63312-E, Advice 4701-E, effective 2025-10-01
+
+Advice 4868-E, "Implementation of Recovery of Under Collected Wildfire
+Mitigation Plan Memorandum Account Track 2 Costs and Roll-Offs of General Rate
+Case Memorandum Account Costs Effective August 1, 2026", effective 2026-08-01,
+revises Sheets 1, 2, 3.
+
+Price changes from the 2026-06-01 version, $ per kWh unless a per-day charge:
+ udc-distribution: 0.14708 -> 0.14361
+ eecc-summer-on-peak: 0.45690 -> 0.47028
+ eecc-summer-off-peak: 0.12945 -> 0.13324
+ eecc-summer-super-off-peak: 0.08637 -> 0.08889
+ eecc-winter-on-peak: 0.24311 -> 0.25023
+ eecc-winter-off-peak: 0.11774 -> 0.12118
+ eecc-winter-super-off-peak: 0.07856 -> 0.08085
+
+Reconciliation. In every TOU cell the UDC components sum to the published UDC
+Total (0.24970) and UDC + DWR-BC + WF-NBC + EECC to the published Total Rate
+(0.72589, 0.38885, 0.34450, 0.50584, 0.37679, 0.33646). Every modeled price is
+printed on these sheets except the PPP split, whose CARE Surcharge is Schedule
+E-CARE Sheet 2's.
+
+Supersession. Sheet 1 (64949-E) cancels 64825-E, the sheet of the 2026-06-01
+version it replaces, effective 2026-08-01; the 2026-06-01 version ends there.
+This version ends at 2026-09-30.
+
+Unchanged from the 2026-04-01 version: the TOU periods, seasons, holiday
+calendar, eligibility rules, price structure and the modeling notes in
+us/ca/sdge/electricity/tou-elec/versions/2026-04-01/tariff.toml.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Franchise Fee Differential 5.78% (Sheet 4, Cal. P.U.C. Sheet No. 64397-E): \"applied to the monthly billings calculated under this schedule for all customers within the corporate limits of the City of San Diego\" and added as a separate bill item. Not modeled. Expressible under URPX v0.5.1 as a modifier Price with multiplier 0.0578 and basedOnPrice naming a unit-homogeneous PriceSummary, chargeType urpx:taxMunicipal. Two cautions for whoever builds it: the City of San Diego gate needs a ConditionExpression, because a fee Price carrying no condition applies to every TOU-ELEC customer and would charge the 5.78% outside the corporate limits too; and a percentage spanning both $/kWh and $/day components needs one Price per unit-homogeneous summary, since PriceSummary members are summed without unit awareness. This is work, not a vocabulary blocker. No filing in the corpus models the franchise fee today.",
+ "Medical Baseline rates (Sheet 2, Cal. P.U.C. Sheet No. 64950-E, table \"Description - TOU-ELEC MB Rates\"). Note 3 exempts MB customers from DWR-BC and WF-NBC, so their DWR-BC + WF-NBC column reads 0.00000 against 0.00591 on the standard table, and the Total Effective MB Rate column is 80 percent of the Total MB Rate, rounded to the published five decimals, in all six season/period cells (0.57598, 0.30635, 0.27087, 0.39994, 0.29670, 0.26444). Note 6 confirms MB carries no BSC discount. Neither part is modeled: there is no SDG&E medical-baseline RatePlanModifier in this corpus (only us/ca/sce/electricity/medical-baseline/) and [modeling].applicable_modifiers omits it. The exemption half is expressible and precedented: sdge/care already carries sdge:care-price-wf-nbc-exemption-2025-10-01 at -0.00591 and a DWR-BC exemption at -0.00000 against the same base. The 80% factor is stated nowhere in this PDF; SC 5 sends the reader to Schedule E-MEDICAL, which this corpus does not hold, so the mechanism behind that column is a source gap even though the resulting per-cell rates are published here.",
+ "SDG&E Electric Rule 1 (DEFINITIONS), Sheet 6, Cal. P.U.C. Sheet No. 61672-E, HOLIDAYS: \"When a Holiday listed above falls on Sunday, the following Monday shall be defined as a Holiday. No change will be made for Holidays falling on Saturday.\" New Year's Day, Independence Day, Veterans Day and Christmas Day in sdge:tou-elec-2026-08-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
+ "SC 7.b (Sheet 6, Cal. P.U.C. Sheet No. 63312-E) directs that a Direct Access or CCA customer's bill is computed as a bundled bill and then credited \"by the amount of the EECC component and DWR-BC + WF-NBC component ... and including the appropriate Cost Responsibility Surcharge (CRS)\" per Schedules DA-CRS and CCA-CRS. The modeled RatePlanVersion declares urpx:serviceRole urpx:bundledServiceRole, so the DA/CCA branch is outside its declared scope, and the CRS amounts live in Schedules DA-CRS and CCA-CRS, which this corpus does not hold for SDG&E. Recorded for parity with sdge/dr, sdge/tou-dr, sdge/tou-dr1, sdge/ev-tou and sdge/ev-tou-2. Note that those filings' equivalent deferrals attribute this to the PCIA Special Condition, which is wrong: on TOU-ELEC the PCIA condition is SC 9, it concerns bundled customers only, and it prices nothing extra because the PCIA is already inside the modeled bundled EECC.",
+ "Special Condition 10's enrollment cap is a term of availability of this schedule, stated twice in this filing's own PDF, and the model records neither statement. Sheet 1: \"There is a cap of 10,000 customers who may take service on this rate, as defined in SC 10.\" Special Condition 10 verbatim: \"Enrollment Cap: There is a cap of 10,000 customers who may take service on this rate. A customer's ability to enroll will depend on availability. In the event that the cap is reached, SDG&E is not responsible for maintaining a queue of customers who want to take service on TOU-ELEC.\" The v0.5.1 ontology has no enrollment-cap property, so this is a blocked deferral.",
+ "Special Condition 4's re-entry bar is unmodeled while its twelve-month stay is modeled. Verbatim: \"A customer receiving service under this schedule may elect to change to another applicable rate schedule after receiving service on this schedule for at least 12 consecutive months. If a customer elects to discontinue service on this schedule, the customer will not be permitted to return to this schedule for a period of 12 consecutive months.\" The model sets urpx:minimumTenure P12M for the first sentence. URPX v0.5.1 has no term for a return bar: minimumTenure is its only tenure term, and an ObjectOperandNode takes a single conditionProperty, so it cannot test a urpx:PriorRatePlan's referencesRatePlan and enrollmentEndDate together. The bar is expressible as an EligibilityRule negating a urpx:CustomOperandNode comparison of months since the customer left this schedule with 12, the route this corpus takes for predicates URPX does not name; that form conforms against the v0.5.1 shapes in the merged SDG&E graph.",
+ "Special Condition 7.b, the Direct Access and Community Choice Aggregation bill path (Sheet 6), computes a bundled bill and then credits back \"the EECC component and DWR-BC + WF-NBC component ... and including the appropriate Cost Responsibility Surcharge (CRS)\". The crediting half operates on this filing's own Prices; the CRS half points at Schedules DA-CRS and CCA-CRS, which SDG&E has in no filing in this corpus.",
+]
+applicable_modifiers = [
+ "care",
+ "drah",
+ "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-08-01, citations and figures rewritten for them. See [extraction] notes."

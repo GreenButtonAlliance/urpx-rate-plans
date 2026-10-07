@@ -129,11 +129,11 @@ And 2 pairs never co-occur across those 18: CARE with FERA; CCA with Smart Rate.
 
 Three things would close the gap. A way to say two modifiers are mutually exclusive, which URPX v0.5.1 does not have. A baseline that composes a base with more than one modifier at a time, which the present one does not do. And a selection recorded per open dimension, so that a rate can be attributed to the alternative it belongs to rather than to the composition as a whole.
 
-The corpus already models the same exclusivity both ways. PG&E states income tier as a `urpx:ProfileAlternatives` dimension whose alternatives are mutually exclusive by construction. Elsewhere CARE and FERA are separate `urpx:RatePlanModifier`s with nothing to say they cannot both apply, and 13 base versions here accept both of them: `sce:d-2026-10-01`, `sce:tou-d-4-9pm-2026-10-01`, `sce:tou-d-5-8pm-2026-10-01`, `sce:tou-d-prime-2026-10-01`, `sdge:dr-2026-04-01`, `sdge:dr-ses-2026-04-01`, `sdge:ev-tou-2-2026-04-01`, `sdge:ev-tou-2026-04-01`, `sdge:ev-tou-5-2026-04-01`, `sdge:tou-dr-2026-04-01`, `sdge:tou-dr1-2026-04-01`, `sdge:tou-dr2-2026-04-01`, `sdge:tou-elec-2026-04-01`. One shape is machine-checkable and the other is not.
+The corpus already models the same exclusivity both ways. PG&E states income tier as a `urpx:ProfileAlternatives` dimension whose alternatives are mutually exclusive by construction. Elsewhere CARE and FERA are separate `urpx:RatePlanModifier`s with nothing to say they cannot both apply, and 13 base versions here accept both of them: `sce:d-2026-10-01`, `sce:tou-d-4-9pm-2026-10-01`, `sce:tou-d-5-8pm-2026-10-01`, `sce:tou-d-prime-2026-10-01`, `sdge:dr-2026-09-30`, `sdge:dr-ses-2026-09-30`, `sdge:ev-tou-2-2026-09-30`, `sdge:ev-tou-2026-09-30`, `sdge:ev-tou-5-2026-09-30`, `sdge:tou-dr-2026-09-30`, `sdge:tou-dr1-2026-09-30`, `sdge:tou-dr2-2026-09-30`, `sdge:tou-elec-2026-09-30`. One shape is machine-checkable and the other is not.
 
 ## Superseded versions excluded
 
-52 version nodes, over 31 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+84 version nodes, over 43 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -189,6 +189,38 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `sce:tou-d-prime` | `sce:tou-d-prime-2026-06-01` | 2026-06-01 | `sce:tou-d-prime-2026-10-01` | 2026-10-01 |
 | `sce:tou-d-prime-cpp` | `sce:tou-d-prime-cpp-2026-03-20` | 2026-03-20 | `sce:tou-d-prime-cpp-2026-10-01` | 2026-10-01 |
 | `sce:tou-d-prime-cpp` | `sce:tou-d-prime-cpp-2026-06-01` | 2026-06-01 | `sce:tou-d-prime-cpp-2026-10-01` | 2026-10-01 |
+| `sdge:care` | `sdge:care-2025-10-01` | 2025-10-01 | `sdge:care-2026-06-01` | 2026-06-01 |
+| `sdge:dr` | `sdge:dr-2026-04-01` | 2026-04-01 | `sdge:dr-2026-09-30` | 2026-09-30 |
+| `sdge:dr` | `sdge:dr-2026-06-01` | 2026-06-01 | `sdge:dr-2026-09-30` | 2026-09-30 |
+| `sdge:dr` | `sdge:dr-2026-08-01` | 2026-08-01 | `sdge:dr-2026-09-30` | 2026-09-30 |
+| `sdge:dr-ses` | `sdge:dr-ses-2026-04-01` | 2026-04-01 | `sdge:dr-ses-2026-09-30` | 2026-09-30 |
+| `sdge:dr-ses` | `sdge:dr-ses-2026-06-01` | 2026-06-01 | `sdge:dr-ses-2026-09-30` | 2026-09-30 |
+| `sdge:dr-ses` | `sdge:dr-ses-2026-08-01` | 2026-08-01 | `sdge:dr-ses-2026-09-30` | 2026-09-30 |
+| `sdge:drah` | `sdge:drah-2026-04-01` | 2026-04-01 | `sdge:drah-2026-09-30` | 2026-09-30 |
+| `sdge:drah` | `sdge:drah-2026-06-01` | 2026-06-01 | `sdge:drah-2026-09-30` | 2026-09-30 |
+| `sdge:drah` | `sdge:drah-2026-08-01` | 2026-08-01 | `sdge:drah-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou-2` | `sdge:ev-tou-2-2026-04-01` | 2026-04-01 | `sdge:ev-tou-2-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou-2` | `sdge:ev-tou-2-2026-06-01` | 2026-06-01 | `sdge:ev-tou-2-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou-2` | `sdge:ev-tou-2-2026-08-01` | 2026-08-01 | `sdge:ev-tou-2-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou` | `sdge:ev-tou-2026-04-01` | 2026-04-01 | `sdge:ev-tou-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou` | `sdge:ev-tou-2026-06-01` | 2026-06-01 | `sdge:ev-tou-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou` | `sdge:ev-tou-2026-08-01` | 2026-08-01 | `sdge:ev-tou-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou-5` | `sdge:ev-tou-5-2026-04-01` | 2026-04-01 | `sdge:ev-tou-5-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou-5` | `sdge:ev-tou-5-2026-06-01` | 2026-06-01 | `sdge:ev-tou-5-2026-09-30` | 2026-09-30 |
+| `sdge:ev-tou-5` | `sdge:ev-tou-5-2026-08-01` | 2026-08-01 | `sdge:ev-tou-5-2026-09-30` | 2026-09-30 |
+| `sdge:fera` | `sdge:fera-2026-04-01` | 2026-04-01 | `sdge:fera-2026-06-01` | 2026-06-01 |
+| `sdge:tou-dr` | `sdge:tou-dr-2026-04-01` | 2026-04-01 | `sdge:tou-dr-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr` | `sdge:tou-dr-2026-06-01` | 2026-06-01 | `sdge:tou-dr-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr` | `sdge:tou-dr-2026-08-01` | 2026-08-01 | `sdge:tou-dr-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr1` | `sdge:tou-dr1-2026-04-01` | 2026-04-01 | `sdge:tou-dr1-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr1` | `sdge:tou-dr1-2026-06-01` | 2026-06-01 | `sdge:tou-dr1-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr1` | `sdge:tou-dr1-2026-08-01` | 2026-08-01 | `sdge:tou-dr1-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr2` | `sdge:tou-dr2-2026-04-01` | 2026-04-01 | `sdge:tou-dr2-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr2` | `sdge:tou-dr2-2026-06-01` | 2026-06-01 | `sdge:tou-dr2-2026-09-30` | 2026-09-30 |
+| `sdge:tou-dr2` | `sdge:tou-dr2-2026-08-01` | 2026-08-01 | `sdge:tou-dr2-2026-09-30` | 2026-09-30 |
+| `sdge:tou-elec` | `sdge:tou-elec-2026-04-01` | 2026-04-01 | `sdge:tou-elec-2026-09-30` | 2026-09-30 |
+| `sdge:tou-elec` | `sdge:tou-elec-2026-06-01` | 2026-06-01 | `sdge:tou-elec-2026-09-30` | 2026-09-30 |
+| `sdge:tou-elec` | `sdge:tou-elec-2026-08-01` | 2026-08-01 | `sdge:tou-elec-2026-09-30` | 2026-09-30 |
 
 ## Not yet effective
 

@@ -1,0 +1,99 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "tou-dr2"
+effective_date = "2026-08-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=899"
+sha256 = "a7f40d7dc1ebb40c68a8c87a82f92b07385d26dc743a72ea5d0b3a24946fef47"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4868-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4868-E (effective 2026-08-01)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Schedule TOU-DR2 as served by
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=899
+(the PDF behind the tariffsprd.sdge.com viewer URL in [source]), retrieved
+2026-09-23 by dev/fetch_tariff_documents.py (data/documents/sdge/) with the
+X-Azure-FDID header documented in us/ca/sdge/utility.toml. SDG&E regenerates
+the PDF per request, so the sha256 is of the committed bytes.
+
+Sheets in force on 2026-08-01:
+ Sheet 1: 64388-E, Advice 4791-E, effective 2026-04-01
+ Sheet 2: 64946-E, Advice 4868-E, effective 2026-08-01
+ Sheet 3: 64947-E, Advice 4868-E, effective 2026-08-01
+ Sheet 4: 64948-E, Advice 4868-E, effective 2026-08-01
+ Sheet 5: 64392-E, Advice 4791-E, effective 2026-04-01
+ Sheet 6: 31774-E, Advice 3370-E, effective 2019-05-28
+ Sheet 7: 64393-E, Advice 4791-E, effective 2026-04-01
+ Sheet 8: 63307-E, Advice 4701-E, effective 2025-10-01
+
+Advice 4868-E, "Implementation of Recovery of Under Collected Wildfire
+Mitigation Plan Memorandum Account Track 2 Costs and Roll-Offs of General Rate
+Case Memorandum Account Costs Effective August 1, 2026", effective 2026-08-01,
+revises Sheets 2, 3, 4.
+
+Price changes from the 2026-06-01 version, $ per kWh unless a per-day charge:
+ udc-distribution: 0.15719 -> 0.15348
+ baseline-credit: -0.10663 -> -0.10702
+ eecc-summer-on-peak: 0.34920 -> 0.35943
+ eecc-summer-off-peak: 0.08432 -> 0.08678
+ eecc-winter-on-peak: 0.27475 -> 0.28279
+ eecc-winter-off-peak: 0.13777 -> 0.14180
+ udc-trac-summer-on-peak: 0.07068 -> 0.07106
+ udc-trac-summer-off-peak: 0.06422 -> 0.06440
+ udc-trac-winter-on-peak: 0.06620 -> 0.06644
+ udc-trac-winter-off-peak: 0.06620 -> 0.06644
+
+Reconciliation. In every TOU cell the UDC components sum to the published UDC
+Total (0.33063, 0.32397, 0.32601) and UDC + DWR-BC + WF-NBC + EECC to the
+published Total Rate (0.69597, 0.41666, 0.61471, 0.47372). Every modeled price
+is printed on these sheets except the PPP split, whose CARE Surcharge is
+Schedule E-CARE Sheet 2's.
+
+Supersession. Sheet 2 (64946-E) cancels 64822-E, the sheet of the 2026-06-01
+version it replaces, effective 2026-08-01; the 2026-06-01 version ends there.
+This version ends at 2026-09-30.
+
+Unchanged from the 2026-04-01 version: the TOU periods, seasons, holiday
+calendar, eligibility rules, price structure and the modeling notes in
+us/ca/sdge/electricity/tou-dr2/versions/2026-04-01/tariff.toml.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Baseline Adjustment Credit is carried as a flat $-0.10702/kWh with no upper bound. Sheet 2 publishes it as 'Summer/Winter Baseline Adjustment Credit up to 130% of Baseline' and note (4) confirms the credit is limited to usage up to 130% of baseline; Special Condition 15 on Sheet 7 supplies the allowance quantities in kWh/day (Basic Allowance summer 9.0, 10.4, 13.6, 15.9 and winter 9.2, 9.6, 12.9, 10.9 for Coastal, Inland, Mountain, Desert; All Electric summer 6.0, 8.7, 15.2, 17.0 and winter 8.8, 12.2, 22.1, 17.1). As modeled the credit applies to every kWh, so the summer on-peak marginal rate resolves to 0.58895 where the schedule publishes 0.69597. Expressible under v0.5.1 and precedented in this corpus: pge:tiers-baseline on the PG&E E-TOU-C baseline-tier modifier carries absolute kWh/day ServiceBracket bounds per climate-zone ProfileAlternative and season. The work is 16 cells at 1.3 times the SC 15 allowance, hosted the same way. Not a vocabulary gap and not a source gap.",
+ "Franchise Fee Differential of 5.78 percent is not modeled. Sheet 5: 'A Franchise Fee Differential of 5.78% will be applied to the monthly billings calculated under this Schedule for all customers within the corporate limits of the City of San Diego.' Expressible under v0.5.1 as a multiplier Price with basedOnPrice over a PriceSummary, chargeType urpx:taxMunicipal. It needs two such Prices over two separate unit-homogeneous summaries, because the fee applies to the whole monthly bill, which mixes the $/kWh components with the $/day Base Services Charge, and one summary spanning both would add unlike units; neither existing summary can be reused, since both deliberately exclude the BSC. The City of San Diego gate (urpx:hasMunicipality inside a ConditionExpression) validates and carries the restriction declaratively, so a build that left the gate out would charge the fee to every customer on the schedule.",
+ "TOU-DR2-MB rate table on Sheet 3 is not carried, and no SDG&E Medical Baseline overlay exists anywhere in this corpus, so an MB customer cannot be billed from this data. The schedule publishes Total Effective MB Rates of 0.54073 and 0.32186 per kWh summer on-peak and off-peak, 0.47706 and 0.36658 winter, a Baseline Adjustment Credit at (0.08386), DWR-BC and WF-NBC at 0.00000, and per note (7) no Base Services Charge discount. Sheet 1 places these tables inside this schedule ('The rates for CARE customers and/or Medical Baseline are identified in the rate tables below'), on the same footing as the CARE column that the corpus does carry. Buildable now by per-cell subtraction against the Total MB Rate, and by the exemption-credit shape the sdge care modifier already ships; what this filing does not state is the rule that produces the effective rates (they are the Total MB Rate times a uniform factor of 0.7836, to the rounding of the published cells, which no provision here explains), so a modifier built this way is faithful to this filing but will not generalize. Schedule E-MEDICAL, which SC 14 names as the authority, is not committed to this repo.",
+ "Semi-annual California Climate Credit of $(49.36) per Schedule GHG-ARR, named in the Sheet 1 applicability section, is not modeled. Expressible under v0.5.1 as a credit Price with urpx:intervalDuration P6M. The alternative form, an ApplicabilityRule enumerating the two credit months the way sce:d does, cannot be sourced from this filing: the schedule names neither month, and Schedule GHG-ARR is not in this corpus. That part is a source gap, not a vocabulary gap.",
+ "Special Condition 9 (Sheet 6) bars a customer who leaves this schedule from returning for 12 months; the schedule sets no minimum stay. This is a term of service on this schedule, set aside by the assessment as \"service and enrollment terms, not rates\", and no re-entry construct exists at v0.5.1.",
+]
+applicable_modifiers = [
+ "care",
+ "drah",
+ "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-08-01, citations and figures rewritten for them. See [extraction] notes."

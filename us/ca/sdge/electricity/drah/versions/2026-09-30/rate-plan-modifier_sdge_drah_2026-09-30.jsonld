@@ -1,0 +1,304 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "sdge": "https://rate-plans.grid-coordination.energy/sdge/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "sdge:doc-drah-2026-09-30",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sdge:drah",
+    "urpx:name": "SDG&E Deed-Restricted Affordable Housing (DRAH) BSC Discount",
+    "urpx:modifierUniqueIdentifier": "DRAH",
+    "urpx:initialEffectiveDate": "2025-11-15",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sdge:drah-2026-09-30",
+      "urpx:version": "2026-09-30",
+      "urpx:modifierVersionNumber": "2026-09-30",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Deed-Restricted Affordable Housing (DRAH) BSC Discount: applies to any SDG&E residential customer whose service address is in qualifying deed-restricted housing per the California Housing Partnership database. Per SDG&E TOU-DR1 General Special Condition 16 (Sheet 9): 'DRAH placement constitutes those customers who live in an affordable rental home that is restricted by the rules of federal or state subsidies to residents who have incomes at or below 80 percent of Area Median Income based on the statewide database of such homes maintained by the California Housing Partnership and, subject to attestation where applicable.' Property-level eligibility (NOT income-level): based on the property's deed-restriction status, distinct from CARE/FERA which are income-level. Single BSC adjustment of $-0.39655/day reduces the standard $0.79343/day BSC to the DRAH $0.39688/day (a 49.98% reduction, identical to FERA's BSC adjustment). Per the TOU-DR1 base PDF prose 'BSC placement will be determined by participation in CARE, FERA, and/or successfully meeting the deed-restricted affordable housing (DRAH) requirement', BSC placement selects ONE tier: these BSC adjustments do NOT stack additively across DRAH, CARE, and FERA. The modifier-overlay model implicitly allows additive stacking which would be incorrect for the BSC line item; consumers should select ONE BSC modifier per customer.",
+      "urpx:effectiveDateTime": "2026-09-30T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sdge:dr"
+        },
+        {
+          "@id": "sdge:dr-ses"
+        },
+        {
+          "@id": "sdge:ev-tou"
+        },
+        {
+          "@id": "sdge:ev-tou-2"
+        },
+        {
+          "@id": "sdge:ev-tou-5"
+        },
+        {
+          "@id": "sdge:tou-dr"
+        },
+        {
+          "@id": "sdge:tou-dr1"
+        },
+        {
+          "@id": "sdge:tou-dr2"
+        },
+        {
+          "@id": "sdge:tou-elec"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "sdge_drah_2026-09-30.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=898",
+        "urpx:dateRetrieved": "2026-10-06",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 10,
+        "urpx:leafStart": "65212-E",
+        "urpx:leafEnd": "65221-E"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sdge:drah-2026-09-30-er-eligible",
+          "urpx:name": "DRAH-eligible residential customer",
+          "urpx:description": "Customer is a residential customer whose service address is in a deed-restricted affordable housing unit per SDG&E TOU-DR1 General Special Condition 16. Property qualifies if it's an affordable rental home restricted by federal or state subsidies to residents with income at or below 80% of Area Median Income, identified via the California Housing Partnership database. The condition makes placement subject to attestation where applicable. Eligibility is at the PROPERTY level, not the customer-income level (distinct from CARE/FERA). Customers may be DRAH-eligible AND CARE/FERA-eligible simultaneously, but BSC placement selects ONE tier (the BSC adjustments do not stack).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sdge:drah-2026-09-30-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sdge:drah-2026-09-30-bn-residential-and-eligible",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:drah-2026-09-30-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:drah-2026-09-30-cn-residential-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:drah-2026-09-30-cn-residential-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:drah-2026-09-30-cn-housing-flag",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:drah-2026-09-30-cn-housing-flag-left-operand",
+                    "urpx:customConditionProperty": "housingDeedRestricted"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:drah-2026-09-30-cn-housing-flag-right-operand",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "sdge:drah-2026-09-30-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:drah-2026-09-30-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "sdge:drah-2026-09-30-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:drah-2026-09-30-ledger-bsc-adjustment",
+              "urpx:name": "DRAH Base Services Charge Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:drah-2026-09-30-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:drah-pd-bsc-adjustment-2026-09-30",
+              "urpx:name": "DRAH Base Services Charge Adjustment (reduces standard $0.79343/day BSC to DRAH $0.39688/day, a 49.98% reduction; identical to FERA BSC adjustment)",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "sdge:drah-pd-bsc-adjustment-2026-09-30-calculation-method",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:drah-2026-09-30-ledger-bsc-adjustment"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "sdge:drah-2026-09-30-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:drah-price-bsc-adjustment-2026-09-30",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:drah-pd-bsc-adjustment-2026-09-30"
+            },
+            "urpx:startDate": "2026-09-30",
+            "urpx:name": "DRAH BSC Adjustment Credit",
+            "urpx:unitPrice": "-0.39655"
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sdge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sdge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "San Diego Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sdge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16609"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "sdge:drah"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sdge:cc-drah-2026-09-30",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-drah-2026-09-30-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) BSC placement is exclusive across DRAH, CARE and FERA, and the model does not say so. Sheet 5 (Cal. P.U.C. Sheet 65216-E) names four Base Services Charges, priced on Sheet 2 (standard 0.79343, DRAH 0.39688, FERA 0.39688, CARE 0.19713) and states: \"BSC placement will be determined by participation in CARE, FERA, and/or successfully meeting the deed-restricted affordable housing (DRAH) requirement. All other customers will receive the Base Services Charge.\" A customer may satisfy more than one test and still receives exactly one BSC. sdge:drah, sdge:care and sdge:fera are three separately published modifiers, each with its own BSC adjustment Price, so composing two of them stacks the credits and understates the bill (0.79343 - 0.39655 - 0.59630 is a negative fixed charge). This is unbuilt work, not a standard-level blocker. urpx-shacl:RatePlanModifierVersionShape carries 42 property shapes and one of them is urpx:referencesGeneralRule, whose range urpx:GeneralRule is documented \"Used for rules defined once at the tariff book level and referenced by multiple PricingModels, TariffFilings, RatePlanVersion, and RatePlanModifierVersion instances and elements\"; GeneralRuleShape admits generalRuleID, hasDataSourceReference, name, description, contributedBy and hasApplicabilityRule, ApplicabilityRuleShape admits hasConditionExpression, and BooleanOperatorValue includes urpx:notOperator. A GeneralRule carrying the Sheet 5 sentence verbatim with a NOT(CARE OR FERA) ApplicabilityRule, referenced from this modifier version and merged with the nine base documents, conforms against the v0.5.1 shapes. Three caveats to carry with it. urpx:GeneralRule has no use in any filing in this corpus, so the pattern is unattested here. The rule would state the exclusivity declaratively, machine-locatable and citable, and would change no Price: each of the three modifiers keeps its own BSC adjustment Price, so the graph still admits composing two. And the priority is a source gap: Sheet 5 says placement is determined by participation in CARE, FERA and/or DRAH but never says which wins when a customer satisfies more than one test, so the rule can say at most one BSC and cannot say CARE beats DRAH. Consider recording it once for the SDG&E BSC family rather than three times. (2) Model defect pending a fix, not deferred work: urpx:applicableToRatePlan lists sdge:ev-tou, which the source excludes. Schedule EV-TOU has no Base Services Charge; its only fixed charge is a minimum bill of $0.413/day (EV-TOU Sheet 4, Cal. P.U.C. Sheet 65184-E), reduced 50 percent \"for CARE, Medical Baseline, or Family Electric Rate Assistance Program (FERA) customers\" only. DRAH, deed and affordable appear nowhere in sdge_ev-tou_2026-09-30.pdf, and that sheet was revised under the same advice letter (AL 4874-E, effective Sep 30 2026) that carries the DRAH BSC rows on the other eight SDG&E residential schedules, so the omission is deliberate rather than stale. This filing's DRAH Price is a bare unitPrice -0.39655 with no basedOnPrice, so composing it onto sdge:ev-tou drops a raw -$0.39655/day credit against a $0.413/day minimum bill, netting $0.01645/day. Fix: drop sdge:ev-tou from applicableToRatePlan here and drop \"drah\" from [modeling].applicable_modifiers in us/ca/sdge/electricity/ev-tou/versions/2026-09-30/tariff.toml, then delete this entry rather than carrying it. Note that sdge:care and sdge:fera carry the same defect and theirs is not fixable by deletion, since EV-TOU does grant them a benefit, just a differently shaped one; that belongs on those two filings.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}

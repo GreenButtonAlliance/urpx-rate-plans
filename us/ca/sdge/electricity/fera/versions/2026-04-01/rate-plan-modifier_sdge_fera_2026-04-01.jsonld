@@ -13,6 +13,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -71,6 +74,7 @@
       },
       "urpx:description": "Family Electric Rate Assistance (FERA) program — moderate-income tier discount applied as an overlay to any SDG&E residential base rate plan (Schedule DR, DR-SES, EV-TOU, EV-TOU-2, EV-TOU-5, TOU-DR, TOU-DR1, TOU-DR2, TOU-ELEC). CPUC-mandated program serving households whose income is just above the CARE eligibility ceiling but still constrained — Lower-Middle Income tier defined by Schedule FERA Special Condition 1: 200% + $1 through 250% of the Federal Poverty Limit, requires 3+ persons in household, NOT applicable to customers receiving CARE or DM service. FERA provides two distinct benefits: (1) a 50% Base Services Charge reduction (modeled as $-0.39655/day BSC adjustment, taking the standard $0.79343/day BSC down to the FERA $0.39688/day per the SDG&E TOU-DR1 base rate sheet), and (2) an 18% line-item bill discount applied to the total bill less any minimum bill amount or base services charge (modeled as urpx:multiplier -0.18 on sdge:fera-price-bill-discount-2026-04-01, over each base plan's FERA-discountable subtotal). Bill calculation with this modifier captures both the BSC reduction and the percentage discount. It still understates the benefit for Schedule EV-TOU customers, whose fixed charge is a minimum bill that the rate sheet halves for FERA customers rather than a base services charge. FERA Medical Baseline customers also receive Medical Baseline Program co-benefits via Schedule E-MEDICAL (NOT modeled — blocked on urpx-org/urpx#32 OPEN, additive baseline allowance vocabulary). Sheet 3 Special Condition 9 also documents EV Submetering applicability — FERA discounts apply to both primary-meter load and submetered EV load — not separately modeled here because base SDG&E filings don't track EV submeter load distinctly.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
+      "urpx:expirationDateTime": "2026-06-01T00:00:00",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
         "@id": "urpx:electricity"
@@ -314,28 +318,109 @@
                 "@id": "sdge:dr-2026-04-01-summary-fera-discountable"
               },
               {
+                "@id": "sdge:dr-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:dr-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:dr-2026-09-30-summary-fera-discountable"
+              },
+              {
                 "@id": "sdge:dr-ses-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:dr-ses-2026-09-30-summary-fera-discountable"
               },
               {
                 "@id": "sdge:ev-tou-2026-04-01-summary-fera-discountable"
               },
               {
+                "@id": "sdge:ev-tou-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2026-09-30-summary-fera-discountable"
+              },
+              {
                 "@id": "sdge:ev-tou-2-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-2-2026-09-30-summary-fera-discountable"
               },
               {
                 "@id": "sdge:ev-tou-5-2026-04-01-summary-fera-discountable"
               },
               {
+                "@id": "sdge:ev-tou-5-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:ev-tou-5-2026-09-30-summary-fera-discountable"
+              },
+              {
                 "@id": "sdge:tou-dr-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr-2026-09-30-summary-fera-discountable"
               },
               {
                 "@id": "sdge:tou-dr1-2026-04-01-summary-fera-discountable"
               },
               {
+                "@id": "sdge:tou-dr1-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr1-2026-09-30-summary-fera-discountable"
+              },
+              {
                 "@id": "sdge:tou-dr2-2026-04-01-summary-fera-discountable"
               },
               {
+                "@id": "sdge:tou-dr2-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-dr2-2026-09-30-summary-fera-discountable"
+              },
+              {
                 "@id": "sdge:tou-elec-2026-04-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-06-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-08-01-summary-fera-discountable"
+              },
+              {
+                "@id": "sdge:tou-elec-2026-09-30-summary-fera-discountable"
               }
             ],
             "urpx:startDate": "2026-04-01"

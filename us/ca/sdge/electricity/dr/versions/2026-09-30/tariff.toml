@@ -1,0 +1,91 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "dr"
+effective_date = "2026-09-30"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=8"
+sha256 = "f92c25e539d5871cbe2368a694f13932be7a508c515689aea60979a47404d627"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4874-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4874-E (effective 2026-09-30), implementing Decision 25-09-006"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Schedule DR as served by
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=8
+(the PDF behind the tariffsprd.sdge.com viewer URL in [source]), retrieved
+2026-10-06 with the X-Azure-FDID header documented in us/ca/sdge/utility.toml.
+SDG&E regenerates the PDF per request, so the sha256 is of the committed
+bytes.
+
+Sheets in force on 2026-09-30:
+ Sheet 1: 65130-E, Advice 4874-E, effective 2026-09-30
+ Sheet 2: 65131-E, Advice 4874-E, effective 2026-09-30
+ Sheet 3: 65132-E, Advice 4874-E, effective 2026-09-30
+ Sheet 4: 65133-E, Advice 4874-E, effective 2026-09-30
+ Sheet 5: 65134-E, Advice 4874-E, effective 2026-09-30
+ Sheet 6: 65135-E, Advice 4874-E, effective 2026-09-30
+ Sheet 7: 65136-E, Advice 4874-E, effective 2026-09-30
+ Sheet 8: 65137-E, Advice 4874-E, effective 2026-09-30
+
+Advice 4874-E, "Implementation of Combined Electric Energy Commodity Cost and
+Utility Distribution Company Tariffs Pursuant to 2024 General Rate Case Phase
+2 Decision 25-09-006", effective 2026-09-30, revises Sheets 1, 2, 3, 4, 5, 6,
+7, 8.
+
+No price this filing models moved from the 2026-08-01 version.
+
+Reconciliation. In every TOU cell the UDC components sum to the published UDC
+Total (0.21900, 0.32601) and UDC + DWR-BC + WF-NBC + EECC to the published
+Total Rate (0.41299, 0.52000). Every modeled price is printed on these sheets
+except the PPP split, whose CARE Surcharge is Schedule E-CARE Sheet 2's and
+sdge:dr's Baseline Adjustment Credit, the difference of its two printed
+totals.
+
+Supersession. Advice 4874-E reissues every sheet of the schedule as an
+Original sheet whose Canceling line is blank, so no sheet names what it
+cancels; the advice letter replaces the 2026-08-01 sheets with these, and the
+2026-08-01 version ends at 2026-09-30.
+
+Unchanged from the 2026-04-01 version: the TOU periods, seasons, holiday
+calendar, eligibility rules, price structure and the modeling notes in
+us/ca/sdge/electricity/dr/versions/2026-04-01/tariff.toml.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet 2 (Cal. P.U.C. Sheet 65131-E) publishes DR-MB columns for Medical Baseline customers: Base Services Charge $0.79343/day, the same as the standard charge; Total Energy Rates for unbundled customers of $0.21900/kWh up to 130% of baseline and $0.32601/kWh above it, with the Wildfire Non-Bypassable Charge and DWR Bond Charge shown as N/A for DR-MB on Sheet 4 (Cal. P.U.C. Sheet 65133-E); EECC $0.18808/kWh; and Total Effective Rates for bundled customers of $0.31899/kWh and $0.40284/kWh. No SDG&E Medical Baseline overlay exists anywhere in this corpus, so an MB customer on Schedule DR cannot be billed from this data. Expressible under v0.5.1 in the CARE and FERA shape already shipping against this filing: a RatePlanModifierVersion carrying the DWR-BC and WF-NBC exemption credits plus a percentage Price using multiplier and basedOnPrice over an MB-discountable PriceSummary. Work, not a blocker.",
+ "Sheet 5 (Cal. P.U.C. Sheet 65134-E): \"A Franchise Fee Differential of 5.78% will be applied to the monthly billings calculated under this schedule for all customers within the corporate limits of the City of San Diego.\" Not modeled. Expressible under v0.5.1 as a Price with multiplier 0.0578 and basedOnPrice over a PriceSummary of the monthly billing, chargeType urpx:taxMunicipal, gated on hasMunicipality in a ConditionExpression; the gate carries the whole restriction, since an ungated Price would charge the 5.78% to every DR customer, inside the city limits or not.",
+ "General Special Condition 3 on Sheet 6 (Cal. P.U.C. Sheet 65135-E) publishes the Baseline Allowance table in kWh/day for Coastal, Inland, Mountain and Desert zones: Basic Allowance summer 9.0, 10.4, 13.6, 15.9 and winter 9.2, 9.6, 12.9, 10.9; All Electric summer 6.0, 8.7, 15.2, 17.0 and winter 8.8, 12.2, 22.1, 17.1. None of the 16 values is in the model, and sdge:dr-2026-09-30-tiers-baseline-130pct instead bounds Tier 1 at a dimensionless 1.3 while referencing sdge:dr-2026-09-30-mi-energy, whose unitOfMeasure is urpx:kWh, so the document as serialized says Tier 1 ends at 1.3 kWh. Both fixes validate against the v0.5.1 shapes: point ServiceTiers.referencesMetricInput at a MetricSpecification with unitOfMeasure urpx:ratio, keeping 1.3 and making it mean a fraction of the customer's allowance; or carry the absolute allowances as per-season ServiceBrackets using ServiceBracketShape appliesInSeason. Prefer the ratio route, because the allowance is denominated per day against a billing-period quantity.",
+ "General Special Condition 9.b, the Direct Access and Community Choice Aggregation bill path, is a computation rule on this schedule's own charges and is in no part of the model. The assessment read urpx:serviceRole urpx:bundledServiceRole as scoping the version out of it, but that is a statement the model makes, not one the source makes: Sheet 2 note 1 says \"Direct Access, Community Choice Aggregation and Transitional Bundled Service Customers pay the applicable Vintaged Power Charge Indifference Adjustment (PCIA)\", Sheet 4 points the unbundled PCIA to Schedules DA-CRS and CCA-CRS, and General Special Condition 9.b routes those customers through the Cost Responsibility Surcharge. The crediting half operates on this filing's own EECC Prices; the CRS half is another schedule's and no SDG&E DA-CRS or CCA-CRS filing exists in this corpus. The assessment itself asked for a corpus-wide ruling here.",
+ "General Special Condition 1 (Sheet 6) states load-check and rebilling terms on this schedule, including an 11-month rebilling window, and nothing in the model corresponds to them.",
+]
+applicable_modifiers = [
+ "care",
+ "drah",
+ "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-09-30, citations and figures rewritten for them. See [extraction] notes."

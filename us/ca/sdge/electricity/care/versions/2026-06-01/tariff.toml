@@ -1,0 +1,74 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "care"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=383&tarfYear=2026"
+sha256 = "3c40ad7fe5f8df2fe339d11479778294433b51a2f57049e05fe6fa457afb64af"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4837-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4837-E (effective 2026-06-01)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. SDG&E's historical document for Schedule E-CARE for 2026,
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=383&tarfYear=2026,
+retrieved 2026-10-06 with the X-Azure-FDID header documented in
+us/ca/sdge/utility.toml. It holds every sheet revision issued in 2026,
+superseded ones included; the sheets of this version are those in force on
+2026-06-01. SDG&E regenerates the PDF per request, so the sha256 is of the
+committed bytes.
+
+Sheets in force on 2026-06-01:
+ Sheet 1: 63266-E, Advice 4701-E, effective 2025-10-01
+ Sheet 2: 64350-E, Advice 4791-E, effective 2026-04-01
+ Sheet 3: 64762-E, Advice 4837-E, effective 2026-06-01
+ Sheet 4: 26576-E, Advice 2783-E, effective 2015-09-01
+ Sheet 5: 62999-E, Advice 4648-E, effective 2025-06-01
+ Sheet 6: 63000-E, Advice 4648-E, effective 2025-06-01
+ Sheet 7: 63001-E, Advice 4648-E, effective 2025-06-01
+ Sheet 8: 63002-E, Advice 4648-E, effective 2025-06-01
+
+Sheets 1, 4, 5, 6, 7, 8 were last revised before 2026 and so not in this document; the revisions above are as printed in the 2026-09-23 copy and in the 2025-10-01 filing's PDF.
+
+Advice 4837-E, "2026 CARE and FERA Income Levels Guidelines Update and PIPP
+Bill Caps Update", effective 2026-06-01, revises Sheet 3.
+
+No price this filing models moved from the 2025-10-01 version.
+
+Supersession. Sheet 3 (64762-E) cancels 62966-E, the sheet of the 2025-10-01
+version it replaces, effective 2026-06-01; the 2025-10-01 version ends there.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet 1 DISCOUNT 1)(b) prices the fixed-charge benefit as either a 50 percent minimum bill or a reduced base services charge. The model carries only the reduced-BSC form, as an ungated flat -$0.59630/day credit (DR Sheet 2: BSC $0.79343 less BSC-CARE $0.19713) applied to all nine plans in applicableToRatePlan. Schedule EV-TOU has no base services charge: its Sheet 2 prices \"the minimum bill charge of $0.413 per day times the number of days in the billing cycle with a 50% discount applied for CARE, Medical Baseline, or Family Electric Rate Assistance Program (FERA) customers resulting in a minimum bill of $0.207 per day\", so an EV-TOU CARE bill as modeled comes to 0.413 - 0.59630 = -$0.1833/day where the schedule says $0.207/day. Expressible at v0.5.1 and unbuilt: a second Price carrying multiplier -0.5 with basedOnPrice naming the base services charge Price of the sdge:ev-tou version in force, such as sdge:ev-tou-2026-06-01-price-base-services-charge (which holds 0.413, misleadingly named). Building it is not sufficient on its own: the existing flat -0.59630 must also stop reaching EV-TOU, or both fire and the bill goes to -$0.2065/day. The same defect sits on sdge:fera, whose flat -$0.39655/day resolves $0.01645/day against a filed $0.207/day.",
+ "Sheet 2 section 2) prices a 0.35000 Non-Residential CARE line-item discount on all customer demand and energy charges plus exemptions from the CARE Surcharge, WF-NBC and DWR-BC, and five of the seven cells in the Sheet 2 CARE Surcharges table are non-residential ($0.01062/kWh for Small Commercial, Medium Commercial and Large C&I Secondary, Primary and Secondary Substation, Primary Substation and Transmission; $0.00 per kW for that last class). None of it is modeled: the EligibilityRule gates on hasCustomerKind = residentialKind, and this corpus holds no SDG&E non-residential base plan for the 0.35000 to compose against. The five surcharge values are carryable as data today, but the only customer-class scope in this filing sits on that one EligibilityRule and covers the modifier as a whole: a Price here carries no class of its own, so five added non-residential Prices would sit beside the residential ones with nothing to tell them apart. The discount is blocked on corpus scope, not on vocabulary.",
+ "Sheet 1 APPLICABILITY enumerates five customer types and the EligibilityRule encodes one. Verbatim: \"1) Customers residing in a permanent single-family accommodation, separately metered by the Utility. 2) Multi-family dwelling units and mobile home parks supplied through one meter on a single premises where the individual unit is submetered. 3) Non-profit group living facilities. 4) Agricultural employee housing facilities. 5) Homekey housing facilities, administered by the California Department of Housing and Community Development (HCD)\". The model's ConditionExpression is residential customer kind AND Program Enrollment = CARE.",
+ "Special Condition 4's income table (from $43,280 for one to two persons up to $111,440 for eight, plus $11,360 per additional person) and Special Condition 9's retention conditions are this schedule's substantive eligibility content and are in no ConditionExpression. Special Condition 9 verbatim: \"CARE program participants with electric usage above 400% of baseline allowance must provide proof of qualifying household income, including IRS Tax Return Transcripts, agree to participate in the Energy Savings Assistance program, and keep their usage below 600% of baseline allowance to remain enrolled in CARE.\" This filing's own CoverageClaim cites the income table as a reason the claim stays partial; the assessment ruled it out of scope, which is the reading being corrected.",
+ "Special Condition 20 (Sheet 8) states which load the modeled discount reaches: \"Utility will apply the CARE discount to both the load measured at the primary meter and the submetered load if the tariffs allow for CARE enrollment.\" The model's single MetricSpecification is an undifferentiated kWh input with no submeter distinction. The shipped deferral \"PEV Submetering applicability (Sheet 8 SC 20)\" records this and should be kept, not dropped.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-10-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-06-01, citations and figures rewritten for them. See [extraction] notes."

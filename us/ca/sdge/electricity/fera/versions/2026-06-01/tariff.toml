@@ -1,0 +1,67 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "fera"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=330&tarfYear=2026"
+sha256 = "c66b39319f0bf3de36d54686e25e33a2a446b69e949b5f304d10f7555bc878f2"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4837-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4837-E (effective 2026-06-01)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. SDG&E's historical document for Schedule FERA for 2026,
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=330&tarfYear=2026,
+retrieved 2026-10-06 with the X-Azure-FDID header documented in
+us/ca/sdge/utility.toml. It holds every sheet revision issued in 2026,
+superseded ones included; the sheets of this version are those in force on
+2026-06-01. SDG&E regenerates the PDF per request, so the sha256 is of the
+committed bytes.
+
+Sheets in force on 2026-06-01:
+ Sheet 1: 64763-E, Advice 4837-E, effective 2026-06-01
+ Sheet 2: 36062-E, Advice 3994-E, effective 2022-06-01
+ Sheet 3: 61753-E, Advice 4385-E, effective 2024-02-12
+
+Sheets 2, 3 were last revised before 2026 and so not in this document; the revisions above are as printed in the 2026-09-23 copy and in the 2026-04-01 filing's PDF.
+
+Advice 4837-E, "2026 CARE and FERA Income Levels Guidelines Update and PIPP
+Bill Caps Update", effective 2026-06-01, revises Sheet 1.
+
+No price this filing models moved from the 2026-04-01 version.
+
+Supersession. Sheet 1 (64763-E) cancels 64381-E, the sheet of the 2026-04-01
+version it replaces, effective 2026-06-01; the 2026-04-01 version ends there.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Schedule EV-TOU minimum bill halving, Sheet 1 benefit (a) (\"a 50% minimum bill or a reduced base services charge\"). Eight of the nine plans named in applicableToRatePlan publish a Base Services Charge of $0.79343/day standard and $0.39688/day FERA, so the -$0.39655/day credit modeled here is right for them. Schedule EV-TOU publishes no BSC: its own rate sheet prices a $0.413/day Minimum Bill and states \"with a 50% discount applied for CARE, Medical Baseline, or Family Electric Rate Assistance Program (FERA) customers resulting in a minimum bill of $0.207 per day\". Composed onto sdge:ev-tou this modifier therefore credits $0.39655/day against a $0.413/day charge instead of the $0.206/day the tariff grants, which is a wrong number rather than a missing one. Expressible under v0.5.1 and simply unbuilt: add a Price of unitPrice -0.206 (or multiplier -0.5 with basedOnPrice sdge:ev-tou-2026-06-01-price-base-services-charge, which yields -0.2065 against the published -0.206), and re-express the flat BSC credit as multiplier -0.5 over each base plan's BSC Price so it stops firing on EV-TOU (that route yields -0.396715/day against the published -0.39655/day). Schedule EV-TOU's own manifest defers this outward to \"the relevant program-overlay modifier composition\", which is this filing.",
+ "Sheet 1 APPLICABILITY states three eligibility predicates and the EligibilityRule encodes one. Verbatim: \"Applicable to domestic service customers residing in permanent single-family dwellings, and sub-metered multifamily dwellings, mobilehome parks, or qualifying RV parks and marinas located on a single premise where all of the accommodations are separately metered by the utility.\" \"This schedule is not applicable to customers receiving service under Schedule E-CARE and Schedule DM.\" \"Customers eligible for this schedule must meet specific income guidelines, as set forth in Special Condition 1, in order to receive the benefit of this schedule.\" The model's ConditionExpression is residential customer kind AND Program Enrollment = FERA. The E-CARE exclusion is load-bearing: at the pin, composing sdge:fera and sdge:care onto sdge:dr returns both Base Services Charge credits against one charge, a fixed charge of -0.19942 per day.",
+ "Special Condition 9 (Sheet 3) states which load the modeled discount reaches: \"The utilities shall apply FERA discounts to both the load measured at the primary meter and the submetered load if the tariffs allow for FERA enrollment.\" The model's kWh MetricSpecification makes no submeter distinction. The shipped deferral \"EV Submetering applicability (Sheet 3 SC 9)\" records this and should be kept, not dropped.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-06-01, citations and figures rewritten for them. See [extraction] notes."

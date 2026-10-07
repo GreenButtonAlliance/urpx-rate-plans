@@ -83,16 +83,16 @@ Those are the filings. The same strings are also written down outside the corpus
 | sce | `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | `sce:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT25 | `USCA-SCSC-0605-0000 − USCA-SCXX-0605-0000` | 576 | **derived** |
 | sce | `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | `sce:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT26 | `USCA-SCSC-0606-0000 − USCA-SCXX-0606-0000` | 240 | **derived** |
 | sce | `sce:tou-d-prime-2026-10-01` + `sce:nbt-2025-04-23` | `sce:nbt-pd-export-rate-generation` | NBT Vintage Label = non-vintaged | `USCA-SCSC-0602-0000 − USCA-SCXX-0602-0000` | 576 | **derived** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT00 | `USCA-SDXX-NB00-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT23 | `USCA-SDXX-NB23-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT24 | `USCA-SDXX-NB24-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT25 | `USCA-SDXX-NB25-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT26 | `USCA-SDXX-NB26-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT00 | `USCA-XXSD-NB00-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT23 | `USCA-XXSD-NB23-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT24 | `USCA-XXSD-NB24-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT25 | `USCA-XXSD-NB25-0000` | 576 | **unresolved** |
-| sdge | `sdge:ev-tou-5-2026-04-01` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT26 | `USCA-XXSD-NB26-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT00 | `USCA-SDXX-NB00-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT23 | `USCA-SDXX-NB23-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT24 | `USCA-SDXX-NB24-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT25 | `USCA-SDXX-NB25-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-delivery` | NBT Vintage Label = NBT26 | `USCA-SDXX-NB26-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT00 | `USCA-XXSD-NB00-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT23 | `USCA-XXSD-NB23-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT24 | `USCA-XXSD-NB24-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT25 | `USCA-XXSD-NB25-0000` | 576 | **unresolved** |
+| sdge | `sdge:ev-tou-5-2026-09-30` + `sdge:nbt-2025-01-27` | `sdge:nbt-pd-export-rate-generation` | NBT Vintage Label = NBT26 | `USCA-XXSD-NB26-0000` | 576 | **unresolved** |
 
 - `USCA-SCSC-0603-0000 − USCA-SCXX-0603-0000`: the corpus's value is an expression over 2 MIDAS series (USCA-SCSC-0603-0000 − USCA-SCXX-0603-0000); no single MIDAS record publishes it.
 - `USCA-SCSC-0604-0000 − USCA-SCXX-0604-0000`: the corpus's value is an expression over 2 MIDAS series (USCA-SCSC-0604-0000 − USCA-SCXX-0604-0000); no single MIDAS record publishes it.

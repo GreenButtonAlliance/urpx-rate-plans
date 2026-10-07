@@ -137,19 +137,19 @@ Sorted by number of residential customers without a modeled default. Top of list
 | WA | scl | residential-suburban | modifier | 2026-01-01, 2027-01-01, 2028-01-01 |
 | WA | scl | rtc | rate-plan | 2026-01-01, 2027-01-01, 2028-01-01 |
 | WA | scl | rts | rate-plan | 2026-01-01, 2027-01-01, 2028-01-01 |
-| CA | sdge | care | modifier | 2025-10-01 |
-| CA | sdge | dr | rate-plan | 2026-04-01 |
-| CA | sdge | dr-ses | rate-plan | 2026-04-01 |
-| CA | sdge | drah | modifier | 2026-04-01 |
-| CA | sdge | ev-tou | rate-plan | 2026-04-01 |
-| CA | sdge | ev-tou-2 | rate-plan | 2026-04-01 |
-| CA | sdge | ev-tou-5 | rate-plan | 2026-04-01 |
-| CA | sdge | fera | modifier | 2026-04-01 |
+| CA | sdge | care | modifier | 2025-10-01, 2026-06-01 |
+| CA | sdge | dr | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | dr-ses | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | drah | modifier | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | ev-tou | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | ev-tou-2 | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | ev-tou-5 | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | fera | modifier | 2026-04-01, 2026-06-01 |
 | CA | sdge | nbt | modifier | 2025-01-27 |
-| CA | sdge | tou-dr | rate-plan | 2026-04-01 |
-| CA | sdge | tou-dr1 | rate-plan | 2026-04-01 |
-| CA | sdge | tou-dr2 | rate-plan | 2026-04-01 |
-| CA | sdge | tou-elec | rate-plan | 2026-04-01 |
+| CA | sdge | tou-dr | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | tou-dr1 | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | tou-dr2 | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
+| CA | sdge | tou-elec | rate-plan | 2026-04-01, 2026-06-01, 2026-08-01, 2026-09-30 |
 | CA | smud | cpp | modifier | 2026-01-01 |
 | CA | smud | eapr | modifier | 2023-09-22 |
 | CA | smud | fixed | rate-plan | 2026-01-01 |

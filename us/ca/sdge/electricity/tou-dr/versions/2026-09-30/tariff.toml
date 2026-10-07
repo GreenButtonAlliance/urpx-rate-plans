@@ -1,0 +1,100 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "tou-dr"
+effective_date = "2026-09-30"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=775"
+sha256 = "90294aa8812414f002db1bf2804a50b530c5ae74696b6acabdb34a27a9b20d4c"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4874-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4874-E (effective 2026-09-30), implementing Decision 25-09-006"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Schedule TOU-DR as served by
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=775
+(the PDF behind the tariffsprd.sdge.com viewer URL in [source]), retrieved
+2026-10-06 with the X-Azure-FDID header documented in us/ca/sdge/utility.toml.
+SDG&E regenerates the PDF per request, so the sha256 is of the committed
+bytes.
+
+Sheets in force on 2026-09-30:
+ Sheet 1: 65138-E, Advice 4874-E, effective 2026-09-30
+ Sheet 2: 65139-E, Advice 4874-E, effective 2026-09-30
+ Sheet 3: 65140-E, Advice 4874-E, effective 2026-09-30
+ Sheet 4: 65141-E, Advice 4874-E, effective 2026-09-30
+ Sheet 5: 65142-E, Advice 4874-E, effective 2026-09-30
+ Sheet 6: 65143-E, Advice 4874-E, effective 2026-09-30
+ Sheet 7: 65144-E, Advice 4874-E, effective 2026-09-30
+ Sheet 8: 65145-E, Advice 4874-E, effective 2026-09-30
+ Sheet 9: 65146-E, Advice 4874-E, effective 2026-09-30
+ Sheet 10: 65147-E, Advice 4874-E, effective 2026-09-30
+ Sheet 11: 65148-E, Advice 4874-E, effective 2026-09-30
+ Sheet 12: 65149-E, Advice 4874-E, effective 2026-09-30
+ Sheet 13: 65150-E, Advice 4874-E, effective 2026-09-30
+ Sheet 14: 65151-E, Advice 4874-E, effective 2026-09-30
+
+Advice 4874-E, "Implementation of Combined Electric Energy Commodity Cost and
+Utility Distribution Company Tariffs Pursuant to 2024 General Rate Case Phase
+2 Decision 25-09-006", effective 2026-09-30, revises Sheets 1, 2, 3, 4, 5, 6,
+7, 8, 9, 10, 11, 12, 13, 14.
+
+No price this filing models moved from the 2026-08-01 version.
+
+Reconciliation. In every TOU cell the UDC components sum to the published UDC
+Total (0.32601) and UDC + DWR-BC + WF-NBC + EECC to the published Total Rate
+(0.56757, 0.50696, 0.44984, 0.61448, 0.53044, 0.43711). Every modeled price is
+printed on these sheets except the PPP split, whose CARE Surcharge is Schedule
+E-CARE Sheet 2's.
+
+Supersession. Advice 4874-E reissues every sheet of the schedule as an
+Original sheet whose Canceling line is blank, so no sheet names what it
+cancels; the advice letter replaces the 2026-08-01 sheets with these, and the
+2026-08-01 version ends at 2026-09-30.
+
+Unchanged from the 2026-04-01 version: the TOU periods, seasons, holiday
+calendar, eligibility rules, price structure and the modeling notes in
+us/ca/sdge/electricity/tou-dr/versions/2026-04-01/tariff.toml.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Baseline Adjustment Credit bound: Sheets 2 and 4 price the credit at $(0.10702) per kWh \"up to 130% of Baseline\" in both seasons, and this filing carries it as a single Price with no bound, so the credit applies to every kWh and a high-usage bill computed from this data is too low. v0.5.1 expresses the bound (ServiceBracket with appliesInSeason, referencesProfileAlternative and lowerBound/upperBound plus matching operators; the pge:e-tou-c baseline-tier modifier ships 120 such brackets), so this is work rather than a blocker. TOU-DR's own sheets do not publish the climate-zone allowance quantities and do not cross-reference them: SDG&E's table (Coastal, Inland, Mountain, Desert, in Basic and All-Electric variants, kWh per day by season) is in Schedule DR General Special Condition 3, inside the sdge:dr filing. Do not copy sdge:dr's existing tiers, which bound at 1.3 on a kWh-denominated metric and are the wrong shape.",
+ "Franchise Fee Differential: Sheet 6 applies 5.78% to the monthly billings of customers within the corporate limits of the City of San Diego. v0.5.1 expresses this as a Price with a multiplier and basedOnPrice naming a PriceSummary, with chargeType urpx:taxMunicipal, the same shape this filing already uses for the CARE and FERA discounts, so it is work rather than a blocker. Two cautions before building it: the fee applies to the whole monthly bill, which mixes $/kWh with $/day, and a PriceSummary is a list of member Prices with no unit of its own, so it needs one Price per unit-homogeneous summary (the two summaries here are $/kWh only and both exclude the Base Services Charge); and the City of San Diego limit is a restriction on who pays rather than a rate difference, so it can only ride as a ConditionExpression under the Price's ApplicabilityRule, and the amounts alone do not distinguish a customer inside the city limits from one outside.",
+ "SDG&E Electric Rule 1 (DEFINITIONS), Sheet 6, Cal. P.U.C. Sheet No. 61672-E, HOLIDAYS: \"When a Holiday listed above falls on Sunday, the following Monday shall be defined as a Holiday. No change will be made for Holidays falling on Saturday.\" New Year's Day, Independence Day, Veterans Day and Christmas Day in sdge:tou-dr-2026-09-30-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
+ "TOU-DR-MB Medical Baseline rates: Sheet 2 prices a Medical Baseline column whose Total Effective Energy Rates run from $0.33789 per kWh winter super off-peak to $0.47688 winter on-peak, with no DWR-BC or WF-NBC (Sheet 5 marks both N/A for TOU-DR-MB) and the standard $0.79343 per day Base Services Charge, and Sheet 1 states the schedule is applicable to Medical Baseline customers. Nothing in this corpus models SDG&E Medical Baseline; the parallel CARE overlay does exist at us/ca/sdge/electricity/care and names sdge:tou-dr. General Special Condition 15 sends the allowance detail to Schedule E-MEDICAL, which is not committed here, and the additive allowance itself is not expressible as a delta under v0.5.1 (urpx-org/urpx#32 open).",
+ "General Special Condition 2.b Direct Access and Community Choice Aggregation billing: a DA or CCA customer's bill is computed as a bundled bill, then credited the EECC component and charged the applicable Cost Responsibility Surcharge. The credit-back half is expressible now (a Price with multiplier -1 and basedOnPrice naming the EECC Prices, which the pinned consumer reads); the surcharge amounts are set by Schedules DA-CRS and CCA-CRS, which are not in this corpus, so that half is a source gap rather than a vocabulary gap. EECC Special Condition 6 states the Power Charge Indifference Adjustment is already embedded in the bundled EECC rate this filing models, so no separate PCIA price is owed on this schedule.",
+ "General Special Condition 11's twelve-month tenure and one-year return bar are terms of service on this schedule and the verification set them aside as \"enrollment terms\" that are \"out of scope under the brief's standard\". The model sets no urpx:minimumTenure at all, and the return bar has no v0.5.1 form.",
+ "General Special Condition 10's Reconnection Charge provision re-applies this schedule's own charges for the lapsed period. It states a billing rule over already-modeled Prices and nothing in the model corresponds to it.",
+ "General Special Condition 2.b, the Direct Access and Community Choice Aggregation billing path (Sheet 8), computes a bill as if bundled and then credits it back by components this filing prices. The crediting half operates on this filing's own Prices; the Cost Responsibility Surcharge half points at SDG&E DA-CRS and CCA-CRS schedules that are in no filing in this corpus.",
+ "The EECC-TOU-DR-P Reduce Your Use option, which Advice 4874-E prints in this schedule, is not modeled. Sheet 3 (Cal. P.U.C. 65140-E) gives its bundled Total Energy Rates (summer 0.53692 / 0.49226 / 0.41710, winter 0.59073 / 0.51376 / 0.42828 per kWh on-peak / off-peak / super off-peak, with the same Baseline Adjustment Credit of (0.10702)), and Sheet 5 (Cal. P.U.C. 65142-E) its EECC-TOU-DR-P commodity rates (summer 0.20500 / 0.16034 / 0.08518, winter 0.25881 / 0.18184 / 0.09636) and an RYU Adder of $1.16 per kWh. EECC-TOU-DR-P Special Condition 15 bills the adder from 4:00 p.m. to 9:00 p.m. on an RYU Event Day only, EECC-TOU-DR-P Special Condition 14 allows at most eighteen events a calendar year, and EECC-TOU-DR-P Special Condition 6 has the Utility notify customers the day before. Sheets 11 to 14 (Cal. P.U.C. 65148-E to 65151-E) hold its applicability and Special Conditions: it is not available to Direct Access, Transitional Bundled Service or Community Choice Aggregation customers, and a customer taking it takes UDC service under this schedule. This filing prices only the EECC commodity rates, so a bill computed from it for an EECC-TOU-DR-P customer carries the EECC rates and no adder.",
+]
+applicable_modifiers = [
+ "care",
+ "drah",
+ "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-09-30, citations and figures rewritten for them. See [extraction] notes."

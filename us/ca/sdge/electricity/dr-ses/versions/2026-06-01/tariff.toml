@@ -1,0 +1,89 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "dr-ses"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=540&tarfYear=2026"
+sha256 = "39532984198cdd89b4e6c710afda2360b8ab919e383d118c1a392b1acd880b6b"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4843-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4843-E (effective 2026-06-01)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. SDG&E's historical document for Schedule DR-SES for 2026,
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=540&tarfYear=2026,
+retrieved 2026-10-06 with the X-Azure-FDID header documented in
+us/ca/sdge/utility.toml. It holds every sheet revision issued in 2026,
+superseded ones included; the sheets of this version are those in force on
+2026-06-01. SDG&E regenerates the PDF per request, so the sha256 is of the
+committed bytes.
+
+Sheets in force on 2026-06-01:
+ Sheet 1: 64804-E, Advice 4843-E, effective 2026-06-01
+ Sheet 2: 64348-E, Advice 4791-E, effective 2026-04-01
+ Sheet 3: 32148-E, Advice 3378-E, effective 2019-07-22
+ Sheet 4: 36988-E, Advice 4129-E, effective 2023-01-01
+ Sheet 5: 64349-E, Advice 4791-E, effective 2026-04-01
+
+Sheets 3, 4 were last revised before 2026 and so not in this document; the revisions above are as printed in the 2026-09-23 copy and in the 2026-04-01 filing's PDF.
+
+Advice 4843-E, "Implementation of Federal Energy Regulatory Commission Order
+Approving Interim Rate Relief Effective June 1, 2026", effective 2026-06-01,
+revises Sheet 1.
+
+Price changes from the 2026-04-01 version, $ per kWh unless a per-day charge:
+ udc-transmission: 0.10067 -> 0.09096
+
+Reconciliation. In every TOU cell the UDC components sum to the published UDC
+Total (0.26328) and UDC + DWR-BC + WF-NBC + EECC to the published Total Rate
+(0.73938, 0.44230, 0.35066, 0.46909, 0.41256, 0.34329). Every modeled price is
+printed on these sheets except the PPP split, whose CARE Surcharge is Schedule
+E-CARE Sheet 2's.
+
+Supersession. Sheet 1 (64804-E) cancels 64657-E, the sheet of the 2026-04-01
+version it replaces, effective 2026-06-01; the 2026-04-01 version ends there.
+This version ends at 2026-08-01.
+
+Unchanged from the 2026-04-01 version: the TOU periods, seasons, holiday
+calendar, eligibility rules, price structure and the modeling notes in
+us/ca/sdge/electricity/dr-ses/versions/2026-04-01/tariff.toml.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Franchise Fee Differential of 5.78 percent on the monthly billings calculated under this schedule, for customers inside the corporate limits of the City of San Diego. Source: Sheet 2, Revised Cal. P.U.C. Sheet No. 64348-E, AL 4791-E, under the heading Franchise Fee Differential. Not a vocabulary gap under v0.5.1: express it as a Price carrying urpx:multiplier 0.0578 and urpx:basedOnPrice naming a urpx:PriceSummary over this filing's own charges, chargeType urpx:taxMunicipal, gated on urpx:hasMunicipality in a ConditionExpression. This filing already carries two working PriceSummary nodes for the CARE and FERA discounts, so the subtotal machinery exists. Unbuilt: no SDG&E filing in this corpus prices it. Before building it, note that the ConditionExpression carries the whole of the restriction: a Price that does not carry it, or a consumer that does not evaluate it, applies the 5.78 percent to every DR-SES customer, most of whom are outside the city, trading a known omission for a confident wrong number.",
+ "Medical Baseline customers are exempt from the California Wildfire Fund Non-Bypassable Charge, so the $0.00591 per kWh WF-NBC this filing carries is not billed to them. Source: Sheet 1, Revised Cal. P.U.C. Sheet No. 64804-E, footnote (3), 'DWR-BC and WF-NBC charges do not apply to CARE or Medical Baseline customers'; the DWR-BC half is moot because its rate is 0.00000. Expressible now and already precedented in this corpus: the SDG&E CARE overlay at us/ca/sdge/electricity/care/versions/2025-10-01/ carries sdge:care-price-wf-nbc-exemption-2025-10-01 at -0.00591 and lists sdge:dr-ses in urpx:applicableToRatePlan, so the identical shape works for Medical Baseline. Unbuilt because this corpus holds no SDG&E Medical Baseline overlay at all (SCE has one at us/ca/sce/electricity/medical-baseline/; SDG&E has none) and Schedule E-MEDICAL, which Special Condition 16 cites, is not in this repo. Note that DR-SES publishes no reduced Medical Baseline energy or BSC rates: Sheet 1 footnote (5) says the Medical Baseline program provides no BSC discount, so this exemption is the whole of the Medical Baseline gap on this schedule.",
+ "SDG&E Electric Rule 1 (DEFINITIONS), Sheet 6, Cal. P.U.C. Sheet No. 61672-E, HOLIDAYS: \"When a Holiday listed above falls on Sunday, the following Monday shall be defined as a Holiday. No change will be made for Holidays falling on Saturday.\" New Year's Day, Independence Day, Veterans Day and Christmas Day in sdge:dr-ses-2026-06-01-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
+ "Sheet 1's second rate table decomposes the Base Services Charge into UDC sub-components (Distr 0.63391 + PPP 0.02913 + LGC 0.13039 = 0.79343 standard; 0.06674 + 0.00000 + 0.13039 = 0.19713 CARE; 0.23736 + 0.02913 + 0.13039 = 0.39688 DRAH and FERA). The model carries only the 0.79343 total, while decomposing the energy UDC into all 7 published sub-components on the same table. The billed amount is unaffected, so this costs no accuracy today; it costs the ability to answer what share of the fixed charge is distribution. Trivially expressible (three more PriceDefinitions and Prices on the existing BSC ledger). Recorded here because it is real, but it is a corpus-wide convention rather than a DR-SES decision: all 8 SDG&E base plans with a BSC ledger carry exactly one PriceDefinition on it, so settle it once for SDG&E rather than eight times.",
+ "Special Condition 5 bars re-entry after leaving and the model records the wrong thing. Verbatim: \"If a customer elects to discontinue service on Schedule DR-SES, the customer will not be permitted to return to Schedule DR-SES for a period of 12 consecutive months.\" The RatePlanVersion carries urpx:minimumTenure P12M, which the v0.5.1 ontology defines as \"The minimum duration a customer must remain enrolled in a rate plan, program, or service offering\". DR-SES imposes no such commitment, so the re-entry bar is unmodeled and the property that is set asserts something the schedule does not say. The sibling ev-tou filing records its own re-entry bar in its deferrals.",
+]
+applicable_modifiers = [
+ "care",
+ "drah",
+ "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-06-01, citations and figures rewritten for them. See [extraction] notes."

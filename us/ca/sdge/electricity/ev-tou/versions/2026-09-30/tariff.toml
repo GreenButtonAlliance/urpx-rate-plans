@@ -1,0 +1,92 @@
+# Identity --------------------------------------------------------------------
+utility = "sdge"
+schedule = "ev-tou"
+effective_date = "2026-09-30"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=17"
+sha256 = "c6d00671cc3e08b38a3c1e31b4434857946f2f8a579cd91a5819e9273071bed9"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SDGE-AL-4874-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 4874-E (effective 2026-09-30), implementing Decision 25-09-006"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Schedule EV-TOU as served by
+https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=17
+(the PDF behind the tariffsprd.sdge.com viewer URL in [source]), retrieved
+2026-10-06 with the X-Azure-FDID header documented in us/ca/sdge/utility.toml.
+SDG&E regenerates the PDF per request, so the sha256 is of the committed
+bytes.
+
+Sheets in force on 2026-09-30:
+ Sheet 1: 65181-E, Advice 4874-E, effective 2026-09-30
+ Sheet 2: 65182-E, Advice 4874-E, effective 2026-09-30
+ Sheet 3: 65183-E, Advice 4874-E, effective 2026-09-30
+ Sheet 4: 65184-E, Advice 4874-E, effective 2026-09-30
+ Sheet 5: 65185-E, Advice 4874-E, effective 2026-09-30
+ Sheet 6: 65186-E, Advice 4874-E, effective 2026-09-30
+ Sheet 7: 65187-E, Advice 4874-E, effective 2026-09-30
+
+Advice 4874-E, "Implementation of Combined Electric Energy Commodity Cost and
+Utility Distribution Company Tariffs Pursuant to 2024 General Rate Case Phase
+2 Decision 25-09-006", effective 2026-09-30, revises Sheets 1, 2, 3, 4, 5, 6,
+7.
+
+No price this filing models moved from the 2026-08-01 version.
+
+Reconciliation. In every TOU cell the UDC components sum to the published UDC
+Total (0.37290, 0.21887) and UDC + DWR-BC + WF-NBC + EECC to the published
+Total Rate (0.86277, 0.55699, 0.30863, 0.58455, 0.52638, 0.30105). Every
+modeled price is printed on these sheets except the PPP split, whose CARE
+Surcharge is Schedule E-CARE Sheet 2's.
+
+Supersession. Advice 4874-E reissues every sheet of the schedule as an
+Original sheet whose Canceling line is blank, so no sheet names what it
+cancels; the advice letter replaces the 2026-08-01 sheets with these, and the
+2026-08-01 version ends at 2026-09-30.
+
+Unchanged from the 2026-04-01 version: the TOU periods, seasons, holiday
+calendar, eligibility rules, price structure and the modeling notes in
+us/ca/sdge/electricity/ev-tou/versions/2026-04-01/tariff.toml.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Franchise Fee Differential of 5.78 percent, Sheet 5 (Cal. P.U.C. Sheet 65185-E): \"A Franchise Fee Differential of 5.78% will be applied to the monthly billings calculated under this schedule for all customers within the corporate limits of the City of San Diego. Such Franchise Fee Differential shall be so indicated and added as a separate item to bills rendered to such customers.\" Not modeled. Expressible under URPX v0.5.1: a Price with multiplier 0.0578 and basedOnPrice naming a PriceSummary over this schedule's billed components, chargeType urpx:taxMunicipal, gated on urpx:hasMunicipality inside a ConditionExpression. Left unbuilt because the restriction to the City of San Diego would live only in that ConditionExpression and nowhere in the Price arithmetic: the Price would read as 5.78 percent on every EV-TOU bill rather than only on bills inside the corporate limits, turning a known omission into a confident wrong number for everyone else.",
+ "Minimum Bill discount for CARE, Medical Baseline and FERA customers, Sheet 4 (65184-E): \"The minimum bill to recover Distribution and TRAC costs is calculated as the minimum bill charge of $0.413 per day times the number of days in the billing cycle with a 50% discount applied for CARE, Medical Baseline, or Family Electric Rate Assistance Program (FERA) customers resulting in a minimum bill of $0.207 per day.\" The model carries only the $0.413 standard rate. The previous claim that the discount arrives through overlay composition is false, and was checked rather than assumed: sdge:care, sdge:fera and sdge:drah all list sdge:ev-tou in applicableToRatePlan, and each delivers a Base Services Charge adjustment (-0.59630, -0.39655 and -0.39655 per day), a charge Schedule EV-TOU does not have. Composing them onto this plan credits a nonexistent charge and never yields $0.207. Expressible under v0.5.1 as a Price with multiplier -0.5 and basedOnPrice naming this filing's Minimum Bill Price, whose identifier is still sdge:ev-tou-2026-09-30-price-base-services-charge from the EV-TOU-5 derivation.",
+ "SDG&E Electric Rule 1 (DEFINITIONS), Sheet 6, Cal. P.U.C. Sheet No. 61672-E, HOLIDAYS: \"When a Holiday listed above falls on Sunday, the following Monday shall be defined as a Holiday. No change will be made for Holidays falling on Saturday.\" New Year's Day, Independence Day, Veterans Day and Christmas Day in sdge:ev-tou-2026-09-30-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.",
+ "Direct Access and Community Choice Aggregation bill path, General Special Condition 7.b, Sheet 6 (65186-E): \"The bills for a DA and CCA Customer will be calculated as if they were a UDC Bundled Service Customer, then crediting the bill by the amount of the EECC component, and DWR-BC component for continuous DA customers that are exempt from the DWR-BC charge, as determined for a UDC Bundled Customer, and including the appropriate Cost Responsibility Surcharge (CRS), if applicable.\" The credited-back amounts are this schedule's own EECC and DWR-BC prices and are not modeled; they are expressible under v0.5.1 as Prices with multiplier -1 and basedOnPrice naming each EECC Price, which the pinned consumer resolves. The Cost Responsibility Surcharge named in the same condition is priced in Schedules DA-CRS and CCA-CRS and is out of scope for this filing, as the PCIA - Unbundled line on Sheet 4 confirms (\"See Schedule DA-CRS and Schedule CCA-CRS\"). EECC Special Condition 6 (Sheet 7) is a disclosure that bundled EECC rates already embed the PCIA; it states no rate.",
+ "Sheet 4 (65184-E) prices the Wildfire Non-Bypassable Charge at 0.00591 and the DWR Bond Charge at 0.00000 for EV-TOU and EV-TOU-FERA and marks both N/A for EV-TOU-CARE and EV-TOU-MB. The CARE half is carried by the sdge:care modifier, which prices a WF-NBC exemption of -0.00591 and a DWR-BC exemption of -0.00000. The Medical Baseline half is carried nowhere: this corpus holds no SDG&E Medical Baseline or Schedule E-MEDICAL filing, so a Medical Baseline customer on this schedule is billed the 0.00591 WF-NBC that Sheet 4 marks N/A, on top of the full rather than halved minimum bill. The blocker is a missing source filing, not missing vocabulary.",
+ "General Special Condition 6, Optional Billing - Utility Option, is a bill-computation rule on this schedule and the shipped deferral recording it should be kept rather than dropped as \"utility-discretionary policy, not a rate component\". It lets the utility bill \"the lower of the bill under this schedule or the bill under their regularly applicable non-TOU schedule\" for a stated run of months at the utility's sole option. The lower-of-two-bills arithmetic has no v0.5.1 form, so it is a blocked deferral, not unbuilt work.",
+ "General Special Condition 4's bar on returning to the schedule for one year after leaving is recorded in the [extraction].notes of this filing's 2026-04-01 version and in no ConditionExpression or property of the model; urpx:minimumTenure covers only the stay, not the re-entry bar.",
+ "General Special Condition 7.b, the Direct Access and Community Choice Aggregation bill path (Sheet 6), operates on this filing's own EECC and DWR-BC Prices. Verbatim: \"The bills for a DA and CCA Customer will be calculated as if they were a UDC Bundled Service Customer, then crediting the bill by the amount of the EECC component, and DWR-BC component for continuous DA customers\". The crediting half is expressible now with multiplier -1 and basedOnPrice; the Cost Responsibility Surcharge half is another schedule's and SDG&E has no DA-CRS or CCA-CRS filing in this corpus.",
+]
+applicable_modifiers = [
+ "care",
+ "drah",
+ "fera",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_sdge_2026.py: every Price reconciled to the sheets in force on 2026-09-30, citations and figures rewritten for them. See [extraction] notes."

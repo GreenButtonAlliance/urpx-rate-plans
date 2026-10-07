@@ -13,6 +13,9 @@
     "urpx:effectiveDateTime": {
       "@type": "xsd:dateTime"
     },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:baseQuantity": {
       "@type": "xsd:decimal"
     },
@@ -93,6 +96,7 @@
       "@id": "sdge:tou-dr-2026-04-01",
       "urpx:description": "SDG&E's older 3-period residential time-of-use schedule (predecessor pattern to TOU-DR1; remains optionally available per Sheet 1 prose). Same TOU window structure as TOU-DR1 (on-peak 4 p.m.-9 p.m. every day; super-off-peak weekday split midnight-6 a.m. + 10 a.m.-2 p.m., weekend continuous midnight-2 p.m.) and identical UDC sub-component values (Transm 0.10067, Distr 0.15719, PPP 0.01515, ND 0.00000, CTC -0.00007, LGC 0.00000, RS 0.00005, TRAC 0.06762; UDC Total 0.34061/kWh) — what differs between TOU-DR and TOU-DR1 is the EECC (Electric Energy Commodity Cost) values. TOU-DR's EECC is uniformly LOWER than TOU-DR1's in summer on-peak (0.22895 vs 0.34920 — about 12¢/kWh lower) and HIGHER in super-off-peak (0.11457 vs 0.04121, ~7¢/kWh higher); the other periods are within 1¢/kWh of each other. Net effect: TOU-DR has a flatter EECC profile (smaller TOU-period spread) than TOU-DR1, making it more attractive for customers with less ability to shift load away from on-peak. Bill structure identical to TOU-DR1: UDC Total + DWR-BC + WF-NBC + EECC + Baseline Adjustment Credit (-0.10892/kWh up to 130% of CPUC baseline allocation). Base Services Charge $0.79343/day for standard customers; reduced BSCs apply for CARE ($0.19713) / FERA ($0.39688) / DRAH-deed-restricted ($0.39688) — modeled as RatePlanModifiers at ca/iou/sdge/{care,fera,drah}/. Source PDF carries TOU-DR-LI and TOU-DR-MB rate columns (CARE and Medical Baseline customer-specific Total Effective Rates) as illustrative reference, but the canonical CARE/MB modeling lives in the standalone modifier filings (CARE: ca/iou/sdge/care/; Medical Baseline blocked on urpx-org/urpx#32). CCA-served customers pay UDC + DWR-BC + WF-NBC + their CCA's generation rate plus PCIA per Special Condition. Franchise Fee Differential of 5.78% applies to customers within City of San Diego corporate limits (modeling deferred — affects bill total but not per-component rates). Holiday handling: the urpx:HolidayCalendar on this filing carries the eight Time-of-Use Holidays enumerated in SDG&E Electric Rule 1 (Definitions), Sheet 6, Cal. P.U.C. Sheet No. 61672-E. The weekday and the weekend/holiday shapes differ only over 6am-10am, which is Off-Peak on a weekday and Super Off-Peak on a weekend or holiday, so the calendar is applied by excluding holidays from the 6am-10am weekday Off-Peak bracket and adding a 6am-10am weekday Super Off-Peak bracket that admits holidays only. Rule 1 further directs that a Holiday falling on Sunday makes the following Monday a Holiday, with no change for one falling on Saturday. urpx:observanceRule has no value for a Sunday-only shift (its four are actualDateObservance, fridayIfWeekendObservance, mondayIfWeekendObservance and nearestWeekdayObservance), so that direction is carried as urpx:holidayRule text and is not machine-readable: the Monday after a Sunday-falling fixed-date holiday resolves here as an ordinary weekday, first on 2027-07-05.",
       "urpx:effectiveDateTime": "2026-04-01T00:00:00",
+      "urpx:expirationDateTime": "2026-06-01T00:00:00",
       "urpx:changeReason": {
         "@id": "urpx:rateCase"
       },

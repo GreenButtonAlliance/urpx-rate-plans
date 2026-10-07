@@ -43,8 +43,8 @@ tariff_index_urls = [
  # PRIMARY (schedule inventory) — the JSON service behind that portal. This is
  # the best inventory surface of any utility here: a stable JSON contract, no
  # browser, no cookie, no paging, and it states which schedules are closed.
- # /history returns all 159 schedules ever published, /tariffs the 99 currently
- # in force. dev/build_inventory.py reads both.
+ # /history returns all 159 schedules ever published, /tariffs those currently
+ # in force (92 on 2026-10-06). dev/build_inventory.py reads both.
  "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/history?utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS",
 ]
 
@@ -58,15 +58,23 @@ the schedule code, TARF_NAME the human name, TARF_KEY builds the document URL
 class, TARF_STATUS_CD Active or Retired.
 
 Take closed status from membership in /tariffs, NOT from TARF_STATUS_CD. The
-two disagree: 100 rows are marked Active while only 99 appear in /tariffs. The
-odd one is TOU-DR-E2 (tarfKey 865), Active yet absent from /tariffs and
-carrying TARF_RATEGROUP "Retired".
+two disagree: on 2026-10-06, 93 rows are marked Active while 92 appear in
+/tariffs. The odd one is TOU-DR-E2 (tarfKey 865), Active yet absent from
+/tariffs and carrying TARF_RATEGROUP "Retired".
+
+Advice 4874-E, effective 2026-09-30, folded the commodity schedules into the
+UDC schedules: EECC, EECC-CPP-D, EECC-CPP-D-AG, EECC-EV-TOU-5-P, EECC-TOU-A-P,
+EECC-TOU-DR-P and EECC-TOU-PA-P left /tariffs (99 schedules on 2026-09-23),
+/history marks them Retired with TARF_WEBNOTES "As of 9/2026, this schedule
+is combined with the applicable UDC tariffs", and their /tariff/ documents
+return 404. Each residential schedule this corpus models now prints its own EECC
+prices and EECC Special Conditions.
 
 Document responses carry neither Last-Modified nor ETag, so a conditional
 request buys nothing and change detection has to compare sha256.
 
-The /tariff/ endpoint serves only schedules currently in force: the 99 current
-ones fetch and all 59 closed ones return 404 there. Closed schedules come from
+The /tariff/ endpoint serves only schedules currently in force: the current
+ones fetch and closed ones return 404 there. Closed schedules come from
 /historical/?utilId=SDGE&bookId=ELEC&tarfKey=<N>&tarfYear=<YYYY>, and this
 corpus takes the last year in TARF_YEARS, the version in force when the
 schedule closed.

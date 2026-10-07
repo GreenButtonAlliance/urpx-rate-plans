@@ -594,6 +594,7 @@ def check(files) -> tuple[list[dict], dict]:
     candidates: dict[str, list[str]] = {}
     owner: dict[str, Filing] = {}
     plans_of_price: dict[str, set[str]] = {}
+    files_of_price: dict[str, set[Path]] = {}
     for f in filings:
         for sid in f.summaries:
             summaries[sid] = (f.path, f.members(sid))
@@ -602,6 +603,7 @@ def check(files) -> tuple[list[dict], dict]:
             owner[did] = f
         for pid in f.prices:
             plans_of_price.setdefault(pid, set()).update(f.plans)
+            files_of_price.setdefault(pid, set()).add(f.path)
 
     # A multiplier over line-item Prices, not over subtotals: checked at plan
     # grain below and kept out of the subtotal candidate check.
@@ -643,7 +645,16 @@ def check(files) -> tuple[list[dict], dict]:
         # several is a set of alternatives and has to cover every plan.
         uncovered = (sorted(p for p in applicable if p not in per_plan)
                      if len(per_plan) > 1 else [])
-        repeated = {p: sorted(cs) for p, cs in sorted(per_plan.items()) if len(cs) > 1}
+        # One candidate per plan VERSION, read disjunctively as the subtotal
+        # candidates are: sdge:care names each base's CARE Surcharge Price at
+        # every effective date, and a composition holds one version of the base.
+        repeated = {}
+        for p, cs in sorted(per_plan.items()):
+            seen: dict[frozenset, list[str]] = {}
+            for c in cs:
+                seen.setdefault(frozenset(files_of_price.get(c, ())), []).append(c)
+            if any(len(v) > 1 for v in seen.values()):
+                repeated[p] = sorted(cs)
         stray = sorted(p for p in per_plan if p not in applicable)
         if unresolved or uncovered or repeated or stray:
             problems.append({"line_item_discount": did,

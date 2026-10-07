@@ -1,0 +1,1506 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "sdge": "https://rate-plans.grid-coordination.energy/sdge/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:minimumTenure": {
+      "@type": "xsd:duration"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "sdge:doc-tou-elec-2026-09-30",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "sdge:tou-elec",
+    "urpx:name": "Schedule TOU-ELEC Domestic Time-of-Use for Households with Electric Vehicles, Energy Storage, or Electric Heat Pumps",
+    "urpx:ratePlanUniqueIdentifier": "TOU-ELEC",
+    "urpx:initialEffectiveDate": "2023-02-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "sdge:tou-elec-2026-09-30",
+      "urpx:description": "SDG&E's residential time-of-use schedule for households with an electric vehicle, a natural gas vehicle refueled at home, behind-the-meter storage or an electric heat pump, with enrollment capped. Three TOU periods: On-Peak 4 p.m. to 9 p.m. every day; Super Off-Peak midnight to 6 a.m. and 10 a.m. to 2 p.m. on weekdays and midnight to 2 p.m. on weekends and holidays; Off-Peak all other hours. Summer is June 1 to October 31, winter November 1 to May 31. The UDC Total is flat at $0.24970/kWh and carries no TRAC; there is no Baseline Adjustment Credit. DWR-BC plus WF-NBC is $0.00591/kWh; the EECC commodity rate runs from $0.08085 winter super off peak to $0.47028 summer on peak. Base Services Charge $0.79343/day; the CARE, FERA and DRAH reductions of it are the modifiers sdge:care, sdge:fera and sdge:drah. Advice 4874-E prints the EECC prices in this schedule itself from 2026-09-30; Schedule EECC, which carried them before, is retired. Holiday handling: the urpx:HolidayCalendar on this filing carries the eight Time-of-Use Holidays enumerated in SDG&E Electric Rule 1 (Definitions), Sheet 6, Cal. P.U.C. Sheet No. 61672-E. The weekday and the weekend/holiday shapes differ only over 6am-10am, which is Off-Peak on a weekday and Super Off-Peak on a weekend or holiday, so the calendar is applied by excluding holidays from the 6am-10am weekday Off-Peak bracket and adding a 6am-10am weekday Super Off-Peak bracket that admits holidays only. Rule 1 further directs that a Holiday falling on Sunday makes the following Monday a Holiday, with no change for one falling on Saturday. urpx:observanceRule has no value for a Sunday-only shift (its four are actualDateObservance, fridayIfWeekendObservance, mondayIfWeekendObservance and nearestWeekdayObservance), so that direction is carried as urpx:holidayRule text, and each Monday it creates through 2040 is carried as a dated urpx:Holiday, the first on 2027-07-05.",
+      "urpx:effectiveDateTime": "2026-09-30T00:00:00",
+      "urpx:minimumTenure": "P12M",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "sdge_tou-elec_2026-09-30.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1065",
+        "urpx:dateRetrieved": "2026-10-06",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 8,
+        "urpx:leafStart": "65231-E",
+        "urpx:leafEnd": "65238-E"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sdge:tou-elec-2026-09-30-er-residential-tou-elec",
+          "urpx:name": "Eligibility for Schedule TOU-ELEC, residential customer",
+          "urpx:description": "Available on a voluntary basis to residential customers meeting at least one of the qualifying-technology criteria below. Customer must additionally be a residential customer (urpx:residentialKind).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sdge:tou-elec-2026-09-30-cx-residential-tou-elec",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "sdge:tou-elec-2026-09-30-cn-residential-tou-elec",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "sdge:tou-elec-2026-09-30-cn-residential-tou-elec-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "sdge:tou-elec-2026-09-30-cn-residential-tou-elec-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sdge:tou-elec-2026-09-30-er-qualifying-technology-tou-elec",
+          "urpx:name": "Eligibility for Schedule TOU-ELEC, qualifying electrification technology",
+          "urpx:description": "Customer must own or have on-premises at least one of: (1) a battery-electric vehicle (BEV) or plug-in hybrid (PHEV) recharged via a recharging outlet at the customer's premises (mapped to urpx:evChargingDER since URPX's DERTypeValue enum does not distinguish BEV from PHEV); (2) a natural-gas vehicle (NGV) refueled via a home refueling appliance (HRA) at the customer's premises (modeled as a CustomOperandNode since URPX has no NGV-specific vocabulary); (3) a behind-the-meter energy storage device interconnected through Electric Rule 21 (mapped to urpx:storageDER); (4) an electric heat pump for water heating or climate control (modeled as a CustomOperandNode since URPX has no heat-pump DER type). Conventional charge-sustaining hybrids (HEVs without grid charging) are NOT eligible. Per General Special Condition 9, total enrollment capped at 10,000 customers; per General Special Condition 4, customers must remain on the schedule for at least 12 consecutive months once enrolled.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sdge:tou-elec-2026-09-30-cx-qualifying-technology-tou-elec",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sdge:tou-elec-2026-09-30-bn-qualifying-technology-tou-elec",
+              "urpx:operator": {
+                "@id": "urpx:orOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:tou-elec-2026-09-30-cn-ev-charging",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-ev-charging-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-ev-charging-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:evChargingDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:tou-elec-2026-09-30-cn-ngv",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-ngv-left-operand",
+                    "urpx:customConditionProperty": "Has Natural Gas Vehicle with Home Refueling Appliance"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-ngv-right-operand",
+                    "urpx:stringValue": "true"
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:tou-elec-2026-09-30-cn-storage",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-storage-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-storage-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:storageDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sdge:tou-elec-2026-09-30-cn-heat-pump",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-heat-pump-left-operand",
+                    "urpx:customConditionProperty": "Has Electric Heat Pump (water heating or climate control)"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sdge:tou-elec-2026-09-30-cn-heat-pump-right-operand",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "sdge:tou-elec-2026-09-30-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "sdge:tou-elec-2026-09-30-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09",
+              "--10"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "sdge:tou-elec-2026-09-30-season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:month": [
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "sdge:tou-elec-2026-09-30-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-new-years-day",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-presidents-day",
+              "urpx:holidayName": "President's Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-memorial-day",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-veterans-day",
+              "urpx:holidayName": "Veterans Day",
+              "urpx:holidayRule": "November 11 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-thanksgiving-day",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-christmas-day",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25 (when it falls on Sunday the following Monday is also a Holiday; no change for Saturday)"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-independence-day-2027-07-05",
+              "urpx:holidayName": "Independence Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2027-07-05",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-veterans-day-2029-11-12",
+              "urpx:holidayName": "Veterans Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2029-11-12",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-independence-day-2032-07-05",
+              "urpx:holidayName": "Independence Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2032-07-05",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-christmas-day-2033-12-26",
+              "urpx:holidayName": "Christmas Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2033-12-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-new-years-day-2034-01-02",
+              "urpx:holidayName": "New Year's Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2034-01-02",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-veterans-day-2035-11-12",
+              "urpx:holidayName": "Veterans Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2035-11-12",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-independence-day-2038-07-05",
+              "urpx:holidayName": "Independence Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2038-07-05",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-christmas-day-2039-12-26",
+              "urpx:holidayName": "Christmas Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2039-12-26",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-new-years-day-2040-01-02",
+              "urpx:holidayName": "New Year's Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2040-01-02",
+                "@type": "xsd:date"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "sdge:tou-elec-2026-09-30-holiday-veterans-day-2040-11-12",
+              "urpx:holidayName": "Veterans Day (observed)",
+              "urpx:holidayDate": {
+                "@value": "2040-11-12",
+                "@type": "xsd:date"
+              }
+            }
+          ]
+        },
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:tou-elec-2026-09-30-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "sdge:ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sdge:tou-elec-2026-09-30-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "sdge:tou-elec-2026-09-30-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "sdge:tou-elec-2026-09-30-elec",
+            "urpx:referencesMetricInput": {
+              "@id": "sdge:tou-elec-2026-09-30-mi-energy"
+            },
+            "urpx:hasCalendar": {
+              "@id": "sdge:tou-elec-2026-09-30-holidays"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sdge:tou-elec-2026-09-30-tier-on-peak",
+                "urpx:tierSourceName": "On-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sdge:tou-elec-2026-09-30-period-summer-on-peak",
+                    "urpx:name": "Summer On-Peak Period (4pm-9pm all days)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-on-peak",
+                        "urpx:startTime": "16:00:00",
+                        "urpx:endTime": "21:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sdge:tou-elec-2026-09-30-period-winter-on-peak",
+                    "urpx:name": "Winter On-Peak Period (4pm-9pm all days)",
+                    "urpx:touPeriodNumber": 4,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-on-peak",
+                        "urpx:startTime": "16:00:00",
+                        "urpx:endTime": "21:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sdge:tou-elec-2026-09-30-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sdge:tou-elec-2026-09-30-period-summer-off-peak",
+                    "urpx:name": "Summer Off-Peak Period (residual hours)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-off-peak-weekday-am",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-off-peak-weekday-midday",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "16:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-off-peak-weekday-evening",
+                        "urpx:startTime": "21:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-off-peak-weekend-midday",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "16:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-off-peak-weekend-evening",
+                        "urpx:startTime": "21:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sdge:tou-elec-2026-09-30-period-winter-off-peak",
+                    "urpx:name": "Winter Off-Peak Period (residual hours)",
+                    "urpx:touPeriodNumber": 5,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-off-peak-weekday-am",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-off-peak-weekday-midday",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "16:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-off-peak-weekday-evening",
+                        "urpx:startTime": "21:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-off-peak-weekend-midday",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "16:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-off-peak-weekend-evening",
+                        "urpx:startTime": "21:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "sdge:tou-elec-2026-09-30-tier-super-off-peak",
+                "urpx:tierSourceName": "Super Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:superOffPeakTier"
+                },
+                "urpx:touTierNumber": 3,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sdge:tou-elec-2026-09-30-period-summer-super-off-peak",
+                    "urpx:name": "Summer Super Off-Peak Period (weekdays midnight-6am + 10am-2pm; weekends/holidays midnight-2pm)",
+                    "urpx:touPeriodNumber": 3,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-super-off-peak-weekday-overnight",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "06:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-super-off-peak-weekday-midmorning",
+                        "urpx:startTime": "10:00:00",
+                        "urpx:endTime": "14:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-super-off-peak-weekend",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "14:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-summer-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "sdge:tou-elec-2026-09-30-period-winter-super-off-peak",
+                    "urpx:name": "Winter Super Off-Peak Period (weekdays midnight-6am + 10am-2pm; weekends/holidays midnight-2pm)",
+                    "urpx:touPeriodNumber": 6,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-super-off-peak-weekday-overnight",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "06:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-super-off-peak-weekday-midmorning",
+                        "urpx:startTime": "10:00:00",
+                        "urpx:endTime": "14:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-super-off-peak-weekend",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "14:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "sdge:tou-elec-2026-09-30-time-bracket-winter-super-off-peak-weekday-holiday-morning",
+                        "urpx:startTime": "06:00:00",
+                        "urpx:endTime": "10:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "sdge:tou-elec-2026-09-30-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply",
+              "urpx:name": "Energy Supply Prices (EECC, Electric Energy Commodity Cost)",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:tou-elec-2026-09-30-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery",
+              "urpx:name": "Energy Delivery Prices (UDC + DWR-BC + WF-NBC)",
+              "urpx:ledgerType": {
+                "@id": "urpx:deliveryLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:tou-elec-2026-09-30-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sdge:tou-elec-2026-09-30-ledger-base-services-charge",
+              "urpx:name": "Base Services Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sdge:tou-elec-2026-09-30-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-eecc-summer-on-peak",
+              "urpx:name": "EECC Summer On-Peak (Generation)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-eecc-summer-off-peak",
+              "urpx:name": "EECC Summer Off-Peak (Generation)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-eecc-summer-super-off-peak",
+              "urpx:name": "EECC Summer Super Off-Peak (Generation)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-eecc-winter-on-peak",
+              "urpx:name": "EECC Winter On-Peak (Generation)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-eecc-winter-off-peak",
+              "urpx:name": "EECC Winter Off-Peak (Generation)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 5,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-eecc-winter-super-off-peak",
+              "urpx:name": "EECC Winter Super Off-Peak (Generation)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:touPeriodNumber": 6,
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-supply"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-transmission",
+              "urpx:name": "UDC Transmission (Trans, includes TRBAA + TACBAA adjustments)",
+              "urpx:chargeType": {
+                "@id": "urpx:transmission"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-distribution",
+              "urpx:name": "UDC Distribution (Distr)",
+              "urpx:chargeType": {
+                "@id": "urpx:distributionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-ppp-net-of-care-surcharge",
+              "urpx:name": "UDC Public Purpose Programs Charge (PPP), excluding the CARE Surcharge",
+              "urpx:chargeType": {
+                "@id": "urpx:publicBenefits"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-care-surcharge",
+              "urpx:name": "CARE Surcharge, the part of the UDC Public Purpose Programs Charge (PPP) that CARE customers are exempt from (Schedule E-CARE Sheet 2, All Other Residential CARE Schedules column)",
+              "urpx:chargeType": {
+                "@id": "urpx:publicBenefits"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-ndc",
+              "urpx:name": "UDC Nuclear Decommissioning Charge (ND)",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-ctc",
+              "urpx:name": "UDC Ongoing Competition Transition Charges (CTC)",
+              "urpx:chargeType": {
+                "@id": "urpx:transitionCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-lgc",
+              "urpx:name": "UDC Local Generation Charge (LGC)",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-rs",
+              "urpx:name": "UDC Reliability Services (RS)",
+              "urpx:chargeType": {
+                "@id": "urpx:reliabilityCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-udc-trac",
+              "urpx:name": "UDC Total Rate Adjustment Component (TRAC), zero on TOU-ELEC",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-dwr-bc",
+              "urpx:name": "DWR Bond Charge (DWR-BC)",
+              "urpx:chargeType": {
+                "@id": "urpx:recoverySurcharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-wf-nbc",
+              "urpx:name": "California Wildfire Fund Non-Bypassable Charge (WF-NBC)",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:deliveryPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-energy-delivery"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sdge:tou-elec-2026-09-30-pd-base-services-charge",
+              "urpx:name": "Base Services Charge (BSC), standard non-CARE/non-FERA/non-DRAH",
+              "urpx:chargeType": {
+                "@id": "urpx:minimumBill"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "sdge:tou-elec-2026-09-30-pd-base-services-charge-calculation-method",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sdge:tou-elec-2026-09-30-ledger-base-services-charge"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "sdge:tou-elec-2026-09-30-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sdge:tou-elec-2026-09-30-price-base-services-charge",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sdge:tou-elec-2026-09-30-pd-base-services-charge"
+            },
+            "urpx:startDate": "2026-09-30",
+            "urpx:name": "Base Services Charge",
+            "urpx:unitPrice": "0.79343"
+          }
+        ],
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "sdge:tou-elec-2026-09-30-ps-eecc",
+            "urpx:startDate": "2026-09-30",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-on-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-eecc-summer-on-peak"
+                },
+                "urpx:name": "EECC Summer On-Peak",
+                "urpx:unitPrice": "0.47028"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-eecc-summer-off-peak"
+                },
+                "urpx:name": "EECC Summer Off-Peak",
+                "urpx:unitPrice": "0.13324"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-super-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-eecc-summer-super-off-peak"
+                },
+                "urpx:name": "EECC Summer Super Off-Peak",
+                "urpx:unitPrice": "0.08889"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-on-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-eecc-winter-on-peak"
+                },
+                "urpx:name": "EECC Winter On-Peak",
+                "urpx:unitPrice": "0.25023"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-eecc-winter-off-peak"
+                },
+                "urpx:name": "EECC Winter Off-Peak",
+                "urpx:unitPrice": "0.12118"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-super-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-eecc-winter-super-off-peak"
+                },
+                "urpx:name": "EECC Winter Super Off-Peak",
+                "urpx:unitPrice": "0.08085"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "sdge:tou-elec-2026-09-30-ps-udc-and-non-bypassable",
+            "urpx:startDate": "2026-09-30",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-transmission",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-transmission"
+                },
+                "urpx:name": "UDC Transmission",
+                "urpx:unitPrice": "0.09096"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-distribution",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-distribution"
+                },
+                "urpx:name": "UDC Distribution",
+                "urpx:unitPrice": "0.14361"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-ppp-net-of-care-surcharge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-ppp-net-of-care-surcharge"
+                },
+                "urpx:name": "UDC Public Purpose Programs Charge, excluding CARE Surcharge",
+                "urpx:unitPrice": "0.00651"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-care-surcharge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-care-surcharge"
+                },
+                "urpx:name": "CARE Surcharge",
+                "urpx:unitPrice": "0.00864"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-ndc",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-ndc"
+                },
+                "urpx:name": "UDC Nuclear Decommissioning Charge",
+                "urpx:unitPrice": "0.00000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-ctc",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-ctc"
+                },
+                "urpx:name": "UDC Ongoing Competition Transition Charges",
+                "urpx:unitPrice": "-0.00007"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-lgc",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-lgc"
+                },
+                "urpx:name": "UDC Local Generation Charge",
+                "urpx:unitPrice": "0.00000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-rs",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-rs"
+                },
+                "urpx:name": "UDC Reliability Services",
+                "urpx:unitPrice": "0.00005"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-udc-trac",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-udc-trac"
+                },
+                "urpx:name": "UDC Total Rate Adjustment Component (zero on TOU-ELEC)",
+                "urpx:unitPrice": "0.00000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-dwr-bc",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-dwr-bc"
+                },
+                "urpx:name": "DWR Bond Charge",
+                "urpx:unitPrice": "0.00000"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "sdge:tou-elec-2026-09-30-price-wf-nbc",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "sdge:tou-elec-2026-09-30-pd-wf-nbc"
+                },
+                "urpx:name": "California Wildfire Fund Non-Bypassable Charge",
+                "urpx:unitPrice": "0.00591"
+              }
+            ],
+            "urpx:hasPriceSummary": [
+              {
+                "@type": "urpx:PriceSummary",
+                "@id": "sdge:tou-elec-2026-09-30-summary-care-discountable",
+                "urpx:name": "CARE-discountable subtotal for TOU-ELEC. The 14 bill components the CARE percentage discount applies to, which Schedule E-CARE Sheet 2 defines as the bill less any applicable exemptions, minimum bill amount and base services charge. Excludes the fixed charge, and excludes the CARE Surcharge, the DWR Bond Charge and the California Wildfire Fund Non-Bypassable Charge because a CARE customer is exempt from all three; the Public Purpose Programs Charge is included net of the CARE Surcharge.",
+                "urpx:includesPrice": [
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-on-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-super-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-on-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-super-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-transmission"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-distribution"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-ppp-net-of-care-surcharge"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-ndc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-ctc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-lgc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-rs"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-trac"
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:PriceSummary",
+                "@id": "sdge:tou-elec-2026-09-30-summary-fera-discountable",
+                "urpx:name": "FERA-discountable subtotal for TOU-ELEC. The 17 bill components the FERA percentage discount applies to, which Schedule FERA Sheet 1 defines as the bill less any minimum bill amount or base services charge. Excludes the fixed charge only. Unlike CARE, FERA grants no charge exemptions, so the CARE Surcharge, the DWR Bond Charge and the California Wildfire Fund Non-Bypassable Charge are inside this subtotal.",
+                "urpx:includesPrice": [
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-on-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-summer-super-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-on-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-eecc-winter-super-off-peak"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-transmission"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-distribution"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-ppp-net-of-care-surcharge"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-care-surcharge"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-ndc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-ctc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-lgc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-rs"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-udc-trac"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-dwr-bc"
+                  },
+                  {
+                    "@id": "sdge:tou-elec-2026-09-30-price-wf-nbc"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-sdge",
+        "urpx:legalName": "San Diego Gas & Electric Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sdge-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sdge-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "San Diego Gas & Electric Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sdge-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16609"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "sdge:tou-elec"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sdge:cc-tou-elec-2026-09-30",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sdge:cc-tou-elec-2026-09-30-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 7 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Franchise Fee Differential 5.78% (Sheet 5, Cal. P.U.C. Sheet No. 65235-E): \"applied to the monthly billings calculated under this schedule for all customers within the corporate limits of the City of San Diego\" and added as a separate bill item. Not modeled. Expressible under URPX v0.5.1 as a modifier Price with multiplier 0.0578 and basedOnPrice naming a unit-homogeneous PriceSummary, chargeType urpx:taxMunicipal. Two cautions for whoever builds it: the City of San Diego gate needs a ConditionExpression, because a fee Price carrying no condition applies to every TOU-ELEC customer and would charge the 5.78% outside the corporate limits too; and a percentage spanning both $/kWh and $/day components needs one Price per unit-homogeneous summary, since PriceSummary members are summed without unit awareness. This is work, not a vocabulary blocker. No filing in the corpus models the franchise fee today. (2) Medical Baseline rates (Sheet 2, Cal. P.U.C. Sheet No. 65232-E, column TOU-ELEC-MB). The MB column's bundled Total Energy Rates (0.71998, 0.38294, 0.33859, 0.49993, 0.37088, 0.33055) carry no WF-NBC or DWR-BC, which Sheet 4 lists as N/A for MB against 0.00591 and 0.00000 for TOU-ELEC, and its Total Effective Energy Rates (0.57598, 0.30635, 0.27087, 0.39994, 0.29670, 0.26444) are 80 percent of them, rounded to the published five decimals. The MB Base Services Charge is 0.79343, the same as TOU-ELEC's. Neither part is modeled: there is no SDG&E medical-baseline RatePlanModifier in this corpus (only us/ca/sce/electricity/medical-baseline/) and [modeling].applicable_modifiers omits it. The exemption half is expressible and precedented: sdge/care already carries sdge:care-price-wf-nbc-exemption-2025-10-01 at -0.00591 and a DWR-BC exemption at -0.00000 against the same base. The 80% factor is stated nowhere in this PDF; General Special Condition 5 sends the reader to Schedule E-MEDICAL, which this corpus does not hold, so the mechanism behind that column is a source gap even though the resulting per-cell rates are published here. (3) SDG&E Electric Rule 1 (DEFINITIONS), Sheet 6, Cal. P.U.C. Sheet No. 61672-E, HOLIDAYS: \"When a Holiday listed above falls on Sunday, the following Monday shall be defined as a Holiday. No change will be made for Holidays falling on Saturday.\" New Year's Day, Independence Day, Veterans Day and Christmas Day in sdge:tou-elec-2026-09-30-holidays carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out. (4) General Special Condition 7.b (Sheet 7, Cal. P.U.C. Sheet No. 65237-E) directs that a Direct Access or CCA customer's bill is computed as a bundled bill and then credited \"by the amount of the EECC component and DWR-BC + WF-NBC component ... and including the appropriate Cost Responsibility Surcharge (CRS)\" per Schedules DA-CRS and CCA-CRS. The modeled RatePlanVersion declares urpx:serviceRole urpx:bundledServiceRole, so the DA/CCA branch is outside its declared scope, and the CRS amounts live in Schedules DA-CRS and CCA-CRS, which this corpus does not hold for SDG&E. Recorded for parity with sdge/dr, sdge/tou-dr, sdge/tou-dr1, sdge/ev-tou and sdge/ev-tou-2. Note that those filings' equivalent deferrals attribute this to the PCIA Special Condition, which is wrong: on TOU-ELEC the PCIA condition is EECC Special Condition 6 (Sheet 8), it concerns bundled customers only, and it prices nothing extra because the PCIA is already inside the modeled bundled EECC. (5) General Special Condition 9's enrollment cap is a term of availability of this schedule, stated twice in this filing's own PDF, and the model records neither statement. Sheet 1: \"There is a cap of 10,000 customers who may take service on this rate, as defined in General Special Condition 10.\" The cap itself is General Special Condition 9 on Sheet 7; General Special Condition 10 is the Deed-Restricted Affordable Housing Requirement. General Special Condition 9 verbatim: \"Enrollment Cap: There is a cap of 10,000 customers who may take service on this rate. A customer's ability to enroll will depend on availability. In the event that the cap is reached, SDG&E is not responsible for maintaining a queue of customers who want to take service on TOU-ELEC.\" The v0.5.1 ontology has no enrollment-cap property, so this is a blocked deferral. (6) General Special Condition 4's re-entry bar is unmodeled while its twelve-month stay is modeled. Verbatim: \"A customer receiving service under this schedule may elect to change to another applicable rate schedule after receiving service on this schedule for at least 12 consecutive months. If a customer elects to discontinue service on this schedule, the customer will not be permitted to return to this schedule for a period of 12 consecutive months.\" The model sets urpx:minimumTenure P12M for the first sentence. URPX v0.5.1 has no term for a return bar: minimumTenure is its only tenure term, and an ObjectOperandNode takes a single conditionProperty, so it cannot test a urpx:PriorRatePlan's referencesRatePlan and enrollmentEndDate together. The bar is expressible as an EligibilityRule negating a urpx:CustomOperandNode comparison of months since the customer left this schedule with 12, the route this corpus takes for predicates URPX does not name; that form conforms against the v0.5.1 shapes in the merged SDG&E graph. (7) General Special Condition 7.b, the Direct Access and Community Choice Aggregation bill path (Sheet 7), computes a bundled bill and then credits back \"the EECC component and DWR-BC + WF-NBC component ... and including the appropriate Cost Responsibility Surcharge (CRS)\". The crediting half operates on this filing's own Prices; the CRS half points at Schedules DA-CRS and CCA-CRS, which SDG&E has in no filing in this corpus.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}

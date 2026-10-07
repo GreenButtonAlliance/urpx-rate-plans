@@ -236,9 +236,11 @@ Directories this corpus models under a name the publisher does not use, matched 
 
 ## sdge
 
-Inventory read from `sdge-tariff-portal`. 11 of 158 modeled. 59 of the 158 are closed to new enrollment, which the publisher states; the rest are current.
+Inventory read from `sdge-tariff-portal`. 12 of 158 modeled. 59 of the 158 are closed to new enrollment, which the publisher states; the rest are current.
 
-Modeled here, cited no document this inventory names: `care`, `drah`. Each is either a schedule the inventory misses or a filing sourced from somewhere else.
+Directories this corpus models under a name the publisher does not use, matched by the document each filing cites:
+
+- `vdrp` is modeled by `care`, `dr`, `dr-ses`, `drah`, `ev-tou`, `ev-tou-2`, `ev-tou-5`, `fera`, `tou-dr`, `tou-dr1`, `tou-dr2`, `tou-elec`
 
 | Schedule | Code | Status | Document | Demand signal |
 |---|---|---|---|---:|
@@ -382,7 +384,6 @@ Modeled here, cited no document this inventory names: `care`, `drah`. Each is ei
 | `tou-pa3` | TOU-PA3 | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=933) | — |
 | `tta-credit` | TTA CREDIT | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=54&tarfYear=2000) | — |
 | `um` | UM | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=413) | — |
-| `vdrp` | VDRP | closed | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/historical/?utilId=SDGE&bookId=ELEC&tarfKey=60&tarfYear=2001) | — |
 | `vgi` | VGI | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=877) | — |
 | `vnem-somah` | VNEM-SOMAH | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=936) | — |
 | `vnm-a` | VNM-A | current | [fetched](https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=627) | — |
