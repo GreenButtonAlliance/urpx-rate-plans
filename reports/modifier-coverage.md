@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **57**
+- Base RatePlan filings: **66**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **244**
-  - present and complete: 13
-  - present but incomplete: 206
+- Applicable-modifier slots across all bases: **267**
+  - present and complete: 22
+  - present but incomplete: 220
   - missing: 25
 - Asymmetries between modifier-side and base-side declarations: **1**
 
@@ -60,9 +60,21 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
-| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
+| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2026-07-01` |
+
+#### `e-1` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Tier 1 quantity is denominated per day and prorated: Sheet E-1-1 Section D.2, "a level of 15 kWh per day, prorated by Meter reading days of Service... for a 30-day bill, the Tier 1 level would be 450 kWh." cpau:e-1-2026-07-01-tier-1-bracket carries upperBound 15 against cpau:ms-energy (unitOfMeasure urpx:kWh, no intervalDuration), and no tier name or description states the denomination, so the bound resolves as 15 kWh rather than 15 kWh/day. The per-day denomination IS expressible under v0.5.1 and was validated 2026-09-21: a daily-energy MetricInput whose MetricSpecification carries intervalDuration "P1D" and intervalType urpx:dailyInterval, pointed at by ServiceTiers.referencesMetricInput, conforms against the v0.5.1 shapes. Work, not a blocker.
+- The proration arithmetic itself is not expressible: a Tier 1 bound of 15 kWh times the number of meter reading days (Sheet E-1-1 Section D.2, which refers the calculation to Rule and Regulation 11, a document not held in this corpus). ServiceBracketShape is sh:closed in v0.5.1 and lowerBound/upperBound are xsd:decimal literals with no formula or metric reference, so a bound that scales with billing-period length cannot be stated. Same class as urpx-org/urpx#32 (additive baseline allowance), open. Corpus-wide: pge/e-1, pge/e-tou-c, sce/d, sdge/dr and ladwp/r-1a all encode a daily allowance as a bare decimal on an undenominated kWh metric.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2026-07-01` |
 
 #### `e-1-tou` @ 2026-01-01  &nbsp; base: ~
 
@@ -73,7 +85,18 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
-| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
+| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2026-07-01` |
+
+#### `e-1-tou` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Sheet E-1-TOU-2 Section D.2 (SEASONAL RATE CHANGES) provides that when a billing period includes use in both the Summer and Winter periods, 'usage will be prorated based on the number of days in each seasonal period, and the Charges based on the applicable rates therein' (further discussion at CPAU Rule and Regulation 11, which is not in this corpus). The model carries both Seasons and all six seasonal commodity rates but nothing that allocates a straddling period's usage between them, so a consumer must supply the day-count split itself, and a consumer that instead assigns each metered interval to the season of its timestamp gets a different bill. urpx:prorationMethod (xsd:string, 0..1 on BillingModelShape) can carry the provision declaratively; it is used by no filing in this corpus, and the allocation arithmetic itself has no computable form in URPX v0.5.1.
+- Section A excludes Net Energy Metered customers ("This Rate Schedule is not available to Net Energy Metered (NEM) customers and is provided at the sole discretion of CPAU"). The model quotes the sentence in a description; cpau:e-1-tou-2026-07-01-er-residential-tou carries four ComparisonNodes (residential kind, single-family, separately metered, AMI) and no NEM predicate. Expressible: cpau:e-nse-1-2026-07-01-cn-nem-successor is a notEqualsOperator NEM test in this same corpus.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2026-07-01` |
 
 #### `e-14` @ 2025-07-01  &nbsp; base: ~
 
@@ -83,7 +106,18 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+#### `e-14` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section D.2 (Sheet E-14-2) gates the $2.50 per month switching surcharge twice, and the model prices it unconditionally. CPAU switches at no charge where each separately switched circuit carries at least 10 kW of lamp load, counting all lamps on the circuit whether or not served under E-14, and the charge is waived again where the switching installation is made for CPAU's convenience. The $2.50 is modeled (cpau:e-14-2026-07-01-price-switching-surcharge) but neither gate is: the 10 kW threshold survives only in the urpx:name of cpau:e-14-2026-07-01-mi-switching-circuit-count and the convenience waiver only in the urpx:description of cpau:e-14-2026-07-01-pd-switching-surcharge, so the Price carries no applicability condition and the $2.50 falls on every separately switched circuit the metric counts. Expressible under v0.5.1 as urpx:hasApplicabilityRule on the Price or the PriceDefinition with CustomOperandNode predicates; a candidate carrying both gates conforms against the v0.5.1 shapes, and CPAU E-3 already hangs hasApplicabilityGroup off a PriceDefinition. This is work, not a blocker.
+- Section D.5 interim rate for lamps not represented on this Rate Schedule: where a customer installs an unlisted lamp rating, CPAU prepares an interim rate from its own estimated costs and bills at it until the rating is added, so the published price list is not exhaustive. Prose only in the model.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 #### `e-16` @ 2025-09-01  &nbsp; base: ~
@@ -97,7 +131,21 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+#### `e-16` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section C.2 energy charge, Sheet E-16-1: the schedule prices all kWh by reference rather than by amount, "using Electric Rate Schedule E2 plus all applicable riders". This is the schedule's principal charge and the model carries no energy Price at all, so it resolves nothing per kWh. Unbuilt work, not a blocker: a urpx:Price carrying urpx:multiplier with urpx:basedOnPrice naming the cpau:e-2 energy Prices expresses it. Schedule E-2 Sheet E-2-1 states its energy charge as three unbundled components per season (0.15753 + 0.11292 + 0.00631 = 0.27676/kWh summer, 0.09754 + 0.07682 + 0.00631 = 0.18067/kWh winter as of 2026-07-01), so this needs either three E-16 Prices each naming one component or a per-season urpx:PriceSummary added to cpau:e-2. urpx:PriceShape constrains basedOnPrice with sh:or of sh:class urpx:Price and sh:class urpx:PriceSummary, so the referent must be typed in the validated graph; validate E-16 in union with cpau:e-2, which is what dev/validate-with-base.py already does (its gate unit is a merged graph per utility). The "plus all applicable riders" half is already carried: cpau:e-hra and cpau:e-eec-1 both name cpau:e-16 in urpx:applicableToRatePlan.
+- Section E miscellaneous rates, Sheet E-16-3, six stated amounts and none in the model: electric conduit usage, exclusive use, at $1.99 per foot per year (E.1.A); utility pole attachments at $49.02, $98.05 and $147.08 per pole per year for one, two and three feet of usable space (E.3.A through E.3.C); and mounting of communication equipment including distributed antenna systems at $339.32 per pole per year (E.5). Unbuilt work, not a blocker, and never a vocabulary limit: chargeType urpx:rentalFee, chargeCategory urpx:infrastructure, a MetricSpecification with unitOfMeasure urpx:count for the per-pole fees and urpx:unitOther for linear feet (the 55 UnitOfMeasureValue members contain no linear-foot unit), and a CalculationMethod with intervalDuration "P1Y" all validate. The reason recorded earlier, that these are annual rather than monthly, does not hold: urpx:intervalDuration is xsd:duration. Construction note: urpx-shacl:PriceDefinitionShape requires urpx:referencesLedger at minCount 1 and maxCount 1 with sh:class urpx:Ledger, so each new PriceDefinition needs a Ledger; LedgerTypeValue has eight members and none is a natural fit for an infrastructure license fee, though urpx:calculatedLedger validates.
+- Two Section E line items state no amount and cannot be carried as Prices. Sheet E-16-3 prices the conduit processing fee at "Actual Cost" (E.2) and the pole-attachment processing fee at "C-1 rate - 1 hr" (E.4). urpx-shacl:PriceShape requires exactly one of amount, basePrice, basedOnPrice, currentPrice or unitPrice, so "Actual Cost" has no value to carry. E.4 is a source gap rather than a vocabulary gap: the one-hour quantity is stated, but no CPAU Schedule C-1 is committed to this corpus to price it against, so there is nothing for urpx:basedOnPrice to name.
+- Section F CPI escalation, Sheet E-16-3: the Section E.1 through E.5 fees are adjusted annually by the Consumer Price Index for All Urban Consumers for the San Francisco-Oakland-San Jose MSA, measured from December of the base year in which the master license agreement is signed to December of a subsequent base year. Nothing in URPX computes an escalation. The clause is recordable declaratively the way cpau:e-hra records its annual Council reset, with urpx:DynamicPricing at dynamicPricingType urpx:indexBasedPricing and a urpx:PriceUpdateRule carrying the formula as free text; UpdateFrequencyValue has no annual member and no consumer reads any of it. Record it as a datum, not as a calculation.
+- The Customer Charge carries the wrong charge type. Sheet E-16-1 C.1 prices a Customer Charge of $11.28 per month and C.3 separately sets the minimum monthly charge equal to it. The single PriceDefinition is typed chargeType urpx:minimumBill alone, so a consumer grouping this filing by charge type sees a minimum bill and no customer charge. urpx:customerCharge is one of the six ChargeTypeValue members added since v0.2.1 (62 members there, 68 at v0.5.1, and the term returns zero hits in the v0.2.1 ontology and shapes), so this is the one item on this filing the migration genuinely unblocked. PriceDefinitionShape puts no maxCount on urpx:chargeType and urpx:primaryChargeType exists, so carrying both urpx:customerCharge and urpx:minimumBill with primaryChargeType urpx:customerCharge validates. The C.3 floor itself needs no further structure: the customer charge is billed unconditionally every month, so the bill cannot fall below it.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 #### `e-2` @ 2025-07-01  &nbsp; base: ~
@@ -107,10 +155,22 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-2-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-2-g/versions/2025-07-01` |
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-2-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-2-g/versions/2026-07-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
-| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2025-09-01` |
+| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2026-07-01` |
+
+#### `e-2` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section D.3 Maximum Demand Meter is unmodeled: a demand meter is installed whenever monthly use exceeds 8,000 kWh for three consecutive months, and stays in service until monthly use falls below 6,000 kWh for twelve consecutive months. Neither threshold nor the consecutive-month counts appear anywhere in the JSON-LD; the only "Demand" strings are the Non-Demand-metered eligibility values.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-2-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-2-g/versions/2026-07-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+| `e-nse-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-nse-1/versions/2026-07-01` |
 
 #### `e-3` @ 2007-07-01  &nbsp; base: ~
 
@@ -121,7 +181,7 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 #### `e-4` @ 2025-07-01  &nbsp; base: ~
@@ -136,8 +196,24 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2025-07-01` |
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2026-07-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+#### `e-4` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section D.5, Sheet E-4-2: a 2.5 percent Primary Voltage Discount where delivery is made at the same voltage as the supply line and that line voltage is above 2 kV. Not modeled; the filing carries no urpx:multiplier, no urpx:basedOnPrice and no urpx:PriceSummary. Expressible at v0.5.1: a PriceSummary under the existing PriceSet naming the component Prices, plus a Price carrying multiplier -0.025 and basedOnPrice naming that summary, conforms. Two cautions before building. The PDF never states which charges the 2.5 percent applies to (D.5 gives only the rate; D.1's "adjusted for any applicable discounts, surcharges, and/or taxes" is the closest thing to a base and is not a statement), so the base is a source ambiguity; CPAU Rule and Regulation 11, which might settle it, is not committed to this corpus. And a PriceSummary sums the Prices it references, while the charges here are in three units ($/kWh, $/kW and $/month), so each unit needs its own summary and its own discount Price. The above-2-kV condition can only be a urpx:ApplicabilityRule, which turns on a customer attribute this filing carries no value for, so the discount Price would state the condition without distinguishing which customers it reaches.
+- Section D.6.b, Sheet E-4-3: Standby Charge per kW of Reserved Capacity for customers with a non-utility generation source interconnected behind the City's revenue meter. Summer $8.88 commodity plus $39.79 distribution, total $48.67; winter $0.00 plus $24.54, total $24.54. Not modeled at all: no reserved-capacity MetricInput, no Ledger, no PriceDefinition, no Price. Expressible at v0.5.1: urpx:standbyCharge is a ChargeTypeValue member and is one of the terms the migration supplied (zero hits at v0.2.1, present at v0.5.1), and four seasonal Prices carrying it on a kW MetricInput conform. Two things to settle first. Reserved Capacity is a contracted quantity rather than a measured one and v0.5.1 has no standard name for it: MeasurementTypeValue has 14 members and none is capacity, while urpx:profileMetricProperty is an open IRI slot with no controlled vocabulary. And whether a customer has an interconnected non-utility generation source is a selection over the plan space rather than a measured quantity, so host the choice on urpx:hasProfileAlternatives, which offers standby and non-standby service as alternatives to select between, rather than on an ApplicabilityRule, which would attach a condition to the standby Prices and offer nothing in their place.
+- Section D.3, Sheet E-4-2: for customers with Thermal Energy Storage the Billing Demand is the Maximum Demand between noon and 6 PM on weekdays rather than at all hours. Not modeled; the four demand PriceDefinitions carry only the all-hours basis. The condition cannot live inside the urpx:CalculationMethod, whose shape is sh:closed over nine properties (aggregationMethod, calculatedBasedOn, calculationFormula, description, intervalAlignment, intervalDuration, intervalSelection, intervalType, name) with no condition path. The restructuring does work and validates: a noon-to-18:00 urpx:TimeBracket with dayType urpx:weekdayDays inside a urpx:TOUPeriod on the BillingModel, plus a second set of demand PriceDefinitions at the same unit prices scoped to it. Build it on urpx:hasProfileAlternatives rather than an ApplicabilityRule gate: whether a customer has Thermal Energy Storage is a selection over the plan space, and the two demand bases are alternatives to choose between rather than one basis with a condition attached to it.
+- Section D.6.d, Sheet E-4-3: where the customer's Maximum Demand occurs while one or more non-utility generators are not operating, the Maximum Demand is reduced by the sum of those generators' Maximum Generation, "but in no event shall the Customer's Maximum Demand be reduced below zero"; and under D.6.d(2), if a generator does not operate for an entire billing cycle the standby charge does not apply and the credit is not given. Not expressible at v0.5.1, and the reason is not an absence of arithmetic vocabulary. urpx:OperationNode exists, documented as "Expression node for nested arithmetic or derived comparison preparation", and urpx:OperatorValue has 17 members including urpx:subtractOperator, urpx:addOperator, urpx:multiplyOperator and urpx:divideOperator. What is missing is a path from that arithmetic to a billed quantity: OperationNode is reachable only as leftOperand or rightOperand of a ComparisonNode or another OperationNode, a ConditionExpression reaches it only through rootNode, and the only four shapes hosting urpx:hasConditionExpression are ApplicabilityGroupShape, ApplicabilityRuleShape, EligibilityRuleShape and ProfileAlternativeShape, every one of them a boolean gate. Nothing floors or clamps a determinant either: urpx:priceFloor and urpx:priceCeiling both carry rdfs:domain urpx:DynamicPricing and bound a price, not a demand quantity. urpx:CalculationMethod offers only urpx:calculatedBasedOn, which names source MetricInputs and carries no operator, and free-text urpx:calculationFormula, which no consumer reads. Recordable today only as prose. urpx-org/urpx PR #76, open, proposes urpx:ValueExpression on CalculationMethod with urpx:maxOperator and urpx:minOperator, which would carry the subtraction and its floor at zero into a calculated quantity.
+- Section D.6.e(1), Sheet E-4-3: the standby charge does not apply to backup generators designed to operate only during an interruption in utility service and not used to offset customer electricity purchases. The fact cannot be stated as a property of a modeled DER: urpx-shacl:DistributedEnergyResourceShape is sh:closed over exactly 12 properties (connectorType, derType, evChargingCapacity, interconnectionStatus, inverterType, panelOrientation, powerRating, roundTripEfficiency, smartChargingEnabled, solarCapacity, storageCapacity, windCapacity) and none states an operating mode. The exemption is gateable as an opaque urpx:CustomOperandNode predicate, the same route D.6.e(2)'s Public Utilities Code 2827(b)(4) test would take, but the predicate is a free-text property name: it records which attribute decides the exemption and carries neither a value for it nor a definition of it. D.6.e(3), Utilities Director discretion, is not modelable.
+- Section D.2, Sheet E-4-1: "When the billing period includes use both in the Summer and the Winter Periods, the usage will be prorated based on the number of days in each seasonal period, and the charges based on the applicable rates therein." This is not the month-granular season model the filing already carries: D.2 prorates by day count, so an October 20 to November 20 bill splits usage by days in each season rather than by which season each metered interval fell in. v0.5.1 has a nominal home, urpx:prorationMethod on BillingModelShape, but it is a bare xsd:string with no controlled vocabulary (ProrationMethodValueShape is empty), its skos:note scopes it to service starting or ending mid-period rather than to a season boundary, and zero of the 72 filings use it. Recordable as prose only. CPAU Rule and Regulation 11, to which D.2 refers the reader, is not committed to this corpus.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2026-07-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 #### `e-4-tou` @ 2025-07-01  &nbsp; base: ~
@@ -150,7 +226,20 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2025-07-01` |
+| `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+#### `e-4-tou` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section D.5 Primary Voltage Discount (Sheet E-4-TOU-3): the schedule prices a 2.5 percent discount where delivery is made at the same voltage as the supply line and that line voltage is above 2 kV. No Price carries it. Expressible under URPX v0.5.1 and verified by pyshacl: a Price with multiplier -0.025 and basedOnPrice naming a PriceSummary, gated by an ApplicabilityRule on a custom serviceLineVoltage_kV predicate. Two things to settle before building it. The PDF never says what the 2.5 percent applies to, and a PriceSummary sums member unitPrice values with no unit awareness, so this needs one discount Price per unit-homogeneous subtotal ($/kWh, $/kW, $/month) rather than one over the whole bill.
+- Section D.7 Standby Charge (Sheet E-4-TOU-4): the schedule prices a charge per kW of Reserved Capacity, Summer $8.88 Commodity plus $39.79 Distribution equals $48.67, Winter $0.00 plus $24.54 equals $24.54, for customers with a non-utility generation source interconnected behind the revenue meter (D.7.a). No Price carries it. Expressible under URPX v0.5.1 and verified by pyshacl: chargeType urpx:standbyCharge on a per-kW PriceDefinition with its own Reserved Capacity MetricInput and ledger, seasonal via appliesInSeason, gated by an ApplicabilityRule.
+- Section D.7.d Maximum Demand Credit (Sheet E-4-TOU-4): where the customer's Maximum Demand occurs while one or more non-utility generators are not operating, the billing Maximum Demand is reduced by the sum of those generators' Maximum Generation but never below zero; and if a generator does not operate for an entire billing cycle, neither the standby charge nor this credit applies. Not expressible under URPX v0.5.1. CalculationMethodShape is sh:closed over nine properties with no condition path, so a conditional adjustment to a billing determinant has nowhere to live but the free-text calculationFormula, and DistributedEnergyResourceShape is sh:closed over twelve properties with no operating-mode property. urpx-org/urpx PR #76, open, proposes urpx:ValueExpression on CalculationMethod with urpx:maxOperator and urpx:minOperator, which would carry the subtraction and its floor at zero into a calculated quantity.
+- Section D.7.e standby exemptions (Sheets E-4-TOU-4 and E-4-TOU-5): the standby charge does not apply to backup generators designed to operate only during an interruption of utility service and not used to offset customer purchases, nor to a customer meeting the definition of an Eligible Customer-generator under California Public Utilities Code Section 2827(b)(4). The backup-only exemption is not expressible under v0.5.1 for the same reason as D.7.d: DistributedEnergyResourceShape carries no operating-mode or offsetting-use property. The 2827(b)(4) exemption can ride as a CustomOperandNode predicate inside the standby ApplicabilityRule once the standby charge itself is built.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-4-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-4-g/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 #### `e-7` @ 2025-07-01  &nbsp; base: ~
@@ -164,8 +253,23 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2025-07-01` |
-| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2025-09-01` |
+| `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2026-07-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+#### `e-7` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section D.6 (sheet E-7-3) offers a 2.8 percent discount where delivery is made at the same voltage as the supplying line and that line voltage is above 2 kV. Not modeled; the file carries no multiplier, basedOnPrice or PriceSummary. Expressible under v0.5.1: one urpx:PriceSummary per unit-homogeneous group under urpx:hasPriceSummary on the PriceSet, plus a Price carrying urpx:multiplier -0.028 and urpx:basedOnPrice naming that summary, gated by an ApplicabilityRule whose ObjectOperandNode reads urpx:voltageLevel = urpx:primaryVoltage. A candidate of that shape pyshacl-conforms against v0.5.1 (verified 2026-09-21). Unbuilt because the primary-service restriction would live entirely in that ApplicabilityRule: the multiplier Price itself carries no restriction, so a consumer that does not evaluate the rule discounts every E-7 bill rather than only service taken at primary voltage. This is work, not a blocker.
+- Section D.7.b (sheet E-7-3) prices a Standby Charge per kW of Reserved Capacity for customers with a non-utility generation source interconnected behind the City's revenue meter (D.7.a): summer $9.66 commodity + $32.95 distribution = $42.61/kW, winter $0.00 + $28.99 = $28.99/kW. Not modeled. Expressible under v0.5.1: urpx:standbyCharge is a native ChargeTypeValue defined as a charge for standby or backup service to customers with on-site generation, and a reserved-capacity MetricInput takes the same kW shape as the existing demand input. A candidate pyshacl-conforms against v0.5.1 (verified 2026-09-21). Unbuilt for the same reason as D.6: the D.7.a eligibility would live entirely in an applicability condition on the charge, so a consumer that does not evaluate it adds $42.61/kW to every E-7 bill. This is work, not a blocker.
+- Section D.7.d.(1) (sheet E-7-4) reduces the Maximum Demand by the sum of the Maximum Generation of any non-utility generators that were not operating when the peak occurred, floored at zero, which changes the determinant the four demand Prices multiply. Not modeled, and not expressible in computable form under v0.5.1. Be precise about why, because the neighboring claim is false: urpx:OperationNode exists and urpx:subtractOperator is one of the 17 urpx:OperatorValue individuals, so URPX does carry subtraction. What is missing is a path from that arithmetic to a billing determinant. OperationNode is reachable only as an operand inside a ConditionExpression, which yields a boolean; CalculationMethodShape is sh:closed over exactly nine properties (aggregationMethod, calculatedBasedOn, calculationFormula, description, intervalAlignment, intervalDuration, intervalSelection, intervalType, name) with no offset or netting path; AggregationMethodValue has exactly five members, average, maximum, median, minimum and sum, none of which nets one quantity against another; and nothing anywhere floors a result at zero. All verified against the v0.5.1 ontology and SHACL at urpx-org/urpx abdfb521. Same standard-level gap as greater-of minimum-charge arithmetic. urpx-org/urpx PR #76, open, proposes urpx:ValueExpression on CalculationMethod with urpx:maxOperator and urpx:minOperator, which would carry the subtraction and its floor at zero into a calculated quantity.
+- Section D.4 (sheet E-7-2) sets the Billing Demand for Thermal Energy Storage customers to the Maximum Demand between noon and 6 pm on weekdays rather than the month's actual Maximum Demand. Not modeled; the model prices the unrestricted monthly maximum for every customer, so a TES customer resolves too high. Expressible under v0.5.1 as a urpx:TOUPeriod carrying a TimeBracket with startTime 12:00:00, endTime 18:00:00 and dayType urpx:weekdayDays on the demand PriceDefinitions, the shape sibling cpau:e-7-tou already ships. The TES customer gate has the same inert-at-0.25.0 problem as D.6 and D.7.b.
+- Section D.3 (sheet E-7-2, 'Request for Service') lets a qualifying customer take service under this schedule for more than one Account or Meter where the Accounts cover contiguous parcels with no intervening public right-of-way and share a common billing address, which changes the denominator of both the 1,000 kW eligibility test and the monthly demand maximum. Not modeled: SPARQL over the v0.5.1 ontology returns no site, account or parcel class a demand aggregation could be scoped to, and urpx:AccountServiceAgreement's own skos:note states that service account and agreement data lives in customer data, not URPX. The model prices a single account. (Previously recorded here as 'C.3'; Section C has no subsection 3.)
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2026-07-01` |
+| `e-eec-1` | ~ present-incomplete | `us/ca/cpau/electricity/e-eec-1/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 #### `e-7-tou` @ 2025-07-01  &nbsp; base: ~
@@ -179,7 +283,21 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2025-07-01` |
+| `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2026-07-01` |
+| `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+#### `e-7-tou` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Section D.6, Sheet E-7-TOU-3: Primary Voltage Discount of 2.8 percent where delivery is made at the same voltage as the supplying line and that line is above 2 kV. Not modeled; no Price in this filing carries urpx:multiplier. Expressible at v0.5.1 as a Price with multiplier -0.028 and basedOnPrice naming a urpx:PriceSummary, gated by an ObjectOperandNode with conditionProperty urpx:voltageLevel and referencesValue urpx:primaryVoltage; urpx:voltageLevel's own skos:note sanctions that route. Two things to settle first. The schedule never states the base: D.1 implies the whole Section C bill, and Section C prices in three units, so the base needs three unit-homogeneous PriceSummaries ($/kWh, $/kW, $/month) rather than one summary summing across units. And the discount's applicability would rest entirely on that ConditionExpression gate: nothing on the Price itself distinguishes a primary-voltage customer, so a consumer that does not evaluate the gate discounts every customer's bill.
+- Section D.7.b, Sheet E-7-TOU-4: Standby Charge per kW of Reserved Capacity, summer $9.66 commodity plus $32.95 distribution equals $42.61, winter $0.00 plus $28.99 equals $28.99, applicable under D.7.a to customers with a non-utility generation source behind the revenue meter. Not modeled; urpx:standbyCharge has zero uses anywhere in this corpus. Expressible at v0.5.1, where urpx:standbyCharge is one of 68 ChargeTypeValue members and is new since v0.2.1. Before building, settle the denomination: the assessor's candidate used urpx:virtualMetricInput, whose v0.5.1 skos:definition is "Metric input for virtual net metering" and is the wrong term here, and urpx:standbyCharge's own skos:note reads "Distinct from urpx:capacityCharge (reserved supply capacity)", which is directly on point for a charge priced per kW of Reserved Capacity. MeasurementTypeValue has 14 members and none is capacity. Same consumer caveat as D.6: the applicability gate is inert at the pin, so the charge would bill to customers with no generator.
+- Section D.7.d(1), Sheet E-7-TOU-4: where Maximum Demand occurs while one or more non-utility generators are not operating, Maximum Demand is reduced by the sum of those generators' Maximum Generation, floored at zero (D.7.d(2) waives both charge and credit if the generator does not operate for an entire billing cycle). Not expressible at v0.5.1. Arithmetic vocabulary does exist (urpx:OperationNode, and 17 OperatorValue members including urpx:subtractOperator), but it is reachable only inside a ConditionExpression, whose only four hosts are ApplicabilityGroupShape, ApplicabilityRuleShape, EligibilityRuleShape and ProfileAlternativeShape, all boolean gates; nothing floors or clamps a billing determinant, since urpx:priceFloor and urpx:priceCeiling are rdfs:domain urpx:DynamicPricing. urpx-shacl:CalculationMethodShape is sh:closed over nine properties with no condition path, and its free-text calculationFormula is read by no consumer. urpx-org/urpx PR #76, open, proposes urpx:ValueExpression on CalculationMethod with urpx:maxOperator and urpx:minOperator, which would carry the subtraction and its floor at zero into a calculated quantity.
+- Section D.7.e(1), Sheet E-7-TOU-5: the standby charge does not apply to backup generators designed to operate only during a service interruption and not used to offset customer purchases. What is not expressible is the backup-only fact as a property of a modeled DER: urpx-shacl:DistributedEnergyResourceShape is sh:closed over exactly 12 properties and none states an operating mode. The exemption itself is gateable as a urpx:CustomOperandNode predicate on the standby charge, the same route D.7.e(2)'s Public Utilities Code 2827(b)(4) test would take and the route this filing already uses for six CustomOperandNodes in its EligibilityRule, so it is half buildable rather than blocked outright. Such a predicate names its test in a free-text urpx:customConditionProperty, as those six do, so it carries the exemption declaratively and no ontology term states it. D.7.e(3), Utilities Director discretion, is not modelable.
+- Section D.3, Sheet E-7-TOU-3: a qualifying customer may take service for more than one Account or Meter where the Accounts cover contiguous parcels with no intervening public right-of-way and share a common billing address. This makes both the Section A 1,000 kW threshold (stated per site) and the demand determinants site-level rather than account-level, so it bears on pricing and not only on enrollment. Not expressible at v0.5.1: the ontology's own skos:note on urpx:AccountServiceAgreement says "Service account and agreement data lives in customer data, not URPX." A MetricInput with metricInputType urpx:aggregatedMetricInput plus a CalculationMethod carrying aggregationMethod urpx:sum and a prose description validates and declares the intent, but it names no accounts. The filing prices a single account.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 ### LADWP

@@ -1,0 +1,51 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-nse-1"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/residential-utility-rates/e-nse-1_effective_2026-07-01.pdf"
+sha256 = "acde158da7d2534cc2c2b12c943fab8d70b622d9b93c4ccd5a0e0eb69a299686"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-nse-1_effective_2026-07-01.pdf, linked from CPAU's Residential-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-09-01, so the 2025-09-01 version expires at 2026-07-01.
+
+Price changes from the 2025-09-01 version:
+ e-nse-1-2025-09-01-price-surplus-compensation: -0.10120 -> -0.10640
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Annual settlement period not modeled. Sheet E-NSE-1 prices the compensation against net surplus electricity accumulated over an annual settlement period: Section A applies the schedule to customers \"who, at the end of an annual settlement period, as described in Rule 29, are Net Surplus Customer-Generators\", and Special Condition 1 states \"Net surplus electricity, as specified in Rule 29, if applicable, will be multiplied by the above compensation rate to determine the Customer's annual net surplus electricity compensation stated in dollars.\" The model carries the $0.1064/kWh rate correctly but has no CalculationMethod and no interval property anywhere, so nothing in it distinguishes this annual true-up credit from a per-interval export credit such as CPAU E-EEC-1; the two models differ only in price value and description prose. Expressible under v0.5.1 and verified by pyshacl against the shapes at abdfb521 (zero new violations): add urpx:intervalDuration \"P1Y\" and urpx:intervalType urpx:annualInterval to cpau:nse-ms-energy-net-surplus, the same MetricSpecification-level pattern pge:ms-energy-annual-rolling already ships. Put it on the MetricSpecification, NOT on the PriceDefinition: the annual period bounds the accumulation of the surplus kWh being measured, while the price itself stays a per-unit $0.1064/kWh rate rather than a charge recurring once an interval. Leave urpx:intervalAlignment unset: the window's start and end are defined in CPAU Rule 29, which is not held in this corpus, so the alignment cannot be sourced without fetching it. This is work, not a blocker.",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-09-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

@@ -59,14 +59,14 @@ A scenario cost model is identified by its own components: the base version IRI,
 
 | Composition | Reason |
 |---|---|
-| `cpau:e-14-2025-07-01` | :no-energy-ledger |
-| `cpau:e-14-2025-07-01` + `cpau:e-eec-1-2025-09-01` | :no-energy-ledger |
-| `cpau:e-14-2025-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
-| `cpau:e-16-2025-09-01` | :no-energy-ledger |
-| `cpau:e-16-2025-09-01` + `cpau:e-eec-1-2025-09-01` | :no-energy-ledger |
-| `cpau:e-16-2025-09-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
+| `cpau:e-14-2026-07-01` | :no-energy-ledger |
+| `cpau:e-14-2026-07-01` + `cpau:e-eec-1-2026-07-01` | :no-energy-ledger |
+| `cpau:e-14-2026-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
+| `cpau:e-16-2026-07-01` | :no-energy-ledger |
+| `cpau:e-16-2026-07-01` + `cpau:e-eec-1-2026-07-01` | :no-energy-ledger |
+| `cpau:e-16-2026-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
 | `cpau:e-3-2007-07-01` | :no-energy-ledger |
-| `cpau:e-3-2007-07-01` + `cpau:e-eec-1-2025-09-01` | :no-energy-ledger |
+| `cpau:e-3-2007-07-01` + `cpau:e-eec-1-2026-07-01` | :no-energy-ledger |
 | `cpau:e-3-2007-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
 
 ## Blocked (6)
@@ -133,10 +133,24 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-38 version nodes, over 17 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+52 version nodes, over 31 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
+| `cpau:e-1` | `cpau:e-1-2025-07-01` | 2025-07-01 | `cpau:e-1-2026-07-01` | 2026-07-01 |
+| `cpau:e-1-tou` | `cpau:e-1-tou-2026-01-01` | 2026-01-01 | `cpau:e-1-tou-2026-07-01` | 2026-07-01 |
+| `cpau:e-14` | `cpau:e-14-2025-07-01` | 2025-07-01 | `cpau:e-14-2026-07-01` | 2026-07-01 |
+| `cpau:e-16` | `cpau:e-16-2025-09-01` | 2025-09-01 | `cpau:e-16-2026-07-01` | 2026-07-01 |
+| `cpau:e-2` | `cpau:e-2-2025-07-01` | 2025-07-01 | `cpau:e-2-2026-07-01` | 2026-07-01 |
+| `cpau:e-2-g` | `cpau:e-2-g-2025-07-01` | 2025-07-01 | `cpau:e-2-g-2026-07-01` | 2026-07-01 |
+| `cpau:e-4` | `cpau:e-4-2025-07-01` | 2025-07-01 | `cpau:e-4-2026-07-01` | 2026-07-01 |
+| `cpau:e-4-g` | `cpau:e-4-g-2025-07-01` | 2025-07-01 | `cpau:e-4-g-2026-07-01` | 2026-07-01 |
+| `cpau:e-4-tou` | `cpau:e-4-tou-2025-07-01` | 2025-07-01 | `cpau:e-4-tou-2026-07-01` | 2026-07-01 |
+| `cpau:e-7` | `cpau:e-7-2025-07-01` | 2025-07-01 | `cpau:e-7-2026-07-01` | 2026-07-01 |
+| `cpau:e-7-g` | `cpau:e-7-g-2025-07-01` | 2025-07-01 | `cpau:e-7-g-2026-07-01` | 2026-07-01 |
+| `cpau:e-7-tou` | `cpau:e-7-tou-2025-07-01` | 2025-07-01 | `cpau:e-7-tou-2026-07-01` | 2026-07-01 |
+| `cpau:e-eec-1` | `cpau:e-eec-1-2025-09-01` | 2025-09-01 | `cpau:e-eec-1-2026-07-01` | 2026-07-01 |
+| `cpau:e-nse-1` | `cpau:e-nse-1-2025-09-01` | 2025-09-01 | `cpau:e-nse-1-2026-07-01` | 2026-07-01 |
 | `pge:e-elec` | `pge:e-elec-2026-01-01` | 2026-01-01 | `pge:e-elec-2026-03-27` | 2026-03-27 |
 | `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | `pge:e-tou-c-2026-03-27` | 2026-03-27 |
 | `pse:307` | `pse:307-2026-05-01` | 2026-05-01 | `pse:307-2026-10-01` | 2026-10-01 |

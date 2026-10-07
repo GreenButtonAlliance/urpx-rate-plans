@@ -1,0 +1,80 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-1-tou"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+
+  [source.base]
+  url = "https://www.paloalto.gov/files/assets/public/v/2/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1-tou_effective_2026-07-01.pdf"
+  sha256 = "98f8e1be9027f3ace1ec3812fd531cb90b3a8d2af6b336d8cc4963b8598df6e0"
+  retrieved_on = "2026-10-06"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  [source.modifier_e_hra]
+  url = "https://www.paloalto.gov/files/assets/public/v/3/utilities/rates-schedules-for-utilities/e-hra-effective-2023-01-01.pdf"
+  sha256 = "7e80aec8012b25b55257edec4166fc15044536508fe167797b41aeffc0d939b8"
+  retrieved_on = "2026-04-30"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  [source.modifier_e_nse_1]
+  url = "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/residential-utility-rates/e-nse-1_effective_2026-07-01.pdf"
+  sha256 = "acde158da7d2534cc2c2b12c943fab8d70b622d9b93c4ccd5a0e0eb69a299686"
+  retrieved_on = "2026-10-06"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-1-tou_effective_2026-07-01.pdf, linked from CPAU's Residential-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2026-01-01, so the 2026-01-01 version expires at 2026-07-01.
+
+Price changes from the 2026-01-01 version:
+ tou-price-customer-charge: 5.15 -> 5.38
+ tou-price-distribution: 0.09351 -> 0.09771
+ tou-price-public-benefits: 0.00604 -> 0.00631
+ tou-price-commodity-summer-peak: 0.23354 -> 0.24404
+ tou-price-commodity-summer-off-peak: 0.08249 -> 0.08620
+ tou-price-commodity-summer-super-off-peak: 0.06690 -> 0.06991
+ tou-price-commodity-winter-peak: 0.16705 -> 0.17456
+ tou-price-commodity-winter-off-peak: 0.11033 -> 0.11529
+ tou-price-commodity-winter-super-off-peak: 0.07835 -> 0.08187
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet E-1-TOU-2 Section D.2 (SEASONAL RATE CHANGES) provides that when a billing period includes use in both the Summer and Winter periods, 'usage will be prorated based on the number of days in each seasonal period, and the Charges based on the applicable rates therein' (further discussion at CPAU Rule and Regulation 11, which is not in this corpus). The model carries both Seasons and all six seasonal commodity rates but nothing that allocates a straddling period's usage between them, so a consumer must supply the day-count split itself, and a consumer that instead assigns each metered interval to the season of its timestamp gets a different bill. urpx:prorationMethod (xsd:string, 0..1 on BillingModelShape) can carry the provision declaratively; it is used by no filing in this corpus, and the allocation arithmetic itself has no computable form in URPX v0.5.1.",
+ "Section A excludes Net Energy Metered customers (\"This Rate Schedule is not available to Net Energy Metered (NEM) customers and is provided at the sole discretion of CPAU\"). The model quotes the sentence in a description; cpau:e-1-tou-2026-07-01-er-residential-tou carries four ComparisonNodes (residential kind, single-family, separately metered, AMI) and no NEM predicate. Expressible: cpau:e-nse-1-2026-07-01-cn-nem-successor is a notEqualsOperator NEM test in this same corpus.",
+]
+applicable_modifiers = [
+ "e-hra",
+ "e-nse-1",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-01-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

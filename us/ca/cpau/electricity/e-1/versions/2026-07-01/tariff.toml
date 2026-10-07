@@ -1,0 +1,71 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-1"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+
+  [source.base]
+  url = "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/residential-utility-rates/e-1_effective_2026-07-01.pdf"
+  sha256 = "27f8671e08935375ddcb1d883e4ae03c15ae9f87db79ccdd0e99a73040a79ae0"
+  retrieved_on = "2026-10-06"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  [source.modifier_e_hra]
+  url = "https://www.paloalto.gov/files/assets/public/v/3/utilities/rates-schedules-for-utilities/e-hra-effective-2023-01-01.pdf"
+  sha256 = "7e80aec8012b25b55257edec4166fc15044536508fe167797b41aeffc0d939b8"
+  retrieved_on = "2026-04-30"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-1_effective_2026-07-01.pdf, linked from CPAU's Residential-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-07-01, so the 2025-07-01 version expires at 2026-07-01.
+
+Price changes from the 2025-07-01 version:
+ price-customer-charge: 5.15 -> 5.38
+ price-public-benefits: 0.00604 -> 0.00631
+ price-commodity-tier1: 0.10373 -> 0.10839
+ price-commodity-tier2: 0.13372 -> 0.13973
+ price-distribution-tier1: 0.09593 -> 0.10024
+ price-distribution-tier2: 0.08968 -> 0.09371
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Tier 1 quantity is denominated per day and prorated: Sheet E-1-1 Section D.2, \"a level of 15 kWh per day, prorated by Meter reading days of Service... for a 30-day bill, the Tier 1 level would be 450 kWh.\" cpau:e-1-2026-07-01-tier-1-bracket carries upperBound 15 against cpau:ms-energy (unitOfMeasure urpx:kWh, no intervalDuration), and no tier name or description states the denomination, so the bound resolves as 15 kWh rather than 15 kWh/day. The per-day denomination IS expressible under v0.5.1 and was validated 2026-09-21: a daily-energy MetricInput whose MetricSpecification carries intervalDuration \"P1D\" and intervalType urpx:dailyInterval, pointed at by ServiceTiers.referencesMetricInput, conforms against the v0.5.1 shapes. Work, not a blocker.",
+ "The proration arithmetic itself is not expressible: a Tier 1 bound of 15 kWh times the number of meter reading days (Sheet E-1-1 Section D.2, which refers the calculation to Rule and Regulation 11, a document not held in this corpus). ServiceBracketShape is sh:closed in v0.5.1 and lowerBound/upperBound are xsd:decimal literals with no formula or metric reference, so a bound that scales with billing-period length cannot be stated. Same class as urpx-org/urpx#32 (additive baseline allowance), open. Corpus-wide: pge/e-1, pge/e-tou-c, sce/d, sdge/dr and ladwp/r-1a all encode a daily allowance as a bare decimal on an undenominated kWh metric.",
+]
+applicable_modifiers = [
+ "e-eec-1",
+ "e-hra",
+ "e-nse-1",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-07-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

@@ -64,8 +64,9 @@ tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
 # Twenty-five of them are SCE: the 2026-03-20 and June 2026 versions of ten
-# filings and two HPWH modifiers, and medical-baseline 2025-10-01.
-expect("supersession finds thirty-eight plan identities", len(REAL["superseded"]), 38)
+# filings and two HPWH modifiers, and medical-baseline 2025-10-01. Fourteen are
+# CPAU: every version the 2026-07-01 sheets supersede.
+expect("supersession finds fifty-two plan identities", len(REAL["superseded"]), 52)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
 # 2028-01-01 as well as 2026-01-01. At the currency instant the later six are
 # not yet effective, and the 2026 versions they follow are in force, not

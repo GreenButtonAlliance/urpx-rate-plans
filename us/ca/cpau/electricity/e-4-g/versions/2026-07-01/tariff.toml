@@ -1,0 +1,55 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-4-g"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-4-g_effective_2026-07-01.pdf"
+sha256 = "66fb0771327b946855a1e012818ab8ea0829c2b405cc913b13a01507848a3b1b"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-4-g_effective_2026-07-01.pdf, linked from CPAU's Business-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-07-01, so the 2025-07-01 version expires at 2026-07-01.
+
+Unchanged from the 2025-07-01 version:
+ e4g-price-green-charge: 0.0075
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet E-4-G-1 Section C.2, the 1000 kWh Block Purchase Option: the customer has CPAU buy a designated number of 1,000 kWh RECs at $7.50 per block and pays no per-kWh green adder (energy 0.16553 summer and 0.11942 winter, against 0.17303 and 0.12692 under Option 1); Section D.5 states the request mechanism. Not modeled, so nothing here prices such a customer. Unbuilt work: urpx:virtualMetricInput and urpx:count are both present at v0.5.1. A candidate carrying both options as a two-member urpx:ProfileAlternatives with the block count as a virtualMetricInput whose MetricSpecification unitOfMeasure is urpx:count and a $7.50 unitPrice validates with no new violations. Do not reach for urpx:baseQuantity to carry the 1,000 kWh block size: a Price that states the size that way still carries $7.50 as its only unit price, so the block count belongs in a metric input.",
+ "Hazard, not an omission: the single $0.0075 per kWh Palo Alto Green Charge is ungated in every machine-readable sense. The filing carries no urpx:hasApplicabilityRule, no urpx:hasApplicabilityGroup, no urpx:referencesProfileAlternative, no urpx:hasProfileAlternatives and no urpx:hasEligibilityRule; the only statement that this models Option 1 rather than both options is prose in urpx:description and in the CoverageClaim. A consumer composing cpau:e-4-g onto cpau:e-4 for a Block Purchase participant therefore bills $0.0075 per kWh that Section C.2 does not charge, and Section C.2's own totals (0.16553 summer, 0.11942 winter, each the sum of commodity, distribution and public benefits alone) confirm no adder applies. This is a confident wrong number for one of the schedule's two options and it closes with the same build as the deferral above.",
+ "Sheets E-4-G-3 and E-4-G-4 Section D.8, the Standby Charge: $48.67 per kW of Reserved Capacity in summer (commodity 8.88 plus distribution 39.79) and $24.54 in winter, for customers with a non-utility generation source on their side of the revenue meter; with the D.8.d Maximum Demand credit (Maximum Demand reduced by the Maximum Generation of the non-operating generators, \"but in no event ... reduced below zero\", and neither charge nor credit if the source is down for a whole billing cycle) and the D.8.e exemptions for backup-only generators and for eligible customer-generators under Public Utilities Code 2827(b)(4). This is Schedule E-4's Section D.6 restated on E-4-G's own sheets and is carried by neither this modifier nor cpau:e-4, which defers all of Section D, so composing base plus modifier does not price such a customer. The per-kW charge is expressible (urpx:standbyCharge is a ChargeTypeValue at v0.5.1, absent at v0.2.1), but the restriction to customers with their own generation source could only ride on a ConditionExpression gate, which carries the provision declaratively and leaves the charge written against every customer on the schedule. The D.8.d credit arithmetic has no home: urpx:OperationNode and 17 OperatorValue members exist, but OperationNode is reachable only inside a ConditionExpression, whose only four hosts are boolean gates, and priceFloor and priceCeiling are rdfs:domain DynamicPricing and clamp a price rather than a demand quantity.",
+ "Sheet E-4-G-3 Section D.6, the Primary Voltage Discount: 2.5 percent where delivery is made at the same voltage as the line supplying the service, for available line voltages above 2 kV. Schedule E-4's Section D.5 restated, and carried by neither this modifier nor cpau:e-4. Expressible at v0.5.1 as a modifier Price with multiplier -0.025 and basedOnPrice over a unit-homogeneous PriceSummary, the pattern the SCE and SDG&E CARE and FERA filings ship; the same caution applies, since the voltage condition could only ride on a declarative gate and the discount itself would be written against every customer on the schedule. The schedule states the rate and not the base, so what the 2.5 percent applies to is a source ambiguity.",
+ "Sheet E-4-G-2 Section D.3, the Thermal Energy Storage exception: \"the Billing Demand for Customers with Thermal Energy Storage (TES) will be based upon the actual Maximum Demand of such Customers between the hours of noon and 6 PM on weekdays\", which changes the quantity both the summer $51.37 and winter $27.25 per kW demand charges multiply. Carried by neither this modifier nor cpau:e-4, which models the default all-hours 15-minute maximum. This is unbuilt work, not a blocker. The condition cannot live inside urpx:CalculationMethod, whose shape is sh:closed over nine properties with no condition path, but that is the wrong place to look: the selection layer carries it. A two-member urpx:ProfileAlternatives (TES and non-TES) on PlanElements, with duplicated demand PriceDefinitions scoped by urpx:referencesProfileAlternative and pointed at a TOUPeriod whose TimeBracket is dayType urpx:weekdayDays, 12:00:00 to 18:00:00, validates against the v0.5.1 shapes. Two caveats: those duplicated PriceDefinitions would carry urpx:aggregationMethod urpx:maximum as cpau:e-4's demand charges do, and nothing in the shape states that the referenced TOUPeriod narrows the window that maximum is taken over; and the choice must sit on the selection layer, since a ConditionExpression gate carries the TES condition declaratively rather than selecting between the two demand quantities.",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-07-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

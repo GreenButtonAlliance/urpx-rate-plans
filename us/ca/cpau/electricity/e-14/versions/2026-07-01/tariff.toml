@@ -1,0 +1,75 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-14"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/5/utilities/rates-schedules-for-utilities/city-facility-utility-rates/e-14_effective_2026-07-01.pdf"
+sha256 = "7c9f5d5cd0c7db1fa2cc07c374b951546d36f486b28e715893dc4887ccc39570"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-14_effective_2026-07-01.pdf, linked from CPAU's Business-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-07-01, so the 2025-07-01 version expires at 2026-07-01.
+
+Price changes from the 2025-07-01 version:
+ e14-price-mv-400w: 53.53 -> 55.93
+ e14-price-hpsv-70w: 35.37 -> 36.95
+ e14-price-hpsv-100w: 45.35 -> 47.39
+ e14-price-hpsv-150w: 62.00 -> 64.79
+ e14-price-hpsv-250w: 95.30 -> 99.59
+ e14-price-led-70w-eq: 13.27 -> 13.86
+ e14-price-led-100w-eq: 20.83 -> 21.77
+ e14-price-led-150w-eq: 27.80 -> 29.04
+ e14-price-led-175w-eq: 31.43 -> 32.84
+ e14-price-led-250w: 46.87 -> 48.97
+ e14-price-tsig-12head-ryg: 27.12 -> 28.34
+ e14-price-tsig-8head-ryg: 23.55 -> 24.60
+ e14-price-tsig-12arrow-ryg: 25.49 -> 26.63
+ e14-price-tsig-12beacon: 10.19 -> 10.65
+ e14-price-tsig-pedestrian: 9.36 -> 9.78
+ e14-price-tsig-controller: 20.05 -> 20.95
+ e14-price-tsig-speed-signs: 92.73 -> 96.89
+
+Unchanged from the 2025-07-01 version:
+ e14-price-switching-surcharge: 2.50
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Section D.2 (Sheet E-14-2) gates the $2.50 per month switching surcharge twice, and the model prices it unconditionally. CPAU switches at no charge where each separately switched circuit carries at least 10 kW of lamp load, counting all lamps on the circuit whether or not served under E-14, and the charge is waived again where the switching installation is made for CPAU's convenience. The $2.50 is modeled (cpau:e-14-2026-07-01-price-switching-surcharge) but neither gate is: the 10 kW threshold survives only in the urpx:name of cpau:e-14-2026-07-01-mi-switching-circuit-count and the convenience waiver only in the urpx:description of cpau:e-14-2026-07-01-pd-switching-surcharge, so the Price carries no applicability condition and the $2.50 falls on every separately switched circuit the metric counts. Expressible under v0.5.1 as urpx:hasApplicabilityRule on the Price or the PriceDefinition with CustomOperandNode predicates; a candidate carrying both gates conforms against the v0.5.1 shapes, and CPAU E-3 already hangs hasApplicabilityGroup off a PriceDefinition. This is work, not a blocker.",
+ "Section D.5 interim rate for lamps not represented on this Rate Schedule: where a customer installs an unlisted lamp rating, CPAU prepares an interim rate from its own estimated costs and bills at it until the rating is added, so the published price list is not exhaustive. Prose only in the model.",
+]
+applicable_modifiers = [
+ "e-eec-1",
+ "e-hra",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-07-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

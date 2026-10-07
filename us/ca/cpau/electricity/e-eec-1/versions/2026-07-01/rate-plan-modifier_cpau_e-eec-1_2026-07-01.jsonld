@@ -1,0 +1,310 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "cpau": "https://rate-plans.grid-coordination.energy/cpau/",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "cpau:doc-e-eec-1-2026-07-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "cpau:e-eec-1",
+    "urpx:name": "Export Electricity Compensation",
+    "urpx:initialEffectiveDate": "2025-09-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "cpau:e-eec-1-2026-07-01",
+      "urpx:version": "2026-07-01",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:modifierVersionNumber": "2026-07-01",
+      "urpx:description": "Provides compensation for electricity exported to the grid by Customer-Generators not eligible for Net Energy Metering or electing this schedule. Applies in conjunction with the customer's otherwise applicable base rate schedule. Not applicable with Time-of-Use schedules. Requires a bidirectional meter.",
+      "urpx:effectiveDateTime": "2026-07-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "cpau:e-1"
+        },
+        {
+          "@id": "cpau:e-2"
+        },
+        {
+          "@id": "cpau:e-3"
+        },
+        {
+          "@id": "cpau:e-4"
+        },
+        {
+          "@id": "cpau:e-7"
+        },
+        {
+          "@id": "cpau:e-14"
+        },
+        {
+          "@id": "cpau:e-16"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:url": "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/residential-utility-rates/e-eec-1_effective_2026-07-01.pdf",
+        "urpx:fileName": "e-eec-1_effective_2026-07-01.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:dateRetrieved": "2026-10-06",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        }
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "cpau:e-eec-1-2026-07-01-er-customer-generator",
+          "urpx:description": "Customer-Generators not eligible for or not electing Net Energy Metering",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "cpau:e-eec-1-2026-07-01-er-customer-generator-cx",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "cpau:e-eec-1-2026-07-01-er-customer-generator-bn-and",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "cpau:e-eec-1-2026-07-01-cn-customer-generator",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "cpau:e-eec-1-2026-07-01-cn-customer-generator-left-operand",
+                    "urpx:customConditionProperty": "derType"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "cpau:e-eec-1-2026-07-01-cn-customer-generator-right-operand",
+                    "urpx:stringValue": "Customer-Generator (on-site generation)"
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "cpau:e-eec-1-2026-07-01-cn-nem-eligible",
+                  "urpx:operator": {
+                    "@id": "urpx:notEqualsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "cpau:e-eec-1-2026-07-01-cn-nem-eligible-left-operand",
+                    "urpx:customConditionProperty": "Other customer enrollment"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "cpau:e-eec-1-2026-07-01-cn-nem-eligible-right-operand",
+                    "urpx:stringValue": "Net Energy Metering (NEM)"
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "cpau:e-eec-1-2026-07-01-cn-bidirectional-meter",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "cpau:e-eec-1-2026-07-01-cn-bidirectional-meter-left-operand",
+                    "urpx:customConditionProperty": "metering"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "cpau:e-eec-1-2026-07-01-cn-bidirectional-meter-right-operand",
+                    "urpx:stringValue": "Bidirectional meter"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "cpau:e-eec-1-2026-07-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e-eec-1-2026-07-01-mi-energy-export",
+            "urpx:name": "Energy Export",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "cpau:eec-ms-energy-export",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:reverse"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "cpau:e-eec-1-2026-07-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e-eec-1-2026-07-01-ledger-export-compensation",
+              "urpx:name": "Export Electricity Compensation",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-eec-1-2026-07-01-mi-energy-export"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-eec-1-2026-07-01-pd-export-compensation",
+              "urpx:name": "Export Compensation Rate",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-eec-1-2026-07-01-ledger-export-compensation"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "cpau:e-eec-1-2026-07-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "cpau:e-eec-1-2026-07-01-price-export-compensation",
+            "urpx:referencesPriceDefinition": {
+              "@id": "cpau:e-eec-1-2026-07-01-pd-export-compensation"
+            },
+            "urpx:startDate": "2026-07-01",
+            "urpx:name": "Export Compensation Rate",
+            "urpx:unitPrice": "-0.09900"
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-cpau",
+        "urpx:legalName": "City of Palo Alto Utilities",
+        "urpx:organizationType": {
+          "@id": "urpx:municipalOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-cpau-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-cpau-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "City of Palo Alto Utilities"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-cpau-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "3203"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "cpau:e-eec-1"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "cpau:cc-e-eec-1-2026-07-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-eec-1-2026-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Section A bars concurrent time-of-use service (\"This Rate Schedule may not apply in conjunction with any time-of-use Rate Schedule\"). The model carries this only as urpx:description prose; its eligibility rule tests customer kind, NEM status and metering, and carries no time-of-use predicate. The NEM test in the same file shows the exclusion shape is expressible.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    },
+    "urpx:modifierUniqueIdentifier": "E-EEC-1"
+  }
+}

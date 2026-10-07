@@ -1,0 +1,63 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-2"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-2_effective_2026-07-01.pdf"
+sha256 = "b09d068b734eac5c86eed7b8c14c40d22b7feec3a710144cafaf6397394794d7"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-2_effective_2026-07-01.pdf, linked from CPAU's Business-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-07-01, so the 2025-07-01 version expires at 2026-07-01.
+
+Price changes from the 2025-07-01 version:
+ e2-price-commodity-summer: 0.15075 -> 0.15753
+ e2-price-distribution-summer: 0.10806 -> 0.11292
+ e2-price-public-benefits-summer: 0.00604 -> 0.00631
+ e2-price-commodity-winter: 0.09334 -> 0.09754
+ e2-price-distribution-winter: 0.07352 -> 0.07682
+ e2-price-public-benefits-winter: 0.00604 -> 0.00631
+ e2-price-customer-charge: 6.22 -> 6.49
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Section D.3 Maximum Demand Meter is unmodeled: a demand meter is installed whenever monthly use exceeds 8,000 kWh for three consecutive months, and stays in service until monthly use falls below 6,000 kWh for twelve consecutive months. Neither threshold nor the consecutive-month counts appear anywhere in the JSON-LD; the only \"Demand\" strings are the Non-Demand-metered eligibility values.",
+]
+applicable_modifiers = [
+ "e-2-g",
+ "e-eec-1",
+ "e-hra",
+ "e-nse-1",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-07-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

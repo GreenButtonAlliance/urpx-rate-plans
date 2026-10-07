@@ -1,0 +1,622 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "cpau": "https://rate-plans.grid-coordination.energy/cpau/",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "cpau:doc-e-2-2026-07-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "cpau:e-2",
+    "urpx:name": "Residential Master-Metered and Small Non-Residential Electric Service",
+    "urpx:ratePlanUniqueIdentifier": "CPAU-E-2",
+    "urpx:initialEffectiveDate": "2025-07-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "cpau:e-2-2026-07-01",
+      "urpx:version": "2026-07-01",
+      "urpx:effectiveDateTime": "2026-07-01T00:00:00",
+      "urpx:description": "CPAU Schedule E-2 (Residential Master-Metered and Small Non-Residential Electric Service), effective 2026-07-01. Two-period seasonal rate (Summer May–Oct, Winter Nov–Apr) with three-component unbundled energy pricing (commodity / distribution / public benefits) plus a flat $6.49/month customer charge.",
+      "urpx:customerChoice": {
+        "@id": "urpx:mandatoryChoice"
+      },
+      "urpx:isDefault": true,
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "cpau:e-2-2026-07-01-dsr",
+        "urpx:name": "CPAU Schedule E-2 (effective 2026-07-01)",
+        "urpx:fileName": "e-2_effective_2026-07-01.pdf",
+        "urpx:url": "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-2_effective_2026-07-01.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:dateRetrieved": "2026-10-06"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "cpau:e-2-2026-07-01-er-e2-eligibility",
+          "urpx:name": "Non-residential non-demand or master-metered multi-family",
+          "urpx:description": "Applies to (a) non-residential customers receiving non-demand-metered Electric Service, OR (b) customers with accounts at master-metered multi-family facilities receiving non-demand-metered Electric Service. Per Section A of the published Schedule E-2 (sheet E-2-1, effective 2026-07-01).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "cpau:e-2-2026-07-01-cx-e2-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "cpau:e-2-2026-07-01-bn-e2-eligibility-or",
+              "urpx:operator": {
+                "@id": "urpx:orOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-2-2026-07-01-bn-e2-non-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-2-2026-07-01-cn-e2-non-residential-kind",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-non-residential-kind-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-non-residential-kind-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:nonResidentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-2-2026-07-01-cn-e2-non-residential-metering",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-non-residential-metering-left-operand",
+                        "urpx:customConditionProperty": "metering"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-non-residential-metering-right-operand",
+                        "urpx:stringValue": "Non-Demand metered"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "hasCustomerKind = nonResidentialKind AND metering = 'Non-Demand metered'"
+                },
+                {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "cpau:e-2-2026-07-01-bn-e2-master-metered-mf",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-residential-kind",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-residential-kind-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-residential-kind-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:residentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-dwelling",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-dwelling-left-operand",
+                        "urpx:customConditionProperty": "dwellingType"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-dwelling-right-operand",
+                        "urpx:stringValue": "Master-metered multi-family"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-metering",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-metering-left-operand",
+                        "urpx:customConditionProperty": "metering"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "cpau:e-2-2026-07-01-cn-e2-master-metered-metering-right-operand",
+                        "urpx:stringValue": "Non-Demand metered"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "hasCustomerKind = residentialKind AND dwellingType = 'Master-metered multi-family' AND metering = 'Non-Demand metered'"
+                }
+              ],
+              "urpx:logicExpression": "(non-residential branch) OR (master-metered multi-family branch)"
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "cpau:e-2-2026-07-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "cpau:e-2-2026-07-01-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:yearlyRecurrence": true,
+            "urpx:month": [
+              "--05",
+              "--06",
+              "--07",
+              "--08",
+              "--09",
+              "--10"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "cpau:e-2-2026-07-01-season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:yearlyRecurrence": true,
+            "urpx:month": [
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04"
+            ]
+          }
+        ],
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e-2-2026-07-01-mi-energy",
+            "urpx:name": "Energy consumed (kWh)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "cpau:e2-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:forward"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e-2-2026-07-01-mi-meter-count",
+            "urpx:name": "Meter count",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "cpau:e-2-2026-07-01-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e-2-2026-07-01-ledger-commodity",
+              "urpx:name": "Commodity (energy supply)",
+              "urpx:ledgerType": {
+                "@id": "urpx:supplyLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-2-2026-07-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e-2-2026-07-01-ledger-distribution",
+              "urpx:name": "Distribution",
+              "urpx:ledgerType": {
+                "@id": "urpx:distributionLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-2-2026-07-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e-2-2026-07-01-ledger-public-benefits",
+              "urpx:name": "Public Benefits",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-2-2026-07-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e-2-2026-07-01-ledger-service",
+              "urpx:name": "Customer (service) charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:profileMetricLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-2-2026-07-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-commodity-summer",
+              "urpx:name": "Commodity Summer",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:appliesInSeason": {
+                "@id": "cpau:e-2-2026-07-01-season-summer"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-commodity"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-distribution-summer",
+              "urpx:name": "Distribution Summer",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:appliesInSeason": {
+                "@id": "cpau:e-2-2026-07-01-season-summer"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-distribution"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-public-benefits-summer",
+              "urpx:name": "Public Benefits Summer",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:appliesInSeason": {
+                "@id": "cpau:e-2-2026-07-01-season-summer"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-public-benefits"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-commodity-winter",
+              "urpx:name": "Commodity Winter",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:appliesInSeason": {
+                "@id": "cpau:e-2-2026-07-01-season-winter"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-commodity"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-distribution-winter",
+              "urpx:name": "Distribution Winter",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:appliesInSeason": {
+                "@id": "cpau:e-2-2026-07-01-season-winter"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-distribution"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-public-benefits-winter",
+              "urpx:name": "Public Benefits Winter",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:appliesInSeason": {
+                "@id": "cpau:e-2-2026-07-01-season-winter"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-public-benefits"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-2-2026-07-01-pd-customer-charge",
+              "urpx:name": "Customer Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "cpau:e-2-2026-07-01-cm-monthly",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-2-2026-07-01-ledger-service"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "cpau:e-2-2026-07-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "cpau:e-2-2026-07-01-price-set",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-commodity-summer",
+                "urpx:name": "Commodity Summer",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-commodity-summer"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.15753"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-distribution-summer",
+                "urpx:name": "Distribution Summer",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-distribution-summer"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.11292"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-public-benefits-summer",
+                "urpx:name": "Public Benefits Summer",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-public-benefits-summer"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.00631"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-commodity-winter",
+                "urpx:name": "Commodity Winter",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-commodity-winter"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.09754"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-distribution-winter",
+                "urpx:name": "Distribution Winter",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-distribution-winter"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.07682"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-public-benefits-winter",
+                "urpx:name": "Public Benefits Winter",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-public-benefits-winter"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.00631"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-2-2026-07-01-price-customer-charge",
+                "urpx:name": "Customer Charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-2-2026-07-01-pd-customer-charge"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "6.49"
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-cpau",
+        "urpx:legalName": "City of Palo Alto Utilities",
+        "urpx:organizationType": {
+          "@id": "urpx:municipalOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-cpau-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-cpau-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "City of Palo Alto Utilities"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-cpau-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "3203"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "cpau:e-2"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "cpau:cc-e-2-2026-07-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-2-2026-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Section D.3 Maximum Demand Meter is unmodeled: a demand meter is installed whenever monthly use exceeds 8,000 kWh for three consecutive months, and stays in service until monthly use falls below 6,000 kWh for twelve consecutive months. Neither threshold nor the consecutive-month counts appear anywhere in the JSON-LD; the only \"Demand\" strings are the Non-Demand-metered eligibility values.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}

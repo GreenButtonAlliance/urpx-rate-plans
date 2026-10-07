@@ -1,0 +1,51 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-eec-1"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Residential-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/residential-utility-rates/e-eec-1_effective_2026-07-01.pdf"
+sha256 = "d58af19f985e678a7a45e6f3b1a689dafd798fc763b812fcf25f46f1843a5ef8"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-eec-1_effective_2026-07-01.pdf, linked from CPAU's Residential-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-09-01, so the 2025-09-01 version expires at 2026-07-01.
+
+Price changes from the 2025-09-01 version:
+ e-eec-1-2025-09-01-price-export-compensation: -0.12060 -> -0.09900
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Section A bars concurrent time-of-use service (\"This Rate Schedule may not apply in conjunction with any time-of-use Rate Schedule\"). The model carries this only as urpx:description prose; its eligibility rule tests customer kind, NEM status and metering, and carries no time-of-use predicate. The NEM test in the same file shows the exclusion shape is expressible.",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-09-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

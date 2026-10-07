@@ -1,0 +1,71 @@
+# Identity ---------------------------------------------------------------------
+utility = "cpau"
+schedule = "e-4"
+effective_date = "2026-07-01"
+
+# Source -----------------------------------------------------------------------
+[source]
+landing_page = "https://www.paloalto.gov/Departments/Utilities/Customer-Service/Utilities-Rates/Business-Rates"
+url = "https://www.paloalto.gov/files/assets/public/v/6/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-4_effective_2026-07-01.pdf"
+sha256 = "f1695b1f92e4304357e86e49038caf6c1038d7e4f29464d1cf18b69987dee2fd"
+retrieved_on = "2026-10-06"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+# paloalto.gov rejects standard urllib/requests with HTTP 403 (TLS
+# fingerprint check). Re-fetch via curl_cffi with Chrome impersonation:
+# requests.Session(impersonate="chrome120").
+
+# Regulatory -------------------------------------------------------------------
+[regulator]
+authority = "city-council"
+
+# Extraction -------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. Retrieved 2026-10-06 from e-4_effective_2026-07-01.pdf, linked from CPAU's Business-Rates page; the sha256 above is its hash.
+
+Supersession. Every sheet of this document is effective 2026-07-01 and supersedes the sheet of the same number dated 2025-07-01, so the 2025-07-01 version expires at 2026-07-01.
+
+Price changes from the 2025-07-01 version:
+ e4-price-energy-commodity-summer: 0.12441 -> 0.13000
+ e4-price-energy-distribution-summer: 0.02797 -> 0.02922
+ e4-price-energy-public-benefits-summer: 0.00604 -> 0.00631
+ e4-price-energy-commodity-winter: 0.08028 -> 0.08389
+ e4-price-energy-distribution-winter: 0.02797 -> 0.02922
+ e4-price-energy-public-benefits-winter: 0.00604 -> 0.00631
+ e4-price-demand-commodity-summer: 11.09 -> 11.58
+ e4-price-demand-distribution-summer: 38.08 -> 39.79
+ e4-price-demand-commodity-winter: 2.60 -> 2.71
+ e4-price-demand-distribution-winter: 23.49 -> 24.54
+ e4-price-customer-charge: 126.24 -> 131.92
+"""
+
+# Validation -------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Section D.5, Sheet E-4-2: a 2.5 percent Primary Voltage Discount where delivery is made at the same voltage as the supply line and that line voltage is above 2 kV. Not modeled; the filing carries no urpx:multiplier, no urpx:basedOnPrice and no urpx:PriceSummary. Expressible at v0.5.1: a PriceSummary under the existing PriceSet naming the component Prices, plus a Price carrying multiplier -0.025 and basedOnPrice naming that summary, conforms. Two cautions before building. The PDF never states which charges the 2.5 percent applies to (D.5 gives only the rate; D.1's \"adjusted for any applicable discounts, surcharges, and/or taxes\" is the closest thing to a base and is not a statement), so the base is a source ambiguity; CPAU Rule and Regulation 11, which might settle it, is not committed to this corpus. And a PriceSummary sums the Prices it references, while the charges here are in three units ($/kWh, $/kW and $/month), so each unit needs its own summary and its own discount Price. The above-2-kV condition can only be a urpx:ApplicabilityRule, which turns on a customer attribute this filing carries no value for, so the discount Price would state the condition without distinguishing which customers it reaches.",
+ "Section D.6.b, Sheet E-4-3: Standby Charge per kW of Reserved Capacity for customers with a non-utility generation source interconnected behind the City's revenue meter. Summer $8.88 commodity plus $39.79 distribution, total $48.67; winter $0.00 plus $24.54, total $24.54. Not modeled at all: no reserved-capacity MetricInput, no Ledger, no PriceDefinition, no Price. Expressible at v0.5.1: urpx:standbyCharge is a ChargeTypeValue member and is one of the terms the migration supplied (zero hits at v0.2.1, present at v0.5.1), and four seasonal Prices carrying it on a kW MetricInput conform. Two things to settle first. Reserved Capacity is a contracted quantity rather than a measured one and v0.5.1 has no standard name for it: MeasurementTypeValue has 14 members and none is capacity, while urpx:profileMetricProperty is an open IRI slot with no controlled vocabulary. And whether a customer has an interconnected non-utility generation source is a selection over the plan space rather than a measured quantity, so host the choice on urpx:hasProfileAlternatives, which offers standby and non-standby service as alternatives to select between, rather than on an ApplicabilityRule, which would attach a condition to the standby Prices and offer nothing in their place.",
+ "Section D.3, Sheet E-4-2: for customers with Thermal Energy Storage the Billing Demand is the Maximum Demand between noon and 6 PM on weekdays rather than at all hours. Not modeled; the four demand PriceDefinitions carry only the all-hours basis. The condition cannot live inside the urpx:CalculationMethod, whose shape is sh:closed over nine properties (aggregationMethod, calculatedBasedOn, calculationFormula, description, intervalAlignment, intervalDuration, intervalSelection, intervalType, name) with no condition path. The restructuring does work and validates: a noon-to-18:00 urpx:TimeBracket with dayType urpx:weekdayDays inside a urpx:TOUPeriod on the BillingModel, plus a second set of demand PriceDefinitions at the same unit prices scoped to it. Build it on urpx:hasProfileAlternatives rather than an ApplicabilityRule gate: whether a customer has Thermal Energy Storage is a selection over the plan space, and the two demand bases are alternatives to choose between rather than one basis with a condition attached to it.",
+ "Section D.6.d, Sheet E-4-3: where the customer's Maximum Demand occurs while one or more non-utility generators are not operating, the Maximum Demand is reduced by the sum of those generators' Maximum Generation, \"but in no event shall the Customer's Maximum Demand be reduced below zero\"; and under D.6.d(2), if a generator does not operate for an entire billing cycle the standby charge does not apply and the credit is not given. Not expressible at v0.5.1, and the reason is not an absence of arithmetic vocabulary. urpx:OperationNode exists, documented as \"Expression node for nested arithmetic or derived comparison preparation\", and urpx:OperatorValue has 17 members including urpx:subtractOperator, urpx:addOperator, urpx:multiplyOperator and urpx:divideOperator. What is missing is a path from that arithmetic to a billed quantity: OperationNode is reachable only as leftOperand or rightOperand of a ComparisonNode or another OperationNode, a ConditionExpression reaches it only through rootNode, and the only four shapes hosting urpx:hasConditionExpression are ApplicabilityGroupShape, ApplicabilityRuleShape, EligibilityRuleShape and ProfileAlternativeShape, every one of them a boolean gate. Nothing floors or clamps a determinant either: urpx:priceFloor and urpx:priceCeiling both carry rdfs:domain urpx:DynamicPricing and bound a price, not a demand quantity. urpx:CalculationMethod offers only urpx:calculatedBasedOn, which names source MetricInputs and carries no operator, and free-text urpx:calculationFormula, which no consumer reads. Recordable today only as prose. urpx-org/urpx PR #76, open, proposes urpx:ValueExpression on CalculationMethod with urpx:maxOperator and urpx:minOperator, which would carry the subtraction and its floor at zero into a calculated quantity.",
+ "Section D.6.e(1), Sheet E-4-3: the standby charge does not apply to backup generators designed to operate only during an interruption in utility service and not used to offset customer electricity purchases. The fact cannot be stated as a property of a modeled DER: urpx-shacl:DistributedEnergyResourceShape is sh:closed over exactly 12 properties (connectorType, derType, evChargingCapacity, interconnectionStatus, inverterType, panelOrientation, powerRating, roundTripEfficiency, smartChargingEnabled, solarCapacity, storageCapacity, windCapacity) and none states an operating mode. The exemption is gateable as an opaque urpx:CustomOperandNode predicate, the same route D.6.e(2)'s Public Utilities Code 2827(b)(4) test would take, but the predicate is a free-text property name: it records which attribute decides the exemption and carries neither a value for it nor a definition of it. D.6.e(3), Utilities Director discretion, is not modelable.",
+ "Section D.2, Sheet E-4-1: \"When the billing period includes use both in the Summer and the Winter Periods, the usage will be prorated based on the number of days in each seasonal period, and the charges based on the applicable rates therein.\" This is not the month-granular season model the filing already carries: D.2 prorates by day count, so an October 20 to November 20 bill splits usage by days in each season rather than by which season each metered interval fell in. v0.5.1 has a nominal home, urpx:prorationMethod on BillingModelShape, but it is a bare xsd:string with no controlled vocabulary (ProrationMethodValueShape is empty), its skos:note scopes it to service starting or ending mid-period rather than to a season boundary, and zero of the 72 filings use it. Recordable as prose only. CPAU Rule and Regulation 11, to which D.2 refers the reader, is not committed to this corpus.",
+]
+applicable_modifiers = [
+ "e-4-g",
+ "e-eec-1",
+ "e-hra",
+]
+
+# Review -----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-07-01 version by scripts/build-cpau-version.py: every Price reconciled to the sheets effective 2026-07-01. See [extraction] notes."

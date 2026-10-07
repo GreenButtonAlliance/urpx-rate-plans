@@ -90,22 +90,22 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | State | Utility | Schedule | Type | Versions |
 |---|---|---|---|---|
-| CA | cpau | e-1 | rate-plan | 2025-07-01 |
-| CA | cpau | e-1-tou | rate-plan | 2026-01-01 |
-| CA | cpau | e-14 | rate-plan | 2025-07-01 |
-| CA | cpau | e-16 | rate-plan | 2025-09-01 |
-| CA | cpau | e-2 | rate-plan | 2025-07-01 |
-| CA | cpau | e-2-g | modifier | 2025-07-01 |
+| CA | cpau | e-1 | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-1-tou | rate-plan | 2026-01-01, 2026-07-01 |
+| CA | cpau | e-14 | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-16 | rate-plan | 2025-09-01, 2026-07-01 |
+| CA | cpau | e-2 | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-2-g | modifier | 2025-07-01, 2026-07-01 |
 | CA | cpau | e-3 | rate-plan | 2007-07-01 |
-| CA | cpau | e-4 | rate-plan | 2025-07-01 |
-| CA | cpau | e-4-g | modifier | 2025-07-01 |
-| CA | cpau | e-4-tou | rate-plan | 2025-07-01 |
-| CA | cpau | e-7 | rate-plan | 2025-07-01 |
-| CA | cpau | e-7-g | modifier | 2025-07-01 |
-| CA | cpau | e-7-tou | rate-plan | 2025-07-01 |
-| CA | cpau | e-eec-1 | modifier | 2025-09-01 |
+| CA | cpau | e-4 | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-4-g | modifier | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-4-tou | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-7 | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-7-g | modifier | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-7-tou | rate-plan | 2025-07-01, 2026-07-01 |
+| CA | cpau | e-eec-1 | modifier | 2025-09-01, 2026-07-01 |
 | CA | cpau | e-hra | modifier | 2023-01-01 |
-| CA | cpau | e-nse-1 | modifier | 2025-09-01 |
+| CA | cpau | e-nse-1 | modifier | 2025-09-01, 2026-07-01 |
 | CA | ladwp | ez-save | modifier | 2008-09-01 |
 | CA | ladwp | lifeline | modifier | 2008-09-01 |
 | CA | ladwp | nem | modifier | 2008-09-01 |

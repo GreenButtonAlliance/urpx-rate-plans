@@ -1,0 +1,226 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "cpau": "https://rate-plans.grid-coordination.energy/cpau/",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "cpau:doc-e-7-g-2026-07-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "cpau:e-7-g",
+    "urpx:name": "Palo Alto Green Program (E-7 base)",
+    "urpx:modifierUniqueIdentifier": "CPAU-E-7-G",
+    "urpx:initialEffectiveDate": "2025-07-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "cpau:e-7-g-2026-07-01",
+      "urpx:version": "2026-07-01",
+      "urpx:modifierVersionNumber": "2026-07-01",
+      "urpx:effectiveDateTime": "2026-07-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Palo Alto Green Program modifier on Schedule E-7 (Large Non-Residential Electric Service, demand-metered, >= 1000 kW sustained 3+ months). Applies to E-7 customers participating in the Palo Alto Green Program under the 100% Renewable Option, adding a $0.0075/kWh Palo Alto Green Charge to all energy consumption. Eligibility per Section A of the published Schedule E-7-G: customers who qualify for E-7 Service AND who choose to participate in the Palo Alto Green Program. The 1000 kWh Block Purchase Option ($7.50/block) is also published in the same rate filing but is not modeled here — different metric shape (per-block discrete purchase vs continuous per-kWh consumption); tracked as a follow-up.",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "cpau:e-7"
+        },
+        {
+          "@id": "cpau:e-7-tou"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "cpau:e-7-g-2026-07-01-dsr",
+        "urpx:name": "CPAU Schedule E-7-G (effective 2026-07-01)",
+        "urpx:fileName": "e-7-g_effective_2026-07-01.pdf",
+        "urpx:url": "https://www.paloalto.gov/files/assets/public/v/7/utilities/rates-schedules-for-utilities/commercial-utility-rates/e-7-g_effective_2026-07-01.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:dateRetrieved": "2026-10-06"
+      },
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "cpau:e-7-g-2026-07-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "cpau:e-7-g-2026-07-01-mi-energy",
+            "urpx:name": "Energy consumed (kWh)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "cpau:e7g-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:forward"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "cpau:e-7-g-2026-07-01-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "cpau:e-7-g-2026-07-01-ledger-green-charge",
+              "urpx:name": "Palo Alto Green Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-7-g-2026-07-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "cpau:e-7-g-2026-07-01-pd-green-charge",
+              "urpx:name": "Palo Alto Green Charge (100% Renewable Option)",
+              "urpx:chargeType": {
+                "@id": "urpx:renewableFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:supplyPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "cpau:e-7-g-2026-07-01-ledger-green-charge"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "cpau:e-7-g-2026-07-01-mi-energy"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "cpau:e-7-g-2026-07-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "cpau:e-7-g-2026-07-01-price-set",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "cpau:e-7-g-2026-07-01-price-green-charge",
+                "urpx:name": "Palo Alto Green Charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "cpau:e-7-g-2026-07-01-pd-green-charge"
+                },
+                "urpx:startDate": "2026-07-01",
+                "urpx:unitPrice": "0.0075"
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-cpau",
+        "urpx:legalName": "City of Palo Alto Utilities",
+        "urpx:organizationType": {
+          "@id": "urpx:municipalOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-cpau-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-cpau-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "City of Palo Alto Utilities"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-cpau-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "3203"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "cpau:e-7-g"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "cpau:cc-e-7-g-2026-07-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "cpau:cc-e-7-g-2026-07-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries only what the Palo Alto Green Program adds to Schedule E-7: the $0.0075 per kWh Palo Alto Green Charge of Section C.1, the 100% Renewable Option. Section C.2, the 1000 kWh Block Purchase Option, is not represented. A customer on that option pays no per-kWh green adder and instead has CPAU buy a designated number of 1,000 kWh blocks of renewable energy credits at $7.50 per block, requested and revised in writing under Section D.6, which is a count of blocks rather than metered consumption, so there is nothing here to price such a customer with. Everything else the published Schedule E-7-G prints is Schedule E-7 restated: the summer and winter commodity, distribution and public benefits energy components, the two-part demand charge and the $604.09 monthly customer charge carry the same values as the cpau:e-7 base filing, and the Section D special notes are E-7's. Four of those notes are unmodeled in the base as well, so a consumer who composes this modifier onto cpau:e-7 still will not have them: D.7 Primary Voltage Discount, 2.8 percent for customers taking service at the supply line voltage above 2 kV; D.9 Standby Charge, $42.61 per kW of reserved capacity in summer and $28.99 in winter for customers with a non-utility generation source on their side of the revenue meter, together with its maximum demand credit and its exemptions for backup-only generators and for eligible customer-generators under Public Utilities Code Section 2827(b)(4); the D.3 exception under which billing demand for Thermal Energy Storage customers is taken from the noon to 6 PM weekday window rather than from all hours; and D.4 Request for Service, which lets a qualifying customer take service under this schedule for more than one account or meter where the accounts cover contiguous parcels with no intervening public right-of-way and share a common billing address, an aggregation URPX v0.5.1 gives no site or account class to scope. The rest of D.3, the demand meter installation rule and the City's option to measure over a 5-minute interval or with a thermal-type meter, is out of scope rather than missing, being a metering operation and not a rate, as is the D.5 right to request a change of rate schedule.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}
