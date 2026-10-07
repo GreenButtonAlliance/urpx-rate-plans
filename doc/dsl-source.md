@@ -1,12 +1,12 @@
 # Filings authored as Clojure source
 
-The 9 Seattle City Light documents are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
+The Seattle City Light documents are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
 
 ## Evidence
 
-All 9 Seattle City Light documents (RTC and RTS 2026 to 2028, and the residential-suburban modifier 2026 to 2028) generate from one source tree and equal the committed files byte for byte. The SCL source is 401 lines in 4 namespaces, over 942 lines of generic namespaces in `src/rate_plans/`; RTS is 31, most of it a rates table copied from the ordinance's year columns. The committed RTC 2026 JSON-LD alone is 829 lines.
+The Seattle City Light documents (RTC and RTS for each year, and the residential-suburban modifier) generate from one source tree and equal their committed files byte for byte; the gate checks this on every commit. The source is mostly tables copied from the ordinance's year columns.
 
-clj-urpx 0.44.0 loads all 117 corpus documents. Emitted with each file's own @context over `urpx.emit/default-context`, all 117 are RDF-identical to their files. With each file's own @context alone, 95 are; the other 22 lose the `xsd:date` datatype of `urpx:holidayDate` values typed inline, which their @context does not declare.
+Every corpus document round-trips through clj-urpx RDF-identically when emitted with its own @context over `urpx.emit/default-context`. With its own @context alone, a document whose @context does not declare `urpx:holidayDate` loses that datatype on values typed inline.
 
 ## Requirements
 
@@ -111,9 +111,9 @@ Each has a working workaround in the SCL source.
 
 ## Acceptance
 
-The 9 SCL documents are generated from `src/rate_plans/us/wa/scl/`, and `dev/check_generated.py` requires each to equal its committed file byte for byte. Its scope is every utility the generator writes a document for: a committed document of such a utility that is not generated fails as MISSING, a generated one with no committed file as EXTRA, a hash that cannot be computed as NOHASH, and a byte mismatch as DIFF or FORMAT by RDF hash. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
+The SCL documents are generated from `src/rate_plans/us/wa/scl/`, and `dev/check_generated.py` requires each to equal its committed file byte for byte. Its scope is every utility the generator writes a document for: a committed document of such a utility that is not generated fails as MISSING, a generated one with no committed file as EXTRA, a hash that cannot be computed as NOHASH, and a byte mismatch as DIFF or FORMAT by RDF hash. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
 
-Next, PSE Schedules 307 and 327, which share 19 riders and two Summary-Sheet versions: the first test of the helpers on a second utility.
+Next, PSE Schedules 307 and 327, which share riders and Summary-Sheet versions: the first test of the helpers on a second utility.
 
 ## Open questions
 
