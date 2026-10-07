@@ -1,0 +1,32 @@
+{
+  "description": "Validation results dropped because a filing uses a term proposed in an open urpx-org/urpx pull request. One entry per pull request. An entry drops nothing once the shapes in use name any of its 'defines' terms as an sh:path. A result is dropped only when its sh:resultPath ('path', null at node level) and sh:sourceConstraintComponent match and its focus node passes the named 'focus' test against the data graph without the ontology mixed in. The focus tests are implemented in dev/shacl_gate.clj and dev/validate-with-base.py; dev/test_shacl_gate.clj and dev/test_shape_exceptions.py hold the negatives. Delete an entry once the pinned revisions carry its pull request.",
+  "prefixes": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "sh": "http://www.w3.org/ns/shacl#"
+  },
+  "entries": [
+    {
+      "name": "DAYS_OF_WEEK_EXCEPTION",
+      "cites": "https://github.com/urpx-org/urpx/pull/71",
+      "summary": "urpx:daysOfWeek on a urpx:TimeBracket",
+      "defines": ["urpx:daysOfWeek"],
+      "results": [
+        {"path": "urpx:daysOfWeek", "component": "sh:ClosedConstraintComponent", "focus": "time-bracket"}
+      ]
+    },
+    {
+      "name": "BOUND_OFFSET_EXCEPTION",
+      "cites": "https://github.com/urpx-org/urpx/pull/80",
+      "summary": "adjusting urpx:ServiceBracket, its host urpx:ServiceTier and billing model",
+      "defines": ["urpx:adjustsServiceTier", "urpx:lowerBoundOffset", "urpx:upperBoundOffset"],
+      "results": [
+        {"path": "urpx:adjustsServiceTier", "component": "sh:ClosedConstraintComponent", "focus": "adjusting-bracket"},
+        {"path": "urpx:lowerBoundOffset", "component": "sh:ClosedConstraintComponent", "focus": "adjusting-bracket"},
+        {"path": "urpx:upperBoundOffset", "component": "sh:ClosedConstraintComponent", "focus": "adjusting-bracket"},
+        {"path": null, "component": "sh:OrConstraintComponent", "focus": "adjusting-bracket"},
+        {"path": "urpx:serviceTierNumber", "component": "sh:MinCountConstraintComponent", "focus": "host-tier"},
+        {"path": "urpx:hasPriceDefinition", "component": "sh:MinCountConstraintComponent", "focus": "bounds-only-billing-model"}
+      ]
+    }
+  ]
+}

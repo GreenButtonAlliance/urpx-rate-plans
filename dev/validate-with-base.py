@@ -196,20 +196,12 @@ def violation_keys(results_graph: rdflib.Graph) -> list[tuple[str, str, str]]:
 # A filing may use a term proposed in an open urpx-org/urpx pull request ahead of
 # any URPX release. At a shape revision without that proposal the corpus fails
 # on exactly the results the proposal's own shape changes would remove, and
-# nothing else. SHAPE_EXCEPTIONS names those results, one entry per pull
-# request, so that they and only they are dropped:
-#
-#   defines   the terms the proposal adds. An entry switches itself off, and
-#             drops nothing, when the shapes in use name any of them as an
-#             sh:path, so it cannot outlive the release that carries it.
-#   results   (path, component, focus test) triples. A result is excepted only
-#             when its sh:resultPath and sh:sourceConstraintComponent match and
-#             its focus node passes the test against the data graph. Every
-#             other result, including any other result on the same node, still
-#             counts.
-#
-# Delete an entry, and the filings stop needing it, once the pinned revisions
-# carry its pull request. dev/test_shape_exceptions.py holds the negatives.
+# nothing else. dev/shape-exceptions.json names those results, one entry per
+# pull request; dev/shacl_gate.clj reads the same table. Each result names a
+# focus test, implemented here and there, that its focus node must pass against
+# the data graph. An entry switches itself off, and drops nothing, when the
+# shapes in use name any of its terms as an sh:path. dev/test_shape_exceptions.py
+# and dev/test_shacl_gate.clj hold the negatives.
 URPX = rdflib.Namespace("https://urpx.org/ns/ontology/")
 _BOUND_TERMS = (URPX.lowerBound, URPX.lowerBoundOperator, URPX.upperBound, URPX.upperBoundOperator)
 _OFFSET_TERMS = (URPX.lowerBoundOffset, URPX.upperBoundOffset)
@@ -270,37 +262,39 @@ def _bounds_only_billing_model(g, node) -> bool:
                for b in g.objects(t, URPX.hasServiceBracket))
 
 
-SH_CLOSED = str(SH.ClosedConstraintComponent)
-SH_OR = str(SH.OrConstraintComponent)
-SH_MIN = str(SH.MinCountConstraintComponent)
+# ServiceBracketShape's three branches all require a bound or forbid neither;
+# #80 adds the branch an adjusting bracket satisfies, hence the node-level sh:or
+# result the table excepts.
+FOCUS_TESTS = {
+    "time-bracket": _time_bracket,
+    "adjusting-bracket": _adjusting_bracket,
+    "host-tier": _host_tier,
+    "bounds-only-billing-model": _bounds_only_billing_model,
+}
 
-SHAPE_EXCEPTIONS = [
-    {
-        "name": "DAYS_OF_WEEK_EXCEPTION",
-        "cites": "https://github.com/urpx-org/urpx/pull/71",
-        "summary": "urpx:daysOfWeek on a urpx:TimeBracket",
-        "defines": (URPX.daysOfWeek,),
-        "results": (
-            (str(URPX.daysOfWeek), SH_CLOSED, _time_bracket),
-        ),
-    },
-    {
-        "name": "BOUND_OFFSET_EXCEPTION",
-        "cites": "https://github.com/urpx-org/urpx/pull/80",
-        "summary": "adjusting urpx:ServiceBracket, its host urpx:ServiceTier and billing model",
-        "defines": (URPX.adjustsServiceTier, URPX.lowerBoundOffset, URPX.upperBoundOffset),
-        "results": (
-            (str(URPX.adjustsServiceTier), SH_CLOSED, _adjusting_bracket),
-            (str(URPX.lowerBoundOffset), SH_CLOSED, _adjusting_bracket),
-            (str(URPX.upperBoundOffset), SH_CLOSED, _adjusting_bracket),
-            # ServiceBracketShape's three branches all require a bound or forbid
-            # neither; #80 adds the branch an adjusting bracket satisfies.
-            ("None", SH_OR, _adjusting_bracket),
-            (str(URPX.serviceTierNumber), SH_MIN, _host_tier),
-            (str(URPX.hasPriceDefinition), SH_MIN, _bounds_only_billing_model),
-        ),
-    },
-]
+
+def load_shape_exceptions(path: Path = REPO_ROOT / "dev" / "shape-exceptions.json") -> list[dict]:
+    """The table, CURIEs expanded, a node-level path spelled "None" as the keys
+    spell it, and each focus test resolved to its function."""
+    table = json.loads(path.read_text(encoding="utf-8"))
+    prefixes = table["prefixes"]
+
+    def expand(curie):
+        prefix, local = curie.split(":", 1)
+        return prefixes[prefix] + local
+
+    return [{
+        "name": e["name"],
+        "cites": e["cites"],
+        "summary": e["summary"],
+        "defines": tuple(rdflib.URIRef(expand(t)) for t in e["defines"]),
+        "results": tuple(("None" if r["path"] is None else expand(r["path"]),
+                          expand(r["component"]),
+                          FOCUS_TESTS[r["focus"]]) for r in e["results"]),
+    } for e in table["entries"]]
+
+
+SHAPE_EXCEPTIONS = load_shape_exceptions()
 
 
 def active_exceptions(shapes_graph: rdflib.Graph) -> list[dict]:
