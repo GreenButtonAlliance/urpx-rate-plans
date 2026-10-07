@@ -71,6 +71,12 @@ REPO = Path(__file__).resolve().parent.parent
 # refuses if a RIN is ever lifted into a urpx:RatePlanIdentifier or
 # urpx:RatePlanModifierIdentifier, which is the decision that report records.
 # test_rate_identifiers fires every one of those guards against broken input.
+#
+# check_generated regenerates every document that has Clojure source under src/
+# and requires each to equal its committed file by RDF hash. In the pre-commit
+# hook it runs in the checkout of the index, so it judges the staged tree.
+# test_dsl_validation requires each invalid fixture under dev/fixtures/dsl/ to
+# fail to load with an error naming its file, line and bad values.
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
@@ -100,6 +106,8 @@ STEPS: list[tuple[str, list[str]]] = [
     ("test_rdf_hash",               ["python3", "dev/test_rdf_hash.py"]),
     ("test_sandbox_export",         ["python3", "dev/test_sandbox_export.py"]),
     ("test_fetch_unwrap",           ["python3", "dev/test_fetch_unwrap.py"]),
+    ("check_generated",             ["python3", "dev/check_generated.py"]),
+    ("test_dsl_validation",         ["clojure", "-M", "-m", "test-dsl-validation"]),
 ]
 
 

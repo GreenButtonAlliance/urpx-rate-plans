@@ -202,6 +202,37 @@ run_scm_shacl() {
     fi
 }
 
+# Every document with Clojure source under src/ (doc/dsl-source.md), regenerated
+# and compared with its committed file by RDF hash, in the working tree. About
+# 4 s. --full runs the same check inside dev/check_all.py.
+# Exit 1 a document differs, is missing or extra, 3 refused.
+run_generated() {
+    note "Generated from source"
+    if python3 dev/check_generated.py > "$LOGDIR"/generated.log 2>&1; then
+        tail -1 "$LOGDIR"/generated.log
+    else
+        rc=$?
+        cat "$LOGDIR"/generated.log
+        record $rc
+    fi
+}
+
+# The Clojure source under src/, with the hooks clj-urpx exports in its jar
+# (copied into .clj-kondo/imports).
+run_clj_kondo() {
+    note "clj-kondo"
+    if command -v clj-kondo >/dev/null 2>&1; then
+        if clj-kondo --lint src > "$LOGDIR"/kondo.log 2>&1; then
+            tail -1 "$LOGDIR"/kondo.log
+        else
+            cat "$LOGDIR"/kondo.log
+            record 1
+        fi
+    else
+        echo "  clj-kondo not installed; skipped"
+    fi
+}
+
 case "$MODE" in
 --fast)
     run_clojure_gate
@@ -425,6 +456,9 @@ case "$MODE" in
         cat "$LOGDIR"/walkers.log
         record $rc
     fi
+
+    run_generated
+    run_clj_kondo
 
     targets="$*"
     [ -z "$targets" ] && targets=$(touched_utilities)
@@ -659,6 +693,8 @@ case "$MODE" in
     note "Sandbox drift (informational)"
     python3 dev/check_sandbox_drift.py 2>&1 | sed 's/^/  /'
     echo "  This step does not affect the exit code."
+
+    run_clj_kondo
 
     note "REUSE licensing"
     if command -v reuse >/dev/null 2>&1; then
