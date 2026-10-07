@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections import OrderedDict
+from decimal import Decimal
 from pathlib import Path
 
 FILING_DIR = Path("ca/iou/sdge/nbt/versions/2025-01-27")
@@ -133,7 +134,7 @@ def emit_prices(values: dict) -> list[dict]:
                         month_short = MONTHS_SHORT[month_idx]
                         raw_val = comp_values[month_short][daytype][hour]
                         # Credit polarity — negate (matches PG&E NBT pattern)
-                        signed_val = "0.000000" if float(raw_val) == 0 else f"-{raw_val}"
+                        signed_val = "0.000000" if Decimal(raw_val) == 0 else format(-Decimal(raw_val), "f")
                         component_label = "Generation" if component == "generation" else "Delivery"
 
                         price = OrderedDict([

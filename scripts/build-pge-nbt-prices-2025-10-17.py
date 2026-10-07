@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections import OrderedDict
+from decimal import Decimal
 from pathlib import Path
 
 FILING_DIR = Path("ca/iou/pge/nbt/versions/2025-10-17")
@@ -134,7 +135,7 @@ def emit_prices(values_by_vintage: dict) -> list[dict]:
                         # Credit polarity — negate value (matches the ACC Plus pattern).
                         # PG&E publishes positive $/kWh-exported; we encode as
                         # negative unitPrice to indicate credit toward customer bill.
-                        signed_val = "0.00000" if float(raw_val) == 0 else f"-{raw_val}"
+                        signed_val = "0.00000" if Decimal(raw_val) == 0 else format(-Decimal(raw_val), "f")
                         price = OrderedDict([
                             ("@type", "urpx:Price"),
                             ("@id",

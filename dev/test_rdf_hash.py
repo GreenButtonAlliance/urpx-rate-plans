@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import sys
+from decimal import Decimal
 from pathlib import Path
 
 from rdflib import Graph
@@ -75,7 +76,7 @@ def main() -> int:
 
     changed = json.loads(text)
     price = first_unit_price(changed["@graph"])
-    price["urpx:unitPrice"] = str(float(price["urpx:unitPrice"]) + 0.01)
+    price["urpx:unitPrice"] = format(Decimal(price["urpx:unitPrice"]) + Decimal("0.01"), "f")
     check("changing a price changes the hash", rdf_sha256_text(json.dumps(changed)) != base)
 
     added = json.loads(text)
