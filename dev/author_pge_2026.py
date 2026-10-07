@@ -778,8 +778,29 @@ def _ev2(t: str) -> str:
     return t.replace(" The corpus carries it where it is nonzero, at $0.00792 per kWh on pge/e-elec 2026-03-27.", "")
 
 
+# Measurements the 2026-03-01 deferrals report, re-taken on the 2026-06-01 version
+# with clj-urpx 0.44.0 on 2026-10-07 (the ledger counts are also baseline rows).
+E1_MEASURED = [
+    ("Measured 2026-09-23: the base plan alone resolves 4 ledgers and composed with the modifier 5, and the "
+     "marginal rate 0.32561 is the same either way",
+     "Measured on this version 2026-10-07: at 2026-07-15T17:00-07:00 the base plan alone resolves 4 ledgers and "
+     "composed with the modifier 5 (5 and 6 at 2026-09-07T17:00-07:00, when the Climate Credit applies), and the "
+     "marginal rate 0.32561 is the same either way"),
+    ("Measured 2026-09-23 with a cell nominated, at 2026-07-15T17:00-07:00 and at 2026-12-15T17:00-08:00: all six "
+     "tiers resolve with identical bounds at both instants.",
+     "Measured on this version 2026-10-07 with Territory P Code B nominated, at 2026-07-15T17:00-07:00 and at "
+     "2026-12-15T17:00-08:00: all six tiers resolve at both instants with identical bounds (summer 13.5, 54.0; "
+     "winter 11.0, 44.0)."),
+]
+
+
 def _e1(t: str) -> str:
-    return t.replace("Sheet 1, 61247-E)", "Sheet 1, 61362-E)").replace("Sheet 1 (61247-E)", "Sheet 1 (61362-E)")
+    t = t.replace("Sheet 1, 61247-E)", "Sheet 1, 61362-E)").replace("Sheet 1 (61247-E)", "Sheet 1 (61362-E)")
+    for old, new in E1_MEASURED:
+        t = t.replace(old, new)
+    if "Measured 2026-09-23" in t:
+        raise SystemExit("e-1 2026-06-01: a 2026-03-01 measurement survives in a deferral")
+    return t
 
 
 def _nbt(t: str) -> str:
@@ -896,6 +917,27 @@ def fix_held() -> None:
     p.write_text("\n".join(lines), encoding="utf-8")
     p = PGE / "ev2/versions/2026-03-27/tariff.toml"
     p.write_text(_ev2(p.read_text(encoding="utf-8")), encoding="utf-8")
+    leaves()
+
+
+def leaves() -> None:
+    """The 2026-03-27 E-TOU-D and EV2 data source references named leaves of
+    other documents (E-TOU-D 61249-E to 61255-E, its PCIA 61254-E; EV2 61255-E
+    to 61261-E, its PCIA 61259-E). Each is restated from its own PDF's pages,
+    in every document that carries the node."""
+    for slug in ("e-tou-d", "ev2"):
+        sh = {x["page"]: x["leaf"] for x in sheets(PGE / slug / f"versions/2026-03-27/pge_{slug}_2026-03-27.pdf")}
+        for p in sorted((PGE / slug / "versions").glob(f"*/rate-plan_pge_{slug}_*.jsonld")):
+            doc = load(p)
+            owners = [version_node(doc)] if version_node(doc)["@id"] == f"pge:{slug}-2026-03-27" else []
+            owners += [package(doc)["urpx:hasRatePlanModifier"]["urpx:hasRatePlanModifierVersion"]]
+            for v in owners:
+                if not v["@id"].endswith("2026-03-27"):
+                    continue
+                dsr = v["urpx:hasDataSourceReference"]
+                got = sorted(sh[n] for n in range(dsr["urpx:pageStart"], dsr["urpx:pageEnd"] + 1))
+                dsr["urpx:leafStart"], dsr["urpx:leafEnd"] = got[0], got[-1]
+            dump(p, doc)
 
 
 RIN_NOTE = re.compile(r" \(MIDAS RIN: USCA-[A-Z0-9-]+ [^)]*\)")
