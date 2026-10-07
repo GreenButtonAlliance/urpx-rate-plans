@@ -13,7 +13,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 list_kind() {
-    jq -r --arg k "$1" '.roots[] as $r | .kinds[$k].include[] | ":(glob)\($r)/\(.)"' corpus.json |
+    jq -r --arg k "$1" '(.kinds[$k].roots // .roots)[] as $r | .kinds[$k].include[] | ":(glob)\($r)/\(.)"' corpus.json |
         while IFS= read -r spec; do
             git ls-files --cached --others --exclude-standard -- "$spec"
         done

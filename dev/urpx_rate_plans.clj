@@ -32,24 +32,30 @@
   [^File dir ^File f]
   (str/replace (str (.relativize (.toPath dir) (.toPath f))) File/separator "/"))
 
+(defn- kind-paths
+  "Repo-relative paths of the files of one kind: its include globs under its
+   own roots when it lists them, else under the corpus roots."
+  [root lay kind]
+  (let [spec     (get-in lay ["kinds" kind])
+        fs       (FileSystems/getDefault)
+        matchers (mapv #(.getPathMatcher fs (str "glob:" %)) (get spec "include"))
+        top      (io/file root)]
+    (for [r (or (get spec "roots") (get lay "roots"))
+          :let [dir (io/file root r)]
+          ^File f (file-seq dir)
+          :when (.isFile f)
+          :let [p (.getPath fs (rel dir f) (make-array String 0))]
+          :when (some #(.matches ^java.nio.file.PathMatcher % ^Path p) matchers)]
+      (rel top f))))
+
 (defn paths
   "Repo-relative paths of every file of `kinds` (default: the documents),
    sorted."
   ([root] (paths root nil))
   ([root kinds]
-   (let [{:strs [roots documents] :as lay} (layout root)
-         patterns (mapcat #(get-in lay ["kinds" % "include"]) (or (seq kinds) documents))
-         fs       (FileSystems/getDefault)
-         matchers (mapv #(.getPathMatcher fs (str "glob:" %)) patterns)
-         top      (io/file root)]
-     (->> roots
-          (mapcat (fn [r]
-                    (let [dir (io/file root r)]
-                      (for [^File f (file-seq dir)
-                            :when (.isFile f)
-                            :let [p (.getPath fs (rel dir f) (make-array String 0))]
-                            :when (some #(.matches ^java.nio.file.PathMatcher % ^Path p) matchers)]
-                        (rel top f)))))
+   (let [lay (layout root)]
+     (->> (or (seq kinds) (get lay "documents"))
+          (mapcat #(kind-paths root lay %))
           distinct
           sort
           vec))))

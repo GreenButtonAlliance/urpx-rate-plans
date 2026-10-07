@@ -36,20 +36,22 @@ LAYOUT = json.loads((REPO / "corpus.json").read_text())
 COUNTRY_ROOTS = tuple(LAYOUT["roots"])
 
 
-def _glob(pattern: str) -> list[Path]:
+def _glob(pattern: str, roots=COUNTRY_ROOTS) -> list[Path]:
     out: list[Path] = []
-    for root in COUNTRY_ROOTS:
+    for root in roots:
         out.extend((REPO / root).glob(pattern))
     return sorted(out)
 
 
 def paths(*kinds: str) -> list[Path]:
     """Every file of the given kinds, as corpus.json declares them; with no
-    kinds, the kinds corpus.json lists as documents."""
+    kinds, the kinds corpus.json lists as documents. A kind that lists its own
+    roots is walked under those instead of the corpus roots."""
     out: set[Path] = set()
     for kind in kinds or LAYOUT["documents"]:
-        for pattern in LAYOUT["kinds"][kind]["include"]:
-            out.update(_glob(pattern))
+        spec = LAYOUT["kinds"][kind]
+        for pattern in spec["include"]:
+            out.update(_glob(pattern, spec.get("roots", COUNTRY_ROOTS)))
     return sorted(out)
 
 
