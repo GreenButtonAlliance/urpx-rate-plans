@@ -2,7 +2,9 @@
 
  :deps {energy.grid-coordination/clj-urpx
         {:mvn/version "0.44.0"}
-        org.clojure/data.json {:mvn/version "2.5.1"}}
+        org.clojure/data.json {:mvn/version "2.5.1"}
+        com.dcj/clj-shacl {:mvn/version "0.2.0"}
+        org.slf4j/slf4j-nop {:mvn/version "2.0.18"}}
 
  :aliases
  {:validate {:main-opts ["-m" "validate-v020"]}
@@ -12,6 +14,8 @@
   :coverage {:main-opts ["-m" "lint-resolution-coverage"]}
 
   :nbt-export {:main-opts ["-m" "check-nbt-export"]}
+
+  :shacl {:main-opts ["-m" "shacl-gate"]}
 
   :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.6.0"}
                        cider/cider-nrepl {:mvn/version "0.50.3"}}
