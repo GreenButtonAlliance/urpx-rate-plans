@@ -107,6 +107,7 @@ which is why the corpus is read as one graph (§2).
     "rate-plan": { "include": ["**/versions/*/rate-plan_*.jsonld"] },
     "rate-plan-modifier": { "include": ["**/versions/*/rate-plan-modifier_*.jsonld"] },
     "tariff-manifest": { "include": ["**/versions/*/tariff.toml"] },
+    "source-document": { "include": ["**/versions/*/*.pdf"] },
     "utility-manifest": { "include": ["*/*/utility.toml"] },
     "clojure-source": { "roots": ["src"], "include": ["rate_plans/*.clj", "rate_plans/**/*.clj"] }
   },
@@ -136,6 +137,8 @@ Every walker's CLI follows one contract. It prints repo-relative POSIX paths, on
 The bash walker lists files through `git ls-files`, so it sees tracked files plus untracked ones that are not ignored; the others read the file system. clj-urpx's `dev/corpus_sweep.clj` takes `--layout urpx-rate-plans` and calls `sources`.
 
 Each walker reads the same declaration, but glob semantics still differ between pathlib, `java.nio`, git and babashka. `dev/check_walkers.py` runs every listed walker and fails the gate (`dev/gate.sh`, both modes) unless all of them print exactly what `dev/corpus.py` computes. A walker whose runtime is not installed is skipped by name, and fewer than two walkers running refuses rather than passes.
+
+`dev/build_catalog.py` walks the corpus this way to write `catalog/`, a DCAT catalog of every filing as JSON-LD and CSV; [catalog/README.md](./catalog/README.md) describes it.
 
 ## 4. Per-filing manifest: `tariff.toml`
 

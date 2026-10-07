@@ -217,6 +217,20 @@ run_generated() {
     fi
 }
 
+# catalog/ rebuilt in memory and compared with the committed files. About 10 s.
+# --full runs the generator inside dev/check_all.py, whose drift check catches
+# the same difference. Exit 2 the catalog differs, 1 a filing cannot be summarized.
+run_catalog() {
+    note "Corpus catalog"
+    if python3 dev/build_catalog.py --check > "$LOGDIR"/catalog.log 2>&1; then
+        tail -1 "$LOGDIR"/catalog.log
+    else
+        rc=$?
+        cat "$LOGDIR"/catalog.log
+        record $rc
+    fi
+}
+
 # The Clojure source under src/, with the hooks clj-urpx exports in its jar
 # (copied into .clj-kondo/imports).
 run_clj_kondo() {
@@ -472,6 +486,7 @@ case "$MODE" in
     fi
 
     run_generated
+    run_catalog
     run_clj_kondo
 
     targets="$*"

@@ -77,6 +77,10 @@ REPO = Path(__file__).resolve().parent.parent
 # hook it runs in the checkout of the index, so it judges the staged tree.
 # test_dsl_validation requires each invalid fixture under dev/fixtures/dsl/ to
 # fail to load with an error naming its file, line and bad values.
+#
+# build_catalog writes catalog/, the DCAT catalog of the corpus, and refuses
+# rather than writes when any filing cannot be summarized. The pre-commit hook
+# stages catalog/ beside reports/.
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
@@ -85,6 +89,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("list_version_continuity",     ["python3", "dev/list_version_continuity.py"]),
     ("list_rate_identifiers",       ["python3", "dev/list_rate_identifiers.py"]),
     ("list_rate_plans_to_model",    ["python3", "dev/list_rate_plans_to_model.py"]),
+    ("build_catalog",               ["python3", "dev/build_catalog.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
     ("lint_copy_divergence",        ["python3", "dev/lint_copy_divergence.py"]),
@@ -108,6 +113,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("test_rdf_hash",               ["python3", "dev/test_rdf_hash.py"]),
     ("test_sandbox_export",         ["python3", "dev/test_sandbox_export.py"]),
     ("test_fetch_unwrap",           ["python3", "dev/test_fetch_unwrap.py"]),
+    ("test_build_catalog",          ["python3", "dev/test_build_catalog.py"]),
     ("check_generated",             ["python3", "dev/check_generated.py"]),
     ("test_dsl_validation",         ["clojure", "-M", "-m", "test-dsl-validation"]),
 ]

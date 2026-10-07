@@ -37,6 +37,8 @@ Each `<country>/<subdivision>/<utility>/` directory also carries a `utility.toml
 
 To enumerate the corpus from code, read [`corpus.json`](./corpus.json) or run one of the walkers it lists, in Python, Clojure, babashka or bash ([LAYOUT.md §3b](./LAYOUT.md#3b-walking-the-corpus-corpusjson)).
 
+[`catalog/`](./catalog/) holds a generated DCAT catalog of every filing, as JSON-LD and CSV: utility, jurisdiction, schedule, version dates, declared URPX version, completeness, and each document and source PDF with its size and sha256 ([catalog/README.md](./catalog/README.md)).
+
 ### Scenario cost models
 
 A **scenario cost model** is URPX's `urpx:ScenarioCostModel`, read as a fully determined selection over the plan space: one `urpx:RatePlanVersion`, plus the `urpx:RatePlanModifierVersion`s applied to it, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open. *Fully determined* means nothing remains to choose: given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one scenario cost model but several.

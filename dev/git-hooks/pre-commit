@@ -1,9 +1,9 @@
 #!/bin/bash
 # Pre-commit hook: regenerate derived reports when tariff filings change.
 #
-# When any us/**/*.toml or us/**/*.jsonld is staged, re-runs the report
+# When any us/**/*.toml, us/**/*.jsonld or us/**/*.pdf is staged, re-runs the report
 # generators (the list lives in dev/check_all.py) against the staged tree and
-# stages any resulting reports/ changes into the same commit. Docs-only commits
+# stages any resulting reports/ or catalog/ changes into the same commit. Docs-only commits
 # (README, LAYOUT, etc.) skip the hook and don't slow down.
 #
 # Install (one-time, per-checkout):
@@ -44,7 +44,7 @@ set -euo pipefail
 # ACMRD, not ACMR: D is deletion. Removing a filing is a corpus change like any
 # other, and under ACMR a commit that only deleted filings matched nothing here
 # and skipped the gate outright.
-if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld)|src/.*\.clj|dev/[^/]+\.(py|sh|clj)|dev/baseline/.*\.(edn|json))$'; then
+if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld|pdf)|src/.*\.clj|dev/[^/]+\.(py|sh|clj)|dev/baseline/.*\.(edn|json))$'; then
     exit 0
 fi
 
@@ -69,7 +69,7 @@ echo "pre-commit: tariff filings staged → regenerating reports from the index.
 # generators in the checkout pulled unstaged edits to their inputs into reports
 # staged with an unrelated commit. So the staged tree is checked out into a
 # throwaway repository (borrowing this one's objects, so nothing is copied but
-# the files), the generators run there, and only the reports/ paths they change
+# the files), the generators run there, and only the reports/ and catalog/ paths they change
 # are staged back. git rather than a bare directory, because
 # list_rate_identifiers reads `git ls-files`.
 tmp_root=${TMPDIR:-/tmp}
@@ -99,11 +99,11 @@ if ! in_gen_root python3 dev/check_all.py --generators-only; then
     exit 1
 fi
 
-# Stage each reports/ path the generators changed. The working copy is brought
+# Stage each reports/ or catalog/ path the generators changed. The working copy is brought
 # along only when it held exactly the staged version; a working copy with edits
 # of its own is left alone, and only the index gets the regenerated file.
 changes="$gen_root/.git/hook-changes"
-in_gen_root git status --porcelain -z --untracked-files=all -- reports/ > "$changes"
+in_gen_root git status --porcelain -z --untracked-files=all -- reports/ catalog/ > "$changes"
 staged_any=0
 while IFS= read -r -d '' entry; do
     st=${entry:0:2}
@@ -131,9 +131,9 @@ while IFS= read -r -d '' entry; do
 done < "$changes"
 
 if [ "$staged_any" -eq 1 ]; then
-    echo "pre-commit: staged regenerated files in reports/"
+    echo "pre-commit: staged regenerated files in reports/ and catalog/"
 else
-    echo "pre-commit: reports/ already current — no changes to stage."
+    echo "pre-commit: reports/ and catalog/ already current — no changes to stage."
 fi
 
 fi
