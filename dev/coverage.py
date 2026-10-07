@@ -77,8 +77,8 @@ def discover_modeled_rate_plans() -> dict[tuple[str, str], ModeledRatePlan]:
                                          state=corpus.subdivision_of(jsonld))
         elif not is_modifier:
             # A schedule is a base plan if it has a base plan, whatever else sits
-            # beside it. One directory holds both: PG&E E-TOU-C 2026-03-01 packages
-            # the base with its baseline-tier modifier. This flag used to be set by
+            # beside it. One directory holds both: PG&E E-1 2026-03-01 packages
+            # the base with its income-tier modifier. This flag used to be set by
             # whichever of the two the walk reached first, so it was decided by
             # filesystem order. That read as correct only because the order happened
             # to favor the base; under any sorted order "rate-plan-modifier_" comes

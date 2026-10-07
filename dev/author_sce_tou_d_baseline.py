@@ -520,7 +520,7 @@ NEW_DEFERRALS = [
      "baseline is then proportionately billed to winter and summer periods based upon the percentage of "
      "customer-consumption registered during the winter and summer seasons.\" The Tier 1 and Tier 2 brackets "
      "carry the Sheet 2 and Sheet 3 quantities as kWh-per-day bounds on a kWh MetricInput, qualified by season, "
-     "as pge:e-tou-c-baseline-tier does. Nothing in the filing states the daily basis, the multiplication by the "
+     "as pge:e-tou-c does. Nothing in the filing states the daily basis, the multiplication by the "
      "days of each season in a billing period, or the proration by consumption, so a consumer must scale the "
      "bounds to the billing period itself."),
     ("Preliminary Statement Part H, paragraph 4: \"The standard Medical Baseline Allocation will be 16.5 kWh per "

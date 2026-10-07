@@ -34,7 +34,7 @@ residential bases this corpus holds, and urpx:applicableToRatePlan names them.
 
 The schedule states no date of first introduction, so
 urpx:initialEffectiveDate carries this version's date, as pge:e-1-income-tier
-and pge:e-tou-c-baseline-tier do.
+does.
 """
 
 # Validation ------------------------------------------------------------------
@@ -52,7 +52,6 @@ deferrals = [
  "Nothing selects Income Tier 1. Sheet 1: \"Customers whose otherwise applicable rate includes a base services charge will be assigned to Tier 1\". The base services charge is a urpx:ProfileAlternative on each base (on pge:e-1 it is in the sibling pge:e-1-income-tier modifier, which a composition with this modifier does not include), and nothing in URPX ties a modifier to an alternative, so a scenario cost model can pair this modifier with the Income Tier 2 or Tier 3 base services charge.",
  "The master-meter provisions (Sheet 1, Rates C and D) are not modeled: a discount of 35.000 percent of total bundled charges multiplied by the number of CARE units divided by the total number of units, and 50.000 percent of the delivery minimum bill, for master-metered customers on Schedules EM, ES, ESR, ET and EM-TOU, none of which this corpus holds.",
  "Direct access and community choice aggregation customers are not modeled. Sheet 1: \"The CARE discount will be calculated for direct access and community choice aggregation customers based on the total charges as if they were subject to bundled service rates. Discounts will be applied as a reduction to distribution charges.\" This version declares bundled service, and a departed customer's composition would need both this modifier and the base's vintage-PCIA modifier.",
- "The E-TOU-C Conservation Incentive Adjustment is outside the E-TOU-C subtotal. It is a bundled volumetric charge, ($0.02786) on baseline usage and $0.05354 over baseline, priced in the pge:e-tou-c-baseline-tier modifier rather than in the base, and a subtotal names only its base's Prices. A composition of E-TOU-C with this modifier carries no Conservation Incentive Adjustment at all, nor the discount on it, which would take $0.0097510/kWh off the discount on baseline usage and add $0.0187390/kWh to it over baseline.",
  "Eligibility is carried as residential customer kind and enrollment in pge:program-care. The qualifying criteria of Electric Rule 19.1, which this corpus does not hold, the Special Condition 2 limit to the primary residence, and its rule that a FERA participant cannot concurrently participate in CARE are not data.",
  "pge:e-tou-c-2026-03-01, in force from this version's effective date until 2026-03-27, carries no CARE-discountable subtotal and is not a candidate of any exemption Price, so this modifier composes with the current E-TOU-C version only.",
 ]

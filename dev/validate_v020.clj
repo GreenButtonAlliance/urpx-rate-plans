@@ -50,8 +50,8 @@
    kind ∈ #{:rate-plan :rate-plan-modifier} — derived from the filename
    prefix. label is `<UTILITY> <SLUG> <date>`, where SLUG is the IRI
    slug pulled from the filename (so an inline modifier like
-   `pge_e-tou-c-baseline-tier` doesn't collide with its base
-   `pge_e-tou-c`). path is the relative POSIX path from the repo root."
+   `pge_e-1-income-tier` doesn't collide with its base
+   `pge_e-1`). path is the relative POSIX path from the repo root."
   []
   (->> (layout/paths ".")
        (mapv (fn [path]

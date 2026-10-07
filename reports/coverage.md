@@ -116,7 +116,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | pge | e-elec | rate-plan | 2026-01-01, 2026-03-27 |
 | CA | pge | e-fera | modifier | 2026-06-01 |
 | CA | pge | e-rsmart | modifier | 2025-10-31 |
-| CA | pge | e-tou-c | rate-plan | 2026-03-01, 2026-03-01, 2026-03-27 |
+| CA | pge | e-tou-c | rate-plan | 2026-03-01, 2026-03-27 |
 | CA | pge | e-tou-d | rate-plan | 2026-03-27 |
 | CA | pge | ev2 | rate-plan | 2026-03-27 |
 | CA | pge | nbt | modifier | 2025-10-17 |

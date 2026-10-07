@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CDLA-Permissive-2.0
 """Tests for dev/export_sandbox.py and dev/check_sandbox_drift.py.
 
-Exports PG&E E-TOU-C (both versions and the baseline-tier modifier) into a
+Exports PG&E E-TOU-C (both versions) into a
 minimal stand-in for a urpx-data-sandbox checkout under a temporary directory,
 checks the tree, README, pull request body and [[sandbox]] record it produces,
 then drives the drift check through each of its states against copies. Nothing
@@ -31,7 +31,6 @@ DRIFT = REPO / "dev" / "check_sandbox_drift.py"
 SCHEDULE = Path("us/ca/pge/electricity/e-tou-c")
 DOCS = {
     "rate-plan_pge_e-tou-c_2026-03-01.jsonld",
-    "rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld",
     "rate-plan_pge_e-tou-c_2026-03-27.jsonld",
 }
 PDFS = {"pge_e-tou-c_2026-03-01.pdf", "pge_e-tou-c_2026-03-27.pdf"}
@@ -240,7 +239,7 @@ def test_record_and_drift(tmp: Path) -> None:
     target = sb / sub.rel_path
     rc, out = drift(root, sb)
     check("unchanged: exit 0", rc == 0, out)
-    check("unchanged: every document reported unchanged", reported(out, "unchanged") == 3, out)
+    check("unchanged: every document reported unchanged", reported(out, "unchanged") == len(DOCS), out)
 
     work = tmp / "sb-work"
     shutil.copytree(sb, work)
@@ -269,16 +268,16 @@ def test_record_and_drift(tmp: Path) -> None:
           reported(out, "changed in both", "rate-plan_pge_e-tou-c_2026-03-01.jsonld") == 1, out)
     here.write_text(original)
 
-    (work / sub.rel_path / "rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld").unlink()
+    (work / sub.rel_path / "rate-plan_pge_e-tou-c_2026-03-27.jsonld").unlink()
     rc, out = drift(root, work)
     check("missing in sandbox: exit 1", rc == 1, out)
     check("missing in sandbox: named",
           reported(out, "missing in sandbox",
-                   "rate-plan-modifier_pge_e-tou-c-baseline-tier_2026-03-01.jsonld") == 1, out)
+                   "rate-plan_pge_e-tou-c_2026-03-27.jsonld") == 1, out)
 
     rc, out = drift(root, None, env_path="/nonexistent")
     check("unreachable: exit 3", rc == 3, out)
-    check("unreachable: every document named as skipped", reported(out, "skipped") == 3, out)
+    check("unreachable: every document named as skipped", reported(out, "skipped") == len(DOCS), out)
 
     bare = make_corpus(tmp / "bare")
     rc, out = drift(bare, sb)

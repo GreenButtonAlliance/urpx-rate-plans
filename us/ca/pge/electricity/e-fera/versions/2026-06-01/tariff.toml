@@ -36,7 +36,7 @@ not modeled as a second discount on generation.
 
 The schedule states no date of first introduction, so
 urpx:initialEffectiveDate carries this version's date, as pge:e-1-income-tier
-and pge:e-tou-c-baseline-tier do.
+does.
 """
 
 # Validation ------------------------------------------------------------------
@@ -54,7 +54,6 @@ deferrals = [
  "Nothing selects Income Tier 2. Sheet 1: \"Customers enrolled on E-FERA are assigned to Income Tier 2 for a base services charge if their otherwise applicable rate includes a base services charge.\" The base services charge is a urpx:ProfileAlternative on each base (on pge:e-1 it is in the sibling pge:e-1-income-tier modifier, which a composition with this modifier does not include), and nothing in URPX ties a modifier to an alternative, so a scenario cost model can pair this modifier with the Income Tier 1 or Tier 3 base services charge.",
  "The master-meter provision is not modeled: Sheet 1 takes the FERA discount on the total non-CARE portion of bundled charges, multiplied by the number of FERA units divided by the number of non-CARE units, for customers served under Schedules ES, ESL, ESR, ESRL, ET or ETL, none of which this corpus holds.",
  "Direct access and community choice aggregation customers are not modeled. Sheet 1: \"The FERA discount will be calculated for direct access and community choice aggregation customers based on the total charges as if they were subject to bundled service rates.\" This version declares bundled service, and a departed customer's composition would need both this modifier and the base's vintage-PCIA modifier.",
- "The E-TOU-C Conservation Incentive Adjustment is outside the E-TOU-C subtotal. It is a bundled volumetric charge, ($0.02786) on baseline usage and $0.05354 over baseline, priced in the pge:e-tou-c-baseline-tier modifier rather than in the base, and a subtotal names only its base's Prices. A composition of E-TOU-C with this modifier carries no Conservation Incentive Adjustment at all, nor the discount on it, which would take $0.0050148/kWh off the discount on baseline usage and add $0.0096372/kWh to it over baseline.",
  "Eligibility is carried as residential customer kind and enrollment in pge:program-fera. The Sheet 1 and Sheet 2 income criteria (200 percent plus $1 to 250 percent of federal poverty guidelines, $43,281 to $54,100 for one or two persons through $111,441 to $139,300 for eight, plus $11,360 to $14,200 per additional person), the three-or-more-persons requirement, the Special Condition 2 limit to the primary residence, the exclusion of CARE participants, of master-metered customers without sub-metering on Schedule EM or EM TOU and of Schedule E-CARE customers are not data.",
 ]
 

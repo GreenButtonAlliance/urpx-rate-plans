@@ -20,9 +20,9 @@ Two matching strategies are tried, in order:
       catches the common case (`care`, `fera`, `e-eec-1`, etc.).
   (2) IRI-suffix match — fall back to scanning all rate-plan-modifier
       filings under the utility and matching the local IRI name
-      (e.g. `pge:e-tou-c-baseline-tier` matches slug
-      `e-tou-c-baseline-tier` even though the filing lives inside
-      `iou/pge/e-tou-c/versions/...`).
+      (e.g. `sce:tou-d-4-9pm-hpwh` matches slug
+      `tou-d-4-9pm-hpwh` even though the filing lives inside
+      `us/ca/sce/electricity/tou-d-4-9pm/versions/...`).
 
 Run from repo root:  python3 dev/lint_modifier_coverage.py [--json]
 """

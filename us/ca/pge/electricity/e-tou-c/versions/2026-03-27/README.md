@@ -28,7 +28,7 @@ The `@graph` contains:
 1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
 2. Two `urpx:TariffPublication` instances: `pge:al-7869-e` (base RPV) + `pge:al-7846-e` (vintage-PCIA modifier)
 3. `pge:rc-d-26-03-013` — `urpx:RateCase` for CPUC Decision D.26-03-013
-4. `pge:e-tou-c` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion` `pge:e-tou-c-2026-03-27`)
+4. `pge:e-tou-c` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion` `pge:e-tou-c-2026-03-27`), carrying the baseline tiers and the Conservation Incentive Adjustment over the same 60-cell income tier, territory and code container as the 2026-03-01 version (see its README)
 5. `pge:e-tou-c-vintage-pcia` — `urpx:RatePlanModifier` (modifier version unchanged at `pge:e-tou-c-vintage-pcia-2026-03-01`)
 
 ## Validation
