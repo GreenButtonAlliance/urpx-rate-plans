@@ -43,7 +43,7 @@ REPO = Path(__file__).resolve().parent.parent
 SCE = REPO / "us/ca/sce/electricity"
 
 SCHEDULES = ["tou-d-4-9pm", "tou-d-5-8pm"]
-DATES = ["2025-11-15", "2026-03-20", "2026-10-01"]
+DATES = ["2025-11-15", "2026-03-20", "2026-06-01", "2026-10-01"]
 
 # Preliminary Statement Part H, paragraph 3: Sheet 2 (Cal. P.U.C. Sheet 74486-E)
 # summer and Sheet 3 (74487-E) winter, both effective October 1, 2022 under
@@ -95,12 +95,13 @@ PART_H_2026 = PartH("sce_prelim-h_2026-10-01.pdf", "2026-10-06", ("91543-E", "91
                     "Decision 26-04-033 (Preliminary Statement Part H Sheets 2 and 3, Advice 5897-E)",
                     ALLOCATION_2026)
 # The edition in force at each base version's effective date.
-PART_H = {"2025-11-15": PART_H_2022, "2026-03-20": PART_H_2022, "2026-10-01": PART_H_2026}
+PART_H = {"2025-11-15": PART_H_2022, "2026-03-20": PART_H_2022, "2026-06-01": PART_H_2022,
+          "2026-10-01": PART_H_2026}
 
 # Option name and the sheets whose footnote states the baseline rules, per
 # base version.
 SHEETS = {"tou-d-4-9pm": "Sheets 2 and 3", "tou-d-5-8pm": "Sheets 4 and 5"}
-CREDIT = {"2025-11-15": "0.10449", "2026-03-20": "0.10108", "2026-10-01": "0.09101"}
+CREDIT = {"2025-11-15": "0.10449", "2026-03-20": "0.10108", "2026-06-01": "0.10099", "2026-10-01": "0.09101"}
 
 
 def hpwh_description(sched: str, date: str) -> str:

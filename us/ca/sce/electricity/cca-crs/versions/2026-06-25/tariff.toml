@@ -1,0 +1,70 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "cca-crs"
+effective_date = "2026-06-25"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_CCA-CRS.pdf"
+sha256 = "eb1c37a9a7d3547b519ed8a07490ee858a8753af928bde786ed112863d7b3ae8"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5837-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 5837-E"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. This is data/documents/sce/ELECTRIC_SCHEDULES_CCA-CRS.pdf as
+retrieved 2026-09-23 by dev/fetch_tariff_documents.py. The unwrapper then in
+use cut the multipart part at its last %%EOF and dropped the end-of-line that
+closes it, and SCE reissued the document effective 2026-10-01, so the part as
+served cannot be fetched again; the committed file and the sha256 above are
+those bytes, one end-of-line short of the response.
+
+Advice 5837-E reissued Sheets 4 to 10 effective June 25, 2026. The Domestic
+row carries the same 23 values as the 2026-03-20 version; other rate groups
+moved.
+
+Supersession. This version begins at the effective date of the sheet that
+cancels the 2026-03-20 version's rate sheet and ends at 2026-10-01, when
+Advice 5897-E's sheets cancel its own.
+
+Price changes from the 2026-03-20 version, $ (per kWh unless a per-day
+charge):
+ none
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet 2 OAT exception clause is unmodeled: \"With the exception of the CTC and WFC, all charges, terms, and conditions of the customer's Otherwise Applicable Tariff (OAT), or contract rate shall apply.\" The base schedule's own Wildfire Fund charge is therefore not payable by a CCA customer (Schedule D Sheet 3 footnote 9: \"DA and CCA Service Customers are not subject to the WFC rate component of this Schedule but instead pay the WFC as provided by Schedule DA-CRS or Schedule CCA-CRS\"), but nothing here removes it. Composing this modifier onto sce:d or any TOU-D base charges WFC twice, 0.00591/kWh from the base plus 0.00591/kWh from Sheet 4. Expressible at v0.5.1: a Price carrying urpx:multiplier -1.0 and urpx:basedOnPrice naming each base's WFC Price, with no urpx:unitPrice; that shape conforms in a merged graph, and its value is the multiplier times the basis unit price. Because it names a WFC Price in each base, only one base can be composed at a time: with two bases in one graph the basis is not unique. Work, not a blocker.",
+ "Sheet 3 \"Applicability and Exemption\" table and Sheet 11 Special Condition 1.b price eight customer groups with different per-component applicability; only the default CCA Customers group (rows 1 and 2) is modeled. CCA customers on Medical Baseline are exempt from WFC; on CARE, from WFC and FRC; on FERA, from FRC; Continuous DA/CCA customers, from WFC and PCIA; Returning Continuous DA customers, from WFC. Sheet 3 footnote i adds the union rule: \"If a customer qualifies for multiple customer groups, all exemptions from all eligible customer groups will apply.\" A consumer applying this filing to any of those customers charges components the tariff exempts. Expressible with the hasApplicabilityRule to ConditionExpression to CustomOperandNode pattern this filing already uses for the 20 PCIA vintages; no separate per-subgroup filings and no EligibilityRule extension are needed. Adding those gates changes none of the rates this filing carries; it narrows which customer groups each Price reaches. Source inconsistency worth recording: Sheet 11 SC 1.b.i and 1.b.ii omit FRC from the component lists for Continuous DA/CCA and Returning Continuous DA customers, while Sheet 3 rows 6 and 7 mark FRC Applicable; the Sheet 3 table is the more complete statement.",
+ "Sheet 1 applies this Schedule to CCA Customers, Community Aggregator (CA) Customers, and \"any Customer served under Bundled Service and Schedule PC-TBS during the transitional period\", and prices all four components for each. The single EligibilityRule tests Energy Service Type equals \"Community Choice Aggregation\", which does not reach the CA group (Sheet 3 row 2) or the Transitional Bundled Service group (Sheet 3 row 8, Sheet 12 Special Condition 2). The source names CCA and CA as separate groups on Sheet 1 and again on Sheet 3, and Special Condition 3 names a real CA (the City of Cerritos Community Aggregator), so treating one predicate as gating both is not supported by the text.",
+ "PCIA vintage determination and retention, Special Conditions 1.c, 2 and 4 (Sheets 11 and 12). This filing takes \"CCA Vintage Year\" as a supplied customer attribute, so the 20 vintage Prices are selectable but the rules that select among them are absent. The parts divide. SC 1.c.vi is expressible at v0.5.1 and is unbuilt work, not a blocker: \"If the PCIA Vintage Determination Date is on or after January 1st and before July 1st, the PCIA vintage shall be set for the prior year. If the PCIA Vintage Determination Date is on or after July 1st and before January 1st, the PCIA vintage shall be set for the current year\" collapses to a half-open interval per vintage, vintage N applying when the determination date falls in [N-07-01, N+1-07-01), and that restates as a gate rather than a derivation. ConditionExpressionShape's rootNode accepts a BooleanOperationNode, BooleanOperationNodeShape carries andOperator over unbounded operandNodes, ComparisonNodeShape's operator sh:in includes greaterThanOrEqualOperator and lessThanOperator, and CustomOperandNodeShape carries urpx:dateValue as xsd:date; a candidate built that way on the 2020 vintage Price conforms merged with the four bases. SC 1.c.i through v (which of several dates is the determination date), SC 2.b (\"A CCA Customer shall retain customer's original PCIA Vintage\"), SC 2.a (\"TBS Customers retain all applicable CRS exemptions while served on Schedule PC-TBS, or while taking Bundled Service as prescribed in Rule 23\") and SC 4 (a customer switching between DA and CCA retains the original vintage and exemption status) all define or carry forward a supplied customer attribute rather than gating a price, and v0.5.1 has no vocabulary that derives an operand: ConditionExpression gates a Price, it does not compute one.",
+ "Special Condition 3, Sheet 12, assigns the 2004 vintage to every City of Cerritos Community Aggregator customer \"until such time that the aggregate annual load of customers served by the City of Cerritos Community Aggregator reaches or exceeds 110,000 megawatt-hours\". The assignment is expressible as another ApplicabilityRule on the existing 2004 PCIA Price; the trigger is not, because it is an aggregate across all of that aggregator's customer accounts and URPX carries no account or site identity.",
+ "Sheets 4 through 10 price 14 rate groups and this filing carries only the Domestic row, 23 of 322 cells. That is a deliberate residential scope, and urpx:applicableToRatePlan names sce:d, sce:tou-d-4-9pm, sce:tou-d-5-8pm and sce:tou-d-prime, which is every SCE residential base plan this corpus holds. Recorded so the decision is explicit rather than implicit. Note also that the Domestic footnote covers 16 schedules, including D-CARE, D-FERA and TOU-EV-1, which this modifier does not reach and which are absent from the corpus. Separately unsettled and deliberately not asserted: Sheet 4's Fixed Recovery Charge at 0.00619 is also priced on every base plan, and the Sheet 2 exception clause names only CTC and WFC, so a literal composition charges FRC twice; resolving that needs SCE's Preliminary Statement, which is not in this corpus.",
+ "Sheet 1 APPLICABILITY names three customer classes and the EligibilityRule tests one. Verbatim: \"Applicable to Customers including those classified as (1) Community Choice Aggregation (CCA) Customers, (2) Community Aggregator (CA) Customers, and (3) any Customer served under Bundled Service and Schedule PC-TBS during the transitional period.\" The single EligibilityRule compares a CustomOperandNode \"Energy Service Type\" to \"Community Choice Aggregation\". Sheet 3's exemption table lists CCA and CA as separate rows 1 and 2 and Special Condition 3 names a real Community Aggregator (City of Cerritos), so the two are not one predicate. Expressible now with the ConditionExpression machinery already in the file.",
+ "PCIA Vintage Methodology, Special Condition 1.c and the Special Condition 3 vintage-preservation rule on a CCA switch, determine which of the 20 modeled PCIA Prices applies to a customer, and the model treats the vintage as a customer-supplied attribute with no derivation. The verification restated Special Condition 1.c.vi as a half-open date interval and validated it, so this is unbuilt work rather than a blocker.",
+]
+applicable_modifiers = [
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-20 version by dev/author_sce_2026_06.py: every Price reconciled to the June 2026 sheets, prose and citations rewritten for them. See [extraction] notes."

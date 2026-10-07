@@ -1,0 +1,293 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "sce": "https://rate-plans.grid-coordination.energy/sce/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "sce:doc-deed-restricted-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "sce:deed-restricted",
+    "urpx:name": "Deed-Restricted Base Services Charge Discount",
+    "urpx:modifierUniqueIdentifier": "DEED-RESTRICTED",
+    "urpx:initialEffectiveDate": "2025-11-15",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "sce:deed-restricted-2026-06-01",
+      "urpx:version": "2026-06-01",
+      "urpx:modifierVersionNumber": "2026-06-01",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "Base Services Charge (BSC) adjustment of $(0.327)/meter/day for SCE residential customers living in Deed Restricted Affordable Housing (DRAH), applied as an overlay to an SCE residential base rate plan (Schedule D, TOU-D-4-9PM, TOU-D-5-8PM or TOU-D-PRIME). It is the line \"BSC Adjustment - Deed Restricted\" on Schedule TOU-D Sheets 2 through 7 and \"BSC Discount - Deed Restricted\" on Schedule D Sheets 2 and 3. Schedule TOU-D Special Condition 10 (Sheet 15) and Schedule D Special Condition 4 (Sheet 6) also exempt DRAH customers from the Base Services Charge Surcharge of $0.069 per meter per day, which this filing does not carry, so the modeled BSC for a DRAH customer is $0.467 per meter per day where the schedules give $0.398. Eligibility is carried as the customer-state property housingDeedRestricted.",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:expirationDateTime": "2026-10-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "sce:tou-d-4-9pm"
+        },
+        {
+          "@id": "sce:tou-d-5-8pm"
+        },
+        {
+          "@id": "sce:tou-d-prime"
+        },
+        {
+          "@id": "sce:d"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "ELECTRIC_SCHEDULES_TOU-D.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf",
+        "urpx:dateRetrieved": "2026-09-23",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 2,
+        "urpx:pageEnd": 2,
+        "urpx:leafStart": "91196-E",
+        "urpx:leafEnd": "91196-E"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "sce:deed-restricted-2026-06-01-er-eligible",
+          "urpx:name": "Customer in qualifying deed-restricted housing",
+          "urpx:description": "Customer lives in Deed Restricted Affordable Housing. Schedule TOU-D Special Condition 10 (Sheet 15): \"DRAH will be identified by the California Housing Partnership database. For properties with less than 80 percent of units identified as DRAH, Customers or tenants must contact SCE or visit www.sce.com and self-attest to living in a DRAH to qualify for the DRAH discount to reduce their Base Services Charge.\" Carried as the customer-state property housingDeedRestricted.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "sce:deed-restricted-2026-06-01-cx-eligible",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "sce:deed-restricted-2026-06-01-bn-residential-and-eligible",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:deed-restricted-2026-06-01-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sce:deed-restricted-2026-06-01-cn-residential-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "sce:deed-restricted-2026-06-01-cn-residential-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "sce:deed-restricted-2026-06-01-cn-housing-flag",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:deed-restricted-2026-06-01-cn-housing-flag-left-operand",
+                    "urpx:customConditionProperty": "housingDeedRestricted"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "sce:deed-restricted-2026-06-01-cn-housing-flag-right-operand",
+                    "urpx:booleanValue": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "sce:deed-restricted-2026-06-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "sce:deed-restricted-2026-06-01-mi-meter-count",
+            "urpx:name": "Per Meter (for daily $/meter credits)",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "sce:deed-restricted-2026-06-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "sce:deed-restricted-2026-06-01-ledger-bsc-credit",
+              "urpx:name": "Deed-Restricted Base Services Charge Discount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "sce:deed-restricted-2026-06-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "sce:deed-restricted-pd-bsc-discount-2026-06-01",
+              "urpx:name": "Deed-Restricted Base Services Charge Discount",
+              "urpx:chargeType": {
+                "@id": "urpx:creditMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "sce:deed-restricted-pd-bsc-discount-2026-06-01-calculation-method",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "sce:deed-restricted-2026-06-01-ledger-bsc-credit"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "sce:deed-restricted-2026-06-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "sce:deed-restricted-price-bsc-discount-2026-06-01",
+            "urpx:referencesPriceDefinition": {
+              "@id": "sce:deed-restricted-pd-bsc-discount-2026-06-01"
+            },
+            "urpx:startDate": "2026-06-01",
+            "urpx:name": "Deed-Restricted BSC Discount",
+            "urpx:unitPrice": "-0.327"
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-sce",
+        "urpx:legalName": "Southern California Edison Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-sce-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-sce-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Southern California Edison Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-sce-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "17609"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "sce:deed-restricted"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "sce:cc-deed-restricted-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "sce:cc-deed-restricted-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) DRAH exemption from the Base Services Charge Surcharge is not modeled. Schedule TOU-D Sheet 15 Special Condition 10 (Cal. P.U.C. Sheet 91363-E) and Schedule D Sheet 6 Special Condition 4 (91132-E) both read: \"DRAH Customers or tenants are exempt from the Base Services Charge Surcharge of $0.069 per meter per day and are provided a Base Services Charge Discount of $(0.327) per meter per day to reduce the Base Services Charge.\" Those are two separate reductions, in the same two-clause form Special Conditions 7 and 8 use for CARE and FERA. This filing models only the second, as the rate-table line \"BSC Adjustment - Deed Restricted\" at $-0.327/meter/day (Sheets 2 to 7), so a DRAH customer resolves $0.069/meter/day short of the schedule: $0.467 where the schedule gives $0.398. Expressible now, not blocked: the base plans carry the BSC as one undifferentiated $0.794 Price, so the exemption has to be a second credit Price here, the shape sce/care 2026-06-01 already ships (sce:care-price-bsc-surcharge-exemption-2026-06-01, unitPrice -0.069). The Special Condition prose and the rate-table footnote now agree on both figures. (2) Schedule TOU-D Sheet 15 Special Condition 10, in this filing's own PDF, states how DRAH status is established, and the model does not carry it. Verbatim: \"DRAH will be identified by the California Housing Partnership database. For properties with less than 80 percent of units identified as DRAH, Customers or tenants must contact SCE or visit www.sce.com and self-attest to living in a DRAH to qualify for the DRAH discount to reduce their Base Services Charge.\" The EligibilityRule tests a CustomOperandNode customConditionProperty \"housingDeedRestricted\" equal to true.",
+          "urpx:evaluatedOn": "2026-10-06T00:00:00"
+        }
+      }
+    }
+  }
+}

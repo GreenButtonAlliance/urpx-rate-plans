@@ -1,0 +1,90 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "fera"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256 = "28cc218a0325921ec5292c9413f1e0eb19d197d1f832a8746835c3afe3cfc473"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5829-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 5829-E"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. This is data/documents/sce/ELECTRIC_SCHEDULES_TOU-D.pdf as
+retrieved 2026-09-23 by dev/fetch_tariff_documents.py. The unwrapper then in
+use cut the multipart part at its last %%EOF and dropped the end-of-line that
+closes it, and SCE reissued the document effective 2026-10-01, so the part as
+served cannot be fetched again; the committed file and the sha256 above are
+those bytes, one end-of-line short of the response.
+
+The 2026-09-23 copy of Schedule TOU-D holds Advice 5829-E's rate sheets,
+Sheets 2 to 6 (91196-E to 91200-E), effective June 1, 2026, and Advice
+5837-E's reissue of every other sheet (91354-E, 91355-E to 91367-E), effective
+June 25, 2026. Advice 5829-E's own copies of the sheets the June 25 reissue
+cancelled (Sheet 7, 91201-E; Sheet 18, 91202-E, the CARE and FERA Special
+Conditions; Sheet 20, 91203-E, the DRAH terms) print the same values as their
+June 25 successors, so the values modeled here held from June 1 to September
+30, 2026. Advice 5837-E renumbered the Special Conditions: TOU periods,
+holidays and seasons in Special Condition 1 (Sheets 8 and 9); Critical Peak
+Pricing in Special Condition 3 (Sheets 10 and 11); PRIME eligibility in
+Special Conditions 4 and 5 (Sheet 12); Change of Rate Schedule, CARE and FERA
+in Special Conditions 6 to 8 (Sheet 13); the Arrearage Management Plan in
+Special Condition 9 (Sheet 14); Billing Calculation, with the DRAH terms, in
+Special Condition 10 (Sheets 15 and 16); the California Climate Credit in
+Special Condition 11 (Sheet 16); the SJV Pilot and Transitional Community
+Solar discounts in Special Conditions 13 and 14 (Sheets 17 and 18); EV
+Submetering in Special Condition 17 (Sheet 19). The TOU periods, holidays and
+seasons are those of the 2026-03-20 version.
+
+Supersession. This version begins at the effective date of the sheet that
+cancels the 2026-03-20 version's rate sheet and ends at 2026-10-01, when
+Advice 5897-E's sheets cancel its own.
+
+Advice letters. ELECTRIC_5829-E.pdf (sha256
+a5dc33e4ccd6b1dcf2d82bf6b33867ce1cf2d97f19d897ba93c8d9796cc93733) and
+ELECTRIC_5837-E.pdf (sha256
+44858dad74d4b648cbc31bf4a42590fd0e9063e7f734b94855375f779390ad6b), retrieved
+2026-10-06 from SCE's Approved Electric advice letter folder
+(https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Filings-Advice%20Letters/Approved/Electric/),
+state their sheets' effective dates (June 1, 2026 and June 25, 2026). They are
+cited, not vendored.
+
+Price changes from the 2026-03-20 version, $ (per kWh unless a per-day
+charge):
+ fera-price-bsc-surcharge-exemption: -0.064 -> -0.069
+ fera-price-bsc-credit-adjustment: -0.201 -> -0.197
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "18.0 percent discount base excludes the PUC Reimbursement Fee without warrant in FERA's own text. Schedule TOU-D Sheet 13 Special Condition 8, restated in Schedule D Sheet 7, applies the discount to the bill \"prior to the application of any applicable taxes and late payment charges\" and carves out no PUCRF; Special Condition 7 does carve it out for CARE and requires CARE customers to pay it in full. The -0.18 Price here is based on the shared sce:<plan>-<date>-summary-discountable, which excludes the PUCRF (0.00100 $/kWh on Schedule D at this date) and whose name asserts CARE and FERA discount the same components. On the plain text the modeled discount is short by 18 percent of the PUCRF. The fix is expressible under v0.5.1 and is already the SDG&E pattern in this corpus: add a FERA-specific PriceSummary including the PUCRF to each SCE base plan at each date and repoint basedOnPrice at them. Not built. Confirm against SCE billing practice before building, since only the tariff text has been read.",
+ "Whether the 18.0 percent applies to the adjusted Base Services Charge is unresolved and the model assumes it does not. Special Condition 8 discounts \"their bill\", on which the $0.794 per meter per day BSC appears, and separately reduces that BSC \"In addition\" by the $0.069 surcharge exemption and the $(0.197) credit adjustment carried here. The model applies the percentage only to the per-kWh subtotal, leaving the adjusted $0.528 per meter per day undiscounted. Neither SCE PDF decides it; SDG&E's Schedule FERA Sheet 1 excludes the base services charge from its own discount base, which supports the current treatment but is another utility's language. If the answer turns out to be yes, it is expressible under v0.5.1: build a PriceSummary per base plan and date holding the base's BSC Price plus this filing's two credits and add a second -0.18 Price based on it.",
+ "Special Condition 8 (Sheet 13, Cal. P.U.C. Sheet 91361-E) states four conditions of service the model does not carry. Verbatim: \"An application and eligibility declaration is required for service under this Special Condition. Eligible Customers shall be billed on this Special Condition commencing no later than one billing period after receipt and approval of the Customer's application by SCE. Customers may be rebilled for periods in which they do not meet the eligibility requirements for the CARE Discount. Customers receiving service under the CARE Discount Special Condition of this Schedule are not eligible to take service under this Special Condition.\" The EligibilityRule is residential customer kind AND Program Enrollment = FERA, with no CARE-exclusion predicate.",
+ "Special Condition 8 defines the beneficiary by reference to Schedule D-FERA, which is in no PDF in this corpus, so the household definition behind the modeled -0.18 multiplier is unsourced in the filing.",
+ "Special Condition 9 Arrearage Management Plan (Sheet 14), in this filing's own PDF, is gated on CARE or FERA enrollment and forgives 1/12 of an eligible Customer's arrearage after each on-time payment, the remainder after 12, up to $8,000 per instance of enrollment, with a 12-month waiting period before re-enrollment. It changes what a FERA customer owes and is not in the model.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-20 version by dev/author_sce_2026_06.py: every Price reconciled to the June 2026 sheets, prose and citations rewritten for them. See [extraction] notes."

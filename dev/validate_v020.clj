@@ -303,6 +303,8 @@
 (def profile-alternative-nominations
   {"sce:cca-crs-2026-03-20-pa-pcia-vintage" "sce:cca-crs-2026-03-20-pa-vintage-2001"
    "sce:da-crs-2026-03-20-pa-pcia-vintage"  "sce:da-crs-2026-03-20-pa-vintage-2001"
+   "sce:cca-crs-2026-06-25-pa-pcia-vintage" "sce:cca-crs-2026-06-25-pa-vintage-2001"
+   "sce:da-crs-2026-06-25-pa-pcia-vintage"  "sce:da-crs-2026-06-25-pa-vintage-2001"
    "sce:cca-crs-2026-10-01-pa-pcia-vintage" "sce:cca-crs-2026-10-01-pa-vintage-2001"
    "sce:da-crs-2026-10-01-pa-pcia-vintage"  "sce:da-crs-2026-10-01-pa-vintage-2001"
    ;; Shoreline exercises the multiplier and all five undergrounding charges.

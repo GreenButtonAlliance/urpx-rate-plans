@@ -63,8 +63,9 @@ REAL = A.build()
 tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
-# Twelve of them are the SCE 2026-03-20 versions the 2026-10-01 ones follow.
-expect("supersession finds twenty-five plan identities", len(REAL["superseded"]), 25)
+# Twenty-five of them are SCE: the 2026-03-20 and June 2026 versions of ten
+# filings and two HPWH modifiers, and medical-baseline 2025-10-01.
+expect("supersession finds thirty-eight plan identities", len(REAL["superseded"]), 38)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
 # 2028-01-01 as well as 2026-01-01. At the currency instant the later six are
 # not yet effective, and the 2026 versions they follow are in force, not
@@ -179,6 +180,21 @@ expect("a refusal reason nobody has triaged is not 'not priced'",
 unselected = {i: {"status": ":refused", "reason": ":unselected-alternatives"} for i in INSTANTS}
 expect("an undecided alternative selection blocks",
        A.classify(["k"], bl(k=unselected))[0], A.BLOCKED)
+
+window = dict(all_ok)
+window[INSTANTS[0]] = {"status": ":refused", "reason": ":not-yet-effective"}
+window[INSTANTS[1]] = {"status": ":refused", "reason": ":outside-version-window"}
+expect("instants outside the version's window are not applicable, not failures",
+       A.classify(["k"], bl(k=window))[0], A.SERVABLE)
+
+window_mixed = dict(window)
+window_mixed[INSTANTS[2]] = {"status": ":refused", "reason": ":no-energy-ledger"}
+expect("a refusal inside the window still blocks",
+       A.classify(["k"], bl(k=window_mixed))[0], A.BLOCKED)
+
+never = {i: {"status": ":refused", "reason": ":not-yet-effective"} for i in INSTANTS}
+expect("no instant inside the window is unmeasured, not servable",
+       A.classify(["k"], bl(k=never))[0], A.UNMEASURED)
 
 expect("a composition with no baseline key is never servable",
        A.classify([], bl())[0], A.UNMEASURED)

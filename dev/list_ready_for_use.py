@@ -72,7 +72,7 @@ def render_md(d: dict) -> str:
     w("")
     w(f"**{tally[A.SERVABLE]} of {len(rows)}** filing directories take part in at least one servable "
       f"composition: a price server asking them for a price at any of the "
-      f"{len(instants)} probe instants gets a number back. See "
+      f"{len(instants)} probe instants inside the composition's window gets a number back. See "
       f"[`scenario-cost-models.md`](./scenario-cost-models.md) for the compositions themselves and "
       f"[`ready-for-use.edn`](./ready-for-use.edn) for the machine-readable form.")
     w("")
@@ -103,7 +103,8 @@ def render_md(d: dict) -> str:
             w(f"| {SERVES_LABEL[k]} | {tally[k]} |")
     w(f"| **total** | {len(rows)} |")
     w("")
-    w("- **servable** at least one composition drawing on this filing resolves at every probe instant.")
+    w("- **servable** at least one composition drawing on this filing resolves at every probe instant inside "
+      "its window; an instant before a version takes effect or after it expires does not count against it.")
     w("- **not priced per kWh** the filing resolves and legitimately prices nothing per kWh. CPAU E-14 "
       "and E-16 are street lighting. This is not a defect.")
     w("- **blocked** every composition drawing on this filing refuses, for a reason that is a gap or "
@@ -163,7 +164,7 @@ def render_edn(d: dict) -> str:
     w(";; :serves answers CAN A PRICE SERVER RESOLVE THIS TO A PRICE, rolled up from")
     w(";; reports/scenario-cost-models.edn: the best outcome over every")
     w(";; composition drawing on a version node this filing holds.")
-    w(";;   :servable           some composition resolves at every probe instant")
+    w(";;   :servable           some composition resolves at every probe instant inside its window")
     w(";;   :not-priced-per-kwh resolves, and legitimately prices nothing per kWh")
     w(";;   :blocked            refuses: a gap or an undecided selection")
     w(";;   :not-measured       no composition here has a baseline row")

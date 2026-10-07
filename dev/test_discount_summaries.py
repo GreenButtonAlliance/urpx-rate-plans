@@ -212,8 +212,8 @@ def test_corpus() -> None:
     check("the lint passes the corpus", p.returncode == 0, (p.stdout + p.stderr)[-400:])
     sums = {sid for f in corpus.all_filing_jsonld() for sid in L.Filing(Path(f)).summaries
             if sid.endswith(L.GENERATION)}
-    check("it finds the SCE generation subtotals, four bases at two dates",
-          sums == {f"sce:{b}-{d}-summary-generation" for b in BASES for d in (DATE, "2026-10-01")},
+    check("it finds the SCE generation subtotals, four bases at three dates",
+          sums == {f"sce:{b}-{d}-summary-generation" for b in BASES for d in (DATE, "2026-06-01", "2026-10-01")},
           str(sorted(sums)))
 
 

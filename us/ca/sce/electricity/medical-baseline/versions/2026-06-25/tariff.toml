@@ -1,0 +1,59 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "medical-baseline"
+effective_date = "2026-06-25"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_MB-E.pdf"
+sha256 = "26f37be6718db412971841d34ebcf611bfac5bd778178f199ab6cea78e6b397e"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5837-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 5837-E"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. This is data/documents/sce/ELECTRIC_SCHEDULES_MB-E.pdf as
+retrieved 2026-09-23, its final end-of-line restored on 2026-10-06 from a
+fetch of the unchanged document by dev/fetch_tariff_documents.py, so the
+committed file is the response's multipart part body byte for byte.
+
+Advice 5837-E reissued Schedule MB-E Sheet 1 (91346-E) effective June 25,
+2026, adding "if applicable" to the $5.00 effective Minimum Charge; the WFC
+exemption is unchanged.
+
+Supersession. This version begins at the effective date of the sheet that
+cancels the 2025-10-01 version's rate sheet and is open.
+
+Price changes from the 2025-10-01 version, $ (per kWh unless a per-day
+charge):
+ none
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Schedule MB-E Sheet 1 (Revised Cal. P.U.C. Sheet 91346-E) says only that \"the effective Minimum Charge will be $5.00, if applicable\", with no unit or period, and the model carries no Price for it. The June 2026 SCE base sheets carry no residential Minimum Charge for it to replace. A minimum charge is a floor on the bill, which URPX v0.5.1 has no way to state; urpx-org/urpx#76 proposes min and max value expressions.",
+ "The WFC exemption is transcribed as a fixed -$0.00591/kWh rather than expressed as a cancellation. It equals the base WFC throughout this version's window, but Schedule MB-E prices the removal of whatever the WFC currently is (\"the Wildfire Fund Non-Bypassable Charge (WFC) shall not apply\"), which URPX v0.5.1 states directly: a Price with multiplier -1 and basedOnPrice naming the base plan's WFC Price, composed one base at a time so each credit resolves against a single unambiguous basis.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-10-01 version by dev/author_sce_2026_06.py: every Price reconciled to the June 2026 sheets, prose and citations rewritten for them. See [extraction] notes."

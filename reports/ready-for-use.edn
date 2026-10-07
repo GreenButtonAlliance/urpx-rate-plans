@@ -5,7 +5,7 @@
 ;; :serves answers CAN A PRICE SERVER RESOLVE THIS TO A PRICE, rolled up from
 ;; reports/scenario-cost-models.edn: the best outcome over every
 ;; composition drawing on a version node this filing holds.
-;;   :servable           some composition resolves at every probe instant
+;;   :servable           some composition resolves at every probe instant inside its window
 ;;   :not-priced-per-kwh resolves, and legitimately prices nothing per kWh
 ;;   :blocked            refuses: a gap or an undecided selection
 ;;   :not-measured       no composition here has a baseline row
@@ -17,7 +17,7 @@
 ;; capture its source PDF? The two axes are deliberately not collapsed.
 
 {:totals
-  {:servable 52 :not-priced-per-kwh 3 :blocked 15 :not-yet-effective 6 :superseded 20 :filings 96 :captures-source-pdf 4}
+  {:servable 65 :not-priced-per-kwh 3 :blocked 2 :not-yet-effective 6 :superseded 31 :filings 107 :captures-source-pdf 4}
 
  :filings
  [
@@ -54,37 +54,48 @@
   {:utility :pge   :name "ev2"                  :date "2026-03-27" :serves :servable            :compositions 6   :captures-source-pdf false}
   {:utility :pge   :name "nbt"                  :date "2025-10-17" :serves :servable            :compositions 1   :captures-source-pdf false}
   {:utility :pse   :name "307"                  :date "2026-05-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :pse   :name "307"                  :date "2026-10-01" :serves :blocked             :compositions 1   :captures-source-pdf false}
+  {:utility :pse   :name "307"                  :date "2026-10-01" :serves :servable            :compositions 1   :captures-source-pdf false}
   {:utility :pse   :name "327"                  :date "2026-05-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :pse   :name "327"                  :date "2026-10-01" :serves :blocked             :compositions 1   :captures-source-pdf false}
+  {:utility :pse   :name "327"                  :date "2026-10-01" :serves :servable            :compositions 1   :captures-source-pdf false}
   {:utility :sce   :name "care"                 :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "care"                 :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "care"                 :date "2026-10-01" :serves :blocked             :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "care"                 :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "care"                 :date "2026-10-01" :serves :servable            :compositions 4   :captures-source-pdf false}
   {:utility :sce   :name "cca-crs"              :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "cca-crs"              :date "2026-10-01" :serves :blocked             :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "cca-crs"              :date "2026-06-25" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "cca-crs"              :date "2026-10-01" :serves :servable            :compositions 4   :captures-source-pdf false}
   {:utility :sce   :name "d"                    :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "d"                    :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "d"                    :date "2026-10-01" :serves :blocked             :compositions 7   :captures-source-pdf false}
+  {:utility :sce   :name "d"                    :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "d"                    :date "2026-10-01" :serves :servable            :compositions 7   :captures-source-pdf false}
   {:utility :sce   :name "da-crs"               :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "da-crs"               :date "2026-10-01" :serves :blocked             :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "da-crs"               :date "2026-06-25" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "da-crs"               :date "2026-10-01" :serves :servable            :compositions 4   :captures-source-pdf false}
   {:utility :sce   :name "deed-restricted"      :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "deed-restricted"      :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "deed-restricted"      :date "2026-10-01" :serves :blocked             :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "deed-restricted"      :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "deed-restricted"      :date "2026-10-01" :serves :servable            :compositions 4   :captures-source-pdf false}
   {:utility :sce   :name "fera"                 :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "fera"                 :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "fera"                 :date "2026-10-01" :serves :blocked             :compositions 4   :captures-source-pdf false}
-  {:utility :sce   :name "medical-baseline"     :date "2025-10-01" :serves :blocked             :compositions 4   :captures-source-pdf false}
-  {:utility :sce   :name "nbt"                  :date "2025-04-23" :serves :blocked             :compositions 1   :captures-source-pdf false}
+  {:utility :sce   :name "fera"                 :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "fera"                 :date "2026-10-01" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "medical-baseline"     :date "2025-10-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "medical-baseline"     :date "2026-06-25" :serves :servable            :compositions 4   :captures-source-pdf false}
+  {:utility :sce   :name "nbt"                  :date "2025-04-23" :serves :servable            :compositions 1   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-4-9pm"          :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-4-9pm"          :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-4-9pm"          :date "2026-10-01" :serves :blocked             :compositions 9   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-4-9pm"          :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-4-9pm"          :date "2026-10-01" :serves :servable            :compositions 9   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-5-8pm"          :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-5-8pm"          :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-5-8pm"          :date "2026-10-01" :serves :blocked             :compositions 9   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-5-8pm"          :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-5-8pm"          :date "2026-10-01" :serves :servable            :compositions 9   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-prime"          :date "2025-11-15" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-prime"          :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
-  {:utility :sce   :name "tou-d-prime"          :date "2026-10-01" :serves :blocked             :compositions 9   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-prime"          :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-prime"          :date "2026-10-01" :serves :servable            :compositions 9   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-prime-cpp"      :date "2026-03-20" :serves :superseded          :compositions 0   :captures-source-pdf false}
+  {:utility :sce   :name "tou-d-prime-cpp"      :date "2026-06-01" :serves :superseded          :compositions 0   :captures-source-pdf false}
   {:utility :sce   :name "tou-d-prime-cpp"      :date "2026-10-01" :serves :blocked             :compositions 1   :captures-source-pdf false}
   {:utility :scl   :name "residential-suburban" :date "2026-01-01" :serves :servable            :compositions 1   :captures-source-pdf true}
   {:utility :scl   :name "residential-suburban" :date "2027-01-01" :serves :not-yet-effective   :compositions 0   :captures-source-pdf true}

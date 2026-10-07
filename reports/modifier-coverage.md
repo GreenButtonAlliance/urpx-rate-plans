@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **53**
+- Base RatePlan filings: **57**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **216**
+- Applicable-modifier slots across all bases: **244**
   - present and complete: 13
-  - present but incomplete: 178
+  - present but incomplete: 206
   - missing: 25
 - Asymmetries between modifier-side and base-side declarations: **1**
 
@@ -421,7 +421,7 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `d` @ 2026-03-20  &nbsp; base: ~
 
@@ -441,7 +441,27 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
+
+#### `d` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- SJV Pilot Bill Protection Discount (Sheet 8, Special Condition 8, Cal. P.U.C. Sheet 90640-E): 20 percent off the bill in participation years 1 through 5, and 10 or 20 percent in years 6 through 10. Not built. This is work, not a blocker: under URPX v0.5.1 the pilot-participation gate is a urpx:ApplicabilityRule on the Price whose ConditionExpression compares a urpx:CustomOperandNode carrying urpx:customConditionProperty, and the 20 percent is the multiplier plus basedOnPrice pattern sce:care already applies to sce:d-2026-06-01-summary-discountable. Two parts stay unexpressed: the 10-year window runs from the participant's own first Bill Protection Discount and urpx:Price carries only absolute dates, and Sheet 8 leaves the years 6 through 10 rate to a future SCE evaluation rather than stating it.
+- Transitional Community Solar Discount (Sheet 9, Special Condition 9, Cal. P.U.C. Sheet 90641-E): 20 percent monthly bill credit for SJV Pilot participants eligible for CSGT or DAC-GT when neither is available, over the same 10-year bill protection period, excluded for customers with onsite solar under SASH, DAC-SASH or NEM. Not built, on the same footing as Special Condition 8 above.
+- California Climate Credit carry-forward (Sheet 7, Special Condition 5, Cal. P.U.C. Sheet 91133-E): the $(36.00) credit is priced, but Special Condition 5 also says any portion not consumed in the billing period in which it is applied rolls over to each subsequent billing period until fully consumed, and that is not expressed. The nearest v0.5.1 vocabulary is urpx:settlementInterval on the Ledger, an xsd:duration naming a fixed accumulation period, which does not state an unbounded roll-forward.
+- Baseline Allocation, the boundary between the Baseline and Over Baseline energy rates (Sheets 2 and 3, footnote *): the schedule prices $0.18453 per kWh at or below the allocation and $0.28552 above it, but says only that the allocations are 'as described in Preliminary Statement, Part H, Baseline Service'. Part H is not a source of this filing, so the kWh boundary is not sourced here. This is a source gap, not a URPX gap.
+- CORRECTION, not an absence: sce:d-2026-06-01-tiers-baseline-nonbaseline records bounds of 0 to 1.0 and above 1.0 while declaring referencesMetricInput to sce:d-2026-06-01-mi-energy, whose MetricSpecification carries unitOfMeasure urpx:kWh. Read in its declared unit the model says the baseline tier ends at 1.0 kWh. The intended meaning is a fraction of the customer's Baseline Allocation. Fixable now: pointing the ServiceTiers at a metric denominated urpx:ratio conforms under v0.5.1. Any consumer that selects a tier by usage reads the baseline boundary as 1.0 kWh rather than the customer's allocation.
+- CORRECTION, not an absence: the California Climate Credit's urpx:ApplicabilityRule asserts urpx:month --04 and --10, which this filing's source does not state. Special Condition 5 on Sheet 7 names no month and Sheets 2 and 3 say only 'semi-annually'. The months are carried over from the 2025-11-15 source, which does state them. Either re-source them from a current SCE document or drop them.
+- Base Services Charge component split (Sheet 3): the $0.794 per meter per day total is carried as one Price, but the sheet also prints its Distribution part of $0.429, itself a BSC Distribution Charge of $0.360 and a BSC Surcharge of $0.069, and a Public Purpose Programs part of $0.365. The $0.069 surcharge is the quantity Special Condition 4 on Sheets 6 and 7 exempts DRAH, CARE and FERA customers from; sce/care and sce/fera price that exemption as a separate credit and sce/deed-restricted does not. Expressible now, purely additional PriceDefinitions summing to the same $0.794.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-10-01` |
+| `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-10-01` |
+| `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
+| `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `d` @ 2026-10-01  &nbsp; base: ~
 
@@ -461,7 +481,7 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-4-9pm` @ 2025-11-15  &nbsp; base: ~
 
@@ -480,7 +500,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `tou-d-4-9pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-4-9pm` @ 2026-03-20  &nbsp; base: ~
 
@@ -503,7 +523,31 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `tou-d-4-9pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
+
+#### `tou-d-4-9pm` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Preliminary Statement Part H, paragraph 3: "The total billable baseline quantity is determined based upon the total number of winter days and total number of summer days during the billing period. Total billable baseline is then proportionately billed to winter and summer periods based upon the percentage of customer-consumption registered during the winter and summer seasons." The Tier 1 and Tier 2 brackets carry the Sheet 2 and Sheet 3 quantities as kWh-per-day bounds on a kWh MetricInput, qualified by season, as pge:e-tou-c-baseline-tier does. Nothing in the filing states the daily basis, the multiplication by the days of each season in a billing period, or the proration by consumption, so a consumer must scale the bounds to the billing period itself.
+- Preliminary Statement Part H, paragraph 4: "The standard Medical Baseline Allocation will be 16.5 kWh per day", provided "in addition to the applicable Baseline Allocation set forth in Paragraph 3". Not modeled: the Tier 1 and Tier 2 bounds here carry the paragraph 3 allocation only, and sce:medical-baseline carries the Schedule MB-E Wildfire Fund exemption and no allocation. An adjusting-bracket modifier of the form this filing's HPWH document uses (urpx-org/urpx#80) is the available route.
+- Option 4-9 PM-CPP, printed on this filing's own Sheet 2: CPP Event Energy Charge $0.80000/kWh, Summer On-Peak Energy Credit $(0.15170)/kWh outside CPP Events, and Summer Season Maximum Available Credit $(0.58794)/kWh, with the CPP periods defined in Special Condition 1 (Sheet 9) and the program in Special Condition 3 (Sheets 10 and 11). Work, not a blocker: sce/tou-d-prime-cpp ships the same three figures as a urpx:RatePlanModifier, so what is missing is a sibling filing listed in applicable_modifiers, not vocabulary.
+- San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (Special Condition 13, Sheets 17 and 18): 20 percent of the monthly bill in pilot years 1 through 5, then 10 percent or 20 percent in years 6 through 10 depending on SCE's evaluation of participants' energy cost savings. Not modeled: the discount is gated on SJV Pilot participation, and a Price carrying it without that gate would discount every customer on the schedule. The percentage-of-subtotal shape itself is the one sce/care and sce/fera already ship against this filing's urpx:PriceSummary.
+- Transitional Community Solar Discount (Special Condition 14, Sheet 18): 20 percent monthly bill credit over the same 10-year bill protection period, for SJV Pilot participants who cannot take the Community Solar-Green Tariff or the Disadvantaged Communities-Green Tariff. Same pilot-participation gate as Special Condition 13.
+- California Climate Credit carry-forward (Sheet 16, Special Condition 11): the $(36.00) per household credit is priced, but the roll-over of any portion not consumed in a billing period to subsequent billing periods is not expressed, so a consumer whose bill is smaller than the credit drops the remainder. Whether URPX can express it is not established: urpx:BillingCycle and settlementInterval exist, and no filing in this corpus uses them.
+- Schedule TOU-D Sheet 9: "When any holiday listed above falls on Sunday, the following Monday will be recognized as a holiday. No change will be made for holidays falling on Saturday." New Year's Day, Independence Day, Veterans Day and Christmas in sce:tou-d-4-9pm-2026-06-01-holiday-calendar carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.
+- Base Services Charge component split (Sheet 3): the $0.794 per meter per day total is carried as one Price, but the sheet also prints its Distribution part of $0.429, itself a BSC Distribution Charge of $0.360 and a BSC Surcharge of $0.069, and a Public Purpose Programs part of $0.365. The $0.069 surcharge is the quantity CARE, FERA and DRAH customers are exempt from; sce/care and sce/fera price that exemption as a separate credit and sce/deed-restricted does not. Expressible now, purely additional PriceDefinitions summing to the same $0.794.
+- Special Condition 6, Change of Rate Schedule (Sheet 13), governs how long a customer stays on this Option and is not in the model. Verbatim: "At any time, a Customer on this Schedule may elect to leave his/her Option (e.g., Option 4-9 PM, Option 5-8 PM, Option PRIME) and elect to either: (1) switch to another Option of this Schedule for which they are eligible, or (2) transfer from this Schedule to another applicable residential rate schedule. The elected rate change will become effective on the next regularly scheduled meter read date following the Customer's notice to SCE. Unless the Customer was placed on an Option by SCE (i.e., defaulted), the Customer shall not be allowed to make an additional change in rate until 12 months of service has been provided under the elected rate, unless otherwise specified in that rate schedule." urpx:minimumTenure exists on RatePlanVersion and the model does not set it; the re-entry half has no v0.5.1 form.
+- Special Condition 9, Arrearage Management Plan (Sheet 14), in this filing's own PDF, changes what a customer on this Option owes and is not in the model. Verbatim: "Once enrolled in the AMP, SCE shall forgive 1/12 of an eligible residential Customer's arrearage after each on-time payment. After 12 on-time payments, SCE shall forgive the remaining arrearage debt up to a maximum of $8,000 per instance of enrollment." Eligibility is six months of SCE service, CARE or FERA enrollment, at least one on-time payment, and an arrearage of $500 or greater at least 90 days old.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-10-01` |
+| `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-10-01` |
+| `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
+| `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
+| `tou-d-4-9pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-4-9pm` @ 2026-10-01  &nbsp; base: ~
 
@@ -527,7 +571,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `tou-d-4-9pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-4-9pm/versions/2025-11-15` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-5-8pm` @ 2025-11-15  &nbsp; base: ~
 
@@ -546,7 +590,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `tou-d-5-8pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-5-8pm` @ 2026-03-20  &nbsp; base: ~
 
@@ -568,7 +612,31 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `tou-d-5-8pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
+
+#### `tou-d-5-8pm` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Preliminary Statement Part H, paragraph 3: "The total billable baseline quantity is determined based upon the total number of winter days and total number of summer days during the billing period. Total billable baseline is then proportionately billed to winter and summer periods based upon the percentage of customer-consumption registered during the winter and summer seasons." The Tier 1 and Tier 2 brackets carry the Sheet 2 and Sheet 3 quantities as kWh-per-day bounds on a kWh MetricInput, qualified by season, as pge:e-tou-c-baseline-tier does. Nothing in the filing states the daily basis, the multiplication by the days of each season in a billing period, or the proration by consumption, so a consumer must scale the bounds to the billing period itself.
+- Preliminary Statement Part H, paragraph 4: "The standard Medical Baseline Allocation will be 16.5 kWh per day", provided "in addition to the applicable Baseline Allocation set forth in Paragraph 3". Not modeled: the Tier 1 and Tier 2 bounds here carry the paragraph 3 allocation only, and sce:medical-baseline carries the Schedule MB-E Wildfire Fund exemption and no allocation. An adjusting-bracket modifier of the form this filing's HPWH document uses (urpx-org/urpx#80) is the available route.
+- Option 5-8 PM-CPP, printed on this filing's own Sheet 4: CPP Event Energy Charge $0.80000/kWh, Summer On-Peak Energy Credit $(0.15170)/kWh outside CPP Events, and Summer Season Maximum Available Credit $(0.58794)/kWh, with the CPP periods defined in Special Condition 1 (Sheet 9) and the program in Special Condition 3 (Sheets 10 and 11). Work, not a blocker: sce/tou-d-prime-cpp ships the same three figures as a urpx:RatePlanModifier, so what is missing is a sibling filing listed in applicable_modifiers, not vocabulary.
+- San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (Special Condition 13, Sheets 17 and 18): 20 percent of the monthly bill in pilot years 1 through 5, then 10 percent or 20 percent in years 6 through 10 depending on SCE's evaluation of participants' energy cost savings. Not modeled: the discount is gated on SJV Pilot participation, and a Price carrying it without that gate would discount every customer on the schedule. The percentage-of-subtotal shape itself is the one sce/care and sce/fera already ship against this filing's urpx:PriceSummary.
+- Transitional Community Solar Discount (Special Condition 14, Sheet 18): 20 percent monthly bill credit over the same 10-year bill protection period, for SJV Pilot participants who cannot take the Community Solar-Green Tariff or the Disadvantaged Communities-Green Tariff. Same pilot-participation gate as Special Condition 13.
+- California Climate Credit carry-forward (Sheet 16, Special Condition 11): the $(36.00) per household credit is priced, but the roll-over of any portion not consumed in a billing period to subsequent billing periods is not expressed, so a consumer whose bill is smaller than the credit drops the remainder. Whether URPX can express it is not established: urpx:BillingCycle and settlementInterval exist, and no filing in this corpus uses them.
+- Schedule TOU-D Sheet 9: "When any holiday listed above falls on Sunday, the following Monday will be recognized as a holiday. No change will be made for holidays falling on Saturday." New Year's Day, Independence Day, Veterans Day and Christmas in sce:tou-d-5-8pm-2026-06-01-holiday-calendar carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.
+- Base Services Charge component split (Sheet 5): the $0.794 per meter per day total is carried as one Price, but the sheet also prints its Distribution part of $0.429, itself a BSC Distribution Charge of $0.360 and a BSC Surcharge of $0.069, and a Public Purpose Programs part of $0.365. The $0.069 surcharge is the quantity CARE, FERA and DRAH customers are exempt from; sce/care and sce/fera price that exemption as a separate credit and sce/deed-restricted does not. Expressible now, purely additional PriceDefinitions summing to the same $0.794.
+- Special Condition 6, Change of Rate Schedule (Sheet 13), governs how long a customer stays on this Option and is not in the model. Verbatim: "At any time, a Customer on this Schedule may elect to leave his/her Option (e.g., Option 4-9 PM, Option 5-8 PM, Option PRIME) and elect to either: (1) switch to another Option of this Schedule for which they are eligible, or (2) transfer from this Schedule to another applicable residential rate schedule. The elected rate change will become effective on the next regularly scheduled meter read date following the Customer's notice to SCE. Unless the Customer was placed on an Option by SCE (i.e., defaulted), the Customer shall not be allowed to make an additional change in rate until 12 months of service has been provided under the elected rate, unless otherwise specified in that rate schedule." urpx:minimumTenure exists on RatePlanVersion and the model does not set it; the re-entry half has no v0.5.1 form.
+- Special Condition 9, Arrearage Management Plan (Sheet 14), in this filing's own PDF, changes what a customer on this Option owes and is not in the model. Verbatim: "Once enrolled in the AMP, SCE shall forgive 1/12 of an eligible residential Customer's arrearage after each on-time payment. After 12 on-time payments, SCE shall forgive the remaining arrearage debt up to a maximum of $8,000 per instance of enrollment." Eligibility is six months of SCE service, CARE or FERA enrollment, at least one on-time payment, and an arrearage of $500 or greater at least 90 days old.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-10-01` |
+| `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-10-01` |
+| `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
+| `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
+| `tou-d-5-8pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-5-8pm` @ 2026-10-01  &nbsp; base: ~
 
@@ -592,7 +660,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `tou-d-5-8pm-hpwh` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-5-8pm/versions/2025-11-15` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 
 #### `tou-d-prime` @ 2025-11-15  &nbsp; base: ~
 
@@ -612,7 +680,7 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 | `medical-line-item-discount` | ✗ missing | — |
 | `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
@@ -638,7 +706,32 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
+| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
+| `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
+
+#### `tou-d-prime` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Schedule TOU-D Sheet 9: "When any holiday listed above falls on Sunday, the following Monday will be recognized as a holiday. No change will be made for holidays falling on Saturday." New Year's Day, Independence Day, Veterans Day and Christmas in sce:tou-d-prime-2026-06-01-holiday-calendar carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. The Monday after a Sunday New Year's Day, Independence Day, Veterans Day or Christmas is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2029-11-12, 2032-07-05, 2033-12-26, 2034-01-02, 2035-11-12, 2038-07-05, 2039-12-26, 2040-01-02 and 2040-11-12. After 2040 each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.
+- Special Condition 5 (Sheet 12) limits the EV Meter Credit of $(0.461) per meter per day to "customers with a separate meter provided by SCE exclusively for the charging of Electric Vehicles, as defined in Rule 1", and Special Condition 17 (Sheet 19) limits the EV Submeter Credit of $(0.152) per meter per day to a customer whose EV submeter meets the Plug-In Electric Vehicle Submetering Protocol of Decision 22-08-024. Both are modeled as unconditional PriceDefinitions, so a consumer gives every Option PRIME customer both credits. v0.5.1 supplies the vocabulary: PriceDefinition and Price both carry urpx:hasApplicabilityRule, and ApplicabilityRule carries urpx:hasConditionExpression with a CustomOperandNode for the metering arrangement. Not built.
+- San Joaquin Valley Disadvantaged Communities Pilot Bill Protection Discount (Special Condition 13, Sheets 17 and 18): 20 percent of the monthly bill in pilot years 1 through 5, then 10 percent or 20 percent in years 6 through 10 depending on SCE's evaluation of participants' energy cost savings. Not modeled: the discount is gated on SJV Pilot participation, and a Price carrying it without that gate would discount every customer on the schedule. The percentage-of-subtotal shape itself is the one sce/care and sce/fera already ship against this filing's urpx:PriceSummary.
+- Transitional Community Solar Discount (Special Condition 14, Sheet 18): 20 percent monthly bill credit over the same 10-year bill protection period, for SJV Pilot participants who cannot take the Community Solar-Green Tariff or the Disadvantaged Communities-Green Tariff. Same pilot-participation gate as Special Condition 13.
+- urpx:PriceSummary sce:tou-d-prime-2026-06-01-summary-discountable, the subtotal that sce/care and sce/fera discount against, names 24 Prices in two different denominations: 22 in $/kWh, and two in $/Meter/Day (sce:price-ev-meter-credit-2026-06-01 at $(0.461) and sce:price-ev-submeter-credit-2026-06-01 at $(0.152), both per Sheets 6 and 7). A sum over the urpx:unitPrice values of its members adds dollars per day to dollars per kWh, so the CARE 32.5 percent of Special Condition 7 and the FERA 18.0 percent of Special Condition 8 are percentages of a mixed-unit figure. Split it into two unit-homogeneous summaries with one modifier Price over each.
+- California Climate Credit carry-forward (Sheet 16, Special Condition 11): the $(36.00) per household credit is priced, but the roll-over of any portion not consumed in a billing period to subsequent billing periods is not expressed, so a consumer whose bill is smaller than the credit drops the remainder. Whether URPX can express it is not established: urpx:BillingCycle and settlementInterval exist, and no filing in this corpus uses them.
+- The California Climate Credit's urpx:ApplicabilityRule asserts urpx:month "--04" and "--10". This filing's PDF names neither month: the rate tables footnote the credit only as "Applied on an equal basis, per household, semi-annually" and Special Condition 11 (Sheet 16) names no month. Either cite an external SCE source for April and October, or reduce the claim to the semi-annual statement the sheets make.
+- Special Condition 4, PRIME Eligibility Requirements (Sheet 12), is modeled inaccurately. Verbatim: "Beginning May 1, 2019, all Customers newly requesting to take service under Option PRIME or Option PRIME-CPP effective March 20, 2020, must attest to having one or more of the following technologies to be eligible for service on Option PRIME or Option PRIME-CPP: (1) Electric Vehicle; (2) On-site behind-the-meter (BTM) energy storage system; (3) Electric heat pump system for water; and/or (4) Electric heat pump system for space heating". The model's four-leaf OR is storageDER, evChargingDER, airSourceHeatPump and a CustomOperandNode "Program Enrollment" = "Net Billing Tariff (NBT)": the heat-pump-water-heater path is absent and the NBT leaf is in no Special Condition.
+- Special Condition 6, Change of Rate Schedule (Sheet 13), governs how long a customer stays on this Option and is not in the model. Verbatim: "At any time, a Customer on this Schedule may elect to leave his/her Option (e.g., Option 4-9 PM, Option 5-8 PM, Option PRIME) and elect to either: (1) switch to another Option of this Schedule for which they are eligible, or (2) transfer from this Schedule to another applicable residential rate schedule. The elected rate change will become effective on the next regularly scheduled meter read date following the Customer's notice to SCE. Unless the Customer was placed on an Option by SCE (i.e., defaulted), the Customer shall not be allowed to make an additional change in rate until 12 months of service has been provided under the elected rate, unless otherwise specified in that rate schedule." urpx:minimumTenure exists on RatePlanVersion and the model does not set it; the re-entry half has no v0.5.1 form.
+- Special Condition 9, Arrearage Management Plan (Sheet 14), in this filing's own PDF, changes what a customer on this Option owes and is not in the model. Verbatim: "Once enrolled in the AMP, SCE shall forgive 1/12 of an eligible residential Customer's arrearage after each on-time payment. After 12 on-time payments, SCE shall forgive the remaining arrearage debt up to a maximum of $8,000 per instance of enrollment." Eligibility is six months of SCE service, CARE or FERA enrollment, at least one on-time payment, and an arrearage of $500 or greater at least 90 days old.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `care` | ~ present-incomplete | `us/ca/sce/electricity/care/versions/2026-10-01` |
+| `cca-crs` | ~ present-incomplete | `us/ca/sce/electricity/cca-crs/versions/2026-10-01` |
+| `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
+| `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
+| `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 | `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
 
@@ -662,7 +755,7 @@ Base deferrals:
 | `da-crs` | ~ present-incomplete | `us/ca/sce/electricity/da-crs/versions/2026-10-01` |
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
-| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2025-10-01` |
+| `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 | `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
 

@@ -226,11 +226,13 @@ def render_md(d: dict) -> str:
         w(f"| **{OUTCOME_LABEL[k]}** | {n} | {det} |")
     w(f"| **total** | {len(ar)} | {determined} |")
     w("")
-    w("- **servable** resolves to a number at every probe instant.")
+    w("- **servable** resolves to a number at every probe instant inside the window of each version it "
+      "composes; an instant outside that window is not applicable.")
     w("- **not priced per kWh** resolves, and legitimately prices nothing per kWh. CPAU E-14 and E-16 "
       "are street lighting: they price per lamp, per fixture and per month. This is not a defect.")
     w("- **blocked** refuses for a reason that is a gap or an undecided selection.")
-    w("- **not measured** has no row in the baseline, so nothing is claimed about it either way.")
+    w("- **not measured** has no row in the baseline, or no probe instant inside its window, so nothing "
+      "is claimed about it either way.")
     w("")
 
     w("## By utility")
@@ -392,7 +394,7 @@ def render_edn(d: dict) -> str:
     w(";; versions only. See reports/scenario-cost-models.md for why.")
     w(";;")
     w(";; :outcome is read from dev/baseline/marginal-rates.edn, not re-resolved.")
-    w(";;   :servable           resolved at every probe instant")
+    w(";;   :servable           resolved at every probe instant inside its window")
     w(";;   :not-priced-per-kwh resolved, and legitimately prices nothing per kWh")
     w(";;   :blocked            refused: a gap or an undecided selection")
     w(";;   :not-measured       no baseline row, so nothing is claimed")

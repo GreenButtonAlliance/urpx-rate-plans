@@ -46,9 +46,9 @@ RETRIEVED = "2026-10-06"
 # Advice 5837-E (91328-E to 91334-E, 91310-E to 91316-E), all as printed on the
 # copies of those schedules fetched 2026-09-23 into data/documents/sce/. The
 # CARE and FERA values (D-CARE Sheet 1, 90844-E; TOU-D Sheet 18, 90943-E) were
-# cancelled by 91134-E and by 91202-E or 91203-E, which are in no document in
-# hand; their numbers fall in the block Advice 5829-E's sheets occupy, all
-# effective June 1, 2026.
+# cancelled on June 1, 2026 by Advice 5829-E's 91134-E and 91202-E, as printed
+# in that advice letter. dev/author_sce_2026_06.py adds the versions that begin
+# on these dates.
 EXPIRES = {
     "tou-d-4-9pm": "2026-06-01", "tou-d-5-8pm": "2026-06-01", "tou-d-prime": "2026-06-01",
     "d": "2026-06-01", "tou-d-prime-cpp": "2026-06-01", "deed-restricted": "2026-06-01",
@@ -439,7 +439,7 @@ PROSE: dict[str, dict[str, dict[str, str]]] = {
             "the Public Utilities Commission Reimbursement Fee and any applicable user fees, taxes and late payment "
             "charges. This filing models it as a urpx:Price carrying urpx:multiplier -0.325 over the discountable "
             "subtotal of whichever SCE residential base plan the customer takes service under, naming the candidate "
-            "subtotals of four schedules at three effective dates, read disjunctively so that the one present in "
+            "subtotals of four schedules at every effective date, read disjunctively so that the one present in "
             "the consumer's graph applies. Each subtotal omits the Reimbursement Fee, the California Climate Credit, "
             "which Special Condition 12 applies after city and county utility users' taxes, and the Base Services "
             "Charge, which this filing adjusts through two per-meter-per-day credits. The four line items of the "
@@ -681,13 +681,11 @@ Discount (Special Condition 14) on Sheet 18; and EV Submetering on Sheet 19.
 The TOU periods, holidays and seasons are unchanged from the 2026-03-20
 version."""
 
-TOU_D_GAP = """Supersession. The 2026-03-20 version's rate sheets (90937-E to 90942-E) were
-cancelled on June 1, 2026 by Advice 5829-E (91196-E to 91201-E), and Schedule
-TOU-D was reissued again on June 25, 2026 under Advice 5837-E, both as printed
-in data/documents/sce/ELECTRIC_SCHEDULES_TOU-D.pdf (retrieved 2026-09-23).
-Neither issue is in this corpus. The 2026-03-20 version therefore carries
-urpx:expirationDateTime 2026-06-01 (LAYOUT.md section 9), and June 1 to
-September 30, 2026 is a gap in this schedule's versions."""
+TOU_D_GAP = """Supersession. This version follows the 2026-06-01 version. Advice 5897-E's
+sheets cancel the June 2026 sheets that version models: Advice 5829-E's rate
+Sheets 2 to 6 (91196-E to 91200-E, effective June 1, 2026) and Advice 5837-E's
+reissue of Sheets 1 and 7 to 19 (91354-E to 91367-E, effective June 25,
+2026)."""
 
 
 def holiday_deferral(sched: str) -> str:
@@ -1046,12 +1044,8 @@ $(0.197).""",
 effective October 1, 2026; Sheets 1, 4, 5, 8 and 9 are unchanged since
 November 15, 2025 (Advice 5654-E).
 
-Supersession. The 2026-03-20 version's rate sheets (90841-E, 90842-E) were
-cancelled on June 1, 2026 by Advice 5829-E (91130-E, 91131-E), as printed in
-data/documents/sce/ELECTRIC_SCHEDULES_D.pdf (retrieved 2026-09-23). That issue
-is not in this corpus. The 2026-03-20 version therefore carries
-urpx:expirationDateTime 2026-06-01 (LAYOUT.md section 9), and June 1 to
-September 30, 2026 is a gap in this schedule's versions.""",
+Supersession. This version follows the 2026-06-01 version, whose Sheets 2, 3,
+6 and 7 (91130-E to 91133-E, Advice 5829-E) these cancel.""",
     "care": """Schedule D-CARE as of 2026-10-01: Sheet 1 (91562-E, Advice 5897-E) effective
 October 1, 2026; Sheet 2 (91082-E, Advice 5813-E, the Special Condition 2
 income limits) effective June 1, 2026; Sheet 4 (91323-E, Advice 5837-E)
@@ -1059,41 +1053,25 @@ effective June 25, 2026; Sheets 3, 5 and 6 unchanged since 2025 or March 20,
 2026. Sheet 1 adds an exemption from a \"CARE exempted Public Purpose Programs
 Charge of ($0.025) per meter per day\", recorded as a deferral.
 
-Supersession. The 2026-03-20 version's Sheet 1 (90844-E) was cancelled by
-91134-E, which 91322-E (Advice 5837-E, June 25, 2026) in turn cancels. 91134-E
-is in no document in hand. Its number falls in the block of Advice 5829-E's
-sheets (91130-E to 91133-E on Schedule D, 91196-E to 91203-E on Schedule
-TOU-D), all of which are effective June 1, 2026, so the 2026-03-20 version
-carries urpx:expirationDateTime 2026-06-01, and June 1 to September 30, 2026
-is a gap in this modifier's versions. The June 25, 2026 Sheet 1 printed
-$0.209, $0.069 and $(0.168) for the CARE Surcharge, BSC Surcharge and BSC
-Discount.""",
+Supersession. This version follows the 2026-06-01 version: Sheet 1 (91562-E)
+cancels 91322-E (Advice 5837-E, effective June 25, 2026), which cancelled
+91134-E (Advice 5829-E, effective June 1, 2026).""",
     "cca-crs": """Advice 5897-E reissued Schedule CCA-CRS Sheets 4 to 10 (91551-E to 91557-E)
 effective October 1, 2026; Sheets 1 to 3 are unchanged since July 27, 2023
 and Sheets 11 and 12 since January 1, 2026. Domestic row: the Fixed Recovery
 Charge and every PCIA vintage from 2009 moved; WFC $0.00591 and CTC $0.00014
 are unchanged.
 
-Supersession. The 2026-03-20 version's Sheets 4 to 10 (90832-E to 90838-E)
-were cancelled on June 25, 2026 by Advice 5837-E (91310-E to 91316-E), as
-printed in data/documents/sce/ELECTRIC_SCHEDULES_CCA-CRS.pdf (retrieved
-2026-09-23), whose Domestic row carries the same 23 values as the 2026-03-20
-version. The 2026-03-20 version therefore carries urpx:expirationDateTime
-2026-06-25 (LAYOUT.md section 9), and June 25 to September 30, 2026 is a gap
-in this modifier's versions.""",
+Supersession. This version follows the 2026-06-25 version, whose Sheets 4 to 10
+(91310-E to 91316-E, Advice 5837-E) these cancel.""",
     "da-crs": """Advice 5897-E reissued Schedule DA-CRS Sheets 4 to 10 (91564-E to 91570-E)
 effective October 1, 2026; Sheets 1 to 3 are unchanged since July 27, 2023
 and Sheets 11 and 12 since January 1, 2026. Domestic row: the Fixed Recovery
 Charge and every PCIA vintage from 2009 moved; WFC $0.00591 and CTC $0.00014
 are unchanged.
 
-Supersession. The 2026-03-20 version's Sheets 4 to 10 (90845-E to 90851-E)
-were cancelled on June 25, 2026 by Advice 5837-E (91328-E to 91334-E), as
-printed in data/documents/sce/ELECTRIC_SCHEDULES_DA-CRS.pdf (retrieved
-2026-09-23), whose Domestic row carries the same 23 values as the 2026-03-20
-version. The 2026-03-20 version therefore carries urpx:expirationDateTime
-2026-06-25 (LAYOUT.md section 9), and June 25 to September 30, 2026 is a gap
-in this modifier's versions.""",
+Supersession. This version follows the 2026-06-25 version, whose Sheets 4 to 10
+(91328-E to 91334-E, Advice 5837-E) these cancel.""",
 }
 
 TOU_D_FAMILY = ["tou-d-4-9pm", "tou-d-5-8pm", "tou-d-prime", "tou-d-prime-cpp", "deed-restricted", "fera"]
@@ -1122,17 +1100,7 @@ def write_manifest(slug: str, rows) -> None:
         regulator = f'[regulator]\nauthority = "puc"\ndocket = "{DOCKET}"'
     parts = [FETCHED]
     if slug in TOU_D_FAMILY:
-        parts += [TOU_D_SHEETS, TOU_D_GAP.replace("this schedule's", "this modifier's")
-                  if slug in MODIFIERS else TOU_D_GAP]
-        if slug in ("fera",):
-            assert "(91196-E to 91201-E)" in parts[-1]
-            parts[-1] = parts[-1].replace(
-                "The 2026-03-20 version's rate sheets (90937-E to 90942-E) were\ncancelled on June 1, 2026 by "
-                "Advice 5829-E (91196-E to 91201-E)",
-                "The 2026-03-20 version's source, Sheet 18 (90943-E), was cancelled\nby 91202-E or 91203-E, "
-                "which are in no document in hand and whose numbers\nfall in the block of Advice 5829-E's sheets, "
-                "all effective June 1, 2026;\nthe rate sheets of Options 4-9 PM, 5-8 PM and PRIME (90937-E to "
-                "90942-E) were\ncancelled on June 1, 2026 by Advice 5829-E (91196-E to 91201-E)")
+        parts += [TOU_D_SHEETS, TOU_D_GAP]
     if NOTES.get(slug):
         parts.append(NOTES[slug])
     parts.append("Price changes from the 2026-03-20 version, $ (per kWh unless a per-day\ncharge):\n"
@@ -1160,7 +1128,7 @@ def write_manifest(slug: str, rows) -> None:
         lines += ["applicable_modifiers = [", *[f' "{m}",' for m in mods], "]"]
     lines += ["", "# Review ----------------------------------------------------------------------",
               "[review]", 'status = "draft"',
-              f'notes = {toml_str(f"Derived from the 2026-03-20 version by dev/author_sce_2026_10_01.py: every Price reconciled to the Advice 5897-E sheets, prose and citations rewritten for them. See [extraction] notes for the price changes and the supersession gap.")}',
+              f'notes = {toml_str(f"Derived from the 2026-03-20 version by dev/author_sce_2026_10_01.py: every Price reconciled to the Advice 5897-E sheets, prose and citations rewritten for them. See [extraction] notes.")}',
               ""]
     text = "\n".join(lines)
     load_toml_text(text)
@@ -1196,12 +1164,20 @@ def candidates() -> None:
     """Every CARE, FERA and CRS Price over base subtotals names every candidate.
 
     dev/lint_discount_summaries.py requires each such Price, in every version, to
-    name each base's subtotal at every date, read disjunctively; so the 2026-10-01
-    subtotals join the older versions' lists and the new versions keep the older
-    subtotals beside their own.
+    name each base's subtotal at every date, read disjunctively. The candidates
+    are the subtotals of that kind the base filings on disk actually define, so
+    a version added at any date joins every list.
     """
     order = {b: i for i, b in enumerate(BASES)}
     pat = re.compile(r"^sce:(.+)-(\d{4}-\d{2}-\d{2})-summary-(discountable|generation)$")
+    defined: dict[str, set[str]] = {"discountable": set(), "generation": set()}
+    for b in BASES:
+        for p in (SCE / b / "versions").glob("*/rate-plan_*.jsonld"):
+            def h(d):
+                m = pat.match(d.get("@id", ""))
+                if m and m.group(1) == b and len(d) > 1:
+                    defined[m.group(3)].add(d["@id"])
+            walk(load(p), h)
     for slug in ("care", "fera", "cca-crs", "da-crs"):
         for p in sorted((SCE / slug / "versions").glob("*/*.jsonld")):
             doc = load(p)
@@ -1211,25 +1187,24 @@ def candidates() -> None:
                     return
                 names = {x["@id"] for x in d["urpx:basedOnPrice"]}
                 kinds = {pat.match(n).group(3) for n in names}
-                bases = {pat.match(n).group(1) for n in names}
-                for n in list(names):
-                    b, date, kind = pat.match(n).groups()
-                    names |= {f"sce:{b}-{x}-summary-{kind}" for x in (OLD, NEW)}
-                assert len(kinds) == 1 and bases <= set(BASES), (p, kinds, bases)
+                assert len(kinds) == 1, (p, kinds)
                 d["urpx:basedOnPrice"] = [{"@id": n} for n in sorted(
-                    names, key=lambda n: (order[pat.match(n).group(1)], pat.match(n).group(2)))]
+                    defined[kinds.pop()], key=lambda n: (order[pat.match(n).group(1)], pat.match(n).group(2)))]
             walk(doc, f)
 
             def g(d):
                 t = d.get("urpx:description")
-                if isinstance(t, str) and EIGHT in t:
-                    d["urpx:description"] = t.replace(EIGHT, TWELVE)
+                if isinstance(t, str):
+                    for old in COUNTED:
+                        t = t.replace(old, EVERY)
+                    d["urpx:description"] = t
             walk(doc, g)
             dump(p, doc)
 
 
-EIGHT = "The price names all eight candidate subtotals, four schedules at two effective dates each,"
-TWELVE = "The price names all twelve candidate subtotals, four schedules at three effective dates each,"
+COUNTED = ("The price names all eight candidate subtotals, four schedules at two effective dates each,",
+           "The price names all twelve candidate subtotals, four schedules at three effective dates each,")
+EVERY = "The price names the candidate subtotals of four schedules at every effective date,"
 
 
 def main(argv: list[str]) -> int:

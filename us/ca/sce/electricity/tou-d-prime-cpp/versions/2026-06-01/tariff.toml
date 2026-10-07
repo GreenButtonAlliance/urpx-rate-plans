@@ -1,0 +1,92 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "tou-d-prime-cpp"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+sha256 = "28cc218a0325921ec5292c9413f1e0eb19d197d1f832a8746835c3afe3cfc473"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5829-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 5829-E"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-06"
+notes = """
+Source bytes. This is data/documents/sce/ELECTRIC_SCHEDULES_TOU-D.pdf as
+retrieved 2026-09-23 by dev/fetch_tariff_documents.py. The unwrapper then in
+use cut the multipart part at its last %%EOF and dropped the end-of-line that
+closes it, and SCE reissued the document effective 2026-10-01, so the part as
+served cannot be fetched again; the committed file and the sha256 above are
+those bytes, one end-of-line short of the response.
+
+The 2026-09-23 copy of Schedule TOU-D holds Advice 5829-E's rate sheets,
+Sheets 2 to 6 (91196-E to 91200-E), effective June 1, 2026, and Advice
+5837-E's reissue of every other sheet (91354-E, 91355-E to 91367-E), effective
+June 25, 2026. Advice 5829-E's own copies of the sheets the June 25 reissue
+cancelled (Sheet 7, 91201-E; Sheet 18, 91202-E, the CARE and FERA Special
+Conditions; Sheet 20, 91203-E, the DRAH terms) print the same values as their
+June 25 successors, so the values modeled here held from June 1 to September
+30, 2026. Advice 5837-E renumbered the Special Conditions: TOU periods,
+holidays and seasons in Special Condition 1 (Sheets 8 and 9); Critical Peak
+Pricing in Special Condition 3 (Sheets 10 and 11); PRIME eligibility in
+Special Conditions 4 and 5 (Sheet 12); Change of Rate Schedule, CARE and FERA
+in Special Conditions 6 to 8 (Sheet 13); the Arrearage Management Plan in
+Special Condition 9 (Sheet 14); Billing Calculation, with the DRAH terms, in
+Special Condition 10 (Sheets 15 and 16); the California Climate Credit in
+Special Condition 11 (Sheet 16); the SJV Pilot and Transitional Community
+Solar discounts in Special Conditions 13 and 14 (Sheets 17 and 18); EV
+Submetering in Special Condition 17 (Sheet 19). The TOU periods, holidays and
+seasons are those of the 2026-03-20 version.
+
+Supersession. This version begins at the effective date of the sheet that
+cancels the 2026-03-20 version's rate sheet and ends at 2026-10-01, when
+Advice 5897-E's sheets cancel its own.
+
+Advice letters. ELECTRIC_5829-E.pdf (sha256
+a5dc33e4ccd6b1dcf2d82bf6b33867ce1cf2d97f19d897ba93c8d9796cc93733) and
+ELECTRIC_5837-E.pdf (sha256
+44858dad74d4b648cbc31bf4a42590fd0e9063e7f734b94855375f779390ad6b), retrieved
+2026-10-06 from SCE's Approved Electric advice letter folder
+(https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Filings-Advice%20Letters/Approved/Electric/),
+state their sheets' effective dates (June 1, 2026 and June 25, 2026). They are
+cited, not vendored.
+
+Price changes from the 2026-03-20 version, $ (per kWh unless a per-day
+charge):
+ none
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-06"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "CPP time windows are not modeled, so both CPP prices apply at every hour. Special Condition 1 (Sheet 9): \"CPP Event Energy Charge Periods: 4:00 p.m. to 9:00 p.m. summer and winter days during a CPP Event only. CPP Non-Event Energy Credit Periods: Summer Season days 4:00 p.m. to 9:00 p.m., when a CPP Event is not occurring.\" This filing carries no TOUSchedule, TOUPeriod or TimeBracket. Expressible at v0.5.1 with urpx:hasTOUSchedule on the modifier's BillingModel (precedent: smud:tou-pev-credit). Work, not a blocker.",
+ "Maximum Available Credit is carried as an additive credit of -0.58794 per kWh, but the schedule makes it a cap. Sheet 6 footnote: \"The Maximum Available Credit is the capped credit amount for CPP Customers dual participating in other demand response programs.\" Special Condition 3.d (Sheet 11): \"For CPP Customers grandfathered to continue to dually participate with Schedule D-SDP, the sum of credits provided by the dual participating demand response program of this Schedule will be capped.\" URPX v0.5.1 has no vocabulary for a bound on the sum of two credits. Stop publishing it as an additive Price.",
+ "Summer-only applicability is recorded on the Price rather than the PriceDefinition. Both credit Prices carry urpx:hasApplicabilityRule with month --06 --07 --08 --09, and neither PriceDefinition carries a month of its own. Moving the rule to the PriceDefinition is the modeling fix; URPX expresses the constraint either way.",
+ "No CPP credit for exported generation is not modeled. Special Condition 3 (Sheet 10): \"No CPP credits will be provided for exported generation, i.e., energy produced and exported by the Customer's Generating Facility during CPP Non-Event Credit Periods.\" All three CPP prices share one direction-less MetricInput, sce:tou-d-prime-cpp-2026-06-01-mi-energy, so the credit is priced on imported and exported kWh alike. urpx:flowDirection on a MetricSpecification is the v0.5.1 route. Work, not a blocker.",
+ "Bill Protection is not modeled. Special Condition 3.e (Sheet 11): \"A Customer served on CPP will receive a one-time Bill Protection credit for the positive sum, if any, in total CPP Event Energy Charges and total CPP Summer Non-Event Energy Credits as calculated under a the applicable Option with CPP, and as measured over a period of up to 12 months from the date the Customer elects an Option with CPP.\" What cannot be computed is its amount, the conditional positive-part arithmetic in 'the positive sum, if any'; v0.5.1 has no cap, floor or greater-of vocabulary outside DynamicPricing runtime clamps.",
+ "Special Conditions 3.a to 3.c (Sheet 10) trigger and bound the CPP Event Energy Charge this filing prices at $0.80000/kWh, and none of it is in the model. Verbatim: \"SCE may, at its discretion, call a CPP Event any day.\" \"There will be a minimum of 12 CPP events and a maximum of 15 CPP Events per calendar year.\" \"SCE will begin to notify Customers no later than 3:00 p.m. the day before a CPP Event.\" DynamicPricingShape and PriceUpdateRuleShape are both sh:closed and neither admits an event count, a notice interval or a trigger criterion, so this is a blocked deferral rather than unbuilt work.",
+ "Special Condition 3.d's limits (Sheet 11: Bundled Service Customers only; Direct Access, CCA Service and Schedule S customers ineligible; no dual enrollment in other demand response programs) and the PRIME attestation of Special Condition 4 (Sheet 12) are availability terms the single EligibilityRule does not encode.",
+ "The Maximum Available Credit Price is gated on a customer attribute this filing cannot decide: its ApplicabilityRule compares the CustomOperandNode 'Grandfathered D-SDP Dual Participation' to true, and whether a given customer continues dual participation with Schedule D-SDP is stated by no property of the document. A per-unit rate summed over the three Prices therefore rests on assuming the gate holds, so dev/baseline/marginal-rates.edn records this filing as refused rather than carrying a rate.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-03-20 version by dev/author_sce_2026_06.py: every Price reconciled to the June 2026 sheets, prose and citations rewritten for them. See [extraction] notes."

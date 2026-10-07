@@ -62,6 +62,12 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 # dev/validate_v020.clj's `legitimate-refusals`; they are repeated here because
 # this module reads the recorded baseline, not the validator.
 NOT_PRICED_REASONS = {":no-energy-ledger", ":all-energy-tiers-excluded"}
+# A probe instant outside a version's window says the version does not apply
+# then, not that it failed: a filing effective 2026-10-01 refuses at a July
+# probe for the same reason one superseded in June refuses at an October one.
+# classify() leaves such cells out rather than counting them against the
+# composition.
+OUTSIDE_WINDOW_REASONS = {":not-yet-effective", ":outside-version-window"}
 
 # Every urpx:effectiveDateTime in this corpus is written without an offset, and
 # every filing in it is Californian, so a naive value is read in this zone. A
@@ -501,9 +507,12 @@ def load_baseline() -> dict:
 def classify(keys: list[str], baseline: dict) -> tuple[str, str]:
     """(outcome, reason) for one composition, from its baseline rows.
 
-    A composition is servable only when EVERY row at EVERY probe instant
-    resolved. A key with no row, or a key that resolves at some instants and
-    refuses at others, is never servable.
+    A composition is servable only when EVERY row resolved at EVERY probe
+    instant inside its window. A cell refused because the instant is outside a
+    version's window (OUTSIDE_WINDOW_REASONS) is not applicable and is left out;
+    a composition with no applicable cell at all is unmeasured. A key with no
+    row, or a key that resolves at some applicable instants and refuses at
+    others, is never servable.
     """
     if not keys:
         return UNMEASURED, (
@@ -522,9 +531,13 @@ def classify(keys: list[str], baseline: dict) -> tuple[str, str]:
                 f"{key} carries {len(cells)} of {n_instants} probe instants"
             )
         for cell in cells.values():
+            if cell["status"] == ":refused" and cell["reason"] in OUTSIDE_WINDOW_REASONS:
+                continue
             statuses.add(cell["status"])
             if cell["reason"]:
                 reasons.add(cell["reason"])
+    if not statuses:
+        return UNMEASURED, "no probe instant falls inside the window of every version it composes"
     if statuses == {":ok"}:
         return SERVABLE, ""
     if statuses == {":refused"} and reasons and reasons <= NOT_PRICED_REASONS:
