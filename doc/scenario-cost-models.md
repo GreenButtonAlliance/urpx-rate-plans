@@ -160,6 +160,8 @@ clj-urpx computes it. Walking the corpus is the client's job: use the corpus's o
 | `:repeated-ids` | `repeated-ids-refuse` |
 | `:package-zones` | `:agree` |
 
+`:repeated-ids` and `:package-zones` decide how the documents are read, so they belong to `urpx.scenario-cost-model/prepare`, which reads the documents once; `enumerate`, `enumerate-pairs` and `from-node` take its value in place of the documents, with the other three options.
+
 The IRIs follow [IRIs](#iris), which clj-urpx implements as `urpx.scenario-cost-model/rate-plans-iri` and tests against the vectors there; `urpx.scenario-cost-model/node` with it as the IRI function builds each model's node. Each node's `urpx:name` is built as [The emitted document](#the-emitted-document) describes, which clj-urpx implements as `urpx.scenario-cost-model/rate-plans-name`, to pass `node` as its `:name`.
 
 The committed document is the reference such a client is checked against: `dev/gate.sh` requires clj-urpx's enumeration, at the pinned instant and under these policies, to equal it node for node.

@@ -80,7 +80,8 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 PROBE = REPO / "dev" / "cross_check_scenario_cost_models.clj"
 EMITTED = "reports/scenario-cost-models.jsonld"
 
-# The clj-urpx 0.37.0 API this check calls, and the name it had through 0.35.0.
+# The clj-urpx API this check calls (0.37.0, plus `prepare` from 0.43.0), and
+# the name it had through 0.35.0.
 # The old name is only probed for, to say what happened when API_NAMESPACE is
 # gone; its API is not implemented here.
 API_NAMESPACE = "urpx.scenario-cost-model"

@@ -11,7 +11,7 @@
 ;; <namespace>/enumerate return over this corpus at that instant, what node does
 ;; <namespace>/node build for each model under <namespace>/rate-plans-iri, named
 ;; by <namespace>/rate-plans-name, and if they cannot be asked, WHY not.
-;; <namespace> is urpx.scenario-cost-model, the clj-urpx 0.37.0 API. The names after it are probed only to say which one
+;; <namespace> is urpx.scenario-cost-model, the clj-urpx 0.37.0 API plus its 0.43.0 `prepare`. The names after it are probed only to say which one
 ;; is present when <namespace> is not; this probe implements none of their APIs.
 ;; Every answer is a single XC- line on stdout, so the caller reads a state
 ;; rather than inferring one from an exit code that a JVM warning could muddy.
@@ -49,7 +49,7 @@
 ;; missing one is named rather than discovered as a nil deref.
 (def ^:private required-vars
   '[enumerate-pairs enumerate identity-tuple node rate-plans-iri rate-plans-name
-    one-modifier-at-most named-versions-add repeated-ids-refuse])
+    one-modifier-at-most named-versions-add repeated-ids-refuse prepare])
 
 (defn- emit [state detail]
   (println (str "XC-STATE " state (when detail (str " " detail))))
@@ -144,8 +144,9 @@
     (catch Throwable t (emit "documents-error" (one-line t)))))
 
 ;; ALL FIVE PARAMETERS ARE STATED, none defaulted, because matching on a default
-;; is agreement by coincidence rather than by assertion. Three are clj-urpx
-;; options; the instant is ours. What each one is doing, and what it costs:
+;; is agreement by coincidence rather than by assertion. :repeated-ids and
+;; :package-zones decide what is read, so they are given once to `prepare`; the
+;; other three go to each call. What each one is doing, and what it costs:
 ;;
 ;;   :at             the pinned instant. A scenario cost model is current when every
 ;;                   component is, so a pair count is a property of the corpus
@@ -248,15 +249,24 @@
 ;; own filing, which is a corpus-layout rule no library can implement. With no
 ;; repeated @ids left, the two sides agree without either rule being exercised.
 ;; If that ever stops holding, this gate fires, which is what it is for.
+
+;; The corpus read once, under the two read-time policies, for enumerate-pairs
+;; and enumerate below.
+(def ^:private prepared
+  (try
+    ((ns-resolve api-ns 'prepare)
+     documents
+     {:repeated-ids  @(ns-resolve api-ns 'repeated-ids-refuse)
+      :package-zones :agree})
+    (catch Throwable t (emit "call-error" (one-line t)))))
+
 (def ^:private opts
   {:at            (ZonedDateTime/parse at-literal)
    :combine       @(ns-resolve api-ns 'one-modifier-at-most)
-   :compatibility @(ns-resolve api-ns 'named-versions-add)
-   :repeated-ids  @(ns-resolve api-ns 'repeated-ids-refuse)
-   :package-zones :agree})
+   :compatibility @(ns-resolve api-ns 'named-versions-add)})
 
 (def ^:private result
-  (try (f documents opts)
+  (try (f prepared opts)
        (catch Throwable t (emit "call-error" (one-line t)))))
 
 (defn- shape-error [r]
@@ -287,7 +297,7 @@
 ;; selection, each printed as its identity-tuple, which is the form
 ;; dev/scenario_cost_models.py identifies a scenario cost model by.
 (def ^:private models
-  (try ((ns-resolve api-ns 'enumerate) documents opts)
+  (try ((ns-resolve api-ns 'enumerate) prepared opts)
        (catch Throwable t
          (println (str "XC-MODELS-ERROR " (one-line t)))
          (flush)
