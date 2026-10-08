@@ -176,16 +176,16 @@ MIDAS_STALE_DAYS = 30
 def report_midas_staleness() -> None:
     """Print how old the MIDAS coverage report is. Never fails, never fetches.
 
-    scripts/build-midas-coverage-report.py is NOT in STEPS on purpose: it calls a
-    live API for roughly 2,500 rate identifiers, takes five to ten minutes, and
-    needs MIDAS_USERNAME and MIDAS_PASSWORD. Running that per commit would make
-    every commit slow, networked and credentialed.
+    scripts/build-midas-coverage-report.py is NOT in STEPS on purpose: it reads
+    data/midas/midas.sqlite, the untracked store dev/mine_midas.py writes, which
+    a checkout of the index does not have. It makes no network calls and needs
+    no credentials, but its input is only as fresh as the last mine.
 
     But leaving it out entirely is how it went four months stale without anyone
     noticing, which is the same silence the corpus-coverage generator sat in. So
     the age is printed on every full run. Refresh deliberately:
 
-        MIDAS_USERNAME=... MIDAS_PASSWORD=... python3 scripts/build-midas-coverage-report.py
+        python3 dev/mine_midas.py && python3 scripts/build-midas-coverage-report.py
     """
     import datetime
     print()

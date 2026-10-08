@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """MIDAS RIN coverage gap analysis.
 
-For every MIDAS-published Rate Identification Number (RIN) under the three CA
-IOUs, classify whether the rate is covered by:
+For every MIDAS-published Rate Identification Number (RIN) on a party segment
+of a utility this corpus models, classify whether the rate is covered by:
 
   - the URPX corpus (a urpx:RatePlan or urpx:RatePlanModifier in this repo
     that semantically corresponds to the RIN)
@@ -13,18 +13,18 @@ IOUs, classify whether the rate is covered by:
 For each gap, the downstream decision is URPX modeling vs MIDAS fetcher.
 
 Strategy:
-  1. HistoricalList → enumerate every RID per (DistributionCode, EnergyCode)
-  2. ValueData?QueryType=alldata → fetch each RID's RateName + AltRateName +
-     RateType + Sector metadata (concurrent — uses a small thread pool)
-  3. Classify each by matching RateName/AltRateName against known URPX
+  1. Read each in-scope RID's RateName, AltRateName, RateType and Sector from
+     the mined feed, data/midas/midas.sqlite, written by dev/mine_midas.py.
+     Sector and rate-type codes resolve through data/midas/lookups/.
+  2. Classify each by matching RateName/AltRateName against known URPX
      schedules and known GridX feed prefixes
+
+It makes no network calls and needs no credentials. It refuses when the mined
+store is absent; run dev/mine_midas.py first.
 
 Outputs:
   reports/midas-coverage.json  — machine-readable, every RID classified
   reports/midas-coverage.md    — human-readable summary tables
-
-Runtime: roughly 5-10 minutes (~2,500 RIDs × ~0.3s per metadata call with
-8-thread concurrency).
 """
 
 from __future__ import annotations
