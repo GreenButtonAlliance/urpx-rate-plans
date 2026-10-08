@@ -205,9 +205,9 @@
 ;;
 ;;                   clj-urpx CONFIRMED ITS named-versions-narrow IS (c), by
 ;;                   test on their side: a modifier naming plans P and Q with
-;;                   one version of P, asked about Q's version, returns []. So
-;;                   the policy we do NOT pin is the reading with the least
-;;                   support in the decision, and it is their shipped default.
+;;                   one version of P, asked about Q's version, returns [].
+;;                   Their default was (c) through clj-urpx 0.47.0 and is (a)
+;;                   from 0.48.0, matching this pin.
 ;;                   (b) is not shipped by either of us; their policy signature
 ;;                   receives version @ids as strings and cannot tell which plan
 ;;                   each belongs to, so (b) needs a richer signature rather

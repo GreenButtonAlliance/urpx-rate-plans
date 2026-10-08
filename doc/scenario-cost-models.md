@@ -156,7 +156,7 @@ clj-urpx computes it. Walking the corpus is the client's job: use the corpus's o
 |---|---|
 | `:at` | the instant the set is wanted for |
 | `:combine` | `one-modifier-at-most` |
-| `:compatibility` | `named-versions-add`, which is not clj-urpx's default; see [Agreement with clj-urpx](#agreement-with-clj-urpx) |
+| `:compatibility` | `named-versions-add`, clj-urpx's default, stated anyway; see [Agreement with clj-urpx](#agreement-with-clj-urpx) |
 | `:repeated-ids` | `repeated-ids-refuse` |
 | `:package-zones` | `:agree` |
 
@@ -192,7 +192,7 @@ All three are generated from the corpus and the recorded resolution baseline. No
 
 clj-urpx's `urpx.scenario-cost-model` enumerates the same set independently. `dev/cross_check_scenario_cost_models.py` compares, at a pinned instant and under named policies, in both directions: the (base version, modifier versions) compositions against `urpx.scenario-cost-model/enumerate-pairs`; the scenario cost models with open dimensions expanded against `urpx.scenario-cost-model/enumerate`, read through `identity-tuple`; the nodes of `reports/scenario-cost-models.jsonld` against that expanded set, re-deriving every node's IRI on the way; and those nodes against the ones `urpx.scenario-cost-model/node` builds under `rate-plans-iri` and named by `rate-plans-name`, comparing `@id`, `@type`, references and `urpx:name`. It runs in `dev/gate.sh`, which prints the agreed counts on every run. If `urpx.scenario-cost-model` does not load, or lacks a var the check calls, the check fails and names what is missing, including whether `urpx.arrangements`, its name through clj-urpx 0.35.0, loads in its place; `dev/test_cross_check_namespaces.py` makes each of those cases fire.
 
-One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships both readings and takes no position between them; this repository assumes the additive one. Worth knowing for anyone reading this corpus with it: its default is the third reading below, the one nothing in the decision argues for.
+One thing that agreement does not settle. Whether stating `urpx:applicableToRatePlanVersion` narrows the compatibility `urpx:applicableToRatePlan` asserts, or adds to it, is open. clj-urpx ships the first and third readings below and defaults to the first, the additive one, which this repository also assumes.
 
 The decision that introduced the property, URPX Decision #090, is the only artifact evidence found so far, and **it supports both readings a few lines apart**. For additive, its selected alternative "Preserves the existing document-level properties for document-scoped relationships", and its impact is recorded as "Breaking Change: None - this is an additive enhancement". For narrowing, its rationale says the new properties "avoid ambiguity where a modifier document is broadly applicable but only certain modifier versions are valid for a particular rate plan version", which is narrowing described.
 
