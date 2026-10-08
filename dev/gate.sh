@@ -391,6 +391,18 @@ case "$MODE" in
         record $rc
     fi
 
+    # Two Prices on one PriceDefinition, tier and TOU period with the same start
+    # are one cell to clj-urpx, which reads only one of them.
+    # Exit 1 a shared cell, 3 refused.
+    note "Price cells"
+    if python3 dev/lint_price_cells.py > "$LOGDIR"/price-cells.log 2>&1; then
+        tail -1 "$LOGDIR"/price-cells.log
+    else
+        rc=$?
+        cat "$LOGDIR"/price-cells.log
+        record $rc
+    fi
+
     # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
     # by @context coercion, whose lexical form that type does not admit, such as
     # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
@@ -622,6 +634,18 @@ case "$MODE" in
     else
         rc=$?
         cat "$LOGDIR"/price-layer.log
+        record $rc
+    fi
+
+    # Two Prices on one PriceDefinition, tier and TOU period with the same start
+    # are one cell to clj-urpx, which reads only one of them.
+    # Exit 1 a shared cell, 3 refused.
+    note "Price cells"
+    if python3 dev/lint_price_cells.py > "$LOGDIR"/price-cells.log 2>&1; then
+        tail -1 "$LOGDIR"/price-cells.log
+    else
+        rc=$?
+        cat "$LOGDIR"/price-cells.log
         record $rc
     fi
 
