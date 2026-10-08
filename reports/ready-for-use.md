@@ -243,7 +243,7 @@ The two do not track each other and must not be collapsed. 4 of 168 filings carr
 
 ## Caveats
 
-- **As of the recorded baseline.** Servability is read from `dev/baseline/marginal-rates.edn`, 22 probe instants per key, resolved by clj-urpx 0.48.0. Nothing is re-resolved here.
+- **As of the recorded baseline.** Servability is read from `dev/baseline/marginal-rates.edn`, 22 probe instants per key, resolved by clj-urpx 0.49.0. Nothing is re-resolved here.
 - **Per-directory granularity.** A directory is one filing, not one version. It can hold a base RatePlan and the modifiers operative at its snapshot date, and a version node can appear in more than one directory.
 - **Servable is not reviewed.** `[review].status` tracks whether a person has checked the filing, and neither column here reads it.
 - **Modifier coverage is a separate axis again.** A base RatePlan being servable does not imply that every modifier that legally attaches to it has its own filing. See [`modifier-coverage.md`](./modifier-coverage.md).
