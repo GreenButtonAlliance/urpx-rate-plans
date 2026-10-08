@@ -83,9 +83,9 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 
 ## What goes to clj-urpx
 
-In clj-urpx: `defurpx` and the kind multimethod (`urpx.defs`), and the clj-kondo hook it exports. To move there: fixes for the gaps below; later, the date-keyed lookups (`as-of`, version dates).
+In clj-urpx: `defurpx` and the kind multimethod (`urpx.defs`), and the clj-kondo hook it exports. To move there: fixes for the gaps below.
 
-Here: the utility and schedule namespaces; the kinds `:utility`, `:source`, `:document`, `:holidays`, `:rates`, `:percentages`, `:jurisdictions`, `:undergrounding` and `:description`; the TOU and alternatives expansion helpers; the generator entry point; and the gate's equality check. Kinds and helpers move to clj-urpx once PSE Schedules 307 and 327 show they generalize.
+Here: the utility and schedule namespaces; the kinds `:utility`, `:source`, `:document`, `:holidays`, `:rates`, `:percentages`, `:jurisdictions`, `:undergrounding` and `:description`; the date-keyed lookups (`as-of`, version dates); the TOU and alternatives expansion helpers; the generator entry point; and the gate's equality check. A kind or helper moves to clj-urpx only when it proves general across utilities, and then at this repo's request.
 
 ## Gaps in urpx.dsl 0.39.0
 
