@@ -5,9 +5,8 @@
 
 A schedule inventory answers "what is there to model", which is a different
 question from "what does this filing say" and needs a different kind of source.
-MIDAS is one source and not the best one: it names 15 PG&E documents where PG&E's
-own tariff book names 104. So this is organized around a list of sources, one
-adapter each, and a utility can draw on several.
+MIDAS is one source and not the best one, so this is organized around a list of
+sources, one adapter each, and a utility can draw on several.
 
   data/inventories/<utility>.json   one file per utility, tracked. Each schedule
                                     carries which source named it and when, so a
@@ -15,17 +14,17 @@ adapter each, and a utility can draw on several.
                                     about is visible as exactly that.
 
 TWO KINDS OF SOURCE, AND THE DISTINCTION IS LOAD-BEARING. An *inventory* source
-is authoritative about which schedules exist: PG&E's tariff book lists its 104
+is authoritative about which schedules exist: PG&E's tariff book lists its
 electric schedules and that list is the answer. An *observed* source merely
 names things it saw, at whatever granularity it happens to use, and may not
 share a key space with the inventory at all.
 
-Unioning the two over-counts badly. PG&E's tariff book names 104 schedules and
-the MIDAS feed names 118 things, but only 12 of those are the same schedule
-spelled differently (`A1` for `A-1`); 96 are rate options *within* a schedule
+Unioning the two over-counts badly. On 2026-09-23 PG&E's tariff book named 104
+schedules and the MIDAS feed named 118 things, but only 12 of those were the same
+schedule spelled differently (`A1` for `A-1`); 96 were rate options *within* a schedule
 (`A10P` is Primary under Schedule A-10, `AG-FBP` is one of dozens under AG); and
-10 match nothing, several being CEC test entries. Treating that as a union
-yields 216 schedules for a utility that publishes 104.
+10 matched nothing, several being CEC test entries. Treating that as a union
+yielded 216 schedules for a utility that published 104.
 
 So only an inventory source creates a schedule. An observed name attaches to a
 schedule it matches, and the match rule that did it is recorded so the
@@ -138,7 +137,7 @@ def sce_tariff_book(offline: bool):
 
     DO NOT ENUMERATE THIS FROM THE RENDERED PAGE. The SharePoint file list is
     virtualized and pages at 30 rows. Scraping the DOM of the Other Rates folder
-    yields 30 of its 72 files, alphabetically A through E, and looks complete:
+    yields only its first 30 files, alphabetically A through E, and looks complete:
     scrolling adds nothing, an 8000px viewport adds nothing, and sorting
     descending returns a different 30. Every count here is checked against the
     folder's own ItemCount for exactly that reason.

@@ -40,11 +40,11 @@ WHAT IS CHECKED
                        "Modeling deferrals" section that lists something. Signal
                        2 against the prose in the same file.
 
-MANIFEST-PROSE EXISTS BECAUSE THE OTHER THREE LEAVE A HOLE. Of the corpus's 84
-coverage claims, 34 are urpx:complete carrying no urpx:Evaluation at all, so for
-those filings signal 1 says only "complete" and there is no prose on that side to
+MANIFEST-PROSE EXISTS BECAUSE THE OTHER THREE LEAVE A HOLE. A coverage claim
+that is urpx:complete can carry no urpx:Evaluation at all, so for those filings
+signal 1 says only "complete" and there is no prose on that side to
 compare signal 2 against. MULTIPLIER-VS-PROSE reaches a filing only where a
-urpx:multiplier happens to exist, which is six of 73 documents. The manifest's
+urpx:multiplier happens to exist. The manifest's
 own free text is the second side that is always there: a manifest that heads a
 list "Modeling deferrals" and then reports complete = true with deferrals = []
 contradicts itself inside one file, and no PDF is needed to see it. Measured at
@@ -67,7 +67,7 @@ people to run the gate with their eyes shut.
   modifier riding along in the same document. So MANIFEST-VS-CLAIM does not
   compare the manifest against every claim in the directory. It resolves the
   filing's PRIMARY document by filename (the one whose slug is the manifest's
-  own schedule and date, which is unique for all 72 filing directories), then
+  own schedule and date, which is unique per filing directory), then
   takes the single claim reachable by the structural path matching that
   document's kind: hasRatePlan/hasRatePlanVersion/hasCoverageClaim for a base
   filing, hasRatePlanModifier/hasRatePlanModifierVersion/hasCoverageClaim for a
@@ -107,7 +107,7 @@ people to run the gate with their eyes shut.
   Extraction notes legitimately discuss what the source contains, what was hard
   to read, what a SIBLING filing defers, and what was deferred and has since
   been modeled. Scanning free text for words like "deferred" or "not modeled"
-  finds all of that: run over the 72 manifests, a bare vocabulary scan hits
+  finds all of that: run over the corpus's manifests, a bare vocabulary scan hits
   filings whose every mention is a cross-reference. So MANIFEST-PROSE does not
   scan free text. It looks for one thing this corpus authors deliberately, a
   heading that says "Modeling deferrals", in either spelling the corpus uses
@@ -183,12 +183,12 @@ names how many filings, versions, claims, evaluations, multipliers and manifest
 flags were actually compared. A collapsed denominator refuses with exit 3 rather
 than reporting clean: no filings, no manifests, no claims, no [modeling].complete
 anywhere, or no multiplier in the corpus at all. That last one is a real
-possibility only through breakage: six exist, and zero means the property name or
+possibility only through breakage: zero means the property name or
 the traversal moved, not that California stopped discounting bills. A
 multiplier-bearing version whose claim is partial but carries no evaluation prose
 also refuses, because for that version the comparison has no second side. So does
-a corpus in which no manifest carries a "Modeling deferrals" section at all: 32
-exist, and zero means the heading convention or the notes field moved, which
+a corpus in which no manifest carries a "Modeling deferrals" section at all:
+zero means the heading convention or the notes field moved, which
 would leave MANIFEST-PROSE reading nothing while reporting clean. So does an
 eligible manifest whose "Modeling deferrals" section has a body and yields no
 readable item, which is the section the colon rule empties out: "Same 4 deferrals

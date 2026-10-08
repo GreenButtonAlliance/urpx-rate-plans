@@ -44,8 +44,7 @@ VERSION_TYPES = {"urpx:RatePlanVersion", "urpx:RatePlanModifierVersion"}
 #                           on two dates; a filing re-verifying the PDF records
 #                           that in its own tariff.toml, which is per-filing
 #                           provenance and stays there.
-#   hasIdentity             the utility's own identity block. 83 of 84
-#                           Organization nodes carry it.
+#   hasIdentity             the utility's own identity block.
 #   hasDynamicPricing       how a price is updated. A price that is reset
 #                           annually by council action is that kind of price
 #                           wherever it is serialized, so a copy omitting it

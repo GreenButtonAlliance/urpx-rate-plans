@@ -104,8 +104,8 @@ IDENTITY_TYPES = {
 #                             scoped by construction; the 3 multi-schedule ones
 #                             are byte-identical.
 #
-# urpx:Season is deliberately NOT here. All 24 corpus Seasons agree today, but
-# SeasonShape puts no sh:maxCount on urpx:month and 72 of 72 corpus Seasons are
+# urpx:Season is deliberately NOT here. The corpus's Seasons agree today, but
+# SeasonShape puts no sh:maxCount on urpx:month and every corpus Season is
 # month-based, so a future divergence unions the months and the gate stays
 # green. CPAU is the one utility whose schedules disagree on season bounds and
 # the one that already mints per-schedule Season @ids.

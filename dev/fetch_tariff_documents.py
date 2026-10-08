@@ -74,9 +74,9 @@ BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 # RatePlan_Url: most of those point at a landing page, so an extension is the
 # only signal that one is a document. It must NOT be applied to a URL an
 # inventory source supplied, because such a source has already asserted the URL
-# is that schedule's document, and SDG&E serves every one of its 158 documents
+# is that schedule's document, and SDG&E serves every one of its documents
 # from an extensionless path (/tariff/?tarfKey=N). Applying this rule to those
-# excluded all 158 while the run still reported success.
+# excluded all of them while the run still reported success.
 IS_DOC = re.compile(r"\.(pdf|xlsx?|docx?|ashx)(\?|$)", re.I)
 
 # MIDAS party segment -> utility directory, for documents only MIDAS names.
@@ -221,7 +221,7 @@ def filename(url: str, target: dict, res: dict) -> str:
     A publisher that puts the document's name in the URL gets to keep it:
     ELEC_SCHEDS_E-TOU-C.pdf says what it is. SDG&E puts nothing there. Every one
     of its documents is served from /tariff/ or /historical/ with the identity
-    in the query string, so the basename is the same for all 159 of them.
+    in the query string, so the basename is the same for every one of them.
 
     The test is whether the basename carries a file extension, not whether it is
     one of a list of known-generic words. The first version listed "tariff",

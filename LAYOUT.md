@@ -48,7 +48,7 @@ This mirrors the convention used by the URPX test cases (e.g. `test-cases/cpau-e
 
 Rationale:
 
-- **A base rate plan filing is self-contained unless it inlines another schedule's subtree.** Most can be cited or distributed in isolation. A **modifier** filing never can: it names the base plans it applies to via `urpx:applicableToRatePlan`, and those live in their own filings. A base filing that inlines a modifier, as CPAU's `e-1` and `e-1-tou` do with `cpau:e-hra`, inherits the same cross-file references. `dev/validate-with-base.py --per-file` reported 35 of 72 conforming on 2026-09-23; the 37 that did not are all 33 modifiers plus those 4 base filings. That mode is a diagnostic, not a gate; the gate unit is the merged graph, where the references resolve.
+- **A base rate plan filing is self-contained unless it inlines another schedule's subtree.** Most can be cited or distributed in isolation. A **modifier** filing never can: it names the base plans it applies to via `urpx:applicableToRatePlan`, and those live in their own filings. A base filing that inlines a modifier, as CPAU's `e-1` and `e-1-tou` do with `cpau:e-hra`, inherits the same cross-file references. `dev/validate-with-base.py --per-file` therefore reports every modifier filing as nonconforming, and every base filing that inherits those cross-file references. That mode is a diagnostic, not a gate; the gate unit is the merged graph, where the references resolve.
 - **A second document in one filing directory carries a modifier the base's own PDF prices but which cannot share the base's document.** PG&E `e-1`'s income-tier Base Services Charge is in this shape, and so are the adjusting-bracket modifiers that add an allowance to one base version's tiers (SCE `tou-d-4-9pm-hpwh` and `tou-d-5-8pm-hpwh`, PG&E `e-1-medical-baseline` and `e-tou-c-medical-baseline`). None is a separately published schedule, so none gets its own filing directory under section 3. The income tier is not inline because `urpx:PlanElements` allows one `urpx:hasProfileAlternatives` container per version and two dimensions that both have to be selected cannot sit on one version as two containers. Within one container two dimensions are the cells of their cross product, one `urpx:ProfileAlternative` per combination, as in `cpau:e-hra`, `cpau:e-3` and PG&E `e-tou-c`, whose income tier, baseline territory and baseline code are one 60-cell container. `urpx.core/load-rate-plan-modifier` also takes one `urpx:RatePlanModifier` per document, so a filing that already inlines one cannot inline a second. The base's manifest is what names them: `[modeling].applicable_modifiers` carries the slug and `dev/lint_modifier_coverage.py` checks the pairing against `urpx:applicableToRatePlan` in both directions.
 - RDF graph merge handles the overlap cleanly, but only because every node that two filings both carry is named. Blank nodes never merge, so before the naming pass in section 6 the merged graph held one blank child per filing under each shared parent and violated every `sh:maxCount 1` edge into it. `dev/name_blank_nodes.py --check` is what keeps this bullet true.
 - The duplicated RatePlan-level boilerplate is a handful of lines and is lint-checkable.
@@ -375,13 +375,13 @@ URI identity says **one IRI denotes one resource**. Every filing of a utility is
 
 The owning version is the nearest enclosing `urpx:RatePlanVersion` or `urpx:RatePlanModifierVersion`, and its own local part is already `<schedule>-<date>`, so the result reads `pge:e-elec-2026-03-27-price-public-purpose`.
 
-Take the scope from the **owning version, not the directory**. They differ wherever a filing inlines another schedule's subtree: CPAU's `e-1` and `e-1-tou` both inline the whole `cpau:e-hra` modifier, and PG&E inlines a per-plan PCIA modifier into five base filings. Scoping by directory would rename `cpau:e-hra-2023-01-01-price-25-75-gen-480-642` three different ways and mint three copies of one real modifier. Scoping by owner gives it the same IRI in all three files, which is correct, because it is one resource.
+Take the scope from the **owning version, not the directory**. They differ wherever a filing inlines another schedule's subtree: CPAU's `e-1` and `e-1-tou` both inline the whole `cpau:e-hra` modifier, and PG&E inlines each plan's vintage-PCIA modifier into that plan's base filings. Scoping by directory would rename `cpau:e-hra-2023-01-01-price-25-75-gen-480-642` three different ways and mint three copies of one real modifier. Scoping by owner gives it the same IRI in all three files, which is correct, because it is one resource.
 
 Apply it to every subordinate resource, not only to ones observed to collide. An earlier revision of this section said to apply it "only to the IRIs that actually collide on content", and the result was 509 subordinate IRIs minted by more than one schedule, with `sce:price-gen-summer-on-peak-2026-03-20` carrying three different unit prices at once. Content that happens to agree today is not a reason to share an IRI; the next rate case moves one value and the collision appears with nothing to announce it.
 
 **Kept shared, deliberately.** The identity layer names entities that genuinely span a utility's schedules, and scoping those would mint duplicates of one real thing: `urpx:Organization` and its identity/name/identifier nodes, `urpx:RateCase`, `urpx:RatePlan`, `urpx:RatePlanModifier`, `urpx:SourcePublication`, `urpx:ProgramEnrollment`. Version nodes carry `<schedule>-<date>` already. Two subordinate types also stay shared: `urpx:MetricSpecification`, and `urpx:CoverageClaim`, which has its own form `<utility>:cc-<schedule>-<date>`.
 
-Whether a type may stay shared is decided by **closure, not by how utility-level the concept feels**: a shared IRI is safe only if every `sh:maxCount 1` value it carries is a literal, or an IRI that is itself kept shared. A parent that passes a one-level check still breaks once its children are scoped, because it then holds one child per schedule. `urpx:Season` is the instructive case for the other direction. All 72 in the corpus agree within each utility today, but `SeasonShape` sets no `sh:maxCount` on `urpx:month` and all 72 corpus Seasons are month-based, so a future divergence would silently union the months and leave the gate green. CPAU is the one utility whose schedules disagree on season boundaries, and the one that already mints per-schedule Seasons.
+Whether a type may stay shared is decided by **closure, not by how utility-level the concept feels**: a shared IRI is safe only if every `sh:maxCount 1` value it carries is a literal, or an IRI that is itself kept shared. A parent that passes a one-level check still breaks once its children are scoped, because it then holds one child per schedule. `urpx:Season` is the instructive case for the other direction. The corpus's Seasons agree within each utility today, but `SeasonShape` sets no `sh:maxCount` on `urpx:month` and every corpus Season is month-based, so a future divergence would silently union the months and leave the gate green. CPAU is the one utility whose schedules disagree on season boundaries, and the one that already mints per-schedule Seasons.
 
 `dev/lint_iri_scope.py` enforces this and runs in the gate, so the convention no longer depends on someone noticing. `dev/rescope_iris.py` applies it.
 
@@ -601,13 +601,11 @@ enough to read as rounding: the mine held 74,096 of the feed's 74,097. Exactly
 one listing row omits `LastUpdated`, and the fetch list was built as
 `have.get(rid) != lu`. For a row never stored both sides are `None`, so it could
 never enter the list and no run would ever have picked it up. An identifier the
-store has not seen is now always fetched whatever the listing says about it, and
-the store holds all 74,097.
+store has not seen is now always fetched whatever the listing says about it.
 
-Scope is deliberately not limited to the utilities this corpus models. As of the
-same mine the feed carried 74,097 identifiers over 33 party segments, most of
-them community choice aggregators, and mining them is how this corpus learns
-what exists before modeling it.
+Scope is deliberately not limited to the utilities this corpus models. Most of
+the feed's party segments are community choice aggregators, and mining them is
+how this corpus learns what exists before modeling it.
 
 **Every count drawn from this feed is point-in-time and has to say so.** MIDAS
 is live: parties appear, rename and withdraw, and identifier counts move daily.
@@ -644,10 +642,10 @@ checked against the folder's own `ItemCount` for that reason, and the adapter
 refuses on a mismatch rather than writing a short inventory.
 
 **An inventory names documents; the corpus models rate plans, and they are not
-the same grain.** One SCE PDF is the source for six directories here:
+the same grain.** One SCE PDF is the source for several directories here:
 `ELECTRIC_SCHEDULES_TOU-D.pdf` backs `tou-d-4-9pm`, `tou-d-5-8pm`, `tou-d-prime`,
 `tou-d-prime-cpp`, `deed-restricted` and `fera`. Matching a directory name
-against a schedule code would report all six as unmodeled and `tou-d` as missing.
+against a schedule code would report each as unmodeled and `tou-d` as missing.
 `dev/list_rate_plans_to_model.py` instead matches each filing's recorded
 `[source] url` against the document the inventory names, which settles the
 attribution from what the corpus already records rather than from guessing at
@@ -746,12 +744,12 @@ and SDG&E's `regarchive` host resolves but never accepts a connection. A prior
 successful copy is retained when a later fetch fails, so one bad day does not
 erase a document already in hand.
 
-Only one of the three publishers supports a conditional request. PG&E serves both
+Only PG&E supports a conditional request. It serves both
 `Last-Modified` and a strong `ETag` and answers `304`. SDG&E's document service
 sends neither, and SharePoint's download endpoint has no usable validator either,
 so for those two a run re-downloads the bytes and compares the `sha256`. That is
-the cost of knowing whether a document changed: about 150MB of transfer per full
-run, against PG&E's cheap `304`s.
+the cost of knowing whether a document changed: a full download per run,
+against PG&E's cheap `304`s.
 
 `retrieved_on` means when these bytes were first seen rather than when the URL
 was last checked, for the same reason given in section 10b.

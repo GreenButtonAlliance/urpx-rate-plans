@@ -19,9 +19,9 @@ TWO STORES, FOR TWO DIFFERENT JOBS.
                             sorted keys, exported from the database. Deterministic:
                             the same database exports the same bytes.
 
-The split is the point. Mining 74,000 identifiers is tens of thousands of HTTP
+The split is the point. Mining the whole feed is tens of thousands of HTTP
 calls over hours and wants per-record durability; a tracked file wants stable
-bytes and a readable diff. Rewriting a 24 MB file every few hundred records to
+bytes and a readable diff. Rewriting the whole file every few hundred records to
 get durability is quadratic I/O and still loses the tail on a crash.
 
 IDEMPOTENCE. Every row carries the LastUpdated MIDAS reported when it was

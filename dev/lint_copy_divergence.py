@@ -21,9 +21,9 @@ the open question this corpus is not entitled to settle in a lint.
 So this one does not decide anything. It reports that two files disagree and
 stops, which is the part a person should read.
 
-WHY IT IS NOT DROWNED BY FALSE POSITIVES. Measured over the corpus: 450 nodes
-appear in more than one file and 9 diverge, every one of them a plan or modifier
-identity whose copies nest different versions of themselves. That is structural
+WHY IT IS NOT DROWNED BY FALSE POSITIVES. Of the nodes that appear in more than
+one file, the ones that diverge are plan or modifier identities whose copies
+nest different versions of themselves. That is structural
 and correct, so it is EXEMPTED BY DERIVATION rather than by an allowlist: the
 exemption holds only while each copy nests the version whose own filing it sits
 in. A plan copy nesting somebody else's version is not exempt and never was.

@@ -82,7 +82,7 @@ import corpus  # noqa: E402
 # sh:maxCount 1 edge out of it lands on something named.
 #
 # urpx:PriceSet is listed because the hasPrices violations are often described
-# as PriceSet ones. All 112 corpus PriceSets are already named, so it selects
+# as PriceSet ones. Every corpus PriceSet is already named, so it selects
 # nothing; the blank node under urpx:hasPrices is a urpx:Prices.
 SCOPE = {
     "urpx:CustomOperandNode",

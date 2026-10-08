@@ -17,15 +17,15 @@ So the gap list is the backlog, not the alarm.
 
 The obvious idea is to project the next filing from observed intervals between versions. It fails twice over, and the reasons are worth stating so nobody builds it.
 
-**Filings are not periodic.** They are events: a general rate case concludes, the Commission issues a decision, a cost-recovery balancing account is trued up, a fuel adjustment lands. Intervals between the filings this corpus happens to hold run 161, 45 and 125 days for SCE and 14, 62, 59 and 26 for PG&E. Some implement a Commission decision and arrive when that decision does (AL 7869-E carries D.26-03-013); others are utility-initiated and arrive on the utility's own timetable. There is no period to fit, so a model that assumes one is wrong before it sees any data.
+**Filings are not periodic.** They are events: a general rate case concludes, the Commission issues a decision, a cost-recovery balancing account is trued up, a fuel adjustment lands. On 2026-09-22, intervals between the filings this corpus happened to hold ran 161, 45 and 125 days for SCE and 14, 62, 59 and 26 for PG&E. Some implement a Commission decision and arrive when that decision does (AL 7869-E carries D.26-03-013); others are utility-initiated and arrive on the utility's own timetable. There is no period to fit, so a model that assumes one is wrong before it sees any data.
 
-**And the data would be the wrong data anyway.** Version effective dates record when *we captured* a filing, not when the utility made one. Estimating filing cadence from them estimates this repository's sampling rate. The medians come out at 517 days for CPAU, 570 for SMUD and 6,421 for LADWP: facts about our history, not about any utility's behaviour.
+**And the data would be the wrong data anyway.** Version effective dates record when *we captured* a filing, not when the utility made one. Estimating filing cadence from them estimates this repository's sampling rate. On the same date the medians came out at 517 days for CPAU, 570 for SMUD and 6,421 for LADWP: facts about our history, not about any utility's behaviour.
 
 So the polling schedule is regular precisely because the filings are not. You cannot time a check to an event you cannot predict; you check often enough that any event is caught soon after it happens. The only genuine forward signal is an effective date a utility has already published, which is the next section.
 
 ## What the source actually offers
 
-Each `utility.toml` already records the canonical discovery URLs (six for SCE, five for SDG&E, and so on), and each `tariff.toml` records its source `url`, `sha256` and `retrieved_on`. That is enough for a polling loop:
+Each `utility.toml` already records the canonical discovery URLs, and each `tariff.toml` records its source `url`, `sha256` and `retrieved_on`. That is enough for a polling loop:
 
 1. **Re-fetch** each canonical URL and compare `sha256` against the manifest. Unchanged means nothing to do, and is the common case.
 2. **When it changes**, read the sheet headers. Each carries its own revision number, the number it cancels, its advice letter and its effective date. Comparing the live sheet numbers against the ones in the filing we hold says exactly which of our filings is now behind.
@@ -83,7 +83,7 @@ Two properties worth designing in from the start. The loop must be **idempotent*
 
 Most of it is already here, which is the point of writing this down now rather than later.
 
-- **Discovery URLs**, in each `utility.toml`. Present for all six utilities.
+- **Discovery URLs**, in each `utility.toml`. Present for every utility.
 - **A digest per source**, in each `tariff.toml` as `source.sha256`, so "has it changed" is one comparison. Present.
 - **A last-checked date**, as `source.retrieved_on`. Present, and surfaced in `reports/version-continuity.md` so staleness is visible without a fetch.
 - **The sheet numbers a filing holds.** NOT present. Today they can only be recovered by re-parsing the committed PDF, which the loop can do but should not have to. Recording the live sheet revisions per filing in `tariff.toml` would let the diff happen against the manifest alone. That is the one addition this loop would want.

@@ -19,7 +19,7 @@ there is a claim about a release nobody runs.
 Four filing READMEs said "serialized against URPX v0.2.0" while their own JSON-LD
 declared v0.5.1, and that sat for months for the same reason: the prose and the
 document were never compared. One generator still emitted targetURPXVersion v0.2.0
-against a corpus where all 72 filings declare v0.5.1.
+against a corpus where every filing declared v0.5.1.
 
 WHAT IT DOES NOT DO. It does not check that the CLAIM is true, only that the
 version named is the one in use. Whether 0.31.0 still evaluates no

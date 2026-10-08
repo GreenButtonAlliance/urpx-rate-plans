@@ -81,43 +81,43 @@
 ;; WHY THERE IS A LIST. This file used to record one instant, summer weekday
 ;; 17:00, which is a gate reporting on one hour of one day type of one season.
 ;; Moving a TOU discriminator from Price onto PriceDefinition changed which
-;; price is live at 8 of the 19 instants below on sdge:ev-tou, ev-tou-2 and
-;; ev-tou-5, and at 17 of 19 on sdge:tou-dr2. The single instant at which all
-;; four were unchanged is the instant this file probed. sdge:ev-tou-5 read
+;; price was live at 8 of the 19 instants then derived on sdge:ev-tou, ev-tou-2
+;; and ev-tou-5, and at 17 of 19 on sdge:tou-dr2. The single instant at which all
+;; four were unchanged was the instant this file probed. sdge:ev-tou-5 read
 ;; 0.41420 at summer super-off-peak where the filing says 0.12852, a rate wrong
 ;; by 0.28568/kWh at most hours of most days, and every gate here was green.
 ;;
-;; HOW THE SET WAS DERIVED, rather than picked. The corpus was resolved at all
-;; 744 instants of an hourly grid: every month of the window below, on a
+;; HOW THE SET WAS DERIVED, on 2026-09-21, rather than picked. The corpus was
+;; resolved at all 744 instants of an hourly grid: every month of the window below, on a
 ;; weekday, on a weekend day, and on that month's holiday where the embedded
-;; calendars have one. That grid separates the corpus into 106 distinct
-;; behaviors. These 19 are one per (season regime x day type x band) that the
-;; corpus actually distinguishes, and the set was then measured against the grid
+;; calendars have one. That grid separated the corpus into 106 distinct
+;; behaviors. The 19 derived were one per (season regime x day type x band) that
+;; the corpus then distinguished, and the set was then measured against the grid
 ;; for the two properties that make it worth running:
 ;;
-;;   EVERY LIVE PRICE IS READ. Over the year the corpus feeds 2,617 distinct
-;;   (row, price) pairs into a marginal rate. These 19 read all 2,617. The
+;;   EVERY LIVE PRICE IS READ. Over the year the corpus then fed 2,617 distinct
+;;   (row, price) pairs into a marginal rate. Those 19 read all 2,617. The
 ;;   single instant read 1,678 of them, 64%, so a third of the corpus's prices
 ;;   could have taken any value at all without moving a recorded number.
 ;;
-;;   NO TWO ARE INTERCHANGEABLE. No two of the 19 record the same thing for
-;;   every filing. Each differs from every other on at least one row, so
-;;   dropping any one of them drops a season, a day type or a band with it.
+;;   NO TWO ARE INTERCHANGEABLE. No two of those 19 recorded the same thing for
+;;   every filing. Each differed from every other on at least one row, so
+;;   dropping any one of them dropped a season, a day type or a band with it.
 ;;
-;; DATE VALIDITY was checked, not assumed. The latest startDate in the corpus is
-;; 2026-04-01 and no filing carries an expirationDate, so 2026-04-01 through
-;; 2027-03-31 is the first full year in which every filing is in force, and
-;; every instant below sits inside it. A winter probe in January 2026 would
-;; resolve to :no-energy-ledger on the 2026-04-01 filings and teach nothing. At
-;; all 744 grid instants the corpus resolves 150 rates and 9 refusals, the same
-;; 9 rows every time, so no probe here is a probe that refuses everywhere.
+;; DATE VALIDITY was checked, not assumed. The latest startDate in the corpus was
+;; 2026-04-01 and no filing carried an expirationDate, so 2026-04-01 through
+;; 2027-03-31 was the first full year in which every filing was in force, and
+;; every instant derived then sat inside it. A winter probe in January 2026 would
+;; have resolved to :no-energy-ledger on the 2026-04-01 filings and taught nothing.
+;; At all 744 grid instants the corpus resolved 150 rates and 9 refusals, the same
+;; 9 rows every time, so no probe derived then refused everywhere.
 ;;
 ;; SEASON REGIMES. Summer is Jun-Sep for PG&E, SCE, SMUD, LADWP and CPAU
 ;; E-1-TOU; Jun-Oct for SDG&E; May-Oct for CPAU E-2 through E-7. That is five
 ;; regimes rather than two: deep summer, deep winter (Nov-Mar, which resolve
 ;; alike), and three shoulder months that resolve like none of the others. April
 ;; and October carry the PG&E and SCE month-gated elements (urpx:month --04
-;; --10) as well, which resolve an extra ledger on 48 rows that no deep-winter
+;; --10) as well, which resolve an extra ledger on rows that no deep-winter
 ;; probe sees.
 ;;
 ;; Adding, moving or renaming an instant invalidates the rows recorded under its
@@ -171,8 +171,8 @@
    {:id "may-weekday-peak"         :at (at 2026 5 5 17)
     :why "Tue: the one month where CPAU E-2 through E-7 are in summer and everything else, CPAU E-1-TOU included, is in winter"}])
 
-;; The human report below resolves one instant rather than all 22: 73 filings by
-;; 22 instants is a wall of output, and the report is for reading. The baseline
+;; The human report below resolves one instant rather than all of them: every
+;; filing at every instant is a wall of output, and the report is for reading. The baseline
 ;; is the part that asserts, and it asserts at every one of them.
 (def probe-instant (:at (first probe-instants)))
 
@@ -220,9 +220,9 @@
   "A LocalDateTime from whichever java.time type clj-urpx hands back.
 
    :expires is a LocalDateTime today, because urpx:expirationDateTime is naive
-   in every one of this corpus's 89 datetimes. It may become a ZonedDateTime:
+   in every one of this corpus's datetimes. It may become a ZonedDateTime:
    the zone is available, as urpx:timezoneIdentifier on the urpx:RatePlan, and
-   all 72 filings carry one. Accept either so that change lands upstream
+   every urpx:RatePlan carries one. Accept either so that change lands upstream
    without this gate going quiet or throwing."
   [x]
   (cond
@@ -380,8 +380,7 @@
         (last versions))))
 
 ;; Load, coercion and Malli validation are per FILING, not per instant, so they
-;; are cached: 19 instants over 73 filings would otherwise repeat them 19 times
-;; each. Measured on this corpus, validation is the expensive half by a wide
+;; are cached: otherwise every filing would repeat them once per instant. Measured on this corpus, validation is the expensive half by a wide
 ;; margin (a full corpus sweep runs in 0.03s per instant once validated, against
 ;; 0.6s when every instant re-validates), which is why widening the probe set
 ;; costs almost nothing here.

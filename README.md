@@ -91,9 +91,9 @@ What this corpus cannot express in URPX v0.5.1, and what it has not yet converte
 
 ### Utilities covered
 
-As of 2026-09-23, six utilities have filings, all in California: PG&E, SCE and SDG&E, the three investor-owned; and LADWP, SMUD and CPAU, publicly owned. Others have a discovery manifest and no filing yet, which is a normal state and not an incomplete one.
+[`reports/ready-for-use.md`](./reports/ready-for-use.md) lists the filings by utility. Other utilities have a discovery manifest and no filing yet, which is a normal state and not an incomplete one.
 
-[`reports/rate-plans-to-model.md`](./reports/rate-plans-to-model.md) has the per-schedule detail for the three utilities whose own schedule list has been read. CPAU and LADWP have no inventory source yet, so nothing there bounds their backlog. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization the CEC MIDAS feed carries. CPAU sells here and MIDAS does not carry it, so a seller absent from that report is not necessarily absent from California.
+[`reports/rate-plans-to-model.md`](./reports/rate-plans-to-model.md) has the per-schedule detail for each utility whose own schedule list has been read, and names the utilities with filings but no inventory source, whose backlog nothing bounds yet. [`reports/california-parties.md`](./reports/california-parties.md) lists every organization the CEC MIDAS feed carries. CPAU sells here and MIDAS does not carry it, so a seller absent from that report is not necessarily absent from California.
 
 ## Contributing
 
