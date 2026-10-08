@@ -1,0 +1,467 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "smud": "https://rate-plans.grid-coordination.energy/smud/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "smud:doc-ssr-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "smud:ssr",
+    "urpx:name": "Solar and Storage Rate (SSR) — Export Compensation",
+    "urpx:modifierUniqueIdentifier": "SSR",
+    "urpx:initialEffectiveDate": "2022-03-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "smud:ssr-2026-06-01",
+      "urpx:version": "2026-06-01",
+      "urpx:modifierVersionNumber": "2026-06-01",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:description": "SMUD Rate Schedule SSR (Solar and Storage Rate), applied on top of the customer's base SMUD rate (R-TOD for residential customers, Sheet SSR-2 Section IV.A.6) for customers with an electrical generation facility fueled by a renewable fuel source, or with storage. This version carries the Export Compensation Rate of $0.0960 per kWh effective June 1, 2026 (Sheet SSR-2, Section VI), set by Resolution No. 26-04-04 adopted April 16, 2026, which amends Resolution No. 21-09-07; the rate was $0.0740 per kWh from March 1, 2022. No other provision of the schedule changed. A single meter registers the flow of electricity in both directions (Section V); electricity exported to SMUD is credited at the Export Compensation Rate on the customer's bill, the export credit can only offset electricity usage charges, and any remaining credit carries over to subsequent billing periods (Section VII.B). SMUD updates the Export Compensation Rate every four years, starting in 2026, by no more than ± 30% every four years (Section VI). Eligibility (Section IV.A): facility on the customer's premises, operating in parallel with SMUD's distribution facilities, meeting Rule and Regulation 21, intended primarily to offset up to 110% of the customer's own electrical requirements, at a single metering point, with generating capacity of at most 3,000 kW (CEC-AC for photovoltaic; nameplate AC otherwise). Storage facilities installed without an associated generating facility qualify regardless of the date approved by SMUD (Sheet SSR-1, Section I). Residential customers must also be on Rate Schedule R-TOD; urpx:applicableToRatePlan names the two R-TOD bases, smud:tod-5-8pm and smud:tod-low-use. Customers on SSR are exempt from generator standby charges on the portion of their load served by the eligible facility (Sheet SSR-1, Section III).",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "smud:tod-5-8pm"
+        },
+        {
+          "@id": "smud:tod-low-use"
+        }
+      ],
+      "urpx:hasDataSourceReference": [
+        {
+          "@type": "urpx:DataSourceReference",
+          "urpx:fileName": "smud_ssr_2026-06-01.pdf",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
+          "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_SSR.ashx",
+          "urpx:dateRetrieved": "2026-10-07",
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
+          "urpx:pageStart": 1,
+          "urpx:pageEnd": 3
+        },
+        {
+          "@type": "urpx:DataSourceReference",
+          "urpx:fileName": "Board-Info-Packet-May-21-2026.ashx",
+          "urpx:mediaType": {
+            "@id": "urpx:applicationPdf"
+          },
+          "urpx:accessURL": "https://www.smud.org/-/media/Documents/Corporate/About-Us/Board-Meetings-and-Agendas/2026/May/Board-Info-Packet-May-21-2026.ashx",
+          "urpx:dateRetrieved": "2026-10-07",
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          },
+          "urpx:pageStart": 145,
+          "urpx:pageEnd": 145
+        }
+      ],
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:ssr-2026-06-01-er-ssr-residential",
+          "urpx:name": "SSR — residential customer",
+          "urpx:description": "Available to residential, commercial/industrial, and agricultural customers per Sheet 1.I; this filing scopes to residential. Residential SSR customers must additionally be on Rate Schedule R-TOD (Sheet 2.IV.A.6); urpx:applicableToRatePlan carries that constraint, naming the two R-TOD bases.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:ssr-2026-06-01-cx-ssr-residential",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:ssr-2026-06-01-cn-ssr-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "smud:ssr-2026-06-01-cn-ssr-residential-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "smud:ssr-2026-06-01-cn-ssr-residential-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:ssr-2026-06-01-er-ssr-qualifying-der",
+          "urpx:name": "SSR — qualifying renewable DER or storage",
+          "urpx:description": "Customer must own at least one of: a renewable-fueled electrical generation facility (photovoltaic / wind / small hydroelectric / geothermal / biomass / solar thermal / fuel cells using renewable fuels / digester gas / municipal solid waste / landfill gas / ocean wave / ocean thermal / tidal current — per the CEC's Renewable Portfolio Standard Eligibility Guidebook), OR a behind-the-meter storage facility (qualifies regardless of date of approval per Sheet 1 asterisk note). Modeled as an OR over the URPX DER enum values that name a listed source (solar, wind, storage, hydro, geothermal, and waste digestion for digester gas and landfill gas) plus a CustomOperandNode for the listed sources the enum does not name (biomass, solar thermal, fuel cells using renewable fuels, municipal solid waste, ocean wave, ocean thermal, tidal current).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:ssr-2026-06-01-cx-ssr-qualifying-der",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "smud:ssr-2026-06-01-bn-ssr-qualifying-der",
+              "urpx:operator": {
+                "@id": "urpx:orOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-solar",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-solar-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-solar-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:solarDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-wind",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-wind-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-wind-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:windDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-storage",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-storage-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-storage-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:storageDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-hydro",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-hydro-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-hydro-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:hydroDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-geothermal",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-geothermal-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-geothermal-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:geothermalDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-waste-digestion",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-waste-digestion-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-waste-digestion-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:wasteDigestionDER"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "smud:ssr-2026-06-01-cn-ssr-other-renewable",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-other-renewable-left-operand",
+                    "urpx:customConditionProperty": "Has other CEC-eligible renewable DER (biomass / solar thermal / fuel cells using renewable fuels / municipal solid waste / ocean wave / ocean thermal / tidal current)"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "smud:ssr-2026-06-01-cn-ssr-other-renewable-right-operand",
+                    "urpx:stringValue": "true"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:ssr-2026-06-01-er-ssr-capacity-limit",
+          "urpx:name": "SSR — generation capacity ≤3,000 kW",
+          "urpx:description": "Generating capacity capped at 3,000 kW (Sheet 2.IV.A.7). Capacity is measured as CEC-AC rating for photovoltaic facilities; nameplate AC rating for all other renewable types. The capacity definition in Sheet 2 applies only to SSR rate-schedule applicability and may differ from the capacity measurement under Rule 21.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:ssr-2026-06-01-cx-ssr-capacity",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:ssr-2026-06-01-cn-ssr-capacity",
+              "urpx:operator": {
+                "@id": "urpx:lessThanOrEqualOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "@id": "smud:ssr-2026-06-01-cn-ssr-capacity-left-operand",
+                "urpx:customConditionProperty": "Generation nameplate capacity (kW)"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "@id": "smud:ssr-2026-06-01-cn-ssr-capacity-right-operand",
+                "urpx:stringValue": "3000"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "smud:ssr-2026-06-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:ssr-2026-06-01-mi-energy-export",
+            "urpx:name": "Energy Exported to SMUD (kWh, reverse flow)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "smud:ssr-ms-energy-export",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:flowDirection": {
+                "@id": "urpx:reverse"
+              }
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "smud:ssr-2026-06-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:ssr-2026-06-01-ledger-export-compensation",
+              "urpx:name": "SSR Export Compensation",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:ssr-2026-06-01-mi-energy-export"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:ssr-2026-06-01-pd-export-compensation",
+              "urpx:name": "SSR Export Compensation Rate",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:ssr-2026-06-01-ledger-export-compensation"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "smud:ssr-2026-06-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:ssr-2026-06-01-price-export-compensation",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:ssr-2026-06-01-pd-export-compensation"
+            },
+            "urpx:startDate": "2026-06-01",
+            "urpx:name": "SSR Export Compensation Rate (effective June 1, 2026; updated every four years from 2026, ±30% bound)",
+            "urpx:unitPrice": "-0.09600"
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-smud-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-smud-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Sacramento Municipal Utility District"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-smud-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16534"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "smud:ssr"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "smud:cc-ssr-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-ssr-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 8 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Export credit application scope (Sheet SSR-2, Section VII.B and VII.C). The schedule bounds where the credit may land: 'The export credit can only offset electricity usage charges', and VII.C requires the System Infrastructure Fixed Charge, demand charges, program fees, surcharges and taxes to be paid each monthly billing cycle regardless. The model carries the credit as an unbounded Price of -0.09600/kWh with no cap, so a consumer composing SSR onto R-TOD will let it erode the System Infrastructure Fixed Charge and produce a bill the tariff forbids. Not expressible under URPX v0.5.1: this is the 'credit bounded by the value of another price' shape. basedOnPrice plus multiplier on PriceShape compute a value but cannot bound its application; CalculationMethodShape is sh:closed with only a free-text calculationFormula; the ontology has no cap or limit vocabulary (urpx:maximum is an AggregationMethodValue; priceFloor/priceCeiling are dynamic-pricing clamps). A urpx:GeneralRule attached via referencesGeneralRule would record the provision as citable prose, but it needs generalRuleID plus at least one hasDataSourceReference and has zero uses anywhere in this corpus. (2) Carryover of the unconsumed export credit (Sheet SSR-2, Section VII.B): 'Any remaining credit will carry over to subsequent billing periods.' Not modeled. LedgerShape permits settlementInterval and hasBillingCycle, and smud:ssr-2026-06-01-ledger-export-compensation sets neither, but settlementInterval denotes a finite accumulation period ending in a settlement (its skos:note cites P12M for the NBT 12-month true-up) whereas SSR's carryover is open-ended: the PDF states no true-up, cash-out, expiry or forfeiture. URPX v0.5.1 has no term for a balance that persists indefinitely: LedgerShape and BillingCycleShape are sh:closed, settlementInterval is the only property among them that concerns a balance, and a scan of every ontology literal for carry, rollover, balance, banked and unconsumed finds no other balance term. (3) Generator standby charge waiver (Sheet SSR-1, Section III): SSR customers 'are exempt from generator standby charges on that portion of their load that is served by the eligible facility.' Not modeled, and blocked on two things, neither of them URPX vocabulary. First, there is no base Price to reference: R-TOD Sheet R-TOD-3 Section IV.D prices the Standby Service Charge at $8.855 per kW of Contract Capacity per month effective 2026-01-01, and both smud/tod-5-8pm and smud/tod-low-use already record 'Standby Service Charge' as their own deferral with a planned 'standby' modifier. Second, a full waiver is expressible as a Price with multiplier -1 plus basedOnPrice naming that charge (no filing in this corpus does this yet), but SSR's proportional wording is not, and R-TOD's own text reads as unconditional for SSR customers ('waived only for qualifying renewable generation under Rate Schedules NEM1 and SSR'). Settle that conflict and build this after the base plans model the charge. (4) Billing-period definition (Sheet SSR-2, Section VII): 'For the purposes of this schedule a \"month\" is considered to be a single billing period of 27 to 34 days.' The model carries no CalculationMethod. Expressible now as intervalDuration 'P1M' plus intervalType urpx:monthlyInterval. The sole Price is per-kWh, so nothing prorates by the length of the period. Low consequence, and recorded because the provision is in the filed source and not in the model, which is the test LAYOUT 4.4 sets. (5) Section IV.A states seven eligibility requirements and the model encodes three. The four unmodeled ones are verbatim: \"1. The facility must be located on the customer's premises; and 2. The facility must operate in parallel with SMUD's distribution facilities; and 3. The customer must meet all requirements of Rule and Regulation 21; and ... 5. The facilities and the electrical requirements are located at a single and same metering point\". They price nothing. (6) Section IV.A.4's sizing constraint is a term of availability of this schedule and is unmodeled. Verbatim: \"The facility must be intended primarily to offset up to 110% of the customer's own electrical requirements\". The model records it only in urpx:description prose. (7) Default versus elective enrollment (Sheet SSR-1, Section I). Customers whose renewable generation facility was approved for interconnection by SMUD on or after March 1, 2022, or who establish service at a premises with such a facility on or after that date, are placed on SSR (apart from the Section II transition period); customers whose facility was \"approved for interconnection on or before February 28, 2022\" \"may elect to enroll in Rate Schedule SSR on or after March 1, 2022.\" Not expressible per cohort under URPX v0.5.1: urpx:isDefault and urpx:customerChoice (whose values include urpx:mandatoryChoice) have rdfs:domain urpx:RatePlanVersion and mark a whole version, and neither is a path on the sh:closed RatePlanModifierVersionShape this filing's version is validated against. (8) Section VI bounds the one price this filing models and nothing in the model states it: \"SMUD will update the Export Compensation Rate every four years, starting in 2026\" and the rate \"will not be changed more than ± 30% every four years\". The model carries a bare -0.09600 Price with no DynamicPricing, priceFloor, priceCeiling or updateFrequency.",
+          "urpx:evaluatedOn": "2026-10-07T00:00:00"
+        }
+      }
+    }
+  }
+}

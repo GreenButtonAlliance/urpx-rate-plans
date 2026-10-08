@@ -132,7 +132,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-99 version nodes, over 52 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+100 version nodes, over 53 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -235,6 +235,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `sdge:tou-elec` | `sdge:tou-elec-2026-04-01` | 2026-04-01 | `sdge:tou-elec-2026-09-30` | 2026-09-30 |
 | `sdge:tou-elec` | `sdge:tou-elec-2026-06-01` | 2026-06-01 | `sdge:tou-elec-2026-09-30` | 2026-09-30 |
 | `sdge:tou-elec` | `sdge:tou-elec-2026-08-01` | 2026-08-01 | `sdge:tou-elec-2026-09-30` | 2026-09-30 |
+| `smud:ssr` | `smud:ssr-2022-03-01` | 2022-03-01 | `smud:ssr-2026-06-01` | 2026-06-01 |
 
 ## Not yet effective
 

@@ -1746,7 +1746,7 @@ Base deferrals:
 | `nem1` | ~ present-incomplete | `us/ca/smud/electricity/nem1/versions/2021-09-17` |
 | `pev-credit` | ~ present-incomplete | `us/ca/smud/electricity/pev-credit/versions/2025-06-20` |
 | `reo` | ✗ missing | — |
-| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2022-03-01` |
+| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2026-06-01` |
 | `standby` | ✗ missing | — |
 | `three-phase` | ✗ missing | — |
 
@@ -1768,7 +1768,7 @@ Base deferrals:
 | `nem1` | ~ present-incomplete | `us/ca/smud/electricity/nem1/versions/2021-09-17` |
 | `pev-credit` | ~ present-incomplete | `us/ca/smud/electricity/pev-credit/versions/2025-06-20` |
 | `reo` | ✗ missing | — |
-| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2022-03-01` |
+| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2026-06-01` |
 | `standby` | ✗ missing | — |
 | `three-phase` | ✗ missing | — |
 
@@ -1792,7 +1792,7 @@ Base deferrals:
 | `nem1` | ~ present-incomplete | `us/ca/smud/electricity/nem1/versions/2021-09-17` |
 | `pev-credit` | ~ present-incomplete | `us/ca/smud/electricity/pev-credit/versions/2025-06-20` |
 | `reo` | ✗ missing | — |
-| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2022-03-01` |
+| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2026-06-01` |
 | `standby` | ✗ missing | — |
 | `three-phase` | ✗ missing | — |
 
@@ -1816,7 +1816,7 @@ Base deferrals:
 | `nem1` | ~ present-incomplete | `us/ca/smud/electricity/nem1/versions/2021-09-17` |
 | `pev-credit` | ~ present-incomplete | `us/ca/smud/electricity/pev-credit/versions/2025-06-20` |
 | `reo` | ✗ missing | — |
-| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2022-03-01` |
+| `ssr` | ~ present-incomplete | `us/ca/smud/electricity/ssr/versions/2026-06-01` |
 | `standby` | ✗ missing | — |
 | `three-phase` | ✗ missing | — |
 

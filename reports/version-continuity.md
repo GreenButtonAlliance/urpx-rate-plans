@@ -114,7 +114,8 @@ so that column, not the gap list, is the number that predicts the next one.
 | `smud:med` | `smud:med-2017-07-01` | 2017-07-01 | open | 2026-05-04 | 156 |
 | `smud:nem1` | `smud:nem1-2021-09-17` | 2021-09-17 | open | 2026-05-01 | 159 |
 | `smud:pev-credit` | `smud:pev-credit-2025-06-20` | 2025-06-20 | open | 2026-05-01 | 159 |
-| `smud:ssr` | `smud:ssr-2022-03-01` | 2022-03-01 | open | 2026-05-01 | 159 |
+| `smud:ssr` | `smud:ssr-2022-03-01` | 2022-03-01 | 2026-06-01 | 2026-05-01 | 159 |
+| `smud:ssr` | `smud:ssr-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `cpau:e-1` | `cpau:e-1-2025-07-01` | 2025-07-01 | 2026-07-01 | 2026-04-30 | 160 |
 | `cpau:e-1` | `cpau:e-1-2026-07-01` | 2026-07-01 | open | 2026-10-06 | 1 |
 | `cpau:e-1-tou` | `cpau:e-1-tou-2026-01-01` | 2026-01-01 | 2026-07-01 | 2026-04-30 | 160 |

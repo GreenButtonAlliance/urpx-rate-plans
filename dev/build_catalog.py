@@ -20,7 +20,8 @@ dcat:Distribution of its filing.
 
 Every filing must summarize. One that cannot (a manifest field missing, a
 document that does not parse, a document with no version node of its own, a
-vendored PDF whose sha256 no [source] entry declares) fails the build, which
+vendored PDF whose sha256 no [source] entry declares, a [source] entry with no
+file unless it says vendored = false) fails the build, which
 then writes nothing. The output is validated against catalog/corpus.schema.json
 and parsed back with rdflib before it is written: the dataset and distribution
 counts read from it by SPARQL must equal what dev/corpus.py walks, and every
@@ -288,7 +289,10 @@ def summarize_filing(d: Path, documents: list[Path], pdfs: list[Path]) -> dict:
         vendored.append((p, digest, by_sha[digest]))
     found = {digest for _p, digest, _s in vendored}
     for s in sources:
-        if s["sha256"] not in found:
+        cited = s.get("vendored", True) is False
+        if cited and s["sha256"] in found:
+            raise Unsummarizable(f"{where}: {s['url']} is declared vendored = false, but a file in the filing has its sha256")
+        if not cited and s["sha256"] not in found:
             raise Unsummarizable(f"{where}: no vendored file has the sha256 of {s['url']}")
 
     return {"dir": d, "utility": utility, "schedule": schedule, "date": date,

@@ -8,7 +8,8 @@ it. Given filing directories (or a schedule directory, meaning every version
 under it) and a sandbox checkout, this writes one submission directory holding:
 
   - every JSON-LD document of each filing, byte for byte;
-  - each filing's vendored source PDF, matched to tariff.toml by sha256;
+  - each filing's vendored source PDF, matched to tariff.toml by sha256 (a
+    [source] entry with vendored = false is listed in the README, not copied);
   - a README.md carrying what the sandbox's submission template asks for,
     derived from tariff.toml, utility.toml and the JSON-LD, plus the
     disclaimer link.
@@ -102,7 +103,7 @@ class Document:
 
 @dataclass
 class SourcePdf:
-    path: Path
+    path: Path | None  # None: cited with vendored = false, so not copied
     url: str
     sha256: str
     retrieved_on: str
@@ -206,7 +207,10 @@ def read_filing(d: Path) -> Filing:
     by_hash = {sha256_file(p): p for p in d.glob("*.pdf")}
     for entry in source_entries(manifest):
         pdf = by_hash.get(entry["sha256"])
-        if pdf is None:
+        if entry.get("vendored", True) is False:
+            if pdf is not None:
+                raise ExportError(f"{d}: source sha256 {entry['sha256'][:12]} is declared vendored = false, but a PDF in the filing matches it")
+        elif pdf is None:
             raise ExportError(f"{d}: no vendored PDF matches source sha256 {entry['sha256'][:12]}")
         f.pdfs.append(SourcePdf(pdf, entry["url"], entry["sha256"], str(entry["retrieved_on"]),
                                 entry.get("filing_id")))
@@ -263,7 +267,7 @@ def files_of(sub: Submission) -> dict[str, Path]:
     """Every file the submission carries except its README, by sandbox name."""
     out: dict[str, Path] = {}
     for f in sub.filings:
-        for p in [doc.path for doc in f.documents] + [pdf.path for pdf in f.pdfs]:
+        for p in [doc.path for doc in f.documents] + [pdf.path for pdf in f.pdfs if pdf.path]:
             # One source document vendored in several version directories, such
             # as PG&E Electric Rule 19, is the same bytes under the same name.
             if p.name in out and out[p.name] != p and out[p.name].read_bytes() != p.read_bytes():
@@ -323,7 +327,8 @@ def readme(sub: Submission) -> str:
     ]
     for f in sub.filings:
         for p in f.pdfs:
-            lines.append(f"| [`{p.path.name}`]({p.path.name}) | {p.filing_id or ''} | "
+            cell = f"[`{p.path.name}`]({p.path.name})" if p.path else "cited, not included"
+            lines.append(f"| {cell} | {p.filing_id or ''} | "
                          f"<{p.url}> | {p.retrieved_on} | `{p.sha256}` |")
     lines += [
         "",
@@ -358,8 +363,10 @@ def _service_lines(sub: Submission) -> list[str]:
 def pr_body(sub: Submission, template: str, layout: str) -> str:
     """The sandbox's pull request template with each field filled in."""
     u = sub.utility
-    sources = [f"- `{p.path.name}`, placed at `{sub.rel_path}/{p.path.name}`, retrieved from "
-               f"<{p.url}> on {p.retrieved_on}" for f in sub.filings for p in f.pdfs]
+    sources = [(f"- `{p.path.name}`, placed at `{sub.rel_path}/{p.path.name}`, retrieved from "
+                f"<{p.url}> on {p.retrieved_on}") if p.path else
+               f"- <{p.url}>, retrieved on {p.retrieved_on}, cited and not included"
+               for f in sub.filings for p in f.pdfs]
     values = {
         "Utility:": [f"{u['legal_name']} ({u['short_name']})"],
         "Jurisdiction (utility and state):": [f"{u['legal_name']}, {sub.state} (`{sub.iso}`)"],

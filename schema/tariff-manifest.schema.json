@@ -21,6 +21,8 @@
           "enum": ["advice-letter", "application", "resolution", "ordinance", "rate-case-decision", "tariff-schedule", "unknown"]
         },
         "filing_id": { "type": "string", "description": "Filing reference number if known (e.g. 'PGE-AL-7234-E')." },
+        "vendored": { "type": "boolean", "default": true, "description": "false when the document is cited but its bytes are not committed beside the filing. url, sha256 and retrieved_on still identify the bytes read. Every other [source] entry names a file in the filing directory." },
+        "pages": { "type": "string", "description": "The pages of the document the filing reads, as PDF page numbers (e.g. '145' or '12-14'). Most useful on an entry with vendored = false." },
         "landing_page": {
           "type": "string",
           "format": "uri",

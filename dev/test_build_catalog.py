@@ -111,6 +111,23 @@ def main() -> int:
                      pdf.relative_to(root).as_posix(), "sha256")
         pdf.write_bytes(good)
 
+        nse = root / E1TOU / "cpau_e-nse-1_2025-09-01.pdf"
+        nse_bytes = nse.read_bytes()
+        nse.unlink()
+        fails_naming("a [source] entry with no file fails", root, (),
+                     f"{E1TOU}/tariff.toml", "no vendored file has the sha256")
+        cited = re.sub(r'(?m)^(  sha256 = "c07362c5[0-9a-f]+"\n)', r'\1  vendored = false\n', text, count=1)
+        manifest.write_text(cited)
+        rc, out = run(root)
+        check("a [source] entry with vendored = false and no file builds",
+              rc == 0 and "(3 filings)" in out, out.strip())
+        nse.write_bytes(nse_bytes)
+        fails_naming("a [source] entry with vendored = false whose file is present fails", root, (),
+                     f"{E1TOU}/tariff.toml", "vendored = false")
+        manifest.write_text(text)
+        rc, out = run(root)
+        check("and restoring the entry builds", rc == 0, out.strip())
+
         shutil.rmtree(root / ETOUC / "2026-03-27")
         fails_naming("a removed filing fails --check", root, ("--check",),
                      f"in the committed catalog, not in the corpus: ../{ETOUC}/2026-03-27/")

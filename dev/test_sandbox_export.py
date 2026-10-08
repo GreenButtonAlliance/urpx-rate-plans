@@ -292,10 +292,30 @@ def test_record_and_drift(tmp: Path) -> None:
     check("no manifests: refuses with exit 3", rc == 3, out)
 
 
+def test_cited_source(tmp: Path) -> None:
+    """A [source] entry with vendored = false is listed, not copied. SMUD SSR
+    2026-06-01 cites the Board packet carrying Resolution No. 26-04-04."""
+    print("export, a source cited and not vendored")
+    filing = REPO / "us/ca/smud/electricity/ssr/versions/2026-06-01"
+    sb = make_sandbox(tmp / "sb-cited")
+    sub = X.export([filing], sb, "commodity")
+    target = sb / sub.rel_path
+    names = {p.name for p in target.iterdir()}
+    check("copies the vendored PDF and not the cited one",
+          names == {"rate-plan-modifier_smud_ssr_2026-06-01.jsonld", "smud_ssr_2026-06-01.pdf", "README.md"},
+          str(sorted(names)))
+    readme = (target / "README.md").read_text()
+    check("README lists the cited source",
+          "| cited, not included |" in readme and "Board-Info-Packet-May-21-2026.ashx" in readme)
+    body = X.pr_body(sub, PR_TEMPLATE, "commodity")
+    check("PR body names the cited source as not included", "cited and not included" in body)
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
         test_export(tmp)
+        test_cited_source(tmp)
         test_record_and_drift(tmp)
     print(f"{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
     return 1 if failures else 0

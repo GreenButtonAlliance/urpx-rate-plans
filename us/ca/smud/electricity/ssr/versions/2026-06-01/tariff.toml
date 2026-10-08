@@ -1,0 +1,76 @@
+# Identity --------------------------------------------------------------------
+utility = "smud"
+schedule = "ssr"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.smud.org/Rate-Information/Solar-and-Storage-Rate"
+
+  [source.base]
+  url = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/01_SSR.ashx"
+  sha256 = "fe588545545c5b341f9436fa15923fc35192aca72b6499c116cf3bf72c2b800e"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "SMUD-Resolution-26-04-04"
+
+  # Cited, not vendored: the 16.7 MB packet is not committed. The adopted text
+  # of Resolution No. 26-04-04, with its vote, is on PDF page 145, in the
+  # minutes of the April 16, 2026 regular meeting submitted for approval on
+  # May 21, 2026. sha256 is of the packet as fetched on retrieved_on.
+  [source.resolution]
+  url = "https://www.smud.org/-/media/Documents/Corporate/About-Us/Board-Meetings-and-Agendas/2026/May/Board-Info-Packet-May-21-2026.ashx"
+  sha256 = "d15b37da3f400532203bb1f6d4bfeb77517a41c8fab6d7d87988dcc64e2e6276"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "resolution"
+  filing_id = "SMUD-Resolution-26-04-04"
+  vendored = false
+  pages = "145"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "board"
+docket = "SMUD Resolution No. 26-04-04 adopted April 16, 2026, amending Resolution No. 21-09-07"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.09.0"
+extracted_on = "2026-10-07"
+notes = """
+Source bytes. smud_ssr_2026-06-01.pdf is 01_SSR.ashx as served 2026-10-07 (Last-Modified 2026-06-24). Every sheet (SSR-1, SSR-2, SSR-3) reads "Resolution No. 21-09-07 adopted September 16, 2021 (as amended by Resolution No. 26-04-04 adopted April 16, 2026)" and "Effective: June 1, 2026". The May 21, 2026 Board information packet ([source.resolution], cited and not vendored) prints Resolution No. 26-04-04 on PDF page 145, approved April 16, 2026 on the Consent Calendar.
+
+Change from the 2022-03-01 version. The pdftotext -layout text of the two sheets differs only in the sheet footers and in the first sentence of Section VI: "The Export Compensation Rate effective June 1, 2026 will be $0.0960 per kWh", where the 2022-03-01 sheet read "effective March 1, 2022 will be $0.0740 per kWh". Resolution No. 26-04-04, Section 1: "Effective June 1, 2026, the Solar and Storage Rate (SSR) export compensation rate is 9.6¢ per kWh." The new rate is 1.297 times the old one, inside the ± 30% bound of Section VI.
+
+Price changes from the 2022-03-01 version:
+ ssr-2026-06-01-price-export-compensation: -0.07400 -> -0.09600
+
+Supersession. The 2022-03-01 version expires at 2026-06-01. The sheet footers name no resolution between 21-09-07 and 26-04-04, and Resolution No. 26-04-04 recites the 7.4 cent rate set by Resolution No. 21-09-07 as the rate it replaces, so no version lies between the two.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-07"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Export credit application scope (Sheet SSR-2, Section VII.B and VII.C). The schedule bounds where the credit may land: 'The export credit can only offset electricity usage charges', and VII.C requires the System Infrastructure Fixed Charge, demand charges, program fees, surcharges and taxes to be paid each monthly billing cycle regardless. The model carries the credit as an unbounded Price of -0.09600/kWh with no cap, so a consumer composing SSR onto R-TOD will let it erode the System Infrastructure Fixed Charge and produce a bill the tariff forbids. Not expressible under URPX v0.5.1: this is the 'credit bounded by the value of another price' shape. basedOnPrice plus multiplier on PriceShape compute a value but cannot bound its application; CalculationMethodShape is sh:closed with only a free-text calculationFormula; the ontology has no cap or limit vocabulary (urpx:maximum is an AggregationMethodValue; priceFloor/priceCeiling are dynamic-pricing clamps). A urpx:GeneralRule attached via referencesGeneralRule would record the provision as citable prose, but it needs generalRuleID plus at least one hasDataSourceReference and has zero uses anywhere in this corpus.",
+ "Carryover of the unconsumed export credit (Sheet SSR-2, Section VII.B): 'Any remaining credit will carry over to subsequent billing periods.' Not modeled. LedgerShape permits settlementInterval and hasBillingCycle, and smud:ssr-2026-06-01-ledger-export-compensation sets neither, but settlementInterval denotes a finite accumulation period ending in a settlement (its skos:note cites P12M for the NBT 12-month true-up) whereas SSR's carryover is open-ended: the PDF states no true-up, cash-out, expiry or forfeiture. URPX v0.5.1 has no term for a balance that persists indefinitely: LedgerShape and BillingCycleShape are sh:closed, settlementInterval is the only property among them that concerns a balance, and a scan of every ontology literal for carry, rollover, balance, banked and unconsumed finds no other balance term.",
+ "Generator standby charge waiver (Sheet SSR-1, Section III): SSR customers 'are exempt from generator standby charges on that portion of their load that is served by the eligible facility.' Not modeled, and blocked on two things, neither of them URPX vocabulary. First, there is no base Price to reference: R-TOD Sheet R-TOD-3 Section IV.D prices the Standby Service Charge at $8.855 per kW of Contract Capacity per month effective 2026-01-01, and both smud/tod-5-8pm and smud/tod-low-use already record 'Standby Service Charge' as their own deferral with a planned 'standby' modifier. Second, a full waiver is expressible as a Price with multiplier -1 plus basedOnPrice naming that charge (no filing in this corpus does this yet), but SSR's proportional wording is not, and R-TOD's own text reads as unconditional for SSR customers ('waived only for qualifying renewable generation under Rate Schedules NEM1 and SSR'). Settle that conflict and build this after the base plans model the charge.",
+ "Billing-period definition (Sheet SSR-2, Section VII): 'For the purposes of this schedule a \"month\" is considered to be a single billing period of 27 to 34 days.' The model carries no CalculationMethod. Expressible now as intervalDuration 'P1M' plus intervalType urpx:monthlyInterval. The sole Price is per-kWh, so nothing prorates by the length of the period. Low consequence, and recorded because the provision is in the filed source and not in the model, which is the test LAYOUT 4.4 sets.",
+ "Section IV.A states seven eligibility requirements and the model encodes three. The four unmodeled ones are verbatim: \"1. The facility must be located on the customer's premises; and 2. The facility must operate in parallel with SMUD's distribution facilities; and 3. The customer must meet all requirements of Rule and Regulation 21; and ... 5. The facilities and the electrical requirements are located at a single and same metering point\". They price nothing.",
+ "Section IV.A.4's sizing constraint is a term of availability of this schedule and is unmodeled. Verbatim: \"The facility must be intended primarily to offset up to 110% of the customer's own electrical requirements\". The model records it only in urpx:description prose.",
+ "Default versus elective enrollment (Sheet SSR-1, Section I). Customers whose renewable generation facility was approved for interconnection by SMUD on or after March 1, 2022, or who establish service at a premises with such a facility on or after that date, are placed on SSR (apart from the Section II transition period); customers whose facility was \"approved for interconnection on or before February 28, 2022\" \"may elect to enroll in Rate Schedule SSR on or after March 1, 2022.\" Not expressible per cohort under URPX v0.5.1: urpx:isDefault and urpx:customerChoice (whose values include urpx:mandatoryChoice) have rdfs:domain urpx:RatePlanVersion and mark a whole version, and neither is a path on the sh:closed RatePlanModifierVersionShape this filing's version is validated against.",
+ "Section VI bounds the one price this filing models and nothing in the model states it: \"SMUD will update the Export Compensation Rate every four years, starting in 2026\" and the rate \"will not be changed more than ± 30% every four years\". The model carries a bare -0.09600 Price with no DynamicPricing, priceFloor, priceCeiling or updateFrequency.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2022-03-01 version: the Export Compensation Rate Price moves to -0.09600 and every subordinate @id is scoped to this version. See [extraction] notes."

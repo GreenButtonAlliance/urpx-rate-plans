@@ -445,6 +445,8 @@ The URPX `urpx:hasDataSourceReference` block in each JSON-LD retains the canonic
 
 `tariff.toml` carries the sha256 of the bytes-as-extracted, allowing the committed local PDF to be self-checked.
 
+A source too large to commit for the little a filing reads from it is cited instead: its `[source.<name>]` entry keeps `url`, `sha256` and `retrieved_on` and adds `vendored = false` and `pages`, the PDF pages read. SMUD SSR 2026-06-01 cites the Board packet whose page 145 prints Resolution No. 26-04-04. `dev/build_catalog.py` and `dev/export_sandbox.py` require a file for every other entry, and refuse a file whose sha256 matches an entry marked `vendored = false`.
+
 ### Why the bytes are committed, not just the URL
 
 The earlier convention was *"PDFs are not committed; future consumers can re-fetch and verify byte-identity"*. That convention was reversed on 2026-04-28 after a real demonstration of why URLs alone are not durable provenance: PG&E updated `ELEC_SCHEDS_E-TOU-C.pdf` in place at the canonical URL between our 2026-04-26 retrieval and a 2026-04-28 re-fetch — same URL, different bytes. The original was recoverable only because dcj had a private archive copy. URDB and similar tariff databases are full of broken links and silently-mutated documents for the same reason; URPX's *raison d'être* is auditable provenance, which requires the actual bytes the data was extracted from to live alongside the structured representation.

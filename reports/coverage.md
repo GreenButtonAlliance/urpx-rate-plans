@@ -156,6 +156,6 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | smud | med | modifier | 2017-07-01 |
 | CA | smud | nem1 | modifier | 2021-09-17 |
 | CA | smud | pev-credit | modifier | 2025-06-20 |
-| CA | smud | ssr | modifier | 2022-03-01 |
+| CA | smud | ssr | modifier | 2022-03-01, 2026-06-01 |
 | CA | smud | tod-5-8pm | rate-plan | 2026-01-01, 2027-01-01 |
 | CA | smud | tod-low-use | rate-plan | 2026-01-01, 2027-01-01 |
