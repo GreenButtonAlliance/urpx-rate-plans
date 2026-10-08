@@ -269,8 +269,8 @@ build(
     "discounted)\"; Sheet 2 sets the D-CARE Discount at 35.000 percent. The exemptions "
     "are carried as urpx:multiplier -1 over the composed base's own charge, "
     "and the discount as urpx:multiplier -0.35 over the base's "
-    "CARE-discountable urpx:PriceSummary; each names its candidates in all five base "
-    "plans, read as alternatives. The base services charge is not discounted: Sheet 1 "
+    "CARE-discountable urpx:PriceSummary; each names its candidates in every base plan "
+    "it applies to, read as alternatives. The base services charge is not discounted: Sheet 1 "
     "assigns a CARE customer to Income Tier 1, which each base prices as a "
     "urpx:ProfileAlternative.",
     "Schedule D-CARE Sheet 2",
@@ -308,7 +308,7 @@ build(
     "Credit.\" Those exemptions are carried as urpx:multiplier -1 over the "
     "composed base's own charge, and the discount as urpx:multiplier "
     "-0.18 over the base's FERA-discountable urpx:PriceSummary, which includes the "
-    "generation charges; each names its candidates in all five base plans, read as "
+    "generation charges; each names its candidates in every base plan it applies to, read as "
     "alternatives. The base services charge is not discounted: Sheet 1 assigns a FERA "
     "customer to Income Tier 2, which each base prices as a urpx:ProfileAlternative.",
     "Schedule E-FERA Sheet 1",

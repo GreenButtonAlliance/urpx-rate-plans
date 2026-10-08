@@ -10,7 +10,7 @@ City of Palo Alto Utilities **Schedule E-3: Customer-Owned Generation Retail Rat
 
 ## Notes
 
-Buyback rates the utility **pays** to customers operating their own (non-NEM-eligible) generation facilities. **Effective 2007-07-01** — the oldest filing in this corpus, never reissued.
+Buyback rates the utility **pays** to customers operating their own (non-NEM-eligible) generation facilities. **Effective 2007-07-01**, never reissued.
 
 **Both buyback tables are modeled.** Section C.1 (without an interval meter): energy buyback Summer $0.07902/kWh and Winter $0.07831/kWh for Firm and Non-Firm power, plus a Firm capacity credit of $4.32/kW-month in each season. Section C.2 (with an interval meter): five TOU energy cells, plus a peak-period Firm capacity credit of $4.32/kW-month in each season.
 

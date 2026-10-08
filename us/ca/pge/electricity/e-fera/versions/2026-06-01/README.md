@@ -21,7 +21,7 @@ Sheet 1: "an 18 percent discount on their total bundled volumetric charges on th
 | `pge:e-fera-2026-06-01-price-recovery-bond-credit-exemption` | multiplier -1 | the base's Recovery Bond Credit |
 | `pge:e-fera-2026-06-01-price-bill-discount` | multiplier -0.18 | the base's `-summary-fera-discountable` |
 
-Each Price names its candidate in all five current base versions, read as alternatives (LAYOUT.md section 6b). Each base's FERA-discountable `urpx:PriceSummary` names every volumetric Price of the base version except the three exempt charges, generation included; the base services charge is excluded as not volumetric. The generation sentence is read as placing generation inside the discount, not as a second discount on it.
+Each Price names its candidate in each current base version, read as alternatives (LAYOUT.md section 6b). Each base's FERA-discountable `urpx:PriceSummary` names every volumetric Price of the base version except the three exempt charges, generation included; the base services charge is excluded as not volumetric. The generation sentence is read as placing generation inside the discount, not as a second discount on it.
 
 The base services charge stays in each base's income-tier `urpx:ProfileAlternative` layer: Sheet 1 assigns a FERA customer to Income Tier 2.
 

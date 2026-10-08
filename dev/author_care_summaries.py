@@ -4,8 +4,7 @@
 """Author the CARE and FERA discountable subtotals and their discount Prices.
 
 The headline percentage discount is the largest single thing this corpus did not
-model: SCE CARE at 32.5 percent, SDG&E CARE at 35 and SDG&E FERA at 18, together
-roughly 2.28M customers. Only the line-item exemptions were modeled, so a consumer
+model: SCE CARE at 32.5 percent, SDG&E CARE at 35 and SDG&E FERA at 18. Only the line-item exemptions were modeled, so a consumer
 computing a CARE customer's bill got the undiscounted one.
 
 THE SHAPE. A urpx:PriceSummary in the BASE PLAN filing, hung off the PriceSet
@@ -16,8 +15,8 @@ summary belongs with the prices it sums; the discount belongs to the program.
 
 MULTIPLE basedOnPrice VALUES ARE DISJUNCTIVE: candidate bases, exactly one of
 which is present in the documents a caller passes. Composing the modifier with
-base X, the summaries of the other eight are simply absent and the one present is
-used. This is what lets ONE discount Price serve nine base plans without reusing
+base X, the summaries of the other bases are simply absent and the one present is
+used. This is what lets ONE discount Price serve every base plan without reusing
 an @id or minting a discount per plan. Zero resolvable candidates is still an
 error, so a typo stays loud.
 

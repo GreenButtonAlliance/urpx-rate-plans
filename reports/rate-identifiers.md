@@ -192,7 +192,7 @@ Every claim here is a count over the 8,959 identifiers in the snapshot.
 | `SD` | 1,309 | 0 | 2,700 | 0 |
 | `SM` | 0 | 0 | 84 | 0 |
 
-That is the structure: the four characters are two two-character provider codes, the distribution provider then the energy provider, and `XX` means *not the utility*. The mirrored rate codes carry most of that weight; the CCA column corroborates it wherever a utility says CCA in `alt_name` at all, which in this snapshot is one of the three.
+That is the structure: the four characters are two two-character provider codes, the distribution provider then the energy provider, and `XX` means *not the utility*. The mirrored rate codes carry most of that weight; the CCA column corroborates it wherever a utility says CCA in `alt_name` at all.
 
 ## The five `XXSD` identifiers
 

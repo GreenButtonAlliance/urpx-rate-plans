@@ -112,11 +112,10 @@ not re-filed in those years. This corpus's pre-2026-05-04 SCE filings
 were sourced from these reissuances and consequently had to fall back
 to SCE's customer-facing page for TOU period definitions.
 
-Eight filings are still in that state, every one of them dated before
-2026-05-04: the seven 2025-11-15 residential filings, sourced from
-library.sce.com, and nbt/2025-04-23, sourced from www.sce.com. The eleven
-2026-03-20 filings come from the live tariff book. Re-sourcing the remaining
-eight is outstanding.
+The 2025-11-15 residential filings, sourced from library.sce.com, and
+nbt/2025-04-23, sourced from www.sce.com, are still in that state. The
+2026-03-20 filings come from the live tariff book. Re-sourcing the
+remaining ones is outstanding.
 
 Use the historical archive for time-series comparison or for citing
 what was effective during a historical window — NOT for current
@@ -142,10 +141,8 @@ SCHEDULE INVENTORY
 No plain HTML page on sce.com enumerates the electric schedules; the sitemap
 carries neither a PDF nor a SharePoint URL. What the hub page above does carry
 is six anonymous SharePoint share links, five of them rate-class folders.
-dev/build_inventory.py scrapes those, then reads each folder's file list,
-yielding 118 schedules: Residential 14, General Service/Industrial 18,
-Agricultural and Pumping 7, Street and Area Lighting/Traffic Control 7, Other
-Rates 72.
+dev/build_inventory.py scrapes those, then reads each folder's file list
+into data/inventories/sce.json.
 
 Following a :f: share link sets an anonymous FedAuth cookie scoped to THAT
 share, after which the folder's file API answers:
@@ -154,7 +151,7 @@ The cookie jar must be FRESH PER SHARE LINK; one carried over from another
 share returns 403.
 
 DO NOT ENUMERATE FROM THE RENDERED PAGE. The file list is virtualized and
-pages at 30 rows. Scraping the DOM of Other Rates yields 30 of its 72 files,
+pages at 30 rows. Scraping the DOM of Other Rates yields only its first 30 files,
 alphabetically A through E, and looks complete: scrolling adds nothing, an
 8000px viewport adds nothing, and sorting descending returns a different 30.
 Check every count against the folder's own ItemCount, which the API reports.

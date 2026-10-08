@@ -22,7 +22,7 @@ Sheet 1: a CARE percentage discount "on their total bundled volumetric charges l
 | `pge:d-care-2026-03-01-price-recovery-bond-credit-exemption` | multiplier -1 | the base's Recovery Bond Credit |
 | `pge:d-care-2026-03-01-price-bill-discount` | multiplier -0.35 | the base's `-summary-care-discountable` |
 
-Each Price names its candidate in all five current base versions, read as alternatives (LAYOUT.md section 6b). Each base's CARE-discountable `urpx:PriceSummary` names every volumetric Price of the base version except the four exempt charges; the base services charge is excluded as not volumetric, and the Public Purpose Programs charge is included whole because no document on disk publishes its CARE surcharge portion. `dev/lint_discount_summaries.py` re-derives the member lists.
+Each Price names its candidate in each current base version, read as alternatives (LAYOUT.md section 6b). Each base's CARE-discountable `urpx:PriceSummary` names every volumetric Price of the base version except the four exempt charges; the base services charge is excluded as not volumetric, and the Public Purpose Programs charge is included whole because no document on disk publishes its CARE surcharge portion. `dev/lint_discount_summaries.py` re-derives the member lists.
 
 The base services charge stays in each base's income-tier `urpx:ProfileAlternative` layer: Sheet 1 assigns a CARE customer to Income Tier 1 "and will not receive further discounts on the base service charge".
 

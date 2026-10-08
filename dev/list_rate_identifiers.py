@@ -1059,7 +1059,7 @@ def render_md(d: dict) -> str:
     w("That is the structure: the four characters are two two-character provider codes, the "
       "distribution provider then the energy provider, and `XX` means *not the utility*. The "
       "mirrored rate codes carry most of that weight; the CCA column corroborates it wherever a "
-      "utility says CCA in `alt_name` at all, which in this snapshot is one of the three.")
+      "utility says CCA in `alt_name` at all.")
     w("")
 
     w("## The five `XXSD` identifiers")

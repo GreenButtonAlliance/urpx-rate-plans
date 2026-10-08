@@ -43,8 +43,8 @@ tariff_index_urls = [
  # PRIMARY (schedule inventory) — the JSON service behind that portal. This is
  # the best inventory surface of any utility here: a stable JSON contract, no
  # browser, no cookie, no paging, and it states which schedules are closed.
- # /history returns all 159 schedules ever published, /tariffs those currently
- # in force (92 on 2026-10-06). dev/build_inventory.py reads both.
+ # /history returns every schedule ever published, /tariffs those currently
+ # in force. dev/build_inventory.py reads both.
  "https://scg-uofa-api-prd-hzczb4hja0g6dcfv.a03.azurefd.net/scg-uofa-wpubtm-prd/history?utilId=SDGE&bookId=ELEC&sectId=ELEC-SCHEDS",
 ]
 
@@ -178,9 +178,8 @@ per-sheet effective date.
 
 ## Heavy CCA penetration
 
-SDG&E has substantial Community Choice Aggregator presence (~1.1M of
-~1.4M residential customers are CCA-served by SDCP / Clean Energy
-Alliance). The published "Total Rate" combines UDC (delivery — applies
+SDG&E has substantial Community Choice Aggregator presence (SDCP / Clean
+Energy Alliance). The published "Total Rate" combines UDC (delivery — applies
 to all customers) + EECC (commodity — bundled customers only) + DWR-BC
 + WF-NBC. CCA customers pay UDC + DWR-BC + WF-NBC + their CCA's
 generation rate (modeled separately if/when needed). Per Special

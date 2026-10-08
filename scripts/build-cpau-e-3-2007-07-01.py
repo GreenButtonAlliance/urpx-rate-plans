@@ -5,7 +5,7 @@ Build ca/pou/cpau/e-3/versions/2007-07-01/rate-plan_cpau_e-3_2007-07-01.jsonld.
 CPAU Schedule E-3: Customer-Owned Generation. Buyback rates that the
 utility pays to customers operating their own (non-NEM-eligible)
 generation facilities. Effective 2007-07-01 — long-stable, never
-re-issued (oldest filing in the urpx-rate-plans corpus).
+re-issued.
 
 Source PDF sha256 fdc56b03b2d143c5f39e9bf2d5cbf555ee259cfad025792be426c543606b0de6
 retrieved from paloalto.gov 2026-04-30.
@@ -31,7 +31,7 @@ NEW URPX modeling territory exercised here for the first time in our corpus:
   pattern for buyback already established by the CPAU E-EEC-1 / E-NSE-1
   modifiers in the multi-source CPAU E-1 2025-09-01 filing — same shape
   reused here.
-- 2007-vintage long-stable rate filing (oldest in the corpus).
+- 2007-vintage long-stable rate filing.
 - chargeType urpx:creditEnergy + chargeCategory urpx:discount on each
   buyback PriceDefinition (matching the E-EEC-1 / E-NSE-1 pattern).
 - Capacity-credit ($/kW/month) paid by the utility to firm-power
