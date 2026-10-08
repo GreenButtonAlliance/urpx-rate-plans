@@ -1,0 +1,83 @@
+# Identity --------------------------------------------------------------------
+utility = "smud"
+schedule = "tod-5-8pm"
+effective_date = "2027-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx"
+sha256 = "9be2f188d4bb39b4bb6436a9a37035457d0e0ab51f769fe995f58ca35422accd"
+retrieved_on = "2026-10-07"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "SMUD-Resolution-25-06-15"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "board"
+docket = "Resolution No. 25-06-15 adopted June 19, 2025 (SMUD Board of Directors)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual-diff"
+extracted_on = "2026-10-07"
+notes = """
+Source bytes.
+https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx as
+served on 2026-10-07; the bytes equal those of the 2026-01-01 directory's PDF
+(Last-Modified 2025-06-30). Resolution No. 25-06-15 (adopted June 19, 2025),
+fetched the same day from SMUD's rate archive page, prints the same RT02
+table.
+
+Column. Sheet R-TOD-2 Section II.A prints the RT02 prices in three columns,
+effective May 1, 2025, January 1, 2026 and January 1, 2027. This version
+carries the January 1, 2027 column.
+
+Reconciliation. Each Price below was checked against the January 1, 2026
+column before being set from the January 1, 2027 column (2026 -> 2027):
+ tod-5-8pm-2027-01-01-price-system-infrastructure-fixed-charge: 27.00 -> 27.80
+ tod-5-8pm-2027-01-01-price-usage-summer-peak: 0.3765 -> 0.3878
+ tod-5-8pm-2027-01-01-price-usage-summer-mid-peak: 0.2139 -> 0.2203
+ tod-5-8pm-2027-01-01-price-usage-summer-off-peak: 0.1550 -> 0.1596
+ tod-5-8pm-2027-01-01-price-usage-non-summer-peak: 0.1776 -> 0.1829
+ tod-5-8pm-2027-01-01-price-usage-non-summer-off-peak: 0.1285 -> 0.1324
+
+Supersession. The 2026-01-01 version ends at 2027-01-01, where this column
+takes effect.
+
+Derived from the 2026-01-01 version by dev/author_smud_2027.py.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-07"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Hydro Generation Adjustment (Sheet R-TOD-3, Section III.A): R-TOD imposes the HGA as an electricity usage surcharge on every bill under this schedule, with no eligibility qualifier, but states only \"Refer to Rate Schedule HGA\" and publishes no amount. Schedule HGA is not in this corpus, so this is a source gap rather than a URPX expressibility gap; once fetched it is an ordinary per-kWh adjustment. Until then the resolved marginal $/kWh is understated for every customer on this schedule.",
+ "Standby Service Charge (Sheet R-TOD-3, Section IV.D): $9.121 per kW of Contract Capacity per month effective January 1, 2027, for customers whose on-site generation has a combined nameplate rating under 100 kW and is connected to SMUD's system, waived only for qualifying NEM1 and SSR renewable generation. Not modeled anywhere in the corpus. Expressible under v0.5.1: urpx:standbyCharge is absent at v0.2.1 and present from v0.3.0, and pairs with unitOfMeasure urpx:kW, measurementKind urpx:demand and intervalDuration P1M. This is work, not a blocker; it belongs in a smud/standby RatePlanModifier filing.",
+ "Residential Three-Phase Service Option (Sheet R-TOD-4, Section IV.H): Special Facilities fee of $59.70 per month effective January 1, 2027, billed in addition to the System Infrastructure Fixed Charge, where three-phase service is available. Not modeled. Structurally identical to the SIFC this filing already carries (chargeType urpx:facilities, intervalDuration P1M) and was equally expressible at v0.2.1, so this is work rather than a blocker; it belongs in a smud/three-phase RatePlanModifier filing because Section IV.H makes the fee conditional.",
+ "Proration of the System Infrastructure Fixed Charge (Sheet R-TOD-5, Section VI.A): the $27.80 monthly charge is prorated on the relationship between the billing period length and 30 days whenever the period is shorter than 27 days, and is determined by the billing period end date; the electricity usage charge is never prorated. The model carries the charge flat at intervalDuration P1M with no proration. urpx:prorationMethod exists as a free-text xsd:string, maxCount 1, on BillingModel, and has been there since v0.2.1 with zero corpus uses, so the sentence can be recorded but the arithmetic cannot be computed.",
+ "Section I states this schedule's premises-type applicability and a compulsory-enrollment rule, and the EligibilityRule tests only hasCustomerKind = residentialKind. Verbatim: \"This Rate Schedule R-TOD applies to single- and three-phase service for the following types of residential premises: 1. Individual or dual metered residences with digital communicating meter installed, including single-family homes, duplexes, apartments, and condominiums; and 2. General farm service where the meter also serves the residence or additional meters on a farm where the electricity consumed is solely for domestic purposes. 3. Customers who have an eligible renewable electrical generation facility under Rate Schedules NEM1 or SSR that was approved for installation by SMUD on or after January 1, 2018, or who establish service at a premises that has an electrical generation facility that is fueled by a renewable fuel source on or after January 1, 2018 must be on this Rate Schedule R-TOD.\" And: \"Master-metered service to a qualifying multifamily accommodation or mobile home parks are not eligible for Time-of-Day rates under rate schedule R-TOD.\" The assessment records these as \"left in prose\"; they are a part of the source document that is not modeled.",
+]
+applicable_modifiers = [
+ "cpp",
+ "eapr",
+ "hga",
+ "med",
+ "nem1",
+ "pev-credit",
+ "reo",
+ "ssr",
+ "standby",
+ "three-phase",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-01-01 version by dev/author_smud_2027.py; see [extraction] notes for the column read and the reconciliation."

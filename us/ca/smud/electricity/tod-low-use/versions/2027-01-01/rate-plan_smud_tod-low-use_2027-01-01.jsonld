@@ -1,0 +1,771 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "smud": "https://rate-plans.grid-coordination.energy/smud/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "smud:doc-tod-low-use-2027-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "smud:tod-low-use",
+    "urpx:name": "Rate Schedule R-TOD Time-of-Day (Low Use) Rate (RTL1)",
+    "urpx:ratePlanUniqueIdentifier": "RTL1",
+    "urpx:initialEffectiveDate": "2026-01-01",
+    "urpx:timezoneIdentifier": "America/Los_Angeles",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "smud:tod-low-use-2027-01-01",
+      "urpx:description": "SMUD Time-of-Day (Low Use) Rate (rate category RTL1) — an optional residential TOU rate available as of January 1, 2026 for customers with constrained electrical service and low usage. Eligibility (per Schedule R-TOD Sec I.B): customer must have panel size ≤ 125 amps AND must be a low-usage customer (typical threshold ≤ 270 kWh/month specific usage cap not enumerated in the source PDF — eligibility is by SMUD review). Estimated ~12K SMUD residential customers (~2% of the residential base). Same TOU window structure as the default Time-of-Day (5-8 p.m.) Rate (RT02) — Peak 5-8 p.m. weekdays non-holiday, Mid-Peak surrounding-summer hours, Off-Peak overnight + weekends + holidays + non-summer. Different rate VALUES from RT02: lower System Infrastructure Fixed Charge ($17/month vs RT02's $27.80/month in the January 1, 2027 column) but HIGHER per-kWh prices across all TOU periods (Peak Summer $0.4314 vs RT02's $0.3878, etc.). The fixed-vs-variable trade-off is designed to be advantageous for genuinely low-usage customers — break-even point is around 270 kWh/month, above which RT02 (or the Schedule R Fixed Rate) would be cheaper. Same source PDF (1-R-TOD.ashx) and same Board Resolution (25-06-15 adopted June 19 2025) as the RT02 and RTC1 sub-rates that share the R-TOD schedule umbrella. PCIA / Cost Responsibility Surcharges N/A — SMUD is a vertically-integrated municipal utility, not a CPUC IOU. Plug-In Electric Vehicle Credit (-$0.0150/kWh midnight to 6 a.m. for residential EV-owners) applies via the smud:pev-credit modifier (Sec II.D of source PDF — applies to RT02, RTL1, and RTC1).",
+      "urpx:effectiveDateTime": "2027-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": true,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "SMUD_SCHEDULE_R-TOD.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R-TOD.ashx",
+        "urpx:dateRetrieved": "2026-10-07",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 5,
+        "urpx:leafStart": "R-TOD-1",
+        "urpx:leafEnd": "R-TOD-5"
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "smud:tod-low-use-2027-01-01-er-residential-tod-low-use",
+          "urpx:name": "Eligibility for Schedule R-TOD Time-of-Day (5-8 p.m.) Rate",
+          "urpx:description": "Customer is a residential customer who has elected SMUD's optional Time-of-Day (Low Use) Rate (RTL1). Per Schedule R-TOD Sec I.B: customer must have panel size ≤ 125 amps to be eligible. Additionally, the rate is intended for low-usage customers (epic note ~270 kWh/month threshold; specific usage cap not enumerated in source PDF — SMUD-reviewed eligibility). Optional rate; customer may elect RT02 (default Time-of-Day) or Schedule R (Fixed Rate) as alternatives. Eligibility encoded as a residential-customer + 'Optional Rate Election' = 'TOD Low Use' predicate; the panel-size and usage-cap conditions are documented in description prose but not modeled as structural ConditionExpression operands.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "smud:tod-low-use-2027-01-01-cx-residential-tod-low-use",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "smud:tod-low-use-2027-01-01-cn-residential-tod-low-use",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "smud:tod-low-use-2027-01-01-cn-residential-tod-low-use-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "smud:tod-low-use-2027-01-01-cn-residential-tod-low-use-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "smud:tod-low-use-2027-01-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "smud:tod-low-use-2027-01-01-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "smud:tod-low-use-2027-01-01-season-non-summer",
+            "urpx:seasonName": "Non-Summer",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "smud:tod-low-use-2027-01-01-holidays-tod-low-use",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-new-years-day-rtl1",
+              "urpx:holidayName": "New Year's Day",
+              "urpx:holidayRule": "January 1"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-martin-luther-king-jr-day-rtl1",
+              "urpx:holidayName": "Martin Luther King Jr. Day",
+              "urpx:holidayRule": "Third Monday in January"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-presidents-day-rtl1",
+              "urpx:holidayName": "Presidents Day",
+              "urpx:holidayRule": "Third Monday in February"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-memorial-day-rtl1",
+              "urpx:holidayName": "Memorial Day",
+              "urpx:holidayRule": "Last Monday in May"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-juneteenth-rtl1",
+              "urpx:holidayName": "Juneteenth National Independence Day",
+              "urpx:holidayRule": "June 19"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-independence-day-rtl1",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-labor-day-rtl1",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-indigenous-peoples-day-rtl1",
+              "urpx:holidayName": "Indigenous Peoples' Day/Columbus Day",
+              "urpx:holidayRule": "Second Monday in October"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-veterans-day-rtl1",
+              "urpx:holidayName": "Veterans Day",
+              "urpx:holidayRule": "November 11"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-thanksgiving-day-rtl1",
+              "urpx:holidayName": "Thanksgiving Day",
+              "urpx:holidayRule": "Fourth Thursday in November"
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "smud:tod-low-use-2027-01-01-holiday-christmas-day-rtl1",
+              "urpx:holidayName": "Christmas Day",
+              "urpx:holidayRule": "December 25"
+            }
+          ]
+        },
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:tod-low-use-2027-01-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "smud:ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "smud:tod-low-use-2027-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "smud:tod-low-use-2027-01-01-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "smud:tod-low-use-2027-01-01-tou-tod-low-use",
+            "urpx:referencesMetricInput": {
+              "@id": "smud:tod-low-use-2027-01-01-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "smud:tod-low-use-2027-01-01-tou-tier-peak-rtl1",
+                "urpx:tierSourceName": "Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "smud:tod-low-use-2027-01-01-tou-period-summer-peak-rtl1",
+                    "urpx:name": "Summer Peak Period (5pm-8pm weekdays excluding holidays)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-summer-peak-rtl1",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "smud:tod-low-use-2027-01-01-tou-period-non-summer-peak-rtl1",
+                    "urpx:name": "Non-Summer Peak Period (5pm-8pm weekdays excluding holidays)",
+                    "urpx:touPeriodNumber": 4,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-non-summer-peak-rtl1",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-non-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "smud:tod-low-use-2027-01-01-tou-tier-mid-peak-rtl1",
+                "urpx:tierSourceName": "Mid-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:midPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "smud:tod-low-use-2027-01-01-tou-period-summer-mid-peak-rtl1",
+                    "urpx:name": "Summer Mid-Peak Period (weekdays noon-5pm and 8pm-midnight; only exists in summer)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-summer-mid-peak-afternoon-rtl1",
+                        "urpx:startTime": "12:00:00",
+                        "urpx:endTime": "17:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-summer-mid-peak-evening-rtl1",
+                        "urpx:startTime": "20:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "smud:tod-low-use-2027-01-01-tou-tier-off-peak-rtl1",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 3,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "smud:tod-low-use-2027-01-01-tou-period-summer-off-peak-rtl1",
+                    "urpx:name": "Summer Off-Peak Period (weekdays midnight-noon; weekends and holidays all day)",
+                    "urpx:touPeriodNumber": 3,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-summer-off-peak-weekday-morning-rtl1",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "12:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-summer-off-peak-weekday-holiday-rtl1",
+                        "urpx:startTime": "12:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-summer-off-peak-weekend-rtl1",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "smud:tod-low-use-2027-01-01-tou-period-non-summer-off-peak-rtl1",
+                    "urpx:name": "Non-Summer Off-Peak Period (weekdays midnight-5pm and 8pm-midnight; weekends and holidays all day)",
+                    "urpx:touPeriodNumber": 5,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-non-summer-off-peak-weekday-morning-rtl1",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "17:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-non-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-non-summer-off-peak-weekday-evening-rtl1",
+                        "urpx:startTime": "20:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-non-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-non-summer-off-peak-weekday-holiday-rtl1",
+                        "urpx:startTime": "17:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-non-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "smud:tod-low-use-2027-01-01-time-bracket-non-summer-off-peak-weekend-rtl1",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "smud:tod-low-use-2027-01-01-season-non-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:tod-low-use-2027-01-01-ledger-energy",
+              "urpx:name": "Electricity Usage Charge (TOU-varying)",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:tod-low-use-2027-01-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "smud:tod-low-use-2027-01-01-ledger-system-infrastructure",
+              "urpx:name": "System Infrastructure Fixed Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "smud:tod-low-use-2027-01-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:tod-low-use-2027-01-01-pd-usage-summer-peak-rtl1",
+              "urpx:name": "Electricity Usage Charge — Summer Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "smud:tod-low-use-2027-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:tod-low-use-2027-01-01-pd-usage-summer-mid-peak-rtl1",
+              "urpx:name": "Electricity Usage Charge — Summer Mid-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "smud:tod-low-use-2027-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:tod-low-use-2027-01-01-pd-usage-summer-off-peak-rtl1",
+              "urpx:name": "Electricity Usage Charge — Summer Off-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "smud:tod-low-use-2027-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:tod-low-use-2027-01-01-pd-usage-non-summer-peak-rtl1",
+              "urpx:name": "Electricity Usage Charge — Non-Summer Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 4,
+              "urpx:referencesLedger": {
+                "@id": "smud:tod-low-use-2027-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:tod-low-use-2027-01-01-pd-usage-non-summer-off-peak-rtl1",
+              "urpx:name": "Electricity Usage Charge — Non-Summer Off-Peak",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 5,
+              "urpx:referencesLedger": {
+                "@id": "smud:tod-low-use-2027-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:tod-low-use-2027-01-01-pd-system-infrastructure-fixed-charge-rtl1",
+              "urpx:name": "System Infrastructure Fixed Charge — flat per meter per month",
+              "urpx:chargeType": {
+                "@id": "urpx:facilities"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "smud:tod-low-use-2027-01-01-pd-system-infrastructure-fixed-charge-rtl1-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:tod-low-use-2027-01-01-ledger-system-infrastructure"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "smud:tod-low-use-2027-01-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "smud:tod-low-use-2027-01-01-price-system-infrastructure-fixed-charge-rtl1",
+            "urpx:referencesPriceDefinition": {
+              "@id": "smud:tod-low-use-2027-01-01-pd-system-infrastructure-fixed-charge-rtl1"
+            },
+            "urpx:startDate": "2027-01-01",
+            "urpx:name": "System Infrastructure Fixed Charge",
+            "urpx:unitPrice": "17.00"
+          }
+        ],
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "smud:tod-low-use-2027-01-01-ps-usage-rtl1",
+            "urpx:startDate": "2027-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "smud:tod-low-use-2027-01-01-price-usage-summer-peak-rtl1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "smud:tod-low-use-2027-01-01-pd-usage-summer-peak-rtl1"
+                },
+                "urpx:name": "Summer Peak",
+                "urpx:unitPrice": "0.4314"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "smud:tod-low-use-2027-01-01-price-usage-summer-mid-peak-rtl1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "smud:tod-low-use-2027-01-01-pd-usage-summer-mid-peak-rtl1"
+                },
+                "urpx:name": "Summer Mid-Peak",
+                "urpx:unitPrice": "0.2610"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "smud:tod-low-use-2027-01-01-price-usage-summer-off-peak-rtl1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "smud:tod-low-use-2027-01-01-pd-usage-summer-off-peak-rtl1"
+                },
+                "urpx:name": "Summer Off-Peak",
+                "urpx:unitPrice": "0.1993"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "smud:tod-low-use-2027-01-01-price-usage-non-summer-peak-rtl1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "smud:tod-low-use-2027-01-01-pd-usage-non-summer-peak-rtl1"
+                },
+                "urpx:name": "Non-Summer Peak",
+                "urpx:unitPrice": "0.2231"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "smud:tod-low-use-2027-01-01-price-usage-non-summer-off-peak-rtl1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "smud:tod-low-use-2027-01-01-pd-usage-non-summer-off-peak-rtl1"
+                },
+                "urpx:name": "Non-Summer Off-Peak",
+                "urpx:unitPrice": "0.1718"
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-smud",
+        "urpx:legalName": "Sacramento Municipal Utility District",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-smud-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-smud-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Sacramento Municipal Utility District"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-smud-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "16534"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "smud:tod-low-use"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "smud:cc-tod-low-use-2027-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "smud:cc-tod-low-use-2027-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing carries the RTL1 prices of the January 1, 2027 column, a $17.00 System Infrastructure Fixed Charge and five time-of-day usage prices, and shares the unrepresented provisions of the Rate Schedule R-TOD document it is taken from. Section IV.D Standby Service Option, $9.121 per kW of Contract Capacity per month effective January 1, 2027, for customers whose on-site generation has a combined nameplate rating under 100 kW, waived only for qualifying renewable generation under Schedules NEM1 and SSR. Section IV.H Residential Three-Phase Service Option, $59.70 per month in Special Facilities fees effective January 1, 2027, in addition to the System Infrastructure Fixed Charge. Section III.A Hydro Generation Adjustment, a surcharge on all kWh under a separate Rate Schedule HGA not carried in this corpus. Section IV.F SMUD Renewable Energy Option, whose charge the schedule does not state, publishing it on smud.org. The eleven holidays that Section V.A prices as Off-Peak are carried as a holiday calendar on the plan elements, so a holiday falling on a weekday, such as Labor Day, resolves to Off-Peak rather than to Peak or Mid-Peak; the schedule states each holiday's month and date and no rule for one that falls on a weekend, so no observance rule is modeled. One gap sits inside what is modeled: the Section VI.A proration of the monthly System Infrastructure Fixed Charge against 30 days for billing periods shorter than 27 days has no representation, the charge being carried as a flat monthly amount. Eligibility is the place where this rate differs from its RT02 sibling, and it is the weakest part of the model: Section I.B makes a service panel of 125 amps or less a hard requirement, and that requirement is stated in prose while the condition expression tests only that the customer is residential. The eligibility rule's own prose describes the rate election as an encoded predicate, but no such operand is present in the graph: nothing in the condition expression distinguishes an RTL1 customer from any other residential customer. The schedule's other qualifier, that the rate is for customers who 'use a low amount energy,' is left unquantified in the source, so nothing is modeled from it. Section IV.G Special Metering Charge is out of scope rather than missing: it is a service fee for nonstandard customer-purchased metering equipment, billed under Rule and Regulation 2 Section IV, and carries no published amount.",
+          "urpx:evaluatedOn": "2026-10-07T00:00:00"
+        }
+      }
+    }
+  }
+}

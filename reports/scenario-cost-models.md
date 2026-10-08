@@ -234,7 +234,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Not yet effective
 
-6 version nodes take effect after 2026-10-06T17:00:00-07:00. They are not current, take part in no scenario cost model, and do not supersede the version in force.
+9 version nodes take effect after 2026-10-06T17:00:00-07:00. They are not current, take part in no scenario cost model, and do not supersede the version in force.
 
 | Plan | Version | Effective |
 |---|---|---|
@@ -244,6 +244,9 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `scl:rtc` | `scl:rtc-2028-01-01` | 2028-01-01 |
 | `scl:rts` | `scl:rts-2027-01-01` | 2027-01-01 |
 | `scl:rts` | `scl:rts-2028-01-01` | 2028-01-01 |
+| `smud:fixed` | `smud:fixed-2027-01-01` | 2027-01-01 |
+| `smud:tod-5-8pm` | `smud:tod-5-8pm-2027-01-01` | 2027-01-01 |
+| `smud:tod-low-use` | `smud:tod-low-use-2027-01-01` | 2027-01-01 |
 
 ## Provenance
 

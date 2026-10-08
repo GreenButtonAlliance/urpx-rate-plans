@@ -74,10 +74,11 @@ expect("every composition is classified",
 # 2025-10-01 and fera 2026-04-01.
 expect("supersession finds ninety-five plan identities", len(REAL["superseded"]), 95)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
-# 2028-01-01 as well as 2026-01-01. At the currency instant the later six are
-# not yet effective, and the 2026 versions they follow are in force, not
+# 2028-01-01 as well as 2026-01-01, and SMUD tod-5-8pm, tod-low-use and fixed
+# for 2027-01-01 as well as 2026-01-01. At the currency instant the later nine
+# are not yet effective, and the 2026 versions they follow are in force, not
 # superseded.
-expect("six versions are not yet effective", len(REAL["not_yet_effective"]), 6)
+expect("nine versions are not yet effective", len(REAL["not_yet_effective"]), 9)
 expect("no composition is built on a superseded version",
        [a for a in REAL["compositions"]
         if a["base"] in REAL["superseded"] or set(a["modifiers"]) & set(REAL["superseded"])],

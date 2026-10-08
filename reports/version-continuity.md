@@ -211,6 +211,9 @@ so that column, not the gap list, is the number that predicts the next one.
 | `sdge:tou-elec` | `sdge:tou-elec-2026-06-01` | 2026-06-01 | 2026-08-01 | 2026-10-06 | 1 |
 | `sdge:tou-elec` | `sdge:tou-elec-2026-08-01` | 2026-08-01 | 2026-09-30 | 2026-09-23 | 14 |
 | `sdge:tou-elec` | `sdge:tou-elec-2026-09-30` | 2026-09-30 | open | 2026-10-06 | 1 |
-| `smud:fixed` | `smud:fixed-2026-01-01` | 2026-01-01 | open | 2026-04-30 | 160 |
-| `smud:tod-5-8pm` | `smud:tod-5-8pm-2026-01-01` | 2026-01-01 | open | 2026-04-30 | 160 |
-| `smud:tod-low-use` | `smud:tod-low-use-2026-01-01` | 2026-01-01 | open | 2026-05-04 | 156 |
+| `smud:fixed` | `smud:fixed-2026-01-01` | 2026-01-01 | 2027-01-01 | 2026-04-30 | 160 |
+| `smud:fixed` | `smud:fixed-2027-01-01` | 2027-01-01 | open | 2026-10-07 | 0 |
+| `smud:tod-5-8pm` | `smud:tod-5-8pm-2026-01-01` | 2026-01-01 | 2027-01-01 | 2026-04-30 | 160 |
+| `smud:tod-5-8pm` | `smud:tod-5-8pm-2027-01-01` | 2027-01-01 | open | 2026-10-07 | 0 |
+| `smud:tod-low-use` | `smud:tod-low-use-2026-01-01` | 2026-01-01 | 2027-01-01 | 2026-05-04 | 156 |
+| `smud:tod-low-use` | `smud:tod-low-use-2027-01-01` | 2027-01-01 | open | 2026-10-07 | 0 |

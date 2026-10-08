@@ -1,0 +1,79 @@
+# Identity --------------------------------------------------------------------
+utility = "smud"
+schedule = "fixed"
+effective_date = "2027-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R.ashx"
+sha256 = "2bc1beb88755f70db7f3bdce0b516a80946524455188bfae7eda5a5d68da555b"
+retrieved_on = "2026-10-07"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "SMUD-Resolution-25-06-15"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "board"
+docket = "Resolution No. 25-06-15 adopted June 19, 2025 (SMUD Board of Directors)"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual-diff"
+extracted_on = "2026-10-07"
+notes = """
+Source bytes.
+https://www.smud.org/-/media/Documents/Rate-Information/Rates/1-R.ashx as
+served on 2026-10-07; the bytes equal those of the 2026-01-01 directory's PDF
+(Last-Modified 2025-06-30). Resolution No. 25-06-15 (adopted June 19, 2025),
+fetched the same day from SMUD's rate archive page, prints the same RF01
+table.
+
+Column. Sheet R-2 Section II.A prints the RF01 prices in three columns,
+effective May 1, 2025, January 1, 2026 and January 1, 2027. This version
+carries the January 1, 2027 column.
+
+Reconciliation. Each Price below was checked against the January 1, 2026
+column before being set from the January 1, 2027 column (2026 -> 2027):
+ fixed-2027-01-01-price-system-infrastructure-fixed-charge: 27.00 -> 27.80
+ fixed-2027-01-01-price-energy-summer: 0.2189 -> 0.2255
+ fixed-2027-01-01-price-energy-non-summer: 0.1371 -> 0.1412
+
+Supersession. The 2026-01-01 version ends at 2027-01-01, where this column
+takes effect.
+
+Derived from the 2026-01-01 version by dev/author_smud_2027.py.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-07"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Standby Service Charge, Sheet R-3 Sec IV.E: $9.121 per kW of Contract Capacity per month effective January 1, 2027, applying when on-site generation under 100 kW combined nameplate is connected to SMUD's system, and waived only for qualifying renewable generation under Schedules NEM1 and SSR. Priced in this PDF and absent from the model. Expressible under URPX v0.5.1 and therefore work, not a blocker: chargeType urpx:standbyCharge (an ontology member at v0.5.1), a contract-capacity MetricInput with measurementKind urpx:demand and unitOfMeasure urpx:kW (the shape cpau/e-7 already uses), and CalculationMethod intervalDuration P1M; a candidate of that shape conforms under pyshacl. The waiver is the conditional part: it belongs on a ConditionExpression, and a Price that carries no condition applies to every customer with on-site generation, including the ones the schedule waives.",
+ "Residential Three-Phase Service Option, Sheet R-3 Sec IV.J: Special Facilities fee $59.70 per month effective January 1, 2027, in addition to the System Infrastructure Fixed Charge. Priced in this PDF and absent from the model. Expressible under URPX v0.5.1 with the same shape as the SIFC this model already carries (flat monthly PriceDefinition, chargeType urpx:facilities, intervalDuration P1M); a candidate conforms under pyshacl. Work, not a blocker. Note the schedule says the fee \"may be charged\", so it is contingent on SMUD assessing it rather than automatic.",
+ "Section V proration, Sheet R-4: the System Infrastructure Fixed Charge and kWh are prorated on the relationship of the billing period to 30 days when the period is shorter than 27 days, kWh likewise when longer than 34 days, and kWh by the days falling in each season or pricing period when a period spans a season or a price change; Sheet R-1 Sec I defines a month as a billing period of 27 to 34 days. The model carries flat monthly and per-kWh amounts with no proration. URPX v0.5.1 offers only urpx:prorationMethod, a free-text xsd:string on BillingModel with maxCount 1, which no corpus filing uses. Recording the rule there documents it for a future consumer; free text does not compute it.",
+ "Hydro Generation Adjustment, Sheet R-2 Sec III.A: a surcharge on all kWh that Schedule R refers to Rate Schedule HGA without stating an amount. Schedule HGA is not committed to this corpus, so every bill computed from this model is low by the HGA amount. This is a missing source document, not a URPX expressibility gap. The sibling filing us/ca/smud/electricity/tod-5-8pm/versions/2026-01-01/ records the same item.",
+ "SMUD Renewable Energy Option (Sheet R-3 Sec IV.G) and Special Metering Charge (Sheet R-3 Sec IV.H): the schedule provides for an additional charge under each and publishes no amount, directing the reader to www.smud.org, with Special Metering billed through Rule and Regulation 2 Section IV Special Facilities. Missing source, not a URPX expressibility gap; nothing in the tariff is available to model.",
+ "Master-Metered Multifamily Accommodation and Mobile Home Park Billing, rate category RSMM, Sheet R-1 Sec I.C and Sheet R-2 Sec II.B: closed to new customers but still served and fully priced in this PDF at $27.80 per unit per month, $0.1566/kWh non-summer and $0.1792/kWh summer, billed on master-meter kWh divided by the number of occupied single-family accommodations. No filing in the corpus carries it, and the model's CoverageClaim currently counts it against this filing. Nothing about it is blocked: these are plain Prices. Where it belongs is an open corpus-level scope ruling, not a fact about this filing: Sheet R-1 Sec I.A.7 bars RSMM customers from the Fixed Rate, and the convention that gave one R-TOD PDF three directories (tod-5-8pm, tod-low-use, cpp) argues for its own smud/rsmm filing, while it is priced in this schedule's own sheets. Recorded here until that is settled; the ruling belongs in MODELING-GAPS.md.",
+ "Section I and Section I.A state this schedule's whole availability surface and the model carries it as EligibilityRule description prose with a single residential-kind ComparisonNode. The description recites the premises types, the analog and digital non-communicating meter requirement, the NEM1 grandfather at January 1, 2018, the SSR exclusion and the RSMM master-meter exclusion; the ConditionExpression tests only hasCustomerKind = residentialKind. Verbatim from Section I.A.5: \"Customers who have an eligible renewable electrical generation facility under Rate Schedule SSR are not eligible to enroll in the Fixed Rate.\" Section I.A.4: \"Customers who have an eligible renewable electrical generation facility under Rate Schedule NEM1 that was approved for installation on or after January 1, 2018 are not eligible to enroll in the Fixed Rate.\" Section I.A.2: \"The Fixed Rate is required for customers serviced with analog meters and digital non-communicating meters.\" This is the same shape as the known casualty and none of it is in the deferrals array.",
+]
+applicable_modifiers = [
+ "eapr",
+ "hga",
+ "med",
+ "nem1",
+ "reo",
+ "standby",
+ "three-phase",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-01-01 version by dev/author_smud_2027.py; see [extraction] notes for the column read and the reconciliation."
