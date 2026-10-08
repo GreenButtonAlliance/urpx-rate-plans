@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **102**
+- Base RatePlan filings: **106**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **406**
+- Applicable-modifier slots across all bases: **420**
   - present and complete: 22
-  - present but incomplete: 346
-  - missing: 38
+  - present but incomplete: 358
+  - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **2**
 
 ## Asymmetries
@@ -46,7 +46,7 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `smud:standby` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
-| `ladwp:ev-discount` | 1 | `electricity/r-1b/versions/2026-04-01` |
+| `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
@@ -309,7 +309,31 @@ Base deferrals:
 - Zone 1 / Zone 2 selector absent. Page 1 of the source PDF prices two tier ladders at identical per-tier rates but different breakpoints (Zone 1: first 350 / next 700 / above 1050 kWh; Zone 2: first 500 / next 1000 / above 1500 kWh). The model folds zone into serviceTierNumber (tiers 1-3 Zone 1, tiers 4-6 Zone 2) inside one ServiceTiers container over one kWh MetricInput, so the brackets overlap and only the tier urpx:name strings say which ladder to walk. URPX v0.5.1 expresses this directly: PlanElements.hasProfileAlternatives with an AlternativeDimension.customDimensionProperty of 'serviceZone', plus ServiceBracket.referencesProfileAlternative on each bracket. The corpus already ships that shape for a geographic dimension in us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld (baseline territory P through Z). This is work, not a blocker: the target shape is 3 tiers carrying 2 zone-keyed brackets each, in place of the 6 flattened tiers this filing carries.
 - Minimum Charge composition not modeled. Page 1 prices a $10.00 per month Minimum Charge and footnotes it '(1) Plus ECA, ESA and RCA', so the floor is $10.00 plus the three capped-ordinance per-kWh adjustments on actual usage. The $10.00 is carried as ladwp:price-minimum-charge with chargeType urpx:minimumBill and intervalDuration P1M; the 'plus ECA, ESA and RCA' composition is not carried anywhere. Separately, no URPX construct enforces a 'greater of' floor, which is a standard-level gap recorded corpus-wide rather than per filing.
 - Adjustment-factor provenance not cited. Page 1 prices VEA, CRPSEA, VRPSEA (computed quarterly) and IRCA (computed annually) by reference only: 'Refer to www.LADWP.com >About Us >Power Rates >Variable Energy Factors and Reliability Cost Adjustment Factor for current Quarterly Electric Adjustment Factors'. The model supplies Apr-Jun 2026 values for all four (VEA 0.00503, CRPSEA 0.01779, VRPSEA 0.03296, IRCA 0.05505) from LADWP's residential-adjustment-billing-factors page, but the document's only DataSourceReference is on the RatePlanVersion and cites the PDF at pageStart/pageEnd 1. v0.5.1 can cite the HTML page: urpx:textHtml is in the mediaType sh:in, DataSourceReference carries accessURL, dateRetrieved, dataSourceType and hasSelector, and Price.hasDataSourceReference is 0..N. No corpus filing uses textHtml yet, so the pattern is unattested but validates.
-- No expiry on the quarterly factors. ladwp:r-1a-2026-04-01-ps-adjustment-factors-2026-q2 has startDate 2026-04-01 and no endDate, and the RatePlanVersion has no expirationDate, so the document asserts the Apr-Jun 2026 factor values apply indefinitely even though the sheet footnotes VEA, CRPSEA and VRPSEA as computed quarterly and IRCA as computed annually. PriceSet.endDate and RatePlanVersion.expirationDate both exist in v0.5.1 and are unused. The IRCA Price is also named and grouped as a Q2 quarterly value when the sheet makes it annual.
+- IRCA grouped as a quarterly value. ladwp:r-1a-2026-04-01-price-irca-2026-q2 is named and grouped with the Apr-Jun 2026 quarterly factors in ladwp:r-1a-2026-04-01-ps-adjustment-factors-2026-q2, but the sheet footnotes IRCA as computed annually and VEA, CRPSEA and VRPSEA as computed quarterly. The version's urpx:expirationDateTime of 2026-07-01 bounds all seven values. The 2026-07-01 and later versions carry IRCA in a PriceSet of its own, starting on the July 1 its fiscal-year value takes effect.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `ez-save` | ~ present-incomplete | `us/ca/ladwp/electricity/ez-save/versions/2008-09-01` |
+| `lifeline` | ~ present-incomplete | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01` |
+| `nem` | ~ present-incomplete | `us/ca/ladwp/electricity/nem/versions/2008-09-01` |
+
+#### `r-1a` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Zone 1 / Zone 2 selector absent. Page 1 of the source PDF prices two tier ladders at identical per-tier rates but different breakpoints (Zone 1: first 350 / next 700 / above 1050 kWh; Zone 2: first 500 / next 1000 / above 1500 kWh). The model folds zone into serviceTierNumber (tiers 1-3 Zone 1, tiers 4-6 Zone 2) inside one ServiceTiers container over one kWh MetricInput, so the brackets overlap and only the tier urpx:name strings say which ladder to walk. URPX v0.5.1 expresses this directly: PlanElements.hasProfileAlternatives with an AlternativeDimension.customDimensionProperty of 'serviceZone', plus ServiceBracket.referencesProfileAlternative on each bracket. The corpus already ships that shape for a geographic dimension in us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld (baseline territory P through Z). This is work, not a blocker: the target shape is 3 tiers carrying 2 zone-keyed brackets each, in place of the 6 flattened tiers this filing carries.
+- Minimum Charge composition not modeled. Page 1 prices a $10.00 per month Minimum Charge and footnotes it '(1) Plus ECA, ESA and RCA', so the floor is $10.00 plus the three capped-ordinance per-kWh adjustments on actual usage. The $10.00 is carried as ladwp:r-1a-2026-07-01-price-minimum-charge with chargeType urpx:minimumBill and intervalDuration P1M; the 'plus ECA, ESA and RCA' composition is not carried anywhere. Separately, no URPX construct enforces a 'greater of' floor, which is a standard-level gap recorded corpus-wide rather than per filing.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `ez-save` | ~ present-incomplete | `us/ca/ladwp/electricity/ez-save/versions/2008-09-01` |
+| `lifeline` | ~ present-incomplete | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01` |
+| `nem` | ~ present-incomplete | `us/ca/ladwp/electricity/nem/versions/2008-09-01` |
+
+#### `r-1a` @ 2026-10-01  &nbsp; base: ~
+
+Base deferrals:
+- Zone 1 / Zone 2 selector absent. Page 1 of the source PDF prices two tier ladders at identical per-tier rates but different breakpoints (Zone 1: first 350 / next 700 / above 1050 kWh; Zone 2: first 500 / next 1000 / above 1500 kWh). The model folds zone into serviceTierNumber (tiers 1-3 Zone 1, tiers 4-6 Zone 2) inside one ServiceTiers container over one kWh MetricInput, so the brackets overlap and only the tier urpx:name strings say which ladder to walk. URPX v0.5.1 expresses this directly: PlanElements.hasProfileAlternatives with an AlternativeDimension.customDimensionProperty of 'serviceZone', plus ServiceBracket.referencesProfileAlternative on each bracket. The corpus already ships that shape for a geographic dimension in us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld (baseline territory P through Z). This is work, not a blocker: the target shape is 3 tiers carrying 2 zone-keyed brackets each, in place of the 6 flattened tiers this filing carries.
+- Minimum Charge composition not modeled. Page 1 prices a $10.00 per month Minimum Charge and footnotes it '(1) Plus ECA, ESA and RCA', so the floor is $10.00 plus the three capped-ordinance per-kWh adjustments on actual usage. The $10.00 is carried as ladwp:r-1a-2026-10-01-price-minimum-charge with chargeType urpx:minimumBill and intervalDuration P1M; the 'plus ECA, ESA and RCA' composition is not carried anywhere. Separately, no URPX construct enforces a 'greater of' floor, which is a standard-level gap recorded corpus-wide rather than per filing.
 
 | Modifier | Status | Filing |
 |---|---|---|
@@ -318,6 +342,30 @@ Base deferrals:
 | `nem` | ~ present-incomplete | `us/ca/ladwp/electricity/nem/versions/2008-09-01` |
 
 #### `r-1b` @ 2026-04-01  &nbsp; base: ~
+
+Base deferrals:
+- Electric Vehicle Discount, -$0.02500 per kWh, listed on the R-1(B) rate sheet (Electric Rate Summary effective 2019-07-01, page 2) in both the High Season and Low Season columns, and counted as part (3) of the Rate B bill by Ordinance 180127 Schedule R-1 Section 3 ("Rate B shall be the sum of parts (1) through (6)"). Not modeled. It belongs in this filing, not in a separate modifier: Section 4.b sits inside Schedule R-1. v0.5.1 supplies the vocabulary. PriceShape admits hasApplicabilityRule, and a Price at unitPrice -0.02500 gated by an ApplicabilityRule whose ConditionExpression tests a CustomOperandNode customConditionProperty for EV ownership validates against the v0.5.1 shapes (pyshacl, conforms, 2026-09-21). It is still unbuilt because the quantity is a source gap. Section 4.b entitles "Owners of licensed passenger electric vehicles" to the discount "on the block of energy designated by the Department as necessary for basic vehicle charging", and neither the rate sheet nor the ordinance publishes that block, so the discounted kWh cannot be derived from any document in this corpus. Any Price this corpus could write for the discount would have to spread -$0.025/kWh across a customer's entire consumption, which is a confident wrong number for everyone who does not own an EV, and is still wrong for those who do, because the discount reaches only the designated block. Revisit when the block size is published.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `ev-discount` | ✗ missing | — |
+| `ez-save` | ~ present-incomplete | `us/ca/ladwp/electricity/ez-save/versions/2008-09-01` |
+| `lifeline` | ~ present-incomplete | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01` |
+| `nem` | ~ present-incomplete | `us/ca/ladwp/electricity/nem/versions/2008-09-01` |
+
+#### `r-1b` @ 2026-07-01  &nbsp; base: ~
+
+Base deferrals:
+- Electric Vehicle Discount, -$0.02500 per kWh, listed on the R-1(B) rate sheet (Electric Rate Summary effective 2019-07-01, page 2) in both the High Season and Low Season columns, and counted as part (3) of the Rate B bill by Ordinance 180127 Schedule R-1 Section 3 ("Rate B shall be the sum of parts (1) through (6)"). Not modeled. It belongs in this filing, not in a separate modifier: Section 4.b sits inside Schedule R-1. v0.5.1 supplies the vocabulary. PriceShape admits hasApplicabilityRule, and a Price at unitPrice -0.02500 gated by an ApplicabilityRule whose ConditionExpression tests a CustomOperandNode customConditionProperty for EV ownership validates against the v0.5.1 shapes (pyshacl, conforms, 2026-09-21). It is still unbuilt because the quantity is a source gap. Section 4.b entitles "Owners of licensed passenger electric vehicles" to the discount "on the block of energy designated by the Department as necessary for basic vehicle charging", and neither the rate sheet nor the ordinance publishes that block, so the discounted kWh cannot be derived from any document in this corpus. Any Price this corpus could write for the discount would have to spread -$0.025/kWh across a customer's entire consumption, which is a confident wrong number for everyone who does not own an EV, and is still wrong for those who do, because the discount reaches only the designated block. Revisit when the block size is published.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `ev-discount` | ✗ missing | — |
+| `ez-save` | ~ present-incomplete | `us/ca/ladwp/electricity/ez-save/versions/2008-09-01` |
+| `lifeline` | ~ present-incomplete | `us/ca/ladwp/electricity/lifeline/versions/2008-09-01` |
+| `nem` | ~ present-incomplete | `us/ca/ladwp/electricity/nem/versions/2008-09-01` |
+
+#### `r-1b` @ 2026-10-01  &nbsp; base: ~
 
 Base deferrals:
 - Electric Vehicle Discount, -$0.02500 per kWh, listed on the R-1(B) rate sheet (Electric Rate Summary effective 2019-07-01, page 2) in both the High Season and Low Season columns, and counted as part (3) of the Rate B bill by Ordinance 180127 Schedule R-1 Section 3 ("Rate B shall be the sum of parts (1) through (6)"). Not modeled. It belongs in this filing, not in a separate modifier: Section 4.b sits inside Schedule R-1. v0.5.1 supplies the vocabulary. PriceShape admits hasApplicabilityRule, and a Price at unitPrice -0.02500 gated by an ApplicabilityRule whose ConditionExpression tests a CustomOperandNode customConditionProperty for EV ownership validates against the v0.5.1 shapes (pyshacl, conforms, 2026-09-21). It is still unbuilt because the quantity is a source gap. Section 4.b entitles "Owners of licensed passenger electric vehicles" to the discount "on the block of energy designated by the Department as necessary for basic vehicle charging", and neither the rate sheet nor the ordinance publishes that block, so the discounted kWh cannot be derived from any document in this corpus. Any Price this corpus could write for the discount would have to spread -$0.025/kWh across a customer's entire consumption, which is a confident wrong number for everyone who does not own an EV, and is still wrong for those who do, because the discount reaches only the designated block. Revisit when the block size is published.

@@ -1,0 +1,119 @@
+# Identity --------------------------------------------------------------------
+utility = "ladwp"
+schedule = "r-1a"
+effective_date = "2026-07-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
+
+  [source.base]
+  url = "https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf"
+  sha256 = "1280dd0769f0912922d718fe64843545e6af4be7456fa76fb2bf99bf5bd8f625"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  # ECA, VEA, CRPSEA and VRPSEA for Jul-Sep 2026.
+  [source.eca]
+  url = "https://www.ladwp.com/sites/default/files/2026-08/Energy%20Cost%20Adjustment%20Expenditures%20for%20the%2012-Month%20Period%20Commencing%20July%201%2C%202026.pdf"
+  sha256 = "8373f603f7b10233468830c64c8ba1824e64993cbd0d762448a3cb8f1685dd00"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "resolution"
+  filing_id = "LADWP-Resolution-026-241"
+  landing_page = "https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors"
+
+  # RCA and IRCA for fiscal year 2026-27.
+  [source.psrp]
+  url = "https://www.ladwp.com/sites/default/files/2026-08/Power%20System%20Reliability%20Program%20Expenditures%20for%20Fiscal%20Year%202026-27%20r.pdf"
+  sha256 = "fdc76a97aa6c50ae9e6d07762610f8d7eb80d441ad05e0417ba020a04e9bd065"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "resolution"
+  filing_id = "LADWP-Resolution-026-243"
+  landing_page = "https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+  [regulator.base]
+  authority = "city-council"
+  docket = "Final Incremental Electric Rate Ordinance (4-15-16) + Electric Rates Ordinance"
+
+  [regulator.eca]
+  authority = "board"
+  docket = "Board of Water and Power Commissioners Resolution No. 026 241"
+
+  [regulator.psrp]
+  authority = "board"
+  docket = "Board of Water and Power Commissioners Resolution No. 026 243"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-07"
+notes = """
+Base rates are unchanged: the Electric Rate Summary effective 2019-07-01, page
+1, fetched 2026-10-07 with the same sha256 as the copy in the 2026-04-01
+version. This version moves the seven adjustment factors to the Jul-Sep 2026
+values.
+
+Factor sources. ECA, VEA, CRPSEA and VRPSEA: Board of Water and Power
+Commissioners Resolution No. 026 241, adopted at the meeting held June 9,
+2026, Attachment B page 11 (Factors Summary). RCA and IRCA: Resolution No. 026
+243, adopted at the meeting held Jun 9, 2026, Appendix (page 8), for fiscal
+year 2026-27. ESA: the capped-ordinance value on the 2019-07-01 summary. Each
+factor Price cites its document and page. Both resolutions are listed on
+https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors.
+
+Factors page. The same values are the 2026 table's "Jul - Sep" row on
+https://www.ladwp.com/account/customer-service/electric-rates/residential-adjustment-billing-factors,
+retrieved 2026-10-07, sha256
+4ec12973af3cb9f764cad0fd7eef73b7c34a768bfc9afcd2f2221381b1bb8779 for the HTML
+as served. The page is not vendored: this corpus vendors PDF source documents
+only.
+
+Factor values, $/kWh, against the 2026-04-01 version:
+ ECA: 0.05690 -> 0.05690
+ ESA: 0.00147 -> 0.00147
+ RCA: 0.00300 -> 0.00300
+ IRCA: 0.05505 -> 0.06934
+ VEA: 0.00503 -> 0.01071
+ CRPSEA: 0.01779 -> 0.01817
+ VRPSEA: 0.03296 -> 0.03307
+ Sum: 0.17220 -> 0.19266
+
+Reconciliation. Base charge plus the factor sum equals the 2026 Total
+Consumption Charge on https://www.ladwp.com/account/customer-service/electric-rates/residential-rates (retrieved 2026-10-07,
+sha256 9757e61920d84ceab82d98d51e15463c3ddc5efe2d71137322334032ad6768ec):
+ high-zone1-t1: 0.26408
+ high-zone1-t2: 0.32267
+ high-zone1-t3: 0.40968
+
+Supersession. This version expires 2026-10-01, when the 2026-10-01 version
+takes effect. The 2026-04-01 version expires on this version's effective date.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-07"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Zone 1 / Zone 2 selector absent. Page 1 of the source PDF prices two tier ladders at identical per-tier rates but different breakpoints (Zone 1: first 350 / next 700 / above 1050 kWh; Zone 2: first 500 / next 1000 / above 1500 kWh). The model folds zone into serviceTierNumber (tiers 1-3 Zone 1, tiers 4-6 Zone 2) inside one ServiceTiers container over one kWh MetricInput, so the brackets overlap and only the tier urpx:name strings say which ladder to walk. URPX v0.5.1 expresses this directly: PlanElements.hasProfileAlternatives with an AlternativeDimension.customDimensionProperty of 'serviceZone', plus ServiceBracket.referencesProfileAlternative on each bracket. The corpus already ships that shape for a geographic dimension in us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld (baseline territory P through Z). This is work, not a blocker: the target shape is 3 tiers carrying 2 zone-keyed brackets each, in place of the 6 flattened tiers this filing carries.",
+ "Minimum Charge composition not modeled. Page 1 prices a $10.00 per month Minimum Charge and footnotes it '(1) Plus ECA, ESA and RCA', so the floor is $10.00 plus the three capped-ordinance per-kWh adjustments on actual usage. The $10.00 is carried as ladwp:r-1a-2026-07-01-price-minimum-charge with chargeType urpx:minimumBill and intervalDuration P1M; the 'plus ECA, ESA and RCA' composition is not carried anywhere. Separately, no URPX construct enforces a 'greater of' floor, which is a standard-level gap recorded corpus-wide rather than per filing.",
+]
+applicable_modifiers = [
+ "ez-save",
+ "lifeline",
+ "nem",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_ladwp_2026.py: subordinate @ids scoped to this version, the seven factor Prices set and cited, IRCA moved to its own PriceSet. See [extraction] notes."

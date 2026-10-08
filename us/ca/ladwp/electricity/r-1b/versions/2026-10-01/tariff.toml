@@ -1,0 +1,121 @@
+# Identity --------------------------------------------------------------------
+utility = "ladwp"
+schedule = "r-1b"
+effective_date = "2026-10-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.ladwp.com/account/customer-service/electric-rates/residential-rates"
+
+  [source.base]
+  url = "https://www.ladwp.com/sites/default/files/documents/Electric_Rate_Summary_effective_7_1_2019_with_factors_referenced_rev1.pdf"
+  sha256 = "1280dd0769f0912922d718fe64843545e6af4be7456fa76fb2bf99bf5bd8f625"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+
+  # ECA, VEA, CRPSEA and VRPSEA for Oct-Dec 2026.
+  [source.eca]
+  url = "https://www.ladwp.com/sites/default/files/2026-10/Energy%20Cost%20Adjustment%20Expenditures%20for%20the%2012-Month%20Period%20Commencing%20October%201%2C%202026%20-%20ADact.pdf"
+  sha256 = "91380acf6a9e52eaf34a0717d0b54082d99c52cb83bdd1bba07622c18ddc2c8d"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "resolution"
+  filing_id = "LADWP-Resolution-027-035"
+  landing_page = "https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors"
+
+  # RCA and IRCA for fiscal year 2026-27.
+  [source.psrp]
+  url = "https://www.ladwp.com/sites/default/files/2026-08/Power%20System%20Reliability%20Program%20Expenditures%20for%20Fiscal%20Year%202026-27%20r.pdf"
+  sha256 = "fdc76a97aa6c50ae9e6d07762610f8d7eb80d441ad05e0417ba020a04e9bd065"
+  retrieved_on = "2026-10-07"
+  media_type = "application/pdf"
+  filing_type = "resolution"
+  filing_id = "LADWP-Resolution-026-243"
+  landing_page = "https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+  [regulator.base]
+  authority = "city-council"
+  docket = "Final Incremental Electric Rate Ordinance (4-15-16) + Electric Rates Ordinance"
+
+  [regulator.eca]
+  authority = "board"
+  docket = "Board of Water and Power Commissioners Resolution No. 027 035"
+
+  [regulator.psrp]
+  authority = "board"
+  docket = "Board of Water and Power Commissioners Resolution No. 026 243"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual"
+extracted_on = "2026-10-07"
+notes = """
+Base rates are unchanged: the Electric Rate Summary effective 2019-07-01, page
+2, fetched 2026-10-07 with the same sha256 as the copy in the 2026-04-01
+version. This version moves the seven adjustment factors to the Oct-Dec 2026
+values.
+
+Factor sources. ECA, VEA, CRPSEA and VRPSEA: Board of Water and Power
+Commissioners Resolution No. 027 035, adopted at the meeting held Sept 8,
+2026, Attachment B page 11 (Factors Summary). RCA and IRCA: Resolution No. 026
+243, adopted at the meeting held Jun 9, 2026, Appendix (page 8), for fiscal
+year 2026-27. ESA: the capped-ordinance value on the 2019-07-01 summary. Each
+factor Price cites its document and page. Both resolutions are listed on
+https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors.
+
+Factors page. The same values are the 2026 table's "Oct - Dec" row on
+https://www.ladwp.com/account/customer-service/electric-rates/residential-adjustment-billing-factors,
+retrieved 2026-10-07, sha256
+4ec12973af3cb9f764cad0fd7eef73b7c34a768bfc9afcd2f2221381b1bb8779 for the HTML
+as served. The page is not vendored: this corpus vendors PDF source documents
+only.
+
+Factor values, $/kWh, against the 2026-07-01 version:
+ ECA: 0.05690 -> 0.05690
+ ESA: 0.00147 -> 0.00147
+ RCA: 0.00300 -> 0.00300
+ IRCA: 0.06934 -> 0.06934
+ VEA: 0.01071 -> 0.01590
+ CRPSEA: 0.01817 -> 0.01973
+ VRPSEA: 0.03307 -> 0.03516
+ Sum: 0.19266 -> 0.20150
+
+Reconciliation. Base charge plus the factor sum equals the 2026 Total
+Consumption Charge on https://www.ladwp.com/account/customer-service/electric-rates/residential-rates (retrieved 2026-10-07,
+sha256 9757e61920d84ceab82d98d51e15463c3ddc5efe2d71137322334032ad6768ec):
+ winter-high-peak: 0.30168
+ winter-low-peak: 0.30168
+ winter-base: 0.27814
+
+Supersession. The 2026-07-01 version expires on this version's effective date.
+This version carries no urpx:expirationDateTime: Resolution No. 027 035 states
+the next quarterly factors update would be effective January 1, 2027, and
+those factors were not published at retrieval.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "pyshacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-07"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Electric Vehicle Discount, -$0.02500 per kWh, listed on the R-1(B) rate sheet (Electric Rate Summary effective 2019-07-01, page 2) in both the High Season and Low Season columns, and counted as part (3) of the Rate B bill by Ordinance 180127 Schedule R-1 Section 3 (\"Rate B shall be the sum of parts (1) through (6)\"). Not modeled. It belongs in this filing, not in a separate modifier: Section 4.b sits inside Schedule R-1. v0.5.1 supplies the vocabulary. PriceShape admits hasApplicabilityRule, and a Price at unitPrice -0.02500 gated by an ApplicabilityRule whose ConditionExpression tests a CustomOperandNode customConditionProperty for EV ownership validates against the v0.5.1 shapes (pyshacl, conforms, 2026-09-21). It is still unbuilt because the quantity is a source gap. Section 4.b entitles \"Owners of licensed passenger electric vehicles\" to the discount \"on the block of energy designated by the Department as necessary for basic vehicle charging\", and neither the rate sheet nor the ordinance publishes that block, so the discounted kWh cannot be derived from any document in this corpus. Any Price this corpus could write for the discount would have to spread -$0.025/kWh across a customer's entire consumption, which is a confident wrong number for everyone who does not own an EV, and is still wrong for those who do, because the discount reaches only the designated block. Revisit when the block size is published.",
+]
+applicable_modifiers = [
+ "ev-discount",
+ "ez-save",
+ "lifeline",
+ "nem",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2026-04-01 version by dev/author_ladwp_2026.py: subordinate @ids scoped to this version, the seven factor Prices set and cited, IRCA moved to its own PriceSet. See [extraction] notes."

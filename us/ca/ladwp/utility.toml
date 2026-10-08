@@ -31,6 +31,11 @@ tariff_index_urls = [
  # rates (in the rate-summary ordinance) with these quarterly factors.
  "https://www.ladwp.com/account/customer-service/electric-rates/residential-adjustment-billing-factors",
 
+ # Board of Water and Power Commissioners resolutions approving the
+ # expenditures behind the factors: one per quarter for ECA, VEA, CRPSEA and
+ # VRPSEA, one per fiscal year for RCA and IRCA. Each states the factor values.
+ "https://www.ladwp.com/account/understanding-your-rates/approved-expenditures-water-and-power-pass-through-adjustment-factors",
+
  # Top-level rate ordinance and rate-summary PDFs are linked from the
  # rates landing page; current canonical URLs:
  # - Electric Rates Ordinance (base ordinance):
@@ -83,7 +88,10 @@ The Electric Rate Summary PDF is committed alongside each filing as the
 authoritative source for base rates. The quarterly factors are scraped
 from the residential-adjustment-billing-factors HTML page; values are
 recorded inline in tariff.toml [extraction.notes] for traceability,
-with retrieval date + URL.
+with retrieval date + URL. From the 2026-07-01 versions, the Board
+resolutions that state the factor values (approved-expenditures page,
+above) are vendored as [source.eca] and [source.psrp], and each factor
+Price cites its resolution and page.
 
 LADWP publishes electric rates as predictable URLs under
 ladwp.com/sites/default/files/documents/. No SharePoint complexity

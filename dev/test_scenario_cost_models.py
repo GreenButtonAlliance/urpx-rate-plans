@@ -71,8 +71,9 @@ expect("every composition is classified",
 # 2025-10-17, which the 2026-08-28 sheets supersede. Fourteen are CPAU: every
 # version the 2026-07-01 sheets supersede. Thirty-two are SDG&E: the 2026-04-01,
 # 2026-06-01 and 2026-08-01 versions of nine base schedules and drah, care
-# 2025-10-01 and fera 2026-04-01.
-expect("supersession finds ninety-five plan identities", len(REAL["superseded"]), 95)
+# 2025-10-01 and fera 2026-04-01. Four are LADWP: the r-1a and r-1b versions
+# of 2026-04-01 and 2026-07-01, which the next quarter's factors supersede.
+expect("supersession finds ninety-nine plan identities", len(REAL["superseded"]), 99)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
 # 2028-01-01 as well as 2026-01-01, and SMUD tod-5-8pm, tod-low-use and fixed
 # for 2027-01-01 as well as 2026-01-01. At the currency instant the later nine

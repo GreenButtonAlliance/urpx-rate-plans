@@ -132,7 +132,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-95 version nodes, over 50 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+99 version nodes, over 52 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -150,6 +150,10 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `cpau:e-7-tou` | `cpau:e-7-tou-2025-07-01` | 2025-07-01 | `cpau:e-7-tou-2026-07-01` | 2026-07-01 |
 | `cpau:e-eec-1` | `cpau:e-eec-1-2025-09-01` | 2025-09-01 | `cpau:e-eec-1-2026-07-01` | 2026-07-01 |
 | `cpau:e-nse-1` | `cpau:e-nse-1-2025-09-01` | 2025-09-01 | `cpau:e-nse-1-2026-07-01` | 2026-07-01 |
+| `ladwp:r-1a` | `ladwp:r-1a-2026-04-01` | 2026-04-01 | `ladwp:r-1a-2026-10-01` | 2026-10-01 |
+| `ladwp:r-1a` | `ladwp:r-1a-2026-07-01` | 2026-07-01 | `ladwp:r-1a-2026-10-01` | 2026-10-01 |
+| `ladwp:r-1b` | `ladwp:r-1b-2026-04-01` | 2026-04-01 | `ladwp:r-1b-2026-10-01` | 2026-10-01 |
+| `ladwp:r-1b` | `ladwp:r-1b-2026-07-01` | 2026-07-01 | `ladwp:r-1b-2026-10-01` | 2026-10-01 |
 | `pge:e-1` | `pge:e-1-2026-03-01` | 2026-03-01 | `pge:e-1-2026-06-01` | 2026-06-01 |
 | `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-03-01` | 2026-03-01 | `pge:e-1-income-tier-2026-06-01` | 2026-06-01 |
 | `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-03-01` | 2026-03-01 | `pge:e-1-medical-baseline-2026-06-01` | 2026-06-01 |
