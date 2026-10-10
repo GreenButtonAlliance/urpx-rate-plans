@@ -37,7 +37,13 @@
                       returns no ledgers. dev/validate_v020.clj admits the same
                       case as a refusal.
 
-   Anything else fails. The declared set comes from the COERCED plan rather
+   Anything else fails, and so does a refusal. clj-urpx refuses by throwing
+   an ex-info whose ex-data names a :reason (:urpx.price/no-tou-period,
+   :urpx.price/no-version and the rest); the filing is then reported under
+   that reason, with the plan, version and instant the ex-data names. Any
+   other exception, including an ex-info with no :reason, propagates.
+
+   The declared set comes from the COERCED plan rather
    than the raw JSON-LD, which is what confines it to the base plan's own
    ledgers: a filing that inlines its modifiers carries their ledgers too, and
    those belong to the composition path, not to this one.
@@ -126,25 +132,57 @@
       "gated (a PriceDefinition carries an applicability rule)"
       :else nil)))
 
+;; Ex-data keys that say what a refusal was about, in the order printed.
+(def ^:private refusal-subject-keys
+  [:plan-id :version-id])
+
+(defn refusal-cause
+  "One line naming a clj-urpx refusal: its :reason, the plan and version its
+   ex-data names, and the instant, which is ex-data's :at when present and
+   `instant` otherwise."
+  [data instant]
+  (let [subject (for [k refusal-subject-keys
+                      :let [v (get data k)]
+                      :when (some? v)]
+                  (str (name k) " " v))
+        parts   (concat subject
+                        [(str "at " (get data :at instant))])]
+    (str "refused " (:reason data) " (" (str/join ", " parts) ")")))
+
+(defn resolve-or-refusal
+  "{:resolved r} for a resolution of `plan` at `instant`, or {:refusal cause}
+   when clj-urpx refuses with an ex-info carrying a :reason. Any other
+   exception propagates."
+  [plan instant]
+  (try
+    {:resolved (price/resolve-prices plan instant)}
+    (catch clojure.lang.ExceptionInfo e
+      (let [data (ex-data e)]
+        (if (contains? data :reason)
+          {:refusal (refusal-cause data instant)}
+          (throw e))))))
+
 (defn -main [& _]
   (let [paths (base-plan-filings)]
     (when (empty? paths)
       (println "REFUSED: no base-plan filings under us/. The tree moved and this")
       (println "         gate was not updated. Refusing to report 0/0 as success.")
       (System/exit 3))
-    (let [rows (for [path paths
-                     :let [plan     (-> path core/load-rate-plan coerce/coerce-rate-plan)
-                           decl     (declared-ledgers plan)
-                           res      (try (price/resolve-prices plan probe-instant)
-                                         (catch Exception _ nil))
-                           got      (set (keep :urpx.resolved/ledger-id
-                                               (:urpx.resolved/ledgers res)))]
-                     lid  (sort (remove got decl))]
-                 {:file (last (str/split path #"/"))
-                  :ledger lid
-                  :reason (if (:urpx.resolved/outside-version-window res)
-                            "out of window (the version is not in force at the probe instant)"
-                            (classify plan lid))})
+    (let [results  (for [path paths
+                         :let [plan (-> path core/load-rate-plan coerce/coerce-rate-plan)]]
+                     (merge {:file (last (str/split path #"/"))
+                             :plan plan}
+                            (resolve-or-refusal plan probe-instant)))
+          refused  (filter :refusal results)
+          rows     (for [{:keys [file plan resolved]} (remove :refusal results)
+                         :let [got (set (keep :urpx.resolved/ledger-id
+                                              (:urpx.resolved/ledgers resolved)))]
+                         lid (sort (remove got (declared-ledgers plan)))]
+                     {:file file
+                      :ledger lid
+                      :reason (if (:urpx.resolved/outside-version-window resolved)
+                                "out of window (the version is not in force at the probe instant)"
+                                (classify plan lid))})
           total-declared (reduce + (map #(-> % core/load-rate-plan coerce/coerce-rate-plan
                                              declared-ledgers count)
                                         paths))
@@ -153,14 +191,21 @@
         (println "REFUSED: the corpus declares no ledgers at all, so this gate")
         (println "         would pass vacuously.")
         (System/exit 3))
-      (if (empty? bad)
+      (if (and (empty? bad) (empty? refused))
         (do (println (format "resolution coverage: clean (%d ledgers across %d base plans, %d explained absences)"
                              total-declared (count paths) (count rows)))
             (System/exit 0))
-        (do (println (format "resolution coverage: %d ledger(s) declared but absent from resolution, with no recognised reason\n"
-                             (count bad)))
-            (doseq [{:keys [file ledger]} bad]
-              (println (format "  %s\n      %s" ledger file)))
-            (println "\nA declared ledger that never comes back means the charge is invisible to")
-            (println "every consumer while both gates stay green. See the header of this file.")
+        (do (when (seq refused)
+              (println (format "resolution coverage: %d base plan(s) refused by clj-urpx\n"
+                               (count refused)))
+              (doseq [{:keys [file refusal]} refused]
+                (println (format "  %s\n      %s" refusal file)))
+              (println))
+            (when (seq bad)
+              (println (format "resolution coverage: %d ledger(s) declared but absent from resolution, with no recognised reason\n"
+                               (count bad)))
+              (doseq [{:keys [file ledger]} bad]
+                (println (format "  %s\n      %s" ledger file)))
+              (println "\nA declared ledger that never comes back means the charge is invisible to")
+              (println "every consumer while both gates stay green. See the header of this file."))
             (System/exit 1))))))

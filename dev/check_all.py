@@ -117,6 +117,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("test_build_catalog",          ["python3", "dev/test_build_catalog.py"]),
     ("check_generated",             ["python3", "dev/check_generated.py"]),
     ("test_dsl_validation",         ["clojure", "-M", "-m", "test-dsl-validation"]),
+    ("test_resolution_coverage",    ["clojure", "-M", "-m", "test-resolution-coverage"]),
 ]
 
 
