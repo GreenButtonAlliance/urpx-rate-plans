@@ -19,20 +19,13 @@ Status glyphs:
   - present and complete: 22
   - present but incomplete: 358
   - missing: 40
-- Asymmetries between modifier-side and base-side declarations: **2**
+- Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
 
 Cross-checks the two declarations of base ↔ modifier pairing: `urpx:applicableToRatePlan` on each `RatePlanModifierVersion` (modifier side) and `[modeling].applicable_modifiers` in each base's `tariff.toml` (base side). These should agree.
 
-### Modifier claims base, but base doesn't list modifier
-
-Modifier's `applicableToRatePlan` declares it applies to this base, but the base's `[modeling].applicable_modifiers` doesn't include the modifier's slug. Likely fix: add the slug to the base's `applicable_modifiers` array.
-
-| Modifier | Missing from base |
-|---|---|
-| `smud:cpp` | `us/ca/smud/electricity/tod-low-use/versions/2026-01-01` |
-| `smud:cpp` | `us/ca/smud/electricity/tod-low-use/versions/2027-01-01` |
+_None — both declarations agree across the corpus._
 
 ## Missing modifiers, ranked by frequency
 

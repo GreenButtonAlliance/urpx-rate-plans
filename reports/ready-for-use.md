@@ -213,7 +213,7 @@ The two do not track each other and must not be collapsed. 4 of 168 filings carr
 
 | Schedule | Effective | Servability | Compositions drawing on it | Captures its source PDF | Notes |
 |---|---|---|---:|---|---|
-| `cpp` | 2026-01-01 | servable | 2 | no |  |
+| `cpp` | 2026-01-01 | servable | 1 | no |  |
 | `eapr` | 2023-09-22 | servable | 3 | no |  |
 | `fixed` | 2026-01-01 | servable | 4 | no |  |
 | `fixed` | 2027-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
@@ -224,7 +224,7 @@ The two do not track each other and must not be collapsed. 4 of 168 filings carr
 | `ssr` | 2026-06-01 | servable | 2 | no |  |
 | `tod-5-8pm` | 2026-01-01 | servable | 7 | no |  |
 | `tod-5-8pm` | 2027-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
-| `tod-low-use` | 2026-01-01 | servable | 7 | no |  |
+| `tod-low-use` | 2026-01-01 | servable | 6 | no |  |
 | `tod-low-use` | 2027-01-01 | not yet effective | 0 | no | every version node in this filing takes effect after the currency instant |
 
 ### LADWP (POU): 5 of 9 servable
