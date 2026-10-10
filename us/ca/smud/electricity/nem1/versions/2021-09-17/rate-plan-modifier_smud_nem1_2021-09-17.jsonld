@@ -52,6 +52,12 @@
     },
     "urpx:month": {
       "@type": "xsd:gMonth"
+    },
+    "urpx:expectedEndDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:settlementInterval": {
+      "@type": "xsd:duration"
     }
   },
   "@type": "urpx:URPXPackage",
@@ -72,8 +78,9 @@
       "urpx:changeReason": {
         "@id": "urpx:initial"
       },
-      "urpx:description": "SMUD Rate Schedule NEM1 — legacy customer-generation overlay applied on top of the customer's base SMUD rate (R-TOD for residential customers approved on/after 2018-01-01 per Sheet 3.VII; Fixed Rate elective for pre-2018 residential customers per Rate Schedule R Sheet R-1.A.3) for renewable-fueled electrical generation facilities. Closed to new residential customers as of March 1, 2022 — replaced by the Solar and Storage Rate (Schedule SSR) for new interconnections (modeled separately at ca/pou/smud/ssr/versions/2022-03-01/). NEM1 customers approved before March 1, 2022 are grandfathered until at least 2031, when SMUD will transition all remaining NEM1 customers to SSR (Sheet 1.I). This filing covers the closed-to-new legacy tier. Compensation semantics (Sheet 2.V.D): in any regular billing month where the customer's exported electricity exceeds imports, the customer receives 'retail-valued electricity credits for the excess electricity supplied to SMUD' — i.e., the credit equals the customer's APPLICABLE BASE-RATE energy charge × excess kWh. Credits roll over to subsequent billing periods within a 12-month settlement window (Sheet 2.VI). At the end of the 12-month settlement period, customers may elect (Sheet 3.VI.A): (1) monetary payment for net surplus generation at SMUD's annually-published avoided-generation-cost rate (calculated as expected avoided generation and production-related costs divided by forecasted annual energy sales, published on www.smud.org by December 20 prior to the year of effect — for net surplus purchases SMUD takes ownership of associated renewable electricity credits); (2) roll over to next 12-month period; or (3) opt out of compensation/rollover entirely (Sheet 3.VI.B), retaining renewable electricity credits in exchange for forgoing monetary value. Generator standby charges are waived for the portion of customer load served by the NEM-eligible facility (Sheet 1.II). Eligibility (Sheet 2.III.A) — 9-item list including facility on premises, parallel operation, Rule 21 compliance, primary purpose to offset customer's own consumption, single metering point, no storage incentives received under SMUD programs (storage-incentive recipients must be on SSR), facility size has not grown >10% or +1 kW (whichever greater) above original approval and does not exceed 110% of originally-approved capacity, no revised/new full-system-replacement interconnection application submitted, generating capacity ≤3,000 kW. Each credit Price mirrors one base energy charge through urpx:basedOnPrice at urpx:multiplier -1 and carries no unit price of its own. Tracked at urpx-org/urpx#24 (with follow-up comment 4357395644 covering this case as one of three related vocabulary-need data points). The annual net-surplus monetary payment value is similarly a published-annually scalar; modeling deferred. Renewable fuel sources include photovoltaic, wind, biomass, solar thermal, geothermal, fuel cells using renewable fuels, small hydroelectric (with environmental conditions), digester gas, municipal solid waste conversion, landfill gas, ocean wave, ocean thermal, and tidal current — defined per the CEC's Renewable Portfolio Standard Eligibility Guidebook.",
+      "urpx:description": "SMUD Rate Schedule NEM1 — legacy customer-generation overlay applied on top of the customer's base SMUD rate (R-TOD for residential customers approved on/after 2018-01-01 per Sheet 3.VII; Fixed Rate elective for pre-2018 residential customers per Rate Schedule R Sheet R-1.A.3) for renewable-fueled electrical generation facilities. Closed to new residential customers as of March 1, 2022 — replaced by the Solar and Storage Rate (Schedule SSR) for new interconnections (modeled separately at ca/pou/smud/ssr/versions/2022-03-01/). Sheet NEM1-1 Section I: \"All NEM1 Customers will be transitioned to Rate Schedule SSR as early as January 1, 2031, as technically feasible.\" and \"Once all customers have been transitioned, this Rate Schedule NEM1 will be eliminated.\" urpx:expectedEndDate 2031-01-01 carries that earliest transition date as a provisional end; the schedule states no date on which the transition completes. This filing covers the closed-to-new legacy tier. Compensation semantics (Sheet 2.V.D): in any regular billing month where the customer's exported electricity exceeds imports, the customer receives 'retail-valued electricity credits for the excess electricity supplied to SMUD' — i.e., the credit equals the customer's APPLICABLE BASE-RATE energy charge × excess kWh. Credits roll over to subsequent billing periods within a 12-month settlement window (Sheet 2.VI). At the end of the 12-month settlement period, customers may elect (Sheet 3.VI.A): (1) monetary payment for net surplus generation at SMUD's annually-published avoided-generation-cost rate (calculated as expected avoided generation and production-related costs divided by forecasted annual energy sales, published on www.smud.org by December 20 prior to the year of effect — for net surplus purchases SMUD takes ownership of associated renewable electricity credits); (2) roll over to next 12-month period; or (3) opt out of compensation/rollover entirely (Sheet 3.VI.B), retaining renewable electricity credits in exchange for forgoing monetary value. Generator standby charges are waived for the portion of customer load served by the NEM-eligible facility (Sheet 1.II). Eligibility (Sheet 2.III.A) — 9-item list including facility on premises, parallel operation, Rule 21 compliance, primary purpose to offset customer's own consumption, single metering point, no storage incentives received under SMUD programs (storage-incentive recipients must be on SSR), facility size has not grown >10% or +1 kW (whichever greater) above original approval and does not exceed 110% of originally-approved capacity, no revised/new full-system-replacement interconnection application submitted, generating capacity ≤3,000 kW. Each credit Price mirrors one base energy charge through urpx:basedOnPrice at urpx:multiplier -1 and carries no unit price of its own. Tracked at urpx-org/urpx#24 (with follow-up comment 4357395644 covering this case as one of three related vocabulary-need data points). The annual net-surplus payment rate is published outside the schedule, so it is declared through urpx:hasPriceDefinitionReference with urpx:referenceInclusion urpx:retrievedElsewhere and carries no value here. Renewable fuel sources include photovoltaic, wind, biomass, solar thermal, geothermal, fuel cells using renewable fuels, small hydroelectric (with environmental conditions), digester gas, municipal solid waste conversion, landfill gas, ocean wave, ocean thermal, and tidal current — defined per the CEC's Renewable Portfolio Standard Eligibility Guidebook.",
       "urpx:effectiveDateTime": "2021-09-17T00:00:00",
+      "urpx:expectedEndDate": "2031-01-01",
       "urpx:priceCurrency": "USD",
       "urpx:commodity": {
         "@id": "urpx:electricity"
@@ -404,9 +411,11 @@
               "@type": "urpx:Ledger",
               "@id": "smud:nem1-ledger-net-credit",
               "urpx:name": "NEM1 Net Energy Credit (computed at customer's applicable base-rate energy pricing)",
+              "urpx:description": "Sheet NEM1-2 Section VI: \"All customers who qualify for the net metering option will have a 12-month settlement period.\" urpx:settlementInterval P12M carries that duration. The date each customer's period begins (the move-in date for existing systems, the first day of operations after SMUD approves a new system for grid connection) is per-customer state, and the zeroing of unused accumulated credits at the end of the period is unmodeled.",
               "urpx:ledgerType": {
                 "@id": "urpx:bundledLedger"
               },
+              "urpx:settlementInterval": "P12M",
               "urpx:referencesMetricInput": {
                 "@id": "smud:nem1-mi-energy-export"
               }
@@ -648,6 +657,24 @@
               "urpx:referencesLedger": {
                 "@id": "smud:nem1-ledger-net-credit"
               }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "smud:nem1-2021-09-17-pd-net-surplus",
+              "urpx:name": "NEM1 annual net surplus generation payment",
+              "urpx:description": "Sheet NEM1-3 Section VI.A.1: at the end of a customer's 12-month settlement period SMUD calculates the net surplus generation and, at the customer's election, makes \"a monetary payment to the customer for the net surplus\" or rolls the surplus kWh into the next period. \"Monetary value per kWh of net surplus generation shall be based on the most recently published SMUD budget, calculated as the dollar value of the expected avoided generation and production-related costs divided by the forecasted annual energy sales.\" The schedule states no figure, so this definition carries no Price; urpx:hasPriceDefinitionReference on the version marks it urpx:retrievedElsewhere.",
+              "urpx:chargeType": {
+                "@id": "urpx:creditEnergy"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:discount"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "smud:nem1-ledger-net-credit"
+              }
             }
           ]
         }
@@ -874,6 +901,26 @@
           }
         ]
       },
+      "urpx:hasPriceDefinitionReference": {
+        "@type": "urpx:PriceDefinitionReference",
+        "@id": "smud:nem1-2021-09-17-pdr-net-surplus",
+        "urpx:referenceInclusion": {
+          "@id": "urpx:retrievedElsewhere"
+        },
+        "urpx:referencesPriceDefinition": {
+          "@id": "smud:nem1-2021-09-17-pd-net-surplus"
+        },
+        "urpx:documentedBy": {
+          "@type": "urpx:DataSourceReference",
+          "@id": "smud:nem1-2021-09-17-pdr-net-surplus-documented-by",
+          "urpx:name": "SMUD net surplus generation value",
+          "urpx:description": "Sheet NEM1-3 Section VI.A.5: \"The value will be published on SMUD's website, www.smud.org, by December 20 prior to the year the value is in effect.\" The schedule names no page beyond the site.",
+          "urpx:accessURL": "https://www.smud.org",
+          "urpx:dataSourceType": {
+            "@id": "urpx:utilityWebsiteSource"
+          }
+        }
+      },
       "urpx:offeredBy": {
         "@type": "urpx:UtilityOperator",
         "@id": "org:utility-smud",
@@ -908,15 +955,15 @@
         "urpx:completenessResult": {
           "@id": "urpx:partial"
         },
-        "urpx:selfContained": true,
+        "urpx:selfContained": false,
         "urpx:explainedBy": {
           "@type": "urpx:Evaluation",
           "@id": "smud:cc-nem1-2021-09-17-evaluation",
           "urpx:evaluationKind": {
             "@id": "urpx:coverageEvaluation"
           },
-          "urpx:description": "Section V.D credits excess exported electricity at retail value, meaning the energy charge of whichever base rate the customer is on, and allows those credits only against electricity usage charges. The credit is written as twelve urpx:multiplier -1 Prices, each naming one base cell, and in urpx:basedOnPrice that cell's Price in each version of its base plan (2026-01-01 and 2027-01-01): ten among the five usage cells of smud:tod-5-8pm and the five of smud:tod-low-use, and two mirroring smud:fixed's summer and non-summer energy charges, whose credit PriceDefinitions carry inline month ApplicabilityRules matching the base's own, so exactly one applies per instant: measured -0.2189 in July and -0.1371 in December. Each self-scopes: a credit written against a base plan the customer is not on returns an unresolved reference rather than a wrong number. The restriction to electricity usage charges is unmodeled. Attributing the credit to the time-of-day period the export occurred in is this filing's inference and not the schedule's rule: Section V.D credits a monthly net excess and names no period, season or tier, and SMUD writes an explicit per-interval export price elsewhere when it means one. The settlement mechanics of Section VI are unmodeled as well: a 12-month settlement period over which monthly credits carry forward, with unused accumulated credit liable to be zeroed out at the end of it. So is the Section VI.A annual net surplus election, under which a customer with net surplus over the 12 months takes either a monetary payment or a roll-over of the surplus kWh, the payment rate being set from the most recent SMUD budget as expected avoided generation and production-related costs divided by forecasted annual energy sales and published on smud.org by December 20 before the year it applies, with the renewable energy credits for purchased kWh passing to SMUD; the schedule states no dollar figure, so none is carried. Section VI.B's opt-out, under which a customer forgoes all surplus compensation and keeps the associated renewable energy credits, is absent too. Section II exempts these customers from generator standby charges on the portion of load served by the eligible facility, and that exemption has nothing to attach to because the Standby Service Charge of Schedules R and R-TOD is itself not modeled in this corpus. Five eligibility conditions are structural: residential service, the Section I requirement that the interconnection application was approved before March 1, 2022, a qualifying renewable generation type, the Section III.A.6 disqualification of customers who have received a storage incentive under a qualifying SMUD program, and the 3,000 kW capacity ceiling of Section III.A.9. The other seven requirements of Section III.A are prose only, among them parallel operation with SMUD's distribution facilities, compliance with Rule and Regulation 21, a single metering point, the facility being intended primarily to offset the customer's own use, and the ceiling on growth above originally approved capacity of 10 percent or 1 kW, whichever is greater, and 110 percent in total. Section VII, which requires residential customers whose facility was approved on or after January 1, 2018 to be on Rate Schedule R-TOD, is prose as well. Two decisions are scope rather than gap: the schedule also covers commercial, industrial and agricultural customers and this filing is residential only, and the Section IV bidirectional meter SMUD installs at no cost is a metering operation rather than a rate.",
-          "urpx:evaluatedOn": "2026-10-07T00:00:00"
+          "urpx:description": "Section V.D credits excess exported electricity at retail value, meaning the energy charge of whichever base rate the customer is on, and allows those credits only against electricity usage charges. The credit is written as twelve urpx:multiplier -1 Prices, each naming one base cell, and in urpx:basedOnPrice that cell's Price in each version of its base plan (2026-01-01 and 2027-01-01): ten among the five usage cells of smud:tod-5-8pm and the five of smud:tod-low-use, and two mirroring smud:fixed's summer and non-summer energy charges, whose credit PriceDefinitions carry inline month ApplicabilityRules matching the base's own, so exactly one applies per instant: measured -0.2189 in July and -0.1371 in December. Each self-scopes: a credit written against a base plan the customer is not on returns an unresolved reference rather than a wrong number. The restriction to electricity usage charges is unmodeled. Attributing the credit to the time-of-day period the export occurred in is this filing's inference and not the schedule's rule: Section V.D credits a monthly net excess and names no period, season or tier, and SMUD writes an explicit per-interval export price elsewhere when it means one. Section VI's 12-month settlement period is carried as urpx:settlementInterval P12M on the export ledger; the date each customer's period begins is per-customer state, and the zeroing of unused accumulated credit at its end is unmodeled. The Section VI.A net surplus payment is declared as a PriceDefinition on that ledger with no Price, reached through a urpx:PriceDefinitionReference whose referenceInclusion is urpx:retrievedElsewhere, because its rate is set from the most recent SMUD budget as expected avoided generation and production-related costs divided by forecasted annual energy sales and published on smud.org by December 20 before the year it applies; the schedule states no dollar figure, so none is carried, and the claim is accordingly not self-contained. The customer's election between that payment and a roll-over of the surplus kWh is unmodeled, as is the passing of renewable energy credits for purchased kWh to SMUD. Section VI.B's opt-out, under which a customer forgoes all surplus compensation and keeps the associated renewable energy credits, is absent too. Section I's transition of all NEM1 customers to Rate Schedule SSR \"as early as January 1, 2031, as technically feasible\" is carried as urpx:expectedEndDate 2031-01-01, a provisional end; the schedule is eliminated once every customer has moved, on no stated date. Section II exempts these customers from generator standby charges on the portion of load served by the eligible facility, and that exemption has nothing to attach to because the Standby Service Charge of Schedules R and R-TOD is itself not modeled in this corpus. Five eligibility conditions are structural: residential service, the Section I requirement that the interconnection application was approved before March 1, 2022, a qualifying renewable generation type, the Section III.A.6 disqualification of customers who have received a storage incentive under a qualifying SMUD program, and the 3,000 kW capacity ceiling of Section III.A.9. The other seven requirements of Section III.A are prose only, among them parallel operation with SMUD's distribution facilities, compliance with Rule and Regulation 21, a single metering point, the facility being intended primarily to offset the customer's own use, and the ceiling on growth above originally approved capacity of 10 percent or 1 kW, whichever is greater, and 110 percent in total. Section VII, which requires residential customers whose facility was approved on or after January 1, 2018 to be on Rate Schedule R-TOD, is prose as well. Two decisions are scope rather than gap: the schedule also covers commercial, industrial and agricultural customers and this filing is residential only, and the Section IV bidirectional meter SMUD installs at no cost is a metering operation rather than a rate.",
+          "urpx:evaluatedOn": "2026-10-10T00:00:00"
         }
       }
     }

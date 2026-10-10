@@ -118,10 +118,13 @@ base plans.
 
 The annual net-surplus payment value is a scalar SMUD publishes each
 year (avoided cost divided by forecasted annual sales), and this
-corpus does not hold it. The charge can be declared and marked as
-published elsewhere with urpx:hasPriceDefinitionReference and
-referenceInclusion urpx:retrievedElsewhere, which records where the
-value is published rather than the value.
+corpus does not hold it. The charge is declared as
+smud:nem1-2021-09-17-pd-net-surplus with no Price, and
+urpx:hasPriceDefinitionReference marks it referenceInclusion
+urpx:retrievedElsewhere, documented by the Sheet NEM1-3 Section VI.A.5
+statement that the value is published on www.smud.org by December 20
+before the year it applies. The CoverageClaim is accordingly
+selfContained false.
 
 ## Modeling deferrals
 
@@ -142,11 +145,11 @@ value is published rather than the value.
  'smud:er-nem1-pre-2022-interconnection'. URPX has no enum value
  for 'interconnection approval date' as a structured customer
  attribute, so falls back to a custom node.
- - 2031 NEM1-to-SSR transition (Sheet 1.I), described in prose. The
- date is expressible as urpx:expectedEndDate on the version, whose
- skos:note covers a provisional end date ("as early as January 1,
- 2031, as technically feasible"); no URPX term names the schedule its
- customers move to.
+ - 2031 NEM1-to-SSR transition (Sheet 1.I), carried as
+ urpx:expectedEndDate 2031-01-01 on the version, a provisional end
+ ("as early as January 1, 2031, as technically feasible"). The
+ schedule is eliminated once all customers have been transitioned,
+ on no stated date.
  - Storage-incentive disqualifier (Sheet 2.III.A.6), captured as
  EligibilityRule 'smud:er-nem1-no-storage-incentive': a NOT over a
  CustomOperandNode comparison. No urpx:ProgramTypeValue member is an
@@ -154,13 +157,14 @@ value is published rather than the value.
  - Generator standby charge waiver (Sheet 1.II) — Standby Charge is
  published in the base R-TOD schedule (Sheet R-TOD-3 / R-3); the
  NEM1 waiver applies at composition time. Modeling deferred.
- - Annual net-surplus monetary payment value: a published-annually
- scalar; modeling deferred (see Export credit above).
- - 12-month settlement period (Sheet 2.VI / 3.VI). The duration is
- expressible as urpx:settlementInterval "P12M" on the export ledger.
- The anchor date on which each period begins (move-in, or the first
- day after grid-connection approval) is per-customer state and stays
- in prose.
+ - Annual net-surplus monetary payment value: published annually
+ outside the schedule and referenced as retrievedElsewhere (see
+ Export credit above).
+ - 12-month settlement period (Sheet 2.VI / 3.VI), carried as
+ urpx:settlementInterval "P12M" on smud:nem1-ledger-net-credit. The
+ anchor date on which each period begins (move-in, or the first day
+ after grid-connection approval) is per-customer state and stays in
+ prose, and the end-of-period zeroing of unused credits is unmodeled.
 
 ## Cross-utility consistency
 
@@ -189,13 +193,12 @@ complete = false
 deferrals = [
  "Section V.D export credit value, Sheet NEM1-2: \"If, in any regular billing month, the electricity supplied by SMUD is less than the electricity supplied to SMUD by the customer's eligible generation system, the customer will receive retail-valued electricity credits for the excess electricity supplied to SMUD.\" Built: this filing carries twelve credit Prices, each with urpx:multiplier -1 over one base cell, and together they cover the summer and non-summer energy charges of smud:fixed, the five usage charges of smud:tod-5-8pm and the five of smud:tod-low-use. Each names in urpx:basedOnPrice its cell's Price in every version of the base plan (2026-01-01 and 2027-01-01); clj-urpx reads those as alternatives and values the one present in the base version composed. A single Price naming all twelve bases would leave the base a cell mirrors unidentified on a TOU base. The open questions are the credited quantity, the per-period attribution and the scope of 'retail-valued', each recorded in its own entry below.",
  "Section II generator standby charge waiver, Sheet NEM1-1: \"Customers who qualify for Net Energy Metering (NEM) are exempt from generator standby charges on that portion of their load that is served by the NEM eligible facility.\" The charge is $8.855 per kW of Contract Capacity per month effective 2026-01-01, published in Rate Schedule R-TOD Sheet R-TOD-3 Section IV.D and Rate Schedule R Sheet R-2 Section IV.E, and is unmodeled in the SMUD base filings, whose own coverage claims name it. So the waiver has no Price to attach to: a corpus gap, not a vocabulary gap. urpx:standbyCharge exists as a ChargeTypeValue at v0.5.1 and a waiver Price using multiplier -1 with basedOnPrice validates once the base Price is present. Unsettled: NEM1 waives only for the NEM-served portion of load while the base schedules waive outright for qualifying renewable generation under NEM1 and SSR, and R-TOD IV.D adds that the charge reaches customers self-supplying \"as a microgrid service, where SMUD provides only backup electricity\". A proportional waiver is not a flat -1, and the two documents do not reconcile.",
- "Section VI.A annual net surplus payment, Sheet NEM1-3: SMUD buys net surplus generation at the end of each 12-month settlement period at a per-kWh value based on the most recently published SMUD budget, and Section VI.A.5 publishes the scalar on smud.org by December 20 before the year it applies. The schedule gives the method and no dollar figure, and this corpus does not hold the published value. A source gap, not a vocabulary gap. v0.5.1 can declare the charge and mark it externally sourced via urpx:hasPriceDefinitionReference with referenceInclusion urpx:retrievedElsewhere, which validates on this filing but records where the value is published rather than carrying the value itself.",
- "Section VI 12-month settlement period, Sheet NEM1-2 and NEM1-3: monthly credits carry forward within a 12-month settlement window and \"any unused accumulated monthly retail electricity credits may be zeroed out\" at its end. The duration is expressible now as urpx:settlementInterval \"P12M\" on smud:nem1-ledger-net-credit, the exact use the property's own skos:note gives as its example (\"Enables multi-period accumulation. Example: P12M for NBT 12-month true-up\"), and it validates on this filing. Two parts stay unmodeled: the customer-specific anchor date on which the period begins (move-in date for existing systems, first day of operations after grid-connection approval for new installations), which is per-customer state rather than a tariff datum, and the discretionary zeroing at period end.",
+ "Section VI end-of-period zeroing, Sheet NEM1-2: \"At the end of the customer's 12-month settlement period, any unused accumulated monthly retail electricity credits may be zeroed out.\" The period itself is carried as urpx:settlementInterval \"P12M\" on smud:nem1-ledger-net-credit; the zeroing, which the schedule leaves discretionary, is unmodeled. The date each customer's period begins (move-in date for existing systems, first day of operations after grid-connection approval for new installations) is per-customer state rather than a tariff datum.",
  "Sections VI.A.1 and VI.B settlement election, Sheet NEM1-3: at the end of the settlement period the customer elects a monetary payment for the net surplus, a roll-over of the surplus kWh into the next 12-month period, or an opt-out that forgoes all compensation and retains the renewable electricity credits. None of it is modeled. urpx:hasProfileAlternatives is the candidate shape and is consumer-read, but every corpus use of it is a choice among rate options at enrollment rather than an election at settlement, and it has not been tried here.",
  "Section V.D restriction, Sheet NEM1-2: \"Retail-valued electricity credits will only be credited against electricity usage charges.\" Not modeled, and not expressible at v0.5.1: no property scopes which charges a credit may offset. PriceShape, PriceDefinitionShape and LedgerShape are sh:closed; among their properties urpx:basedOnPrice is the only one that names another charge, and it computes a value rather than bounding where the credit lands, while urpx:billPortion labels the credit's own portion of the bill. The same shape recurs at smud:ssr Section VII.B and is one of the corpus's recurring cap-on-credit cases.",
  "Scope, not a gap: Sheet NEM1-1 Section I applies this schedule to residential, commercial/industrial and agricultural customers, and this filing models residential only via smud:er-nem1-residential. Recorded so the narrowing is visible. Section V.B's monthly-or-annual payment election and Section V's definition of a month as \"a single billing period of 27 to 34 days\" price nothing and are noted here rather than carried as separate entries.",
  "Section VII, Residential Rate Requirement, was read here as excluding smud:fixed from applicableToRatePlan, and that reading was wrong because it stopped one clause short. Schedule R Sheet R-1 Section I.A.3, verified in this corpus's own committed smud_fixed_2026-01-01.pdf: 'Customers who qualify for Rate Schedule NEM1 and have an eligible renewable electrical generation facility that was approved for installation prior to January 1, 2018 are eligible to enroll in the Fixed Rate and may remain on the Fixed Rate after December 31, 2022.' I.A.4 excludes only the on-or-after-2018 cohort, and the earlier reading cited I.A.4 alone. So smud:fixed belongs among the targets, for the pre-2018 cohort, and all three applicableToRatePlan entries stand",
- "Section I's closing and transition provisions bound the version's own reach and are unmodeled beyond the single pre-2022-03-01 interconnection test. Verbatim: \"This Rate Schedule NEM1 will be closed to new customers as of March 1, 2022, except for those customers that are subject to the transition period described under Section II. Transitional Conditions of Rate Schedule SSR.\" \"All NEM1 Customers will be transitioned to Rate Schedule SSR as early as January 1, 2031, as technically feasible.\" The model also carries no established-service test, although Section I requires customers to have \"established service at their premises prior to March 1, 2022\" in addition to the interconnection-approval date the model does encode.",
+ "Section I's closing provisions are unmodeled beyond the single pre-2022-03-01 interconnection test. Verbatim: \"This Rate Schedule NEM1 will be closed to new customers as of March 1, 2022, except for those customers that are subject to the transition period described under Section II. Transitional Conditions of Rate Schedule SSR.\" The model also carries no established-service test, although Section I requires customers to have \"established service at their premises prior to March 1, 2022\" in addition to the interconnection-approval date the model does encode. The 2031 transition to Rate Schedule SSR is carried as urpx:expectedEndDate.",
  "Section V.D export credit, BUILT IN FULL as of 2026-09-23. Twelve urpx:multiplier -1 Prices carry it, each over one base cell: ten for the R-TOD bases, each base on its own five credit PriceDefinitions carrying urpx:touPeriodNumber 1 to 5, and two for smud:fixed across two credit PriceDefinitions carrying inline month ApplicabilityRules, 06-09 and 10-05, mirroring how smud:pd-energy-summer and smud:pd-energy-non-summer discriminate on the base. The placeholder Price with unitPrice 0 is gone; a unit price of 0 prices a zero credit rather than an absence. Measured after building, composed against smud:fixed: at 2026-07-15T17:00-07:00 the export ledger returns -0.2189 with the ten R-TOD cells unvaluable, and at 2026-12-15T17:00-08:00 it returns -0.1371, so exactly one of the two seasonal cells applies per instant and the month gate is doing the work. Consumption marginals unchanged at 0.2189 and 0.1371.",
  "The credited QUANTITY is still wrong, and writing the rate did not fix it. Section V.D credits the monthly net excess, the amount by which electricity supplied to SMUD exceeds electricity supplied by SMUD over a billing month. This filing's smud:nem1-mi-energy-export declares gross reverse flow, which is Schedule SSR's quantity: SSR Sheet SSR-2 Section VI defines Export as 'all kWh registered on the customer bi-directional meter as delivered to SMUD' and NEM1 carries no such definition. Gross-in/gross-out equals netting only when the import and export rates are equal, which on a time-of-day base they are not. A reader seeing structured credits will reasonably conclude the NEM math is complete; it is not, and this is its own gap rather than part of the credit build.",
  "Attributing the credit to the time-of-day period the export occurred in is this filing's inference, not a transcription of the schedule. Section V.D names no period, season or tier, and the words 'time-of-day', 'season' and 'tier' do not occur in NEM1 at all. SMUD writes an explicit per-interval export price when it means one: R-TOD Sheet R-TOD-3 Section II.C.4 reads 'During CPP Events, energy exported to the grid will be compensated at the CPP Rate Event Price per kWh'. NEM1 has no counterpart. The ten cells are built on the reading that a retail-valued credit follows the retail rate in force when the export happened, which is the only reading that makes a per-period base selectable, but the schedule does not say it.",
