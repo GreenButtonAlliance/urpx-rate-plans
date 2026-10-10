@@ -52,7 +52,7 @@ GAP_CLAIM = re.compile(
 
 # A deferral asserting the opposite, which is what makes a bullet suspect.
 BUILDABLE_CLAIM = re.compile(
-    r"expressible under|buildable now|pyshacl[- ]conforms|conforms against"
+    r"expressible under|buildable now|shacl[- ]conforms|conforms against"
     r"|work, not a blocker|wrong as written", re.I)
 
 # Display name -> slug for every utility with filings, from the utility.toml

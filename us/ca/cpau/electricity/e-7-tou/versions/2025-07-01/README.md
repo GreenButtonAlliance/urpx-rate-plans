@@ -64,11 +64,7 @@ DCJ-authored, generated from scratch by `scripts/build-cpau-e-7-tou-2025-07-01.p
 ## Validation
 
 ```
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/cpau/electricity/e-7-tou/versions/2025-07-01/rate-plan_cpau_e-7-tou_2025-07-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility cpau
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` resolves the energy marginal at the Tue 2026-07-15 17:00 PDT probe instant to **0.19205** ($/kWh) — Summer Peak energy total exactly. Demand and service ledgers correctly excluded from per-kWh marginal.

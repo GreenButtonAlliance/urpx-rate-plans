@@ -63,4 +63,4 @@ The tariff adds medical allowances (Code M / S) on top of the basic and all-elec
 dev/shacl.sh --utility pge
 ```
 
-This rate plan is serialized against URPX **v0.5.1** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
+This rate plan is serialized against URPX **v0.5.1** and validates clean against the URPX SHACL shapes + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).

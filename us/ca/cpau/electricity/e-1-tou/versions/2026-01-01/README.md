@@ -42,11 +42,7 @@ DCJ-authored. Original v0.1.x conversion contributed to `urpx-org/urpx` via [PR 
 
 ```
 # Run from the urpx-rate-plans project root:
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/cpau/electricity/e-1-tou/versions/2026-01-01/rate-plan_cpau_e-1-tou_2026-01-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility cpau
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` (load + coerce + resolve, all clean).

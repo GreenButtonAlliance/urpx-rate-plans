@@ -56,11 +56,7 @@ The canonical PG&E URL `https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_S
 
 ```
 # Run from the urpx-rate-plans project root:
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/pge/electricity/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility pge
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` (load + coerce + resolve, all clean).

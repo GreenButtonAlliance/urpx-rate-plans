@@ -66,11 +66,7 @@ DCJ-authored, generated from scratch (not migrated from any prior fixture) by `s
 
 ```
 # Run from the urpx-rate-plans project root:
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/cpau/electricity/e-2/versions/2025-07-01/rate-plan_cpau_e-2_2025-07-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility cpau
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` resolves the summer marginal at the Tue 2026-07-15 17:00 PDT probe instant to **0.26485** ($/kWh), matching the Section C published Summer total exactly.

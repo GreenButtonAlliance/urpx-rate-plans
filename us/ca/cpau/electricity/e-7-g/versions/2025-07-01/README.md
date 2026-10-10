@@ -50,11 +50,7 @@ DCJ-authored, generated from scratch by `scripts/build-cpau-e-7-g-2025-07-01.py`
 ## Validation
 
 ```
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/cpau/electricity/e-7-g/versions/2025-07-01/rate-plan-modifier_cpau_e-7-g_2025-07-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility cpau
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` reports `load+coerce ✓ (resolve N/A — modifier requires base composition)` — Malli-validates against the `urpx.schema/RatePlanModifier` schema; resolve-prices is correctly skipped pending the base+modifier composer.

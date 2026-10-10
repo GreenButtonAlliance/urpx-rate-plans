@@ -95,11 +95,7 @@ DCJ-authored, generated from scratch by `scripts/build-cpau-e-4-tou-2025-07-01.p
 
 ```
 # Run from the urpx-rate-plans project root:
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/cpau/electricity/e-4-tou/versions/2025-07-01/rate-plan_cpau_e-4-tou_2025-07-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility cpau
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` resolves the energy marginal at the Tue 2026-07-15 17:00 PDT probe instant to **0.20629** ($/kWh) — the Summer Peak energy total ($0.17208 + $0.02817 + $0.00604), matching Section C of the PDF exactly. Demand ledgers (per-kW) and the service ledger (per-month customer charge) are correctly excluded from the per-kWh marginal sum.

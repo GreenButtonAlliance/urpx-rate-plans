@@ -29,11 +29,7 @@ DCJ-authored, generated from scratch by `scripts/build-cpau-e-16-2025-09-01.py` 
 ## Validation
 
 ```
-pyshacl -s ../urpx/shacl/urpx-shacl.ttl \
- -e ../urpx/ontology/urpx-ontology.ttl \
- -df json-ld \
- us/ca/cpau/electricity/e-16/versions/2025-09-01/rate-plan_cpau_e-16_2025-09-01.jsonld
-# Conforms: True
+dev/shacl.sh --utility cpau
 ```
 
 End-to-end via clj-urpx: `clojure -M:validate` reports load+coerce+validate clean.
