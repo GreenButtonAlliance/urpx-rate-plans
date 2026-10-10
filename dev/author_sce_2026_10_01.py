@@ -714,8 +714,8 @@ TCS = ("Transitional Community Solar Discount (Special Condition 14, Sheet 18): 
 CLIMATE = ("California Climate Credit carry-forward (Sheet 16, Special Condition 10): the $(36.00) per household credit "
            "is priced, but the roll-over of any portion not consumed in a billing period to subsequent billing periods "
            "is not expressed, so a consumer whose bill is smaller than the credit drops the remainder. Whether URPX "
-           "can express it is not established: urpx:BillingCycle and settlementInterval exist, and no filing in this "
-           "corpus uses them.")
+           "can express it is not established: urpx:BillingCycle and settlementInterval exist, and SMUD NEM1 uses "
+           "settlementInterval for its 12-month settlement period.")
 CLIMATE_MONTHS = ("The California Climate Credit's urpx:ApplicabilityRule asserts urpx:month \"--04\" and \"--10\". "
                   "This filing's PDF names neither month: the rate tables footnote the credit only as \"Applied on an "
                   "equal basis, per household, semi-annually\" and Special Condition 10 (Sheet 16) names no month. "
