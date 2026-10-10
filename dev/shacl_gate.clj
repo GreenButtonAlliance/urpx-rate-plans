@@ -10,8 +10,8 @@
    crosses a utility boundary, so merging one utility resolves every reference
    it has.
 
-   As with pyshacl given an ontology, the ontology's RDFS and OWL axioms
-   (shacl.core/inoculate) are mixed into a copy of the data before validating.
+   The ontology's RDFS and OWL axioms (shacl.core/inoculate) are mixed into a
+   copy of the data before validating.
    The refusal check and the shape exceptions read the data without them.
 
    Modes:
@@ -31,9 +31,6 @@
      --write-baseline     record every merged mode's key profile
      --check-baseline     compare every merged mode against that record
                           (add --utility <slug> to compare just one)
-     --dump <spec> <out>  validate the units a JSON spec names and write
-                          their raw and excepted keys as JSON (for
-                          dev/check_shacl_parity.py)
 
    Exit codes: 0 conforming, 1 violations or a new baseline key, 2 a baseline
    key is gone (an improvement, refresh deliberately), 3 refused (no
@@ -486,8 +483,7 @@
     (str (.append sb "\""))))
 
 (defn- py-json
-  "`x` as Python's json.dumps(x, indent=2, sort_keys=True) writes it, so a
-   baseline written by either engine is byte-identical."
+  "`x` as Python's json.dumps(x, indent=2, sort_keys=True) writes it."
   ([x] (py-json x 0))
   ([x level]
    (let [pad (apply str (repeat (* 2 (inc level)) \space))
@@ -693,42 +689,14 @@
                   0))))))))
 
 ;; ---------------------------------------------------------------------------
-;; Parity dump
-;; ---------------------------------------------------------------------------
-
-(defn dump
-  "Validate each unit of the JSON spec at `spec-path` ([{name, files, extra,
-   rev}], paths relative to the root) and write {name: {status, rev, raw,
-   kept, removed}} to `out-path`."
-  [ctx opts spec-path out-path]
-  (let [root ^File (:root ctx)
-        file-of #(io/file root %)
-        units (json/read-str (slurp spec-path))
-        out (into (sorted-map)
-                  (for [{:strs [files extra rev] unit-name "name"} units
-                        :let [r (validate-files ctx (mapv file-of files) unit-name
-                                                (assoc opts
-                                                       :verbose? false
-                                                       :rev-override rev
-                                                       :extra (mapv file-of extra)))]]
-                    [unit-name {"status" (name (:status r))
-                                "rev" (:rev r)
-                                "raw" (:raw-keys r)
-                                "kept" (:keys r)
-                                "removed" (:removed r)}]))]
-    (spit out-path (json/write-str out))
-    (println (str "dumped " (count out) " unit(s) to " out-path))
-    0))
-
-;; ---------------------------------------------------------------------------
 ;; Command line
 ;; ---------------------------------------------------------------------------
 
 (def ^:private boolean-flags
-  #{"--all" "--merged" "--per-file" "--rdfs" "--keys" "--write-baseline" "--check-baseline"})
+  #{"--all" "--merged" "--per-file" "--keys" "--write-baseline" "--check-baseline"})
 
 (defn parse-args
-  "{:flags #{...} :utility :urpx-rev :with [...] :dump [spec out] :jsonld}, or
+  "{:flags #{...} :utility :urpx-rev :with [...] :jsonld}, or
    {:error msg}."
   [args]
   (loop [args (mapcat #(if (and (str/starts-with? % "--") (str/includes? % "="))
@@ -747,10 +715,6 @@
                    "--urpx-rev" (assoc opts :urpx-rev v)
                    "--with" (update opts :with conj v)))
           {:error (str a " needs a value")})
-        (= "--dump" a)
-        (if (= 2 (count (take 2 more)))
-          (recur (drop 2 more) (assoc opts :dump (vec (take 2 more))))
-          {:error "--dump needs a spec file and an output file"})
         (str/starts-with? a "--") {:error (str "unknown option " a)}
         (:jsonld opts) {:error (str "unexpected argument " a)}
         :else (recur more (assoc opts :jsonld a)))
@@ -758,7 +722,7 @@
 
 (defn- run*
   [^File root args env]
-  (let [{:keys [error flags utility urpx-rev with dump jsonld]} (parse-args args)
+  (let [{:keys [error flags utility urpx-rev with jsonld]} (parse-args args)
         flag? #(contains? flags %)
         ctx (context root env)
         abs (fn [p] (let [f (io/file p)] (if (.isAbsolute f) f (io/file root p))))
@@ -773,19 +737,11 @@
       error
       (do (err (str "REFUSED  " error)) 3)
 
-      (flag? "--rdfs")
-      (do (err (str "REFUSED  --rdfs: RDFS inference is not implemented on clj-shacl; "
-                    "run this with URPX_SHACL_ENGINE=pyshacl dev/shacl.sh."))
-          3)
-
       (seq missing)
       (do (err (str "REFUSED  --with names no file: " (str/join ", " missing))) 3)
 
       (and (seq extra) (not (or (flag? "--merged") utility)))
       (do (err "REFUSED  --with needs --merged or --utility.") 3)
-
-      dump
-      (apply shacl-gate/dump ctx opts dump)
 
       (flag? "--write-baseline")
       (write-baseline ctx opts)

@@ -24,9 +24,7 @@
 # fallback for anything.
 #
 # Every SHACL step goes through dev/shacl.sh: com.dcj/clj-shacl, in the nREPL
-# named by .nrepl-port when one answers, else in a fresh JVM. For the comparison
-# period, URPX_SHACL_ENGINE=pyshacl dev/gate.sh runs the same steps on pyshacl
-# (dev/validate-with-base.py); dev/check_shacl_parity.py compares the two.
+# named by .nrepl-port when one answers, else in a fresh JVM.
 
 set -uo pipefail
 
@@ -406,7 +404,7 @@ case "$MODE" in
     # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
     # by @context coercion, whose lexical form that type does not admit, such as
     # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
-    # a literal on parse, so pyshacl and every rdflib-based check here miss it.
+    # a literal on parse, so every rdflib-based check here misses it.
     # Exit 1 an ill-typed literal, 3 refused.
     note "Numeric literals"
     if python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
@@ -484,7 +482,7 @@ case "$MODE" in
     # About 40 s, so --fast runs it only when the commit stages a filing, the
     # emitted document or its generator. --full always runs it.
     if git diff --cached --name-only |
-            grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/validate-with-base\.py$|^dev/shacl_gate\.clj$|^dev/shape-exceptions\.json$'; then
+            grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/shacl_gate\.clj$|^dev/shape-exceptions\.json$'; then
         run_scm_shacl
     else
         note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
@@ -652,7 +650,7 @@ case "$MODE" in
     # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
     # by @context coercion, whose lexical form that type does not admit, such as
     # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
-    # a literal on parse, so pyshacl and every rdflib-based check here miss it.
+    # a literal on parse, so every rdflib-based check here misses it.
     # Exit 1 an ill-typed literal, 3 refused.
     note "Numeric literals"
     if python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
@@ -750,9 +748,7 @@ case "$MODE" in
         record 1
     fi
 
-    # Version dispatch and the shape exceptions, on clj-shacl. The pyshacl
-    # versions, dev/test_dispatch.py and dev/test_shape_exceptions.py, run in
-    # dev/check_all.py above while pyshacl stays.
+    # Version dispatch and the shape exceptions.
     note "Version-dispatch and shape-exception negative fixtures"
     if clojure -M -m test-shacl-gate > "$LOGDIR"/dispatch.log 2>&1; then
         tail -1 "$LOGDIR"/dispatch.log

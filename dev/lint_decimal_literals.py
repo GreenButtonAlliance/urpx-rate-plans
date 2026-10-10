@@ -6,8 +6,8 @@ in that datatype's lexical space (XML Schema 1.1 Part 2, section 3.3).
 
 xsd:decimal has no exponent form: "-9e-05"^^xsd:decimal is ill-typed, and SHACL
 sh:datatype must report it. rdflib rewrites such a literal to a canonical form
-while parsing, so pyshacl, dev/rdf_hash.py and every other check here that goes
-through rdflib cannot see one. This lint reads the raw JSON instead.
+while parsing, so dev/rdf_hash.py and every other check here that goes through
+rdflib cannot see one. This lint reads the raw JSON instead.
 
 A literal's datatype comes from one of two places:
 

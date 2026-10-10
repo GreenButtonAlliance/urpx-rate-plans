@@ -533,7 +533,7 @@ def findings(report: bool = False):
                 sites.append((f"tariff.toml:[modeling].deferrals[{i}]", primary, d))
             # README.md is the third prose channel and makes the same structural
             # claims. Headings, code fences and tables are dropped: a fenced
-            # pyshacl invocation is not a claim about the filing, and a table row
+            # command is not a claim about the filing, and a table row
             # is a value rather than a sentence.
             enotes = (manifest.get("extraction") or {}).get("notes")
             if isinstance(enotes, str) and enotes:

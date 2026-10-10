@@ -525,7 +525,7 @@ def write_manifest(slug: str, deferrals: list[str], recon: list[tuple], m: dict[
              "[extraction]", 'tool = "manual-diff"', f'extracted_on = "{TODAY}"', 'notes = """',
              notes(slug, recon, m), '"""', "",
              "# Validation ------------------------------------------------------------------",
-             "[validation]", "shacl_passed = true", 'validator = "pyshacl + clj-urpx (URPX v0.5.1)"',
+             "[validation]", "shacl_passed = true", 'validator = "clj-shacl + clj-urpx (URPX v0.5.1)"',
              f'validated_on = "{TODAY}"', "",
              "# Modeling -------------------------------------------------------------------",
              "[modeling]", f"complete = {'true' if old['modeling']['complete'] else 'false'}", "deferrals = [",

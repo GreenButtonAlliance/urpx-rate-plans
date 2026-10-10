@@ -1,7 +1,7 @@
 (ns validate-v020
   "End-to-end validation of every URPX v0.2.0 filing in the corpus.
 
-   Pyshacl confirms each JSON-LD file is SHACL-conformant. This script
+   dev/shacl.sh confirms each JSON-LD file is SHACL-conformant. This script
    exercises the consumer path: load → coerce (Malli) → validate →
    resolve a representative price at known instants. Catches semantic
    bugs that SHACL alone cannot see — for example, that

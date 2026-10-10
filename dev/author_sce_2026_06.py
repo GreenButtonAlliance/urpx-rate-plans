@@ -623,7 +623,7 @@ def write_manifest(slug, d, rows, old_date, exact):
         "# Extraction ------------------------------------------------------------------",
         "[extraction]", 'tool = "manual"', 'extracted_on = "2026-10-06"', 'notes = """', notes, '"""', "",
         "# Validation ------------------------------------------------------------------",
-        "[validation]", "shacl_passed = true", 'validator = "pyshacl + clj-urpx (URPX v0.5.1)"',
+        "[validation]", "shacl_passed = true", 'validator = "clj-shacl + clj-urpx (URPX v0.5.1)"',
         'validated_on = "2026-10-06"', "",
         "# Modeling -------------------------------------------------------------------",
         "[modeling]", "complete = false", "deferrals = [", *[" " + A.toml_str(x) + "," for x in defs], "]",

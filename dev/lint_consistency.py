@@ -162,8 +162,8 @@ def main():
     #
     # Refuse rather than pass when there is nothing to check. Reporting "corpus
     # is consistent" over zero schedules is the failure this linter actually had
-    # for months, and it is the same vacuity that validate-with-base.py guards
-    # against with shapes_target_any(). A gate that cannot fail is not a gate.
+    # for months, and it is the same vacuity that dev/shacl_gate.clj guards
+    # against with shacl/targets-any?. A gate that cannot fail is not a gate.
     if not filings:
         print("REFUSED: no filing yielded a urpx:RatePlan node, so there is "
               "nothing to compare. The wrapper shape probably changed; see "

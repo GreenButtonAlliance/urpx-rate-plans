@@ -443,7 +443,7 @@ def manifest(slug: str, new: str, fetched: Path) -> None:
         "[extraction]", 'tool = "manual"', f'extracted_on = "{RETRIEVED}"',
         'notes = """', notes(slug, new, fetched), '"""', "",
         "# Validation ------------------------------------------------------------------",
-        "[validation]", "shacl_passed = true", 'validator = "pyshacl + clj-urpx (URPX v0.5.1)"',
+        "[validation]", "shacl_passed = true", 'validator = "clj-shacl + clj-urpx (URPX v0.5.1)"',
         f'validated_on = "{RETRIEVED}"', "",
         "# Modeling -------------------------------------------------------------------",
         "[modeling]", "complete = false", "deferrals = [",

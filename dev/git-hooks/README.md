@@ -26,7 +26,7 @@ Triggers when any `us/**/*.toml`, `us/**/*.jsonld`, `us/**/*.pdf`, `src/**/*.clj
 
 Set `URPXT_SKIP_REPORTS=1` to skip only the regeneration and staging while still running the gate, for commits meant to be read as data. `--no-verify` disarms everything and is the deliberate escape hatch. Docs-only commits (`README.md`, `LAYOUT.md`, `dev/git-hooks/*`, etc.) skip the hook and aren't slowed down.
 
-The gate's SHACL step runs on [com.dcj/clj-shacl](https://github.com/dcj/clj-shacl) through `dev/shacl.sh`: inside the nREPL named by `.nrepl-port` when one answers, so a commit pays no JVM startup for it, and otherwise in a fresh JVM. For a comparison period, `URPX_SHACL_ENGINE=pyshacl` runs it on pyshacl instead.
+The gate's SHACL step runs on [com.dcj/clj-shacl](https://github.com/dcj/clj-shacl) through `dev/shacl.sh`: inside the nREPL named by `.nrepl-port` when one answers, so a commit pays no JVM startup for it, and otherwise in a fresh JVM.
 
 The generators need the packages in `dev/requirements.txt`. If `URPX_RATE_PLANS_VENV` names a virtualenv, the hook activates it; otherwise `python3` on `PATH` must already have them.
 
