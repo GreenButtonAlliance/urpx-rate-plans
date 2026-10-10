@@ -1,6 +1,6 @@
 # Contributing to urpx-rate-plans
 
-Thanks for your interest in contributing! This repo is a corpus of [URPX](https://github.com/urpx-org/urpx) rate-plan serializations of US utility tariffs, all of them Californian so far, plus the source PDFs they were extracted from. The first BHAG (see [README.md](./README.md)) is to model all California residential tariffs in customer-count priority order.
+Thanks for your interest in contributing! This repo is a corpus of [URPX](https://github.com/urpx-org/urpx) rate-plan serializations of US utility tariffs, plus the source PDFs they were extracted from. The first BHAG (see [README.md](./README.md)) is to model all California residential tariffs in customer-count priority order.
 
 We are URPX newbies (see the [Disclaimer](./README.md#disclaimer) in the README) — outside review of our modeling is genuinely welcome.
 
@@ -39,6 +39,43 @@ Pull requests are welcome.
 - Match the existing tone and structure. Rate plans in this repo are scaffolded from existing patterns (see the `tariff.toml` notes for pattern references), validated by both [clj-shacl](https://github.com/dcj/clj-shacl) (SHACL, on Apache Jena) and [clj-urpx](https://github.com/grid-coordination/clj-urpx), and kept structurally consistent across utilities so a price-server consuming the corpus doesn't have to special-case different utilities.
 - One commit per logical change is fine; we don't require squash or any particular branch naming.
 
+## Setup
+
+You need Java 21 or later, the [Clojure CLI](https://clojure.org/guides/install_clojure), Python 3.10 or later, and git.
+
+1. Clone this repository and [urpx-org/urpx](https://github.com/urpx-org/urpx) side by side:
+
+   ```bash
+   git clone https://github.com/grid-coordination/urpx-rate-plans.git
+   git clone https://github.com/urpx-org/urpx.git
+   ```
+
+   The SHACL step reads the URPX shapes and ontology from that clone at pinned revisions, so it needs a full clone, not a shallow one. To keep the clone elsewhere, set `URPX_CHECKOUT` to its path. When the pins move to a new tag, run `git -C ../urpx fetch --all --tags`.
+
+2. Install the Python packages into a virtualenv, and set `URPX_RATE_PLANS_VENV` to it so the gate activates it:
+
+   ```bash
+   python3 -m venv ~/.venvs/urpx-rate-plans
+   ~/.venvs/urpx-rate-plans/bin/pip install -r dev/requirements.txt
+   export URPX_RATE_PLANS_VENV=~/.venvs/urpx-rate-plans
+   ```
+
+3. Install the pre-commit hook, which regenerates `reports/` and `catalog/` and runs `dev/gate.sh --fast`:
+
+   ```bash
+   git config core.hooksPath dev/git-hooks
+   ```
+
+4. Check the setup with `dev/gate.sh --full`. The gate runs [clj-kondo](https://github.com/clj-kondo/clj-kondo) and [reuse](https://reuse.software/) when they are on `PATH`, and skips them otherwise.
+
+The Clojure libraries, [clj-urpx](https://github.com/grid-coordination/clj-urpx) and [clj-shacl](https://github.com/dcj/clj-shacl), come from Clojars through `deps.edn`. To work against a local checkout of either, override it for one run:
+
+```bash
+clojure -Sdeps '{:deps {energy.grid-coordination/clj-urpx {:local/root "../clj-urpx"}}}' -M:nrepl
+```
+
+Optionally, keep an nREPL running from the repository root with `clojure -M:nrepl`. `dev/shacl.sh` runs inside it when it answers on the port in `.nrepl-port`, which saves a JVM start on every SHACL run; `URPX_NREPL_PORT=none` turns that off. [CLAUDE.md](./CLAUDE.md) describes working in this repository with Claude Code.
+
 ## Adding a new rate plan
 
 The end-to-end workflow for adding a single new rate plan is documented in [LAYOUT.md §9](./LAYOUT.md#9-workflow-adding-a-new-filing). In short:
@@ -49,7 +86,7 @@ The end-to-end workflow for adding a single new rate plan is documented in [LAYO
 4. Author the JSON-LD (using the URPX ontology), making the rate plan self-contained. Wrap it in a `urpx:URPXPackage` carrying `urpx:targetURPXVersion`. (`urpx:URPXDocument` was retired at URPX v0.3.0.) A filing that also carries standalone `@graph` siblings such as `urpx:ProgramEnrollment` or `urpx:RateCase` keeps them beside the package rather than inside it, since `URPXPackageShape` is closed and does not admit them.
 
    Seattle City Light's JSON-LD is generated from Clojure source in `src/rate_plans/us/wa/scl/`: edit the source, not the JSON-LD, and write the documents with `python3 dev/check_generated.py --write`. The gate fails when a committed document differs from the source ([doc/dsl-source.md](./doc/dsl-source.md)).
-5. Run `dev/shacl.sh --utility <slug>` to SHACL-validate. The gate unit is a MERGED graph per utility, not a single file: cross-file references (`urpx:applicableToRatePlan`, `urpx:supersedes`) only resolve when the referent is in the same graph. Shapes are read at a pinned revision from a clone of [urpx-org/urpx](https://github.com/urpx-org/urpx) at `../urpx`, next to this repository, or wherever `URPX_CHECKOUT` points; they are deliberately not vendored here. The script tells you what to do if that checkout is missing. It runs [com.dcj/clj-shacl](https://github.com/dcj/clj-shacl), which needs Java 21 or later, inside the nREPL that `clojure -M:nrepl` records in `.nrepl-port` when one answers, and otherwise in a fresh JVM. The Python scripts need the packages in `dev/requirements.txt` (`pip install -r dev/requirements.txt`). Single-file mode exists but is a labelled diagnostic, not a gate.
+5. Run `dev/shacl.sh --utility <slug>` to SHACL-validate. The gate unit is a MERGED graph per utility, not a single file: cross-file references (`urpx:applicableToRatePlan`, `urpx:supersedes`) only resolve when the referent is in the same graph. Shapes are read from the URPX clone described in [Setup](#setup) and are deliberately not vendored here. Single-file mode exists but is a labelled diagnostic, not a gate.
 6. Run `clojure -M:validate` for end-to-end load, coerce, resolve verification through the clj-urpx consumer. Filings are discovered automatically; there is no list to add to.
 7. Update `dev/coverage-estimates.toml` if this is a new utility or significantly shifts a utility's per-tariff residential share.
 8. Document what's modeled, what's deferred, and any URPX vocabulary gaps in `tariff.toml [extraction.notes]`.
