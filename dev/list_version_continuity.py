@@ -100,8 +100,12 @@ def day(stamp) -> str:
     return str(stamp)[:10]
 
 
-def build(today: datetime.date | None = None) -> dict:
-    today = today or datetime.date.today()
+def build(as_of: datetime.datetime | None = None) -> dict:
+    """Source ages count days to the date of `as_of`, the currency instant from
+    dev/currency-instant.json unless given, so the report is a function of the
+    tree and not of the day it runs."""
+    as_of = as_of or A.currency_instant()
+    as_of_day = as_of.date()
     versions = A.collect_versions()
     A.require_nonempty_versions(versions) if hasattr(A, "require_nonempty_versions") else None
     if not versions:
@@ -122,7 +126,7 @@ def build(today: datetime.date | None = None) -> dict:
                 "from": day(m["effective"]),
                 "to": day(expiration_of(m)) if expiration_of(m) else None,
                 "source_checked": checked,
-                "source_age_days": (today - datetime.date.fromisoformat(checked)).days
+                "source_age_days": (as_of_day - datetime.date.fromisoformat(checked)).days
                                    if checked else None,
             })
         for earlier, later in zip(spans, spans[1:]):
@@ -150,7 +154,7 @@ def build(today: datetime.date | None = None) -> dict:
                 })
         plans.append({"plan": plan, "kind": kind, "spans": spans})
 
-    return {"plans": plans, "gaps": gaps, "overlaps": overlaps, "today": str(today)}
+    return {"plans": plans, "gaps": gaps, "overlaps": overlaps, "as_of": as_of.isoformat()}
 
 
 def render_md(d: dict) -> str:
@@ -167,7 +171,9 @@ def render_md(d: dict) -> str:
           "An **overlap** is two versions of one plan in force at once. Nothing resolves that",
           "without choosing arbitrarily, and no tariff means it. That fails the gate.",
           "",
-          "**Source checked** is how long since the filing's manifest recorded a `retrieved_on`.",
+          "**Source checked** is the newest `retrieved_on` in the filing's manifest, and **Age** is the",
+          f"days from it to {d['as_of']}, the currency instant in `dev/currency-instant.json`; a",
+          "source retrieved after that instant has a negative age.",
           "Gaps come from sampling the filing stream more slowly than utilities file into it,",
           "so that column, not the gap list, is the number that predicts the next one.", ""]
 
