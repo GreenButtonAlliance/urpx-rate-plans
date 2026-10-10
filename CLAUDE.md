@@ -20,6 +20,39 @@ Stop an nREPL only by its own PID. Never `pkill` or `killall` by pattern: other 
 
 Parallel work runs in git worktrees, one branch each. In a worktree, set `URPX_NREPL_PORT=none` so `dev/shacl.sh` starts its own JVM rather than using an nREPL started in another checkout. An agent stops when its gate is green; merging to `main` is a maintainer's decision.
 
+## Finding a tariff PDF
+
+Each utility's `utility.toml` lists where it publishes its tariffs (`tariff_index_urls`, [LAYOUT.md §5](./LAYOUT.md#5-per-utility-discovery-manifest-utilitytoml)). Some of those pages render their links with JavaScript or need a browser session before a download works. [spel](https://github.com/Blockether/spel), a native Playwright CLI, drives a real browser from the shell; install the native binary from its GitHub releases, then `spel install` for the browsers.
+
+```bash
+spel open <tariff-index-url>
+spel snapshot -i                     # interactive elements, numbered refs
+spel get attr "ref=<N>" href         # a link's target
+spel markdownify                     # the page as Markdown
+spel cookies                         # the session's cookies, for curl
+spel close
+```
+
+Download the PDF with `curl` once spel has its URL, passing a cookie when the host needs one. `us/ca/sce/utility.toml` records the recipe for SCE's SharePoint library, which needs both. Record the URL, sha256 and retrieval date in the filing's `tariff.toml`.
+
+## Reading a tariff PDF
+
+Extract the PDF to Markdown with [MinerU](https://github.com/opendatalab/MinerU) before modeling it. Its layout analysis keeps rate tables as tables, which a plain text dump does not.
+
+```bash
+mineru -p <schedule>.pdf -o extracted/ -b pipeline
+```
+
+The Markdown lands at `extracted/<schedule>/auto/<schedule>.md`, with its images in `images/` beside it. `extracted/` is gitignored ([LAYOUT.md](./LAYOUT.md)); record the tool, its version and the date in the manifest's `[extraction]` table.
+
+Install MinerU in its own environment, because its dependencies pin versions that conflict with other Python tooling:
+
+```bash
+pipx install 'mineru[pipeline]'
+```
+
+If it then fails to import `six`, add it with `pipx inject mineru six`. The first run downloads several GB of models.
+
 ## The gate
 
 - `dev/gate.sh --fast` runs from the pre-commit hook (`git config core.hooksPath dev/git-hooks`). It is the only automatic check; the repository has no CI.
