@@ -76,4 +76,4 @@ Source: `pge.com/energyexportcredit` redirects to a ZIP containing per-vintage P
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py --utility pge`, which merges every PG&E filing into one graph so the `applicableToRatePlan` reference to E-ELEC resolves.
+SHACL passes via `dev/shacl.sh --utility pge`, which merges every PG&E filing into one graph so the `applicableToRatePlan` reference to E-ELEC resolves.

@@ -102,4 +102,4 @@ including UTC time columns alongside PST, without surfacing a download URL.
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py --utility sce`, which merges every SCE filing into one graph so the `applicableToRatePlan` reference to TOU-D-PRIME resolves. Validation passes on first attempt — the PG&E NBT modeling pattern transferred cleanly with utility-specific substitutions only.
+SHACL passes via `dev/shacl.sh --utility sce`, which merges every SCE filing into one graph so the `applicableToRatePlan` reference to TOU-D-PRIME resolves. Validation passes on first attempt — the PG&E NBT modeling pattern transferred cleanly with utility-specific substitutions only.

@@ -110,4 +110,4 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 
 ## Validation
 
-SHACL passes via `dev/validate-with-base.py --utility sdge`, which merges every SDG&E filing into one graph so the `applicableToRatePlan` reference to EV-TOU-5 resolves. The 5,760 per-cell Prices, 576 TOUPeriods, the vintage alternatives and the structural shell all validate clean. `dev/check_nbt_export.clj` walks a year of segments for every vintage and asserts each export ledger resolves to exactly the Price its cell names.
+SHACL passes via `dev/shacl.sh --utility sdge`, which merges every SDG&E filing into one graph so the `applicableToRatePlan` reference to EV-TOU-5 resolves. The 5,760 per-cell Prices, 576 TOUPeriods, the vintage alternatives and the structural shell all validate clean. `dev/check_nbt_export.clj` walks a year of segments for every vintage and asserts each export ledger resolves to exactly the Price its cell names.

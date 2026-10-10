@@ -47,9 +47,10 @@ This filing uses urpx:daysOfWeek, proposed in urpx-org/urpx#71
 Monday-through-Saturday and Sunday brackets carry urpx:dayType
 urpx:customDays with urpx:daysOfWeek naming the days. It does not validate
 against the v0.5.1 SHACL on that property: TimeBracketShape is sh:closed and
-does not admit it, so pyshacl reports one sh:ClosedConstraintComponent result
-per such bracket and listed day. dev/validate-with-base.py excepts exactly those results
-(DAYS_OF_WEEK_EXCEPTION), and every other result still fails. If #71 does not
+does not admit it, so SHACL reports one sh:ClosedConstraintComponent result
+per such bracket and listed day. dev/shacl.sh excepts exactly those results
+under the DAYS_OF_WEEK_EXCEPTION entry in dev/shape-exceptions.json, and every
+other result still fails. If #71 does not
 merge in this form, these brackets have to be remodeled.
 
 ## Structure

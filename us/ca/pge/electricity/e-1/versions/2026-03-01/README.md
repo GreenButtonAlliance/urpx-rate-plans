@@ -60,7 +60,7 @@ The tariff adds medical allowances (Code M / S) on top of the basic and all-elec
 
 ```
 # Run from the urpx-rate-plans project root, both documents in one graph:
-python3 dev/validate-with-base.py --utility pge
+dev/shacl.sh --utility pge
 ```
 
 This rate plan is serialized against URPX **v0.5.1** and validates clean against pyshacl + [clj-urpx](https://github.com/grid-coordination/clj-urpx) end-to-end (load → coerce → resolve).
