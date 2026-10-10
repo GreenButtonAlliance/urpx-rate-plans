@@ -103,12 +103,14 @@ renamed them "Time-of-Use".
 """
 
 # Validation ------------------------------------------------------------------
-# shacl_passed is false: against the v0.5.1 shapes every bracket carrying
-# urpx:daysOfWeek fails TimeBracketShape's sh:closed (urpx-org/urpx#71).
+# Against the v0.5.1 shapes alone, every bracket carrying urpx:daysOfWeek fails
+# TimeBracketShape's sh:closed (urpx-org/urpx#71). dev/shacl.sh excepts those
+# results under the DAYS_OF_WEEK_EXCEPTION entry in dev/shape-exceptions.json,
+# and with it the filing conforms.
 [validation]
-shacl_passed = false
-validator = "pyshacl (URPX v0.5.1) + clj-urpx"
-validated_on = "2026-10-05"
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-10"
 
 # Modeling --------------------------------------------------------------------
 [modeling]
