@@ -1,0 +1,28 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: 2026 Clark Communications Corporation
+# SPDX-License-Identifier: CDLA-Permissive-2.0
+#
+# Pre-push hook: after a push to main, run dev/gate.sh --full on the pushed
+# commit in the background (dev/post-push-gate.sh). Git has no post-push hook,
+# so this starts the run detached and returns at once; it never blocks a push.
+#
+# Opt in per checkout, because a full gate is a long run:
+#
+#   git config urpx.postPushGate true
+#
+# The result is logged; a failure also runs the command in
+# urpx.postPushGateNotify, if set, with one argument, the message. For example:
+#
+#   git config urpx.postPushGateNotify 'pushover -t urpx-rate-plans'
+
+[ "$(git config --bool urpx.postPushGate)" = "true" ] || exit 0
+
+repo=$(git rev-parse --show-toplevel) || exit 0
+zero=0000000000000000000000000000000000000000
+while read -r _local_ref local_sha remote_ref _remote_sha; do
+    [ "$remote_ref" = "refs/heads/main" ] || continue
+    [ "$local_sha" = "$zero" ] && continue
+    nohup "$repo/dev/post-push-gate.sh" "$local_sha" < /dev/null > /dev/null 2>&1 &
+    echo "pre-push: full gate on ${local_sha:0:7} started in the background; see dev/post-push-gate.sh --status"
+done
+exit 0

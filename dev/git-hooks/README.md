@@ -31,3 +31,9 @@ The gate's SHACL step runs on [com.dcj/clj-shacl](https://github.com/dcj/clj-sha
 The generators need the packages in `dev/requirements.txt`. If `URPX_RATE_PLANS_VENV` names a virtualenv, the hook activates it; otherwise `python3` on `PATH` must already have them.
 
 If a generator fails, the commit is aborted with a non-zero exit. Re-stage / fix and retry, or pass `git commit --no-verify` to bypass intentionally (e.g. for a revert that needs to desync reports).
+
+### `pre-push`
+
+Opt-in: `git config urpx.postPushGate true`. On a push to `main` it starts `dev/post-push-gate.sh` in the background and returns at once, so it never blocks or slows a push. That script runs `dev/gate.sh --full` on the pushed commit in its own detached worktree, one run at a time, and logs to `post-push-gate/` under the repository's git directory. `dev/post-push-gate.sh --status` prints the last run's commit and result. It is the safety net behind `--fast` and `--changed`, which skip steps the trigger table does not select.
+
+On a failure it runs the command in `git config urpx.postPushGateNotify`, if set, with the message as its one argument, for example `git config urpx.postPushGateNotify 'pushover -t urpx-rate-plans'`.
