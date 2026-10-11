@@ -43,7 +43,7 @@ To enumerate the corpus from code, read [`corpus.json`](./corpus.json) or run on
 
 A **scenario cost model** is URPX's `urpx:ScenarioCostModel`, read as a fully determined selection over the plan space: one `urpx:RatePlanVersion`, plus the `urpx:RatePlanModifierVersion`s applied to it, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open. *Fully determined* means nothing remains to choose: given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one scenario cost model but several.
 
-A rate plan is what a utility publishes. A scenario cost model is what a particular customer is billed under, and a plan generally admits many. It is the unit a price server publishes as an OpenADR 3 program and an energy-management system subscribes to.
+A rate plan is what a utility publishes. A scenario cost model is what a particular customer is billed under, and a plan generally admits many. An OpenADR 3 program that a price server publishes and an energy-management system subscribes to is a sequence of them over time, one per window between version changes ([doc/scenario-cost-models.md](./doc/scenario-cost-models.md#programs-over-time)).
 
 The properties that let a `urpx:ScenarioCostModel` name the modifier versions and alternatives it selects, `urpx:consumesModifierVersion` and `urpx:selectsProfileAlternative`, are proposed in [urpx-org/urpx#72](https://github.com/urpx-org/urpx/pull/72) and are not yet in a URPX release. [doc/scenario-cost-models.md](./doc/scenario-cost-models.md) gives the full definition: what determines one, what makes two distinct, what makes one current, and how its IRI is derived.
 

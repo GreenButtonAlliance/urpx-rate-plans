@@ -33,6 +33,63 @@ so that column, not the gap list, is the number that predicts the next one.
 | `sce:tou-d-prime` | 2026-01-01 | 2026-03-20 | 78 | `sce:tou-d-prime-2025-11-15` | `sce:tou-d-prime-2026-03-20` |
 | `pge:e-elec` | 2026-03-01 | 2026-03-27 | 26 | `pge:e-elec-2026-01-01` | `pge:e-elec-2026-03-27` |
 
+## Before the first captured version
+
+The schedule was in force from its `urpx:initialEffectiveDate` and this corpus holds no
+version for that period, so it has no price there. An instant before that date is
+before the schedule existed.
+
+| Plan | Kind | From | To | Before |
+|---|---|---|---|---|
+| `pge:e-1-medical-baseline` | modifier | 2023-03-23 | 2026-03-01 | `pge:e-1-medical-baseline-2026-03-01` |
+| `pge:e-1-vintage-pcia` | modifier | 2009-01-01 | 2026-03-01 | `pge:e-1-vintage-pcia-2026-03-01` |
+| `pge:e-rsmart` | modifier | 2008-06-01 | 2025-10-31 | `pge:e-rsmart-2025-10-31` |
+| `pge:e-tou-c-medical-baseline` | modifier | 2023-03-23 | 2026-03-01 | `pge:e-tou-c-medical-baseline-2026-03-01` |
+| `pge:e-tou-c-vintage-pcia` | modifier | 2009-01-01 | 2026-03-01 | `pge:e-tou-c-vintage-pcia-2026-03-01` |
+| `pge:e-tou-d-vintage-pcia` | modifier | 2018-03-01 | 2026-03-27 | `pge:e-tou-d-vintage-pcia-2026-03-27` |
+| `pge:ev2-vintage-pcia` | modifier | 2009-01-01 | 2026-03-27 | `pge:ev2-vintage-pcia-2026-03-27` |
+| `pge:nbt` | modifier | 2023-03-01 | 2025-10-17 | `pge:nbt-2025-10-17` |
+| `sce:care` | modifier | 2001-08-01 | 2025-11-15 | `sce:care-2025-11-15` |
+| `sce:cca-crs` | modifier | 2023-07-27 | 2026-03-20 | `sce:cca-crs-2026-03-20` |
+| `sce:da-crs` | modifier | 2023-07-27 | 2026-03-20 | `sce:da-crs-2026-03-20` |
+| `sce:fera` | modifier | 2005-04-01 | 2025-11-15 | `sce:fera-2025-11-15` |
+| `sce:medical-baseline` | modifier | 2008-01-01 | 2025-10-01 | `sce:medical-baseline-2025-10-01` |
+| `sce:nbt` | modifier | 2023-03-01 | 2025-04-23 | `sce:nbt-2025-04-23` |
+| `sce:tou-d-4-9pm-hpwh` | modifier | 2022-10-01 | 2025-11-15 | `sce:tou-d-4-9pm-hpwh-2025-11-15` |
+| `sce:tou-d-5-8pm-hpwh` | modifier | 2022-10-01 | 2025-11-15 | `sce:tou-d-5-8pm-hpwh-2025-11-15` |
+| `sce:tou-d-prime-cpp` | modifier | 2022-06-01 | 2026-03-20 | `sce:tou-d-prime-cpp-2026-03-20` |
+| `scl:residential-suburban` | modifier | 2024-01-01 | 2026-01-01 | `scl:residential-suburban-2026-01-01` |
+| `sdge:care` | modifier | 2001-08-01 | 2025-10-01 | `sdge:care-2025-10-01` |
+| `sdge:drah` | modifier | 2025-11-15 | 2026-04-01 | `sdge:drah-2026-04-01` |
+| `sdge:fera` | modifier | 2010-01-01 | 2026-04-01 | `sdge:fera-2026-04-01` |
+| `sdge:nbt` | modifier | 2023-11-30 | 2025-01-27 | `sdge:nbt-2025-01-27` |
+| `ladwp:r-1a` | plan | 2008-09-01 | 2026-04-01 | `ladwp:r-1a-2026-04-01` |
+| `ladwp:r-1b` | plan | 2008-09-01 | 2026-04-01 | `ladwp:r-1b-2026-04-01` |
+| `pge:e-1` | plan | 2001-01-01 | 2026-03-01 | `pge:e-1-2026-03-01` |
+| `pge:e-elec` | plan | 2022-12-01 | 2026-01-01 | `pge:e-elec-2026-01-01` |
+| `pge:e-tou-c` | plan | 2019-03-01 | 2026-03-01 | `pge:e-tou-c-2026-03-01` |
+| `pge:e-tou-d` | plan | 2018-03-01 | 2026-03-27 | `pge:e-tou-d-2026-03-27` |
+| `pge:ev2` | plan | 2018-01-01 | 2026-03-27 | `pge:ev2-2026-03-27` |
+| `pse:307` | plan | 2023-10-01 | 2026-05-01 | `pse:307-2026-05-01` |
+| `pse:327` | plan | 2023-10-01 | 2026-05-01 | `pse:327-2026-05-01` |
+| `sce:d` | plan | 1949-08-01 | 2025-11-15 | `sce:d-2025-11-15` |
+| `sce:tou-d-4-9pm` | plan | 2019-03-01 | 2025-11-15 | `sce:tou-d-4-9pm-2025-11-15` |
+| `sce:tou-d-5-8pm` | plan | 2019-03-01 | 2025-11-15 | `sce:tou-d-5-8pm-2025-11-15` |
+| `sce:tou-d-prime` | plan | 2020-09-01 | 2025-11-15 | `sce:tou-d-prime-2025-11-15` |
+| `scl:rtc` | plan | 2024-01-01 | 2026-01-01 | `scl:rtc-2026-01-01` |
+| `scl:rts` | plan | 2024-01-01 | 2026-01-01 | `scl:rts-2026-01-01` |
+| `sdge:dr` | plan | 1948-01-01 | 2026-04-01 | `sdge:dr-2026-04-01` |
+| `sdge:dr-ses` | plan | 2008-07-24 | 2026-04-01 | `sdge:dr-ses-2026-04-01` |
+| `sdge:ev-tou` | plan | 2014-01-01 | 2026-04-01 | `sdge:ev-tou-2026-04-01` |
+| `sdge:ev-tou-2` | plan | 2016-01-01 | 2026-04-01 | `sdge:ev-tou-2-2026-04-01` |
+| `sdge:ev-tou-5` | plan | 2020-04-01 | 2026-04-01 | `sdge:ev-tou-5-2026-04-01` |
+| `sdge:tou-dr` | plan | 2008-01-01 | 2026-04-01 | `sdge:tou-dr-2026-04-01` |
+| `sdge:tou-dr1` | plan | 2019-01-01 | 2026-04-01 | `sdge:tou-dr1-2026-04-01` |
+| `sdge:tou-dr2` | plan | 2019-01-01 | 2026-04-01 | `sdge:tou-dr2-2026-04-01` |
+| `sdge:tou-elec` | plan | 2023-02-01 | 2026-04-01 | `sdge:tou-elec-2026-04-01` |
+| `smud:fixed` | plan | 1948-01-01 | 2026-01-01 | `smud:fixed-2026-01-01` |
+| `smud:tod-5-8pm` | plan | 2018-10-01 | 2026-01-01 | `smud:tod-5-8pm-2026-01-01` |
+
 ## Coverage by plan
 
 | Plan | Version | From | To | Source checked | Age (days) |

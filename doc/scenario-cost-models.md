@@ -3,7 +3,7 @@
 
 # Scenario cost models
 
-**A scenario cost model is URPX's `urpx:ScenarioCostModel`: what a particular customer actually takes service under, as one fully determined selection over the plan space.** It binds the `urpx:RatePlanVersion` it prices (`urpx:consumesVersion`), the `urpx:RatePlanModifierVersion`s applied to it (`urpx:consumesModifierVersion`), and one `urpx:ProfileAlternative` per alternative dimension they leave open (`urpx:selectsProfileAlternative`). It is the unit an OpenADR 3 price server publishes as a program for an energy-management system to subscribe to.
+**A scenario cost model is URPX's `urpx:ScenarioCostModel`: what a particular customer actually takes service under, as one fully determined selection over the plan space.** It binds the `urpx:RatePlanVersion` it prices (`urpx:consumesVersion`), the `urpx:RatePlanModifierVersion`s applied to it (`urpx:consumesModifierVersion`), and one `urpx:ProfileAlternative` per alternative dimension they leave open (`urpx:selectsProfileAlternative`). It prices one window, the span in which every version it binds is in force. An OpenADR 3 program spans many such windows: it is a sequence of scenario cost models over time ([Programs over time](#programs-over-time)).
 
 `urpx:consumesModifierVersion` and `urpx:selectsProfileAlternative`, the `sh:maxCount 1` on `urpx:consumesVersion`, and `urpx:name` and `urpx:description` on `ScenarioCostModelShape` are proposed in [urpx-org/urpx#72](https://github.com/urpx-org/urpx/pull/72) and are not yet in a URPX release. This repository validates against that pull request's head, cd13ce8a.
 
@@ -148,7 +148,7 @@ Each node's `urpx:name` is built from the consumed plans' and selected alternati
 
 ## Computing the set
 
-A client that needs the scenario cost models, such as a price server publishing one program per model, should compute them from the corpus rather than read `reports/scenario-cost-models.jsonld`. The committed document is current as of its last regeneration, and a version that takes effect afterwards changes the set with no change to the corpus.
+A client that needs the scenario cost models, such as a price server resolving its programs ([Programs over time](#programs-over-time)), should compute them from the corpus rather than read `reports/scenario-cost-models.jsonld`. The committed document is current as of its last regeneration, and a version that takes effect afterwards changes the set with no change to the corpus.
 
 clj-urpx computes it. Walking the corpus is the client's job: use the corpus's own walker, or read `corpus.json`, which lists the documents and the walkers that read them; a client that packs the corpus as classpath resources walks its own copy. Load what the walk finds with `urpx.load/documents`, which takes anything `clojure.java.io/reader` coerces (a File, URL, Reader, InputStream or path string), as `dev/cross_check_scenario_cost_models.clj` does, and call `urpx.scenario-cost-model/enumerate` with every policy pinned to the ones this corpus is checked under:
 
@@ -174,7 +174,30 @@ A version is current when no later version of the same plan identity has taken e
 
 `urpx:expirationDateTime` is admitted on both version shapes (`min 0 max 1`) and states when a version stopped being in force. It is the only end bound available to a publisher that files versions directly: `urpx:supersedes`, `urpx:replaces`, `urpx:replacedBy` and `urpx:cancelledBy` all carry domains of `urpx:PricingModel` or `urpx:TariffFiling` only, and are not admitted on either closed version shape. So such a publisher can say a version *ended* and cannot say *what ended it*; succession has to be inferred from the intervals touching.
 
-A superseded version takes part in no scenario cost model. Nobody takes service under it, and it should not appear in any set offered for use.
+A superseded version takes part in no scenario cost model current after it was superseded. Before then it was current, and the scenario cost models it took part in price that window, which is what a historical price needs.
+
+## Programs over time
+
+**An OpenADR 3 program is a sequence of scenario cost models, one per window.** A scenario cost model binds versions, so it prices only where every version it binds is in force. A program prices the same customers across version changes, so it is defined one level up: a base plan identity, a set of modifier identities, and the customer facts that choose among each version's profile alternatives. Resolved at an instant, that selection gives the scenario cost model current there.
+
+**Segments.** A program's timeline is cut at every `urpx:effectiveDateTime` and `urpx:expirationDateTime` of every version of its base plan and modifiers, and one scenario cost model applies between two cuts. A modifier identity can begin or end while its base continues, so the set of modifiers in force can differ from one segment to the next. A requested interval that crosses a cut is priced per segment.
+
+**Selections.** A `urpx:ProfileAlternative` is reached through one version's `urpx:hasProfileAlternatives` and carries a `urpx:name` and a `urpx:hasConditionExpression`, and no identifier. This corpus mints its IRIs per version (`pge:e-1-2026-03-01-pa-tc-p-b`), so an alternative IRI cannot carry a selection from one version to the next. The customer fact its condition tests, such as a baseline territory, can: evaluated against each version's conditions, it selects that version's alternative. URPX's place for those facts is the `urpx:Scenario` a scenario cost model names through `urpx:forScenario`. This corpus writes no `urpx:Scenario`.
+
+**Now and then.** `urpx.scenario-cost-model/enumerate` with `:at` returns the scenario cost models current at any instant, so the price now and a price last year are computed the same way, from different subsets of the corpus. The reports are generated at the instant in `dev/currency-instant.json` only.
+
+**Coverage.** Every plan and modifier identity states `urpx:initialEffectiveDate`, and may state an expiration, so the corpus says when each schedule existed apart from which of its versions it holds. At an instant, each identity a program names is in one of four states:
+
+| State | Read from | Price |
+|---|---|---|
+| in force | a version whose span contains the instant | that version's |
+| not in effect | an instant before `urpx:initialEffectiveDate` or after the identity's expiration | none, correctly: the schedule did not exist |
+| not modeled | inside the identity's lifetime with no version in force: a gap, or a period before the first captured version, both listed in [`reports/version-continuity.md`](../reports/version-continuity.md) | none, and a price server should refuse rather than extend a neighboring version |
+| in force, open-ended | the latest version, which states no end | that version's |
+
+A filing the corpus has not captured leaves no trace in it, so whether a later version than the latest one held exists is outside what the corpus can answer. The source age in the same report is how long that has gone unchecked.
+
+A modifier that is not modeled is easy to miss: the base alone still resolves, so a client that needs to know checks each identity the program names.
 
 ## Identifiers
 
