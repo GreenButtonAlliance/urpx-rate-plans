@@ -90,24 +90,32 @@ def main() -> int:
     check("check_all keys are unique", len(check_entries) == len(table.get("check_all", [])))
 
     print("=== selection ===")
-    slow = {"NBT export cells", "Scenario cost models: SHACL"}
+    nbt, xc, scm = "NBT export cells", "Scenario cost models: clj-urpx cross-check", "Scenario cost models: SHACL"
+    slow = {nbt, xc, scm}
     utilities = ["cpau", "pge", "sce"]
     cases = [
         ("an NBT filing",
          ["us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld"],
          set(), ["sce"]),
-        ("a non-NBT SCE filing",
+        ("a non-NBT SCE modifier filing",
          ["us/ca/sce/electricity/care/versions/2026-03-20/rate-plan-modifier_sce_care_2026-03-20.jsonld"],
-         {"NBT export cells"}, ["sce"]),
-        ("a PG&E filing and its manifest",
+         set(), ["sce"]),
+        ("a PG&E base filing",
+         ["us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"],
+         {nbt}, ["pge"]),
+        ("a PG&E modifier filing and its manifest",
          ["us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld",
           "us/ca/pge/electricity/d-care/versions/2026-03-01/tariff.toml"],
-         {"NBT export cells"}, ["pge"]),
+         set(), ["pge"]),
         ("a CPAU manifest", ["us/ca/cpau/electricity/e-1/versions/2025-07-01/tariff.toml"],
-         {"NBT export cells"}, ["cpau"]),
-        ("deps.edn", ["deps.edn"], {"Scenario cost models: SHACL"}, []),
+         {nbt, xc}, ["cpau"]),
+        ("deps.edn", ["deps.edn"], set(), utilities),
+        ("the corpus walker", ["dev/corpus.py"], {nbt}, utilities),
+        ("the recorded SHACL baseline", ["dev/baseline/corpus.json"], slow, utilities),
+        ("the shape exceptions", ["dev/shape-exceptions.json"], {nbt, xc}, utilities),
+        ("the currency instant", ["dev/currency-instant.json"], {nbt, scm}, []),
+        ("the gate itself", ["dev/gate-steps.toml"], set(), utilities),
         ("a dev/ lint", ["dev/lint_price_cells.py"], slow, []),
-        ("the shape exceptions", ["dev/shape-exceptions.json"], {"NBT export cells"}, []),
         ("a .md file", ["LAYOUT.md"], slow, []),
         ("nothing", [], slow, []),
     ]

@@ -25,6 +25,8 @@ import tomli
 REPO = Path(__file__).resolve().parent.parent
 TABLE = REPO / "dev" / "gate-steps.toml"
 SCOPES = {"corpus", "per-utility"}
+# A change to the gate itself selects every step for every utility.
+GATE_ITSELF = re.compile(r"^dev/(gate\.sh|gate-steps\.toml|gate_steps\.py)$")
 MODES = {"fast", "full"}
 
 
@@ -53,7 +55,13 @@ def matches(patterns: list[str], paths: list[str]) -> bool:
     return any(re.search(p, path) for p in patterns for path in paths)
 
 
+def gate_itself(paths: list[str]) -> bool:
+    return any(GATE_ITSELF.search(path) for path in paths)
+
+
 def skipped(table: dict, paths: list[str]) -> list[str]:
+    if gate_itself(paths):
+        return []
     return [
         e["note"]
         for e in table.get("gate", [])
@@ -73,6 +81,8 @@ def utilities(table: dict, key: str, paths: list[str], everyone: list[str]) -> l
     entry = next((e for e in table.get("gate", []) if e["note"] == key), None)
     if entry is None or entry["scope"] != "per-utility":
         raise ValueError(f"{key!r} is not a per-utility step in {TABLE.name}")
+    if gate_itself(paths):
+        return list(everyone)
     return [
         u
         for u in everyone

@@ -13,7 +13,11 @@
 #             {utility} stands for each utility slug in the corpus.
 #   triggers  Python regular expressions searched in each changed path. A step
 #             runs in --fast when any changed path matches one. A step with no
-#             triggers always runs.
+#             triggers always runs. For a per-utility step, a trigger without
+#             {utility} selects every utility.
+#
+# A change to the gate itself (dev/gate.sh, this table, dev/gate_steps.py) runs
+# every step for every utility.
 #
 # [[check_all]] entries are keyed by name in dev/check_all.py STEPS. Every one
 # runs from the pre-commit hook (--generators-only) and in --full.
@@ -33,8 +37,9 @@ note = "Marginal-rate baseline"
 modes = ["fast", "full"]
 scope = "corpus"
 
-# An NBT filing, a base plan an NBT modifier composes with, the check, the
-# remodel script, or deps.edn (the clj-urpx pin).
+# An NBT filing, a base plan an NBT modifier composes with, any modifier
+# filing (the check refuses an undeclared NBT-shaped modifier), the check, the
+# remodel script, the corpus walker, or deps.edn (the clj-urpx pin).
 [[gate]]
 note = "NBT export cells"
 modes = ["fast", "full"]
@@ -44,9 +49,12 @@ triggers = [
     '/e-elec/',
     '/tou-d-prime/',
     '/ev-tou-5/',
+    'rate-plan-modifier_[^/]*\.jsonld$',
     '^dev/check_nbt_export\.clj$',
     '^dev/remodel_nbt\.py$',
     '^deps\.edn$',
+    '^corpus\.json$',
+    '^dev/urpx_rate_plans\.clj$',
 ]
 
 [[gate]]
@@ -109,13 +117,29 @@ note = "MIDAS rate identifiers"
 modes = ["fast", "full"]
 scope = "corpus"
 
+# Filing JSON-LD, the emitted document, what decides currency and withholding,
+# the corpus walkers, the enumerator, the cross-check, or deps.edn (the
+# clj-urpx pin).
 [[gate]]
 note = "Scenario cost models: clj-urpx cross-check"
 modes = ["fast", "full"]
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^reports/scenario-cost-models\.jsonld$',
+    '^dev/currency-instant\.json$',
+    '^dev/withheld-filings\.json$',
+    '^dev/withheld_filings\.py$',
+    '^dev/scenario_cost_models\.py$',
+    '^dev/cross_check_scenario_cost_models\.(py|clj)$',
+    '^dev/corpus\.py$',
+    '^dev/urpx_rate_plans\.clj$',
+    '^corpus\.json$',
+    '^deps\.edn$',
+]
 
-# A filing, the emitted document or its generator, the SHACL engine, or the
-# shape exceptions.
+# A filing, the emitted document or its generator, the SHACL engine and its
+# runners, the shape exceptions, the corpus walkers, or deps.edn.
 [[gate]]
 note = "Scenario cost models: SHACL"
 modes = ["fast", "full"]
@@ -126,6 +150,12 @@ triggers = [
     '^dev/scenario_cost_models\.py$',
     '^dev/shacl_gate\.clj$',
     '^dev/shape-exceptions\.json$',
+    '^dev/shacl\.sh$',
+    '^dev/shacl_nrepl\.py$',
+    '^dev/corpus\.py$',
+    '^dev/urpx_rate_plans\.clj$',
+    '^corpus\.json$',
+    '^deps\.edn$',
 ]
 
 [[gate]]
@@ -148,12 +178,25 @@ note = "clj-kondo"
 modes = ["fast", "full"]
 scope = "corpus"
 
-# Any changed path under a utility's directory.
+# Any changed path under a utility's directory; for every utility, the recorded
+# baseline, the SHACL engine and its runners, the shape exceptions, the corpus
+# walkers, or deps.edn (the clj-shacl pin).
 [[gate]]
 note = "Baseline"
 modes = ["fast"]
 scope = "per-utility"
-triggers = ['/{utility}/']
+triggers = [
+    '/{utility}/',
+    '^dev/baseline/corpus\.json$',
+    '^dev/shacl_gate\.clj$',
+    '^dev/shape-exceptions\.json$',
+    '^dev/shacl\.sh$',
+    '^dev/shacl_nrepl\.py$',
+    '^dev/corpus\.py$',
+    '^dev/urpx_rate_plans\.clj$',
+    '^corpus\.json$',
+    '^deps\.edn$',
+]
 
 [[gate]]
 note = "Generators, schema, drift"
