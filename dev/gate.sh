@@ -183,9 +183,10 @@ run_clojure_gate() {
     # alternative key withholds every one; both are silent in clj-urpx.
     # Exit 1 a violation, 3 refused.
     #
-    # It takes about 50 s, so --fast runs it only when the commit stages an NBT
-    # filing, a base plan an NBT modifier composes with, the check, the
-    # remodel script, or deps.edn (the clj-urpx pin). --full always runs it.
+    # It is one of the two slowest steps, so --fast runs it only when the
+    # commit stages an NBT filing, a base plan an NBT modifier composes with,
+    # the check, the remodel script, or deps.edn (the clj-urpx pin). --full
+    # always runs it.
     note "NBT export cells"
     if [ "$MODE" = "--fast" ] && ! git diff --cached --name-only |
             grep -qE '/nbt/|/e-elec/|/tou-d-prime/|/ev-tou-5/|^dev/check_nbt_export\.clj$|^dev/remodel_nbt\.py$|^deps\.edn$'; then
@@ -223,7 +224,7 @@ run_scm_shacl() {
 
 # Every document with Clojure source under src/ (doc/dsl-source.md), regenerated
 # and compared with its committed file byte for byte, in the working tree.
-# About 4 s. --full runs the same check inside dev/check_all.py.
+# --full runs the same check inside dev/check_all.py.
 # Exit 1 a document differs, is missing or extra, 3 refused.
 run_generated() {
     note "Generated from source"
@@ -236,7 +237,7 @@ run_generated() {
     fi
 }
 
-# catalog/ rebuilt in memory and compared with the committed files. About 10 s.
+# catalog/ rebuilt in memory and compared with the committed files.
 # --full runs the generator inside dev/check_all.py, whose drift check catches
 # the same difference. Exit 2 the catalog differs, 1 a filing cannot be summarized.
 run_catalog() {
@@ -495,8 +496,9 @@ case "$MODE" in
         record $rc
     fi
 
-    # About 40 s, so --fast runs it only when the commit stages a filing, the
-    # emitted document or its generator. --full always runs it.
+    # It is one of the two slowest steps, so --fast runs it only when the
+    # commit stages a filing, the emitted document or its generator. --full
+    # always runs it.
     if git diff --cached --name-only |
             grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/shacl_gate\.clj$|^dev/shape-exceptions\.json$'; then
         run_scm_shacl

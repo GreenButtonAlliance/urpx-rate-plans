@@ -156,7 +156,7 @@ if [ "$gate_rc" -ne 0 ]; then
     echo "pre-commit: fix it, or bypass deliberately with 'git commit --no-verify'."
     exit "$gate_rc"
 fi
-tail -3 "$gate_log"
+sed -n '/^=== Step times ===$/,$p' "$gate_log"
 rm -f "$gate_log"
 
 exit 0
