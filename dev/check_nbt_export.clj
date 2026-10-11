@@ -19,7 +19,9 @@
    months from the first month boundary on or after the later of the two
    filings' dates. A modifier version that has ended (urpx:expirationDateTime)
    is composed instead with the newest base filing dated before its end, and
-   the walk stops at that end. For every segment and every ledger on a urpx:reverse
+   the walk stops at that end. One that ended before the earliest filing of
+   its base plan has no composition the corpus can walk, and is skipped with
+   a line naming it. For every segment and every ledger on a urpx:reverse
    MetricInput it asserts: no :urpx.interval/refused; the ledger appears once;
    :urpx.resolved/flow-direction is urpx:reverse; no
    :urpx.resolved/unselected-alternatives; exactly one tier; no
@@ -79,6 +81,7 @@
   #{"us/ca/pge/electricity/nbt/versions/2025-10-17/rate-plan-modifier_pge_nbt_2025-10-17.jsonld"
     "us/ca/pge/electricity/nbt/versions/2026-08-28/rate-plan-modifier_pge_nbt_2026-08-28.jsonld"
     "us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld"
+    "us/ca/sce/electricity/nbt/versions/2025-06-02/rate-plan-modifier_sce_nbt_2025-06-02.jsonld"
     "us/ca/sdge/electricity/nbt/versions/2025-01-27/rate-plan-modifier_sdge_nbt_2025-01-27.jsonld"})
 
 (def ^:private all-months (set (range 1 13)))
@@ -94,6 +97,10 @@
    Each row is {:alternative :ledgers :months :reason}."
   [{:alternative "sce:nbt-2025-04-23-pa-vintage-nbt26"
     :ledgers #{"sce:nbt-ledger-export-rate-generation" "sce:nbt-ledger-export-rate-delivery"}
+    :months (set (range 6 13))
+    :reason "source gap: SCE publishes no EEC numbers in the tariff, every cell came from CEC MIDAS, and MIDAS had not published the 2026 vintage past May at extraction (tariff.toml [modeling], first deferral)"}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-nbt26"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-export-rate-generation" "sce:nbt-2025-06-02-ledger-export-rate-delivery"}
     :months (set (range 6 13))
     :reason "source gap: SCE publishes no EEC numbers in the tariff, every cell came from CEC MIDAS, and MIDAS had not published the 2026 vintage past May at extraction (tariff.toml [modeling], first deferral)"}
    {:alternative "pge:nbt-2025-10-17-pa-vintage-2025-residential"
@@ -137,6 +144,22 @@
     :months all-months :reason acc-plus-2025-only}
    {:alternative "sce:nbt-2025-04-23-pa-vintage-non-vintaged"
     :ledgers #{"sce:nbt-ledger-acc-plus-non-equity" "sce:nbt-ledger-acc-plus-equity"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-nbt25-non-equity"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-equity"} :months all-months :reason other-segment}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-nbt25-equity"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-non-equity"} :months all-months :reason other-segment}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-nbt23"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-non-equity" "sce:nbt-2025-06-02-ledger-acc-plus-equity"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-nbt24"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-non-equity" "sce:nbt-2025-06-02-ledger-acc-plus-equity"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-nbt26"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-non-equity" "sce:nbt-2025-06-02-ledger-acc-plus-equity"}
+    :months all-months :reason acc-plus-2025-only}
+   {:alternative "sce:nbt-2025-06-02-pa-vintage-non-vintaged"
+    :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-non-equity" "sce:nbt-2025-06-02-ledger-acc-plus-equity"}
     :months all-months :reason acc-plus-2025-only}
    {:alternative :all-of :all-of "sdge:nbt-2025-01-27-pa-vintage"
     :ledgers #{"sdge:nbt-ledger-acc-plus-residential" "sdge:nbt-ledger-acc-plus-low-income"}
@@ -427,8 +450,14 @@
                  :let [until (expiration raw)
                        ;; An NBT version that has ended is composed with the base filing
                        ;; dated before its end, over the months up to that end.
-                       [bdate bpath] (or (latest-base-file base-iri (some-> until (subs 0 10)))
-                                         (refuse (str path ": no base filing for " base-iri)))
+                       found (latest-base-file base-iri (some-> until (subs 0 10)))
+                       _ (when-not found
+                           (if until
+                             (println (str "skipped " (:version-id exp) " + " base-iri ": ended "
+                                           (subs until 0 10) ", before the earliest " base-iri " filing"))
+                             (refuse (str path ": no base filing for " base-iri))))]
+                 :when found
+                 :let [[bdate bpath] found
                        base  (-> (get subst bpath bpath) core/load-rate-plan coerce/coerce-rate-plan)
                        mpred (holidays/derive-predicate modifier)
                        [hsrc hpred] (if mpred

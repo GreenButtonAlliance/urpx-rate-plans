@@ -63,7 +63,8 @@ REAL = A.build()
 tally = A.tally(REAL["compositions"])
 expect("every composition is classified",
        sum(tally.values()), len(REAL["compositions"]))
-# Thirty-four are SCE, thirteen PG&E and two PSE. The PG&E ones are e-elec
+# Thirty-five are SCE, among them nbt 2025-04-23, which the 2025-06-02 sheets
+# supersede. Thirteen are PG&E and two PSE. The PG&E ones are e-elec
 # 2026-01-01, e-tou-c 2026-03-01 and its medical-baseline modifier, every
 # version the 2026-06-01 sheets supersede (e-1 and its income-tier and
 # medical-baseline modifiers, e-tou-c 2026-03-27 and its medical-baseline
@@ -74,7 +75,7 @@ expect("every composition is classified",
 # 2025-10-01 and fera 2026-04-01. Four are LADWP: the r-1a and r-1b versions
 # of 2026-04-01 and 2026-07-01, which the next quarter's factors supersede.
 # One is SMUD: ssr 2022-03-01, which the 2026-06-01 sheet supersedes.
-expect("supersession finds one hundred plan identities", len(REAL["superseded"]), 100)
+expect("supersession finds one hundred and one plan identities", len(REAL["superseded"]), 101)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
 # 2028-01-01 as well as 2026-01-01, and SMUD tod-5-8pm, tod-low-use and fixed
 # for 2027-01-01 as well as 2026-01-01. At the currency instant the later nine

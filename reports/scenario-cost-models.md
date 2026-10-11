@@ -110,7 +110,7 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `pge:nbt-2026-08-28-pa-vintage`<br>NBT export compensation vintage (NBT Interconnection Vintage Year), fixed for the customer's lock-in period, and for the 2025 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 5 | 1 | `urpx:PriceSetAlternative`<br>`pge:nbt-2026-08-28-psa-export-202` | no |
 | `sce:cca-crs-2026-10-01-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:cca-crs-2026-10-01-psa-pcia-v20` | `sce:cca-crs-2026-10-01-pa-vintage-2001` |
 | `sce:da-crs-2026-10-01-pa-pcia-vintage`<br>PCIA vintage year, set at the PCIA Vintage Determination Date and retained thereafter | 20 | 4 | `urpx:PriceSetAlternative`<br>`sce:da-crs-2026-10-01-psa-pcia-v20` | `sce:da-crs-2026-10-01-pa-vintage-2001` |
-| `sce:nbt-2025-04-23-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period, and for the NBT25 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 6 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-04-23-psa-export-n` | no |
+| `sce:nbt-2025-06-02-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period, and for the NBT25 vintage, whose ACC Plus adder differs by it, NBT Customer Segment | 6 | 1 | `urpx:PriceSetAlternative`<br>`sce:nbt-2025-06-02-psa-export-n` | no |
 | `sce:tou-d-4-9pm-2026-10-01-pa-baseline-region-code`<br>Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3) | 18 | 8 | `urpx:ServiceBracket`<br>`sce:tou-d-4-9pm-` | no |
 | `sce:tou-d-5-8pm-2026-10-01-pa-baseline-region-code`<br>Baseline Region and Basic or All-Electric Allocation (Preliminary Statement Part H, paragraphs 2 and 3) | 18 | 8 | `urpx:ServiceBracket`<br>`sce:tou-d-5-8pm-` | no |
 | `scl:residential-suburban-2026-01-01-pa-jurisdiction`<br>Location of service: the suburban jurisdiction the customer is served in | 7 | 1 | `urpx:PriceSetAlternative`<br>`scl:residential-suburban-2026-01-01-psa-` | `scl:residential-suburban-2026-01-01-pa-shoreline` |
@@ -132,7 +132,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-100 version nodes, over 53 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+101 version nodes, over 54 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -186,6 +186,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `sce:fera` | `sce:fera-2026-03-20` | 2026-03-20 | `sce:fera-2026-10-01` | 2026-10-01 |
 | `sce:fera` | `sce:fera-2026-06-01` | 2026-06-01 | `sce:fera-2026-10-01` | 2026-10-01 |
 | `sce:medical-baseline` | `sce:medical-baseline-2025-10-01` | 2025-10-01 | `sce:medical-baseline-2026-06-25` | 2026-06-25 |
+| `sce:nbt` | `sce:nbt-2025-04-23` | 2025-04-23 | `sce:nbt-2025-06-02` | 2025-06-02 |
 | `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2025-11-15` | 2025-11-15 | `sce:tou-d-4-9pm-2026-10-01` | 2026-10-01 |
 | `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2026-03-20` | 2026-03-20 | `sce:tou-d-4-9pm-2026-10-01` | 2026-10-01 |
 | `sce:tou-d-4-9pm` | `sce:tou-d-4-9pm-2026-06-01` | 2026-06-01 | `sce:tou-d-4-9pm-2026-10-01` | 2026-10-01 |

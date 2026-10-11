@@ -129,7 +129,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | sce | deed-restricted | modifier | 2025-11-15, 2026-03-20, 2026-06-01, 2026-10-01 |
 | CA | sce | fera | modifier | 2025-11-15, 2026-03-20, 2026-06-01, 2026-10-01 |
 | CA | sce | medical-baseline | modifier | 2025-10-01, 2026-06-25 |
-| CA | sce | nbt | modifier | 2025-04-23 |
+| CA | sce | nbt | modifier | 2025-04-23, 2025-06-02 |
 | CA | sce | tou-d-4-9pm | rate-plan | 2025-11-15, 2025-11-15, 2026-03-20, 2026-03-20, 2026-06-01, 2026-06-01, 2026-10-01, 2026-10-01 |
 | CA | sce | tou-d-5-8pm | rate-plan | 2025-11-15, 2025-11-15, 2026-03-20, 2026-03-20, 2026-06-01, 2026-06-01, 2026-10-01, 2026-10-01 |
 | CA | sce | tou-d-prime | rate-plan | 2025-11-15, 2026-03-20, 2026-06-01, 2026-10-01 |

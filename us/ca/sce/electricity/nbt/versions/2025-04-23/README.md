@@ -79,7 +79,7 @@ Full list with reasoning in `tariff.toml` under `[modeling]`.
 
 ## Per-cell export compensation data
 
-Loaded. The filing carries 5,088 RIN-tagged export compensation Prices covering all
+Loaded. The filing carries 5,088 export compensation Prices covering all
 twelve months, the hour-by-month-by-day-type grid the tariff prices exports on.
 Generation is not published directly by SCE and is derived per cell by subtracting
 the delivery-only SCXX rate from the bundled SCSC rate in MIDAS.
@@ -93,7 +93,7 @@ including UTC time columns alongside PST, without surfacing a download URL.
 
 ## Reconciliation with the live tariff book
 
-The committed PDF does not carry every sheet in force during this filing's window. Against the live tariff book retrieved 2026-10-11 (sha256 `f99d3800…`, held at `data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf`), its Sheets 2 and 7 carry the right sheet numbers (89744-E, 89745-E) but a text with (P) markers, and Sheet 7 conditions ACC Plus eligibility on Original PTO Date where 89745-E conditions it on Interconnection Request date. Its Sheets 5, 8, 14, 17, 23 and 24 are the revisions that AL 5209-E, 5209-E-A and 5209-E-B replaced effective 2024-07-01. Sheets 6 and 34 were replaced effective 2025-06-02 under AL 5497-E (89868-E, 89869-E), which begins the next version. The 2025 ACC Plus values and this filing's effective date are unchanged. The per-sheet table is in `tariff.toml` `[extraction]`.
+The committed PDF does not carry every sheet in force during this filing's window. Against the live tariff book retrieved 2026-10-11 (sha256 `f99d3800…`, held at `data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf`), its Sheets 2 and 7 carry the right sheet numbers (89744-E, 89745-E) but a text with (P) markers, and Sheet 7 conditions ACC Plus eligibility on Original PTO Date where 89745-E conditions it on Interconnection Request date. Its Sheets 5, 8, 14, 17, 23 and 24 are the revisions that AL 5209-E, 5209-E-A and 5209-E-B replaced effective 2024-07-01. Sheets 6 and 34 were replaced effective 2025-06-02 under AL 5497-E (89868-E, 89869-E), which begins the next version (`../2025-06-02/`); this version's `urpx:expirationDateTime` is 2025-06-02. The MIDAS RIN citations its export Prices carried are on that version. The 2025 ACC Plus values and this filing's effective date are unchanged. The per-sheet table is in `tariff.toml` `[extraction]`.
 
 ## Cross-references
 

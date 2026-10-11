@@ -1,0 +1,159 @@
+# Identity --------------------------------------------------------------------
+utility = "sce"
+schedule = "nbt"
+effective_date = "2025-06-02"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NBT.pdf"
+sha256 = "f99d38000593434cfdaf4491cffe7f881c4774040bd61f275ef6de6f9fc03e81"
+retrieved_on = "2026-10-11"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "SCE-AL-5497-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+docket = "Advice 5497-E (Sheets 6 and 34, effective 2025-06-02); the sheets it leaves in force are those of the 2025-04-23 version, D.22-12-056 and D.23-11-068"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "manual-diff"
+extracted_on = "2026-10-11"
+notes = """
+Source bytes. The live SCE tariff book for Schedule NBT, retrieved 2026-10-11
+from the SharePoint library with fetch_sharepoint in
+dev/fetch_tariff_documents.py and unwrapped from its multipart envelope. The
+bytes equal data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf, which
+data/documents.json records as first retrieved 2026-09-23.
+
+Sheets the document carries:
+ Sheet 1: 87677-E, Advice 5228-E, effective 2024-02-15
+ Sheet 2: 89744-E, Advice 5533-E, effective 2025-04-23
+ Sheet 3: 85350-E, Advice 4961-E, effective 2023-03-01
+ Sheet 4: 85351-E, Advice 4961-E-A, effective 2023-03-01
+ Sheet 5: 87506-E, Advice 5209-E, effective 2024-07-01
+ Sheet 6: 89868-E, Advice 5497-E, effective 2025-06-02
+ Sheet 7: 89745-E, Advice 5533-E, effective 2025-04-23
+ Sheet 8: 87509-E, Advice 5209-E, effective 2024-07-01
+ Sheet 9: 85356-E, Advice 4961-E, effective 2023-03-01
+ Sheet 10: 87680-E, Advice 5228-E, effective 2024-02-15
+ Sheet 11: 87681-E, Advice 5228-E, effective 2024-02-15
+ Sheet 12: 87682-E, Advice 5228-E, effective 2024-02-15
+ Sheet 13: 87683-E, Advice 5228-E, effective 2024-02-15
+ Sheet 14: 87510-E, Advice 5209-E, effective 2024-07-01
+ Sheet 15: 87685-E, Advice 5228-E, effective 2024-02-15
+ Sheet 16: 87686-E, Advice 5228-E, effective 2024-02-15
+ Sheet 17: 87511-E, Advice 5209-E-B, effective 2024-07-01 (submitted 2025-08-26)
+ Sheet 18: 87688-E, Advice 5228-E, effective 2024-02-15
+ Sheet 19: 87378-E, Advice 5204-E, effective 2024-03-06
+ Sheet 20: 87690-E, Advice 5228-E, effective 2024-02-15
+ Sheet 21: 87691-E, Advice 5228-E, effective 2024-02-15
+ Sheet 22: 87692-E, Advice 5228-E, effective 2024-02-15
+ Sheet 23: 87513-E, Advice 5209-E-B, effective 2024-07-01 (submitted 2025-08-26)
+ Sheet 24: 88078-E, Advice 5209-E-A, effective 2024-07-01
+ Sheet 25: 87695-E, Advice 5228-E, effective 2024-02-15
+ Sheet 26: 87696-E, Advice 5228-E, effective 2024-02-15
+ Sheet 27: 87381-E, Advice 5204-E, effective 2024-03-06
+ Sheet 28: 87698-E, Advice 5228-E, effective 2024-02-15
+ Sheet 29: 87699-E, Advice 5228-E, effective 2024-02-15
+ Sheet 30: 87700-E, Advice 5228-E, effective 2024-02-15
+ Sheet 31: 88209-E, Advice 5197-E-A, effective 2024-02-15
+ Sheet 32: 87702-E, Advice 5228-E, effective 2024-02-15
+ Sheet 33: 87703-E, Advice 5228-E, effective 2024-02-15
+ Sheet 34: 89869-E, Advice 5497-E, effective 2025-06-02
+ Sheet 35: 87705-E, Advice 5228-E, effective 2024-02-15
+ Sheet 36: 87706-E, Advice 5228-E, effective 2024-02-15
+ Sheet 37: 88766-E, Advice 5353-E, effective 2024-01-01
+ Sheet 38: 88767-E, Advice 5353-E, effective 2024-01-01
+ Sheet 39: 87709-E, Advice 5228-E, effective 2024-02-15
+ Sheet 40: 87710-E, Advice 5228-E, effective 2024-02-15
+ Sheet 41: 87711-E, Advice 5228-E, effective 2024-02-15
+ Sheet 42: 87712-E, Advice 5228-E, effective 2024-02-15
+
+Sheets 18, 19, 36 and 42 carry older revisions than the 2025-04-23 filing's
+PDF (88763-E, 88764-E, 88765-E and 88768-E, Advice 5353-E, effective
+2024-01-01) and differ from them only in revision markers and line breaks; the
+2025-04-23 manifest records the comparison. Sheets 17 and 23 were reissued
+under Advice 5209-E-B, submitted 2025-08-26, effective 2024-07-01.
+
+What Advice 5497-E changed. Sheet 6 (89868-E, cancelling 87507-E), Rates
+section 3.a.ii, fixes the EEC Vintage Year price for the 9-year lock-in period
+for Customers with an Interconnection Request date between April 15, 2023 and
+December 31, 2027, where 85353-E, the revision the 2025-04-23 filing's PDF
+carries, conditioned it on an Original PTO Date in that range. It adds the
+vintage assignment: a Customer with an Original PTO Date on or before June 30,
+2024 takes the EEC Vintage Year of that date, and a Customer with an
+Interconnection Request submitted from July 1, 2024 through December 31, 2027,
+or submitted before June 30, 2024 with an Original PTO Date after June 30,
+2024, takes the EEC Vintage Year of the Interconnection Request date. Sheet 34
+(89869-E, cancelling 87704-E) adds to Special Condition 7.b that a NEM or
+NEM-ST Customer moved to NBT whose modifications or repairs increase system
+size by more than 10 percent or 1 kW begins a new 9-year legacy period from
+the PTO date of the modification. 87507-E is in neither this document nor the
+2025-04-23 filing's.
+
+Reconciliation. No price moved. The ACC Plus Prices are Sheet 7's 2025 row as
+credits (-0.024 Residential Non-Equity Customer, -0.056 Residential Equity
+Customer); the Export Compensation Rate cells are carried over from the
+2025-04-23 version, whose source is CEC MIDAS rather than this schedule.
+dev/author_sce_nbt_2025_06_02.py refuses unless every Price equals its
+2025-04-23 counterpart.
+
+Supersession. Sheets 6 and 34 of this document cancel the revisions in force
+under the 2025-04-23 version, effective 2025-06-02; the 2025-04-23 version
+ends there.
+
+Derived from the 2025-04-23 version by dev/author_sce_nbt_2025_06_02.py. The
+rest of the modeling history (modifier shape, export-side direction, MIDAS
+sourcing of the Export Compensation Rate cells, the NBT Customer Segment split
+of NBT25) is in the 2025-04-23 manifest and README.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-11"
+
+# MIDAS RIN cross-reference ---------------------------------------------------
+# Each per-cell Delivery Price carries its CEC MIDAS Rate Identification
+# Number (RIN) in urpx:name for cross-reference. SCE uses per-base-RatePlan
+# RIN families; for residential TOU-D-PRIME-NBT:
+# USCA-SCXX-0602-0000 TOU-D-PRIME-NBT NON-VINTAGED
+# USCA-SCXX-0603-0000 TOU-D-PRIME-NBT 2023 VINTAGE
+# USCA-SCXX-0604-0000 TOU-D-PRIME-NBT 2024 VINTAGE
+# USCA-SCXX-0605-0000 TOU-D-PRIME-NBT 2025 VINTAGE
+# USCA-SCXX-0606-0000 TOU-D-PRIME-NBT 2026 VINTAGE
+# Generation EEC IS derivable from MIDAS — discovered 2026-05-29 via
+# SCSC-SCXX subtraction:
+# USCA-SCSC-{code}-0000 bundled-service rate, carries COMBINED EEC
+# USCA-SCXX-{code}-0000 CCA-service rate, carries DELIVERY-ONLY EEC
+# Generation EEC = SCSC combined "Energy Export Credit"
+# − SCXX "Energy Export Credit Delivery"
+# Empirically verified constant across multiple weeks within each vintage's
+# lock-in period. Implemented in scripts/
+# augment-sce-nbt-with-generation-eec.py. Generation Price names carry
+# both source RINs (e.g. "MIDAS RIN: USCA-SCSC-0605-0000 − USCA-SCXX-0605-0000").
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet 5 prices the Energy Export Credit by hour, by weekday versus weekend/holiday, and by month for each interconnection vintage. The model carries 5,088 of the 5,760 cells that shape implies; the 672 missing are the 2026 vintage for June through December (7 months x 24 hours x 2 day types x 2 components). This is a source gap, not a vocabulary gap: the tariff publishes no EEC numbers at all, every cell in this filing came from CEC MIDAS, and MIDAS had not published 2026 past May at extraction. Reload when it does; the sibling sdge:nbt at 5,760 shows what a complete grid looks like.",
+ "Sheet 7's Avoided Cost Calculator Plus table prices 18 cells: six vintage rows (2023, 2024, 2025, 2026, 2027, and 2028-and-later) by three customer columns (Residential Non-Equity, Residential Equity, Non-Residential). Only the 2025 Residential pair is modeled, at -0.024 and -0.056 per kWh. The remaining 16 cells are unbuilt work rather than a blocker: v0.5.1 needs nothing the two existing Prices do not already use, so each is a Price in a customer-segment cell of its vintage, the vintage's ProfileAlternative split by NBT Customer Segment as NBT25's is. Note the inconsistency this leaves, that the 2023, 2024 and 2026 EEC grids are priced while their ACC Plus counterparts are not.",
+ "Sheet 8 Rates section 4 prices Net Surplus Compensation as the Net Surplus Compensation Rate times Net Surplus Energy, and Sheet 9 section 4.a adds the Renewable Attribute Adder for customers transferring RECs to SCE. Source gap: the tariff states both formulas and publishes neither number. The NSCR is a rolling 12-month average of SCE hourly DLAP prices for Hour Ending 08 through Hour Ending 17, recomputed monthly and posted on sce.com; the RAA is the WECC average renewable premium, posted at sce.com/regulatory/tariff-books/rates-pricing-choices/renewable-energy-credit. Both also settle over the customer's Relevant Period rather than against any one bill.",
+ "Special Condition 4.e on Sheet 23 prices the Energy Export Credit Adjustment at the end of the Relevant Period as Net Surplus Energy times the then posted Average Retail Export Compensation Rate, then applies unapplied Energy Export Credit first to Energy Charges of the Relevant Period not already offset and then to that adjustment, carrying any remaining balance forward to the next Relevant Period from the latter of July 1, 2024 or billing-system implementation (Sheet 23, 87513-E, Special Condition 4.e.ii), and forfeiting excess credit on termination of service (4.e.v). Absent for two independent reasons: the Average Retail Export Compensation Rate is published outside this corpus, and the offset ordering and carry-forward are settlement arithmetic over a 12-month window with no home on a per-bill modifier.",
+ "Sheet 10 Rates section 6 prices NBT Aggregation billing service charges: a $25.00 one-time account set-up fee and $20.00 per account per month for manually billed accounts, $16.00 and $2.70 for automated ones. These sit in this schedule's own Rates section, and nothing in Special Condition 10.a limits NBT-A to non-residential customers, so treating them as out of scope is a filing-scope decision rather than something the tariff says. Expressible: four flat Prices, urpx:initiationCharge for the set-up fees and a monthly service charge at intervalDuration P1M for the recurring ones, gated on manual versus automated billing.",
+ "Special Condition 10.c on Sheet 40 allocates Energy Export and the corresponding Energy Export Credits proportionally across the metered accounts of an NBT-A arrangement, by each account's cumulative Energy Consumption since the start of the Relevant Period, with the rounding remainder going to one designated account. It introduces no new rate but changes what each account is credited. Not expressible: URPX carries no account identity and no per-account result channel for an allocation to land in.",
+ "Five eligibility conditions on the ACC Plus Adder, the one priced item in this filing whose eligibility the model does partly encode, are absent from the model and from the manifest. Sheet 7 (89745-E): ACC Plus customers must \"have an Interconnection Request date between April 15, 2023, and December 31, 2027, or between February 15, 2024, and December 31, 2028, for NBT-A Customers\", and the ACC Plus vintage is that of the Original PTO Date for Interconnection Requests submitted from April 15, 2023 through June 30, 2024 with an Original PTO Date on or before June 30, 2024, otherwise that of the Interconnection Request date. Sheet 8 adds master-metered ineligibility, NEM and NEM-ST transferee ineligibility except for NBT Transition Customers, and \"Customers that add Renewable Generators on a New Construction are not eligible to receive the ACC Plus Adder\". Sheet 2 section 1.d adds non-TOU ineligibility. All are customer attributes of the same class as the Equity Customer segment the model selects on, and all are expressible with the ConditionExpression machinery already in the file, on the NBT25 cells' ProfileAlternatives or as a further segment carrying no ACC Plus Price rather than on the Price.",
+ "Sheet 3 Rates 2 conditions a modeled export component on program enrollment: \"Customers enrolled in the California Alternate Rates for Energy (CARE) program or who receive a Medical Baseline Exemption are currently exempt from the Wildfire Fund Charge (WFC). Therefore, the WFC component of the NBCs for these Customers under this Schedule is $0.00/kWh.\" No ApplicabilityRule or Price in the model corresponds to it.",
+ "Sheet 6 (89868-E, Advice 5497-E, effective 2025-06-02), Rates section 3.a.ii, assigns the Energy Export Credit vintage: \"Customers that receive an Original PTO Date on or before June 30, 2024, will be assigned the EEC Vintage Year price corresponding to the EEC Vintage Year of their Original PTO date. Customers that submit an Interconnection Request between July 1, 2024, and December 31, 2027, as well as customers who submitted an Interconnection Request before June 30, 2024, whose Original PTO date is after June 30, 2024, will be assigned the EEC Vintage Year price corresponding to the EEC Vintage Year of the date that the Interconnection Request was submitted.\" The vintage ProfileAlternatives condition only on NBT Vintage Label, a value the consumer supplies, so the model carries no rule deriving that label from the Original PTO Date and the Interconnection Request date. Expressible with the date-valued CustomOperandNode comparisons the interconnection-date EligibilityRule already uses, on each vintage ProfileAlternative.",
+ "Sheet 34 (89869-E, Advice 5497-E, effective 2025-06-02), Special Condition 7.b: \"NEM or NEM-ST Customers moved (or transitioning) to Schedule NBT increasing their Renewable Electrical Generating Facilities system size due to modifications and/or repairs exceeding the ten (10) percent or 1 kW detailed above will begin a new 9-year legacy period from the PTO date of their modification and/or repairs.\" With the rest of Special Condition 7 (Sheets 33 to 35: the 9-year eligibility period, modifications within the 10 percent or 1 kW limit, storage additions, transferability to an Eligible Same Party In), it sets how long a customer keeps a vintage's prices. The vintage ProfileAlternatives carry only which vintage applies.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Derived from the 2025-04-23 version by dev/author_sce_nbt_2025_06_02.py; see [extraction] notes for the sheets carried, what Advice 5497-E changed and the reconciliation."

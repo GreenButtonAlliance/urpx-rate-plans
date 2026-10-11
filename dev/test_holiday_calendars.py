@@ -300,7 +300,7 @@ def test_corpus() -> None:
     check("pge nbt carries its own calendar", own == ["calendar"], str(own))
     inherited = sorted(r["filing"] for r in res if r["status"] == "inherited")
     check("sce nbt and sdge nbt inherit their bases' calendars",
-          inherited == ["sce/nbt/2025-04-23", "sdge/nbt/2025-01-27"], str(inherited))
+          inherited == ["sce/nbt/2025-04-23", "sce/nbt/2025-06-02", "sdge/nbt/2025-01-27"], str(inherited))
 
 
 if __name__ == "__main__":

@@ -950,7 +950,7 @@ Base deferrals:
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
 | `medical-line-item-discount` | ✗ missing | — |
-| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
+| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-06-02` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
 
 #### `tou-d-prime` @ 2026-03-20  &nbsp; base: ~
@@ -975,7 +975,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
-| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
+| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-06-02` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
 
 #### `tou-d-prime` @ 2026-06-01  &nbsp; base: ~
@@ -1000,7 +1000,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
-| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
+| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-06-02` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
 
 #### `tou-d-prime` @ 2026-10-01  &nbsp; base: ~
@@ -1024,7 +1024,7 @@ Base deferrals:
 | `deed-restricted` | ~ present-incomplete | `us/ca/sce/electricity/deed-restricted/versions/2026-10-01` |
 | `fera` | ~ present-incomplete | `us/ca/sce/electricity/fera/versions/2026-10-01` |
 | `medical-baseline` | ~ present-incomplete | `us/ca/sce/electricity/medical-baseline/versions/2026-06-25` |
-| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-04-23` |
+| `nbt` | ~ present-incomplete | `us/ca/sce/electricity/nbt/versions/2025-06-02` |
 | `tou-d-prime-cpp` | ~ present-incomplete | `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-10-01` |
 
 ### SCL

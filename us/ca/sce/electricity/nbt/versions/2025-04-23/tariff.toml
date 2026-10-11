@@ -214,14 +214,14 @@ cancelling 88765-E and 88768-E.
 What this means for this filing. Its effective date stands: 89744-E and
 89745-E, effective 2025-04-23, are still the newest sheets in force before
 2025-06-02, and the 2025 ACC Plus values on 89745-E are those modeled. It
-carries no expirationDateTime, and no sheet in the live book cancels its
-rate sheets (Sheet 7, 89745-E; Sheet 5, whose 2024-07-01 revision 87506-E
-was already in force), so nothing yet bounds it. The sheets in force during
-its window on Sheets 5, 8, 14, 17, 23 and 24 are the 2024-07-01 revisions in
-the live column, not the committed ones; the Sheet 17 Equity Customer
-definition and the Sheet 23 true-up disposition stated in the JSON-LD
-follow 87511-E and 87513-E. The Sheet 6 that 89868-E cancels, 87507-E, is
-held in neither PDF.
+ends 2025-06-02, the effective date of Sheet 6 (89868-E, cancelling 87507-E)
+and Sheet 34 (89869-E, cancelling 87704-E) under Advice 5497-E, which begin
+the version at us/ca/sce/electricity/nbt/versions/2025-06-02/. The sheets in
+force during its window on Sheets 5, 8, 14, 17, 23 and 24 are the 2024-07-01
+revisions in the live column, not the committed ones; the Sheet 17 Equity
+Customer definition and the Sheet 23 true-up disposition stated in the
+JSON-LD follow 87511-E and 87513-E. The Sheet 6 that 89868-E cancels,
+87507-E, is held in neither PDF.
 """
 
 # Validation ------------------------------------------------------------------
@@ -230,25 +230,8 @@ shacl_passed = true
 validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
 validated_on = "2026-10-10"
 
-# MIDAS RIN cross-reference (added by ) ------------------------
-# Each per-cell Delivery Price carries its CEC MIDAS Rate Identification
-# Number (RIN) in urpx:name for cross-reference. SCE uses per-base-RatePlan
-# RIN families; for residential TOU-D-PRIME-NBT:
-# USCA-SCXX-0602-0000 TOU-D-PRIME-NBT NON-VINTAGED
-# USCA-SCXX-0603-0000 TOU-D-PRIME-NBT 2023 VINTAGE
-# USCA-SCXX-0604-0000 TOU-D-PRIME-NBT 2024 VINTAGE
-# USCA-SCXX-0605-0000 TOU-D-PRIME-NBT 2025 VINTAGE
-# USCA-SCXX-0606-0000 TOU-D-PRIME-NBT 2026 VINTAGE
-# Generation EEC IS derivable from MIDAS — discovered 2026-05-29 via
-# SCSC-SCXX subtraction:
-# USCA-SCSC-{code}-0000 bundled-service rate, carries COMBINED EEC
-# USCA-SCXX-{code}-0000 CCA-service rate, carries DELIVERY-ONLY EEC
-# Generation EEC = SCSC combined "Energy Export Credit"
-# − SCXX "Energy Export Credit Delivery"
-# Empirically verified constant across multiple weeks within each vintage's
-# lock-in period. Implemented in scripts/
-# augment-sce-nbt-with-generation-eec.py. Generation Price names carry
-# both source RINs (e.g. "MIDAS RIN: USCA-SCSC-0605-0000 − USCA-SCXX-0605-0000").
+# MIDAS RIN citations are on the 2025-06-02 version, which superseded this one;
+# they were removed here because a RIN names a composition customers take today.
 
 # Modeling -------------------------------------------------------------------
 [modeling]
