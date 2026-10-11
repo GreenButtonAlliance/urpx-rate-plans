@@ -16,9 +16,14 @@ Exit codes:
   0 — every step passed, no drift.
   1 — at least one step failed (generator/lint/schema error).
   2 — every step passed but tracked files drifted (run the generators).
+  3 — --only names a step that is not in STEPS.
 
   --generators-only  run step 1-2 only and stop. This is what the pre-commit
                      hook calls, so the hook does not keep a second step list.
+  --only NAME...     run only the named STEPS in steps 1-2 (none when no name
+                     follows). Schema validation and the drift check still run.
+                     dev/gate.sh --changed passes the steps dev/gate-steps.toml
+                     selects.
 
 Run from repo root:  python3 dev/check_all.py
 """
@@ -202,12 +207,31 @@ def report_midas_staleness() -> None:
         print(f"  {age:4d} days  {f.relative_to(REPO)}{flag}")
 
 
+def only_steps(argv: list[str]) -> list[str] | None:
+    """The names following --only, up to the next option; None without --only."""
+    if "--only" not in argv:
+        return None
+    names = []
+    for arg in argv[argv.index("--only") + 1:]:
+        if arg.startswith("--"):
+            break
+        names.append(arg)
+    return names
+
+
 def main() -> int:
     generators_only = "--generators-only" in sys.argv
+    only = only_steps(sys.argv)
+    unknown = sorted(set(only or []) - {name for name, _ in STEPS})
+    if unknown:
+        print(f"REFUSED: --only names no such step: {', '.join(unknown)}", file=sys.stderr)
+        return 3
 
     print("=== Generators + lints ===")
     failures: list[tuple[str, str, str]] = []
     for name, cmd in STEPS:
+        if only is not None and name not in only:
+            continue
         started = time.monotonic()
         ok, out, err = run_step(name, cmd)
         marker = "✓" if ok else "✗"

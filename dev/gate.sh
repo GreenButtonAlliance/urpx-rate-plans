@@ -9,6 +9,15 @@
 #                                     staged paths select each step.
 #   dev/gate.sh --full               everything, for a deliberate check before
 #                                     a wave lands or a release is cut.
+#   dev/gate.sh --changed [BASE]     the --full steps that the branch's
+#                                     committed changes since its merge-base
+#                                     with BASE (default main) select, through
+#                                     the same table. Per-utility SHACL
+#                                     baselines for the selected utilities
+#                                     stand in for the whole-corpus one unless
+#                                     every utility is selected. Refuses a
+#                                     working tree or index with tracked
+#                                     changes, so it checks what would merge.
 #
 # Exit codes:
 #   0  green
@@ -93,13 +102,18 @@ note() {
     step_start=$SECONDS
     printf '\n=== %s ===\n' "$step_name"
 }
-# True when --fast skips the current step: dev/gate-steps.toml gives it
-# triggers and no staged path matches one. A step the table does not name runs.
+# True when --fast or --changed skips the current step: dev/gate-steps.toml
+# gives it triggers and no staged (--fast) or changed (--changed) path matches
+# one. A step the table does not name runs.
 SKIPPED=""
 skipped() {
-    [ "$MODE" = "--fast" ] || return 1
+    case "$MODE" in
+        --fast) what=staged ;;
+        --changed) what=changed ;;
+        *) return 1 ;;
+    esac
     printf '%s\n' "$SKIPPED" | grep -qxF -- "$step_key" || return 1
-    echo "  skipped in --fast: nothing staged that it checks"
+    echo "  skipped in $MODE: nothing $what that it checks"
 }
 record() {
     case "$1" in
@@ -262,6 +276,342 @@ run_clj_kondo() {
     else
         echo "  clj-kondo not installed; skipped"
     fi
+}
+
+# The --full steps up to the SHACL baseline, which --full and --changed run in
+# their own forms.
+run_full_head() {
+    run_clojure_gate
+
+    # In --changed, only the dev/check_all.py steps dev/gate-steps.toml selects;
+    # schema validation and the drift check run whatever is selected.
+    note "Generators, schema, drift"
+    if [ "$MODE" = "--changed" ]; then
+        for name in $CHECK_ALL_SKIPPED; do
+            echo "  $name: skipped in --changed: nothing changed that it checks"
+        done
+        # shellcheck disable=SC2086
+        python3 dev/check_all.py --only $CHECK_ALL_SELECTED > "$LOGDIR"/checkall.log 2>&1
+    else
+        python3 dev/check_all.py > "$LOGDIR"/checkall.log 2>&1
+    fi
+    ca=$?
+    tail -3 "$LOGDIR"/checkall.log
+    echo "  slowest dev/check_all.py steps:"
+    grep ' s)$' "$LOGDIR"/checkall.log |
+        awk '{ t = $(NF-1); sub(/^\(/, "", t); printf "%s\t%s\n", t, $2 }' |
+        sort -t "$(printf '\t')" -k1,1nr | head -5 |
+        awk -F '\t' '{ printf "    %6.1f s  %s\n", $1, $2 }'
+    [ $ca -eq 3 ] && record 3
+    [ $ca -eq 2 ] && record 2
+    [ $ca -eq 1 ] && record 1
+}
+
+# The --full steps after the SHACL baseline.
+run_full_tail() {
+    note "Per-file diagnostic (informational)"
+    if ! skipped; then
+        dev/shacl.sh --per-file 2>/dev/null | tail -1
+        echo "  Cross-file references are unresolved in this mode, so failures here"
+        echo "  are expected and do not affect the exit code."
+    fi
+
+    note "IRI scope"
+    if skipped; then
+        :
+    elif python3 dev/lint_iri_scope.py > "$LOGDIR"/iriscope.log 2>&1; then
+        tail -1 "$LOGDIR"/iriscope.log
+    else
+        rc=$?
+        cat "$LOGDIR"/iriscope.log
+        record $rc
+    fi
+
+    note "Blank nodes"
+    if skipped; then
+        :
+    elif python3 dev/name_blank_nodes.py --check > "$LOGDIR"/blank.log 2>&1; then
+        tail -1 "$LOGDIR"/blank.log
+    else
+        rc=$?
+        cat "$LOGDIR"/blank.log
+        record $rc
+    fi
+
+    note "Copy agreement"
+    if skipped; then
+        :
+    elif python3 dev/normalize_copies.py --check > "$LOGDIR"/copies.log 2>&1; then
+        tail -1 "$LOGDIR"/copies.log
+    else
+        rc=$?
+        cat "$LOGDIR"/copies.log
+        record $rc
+    fi
+
+    # The other half of copy agreement. normalize_copies compares a fixed list
+    # of properties and reconciles them; this compares EVERY property and
+    # reconciles nothing. cpau:e-nse-1-2025-09-01 carried a copy-local
+    # applicableToRatePlanVersion for five months and neither the copy gate nor
+    # any lint could see it, because that property is deliberately off the list.
+    note "Copy divergence"
+    if skipped; then
+        :
+    elif python3 dev/lint_copy_divergence.py > "$LOGDIR"/divergence.log 2>&1; then
+        tail -1 "$LOGDIR"/divergence.log
+    else
+        rc=$?
+        cat "$LOGDIR"/divergence.log
+        record $rc
+    fi
+
+    note "Discount subtotals"
+    if skipped; then
+        :
+    elif python3 dev/lint_discount_summaries.py > "$LOGDIR"/discounts.log 2>&1; then
+        tail -1 "$LOGDIR"/discounts.log
+    else
+        rc=$?
+        cat "$LOGDIR"/discounts.log
+        record $rc
+    fi
+
+    note "Completeness agreement"
+    if skipped; then
+        :
+    elif python3 dev/lint_completeness_agreement.py > "$LOGDIR"/completeness.log 2>&1; then
+        tail -1 "$LOGDIR"/completeness.log
+    else
+        rc=$?
+        cat "$LOGDIR"/completeness.log
+        record $rc
+    fi
+
+    # What a filing's own prose says about its structure, against that structure.
+    # Prose inside a document inherits the trust the data has, and no other check
+    # here compares a sentence to the node it sits on. It prints what it declined
+    # to judge on every run, because it declines most of what it reads.
+    note "Prose versus structure"
+    if skipped; then
+        :
+    elif python3 dev/lint_prose_structure.py > "$LOGDIR"/prose.log 2>&1; then
+        head -1 "$LOGDIR"/prose.log
+    else
+        rc=$?
+        cat "$LOGDIR"/prose.log
+        record $rc
+    fi
+
+    # A filing whose text or brackets say holidays are priced differently must
+    # carry a urpx:HolidayCalendar, or record in [modeling].deferrals that it
+    # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
+    # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
+    note "Holiday calendars"
+    if skipped; then
+        :
+    elif python3 dev/lint_holiday_calendars.py > "$LOGDIR"/holidays.log 2>&1; then
+        tail -1 "$LOGDIR"/holidays.log
+    else
+        rc=$?
+        cat "$LOGDIR"/holidays.log
+        record $rc
+    fi
+
+    # A free-text condition on a Price, PriceSet or PriceDefinition makes
+    # mutually exclusive prices read as concurrent; the selection belongs on a
+    # urpx:ProfileAlternative. Two event-day filings are allowlisted.
+    # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
+    note "Price-layer conditions"
+    if skipped; then
+        :
+    elif python3 dev/lint_price_layer_conditions.py > "$LOGDIR"/price-layer.log 2>&1; then
+        tail -1 "$LOGDIR"/price-layer.log
+    else
+        rc=$?
+        cat "$LOGDIR"/price-layer.log
+        record $rc
+    fi
+
+    # Two Prices on one PriceDefinition, tier and TOU period with the same start
+    # are one cell to clj-urpx, which reads only one of them.
+    # Exit 1 a shared cell, 3 refused.
+    note "Price cells"
+    if skipped; then
+        :
+    elif python3 dev/lint_price_cells.py > "$LOGDIR"/price-cells.log 2>&1; then
+        tail -1 "$LOGDIR"/price-cells.log
+    else
+        rc=$?
+        cat "$LOGDIR"/price-cells.log
+        record $rc
+    fi
+
+    # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
+    # by @context coercion, whose lexical form that type does not admit, such as
+    # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
+    # a literal on parse, so every rdflib-based check here misses it.
+    # Exit 1 an ill-typed literal, 3 refused.
+    note "Numeric literals"
+    if skipped; then
+        :
+    elif python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
+        tail -1 "$LOGDIR"/numeric.log
+    else
+        rc=$?
+        cat "$LOGDIR"/numeric.log
+        record $rc
+    fi
+
+    note "MIDAS rate identifiers"
+    if skipped; then
+        :
+    elif python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
+        head -1 "$LOGDIR"/rins.log
+    else
+        rc=$?
+        cat "$LOGDIR"/rins.log
+        record $rc
+    fi
+
+    # Two implementations of one rule exist: dev/scenario_cost_models.py here and
+    # clj-urpx's urpx.scenario-cost-model, which enumerates the same set. Two
+    # plausible halves with nothing comparing them is the failure this repository
+    # keeps recording, so this compares MEMBERSHIP in both directions, three
+    # times: the (base, modifier-set) compositions, the scenario cost models with
+    # open ProfileAlternatives dimensions expanded, and the nodes of the committed
+    # reports/scenario-cost-models.jsonld against that expanded set. Then each of
+    # those nodes against the node clj-urpx builds for the same model, its @id
+    # and urpx:name minted by clj-urpx's implementations of this repository's
+    # IRI and name rules.
+    #
+    # BOTH PARAMETERS BELOW ARE PINNED, VISIBLY, AND NEITHER HAS A DEFAULT.
+    #
+    # --at: every count is a count AT AN INSTANT. A scenario cost model is current
+    # when every one of its components is current, so the set is a property of the corpus AT A TIME
+    # and not of the corpus. A check enumerating at "now" would pass today and
+    # start failing the morning a version is superseded, with a diff that looks
+    # like an implementation disagreement and is not; worse, two sides both
+    # drifting to "now" can agree while answering a question neither intended.
+    # It is $CURRENCY_AT, read from dev/currency-instant.json, which is also the
+    # instant reports/scenario-cost-models.jsonld and the other reports judge
+    # currency at, so a version filed for a later date is not yet effective in
+    # both. It moved from 2026-07-15T17:00 to 2026-10-06T17:00 (the
+    # october-weekday-peak probe) when pse:307-2026-10-01 superseded
+    # pse:307-2026-05-01.
+    #
+    # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
+    # STATES THIS. No property anywhere says two modifiers exclude or combine, so
+    # clj-urpx refuses to invent one and takes it as an argument; this repository
+    # names the same policy in COMBINE_AT_MOST_ONE_MODIFIER. It is deliberately
+    # conservative and knowingly INCOMPLETE, since real customers hold several
+    # overlays at once.
+    #
+    # CHANGING EITHER LITERAL IS A COORDINATED CHANGE ACROSS TWO REPOSITORIES,
+    # not an edit to this file. Both sides must move together or the comparison
+    # silently starts asserting nothing.
+    #
+    # The comparison runs or the check fails. A load error, an empty result or a
+    # wrong shape FAILS, because "present but produced nothing" must never read
+    # as a pass. urpx.scenario-cost-model absent FAILS too, naming whether its
+    # 0.35.0 name urpx.arrangements loads instead, and a missing var FAILS naming
+    # the var: a rename must not stop the comparison with the gate green.
+    #
+    # Exit 1 a disagreement or a broken contract, 3 refused.
+    note "Scenario cost models: clj-urpx cross-check"
+    if skipped; then
+        :
+    elif python3 dev/cross_check_scenario_cost_models.py \
+           --at "$CURRENCY_AT" \
+           --combine at-most-one-modifier > "$LOGDIR"/scenario-cost-models.log 2>&1; then
+        cat "$LOGDIR"/scenario-cost-models.log
+    else
+        rc=$?
+        cat "$LOGDIR"/scenario-cost-models.log
+        record $rc
+    fi
+
+    run_scm_shacl
+
+    # corpus.json declares the layout once; every walker it lists must see the
+    # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
+    note "Corpus walkers agree"
+    if skipped; then
+        :
+    elif python3 dev/check_walkers.py > "$LOGDIR"/walkers.log 2>&1; then
+        cat "$LOGDIR"/walkers.log
+    else
+        rc=$?
+        cat "$LOGDIR"/walkers.log
+        record $rc
+    fi
+
+    # Every way the clj-urpx namespace can go missing fails the cross-check above
+    # rather than passing it. Exit 1 a case passed.
+    note "Cross-check namespace negative fixtures"
+    if skipped; then
+        :
+    elif python3 dev/test_cross_check_namespaces.py > "$LOGDIR"/xc-ns.log 2>&1; then
+        tail -1 "$LOGDIR"/xc-ns.log
+    else
+        cat "$LOGDIR"/xc-ns.log
+        record 1
+    fi
+
+    # Version dispatch and the shape exceptions.
+    note "Version-dispatch and shape-exception negative fixtures"
+    if skipped; then
+        :
+    elif clojure -M -m test-shacl-gate > "$LOGDIR"/dispatch.log 2>&1; then
+        tail -1 "$LOGDIR"/dispatch.log
+    else
+        cat "$LOGDIR"/dispatch.log
+        record 1
+    fi
+
+    # Exported filings against urpx-data-sandbox (LAYOUT.md §4.5). Informational:
+    # the sandbox changes outside this repository, so its state must not decide
+    # this gate. Reads URPX_SANDBOX_CHECKOUT when set, else gh api; an unreachable
+    # sandbox is reported as skipped. With no [[sandbox]] record it says so.
+    note "Sandbox drift (informational)"
+    if ! skipped; then
+        python3 dev/check_sandbox_drift.py 2>&1 | sed 's/^/  /'
+        echo "  This step does not affect the exit code."
+    fi
+
+    run_clj_kondo
+
+    note "REUSE licensing"
+    if skipped; then
+        :
+    elif command -v reuse >/dev/null 2>&1; then
+        if reuse lint > "$LOGDIR"/reuse.log 2>&1; then
+            echo "  reuse lint clean"
+        else
+            tail -4 "$LOGDIR"/reuse.log
+            record 1
+        fi
+    else
+        echo "  reuse not installed; skipped"
+    fi
+}
+
+# Every merged mode against dev/baseline/corpus.json: the whole corpus as one
+# graph, and each utility as its own.
+run_baseline_corpus() {
+    note "Baseline: every merged mode"
+    dev/shacl.sh --check-baseline
+    record $?
+}
+
+# The merged graph of each utility in $targets against its recorded mode. Does
+# not include the whole-corpus merged graph, the only mode that can see a new
+# cross-utility @id collision.
+run_baseline_utilities() {
+    for u in $targets; do
+        note "Baseline" "Baseline: $u"
+        dev/shacl.sh --check-baseline --utility "$u"
+        record $?
+    done
 }
 
 case "$MODE" in
@@ -555,283 +905,62 @@ case "$MODE" in
         printf '\n=== %s ===\n' "Corpus baseline"
         echo "  no utility touched in the staged diff; skipping the corpus check"
     else
-        for u in $targets; do
-            note "Baseline" "Baseline: $u"
-            dev/shacl.sh --check-baseline --utility "$u"
-            record $?
-        done
+        run_baseline_utilities
     fi
     ;;
 
 --full)
-    run_clojure_gate
+    run_full_head
+    run_baseline_corpus
+    run_full_tail
+    ;;
 
-    note "Generators, schema, drift"
-    python3 dev/check_all.py > "$LOGDIR"/checkall.log 2>&1
-    ca=$?
-    tail -3 "$LOGDIR"/checkall.log
-    echo "  slowest dev/check_all.py steps:"
-    grep ' s)$' "$LOGDIR"/checkall.log |
-        awk '{ t = $(NF-1); sub(/^\(/, "", t); printf "%s\t%s\n", t, $2 }' |
-        sort -t "$(printf '\t')" -k1,1nr | head -5 |
-        awk -F '\t' '{ printf "    %6.1f s  %s\n", $1, $2 }'
-    [ $ca -eq 2 ] && record 2
-    [ $ca -eq 1 ] && record 1
-
-    note "Baseline: every merged mode"
-    dev/shacl.sh --check-baseline
-    record $?
-
-    note "Per-file diagnostic (informational)"
-    dev/shacl.sh --per-file 2>/dev/null | tail -1
-    echo "  Cross-file references are unresolved in this mode, so failures here"
-    echo "  are expected and do not affect the exit code."
-
-    note "IRI scope"
-    if python3 dev/lint_iri_scope.py > "$LOGDIR"/iriscope.log 2>&1; then
-        tail -1 "$LOGDIR"/iriscope.log
-    else
-        rc=$?
-        cat "$LOGDIR"/iriscope.log
-        record $rc
+--changed)
+    [ $# -le 1 ] || { echo "usage: dev/gate.sh --changed [BASE]" >&2; exit 3; }
+    BASE=${1:-main}
+    # Committed changes only: with tracked edits outside them, the steps would
+    # judge a tree that is not the one that merges.
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+        echo "REFUSED: the working tree or index has tracked changes; commit or stash them" >&2
+        exit 3
     fi
-
-    note "Blank nodes"
-    if python3 dev/name_blank_nodes.py --check > "$LOGDIR"/blank.log 2>&1; then
-        tail -1 "$LOGDIR"/blank.log
-    else
-        rc=$?
-        cat "$LOGDIR"/blank.log
-        record $rc
+    MERGE_BASE=$(git merge-base "$BASE" HEAD) || {
+        echo "REFUSED: no merge-base between $BASE and HEAD" >&2; exit 3; }
+    # --no-renames, so a moved file names both the directory it left and the one
+    # it entered.
+    CHANGED=$(git diff --name-only --no-renames "$MERGE_BASE" HEAD) || {
+        echo "REFUSED: cannot list the changes since $MERGE_BASE" >&2; exit 3; }
+    count=$(printf '%s\n' "$CHANGED" | grep -c .)
+    printf '\n=== %s ===\n' "Changes against $BASE"
+    echo "  $count changed path(s) since merge-base ${MERGE_BASE:0:12}"
+    # An empty diff merges nothing, so a finding could only be about BASE
+    # itself, which is what --full on BASE checks.
+    if [ "$count" -eq 0 ]; then
+        echo "  nothing to check"
+        exit 0
     fi
+    SKIPPED=$(printf '%s\n' "$CHANGED" | python3 dev/gate_steps.py skipped) &&
+        CHECK_ALL_SELECTED=$(printf '%s\n' "$CHANGED" | python3 dev/gate_steps.py check-all selected) &&
+        CHECK_ALL_SKIPPED=$(printf '%s\n' "$CHANGED" | python3 dev/gate_steps.py check-all skipped) &&
+        targets=$(printf '%s\n' "$CHANGED" | python3 dev/gate_steps.py utilities Baseline) &&
+        every=$(python3 dev/gate_steps.py corpus-utilities) || {
+        echo "REFUSED: dev/gate_steps.py cannot read dev/gate-steps.toml or the corpus" >&2; exit 3; }
+    echo "  selected utilities: ${targets:-none}"
 
-    note "Copy agreement"
-    if python3 dev/normalize_copies.py --check > "$LOGDIR"/copies.log 2>&1; then
-        tail -1 "$LOGDIR"/copies.log
+    run_full_head
+    if [ -z "$targets" ]; then
+        printf '\n=== %s ===\n' "Baseline"
+        echo "  skipped in --changed: nothing changed that it checks"
+    elif [ "$targets" = "$every" ]; then
+        run_baseline_corpus
     else
-        rc=$?
-        cat "$LOGDIR"/copies.log
-        record $rc
+        run_baseline_utilities
     fi
-
-    # The other half of copy agreement. normalize_copies compares a fixed list
-    # of properties and reconciles them; this compares EVERY property and
-    # reconciles nothing. cpau:e-nse-1-2025-09-01 carried a copy-local
-    # applicableToRatePlanVersion for five months and neither the copy gate nor
-    # any lint could see it, because that property is deliberately off the list.
-    note "Copy divergence"
-    if python3 dev/lint_copy_divergence.py > "$LOGDIR"/divergence.log 2>&1; then
-        tail -1 "$LOGDIR"/divergence.log
-    else
-        rc=$?
-        cat "$LOGDIR"/divergence.log
-        record $rc
-    fi
-
-    note "Discount subtotals"
-    if python3 dev/lint_discount_summaries.py > "$LOGDIR"/discounts.log 2>&1; then
-        tail -1 "$LOGDIR"/discounts.log
-    else
-        rc=$?
-        cat "$LOGDIR"/discounts.log
-        record $rc
-    fi
-
-    note "Completeness agreement"
-    if python3 dev/lint_completeness_agreement.py > "$LOGDIR"/completeness.log 2>&1; then
-        tail -1 "$LOGDIR"/completeness.log
-    else
-        rc=$?
-        cat "$LOGDIR"/completeness.log
-        record $rc
-    fi
-
-    # What a filing's own prose says about its structure, against that structure.
-    # Prose inside a document inherits the trust the data has, and no other check
-    # here compares a sentence to the node it sits on. It prints what it declined
-    # to judge on every run, because it declines most of what it reads.
-    note "Prose versus structure"
-    if python3 dev/lint_prose_structure.py > "$LOGDIR"/prose.log 2>&1; then
-        head -1 "$LOGDIR"/prose.log
-    else
-        rc=$?
-        cat "$LOGDIR"/prose.log
-        record $rc
-    fi
-
-    # A filing whose text or brackets say holidays are priced differently must
-    # carry a urpx:HolidayCalendar, or record in [modeling].deferrals that it
-    # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
-    # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
-    note "Holiday calendars"
-    if python3 dev/lint_holiday_calendars.py > "$LOGDIR"/holidays.log 2>&1; then
-        tail -1 "$LOGDIR"/holidays.log
-    else
-        rc=$?
-        cat "$LOGDIR"/holidays.log
-        record $rc
-    fi
-
-    # A free-text condition on a Price, PriceSet or PriceDefinition makes
-    # mutually exclusive prices read as concurrent; the selection belongs on a
-    # urpx:ProfileAlternative. Two event-day filings are allowlisted.
-    # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
-    note "Price-layer conditions"
-    if python3 dev/lint_price_layer_conditions.py > "$LOGDIR"/price-layer.log 2>&1; then
-        tail -1 "$LOGDIR"/price-layer.log
-    else
-        rc=$?
-        cat "$LOGDIR"/price-layer.log
-        record $rc
-    fi
-
-    # Two Prices on one PriceDefinition, tier and TOU period with the same start
-    # are one cell to clj-urpx, which reads only one of them.
-    # Exit 1 a shared cell, 3 refused.
-    note "Price cells"
-    if python3 dev/lint_price_cells.py > "$LOGDIR"/price-cells.log 2>&1; then
-        tail -1 "$LOGDIR"/price-cells.log
-    else
-        rc=$?
-        cat "$LOGDIR"/price-cells.log
-        record $rc
-    fi
-
-    # A literal typed xsd:decimal (or another XSD numeric type), explicitly or
-    # by @context coercion, whose lexical form that type does not admit, such as
-    # "-9e-05"^^xsd:decimal. Read from the raw JSON because rdflib rewrites such
-    # a literal on parse, so every rdflib-based check here misses it.
-    # Exit 1 an ill-typed literal, 3 refused.
-    note "Numeric literals"
-    if python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
-        tail -1 "$LOGDIR"/numeric.log
-    else
-        rc=$?
-        cat "$LOGDIR"/numeric.log
-        record $rc
-    fi
-
-    note "MIDAS rate identifiers"
-    if python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
-        head -1 "$LOGDIR"/rins.log
-    else
-        rc=$?
-        cat "$LOGDIR"/rins.log
-        record $rc
-    fi
-
-    # Two implementations of one rule exist: dev/scenario_cost_models.py here and
-    # clj-urpx's urpx.scenario-cost-model, which enumerates the same set. Two
-    # plausible halves with nothing comparing them is the failure this repository
-    # keeps recording, so this compares MEMBERSHIP in both directions, three
-    # times: the (base, modifier-set) compositions, the scenario cost models with
-    # open ProfileAlternatives dimensions expanded, and the nodes of the committed
-    # reports/scenario-cost-models.jsonld against that expanded set. Then each of
-    # those nodes against the node clj-urpx builds for the same model, its @id
-    # and urpx:name minted by clj-urpx's implementations of this repository's
-    # IRI and name rules.
-    #
-    # BOTH PARAMETERS BELOW ARE PINNED, VISIBLY, AND NEITHER HAS A DEFAULT.
-    #
-    # --at: every count is a count AT AN INSTANT. A scenario cost model is current
-    # when every one of its components is current, so the set is a property of the corpus AT A TIME
-    # and not of the corpus. A check enumerating at "now" would pass today and
-    # start failing the morning a version is superseded, with a diff that looks
-    # like an implementation disagreement and is not; worse, two sides both
-    # drifting to "now" can agree while answering a question neither intended.
-    # It is $CURRENCY_AT, read from dev/currency-instant.json, which is also the
-    # instant reports/scenario-cost-models.jsonld and the other reports judge
-    # currency at, so a version filed for a later date is not yet effective in
-    # both. It moved from 2026-07-15T17:00 to 2026-10-06T17:00 (the
-    # october-weekday-peak probe) when pse:307-2026-10-01 superseded
-    # pse:307-2026-05-01.
-    #
-    # --combine: base alone, or base plus exactly one modifier. NOTHING IN URPX
-    # STATES THIS. No property anywhere says two modifiers exclude or combine, so
-    # clj-urpx refuses to invent one and takes it as an argument; this repository
-    # names the same policy in COMBINE_AT_MOST_ONE_MODIFIER. It is deliberately
-    # conservative and knowingly INCOMPLETE, since real customers hold several
-    # overlays at once.
-    #
-    # CHANGING EITHER LITERAL IS A COORDINATED CHANGE ACROSS TWO REPOSITORIES,
-    # not an edit to this file. Both sides must move together or the comparison
-    # silently starts asserting nothing.
-    #
-    # The comparison runs or the check fails. A load error, an empty result or a
-    # wrong shape FAILS, because "present but produced nothing" must never read
-    # as a pass. urpx.scenario-cost-model absent FAILS too, naming whether its
-    # 0.35.0 name urpx.arrangements loads instead, and a missing var FAILS naming
-    # the var: a rename must not stop the comparison with the gate green.
-    #
-    # Exit 1 a disagreement or a broken contract, 3 refused.
-    note "Scenario cost models: clj-urpx cross-check"
-    if python3 dev/cross_check_scenario_cost_models.py \
-           --at "$CURRENCY_AT" \
-           --combine at-most-one-modifier > "$LOGDIR"/scenario-cost-models.log 2>&1; then
-        cat "$LOGDIR"/scenario-cost-models.log
-    else
-        rc=$?
-        cat "$LOGDIR"/scenario-cost-models.log
-        record $rc
-    fi
-
-    run_scm_shacl
-
-    # corpus.json declares the layout once; every walker it lists must see the
-    # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
-    note "Corpus walkers agree"
-    if python3 dev/check_walkers.py > "$LOGDIR"/walkers.log 2>&1; then
-        cat "$LOGDIR"/walkers.log
-    else
-        rc=$?
-        cat "$LOGDIR"/walkers.log
-        record $rc
-    fi
-
-    # Every way the clj-urpx namespace can go missing fails the cross-check above
-    # rather than passing it. Exit 1 a case passed.
-    note "Cross-check namespace negative fixtures"
-    if python3 dev/test_cross_check_namespaces.py > "$LOGDIR"/xc-ns.log 2>&1; then
-        tail -1 "$LOGDIR"/xc-ns.log
-    else
-        cat "$LOGDIR"/xc-ns.log
-        record 1
-    fi
-
-    # Version dispatch and the shape exceptions.
-    note "Version-dispatch and shape-exception negative fixtures"
-    if clojure -M -m test-shacl-gate > "$LOGDIR"/dispatch.log 2>&1; then
-        tail -1 "$LOGDIR"/dispatch.log
-    else
-        cat "$LOGDIR"/dispatch.log
-        record 1
-    fi
-
-    # Exported filings against urpx-data-sandbox (LAYOUT.md §4.5). Informational:
-    # the sandbox changes outside this repository, so its state must not decide
-    # this gate. Reads URPX_SANDBOX_CHECKOUT when set, else gh api; an unreachable
-    # sandbox is reported as skipped. With no [[sandbox]] record it says so.
-    note "Sandbox drift (informational)"
-    python3 dev/check_sandbox_drift.py 2>&1 | sed 's/^/  /'
-    echo "  This step does not affect the exit code."
-
-    run_clj_kondo
-
-    note "REUSE licensing"
-    if command -v reuse >/dev/null 2>&1; then
-        if reuse lint > "$LOGDIR"/reuse.log 2>&1; then
-            echo "  reuse lint clean"
-        else
-            tail -4 "$LOGDIR"/reuse.log
-            record 1
-        fi
-    else
-        echo "  reuse not installed; skipped"
-    fi
+    run_full_tail
     ;;
 
 *)
-    echo "usage: dev/gate.sh [--fast [utility...] | --full]" >&2
+    echo "usage: dev/gate.sh [--fast [utility...] | --full | --changed [BASE]]" >&2
     exit 3
     ;;
 esac

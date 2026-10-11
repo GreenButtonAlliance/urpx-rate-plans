@@ -10,6 +10,11 @@
   python3 dev/gate_steps.py utilities KEY < paths
       the utilities whose per-utility trigger for step KEY some path matches,
       space separated.
+  python3 dev/gate_steps.py corpus-utilities
+      every utility in the corpus, space separated.
+  python3 dev/gate_steps.py check-all selected|skipped < paths
+      the dev/check_all.py steps the paths select, or those they do not, one
+      per line. dev/gate.sh --changed runs only the selected ones.
 
 Paths are read one per line, as `git diff --name-only` prints them.
 Exit 3 when the table cannot be read or is malformed.
@@ -27,7 +32,7 @@ TABLE = REPO / "dev" / "gate-steps.toml"
 SCOPES = {"corpus", "per-utility"}
 # A change to the gate itself selects every step for every utility.
 GATE_ITSELF = re.compile(r"^dev/(gate\.sh|gate-steps\.toml|gate_steps\.py)$")
-MODES = {"fast", "full"}
+MODES = {"fast", "full", "changed"}
 
 
 def load(path: Path = TABLE) -> dict:
@@ -69,6 +74,17 @@ def skipped(table: dict, paths: list[str]) -> list[str]:
     ]
 
 
+def check_all_selected(table: dict, paths: list[str]) -> list[str]:
+    """The [[check_all]] names the paths select. An entry without triggers is
+    always selected, and every entry is when the gate itself changed."""
+    everything = gate_itself(paths)
+    return [
+        e["name"]
+        for e in table.get("check_all", [])
+        if everything or not e.get("triggers") or matches(e["triggers"], paths)
+    ]
+
+
 def corpus_utilities() -> list[str]:
     """Utilities present in the corpus, via the shared discovery module."""
     sys.path.insert(0, str(REPO / "dev"))
@@ -91,13 +107,21 @@ def utilities(table: dict, key: str, paths: list[str], everyone: list[str]) -> l
 
 
 def main(argv: list[str]) -> int:
-    paths = [line for line in sys.stdin.read().splitlines() if line]
+    reads_paths = argv[1:] != ["corpus-utilities"]
+    paths = [line for line in sys.stdin.read().splitlines() if line] if reads_paths else []
     try:
         table = load()
         if argv[1:] == ["skipped"]:
             print("\n".join(skipped(table, paths)))
         elif len(argv) == 3 and argv[1] == "utilities":
             print(" ".join(utilities(table, argv[2], paths, corpus_utilities())))
+        elif argv[1:] == ["corpus-utilities"]:
+            print(" ".join(corpus_utilities()))
+        elif len(argv) == 3 and argv[1] == "check-all" and argv[2] in ("selected", "skipped"):
+            selected = check_all_selected(table, paths)
+            if argv[2] == "skipped":
+                selected = [e["name"] for e in table.get("check_all", []) if e["name"] not in selected]
+            print("\n".join(selected))
         else:
             print(__doc__, file=sys.stderr)
             return 3

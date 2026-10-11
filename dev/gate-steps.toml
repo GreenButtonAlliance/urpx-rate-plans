@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: CDLA-Permissive-2.0
 #
 # Which gate steps a change runs. Read by dev/gate_steps.py; dev/gate.sh --fast
-# consults it against the staged diff. dev/test_gate_steps.py requires every
+# consults it against the staged diff, and --changed against the branch's
+# committed changes since its merge-base. dev/test_gate_steps.py requires every
 # `note` step in dev/gate.sh and every STEPS entry in dev/check_all.py to appear
 # here, and every entry here to name one of them.
 #
@@ -12,29 +13,36 @@
 #             "per-utility": one run per touched utility; a trigger's
 #             {utility} stands for each utility slug in the corpus.
 #   triggers  Python regular expressions searched in each changed path. A step
-#             runs in --fast when any changed path matches one. A step with no
-#             triggers always runs. For a per-utility step, a trigger without
-#             {utility} selects every utility.
+#             runs in --fast and --changed when any changed path matches one. A
+#             step with no triggers always runs. For a per-utility step, a
+#             trigger without {utility} selects every utility.
 #
 # A change to the gate itself (dev/gate.sh, this table, dev/gate_steps.py) runs
 # every step for every utility.
 #
 # [[check_all]] entries are keyed by name in dev/check_all.py STEPS. Every one
-# runs from the pre-commit hook (--generators-only) and in --full.
+# runs from the pre-commit hook (--generators-only) and in --full; --changed
+# runs those its triggers select. A step's triggers cover every repository path
+# it was traced reading, under an audit hook over a full run and in the string
+# literals of the modules it loads, widened to the directory: us/, dev/ and
+# src/ whole, or only us/ JSON-LD for a step that reads no other corpus file. A
+# generator's triggers include its own outputs, so a hand edit to one is
+# regenerated and caught by the drift check. A step that reads files outside
+# those directories (every tracked file, or the top-level prose) has none.
 
 [[gate]]
 note = "Clojure consumer path"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Resolution coverage"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Marginal-rate baseline"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 # An NBT filing, a base plan an NBT modifier composes with, any modifier
@@ -42,7 +50,7 @@ scope = "corpus"
 # remodel script, the corpus walker, or deps.edn (the clj-urpx pin).
 [[gate]]
 note = "NBT export cells"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 triggers = [
     '/nbt/',
@@ -59,62 +67,62 @@ triggers = [
 
 [[gate]]
 note = "IRI scope"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Blank nodes"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Copy agreement"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Copy divergence"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Discount subtotals"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Completeness agreement"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Prose versus structure"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Holiday calendars"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Price-layer conditions"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Price cells"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Numeric literals"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "MIDAS rate identifiers"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 # Filing JSON-LD, the emitted document, what decides currency and withholding,
@@ -122,7 +130,7 @@ scope = "corpus"
 # clj-urpx pin).
 [[gate]]
 note = "Scenario cost models: clj-urpx cross-check"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 triggers = [
     '^us/.*\.jsonld$',
@@ -142,7 +150,7 @@ triggers = [
 # runners, the shape exceptions, the corpus walkers, or deps.edn.
 [[gate]]
 note = "Scenario cost models: SHACL"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 triggers = [
     '^us/',
@@ -160,7 +168,7 @@ triggers = [
 
 [[gate]]
 note = "Corpus walkers agree"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 [[gate]]
@@ -175,7 +183,7 @@ scope = "corpus"
 
 [[gate]]
 note = "clj-kondo"
-modes = ["fast", "full"]
+modes = ["fast", "full", "changed"]
 scope = "corpus"
 
 # Any changed path under a utility's directory; for every utility, the recorded
@@ -183,7 +191,7 @@ scope = "corpus"
 # walkers, or deps.edn (the clj-shacl pin).
 [[gate]]
 note = "Baseline"
-modes = ["fast"]
+modes = ["fast", "changed"]
 scope = "per-utility"
 triggers = [
     '/{utility}/',
@@ -200,58 +208,96 @@ triggers = [
 
 [[gate]]
 note = "Generators, schema, drift"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Baseline: every merged mode"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Per-file diagnostic (informational)"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "Cross-check namespace negative fixtures"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
 
+# The same command as the test_shacl_gate check_all step, with its triggers.
 [[gate]]
 note = "Version-dispatch and shape-exception negative fixtures"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
+triggers = [
+    '^dev/',
+    '^deps\.edn$',
+]
 
 [[gate]]
 note = "Sandbox drift (informational)"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
 
 [[gate]]
 note = "REUSE licensing"
-modes = ["full"]
+modes = ["full", "changed"]
 scope = "corpus"
 
 [[check_all]]
 name = "coverage"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^reports/coverage\.md$',
+]
 
 [[check_all]]
 name = "list_modifier_base_pairings"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+    '^reports/modifier-base-pairings\.',
+]
 
 [[check_all]]
 name = "list_scenario_cost_models"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^deps\.edn$',
+    '^reports/',
+]
 
 [[check_all]]
 name = "list_ready_for_use"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^deps\.edn$',
+    '^reports/ready-for-use\.',
+]
 
 [[check_all]]
 name = "list_version_continuity"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^deps\.edn$',
+    '^reports/version-continuity\.',
+]
 
 [[check_all]]
 name = "list_rate_identifiers"
@@ -260,34 +306,80 @@ scope = "corpus"
 [[check_all]]
 name = "list_rate_plans_to_model"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^data/',
+    '^reports/rate-plans-to-model\.md$',
+]
 
 [[check_all]]
 name = "build_catalog"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^catalog/',
+]
 
 [[check_all]]
 name = "lint_modifier_coverage"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^reports/modifier-coverage\.md$',
+]
 
 [[check_all]]
 name = "lint_consistency"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_cross_filing"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_copy_divergence"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_utility_manifests"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^schema/',
+]
 
 [[check_all]]
 name = "lint_gaps_agree"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^MODELING-GAPS\.md$',
+]
 
 [[check_all]]
 name = "lint_declared_versions"
@@ -296,38 +388,85 @@ scope = "corpus"
 [[check_all]]
 name = "lint_prose_structure"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_holiday_calendars"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_price_layer_conditions"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_price_cells"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "lint_decimal_literals"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+    '^reports/scenario-cost-models\.jsonld$',
+]
 
 [[check_all]]
 name = "coverage_evaluations"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_shacl_gate"
 scope = "corpus"
+triggers = [
+    '^dev/',
+    '^deps\.edn$',
+]
 
 [[check_all]]
 name = "test_scenario_cost_models"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^deps\.edn$',
+    '^reports/modifier-base-pairings\.json$',
+]
 
 [[check_all]]
 name = "test_prose_structure"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_rate_identifiers"
@@ -336,55 +475,130 @@ scope = "corpus"
 [[check_all]]
 name = "test_holiday_calendars"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_price_layer_conditions"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_price_cells"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_decimal_literals"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+    '^reports/scenario-cost-models\.jsonld$',
+]
 
 [[check_all]]
 name = "test_discount_summaries"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_rdf_hash"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "test_sandbox_export"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^schema/',
+]
 
 [[check_all]]
 name = "test_fetch_unwrap"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^data/',
+    '(?i)\.pdf$',
+]
 
 [[check_all]]
 name = "test_build_catalog"
 scope = "corpus"
+triggers = [
+    '^us/',
+    '^corpus\.json$',
+    '^dev/',
+    '^catalog/',
+]
 
 [[check_all]]
 name = "test_cross_filing"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+]
 
 [[check_all]]
 name = "check_generated"
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^corpus\.json$',
+    '^dev/',
+    '^src/',
+    '^deps\.edn$',
+]
 
 [[check_all]]
 name = "test_dsl_validation"
 scope = "corpus"
+triggers = [
+    '^dev/',
+    '^src/',
+    '^deps\.edn$',
+]
 
 [[check_all]]
 name = "test_resolution_coverage"
 scope = "corpus"
+triggers = [
+    '^dev/',
+    '^deps\.edn$',
+]
 
 [[check_all]]
 name = "test_gate_steps"
 scope = "corpus"
+triggers = [
+    '^corpus\.json$',
+    '^dev/',
+]
