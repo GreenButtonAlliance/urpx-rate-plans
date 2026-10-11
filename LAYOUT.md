@@ -88,6 +88,8 @@ pseudo-schedule directory: `us/ca/sce/electricity/care/versions/2026-03-20/`.
 Thirty-three are filed that way. It names the base plans it applies to by IRI,
 which is why the corpus is read as one graph (§2).
 
+`dev/lint_cross_filing.py` checks that each document's file name, package, top entity and version IRIs agree with its directory, allowing a modifier filed in its base's directory (§2) a slug of `<schedule>-<descriptor>`, and that every corpus IRI a filing references is defined by some filing.
+
 ### Why this nesting
 
 - **Jurisdiction first** — anticipates expansion beyond California.

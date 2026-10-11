@@ -2,31 +2,31 @@
 """
 Cross-filing RatePlan-level consistency linter.
 
-LAYOUT.md §2 promises: a linter that verifies that urpx:initialEffectiveDate,
-urpx:ratePlanUniqueIdentifier, urpx:name, and the RatePlan @id are
-byte-identical across all filings of a given schedule. This is that
-linter.
+LAYOUT.md section 2 promises a linter that verifies urpx:initialEffectiveDate,
+urpx:ratePlanUniqueIdentifier, urpx:name, urpx:timezoneIdentifier and the
+RatePlan @id are byte-identical across all filings of a given schedule. This is
+that linter. dev/lint_cross_filing.py checks the rest of what crosses filings:
+references resolving, and file names and IRIs agreeing with directories.
 
-Walks the corpus, groups rate-plan_*.jsonld files by schedule directory
-(via dev/corpus.py, which is depth-independent rather than a literal shape), extracts
-the urpx:RatePlan node from each filing's @graph, and reports any
+Walks the corpus through dev/corpus.py, groups rate-plan_*.jsonld files by their
+<country>/<subdivision>/<utility>/<carrier>/<schedule>/ directory, finds the
+urpx:RatePlan node in each filing wherever its wrapper puts it, and reports any
 RatePlan-level field that differs across versions of the same schedule.
 
-Exit code:
-  0  — all schedules consistent
-  1  — drift detected on at least one schedule
+Exit codes:
+  0  all schedules consistent
+  1  drift detected on at least one schedule
+  2  --fix was asked for
+  3  refused: no filing yielded a urpx:RatePlan node
 
 Usage:
   python3 dev/lint_consistency.py
   python3 dev/lint_consistency.py --json    # machine-readable
-  python3 dev/lint_consistency.py --fix     # NOT IMPLEMENTED — drift
+  python3 dev/lint_consistency.py --fix     # NOT IMPLEMENTED: drift
                                             # resolution is a human call
 
-Modifier-only filings (rate-plan-modifier_*.jsonld) are skipped — their
-top-level entity is urpx:RatePlanModifier, not RatePlan, so they have
-their own equivalent consistency questions but a different scope.
-A separate linter for cross-filing RatePlanModifier consistency could
-be added if drift becomes a concern there.
+Modifier filings (rate-plan-modifier_*.jsonld) are skipped: their top-level
+entity is urpx:RatePlanModifier, not RatePlan.
 """
 import json
 import sys

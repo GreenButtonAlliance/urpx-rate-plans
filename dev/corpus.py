@@ -83,8 +83,9 @@ def utility_tomls() -> list[Path]:
     return paths("utility-manifest")
 
 
-def parse_filing_path(path: Path) -> tuple[str, str, str]:
-    """(utility, schedule, date) for any path inside a filing directory.
+def parse_filing_path(path: Path, root: Path = REPO) -> tuple[str, str, str]:
+    """(utility, schedule, date) for any path inside a filing directory, under
+    `root` (the repository unless a test builds a tree elsewhere).
 
     Anchored on the `versions` segment rather than counted from either end:
         …/<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<date>/…
@@ -97,7 +98,7 @@ def parse_filing_path(path: Path) -> tuple[str, str, str]:
     module were made depth-independent after a restructure broke fourteen of
     them; the indices never were.
     """
-    parts = path.resolve().relative_to(REPO).parts
+    parts = path.resolve().relative_to(root.resolve()).parts
     try:
         i = parts.index("versions")
     except ValueError:
