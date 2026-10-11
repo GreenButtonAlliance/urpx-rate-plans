@@ -55,8 +55,10 @@ If it then fails to import `six`, add it with `pipx inject mineru six`. The firs
 
 ## The gate
 
-- `dev/gate.sh --fast` runs from the pre-commit hook (`git config core.hooksPath dev/git-hooks`). It is the only automatic check; the repository has no CI.
-- `dev/gate.sh --full` runs everything. Run it before asking for a merge.
+- `dev/gate.sh --fast` runs from the pre-commit hook (`git config core.hooksPath dev/git-hooks`) on what the commit stages. The repository has no CI.
+- `dev/gate.sh --changed` runs what a branch's changes since `main` can affect. Run it before asking for a merge; it refuses while there are uncommitted changes.
+- `dev/gate.sh --full` runs everything. Run it before a release. With `git config urpx.postPushGate true`, the pre-push hook also runs it in the background on each push to `main` ([dev/git-hooks/README.md](./dev/git-hooks/README.md)).
+- `dev/gate-steps.toml` declares which changes select each step in `--fast` and `--changed`. A new step in `dev/gate.sh` or `dev/check_all.py` needs an entry there; `dev/test_gate_steps.py` fails without one.
 - Exit codes: 0 green, 1 regression, 2 drift (a generated file was not committed), 3 refused (the harness cannot answer, for example a missing URPX checkout).
 - `reports/` and `catalog/` are generated. The hook regenerates them from the staged tree; never edit them by hand.
 - Seattle City Light's JSON-LD is generated from `src/rate_plans/`. Edit the source and run `python3 dev/check_generated.py --write` ([doc/dsl-source.md](./doc/dsl-source.md)).
