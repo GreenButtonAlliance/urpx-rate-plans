@@ -405,9 +405,8 @@ def derive_supersession(versions: dict[str, dict], at: datetime.datetime | None 
     latest urpx:effectiveDateTime are superseded.
 
     Derived from the data, never from directory names. Two filing directories
-    can hold one version node (CPAU E-1 is filed at 2025-07-01 and again at
-    2025-09-01, both carrying cpau:e-1-2025-07-01 because the base rates did not
-    change), so a directory count is not a version count.
+    can hold one version node (cpau:e-hra-2023-01-01 is bundled into several
+    CPAU filings), so a directory count is not a version count.
 
     `at` pins the instant supersession is judged at. With an instant, only
     versions in force at it can supersede anything, and a version filed for a
