@@ -70,7 +70,23 @@ trap cleanup_logdir EXIT
 regression=0
 drift=0
 refused=0
-note() { printf '\n=== %s ===\n' "$1"; }
+# Each step is timed from its note to the next, and the result lists them
+# slowest first, so the cost of a gate run is visible where it is spent.
+STEP_TIMES=$LOGDIR/step-times
+step_name=""
+step_start=0
+end_step() {
+    if [ -n "$step_name" ]; then
+        printf '%s\t%s\n' "$((SECONDS - step_start))" "$step_name" >> "$STEP_TIMES"
+    fi
+    step_name=""
+}
+note() {
+    end_step
+    step_name=$1
+    step_start=$SECONDS
+    printf '\n=== %s ===\n' "$1"
+}
 record() {
     case "$1" in
         1) regression=1 ;;
@@ -525,6 +541,11 @@ case "$MODE" in
     python3 dev/check_all.py > "$LOGDIR"/checkall.log 2>&1
     ca=$?
     tail -3 "$LOGDIR"/checkall.log
+    echo "  slowest dev/check_all.py steps:"
+    grep ' s)$' "$LOGDIR"/checkall.log |
+        awk '{ t = $(NF-1); sub(/^\(/, "", t); printf "%s\t%s\n", t, $2 }' |
+        sort -t "$(printf '\t')" -k1,1nr | head -5 |
+        awk -F '\t' '{ printf "    %6.1f s  %s\n", $1, $2 }'
     [ $ca -eq 2 ] && record 2
     [ $ca -eq 1 ] && record 1
 
@@ -785,6 +806,13 @@ case "$MODE" in
     exit 3
     ;;
 esac
+
+end_step
+if [ -s "$STEP_TIMES" ]; then
+    printf '\n=== Step times ===\n'
+    sort -t "$(printf '\t')" -k1,1nr "$STEP_TIMES" | awk -F '\t' '{ printf "  %5d s  %s\n", $1, $2 }'
+    printf '  %5d s  total\n' "$SECONDS"
+fi
 
 note "Result"
 [ $regression -eq 1 ] && echo "  regression: a new violation key, or a failing consumer or lint step"

@@ -27,6 +27,7 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import sys
@@ -206,9 +207,10 @@ def main() -> int:
     print("=== Generators + lints ===")
     failures: list[tuple[str, str, str]] = []
     for name, cmd in STEPS:
+        started = time.monotonic()
         ok, out, err = run_step(name, cmd)
         marker = "✓" if ok else "✗"
-        print(f"  {marker} {name}")
+        print(f"  {marker} {name} ({time.monotonic() - started:.1f} s)")
         if not ok:
             failures.append((name, out, err))
 
