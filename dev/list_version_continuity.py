@@ -155,7 +155,7 @@ def build(as_of: datetime.datetime | None = None) -> dict:
                 "from": day(m["effective"]),
                 "to": day(expiration_of(m)) if expiration_of(m) else None,
                 "source_checked": checked,
-                "source_age_days": (as_of_day - datetime.date.fromisoformat(checked)).days
+                "source_age_days": max(0, (as_of_day - datetime.date.fromisoformat(checked)).days)
                                    if checked else None,
             })
         for earlier, later in zip(spans, spans[1:]):
@@ -208,8 +208,8 @@ def render_md(d: dict) -> str:
           "without choosing arbitrarily, and no tariff means it. That fails the gate.",
           "",
           "**Source checked** is the newest `retrieved_on` in the filing's manifest, and **Age** is the",
-          f"days from it to {d['as_of']}, the currency instant in `dev/currency-instant.json`; a",
-          "source retrieved after that instant has a negative age.",
+          f"days from it to {d['as_of']}, the currency instant in `dev/currency-instant.json`, and 0",
+          "for a source retrieved after that instant.",
           "Gaps come from sampling the filing stream more slowly than utilities file into it,",
           "so that column, not the gap list, is the number that predicts the next one.", ""]
 

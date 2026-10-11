@@ -13,8 +13,8 @@ An **overlap** is two versions of one plan in force at once. Nothing resolves th
 without choosing arbitrarily, and no tariff means it. That fails the gate.
 
 **Source checked** is the newest `retrieved_on` in the filing's manifest, and **Age** is the
-days from it to 2026-10-06T17:00:00-07:00, the currency instant in `dev/currency-instant.json`; a
-source retrieved after that instant has a negative age.
+days from it to 2026-10-06T17:00:00-07:00, the currency instant in `dev/currency-instant.json`, and 0
+for a source retrieved after that instant.
 Gaps come from sampling the filing stream more slowly than utilities file into it,
 so that column, not the gap list, is the number that predicts the next one.
 
@@ -109,16 +109,16 @@ before the schedule existed.
 | `ladwp:lifeline` | `ladwp:lifeline-2008-09-01` | 2008-09-01 | open | 2026-05-04 | 155 |
 | `ladwp:nem` | `ladwp:nem-2008-09-01` | 2008-09-01 | open | 2026-05-01 | 158 |
 | `pge:d-care` | `pge:d-care-2026-03-01` | 2026-03-01 | open | 2026-09-23 | 13 |
-| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | -1 |
-| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-06-01` | 2026-06-01 | open | 2026-10-07 | -1 |
-| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | -1 |
-| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-06-01` | 2026-06-01 | open | 2026-10-07 | -1 |
+| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-1-income-tier` | `pge:e-1-income-tier-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
+| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-1-medical-baseline` | `pge:e-1-medical-baseline-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-1-vintage-pcia` | `pge:e-1-vintage-pcia-2026-03-01` | 2026-03-01 | open | unrecorded |  |
 | `pge:e-fera` | `pge:e-fera-2026-06-01` | 2026-06-01 | open | 2026-09-23 | 13 |
 | `pge:e-rsmart` | `pge:e-rsmart-2025-10-31` | 2025-10-31 | open | 2026-05-29 | 130 |
-| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-01` | 2026-03-01 | 2026-03-27 | 2026-10-07 | -1 |
-| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-10-07 | -1 |
-| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-06-01` | 2026-06-01 | open | 2026-10-07 | -1 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-01` | 2026-03-01 | 2026-03-27 | 2026-10-07 | 0 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-tou-c-medical-baseline` | `pge:e-tou-c-medical-baseline-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-tou-c-vintage-pcia` | `pge:e-tou-c-vintage-pcia-2026-03-01` | 2026-03-01 | open | unrecorded |  |
 | `pge:e-tou-d-vintage-pcia` | `pge:e-tou-d-vintage-pcia-2026-03-27` | 2026-03-27 | open | unrecorded |  |
 | `pge:ev2-vintage-pcia` | `pge:ev2-vintage-pcia-2026-03-27` | 2026-03-27 | open | unrecorded |  |
@@ -174,7 +174,7 @@ before the schedule existed.
 | `smud:nem1` | `smud:nem1-2021-09-17` | 2021-09-17 | open | 2026-05-01 | 158 |
 | `smud:pev-credit` | `smud:pev-credit-2025-06-20` | 2025-06-20 | open | 2026-05-01 | 158 |
 | `smud:ssr` | `smud:ssr-2022-03-01` | 2022-03-01 | 2026-06-01 | 2026-05-01 | 158 |
-| `smud:ssr` | `smud:ssr-2026-06-01` | 2026-06-01 | open | 2026-10-07 | -1 |
+| `smud:ssr` | `smud:ssr-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `cpau:e-1` | `cpau:e-1-2025-07-01` | 2025-07-01 | 2026-07-01 | 2026-04-30 | 159 |
 | `cpau:e-1` | `cpau:e-1-2026-07-01` | 2026-07-01 | open | 2026-10-06 | 0 |
 | `cpau:e-1-tou` | `cpau:e-1-tou-2026-01-01` | 2026-01-01 | 2026-07-01 | 2026-04-30 | 159 |
@@ -195,20 +195,20 @@ before the schedule existed.
 | `cpau:e-7-tou` | `cpau:e-7-tou-2025-07-01` | 2025-07-01 | 2026-07-01 | 2026-04-30 | 159 |
 | `cpau:e-7-tou` | `cpau:e-7-tou-2026-07-01` | 2026-07-01 | open | 2026-10-06 | 0 |
 | `ladwp:r-1a` | `ladwp:r-1a-2026-04-01` | 2026-04-01 | 2026-07-01 | 2026-04-30 | 159 |
-| `ladwp:r-1a` | `ladwp:r-1a-2026-07-01` | 2026-07-01 | 2026-10-01 | 2026-10-07 | -1 |
-| `ladwp:r-1a` | `ladwp:r-1a-2026-10-01` | 2026-10-01 | open | 2026-10-07 | -1 |
+| `ladwp:r-1a` | `ladwp:r-1a-2026-07-01` | 2026-07-01 | 2026-10-01 | 2026-10-07 | 0 |
+| `ladwp:r-1a` | `ladwp:r-1a-2026-10-01` | 2026-10-01 | open | 2026-10-07 | 0 |
 | `ladwp:r-1b` | `ladwp:r-1b-2026-04-01` | 2026-04-01 | 2026-07-01 | 2026-04-30 | 159 |
-| `ladwp:r-1b` | `ladwp:r-1b-2026-07-01` | 2026-07-01 | 2026-10-01 | 2026-10-07 | -1 |
-| `ladwp:r-1b` | `ladwp:r-1b-2026-10-01` | 2026-10-01 | open | 2026-10-07 | -1 |
-| `pge:e-1` | `pge:e-1-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | -1 |
-| `pge:e-1` | `pge:e-1-2026-06-01` | 2026-06-01 | open | 2026-10-07 | -1 |
+| `ladwp:r-1b` | `ladwp:r-1b-2026-07-01` | 2026-07-01 | 2026-10-01 | 2026-10-07 | 0 |
+| `ladwp:r-1b` | `ladwp:r-1b-2026-10-01` | 2026-10-01 | open | 2026-10-07 | 0 |
+| `pge:e-1` | `pge:e-1-2026-03-01` | 2026-03-01 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-1` | `pge:e-1-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-elec` | `pge:e-elec-2026-01-01` | 2026-01-01 | 2026-03-01 | 2026-01-05 | 274 |
 | `pge:e-elec` | `pge:e-elec-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-04-29 | 160 |
 | `pge:e-elec` | `pge:e-elec-2026-06-01` | 2026-06-01 | 2026-08-28 | 2026-09-23 | 13 |
 | `pge:e-elec` | `pge:e-elec-2026-08-28` | 2026-08-28 | open | 2026-09-23 | 13 |
-| `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | 2026-03-27 | 2026-10-07 | -1 |
-| `pge:e-tou-c` | `pge:e-tou-c-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-10-07 | -1 |
-| `pge:e-tou-c` | `pge:e-tou-c-2026-06-01` | 2026-06-01 | open | 2026-10-07 | -1 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-03-01` | 2026-03-01 | 2026-03-27 | 2026-10-07 | 0 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-10-07 | 0 |
+| `pge:e-tou-c` | `pge:e-tou-c-2026-06-01` | 2026-06-01 | open | 2026-10-07 | 0 |
 | `pge:e-tou-d` | `pge:e-tou-d-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-04-26 | 163 |
 | `pge:e-tou-d` | `pge:e-tou-d-2026-06-01` | 2026-06-01 | open | 2026-09-23 | 13 |
 | `pge:ev2` | `pge:ev2-2026-03-27` | 2026-03-27 | 2026-06-01 | 2026-04-27 | 162 |
@@ -276,8 +276,8 @@ before the schedule existed.
 | `sdge:tou-elec` | `sdge:tou-elec-2026-08-01` | 2026-08-01 | 2026-09-30 | 2026-09-23 | 13 |
 | `sdge:tou-elec` | `sdge:tou-elec-2026-09-30` | 2026-09-30 | open | 2026-10-06 | 0 |
 | `smud:fixed` | `smud:fixed-2026-01-01` | 2026-01-01 | 2027-01-01 | 2026-04-30 | 159 |
-| `smud:fixed` | `smud:fixed-2027-01-01` | 2027-01-01 | open | 2026-10-07 | -1 |
+| `smud:fixed` | `smud:fixed-2027-01-01` | 2027-01-01 | open | 2026-10-07 | 0 |
 | `smud:tod-5-8pm` | `smud:tod-5-8pm-2026-01-01` | 2026-01-01 | 2027-01-01 | 2026-04-30 | 159 |
-| `smud:tod-5-8pm` | `smud:tod-5-8pm-2027-01-01` | 2027-01-01 | open | 2026-10-07 | -1 |
+| `smud:tod-5-8pm` | `smud:tod-5-8pm-2027-01-01` | 2027-01-01 | open | 2026-10-07 | 0 |
 | `smud:tod-low-use` | `smud:tod-low-use-2026-01-01` | 2026-01-01 | 2027-01-01 | 2026-05-04 | 155 |
-| `smud:tod-low-use` | `smud:tod-low-use-2027-01-01` | 2027-01-01 | open | 2026-10-07 | -1 |
+| `smud:tod-low-use` | `smud:tod-low-use-2027-01-01` | 2027-01-01 | open | 2026-10-07 | 0 |
