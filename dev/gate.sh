@@ -5,7 +5,9 @@
 #                                     path plus a baseline comparison for each
 #                                     touched utility. Utilities are inferred
 #                                     from the staged diff when not given.
-#   dev/gate.sh --full                everything, for a deliberate check before
+#                                     dev/gate-steps.toml declares which
+#                                     staged paths select each step.
+#   dev/gate.sh --full               everything, for a deliberate check before
 #                                     a wave lands or a release is cut.
 #
 # Exit codes:
@@ -73,6 +75,7 @@ refused=0
 # Each step is timed from its note to the next, and the result lists them
 # slowest first, so the cost of a gate run is visible where it is spent.
 STEP_TIMES=$LOGDIR/step-times
+step_key=""
 step_name=""
 step_start=0
 end_step() {
@@ -81,11 +84,22 @@ end_step() {
     fi
     step_name=""
 }
+# note KEY [HEADING]: KEY names the step in dev/gate-steps.toml; HEADING, when
+# the printed heading carries more than the key, is what is printed and timed.
 note() {
     end_step
-    step_name=$1
+    step_key=$1
+    step_name=${2:-$1}
     step_start=$SECONDS
-    printf '\n=== %s ===\n' "$1"
+    printf '\n=== %s ===\n' "$step_name"
+}
+# True when --fast skips the current step: dev/gate-steps.toml gives it
+# triggers and no staged path matches one. A step the table does not name runs.
+SKIPPED=""
+skipped() {
+    [ "$MODE" = "--fast" ] || return 1
+    printf '%s\n' "$SKIPPED" | grep -qxF -- "$step_key" || return 1
+    echo "  skipped in --fast: nothing staged that it checks"
 }
 record() {
     case "$1" in
@@ -96,35 +110,11 @@ record() {
     return 0
 }
 
-# Utilities present in the corpus, via the shared discovery module.
-utilities_all() {
-    python3 - <<'PY'
-import sys
-sys.path.insert(0, "dev")
-import corpus
-files = corpus.all_filing_jsonld()
-corpus.require_nonempty(files, "rate-plan filings")
-print(" ".join(sorted({corpus.utility_of(f) for f in files})))
-PY
-}
-
-touched_utilities() {
-    local all staged u out=""
-    all=$(utilities_all)
-    # ACMRD, not ACMR: a commit that only DELETES a utility's filings still
-    # changes that utility's corpus, and excluding D skipped its baseline check
-    # entirely. Found when a deletion-only CPAU commit reported "no utility
-    # touched" over seven staged CPAU deletions.
-    staged=$(git diff --cached --name-only --diff-filter=ACMRD || true)
-    for u in $all; do
-        if printf '%s\n' "$staged" | grep -q "/$u/"; then out="$out $u"; fi
-    done
-    echo "$out"
-}
-
 run_clojure_gate() {
     note "Clojure consumer path"
-    if clojure -M:validate > "$LOGDIR"/clj.log 2>&1; then
+    if skipped; then
+        :
+    elif clojure -M:validate > "$LOGDIR"/clj.log 2>&1; then
         tail -1 "$LOGDIR"/clj.log
     else
         tail -1 "$LOGDIR"/clj.log
@@ -137,7 +127,9 @@ run_clojure_gate() {
     # regression that drops a whole class of charge leaves the gate green,
     # which is how 89 recurring charges went missing across all 40 base plans.
     note "Resolution coverage"
-    if clojure -M:coverage > "$LOGDIR"/coverage.log 2>&1; then
+    if skipped; then
+        :
+    elif clojure -M:coverage > "$LOGDIR"/coverage.log 2>&1; then
         tail -1 "$LOGDIR"/coverage.log
     else
         rc=$?
@@ -168,7 +160,9 @@ run_clojure_gate() {
     # itself. Re-record by hand and review the diff:
     #   clojure -M:validate --record-baseline
     note "Marginal-rate baseline"
-    if clojure -M:validate --check-baseline > "$LOGDIR"/marginal.log 2>&1; then
+    if skipped; then
+        :
+    elif clojure -M:validate --check-baseline > "$LOGDIR"/marginal.log 2>&1; then
         tail -1 "$LOGDIR"/marginal.log
     else
         rc=$?
@@ -183,14 +177,9 @@ run_clojure_gate() {
     # alternative key withholds every one; both are silent in clj-urpx.
     # Exit 1 a violation, 3 refused.
     #
-    # It is one of the two slowest steps, so --fast runs it only when the
-    # commit stages an NBT filing, a base plan an NBT modifier composes with,
-    # the check, the remodel script, or deps.edn (the clj-urpx pin). --full
-    # always runs it.
     note "NBT export cells"
-    if [ "$MODE" = "--fast" ] && ! git diff --cached --name-only |
-            grep -qE '/nbt/|/e-elec/|/tou-d-prime/|/ev-tou-5/|^dev/check_nbt_export\.clj$|^dev/remodel_nbt\.py$|^deps\.edn$'; then
-        echo "  skipped in --fast: nothing staged that it checks"
+    if skipped; then
+        :
     elif clojure -M:nbt-export > "$LOGDIR"/nbt-export.log 2>&1; then
         tail -1 "$LOGDIR"/nbt-export.log
     else
@@ -211,8 +200,10 @@ run_clojure_gate() {
 # Exit 1 a violation, 3 refused.
 SCM_URPX_REV=cd13ce8a
 run_scm_shacl() {
-    note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
-    if dev/shacl.sh --merged --urpx-rev "$SCM_URPX_REV" \
+    note "Scenario cost models: SHACL" "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
+    if skipped; then
+        :
+    elif dev/shacl.sh --merged --urpx-rev "$SCM_URPX_REV" \
            --with reports/scenario-cost-models.jsonld --keys > "$LOGDIR"/scm-shacl.log 2>&1; then
         cat "$LOGDIR"/scm-shacl.log
     else
@@ -228,7 +219,9 @@ run_scm_shacl() {
 # Exit 1 a document differs, is missing or extra, 3 refused.
 run_generated() {
     note "Generated from source"
-    if python3 dev/check_generated.py > "$LOGDIR"/generated.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/check_generated.py > "$LOGDIR"/generated.log 2>&1; then
         tail -1 "$LOGDIR"/generated.log
     else
         rc=$?
@@ -242,7 +235,9 @@ run_generated() {
 # the same difference. Exit 2 the catalog differs, 1 a filing cannot be summarized.
 run_catalog() {
     note "Corpus catalog"
-    if python3 dev/build_catalog.py --check > "$LOGDIR"/catalog.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/build_catalog.py --check > "$LOGDIR"/catalog.log 2>&1; then
         tail -1 "$LOGDIR"/catalog.log
     else
         rc=$?
@@ -255,7 +250,9 @@ run_catalog() {
 # (copied into .clj-kondo/imports).
 run_clj_kondo() {
     note "clj-kondo"
-    if command -v clj-kondo >/dev/null 2>&1; then
+    if skipped; then
+        :
+    elif command -v clj-kondo >/dev/null 2>&1; then
         if clj-kondo --lint src > "$LOGDIR"/kondo.log 2>&1; then
             tail -1 "$LOGDIR"/kondo.log
         else
@@ -269,13 +266,22 @@ run_clj_kondo() {
 
 case "$MODE" in
 --fast)
+    # What the commit changes, against dev/gate-steps.toml. Unfiltered, so a
+    # deletion is a change like any other.
+    STAGED=$(git diff --cached --name-only) || {
+        echo "REFUSED: cannot list the staged diff" >&2; exit 3; }
+    SKIPPED=$(printf '%s\n' "$STAGED" | python3 dev/gate_steps.py skipped) || {
+        echo "REFUSED: dev/gate_steps.py cannot read dev/gate-steps.toml" >&2; exit 3; }
+
     run_clojure_gate
 
     # In --fast too, not only --full. This is the check a NEW filing trips, and
     # a new filing is exactly what the pre-commit gate sees. Catching it at the
     # next audit instead is how 509 of these accumulated.
     note "IRI scope"
-    if python3 dev/lint_iri_scope.py > "$LOGDIR"/iriscope.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_iri_scope.py > "$LOGDIR"/iriscope.log 2>&1; then
         tail -1 "$LOGDIR"/iriscope.log
     else
         rc=$?
@@ -284,7 +290,9 @@ case "$MODE" in
     fi
 
     note "Blank nodes"
-    if python3 dev/name_blank_nodes.py --check > "$LOGDIR"/blank.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/name_blank_nodes.py --check > "$LOGDIR"/blank.log 2>&1; then
         tail -1 "$LOGDIR"/blank.log
     else
         rc=$?
@@ -293,7 +301,9 @@ case "$MODE" in
     fi
 
     note "Copy agreement"
-    if python3 dev/normalize_copies.py --check > "$LOGDIR"/copies.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/normalize_copies.py --check > "$LOGDIR"/copies.log 2>&1; then
         tail -1 "$LOGDIR"/copies.log
     else
         rc=$?
@@ -307,7 +317,9 @@ case "$MODE" in
     # applicableToRatePlanVersion for five months and neither the copy gate nor
     # any lint could see it, because that property is deliberately off the list.
     note "Copy divergence"
-    if python3 dev/lint_copy_divergence.py > "$LOGDIR"/divergence.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_copy_divergence.py > "$LOGDIR"/divergence.log 2>&1; then
         tail -1 "$LOGDIR"/divergence.log
     else
         rc=$?
@@ -316,7 +328,9 @@ case "$MODE" in
     fi
 
     note "Discount subtotals"
-    if python3 dev/lint_discount_summaries.py > "$LOGDIR"/discounts.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_discount_summaries.py > "$LOGDIR"/discounts.log 2>&1; then
         tail -1 "$LOGDIR"/discounts.log
     else
         rc=$?
@@ -340,7 +354,9 @@ case "$MODE" in
     # no readable item, or a presence claim pointing at a directory that holds
     # no filing. Each leaves the comparison with no second side.
     note "Completeness agreement"
-    if python3 dev/lint_completeness_agreement.py > "$LOGDIR"/completeness.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_completeness_agreement.py > "$LOGDIR"/completeness.log 2>&1; then
         tail -1 "$LOGDIR"/completeness.log
     else
         rc=$?
@@ -353,7 +369,9 @@ case "$MODE" in
     # here compares a sentence to the node it sits on. It prints what it declined
     # to judge on every run, because it declines most of what it reads.
     note "Prose versus structure"
-    if python3 dev/lint_prose_structure.py > "$LOGDIR"/prose.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_prose_structure.py > "$LOGDIR"/prose.log 2>&1; then
         head -1 "$LOGDIR"/prose.log
     else
         rc=$?
@@ -385,7 +403,9 @@ case "$MODE" in
     # does not. Thirteen TOU filings stated the rule and carried none until 03f5ec3.
     # Exit 1 a filing missing one or a stale allowlist entry, 3 refused.
     note "Holiday calendars"
-    if python3 dev/lint_holiday_calendars.py > "$LOGDIR"/holidays.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_holiday_calendars.py > "$LOGDIR"/holidays.log 2>&1; then
         tail -1 "$LOGDIR"/holidays.log
     else
         rc=$?
@@ -398,7 +418,9 @@ case "$MODE" in
     # urpx:ProfileAlternative. Two event-day filings are allowlisted.
     # Exit 1 a condition in the price layer or a stale allowlist entry, 3 refused.
     note "Price-layer conditions"
-    if python3 dev/lint_price_layer_conditions.py > "$LOGDIR"/price-layer.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_price_layer_conditions.py > "$LOGDIR"/price-layer.log 2>&1; then
         tail -1 "$LOGDIR"/price-layer.log
     else
         rc=$?
@@ -410,7 +432,9 @@ case "$MODE" in
     # are one cell to clj-urpx, which reads only one of them.
     # Exit 1 a shared cell, 3 refused.
     note "Price cells"
-    if python3 dev/lint_price_cells.py > "$LOGDIR"/price-cells.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_price_cells.py > "$LOGDIR"/price-cells.log 2>&1; then
         tail -1 "$LOGDIR"/price-cells.log
     else
         rc=$?
@@ -424,7 +448,9 @@ case "$MODE" in
     # a literal on parse, so every rdflib-based check here misses it.
     # Exit 1 an ill-typed literal, 3 refused.
     note "Numeric literals"
-    if python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_decimal_literals.py > "$LOGDIR"/numeric.log 2>&1; then
         tail -1 "$LOGDIR"/numeric.log
     else
         rc=$?
@@ -433,7 +459,9 @@ case "$MODE" in
     fi
 
     note "MIDAS rate identifiers"
-    if python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/lint_rate_identifiers.py > "$LOGDIR"/rins.log 2>&1; then
         head -1 "$LOGDIR"/rins.log
     else
         rc=$?
@@ -486,7 +514,9 @@ case "$MODE" in
     #
     # Exit 1 a disagreement or a broken contract, 3 refused.
     note "Scenario cost models: clj-urpx cross-check"
-    if python3 dev/cross_check_scenario_cost_models.py \
+    if skipped; then
+        :
+    elif python3 dev/cross_check_scenario_cost_models.py \
            --at "$CURRENCY_AT" \
            --combine at-most-one-modifier > "$LOGDIR"/scenario-cost-models.log 2>&1; then
         cat "$LOGDIR"/scenario-cost-models.log
@@ -496,21 +526,14 @@ case "$MODE" in
         record $rc
     fi
 
-    # It is one of the two slowest steps, so --fast runs it only when the
-    # commit stages a filing, the emitted document or its generator. --full
-    # always runs it.
-    if git diff --cached --name-only |
-            grep -qE '^us/|^reports/scenario-cost-models\.jsonld$|^dev/scenario_cost_models\.py$|^dev/shacl_gate\.clj$|^dev/shape-exceptions\.json$'; then
-        run_scm_shacl
-    else
-        note "Scenario cost models: SHACL at URPX $SCM_URPX_REV"
-        echo "  skipped in --fast: nothing staged that it checks"
-    fi
+    run_scm_shacl
 
     # corpus.json declares the layout once; every walker it lists must see the
     # same files. Exit 1 a walker disagrees, 3 fewer than two walkers ran.
     note "Corpus walkers agree"
-    if python3 dev/check_walkers.py > "$LOGDIR"/walkers.log 2>&1; then
+    if skipped; then
+        :
+    elif python3 dev/check_walkers.py > "$LOGDIR"/walkers.log 2>&1; then
         cat "$LOGDIR"/walkers.log
     else
         rc=$?
@@ -523,13 +546,17 @@ case "$MODE" in
     run_clj_kondo
 
     targets="$*"
-    [ -z "$targets" ] && targets=$(touched_utilities)
-    if [ -z "$targets" ]; then
-        note "Corpus baseline"
+    if [ -z "$targets" ] &&
+            ! targets=$(printf '%s\n' "$STAGED" | python3 dev/gate_steps.py utilities Baseline); then
+        note "Baseline"
+        echo "  REFUSED: dev/gate_steps.py cannot select the touched utilities"
+        record 3
+    elif [ -z "$targets" ]; then
+        printf '\n=== %s ===\n' "Corpus baseline"
         echo "  no utility touched in the staged diff; skipping the corpus check"
     else
         for u in $targets; do
-            note "Baseline: $u"
+            note "Baseline" "Baseline: $u"
             dev/shacl.sh --check-baseline --utility "$u"
             record $?
         done
@@ -816,7 +843,7 @@ if [ -s "$STEP_TIMES" ]; then
     printf '  %5d s  total\n' "$SECONDS"
 fi
 
-note "Result"
+printf '\n=== %s ===\n' "Result"
 [ $regression -eq 1 ] && echo "  regression: a new violation key, or a failing consumer or lint step"
 [ $drift -eq 1 ]      && echo "  tracked-file drift: a generator output was not committed"
 [ $refused -eq 1 ]    && echo "  refused: the harness could not produce a meaningful answer"

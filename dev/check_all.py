@@ -118,6 +118,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("test_fetch_unwrap",           ["python3", "dev/test_fetch_unwrap.py"]),
     ("test_build_catalog",          ["python3", "dev/test_build_catalog.py"]),
     ("test_cross_filing",           ["python3", "dev/test_cross_filing.py"]),
+    ("test_gate_steps",             ["python3", "dev/test_gate_steps.py"]),
     ("check_generated",             ["python3", "dev/check_generated.py"]),
     ("test_dsl_validation",         ["clojure", "-M", "-m", "test-dsl-validation"]),
     ("test_resolution_coverage",    ["clojure", "-M", "-m", "test-resolution-coverage"]),

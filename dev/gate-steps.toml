@@ -1,0 +1,347 @@
+# SPDX-FileCopyrightText: 2026 Clark Communications Corporation
+# SPDX-License-Identifier: CDLA-Permissive-2.0
+#
+# Which gate steps a change runs. Read by dev/gate_steps.py; dev/gate.sh --fast
+# consults it against the staged diff. dev/test_gate_steps.py requires every
+# `note` step in dev/gate.sh and every STEPS entry in dev/check_all.py to appear
+# here, and every entry here to name one of them.
+#
+# [[gate]] entries are keyed by the first argument of `note` in dev/gate.sh.
+#   modes     the gate modes whose branch runs the step.
+#   scope     "corpus": one run covers the whole corpus.
+#             "per-utility": one run per touched utility; a trigger's
+#             {utility} stands for each utility slug in the corpus.
+#   triggers  Python regular expressions searched in each changed path. A step
+#             runs in --fast when any changed path matches one. A step with no
+#             triggers always runs.
+#
+# [[check_all]] entries are keyed by name in dev/check_all.py STEPS. Every one
+# runs from the pre-commit hook (--generators-only) and in --full.
+
+[[gate]]
+note = "Clojure consumer path"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Resolution coverage"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Marginal-rate baseline"
+modes = ["fast", "full"]
+scope = "corpus"
+
+# An NBT filing, a base plan an NBT modifier composes with, the check, the
+# remodel script, or deps.edn (the clj-urpx pin).
+[[gate]]
+note = "NBT export cells"
+modes = ["fast", "full"]
+scope = "corpus"
+triggers = [
+    '/nbt/',
+    '/e-elec/',
+    '/tou-d-prime/',
+    '/ev-tou-5/',
+    '^dev/check_nbt_export\.clj$',
+    '^dev/remodel_nbt\.py$',
+    '^deps\.edn$',
+]
+
+[[gate]]
+note = "IRI scope"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Blank nodes"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Copy agreement"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Copy divergence"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Discount subtotals"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Completeness agreement"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Prose versus structure"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Holiday calendars"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Price-layer conditions"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Price cells"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Numeric literals"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "MIDAS rate identifiers"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Scenario cost models: clj-urpx cross-check"
+modes = ["fast", "full"]
+scope = "corpus"
+
+# A filing, the emitted document or its generator, the SHACL engine, or the
+# shape exceptions.
+[[gate]]
+note = "Scenario cost models: SHACL"
+modes = ["fast", "full"]
+scope = "corpus"
+triggers = [
+    '^us/',
+    '^reports/scenario-cost-models\.jsonld$',
+    '^dev/scenario_cost_models\.py$',
+    '^dev/shacl_gate\.clj$',
+    '^dev/shape-exceptions\.json$',
+]
+
+[[gate]]
+note = "Corpus walkers agree"
+modes = ["fast", "full"]
+scope = "corpus"
+
+[[gate]]
+note = "Generated from source"
+modes = ["fast"]
+scope = "corpus"
+
+[[gate]]
+note = "Corpus catalog"
+modes = ["fast"]
+scope = "corpus"
+
+[[gate]]
+note = "clj-kondo"
+modes = ["fast", "full"]
+scope = "corpus"
+
+# Any changed path under a utility's directory.
+[[gate]]
+note = "Baseline"
+modes = ["fast"]
+scope = "per-utility"
+triggers = ['/{utility}/']
+
+[[gate]]
+note = "Generators, schema, drift"
+modes = ["full"]
+scope = "corpus"
+
+[[gate]]
+note = "Baseline: every merged mode"
+modes = ["full"]
+scope = "corpus"
+
+[[gate]]
+note = "Per-file diagnostic (informational)"
+modes = ["full"]
+scope = "corpus"
+
+[[gate]]
+note = "Cross-check namespace negative fixtures"
+modes = ["full"]
+scope = "corpus"
+
+[[gate]]
+note = "Version-dispatch and shape-exception negative fixtures"
+modes = ["full"]
+scope = "corpus"
+
+[[gate]]
+note = "Sandbox drift (informational)"
+modes = ["full"]
+scope = "corpus"
+
+[[gate]]
+note = "REUSE licensing"
+modes = ["full"]
+scope = "corpus"
+
+[[check_all]]
+name = "coverage"
+scope = "corpus"
+
+[[check_all]]
+name = "list_modifier_base_pairings"
+scope = "corpus"
+
+[[check_all]]
+name = "list_scenario_cost_models"
+scope = "corpus"
+
+[[check_all]]
+name = "list_ready_for_use"
+scope = "corpus"
+
+[[check_all]]
+name = "list_version_continuity"
+scope = "corpus"
+
+[[check_all]]
+name = "list_rate_identifiers"
+scope = "corpus"
+
+[[check_all]]
+name = "list_rate_plans_to_model"
+scope = "corpus"
+
+[[check_all]]
+name = "build_catalog"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_modifier_coverage"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_consistency"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_cross_filing"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_copy_divergence"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_utility_manifests"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_gaps_agree"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_declared_versions"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_prose_structure"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_holiday_calendars"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_price_layer_conditions"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_price_cells"
+scope = "corpus"
+
+[[check_all]]
+name = "lint_decimal_literals"
+scope = "corpus"
+
+[[check_all]]
+name = "coverage_evaluations"
+scope = "corpus"
+
+[[check_all]]
+name = "test_shacl_gate"
+scope = "corpus"
+
+[[check_all]]
+name = "test_scenario_cost_models"
+scope = "corpus"
+
+[[check_all]]
+name = "test_prose_structure"
+scope = "corpus"
+
+[[check_all]]
+name = "test_rate_identifiers"
+scope = "corpus"
+
+[[check_all]]
+name = "test_holiday_calendars"
+scope = "corpus"
+
+[[check_all]]
+name = "test_price_layer_conditions"
+scope = "corpus"
+
+[[check_all]]
+name = "test_price_cells"
+scope = "corpus"
+
+[[check_all]]
+name = "test_decimal_literals"
+scope = "corpus"
+
+[[check_all]]
+name = "test_discount_summaries"
+scope = "corpus"
+
+[[check_all]]
+name = "test_rdf_hash"
+scope = "corpus"
+
+[[check_all]]
+name = "test_sandbox_export"
+scope = "corpus"
+
+[[check_all]]
+name = "test_fetch_unwrap"
+scope = "corpus"
+
+[[check_all]]
+name = "test_build_catalog"
+scope = "corpus"
+
+[[check_all]]
+name = "test_cross_filing"
+scope = "corpus"
+
+[[check_all]]
+name = "check_generated"
+scope = "corpus"
+
+[[check_all]]
+name = "test_dsl_validation"
+scope = "corpus"
+
+[[check_all]]
+name = "test_resolution_coverage"
+scope = "corpus"
+
+[[check_all]]
+name = "test_gate_steps"
+scope = "corpus"
