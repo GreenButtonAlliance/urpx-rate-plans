@@ -269,10 +269,10 @@ def collect_versions() -> dict[str, dict]:
     A version @id can occur in several filings: a base filing bundles the
     modifiers operative at its snapshot date, and a later snapshot of the same
     base re-states an unchanged version node alongside newly available
-    modifiers. Those copies are not always identical, so one occurrence has to
-    be the authority. It is the occurrence in the version's OWN filing, the file
-    named <utility>_<slug>_<date>, which is where the filing's tariff.toml and
-    source PDF live.
+    modifiers. dev/lint_copy_divergence.py holds the copies to agreement on
+    every property. The occurrence read here is the one in the version's OWN
+    filing, the file named <utility>_<slug>_<date>, which is where the filing's
+    tariff.toml and source PDF live.
 
     Compatibility is then cross-checked against the union over every copy. A
     copy that claims a base the authority does not is a disagreement about what
