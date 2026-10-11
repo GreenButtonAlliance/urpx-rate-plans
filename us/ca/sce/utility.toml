@@ -177,21 +177,28 @@ SharePoint anonymous-share folders use opaque share-token URLs in the
 path returns 403 — the FedAuth cookie must first be established by
 navigating the share-token URL in a real browser.
 
- # 1. Open the share-token folder URL in spel — the browser
- # establishes an anonymous FedAuth cookie scoped to the tenant.
+ # 1. Open the share link of the folder holding the document (its
+ # share_url in data/inventories/sce.json) in spel; the browser
+ # establishes an anonymous FedAuth cookie scoped to that share.
  spel open "https://edisonintl.sharepoint.com/:f:/t/Public/TM2/<token>"
 
- # 2. Extract the cookie.
- FEDAUTH=$(spel cookies | awk -F= '/^FedAuth=/{print $2}' | awk '{print $1}')
+ # 2. Extract the cookie. Its value ends in base64 "=" padding, so
+ # strip only the leading "FedAuth=" and keep the rest of the field.
+ FEDAUTH=$(spel cookies | awk '/^FedAuth=/{sub(/^FedAuth=/, ""); print $1}')
 
- # 3. Download via the SharePoint download.aspx endpoint.
+ # 3. Download via the SharePoint download.aspx endpoint. SourceUrl
+ # contains spaces and must be URL-encoded.
  BASE="https://edisonintl.sharepoint.com/teams/Public/TM2/_layouts/15/download.aspx"
  SRC="/teams/Public/TM2/Shared Documents/Public/Regulatory/<full-path-to-pdf>"
- curl -sL -o "$(basename "$SRC")" -b "FedAuth=$FEDAUTH" "${BASE}?SourceUrl=${SRC}"
+ curl -sfL -o "$(basename "$SRC")" -b "FedAuth=$FEDAUTH" -G --data-urlencode "SourceUrl=$SRC" "$BASE"
 
  # 4. Unwrap the envelope in place. Refuses, changing nothing, unless
  # every result is a PDF.
  python3 dev/fetch_tariff_documents.py --unwrap "$(basename "$SRC")"
+
+Verified as written 2026-10-11 (curl 8.7.1) on Other Rates/
+ELECTRIC_SCHEDULES_NBT.pdf: the unwrapped sha256 matched the copy
+fetched by dev/fetch_tariff_documents.py.
 
 The cookie has a limited lifespan (minutes to a few hours, not days);
 pull a target set in one session. Cache canonical URLs in each filing's
