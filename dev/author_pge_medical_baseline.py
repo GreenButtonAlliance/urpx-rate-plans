@@ -446,10 +446,6 @@ def base_prose(t: Target) -> None:
     if (t.sched, t.date) == ("e-tou-c", "2026-03-01"):
         ev = version["urpx:hasCoverageClaim"]["urpx:explainedBy"]
         ev["urpx:description"] = ev["urpx:description"].replace(WFC_EVAL_OLD, WFC_EVAL_NEW)
-        side = REPO / "dev/coverage-evaluations/pge.json"
-        sc = json.loads(side.read_text(encoding="utf-8"))
-        sc["pge:cc-e-tou-c-2026-03-01"] = sc["pge:cc-e-tou-c-2026-03-01"].replace(WFC_EVAL_OLD, WFC_EVAL_NEW)
-        side.write_text(json.dumps(sc, indent=1, ensure_ascii=False), encoding="utf-8")
     t.base.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 

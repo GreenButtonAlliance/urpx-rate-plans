@@ -5,8 +5,8 @@
 
 WHY THIS EXISTS. The Evaluations say, in their own first sentence, that the parts
 are "listed here in the same words as the filing's tariff.toml [modeling].deferrals
-so the two records cannot drift". They were authored that way once, by
-dev/apply_coverage_evaluations.py from a hand-written sidecar, and nothing kept it
+so the two records cannot drift". They were authored that way once, from
+hand-written sidecars since retired, and nothing kept it
 true. Every deferral corrected since then was corrected in the TOML alone, so the
 JSON-LD became the stale copy of every fix, while still asserting it could not be.
 An in-document prose audit measured the drift on 2026-09-23: six PG&E Evaluations had
@@ -17,7 +17,7 @@ That sentence is a good invariant. The problem was that it was a promise rather 
 a derivation. This script makes it a derivation: the TOML is the owner, the Evaluation
 is generated, and re-running is how they are kept identical.
 
-APPLIES BY CLAIM @id, NOT BY FILE, for the reason apply_coverage_evaluations.py gives:
+APPLIES BY CLAIM @id, NOT BY FILE, because
 a claim @id can be defined in more than one filing, and the copies must stay
 byte-identical or dev/lint_copy_divergence.py fails. The text is derived from the
 OWNING filing's TOML, then written to every occurrence of that @id.

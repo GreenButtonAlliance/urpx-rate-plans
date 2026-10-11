@@ -480,16 +480,6 @@ def manifests() -> None:
         t = replace_deferral(t, "The E-TOU-C Conservation Incentive Adjustment is outside the E-TOU-C subtotal.", [])
         p.write_text(t, encoding="utf-8")
 
-    side = REPO / "dev/coverage-evaluations/pge.json"
-    ev = json.loads(side.read_text(encoding="utf-8"))
-    ev.pop("pge:cc-e-tou-c-baseline-tier-2026-03-01", None)
-    ev["pge:cc-e-tou-c-2026-03-01"] = ev["pge:cc-e-tou-c-2026-03-01"].replace(
-        "this filing carries the time-of-use dimension and the sibling baseline-tier modifier carries the tier "
-        "dimension, but nothing states how the two combine.",
-        "this filing carries both the time-of-use dimension and the baseline tiers, but nothing states how the "
-        "two combine.")
-    side.write_text(json.dumps(ev, indent=1, ensure_ascii=False), encoding="utf-8")
-
 
 def main() -> int:
     if OVERLAY.exists():
