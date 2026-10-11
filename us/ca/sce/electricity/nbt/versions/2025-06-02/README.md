@@ -4,7 +4,7 @@ SCE Schedule NBT (Net Billing Tariff), the residential export-compensation modif
 
 ## Files
 
-- `sce_nbt_2025-06-02.pdf`: the live SCE tariff book for Schedule NBT, retrieved 2026-10-11 (sha256 in `tariff.toml`), the same bytes as `data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf`
+- `sce_nbt_2025-06-02.pdf`: the live SCE tariff book for Schedule NBT, first retrieved 2026-09-23 (sha256 in `tariff.toml`), the same bytes as `data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf`
 - `tariff.toml`: provenance, the sheets the document carries, modeling deferrals, validation status
 - `rate-plan-modifier_sce_nbt_2025-06-02.jsonld`: URPX RatePlanModifierVersion `sce:nbt-2025-06-02`, written by `dev/author_sce_nbt_2025_06_02.py`
 

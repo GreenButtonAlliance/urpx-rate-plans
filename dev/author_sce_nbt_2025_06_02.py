@@ -40,6 +40,7 @@ sys.path.insert(0, str(REPO / "dev"))
 import rescope_iris as rescope  # noqa: E402
 
 SRC, DATE, TODAY = "2025-04-23", "2025-06-02", "2026-10-11"
+RETRIEVED = "2026-09-23"  # data/documents.json first saw these bytes then
 NBT = REPO / "us/ca/sce/electricity/nbt/versions"
 BOOK = REPO / "data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf"
 BOOK_SHA = "f99d38000593434cfdaf4491cffe7f881c4774040bd61f275ef6de6f9fc03e81"
@@ -168,7 +169,7 @@ def derive(sh: list[dict]):
     v["urpx:description"] += DESCRIPTION_ADD
     leaves = sorted(s["leaf"] for s in sh)
     v["urpx:hasDataSourceReference"].update({
-        "urpx:accessURL": URL, "urpx:dateRetrieved": TODAY, "urpx:pageStart": 1, "urpx:pageEnd": len(sh),
+        "urpx:accessURL": URL, "urpx:dateRetrieved": RETRIEVED, "urpx:pageStart": 1, "urpx:pageEnd": len(sh),
         "urpx:leafStart": leaves[0], "urpx:leafEnd": leaves[-1]})
     ev = v["urpx:hasCoverageClaim"]["urpx:explainedBy"]
     ev["urpx:description"] += EVALUATION_ADD

@@ -145,7 +145,7 @@ before the schedule existed.
 | `sce:medical-baseline` | `sce:medical-baseline-2025-10-01` | 2025-10-01 | 2026-06-25 | 2026-05-04 | 155 |
 | `sce:medical-baseline` | `sce:medical-baseline-2026-06-25` | 2026-06-25 | open | 2026-09-23 | 13 |
 | `sce:nbt` | `sce:nbt-2025-04-23` | 2025-04-23 | 2025-06-02 | 2026-05-29 | 130 |
-| `sce:nbt` | `sce:nbt-2025-06-02` | 2025-06-02 | open | 2026-10-11 | 0 |
+| `sce:nbt` | `sce:nbt-2025-06-02` | 2025-06-02 | open | 2026-09-23 | 13 |
 | `sce:tou-d-4-9pm-hpwh` | `sce:tou-d-4-9pm-hpwh-2025-11-15` | 2025-11-15 | 2026-01-01 | 2026-05-04 | 155 |
 | `sce:tou-d-4-9pm-hpwh` | `sce:tou-d-4-9pm-hpwh-2026-03-20` | 2026-03-20 | 2026-06-01 | 2026-05-04 | 155 |
 | `sce:tou-d-4-9pm-hpwh` | `sce:tou-d-4-9pm-hpwh-2026-06-01` | 2026-06-01 | 2026-10-01 | 2026-09-23 | 13 |
