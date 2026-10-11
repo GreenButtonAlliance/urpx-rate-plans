@@ -618,7 +618,7 @@ case "$MODE" in
 --fast)
     # What the commit changes, against dev/gate-steps.toml. Unfiltered, so a
     # deletion is a change like any other.
-    STAGED=$(git diff --cached --name-only) || {
+    STAGED=$(git diff --cached --name-only --no-renames) || {
         echo "REFUSED: cannot list the staged diff" >&2; exit 3; }
     SKIPPED=$(printf '%s\n' "$STAGED" | python3 dev/gate_steps.py skipped) || {
         echo "REFUSED: dev/gate_steps.py cannot read dev/gate-steps.toml" >&2; exit 3; }

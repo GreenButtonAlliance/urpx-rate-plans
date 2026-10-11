@@ -143,32 +143,33 @@ def main() -> int:
     nbt, xc, scm = "NBT export cells", "Scenario cost models: clj-urpx cross-check", "Scenario cost models: SHACL"
     vd = "Version-dispatch and shape-exception negative fixtures"
     slow = {nbt, xc, scm}
+    pf, sd = "Per-file diagnostic (informational)", "Sandbox drift (informational)"
     utilities = ["cpau", "pge", "sce"]
     cases = [
         ("an NBT filing",
          ["us/ca/sce/electricity/nbt/versions/2025-04-23/rate-plan-modifier_sce_nbt_2025-04-23.jsonld"],
-         {vd}, ["sce"]),
+         {vd, sd}, ["sce"]),
         ("a non-NBT SCE modifier filing",
          ["us/ca/sce/electricity/care/versions/2026-03-20/rate-plan-modifier_sce_care_2026-03-20.jsonld"],
-         {vd}, ["sce"]),
+         {vd, sd}, ["sce"]),
         ("a PG&E base filing",
          ["us/ca/pge/electricity/e-1/versions/2026-03-01/rate-plan_pge_e-1_2026-03-01.jsonld"],
-         {nbt, vd}, ["pge"]),
+         {nbt, vd, sd}, ["pge"]),
         ("a PG&E modifier filing and its manifest",
          ["us/ca/pge/electricity/d-care/versions/2026-03-01/rate-plan-modifier_pge_d-care_2026-03-01.jsonld",
           "us/ca/pge/electricity/d-care/versions/2026-03-01/tariff.toml"],
          {vd}, ["pge"]),
         ("a CPAU manifest", ["us/ca/cpau/electricity/e-1/versions/2025-07-01/tariff.toml"],
-         {nbt, xc, vd}, ["cpau"]),
-        ("deps.edn", ["deps.edn"], set(), utilities),
-        ("the corpus walker", ["dev/corpus.py"], {nbt}, utilities),
-        ("the recorded SHACL baseline", ["dev/baseline/corpus.json"], slow, utilities),
-        ("the shape exceptions", ["dev/shape-exceptions.json"], {nbt, xc}, utilities),
-        ("the currency instant", ["dev/currency-instant.json"], {nbt, scm}, []),
+         {nbt, xc, vd, pf}, ["cpau"]),
+        ("deps.edn", ["deps.edn"], {sd}, utilities),
+        ("the corpus walker", ["dev/corpus.py"], {nbt, sd}, utilities),
+        ("the recorded SHACL baseline", ["dev/baseline/corpus.json"], slow | {pf, sd}, utilities),
+        ("the shape exceptions", ["dev/shape-exceptions.json"], {nbt, xc, sd}, utilities),
+        ("the currency instant", ["dev/currency-instant.json"], {nbt, scm, pf, sd}, []),
         ("the gate itself", ["dev/gate-steps.toml"], set(), utilities),
-        ("a dev/ lint", ["dev/lint_price_cells.py"], slow, []),
-        ("a .md file", ["LAYOUT.md"], slow | {vd}, []),
-        ("nothing", [], slow | {vd}, []),
+        ("a dev/ lint", ["dev/lint_price_cells.py"], slow | {pf, sd}, []),
+        ("a .md file", ["LAYOUT.md"], slow | {vd, pf, sd}, []),
+        ("nothing", [], slow | {vd, pf, sd}, []),
     ]
     for name, paths, want_skipped, want_utilities in cases:
         got = set(gate_steps.skipped(table, paths))

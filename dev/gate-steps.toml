@@ -216,10 +216,23 @@ note = "Baseline: every merged mode"
 modes = ["full", "changed"]
 scope = "corpus"
 
+# Filing JSON-LD, the SHACL engine and its runners, the shape exceptions, the
+# corpus walkers, or deps.edn.
 [[gate]]
 note = "Per-file diagnostic (informational)"
 modes = ["full", "changed"]
 scope = "corpus"
+triggers = [
+    '^us/.*\.jsonld$',
+    '^dev/shacl_gate\.clj$',
+    '^dev/shape-exceptions\.json$',
+    '^dev/shacl\.sh$',
+    '^dev/shacl_nrepl\.py$',
+    '^dev/corpus\.py$',
+    '^dev/urpx_rate_plans\.clj$',
+    '^corpus\.json$',
+    '^deps\.edn$',
+]
 
 [[gate]]
 note = "Cross-check namespace negative fixtures"
@@ -236,10 +249,15 @@ triggers = [
     '^deps\.edn$',
 ]
 
+# A manifest, where [[sandbox]] records live, or the check.
 [[gate]]
 note = "Sandbox drift (informational)"
 modes = ["full", "changed"]
 scope = "corpus"
+triggers = [
+    '^us/.*/tariff\.toml$',
+    '^dev/check_sandbox_drift\.py$',
+]
 
 [[gate]]
 note = "REUSE licensing"
