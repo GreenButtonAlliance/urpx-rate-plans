@@ -39,13 +39,13 @@ SCE Non-Equity values are roughly **2x PG&E Residential** values across all vint
 
 ## SCE Equity Customer definition (Sheet 17)
 
-Equivalent to PG&E's Low-Income classification. An Equity Customer is either:
+Sheet 17 (Cal. P.U.C. Sheet No. 87511-E, effective 2024-07-01) defines an Equity Customer as either:
 
 1. A Residential Customer enrolled in CARE (California Alternate Rates for Energy) or FERA (Family Electric Rates Assistance);
-2. A resident-owner of a single-family home in a disadvantaged community as defined in D.18-06-027; OR
-3. A Residential Customer who lives in California Indian Country as defined in D.20-12-003.
+2. A resident of a single-family home in a disadvantaged community as defined in D.18-06-027 whose account only has one meter; OR
+3. A Residential Customer who lives in California Indian Country as defined in D.20-12-003 whose account has only one meter.
 
-Same eligibility basis as PG&E NBT's Low-Income. The Equity Customer predicate is consumer-side-evaluable. The NBT25 vintage is two `urpx:ProfileAlternative` cells, one per customer segment of the Sheet 7 table (Residential Non-Equity Customer, Residential Equity Customer), stated by a second `urpx:AlternativeDimension`, `NBT Customer Segment`, in the vintage container. Each cell's `urpx:PriceSetAlternative` holds the NBT25 export Prices and that segment's ACC Plus Price, so a consumer selecting a cell gets one ACC Plus Price. No Price carries a `urpx:ApplicabilityRule`.
+The committed PDF carries the superseded 87687-E, which says resident-owner and has no one-meter condition. The Equity Customer predicate is consumer-side-evaluable. The NBT25 vintage is two `urpx:ProfileAlternative` cells, one per customer segment of the Sheet 7 table (Residential Non-Equity Customer, Residential Equity Customer), stated by a second `urpx:AlternativeDimension`, `NBT Customer Segment`, in the vintage container. Each cell's `urpx:PriceSetAlternative` holds the NBT25 export Prices and that segment's ACC Plus Price, so a consumer selecting a cell gets one ACC Plus Price. No Price carries a `urpx:ApplicabilityRule`.
 
 ## What's modeled
 
@@ -91,6 +91,10 @@ does at `pge.com/energyexportcredit`, so these came through MIDAS rather than a
 published file. The `Understanding Solar Export Pricing` page documents the format,
 including UTC time columns alongside PST, without surfacing a download URL.
 
+## Reconciliation with the live tariff book
+
+The committed PDF does not carry every sheet in force during this filing's window. Against the live tariff book retrieved 2026-10-11 (sha256 `f99d3800…`, held at `data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf`), its Sheets 2 and 7 carry the right sheet numbers (89744-E, 89745-E) but a text with (P) markers, and Sheet 7 conditions ACC Plus eligibility on Original PTO Date where 89745-E conditions it on Interconnection Request date. Its Sheets 5, 8, 14, 17, 23 and 24 are the revisions that AL 5209-E, 5209-E-A and 5209-E-B replaced effective 2024-07-01. Sheets 6 and 34 were replaced effective 2025-06-02 under AL 5497-E (89868-E, 89869-E), which begins the next version. The 2025 ACC Plus values and this filing's effective date are unchanged. The per-sheet table is in `tariff.toml` `[extraction]`.
+
 ## Cross-references
 
 - **Parent epic**: (NBT export-compensation modeling for all three CA IOUs)
@@ -98,7 +102,7 @@ including UTC time columns alongside PST, without surfacing a download URL.
 - **Base RatePlan**: SCE TOU-D Option PRIME — the mandatory residential OAS for NBT per Sheet 2 §1.a
 - **Modifier overlay precedent**: `us/ca/sce/electricity/tou-d-prime-cpp/versions/2026-03-20/` (CPP modifier over PRIME)
 - **Foundational regulatory**: CPUC Decision D.22-12-056 (NBT adoption), D.23-11-068 (NBT-A Aggregation)
-- **Most-recent reissue**: Advice 5533-E (Sheets 2 + 7, 2025-04-23); other sheets carry advice letters between 2023-03-01 and 2024-12-14
+- **Most-recent reissue**: Advice 5533-E (Sheets 2 + 7, 2025-04-23); in the committed PDF, other sheets carry advice letters effective between 2023-03-01 and 2024-03-06
 
 ## Validation
 

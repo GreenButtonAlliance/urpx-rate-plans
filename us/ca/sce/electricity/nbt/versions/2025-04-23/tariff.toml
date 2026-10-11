@@ -69,10 +69,12 @@ Sheet 7 ACC Plus table (Avoided Cost Calculator Plus Adder):
 
 SCE terminology differs from PG&E: "Non-Equity Customer" vs PG&E's
 "Residential", "Equity Customer" vs PG&E's "Low Income". Equity Customer
-definition (Sheet 17): CARE/FERA OR resident-owners of single-family
-homes in disadvantaged communities (D.18-06-027) OR Residential
-Customers in California Indian Country (D.20-12-003). Same eligibility
-basis as PG&E's Low-Income classification.
+definition (Sheet 17, 87511-E, effective 2024-07-01): CARE/FERA OR
+residents of single-family homes in disadvantaged communities
+(D.18-06-027) whose account only has one meter OR Residential Customers
+in California Indian Country (D.20-12-003) whose account has only one
+meter. The committed PDF's 87687-E said resident-owners and had no
+one-meter condition.
 
 Notable: SCE Non-Equity values are roughly 2x PG&E Residential values
 across all vintages (e.g. 2023: SCE $0.040 vs PG&E $0.022). Equity values
@@ -166,6 +168,60 @@ part's body, extracted byte for byte with dev/fetch_tariff_documents.py
 --unwrap, and the sha256 recorded above is its hash. The envelope's boundary
 is generated per response, so an envelope hash identifies one response, not
 the document.
+
+Reconciliation against the live tariff book. The committed PDF is not the
+tariff book's content for this filing's window. The live book,
+https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Other%20Rates/ELECTRIC_SCHEDULES_NBT.pdf,
+retrieved 2026-10-11 (unwrapped sha256
+f99d38000593434cfdaf4491cffe7f881c4774040bd61f275ef6de6f9fc03e81, the bytes
+held at data/documents/sce/ELECTRIC_SCHEDULES_NBT.pdf), differs as follows.
+Sheets not listed carry the same Cal. P.U.C. sheet number, advice letter and
+effective date in both, and the same text apart from line breaks.
+
+ Sheet  Committed PDF                    Live tariff book
+ 2      89744-E AL 5533-E 2025-04-23     89744-E AL 5533-E 2025-04-23; same
+                                         number, but the committed text marks
+                                         section 1.a (P) and the live does not
+ 5      87274-E AL 5170-E-A 2023-12-14   87506-E AL 5209-E 2024-07-01
+ 6      85353-E AL 4961-E-A 2023-03-01   89868-E AL 5497-E 2025-06-02,
+                                         cancelling 87507-E, which neither PDF
+                                         carries
+ 7      89745-E AL 5533-E 2025-04-23     89745-E AL 5533-E 2025-04-23; same
+                                         number, but the committed text marks
+                                         the ACC Plus table (P) and conditions
+                                         eligibility on Original PTO Date,
+                                         where the live text conditions it on
+                                         Interconnection Request date and adds
+                                         the EEC Vintage Year assignment rule
+ 8      85355-E AL 4961-E 2023-03-01     87509-E AL 5209-E 2024-07-01
+ 14     87684-E AL 5228-E 2024-02-15     87510-E AL 5209-E 2024-07-01
+ 17     87687-E AL 5228-E 2024-02-15     87511-E* AL 5209-E-B 2024-07-01
+                                         (submitted 2025-08-26)
+ 18     88763-E AL 5353-E 2024-01-01     87688-E AL 5228-E 2024-02-15
+ 19     88764-E AL 5353-E 2024-01-01     87378-E AL 5204-E 2024-03-06
+ 23     87693-E AL 5228-E 2024-02-15     87513-E AL 5209-E-B 2024-07-01
+                                         (submitted 2025-08-26)
+ 24     87694-E AL 5228-E 2024-02-15     88078-E AL 5209-E-A 2024-07-01
+ 34     87704-E AL 5228-E 2024-02-15     89869-E AL 5497-E 2025-06-02
+ 36     88765-E AL 5353-E 2024-01-01     87706-E AL 5228-E 2024-02-15
+ 42     88768-E AL 5353-E 2024-01-01     87712-E AL 5228-E 2024-02-15
+
+Sheets 18, 19, 36 and 42 differ only in revision markers and line breaks.
+The committed 88764-E cancels 87378-E, the revision the live book carries
+on Sheet 19, and the live 87706-E and 87712-E print themselves as
+cancelling 88765-E and 88768-E.
+
+What this means for this filing. Its effective date stands: 89744-E and
+89745-E, effective 2025-04-23, are still the newest sheets in force before
+2025-06-02, and the 2025 ACC Plus values on 89745-E are those modeled. It
+carries no expirationDateTime, and no sheet in the live book cancels its
+rate sheets (Sheet 7, 89745-E; Sheet 5, whose 2024-07-01 revision 87506-E
+was already in force), so nothing yet bounds it. The sheets in force during
+its window on Sheets 5, 8, 14, 17, 23 and 24 are the 2024-07-01 revisions in
+the live column, not the committed ones; the Sheet 17 Equity Customer
+definition and the Sheet 23 true-up disposition stated in the JSON-LD
+follow 87511-E and 87513-E. The Sheet 6 that 89868-E cancels, 87507-E, is
+held in neither PDF.
 """
 
 # Validation ------------------------------------------------------------------
@@ -201,10 +257,10 @@ deferrals = [
  "Sheet 5 prices the Energy Export Credit by hour, by weekday versus weekend/holiday, and by month for each interconnection vintage. The model carries 5,088 of the 5,760 cells that shape implies; the 672 missing are the 2026 vintage for June through December (7 months x 24 hours x 2 day types x 2 components). This is a source gap, not a vocabulary gap: the tariff publishes no EEC numbers at all, every cell in this filing came from CEC MIDAS, and MIDAS had not published 2026 past May at extraction. Reload when it does; the sibling sdge:nbt at 5,760 shows what a complete grid looks like.",
  "Sheet 7's Avoided Cost Calculator Plus table prices 18 cells: six vintage rows (2023, 2024, 2025, 2026, 2027, and 2028-and-later) by three customer columns (Residential Non-Equity, Residential Equity, Non-Residential). Only the 2025 Residential pair is modeled, at -0.024 and -0.056 per kWh. The remaining 16 cells are unbuilt work rather than a blocker: v0.5.1 needs nothing the two existing Prices do not already use, so each is a Price in a customer-segment cell of its vintage, the vintage's ProfileAlternative split by NBT Customer Segment as NBT25's is. Note the inconsistency this leaves, that the 2023, 2024 and 2026 EEC grids are priced while their ACC Plus counterparts are not.",
  "Sheet 8 Rates section 4 prices Net Surplus Compensation as the Net Surplus Compensation Rate times Net Surplus Energy, and Sheet 9 section 4.a adds the Renewable Attribute Adder for customers transferring RECs to SCE. Source gap: the tariff states both formulas and publishes neither number. The NSCR is a rolling 12-month average of SCE hourly DLAP prices for Hour Ending 08 through Hour Ending 17, recomputed monthly and posted on sce.com; the RAA is the WECC average renewable premium, posted at sce.com/regulatory/tariff-books/rates-pricing-choices/renewable-energy-credit. Both also settle over the customer's Relevant Period rather than against any one bill.",
- "Special Condition 4.e on Sheet 23 prices the Energy Export Credit Adjustment at the end of the Relevant Period as Net Surplus Energy times the then posted Average Retail Export Compensation Rate, then forfeits whatever Energy Export Credit remains after a stated offset order. Absent for two independent reasons: the Average Retail Export Compensation Rate is published outside this corpus, and the offset ordering and forfeiture are settlement arithmetic over a 12-month window with no home on a per-bill modifier.",
+ "Special Condition 4.e on Sheet 23 prices the Energy Export Credit Adjustment at the end of the Relevant Period as Net Surplus Energy times the then posted Average Retail Export Compensation Rate, then applies unapplied Energy Export Credit first to Energy Charges of the Relevant Period not already offset and then to that adjustment, carrying any remaining balance forward to the next Relevant Period from the latter of July 1, 2024 or billing-system implementation (Sheet 23, 87513-E, Special Condition 4.e.ii), and forfeiting excess credit on termination of service (4.e.v). Absent for two independent reasons: the Average Retail Export Compensation Rate is published outside this corpus, and the offset ordering and carry-forward are settlement arithmetic over a 12-month window with no home on a per-bill modifier.",
  "Sheet 10 Rates section 6 prices NBT Aggregation billing service charges: a $25.00 one-time account set-up fee and $20.00 per account per month for manually billed accounts, $16.00 and $2.70 for automated ones. These sit in this schedule's own Rates section, and nothing in Special Condition 10.a limits NBT-A to non-residential customers, so treating them as out of scope is a filing-scope decision rather than something the tariff says. Expressible: four flat Prices, urpx:initiationCharge for the set-up fees and a monthly service charge at intervalDuration P1M for the recurring ones, gated on manual versus automated billing.",
  "Special Condition 10.c on Sheet 40 allocates Energy Export and the corresponding Energy Export Credits proportionally across the metered accounts of an NBT-A arrangement, by each account's cumulative Energy Consumption since the start of the Relevant Period, with the rounding remainder going to one designated account. It introduces no new rate but changes what each account is credited. Not expressible: URPX carries no account identity and no per-account result channel for an allocation to land in.",
- "Five eligibility conditions on the ACC Plus Adder, the one priced item in this filing whose eligibility the model does partly encode, are absent from the model and from the manifest. Sheet 7: ACC Plus customers must \"have an Original PTO Date between April 15, 2023 and December 31, 2027, or between February 15, 2024, and December 31, 2028, for NBT-A Customers\". Sheet 8 adds master-metered ineligibility, NEM and NEM-ST transferee ineligibility except for NBT Transition Customers, and \"Customers that add Renewable Generators on a New Construction are not eligible to receive the ACC Plus Adder\". Sheet 2 section 1.d adds non-TOU ineligibility. All are customer attributes of the same class as the Equity Customer segment the model selects on, and all are expressible with the ConditionExpression machinery already in the file, on the NBT25 cells' ProfileAlternatives or as a further segment carrying no ACC Plus Price rather than on the Price.",
+ "Five eligibility conditions on the ACC Plus Adder, the one priced item in this filing whose eligibility the model does partly encode, are absent from the model and from the manifest. Sheet 7 (89745-E as the live tariff book carries it): ACC Plus customers must \"have an Interconnection Request date between April 15, 2023, and December 31, 2027, or between February 15, 2024, and December 31, 2028, for NBT-A Customers\", and the ACC Plus vintage is that of the Original PTO Date for Interconnection Requests submitted from April 15, 2023 through June 30, 2024 with an Original PTO Date on or before June 30, 2024, otherwise that of the Interconnection Request date. Sheet 8 adds master-metered ineligibility, NEM and NEM-ST transferee ineligibility except for NBT Transition Customers, and \"Customers that add Renewable Generators on a New Construction are not eligible to receive the ACC Plus Adder\". Sheet 2 section 1.d adds non-TOU ineligibility. All are customer attributes of the same class as the Equity Customer segment the model selects on, and all are expressible with the ConditionExpression machinery already in the file, on the NBT25 cells' ProfileAlternatives or as a further segment carrying no ACC Plus Price rather than on the Price.",
  "Sheet 3 Rates 2 conditions a modeled export component on program enrollment: \"Customers enrolled in the California Alternate Rates for Energy (CARE) program or who receive a Medical Baseline Exemption are currently exempt from the Wildfire Fund Charge (WFC). Therefore, the WFC component of the NBCs for these Customers under this Schedule is $0.00/kWh.\" No ApplicabilityRule or Price in the model corresponds to it.",
 ]
 
