@@ -307,6 +307,9 @@
    "sce:da-crs-2026-06-25-pa-pcia-vintage"  "sce:da-crs-2026-06-25-pa-vintage-2001"
    "sce:cca-crs-2026-10-01-pa-pcia-vintage" "sce:cca-crs-2026-10-01-pa-vintage-2001"
    "sce:da-crs-2026-10-01-pa-pcia-vintage"  "sce:da-crs-2026-10-01-pa-vintage-2001"
+   ;; PG&E CCA-CRS crosses vintage with CARE enrollment; the earliest vintage,
+   ;; not CARE, is the cell that carries a PCIA Price.
+   "pge:cca-crs-2026-01-01-pa-vintage-care" "pge:cca-crs-2026-01-01-pa-v2009"
    ;; Shoreline exercises the multiplier and all five undergrounding charges.
    "scl:residential-suburban-2026-01-01-pa-jurisdiction" "scl:residential-suburban-2026-01-01-pa-shoreline"
    "scl:residential-suburban-2027-01-01-pa-jurisdiction" "scl:residential-suburban-2027-01-01-pa-shoreline"

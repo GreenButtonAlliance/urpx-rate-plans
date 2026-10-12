@@ -32,6 +32,10 @@ spec.loader.exec_module(L)
 LINT = REPO / "dev" / "lint_discount_summaries.py"
 DATE = "2026-03-20"
 BASES = ["d", "tou-d-4-9pm", "tou-d-5-8pm", "tou-d-prime"]
+PGE_GENERATION = [("e-1", "2026-03-01"), ("e-1", "2026-06-01"),
+                  ("e-elec", "2026-01-01"), ("e-elec", "2026-03-27"), ("e-elec", "2026-06-01"), ("e-elec", "2026-08-28"),
+                  ("e-tou-c", "2026-03-01"), ("e-tou-c", "2026-03-27"), ("e-tou-c", "2026-06-01"),
+                  ("e-tou-d", "2026-03-27"), ("e-tou-d", "2026-06-01"), ("ev2", "2026-03-27"), ("ev2", "2026-06-01")]
 MODIFIERS = ["care", "da-crs"]
 failures: list[str] = []
 
@@ -212,9 +216,10 @@ def test_corpus() -> None:
     check("the lint passes the corpus", p.returncode == 0, (p.stdout + p.stderr)[-400:])
     sums = {sid for f in corpus.all_filing_jsonld() for sid in L.Filing(Path(f)).summaries
             if sid.endswith(L.GENERATION)}
-    check("it finds the SCE generation subtotals, four bases at three dates",
-          sums == {f"sce:{b}-{d}-summary-generation" for b in BASES for d in (DATE, "2026-06-01", "2026-10-01")},
-          str(sorted(sums)))
+    sce = {f"sce:{b}-{d}-summary-generation" for b in BASES for d in (DATE, "2026-06-01", "2026-10-01")}
+    pge = {f"pge:{b}-{d}-summary-generation" for b, d in PGE_GENERATION}
+    check("it finds the SCE generation subtotals, four bases at three dates, and the 13 PG&E ones",
+          sums == sce | pge, str(sorted(sums)))
 
 
 if __name__ == "__main__":

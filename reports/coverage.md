@@ -111,6 +111,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | ladwp | nem | modifier | 2008-09-01 |
 | CA | ladwp | r-1a | rate-plan | 2026-04-01, 2026-07-01, 2026-10-01 |
 | CA | ladwp | r-1b | rate-plan | 2026-04-01, 2026-07-01, 2026-10-01 |
+| CA | pge | cca-crs | modifier | 2026-01-01 |
 | CA | pge | d-care | modifier | 2026-03-01 |
 | CA | pge | e-1 | rate-plan | 2026-03-01, 2026-03-01, 2026-03-01, 2026-06-01, 2026-06-01, 2026-06-01 |
 | CA | pge | e-elec | rate-plan | 2026-01-01, 2026-03-27, 2026-06-01, 2026-08-28 |

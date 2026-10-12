@@ -1,0 +1,70 @@
+# Identity --------------------------------------------------------------------
+utility = "pge"
+schedule = "cca-crs"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+url = "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_CCA-CRS.pdf"
+sha256 = "f8915d31fdb7b507f71a4c7c869df582ba7712560d37d22063b8eb0967f73842"
+retrieved_on = "2026-09-23"
+media_type = "application/pdf"
+filing_type = "advice-letter"
+filing_id = "PGE-AL-7797-E"
+
+# Regulatory ------------------------------------------------------------------
+[regulator]
+authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "3.2.3"
+extracted_on = "2026-10-11"
+notes = """
+Source bytes. data/documents/pge/ELEC_SCHEDS_CCA-CRS.pdf, fetched 2026-09-23 by
+dev/fetch_tariff_documents.py; PG&E's server still reported Last-Modified
+Wed, 31 Dec 2025 23:18:32 GMT and the same length on 2026-10-11.
+
+Sheets in force. Sheet 1 (52000-E, Advice 6413-E) effective November 22, 2021;
+Sheet 2 (47286-E, Advice 5932-E) effective May 6, 2021; Sheets 3 to 5 (60676-E
+to 60678-E, Advice 7797-E) effective January 1, 2026; Sheet 6 (58892-E,
+Advice 7432-E) effective January 24, 2025. This version is dated by its newest
+sheets. The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as pge:d-care does.
+
+Reading. MinerU 3.2.3 (pipeline backend) misplaces cells in the Sheet 4 table
+(its Residential row shows $0.03608, the Small Commercial 2016 value), so the
+Residential row was read from pdftotext -layout, and dev/author_pge_cca_crs.py
+checks every Vintage PCIA value against it.
+
+What the base plans carry. Sheet 3: "The rates listed below are currently
+reflected in each individual applicable rate schedule and are consolidated
+below to increase the visibility of the CRS rates across customer classes and
+vintages." The Residential ECRA ($0.00002), Wildfire Fund Charge ($0.00591)
+and Ongoing CTC ($0.00027) equal the Prices of every base version this
+modifier applies to, and the eighteen Residential Vintage PCIA rates equal the
+vintage tables of Schedules E-1, E-ELEC, E-TOU-C, E-TOU-D and EV2.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-11"
+
+# Modeling -------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+ "Sheet 2 Applicability and Exemption table rows 3 and 4 and Special Conditions 2 and 3 (Sheet 6): CCA customers who are former Continuous DA customers (row 3) are exempt from the ECRA, the DWR Bond Charge and the Vintage PCIA, and former Returning Continuous DA customers (row 4) from the ECRA and the DWR Bond Charge; Special Condition 2 states \"Customers that have taken Direct Access (DA) or CCA service continually since February 1, 2001, are exempt from the Wildfire Fund Charge and PCIA portions of the CCA CRS.\" Not modeled: the eligibility rule tests CCA enrollment only, the ECRA and Wildfire Fund Charge Prices these customers are exempt from are in the base plan, and the Vintage PCIA Prices here carry no continuous-service condition. Expressible as a further dimension of the vintage container, as CARE is, for the PCIA half; the base-side half needs offsets of the base's ECRA and Wildfire Fund Charge Prices.",
+ "Wildfire Fund Charge exemption for CARE and Medical Baseline CCA customers, Special Condition 1 (Sheet 6): \"California Alternate Rates for Energy (CARE) and medical baseline customers that take CCA service are exempt from paying the Wildfire Fund Charge.\" The charge is a base-plan Price. pge:d-care offsets it for CARE customers and pge:e-1-medical-baseline and pge:e-tou-c-medical-baseline for Medical Baseline customers on those schedules, so a CARE or Medical Baseline CCA customer composes the base with two modifiers, this one and that one.",
+ "Medical Baseline Vintage PCIA, Sheet 2 row 2 against Special Condition 1 (Sheet 6). Sheet 2 row 2 (Cal. P.U.C. Sheet 47286-E, effective May 6, 2021) marks \"CCA Medical Baseline or CARE\" Exempt from the Vintage PCIA. Special Condition 1 (Cal. P.U.C. Sheet 58892-E, effective January 24, 2025) governs Medical Baseline: \"Prior to January 1, 2022 Medical Baseline customers were exempt from the PCIA portion of the CCA CRS. For any CCA that begins serving residential customers on or after January 1, 2022, Medical Baseline customers of that CCA will not receive the PCIA exemption. For CCAs that are serving residential customers as of the date PG&E begins charging the PCIA to medical baseline customers, the full PCIA amount will be phased-in over a period of 4 years. The applicable PCIA obligation expressed as a percentage of the full otherwise applicable PCIA obligation will be 25% in the first year, 50% in the second year, 75% in the third year, and 100% in the fourth year.\" This filing charges a Medical Baseline customer the full Vintage PCIA. The phase-in percentages are not modeled: the sheet does not state the date PG&E began charging the PCIA to Medical Baseline customers, and the percentage depends on it and on when the customer's CCA began serving residential customers, which URPX carries no attribute for. Special Condition 1 is silent on CARE, so the Sheet 2 row 2 CARE exemption stands and is modeled.",
+ "PCIA vintage determination, Sheet 1: \"If any of these occur in the first six months of the calendar year (e.g. 2010), the CCA customers are assigned the CRS for the prior year (i.e. 2009 vintage). If the commitment by the CCA occurs July 1 or later, the CCA customers are assigned the CRS for the current year (2010 vintage in this example).\" Special Condition 5 (Sheet 6) keeps a continuously served customer's vintage across changes of commodity service provider. This filing takes departureVintage as a supplied customer attribute; the rules that set and retain it define the attribute rather than gate a Price, and v0.5.1 has no vocabulary that derives an operand.",
+ "Sheets 3 to 5 price twelve customer classes (Residential, Small, Medium and Large Commercial, Streetlights, Standby, Agriculture, E-20T/B-20T, E-20P/B-20P, E-20S/B-20S, BEV1, BEV2); this filing carries the Residential row, the class of every base plan urpx:applicableToRatePlan names.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Authored by dev/author_pge_cca_crs.py, which checks every Vintage PCIA value against the Residential row of its sheet in the committed PDF and the Sheet 3 ECRA, Wildfire Fund Charge and Ongoing CTC against each base's own Prices."

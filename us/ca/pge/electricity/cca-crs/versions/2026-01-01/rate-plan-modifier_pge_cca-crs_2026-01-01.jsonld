@@ -1,0 +1,2880 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "pge": "https://rate-plans.grid-coordination.energy/pge/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:dimensionProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:dateReceived": {
+      "@type": "xsd:date"
+    },
+    "urpx:gYearValue": {
+      "@type": "xsd:gYear"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "pge:doc-cca-crs-2026-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "pge:cca-crs",
+        "urpx:name": "Schedule CCA-CRS",
+        "urpx:modifierUniqueIdentifier": "CCA-CRS",
+        "urpx:initialEffectiveDate": "2026-01-01",
+        "urpx:timezoneIdentifier": "America/Los_Angeles",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "pge:cca-crs-2026-01-01",
+          "urpx:modifierVersionNumber": "2026-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:rateCase"
+          },
+          "urpx:description": "Schedule CCA-CRS, Community Choice Aggregation Cost Responsibility Surcharge, for a residential customer taking CCA service, applied over the customer's PG&E residential base plan (E-1, E-ELEC, E-TOU-C, E-TOU-D or EV2). A CCA customer's PG&E price is the base plan plus this modifier and nothing else. Sheet 1 names four components: the Energy Cost Recovery Amount, the Ongoing Competition Transition Charge, the Wildfire Fund Charge and the Power Charge Indifference Adjustment. Sheet 3 states that its rates \"are currently reflected in each individual applicable rate schedule and are consolidated below\", and every base prices the first three in its Unbundling of Total Rates at the Sheet 3 Residential values ($0.00002, $0.00027 and $0.00591 per kWh), so this modifier carries only the Vintage PCIA. Its eighteen Residential vintage rates, 2009 through 2026, are mutually exclusive: a urpx:ProfileAlternatives crosses the departureVintage attribute with CARE enrollment, and only the non-CARE cells carry a Price, because Sheet 2 row 2 exempts CARE customers from the Vintage PCIA. Each base's Billing condition excludes the generation charge and the Bundled PCIA for CCA customers; a Price carrying urpx:multiplier -1 over that base's generation urpx:PriceSummary removes both. Generation from the CCA itself is priced by the CCA and is outside this filing. Direct Access and Transitional Bundled Service customers take the vintage rates from the inlined pge:<base>-vintage-pcia modifiers.",
+          "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "pge:e-1"
+            },
+            {
+              "@id": "pge:e-elec"
+            },
+            {
+              "@id": "pge:e-tou-c"
+            },
+            {
+              "@id": "pge:e-tou-d"
+            },
+            {
+              "@id": "pge:ev2"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "urpx:fileName": "ELEC_SCHEDS_CCA-CRS.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_CCA-CRS.pdf",
+            "urpx:dateRetrieved": "2026-09-23",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 6,
+            "urpx:leafStart": "52000-E",
+            "urpx:leafEnd": "58892-E",
+            "urpx:sourcePublication": {
+              "@id": "pge:al-7797-e"
+            }
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "pge:cca-crs-2026-01-01-er-residential",
+              "urpx:name": "Residential customer",
+              "urpx:description": "This filing carries the Residential row of Sheets 3 to 5.",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cca-crs-2026-01-01-cx-residential",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "pge:cca-crs-2026-01-01-cn-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@id": "pge:cca-crs-2026-01-01-cn-residential-left-operand",
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@id": "pge:cca-crs-2026-01-01-cn-residential-right-operand",
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:residentialKind"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "pge:cca-crs-2026-01-01-er-cca",
+              "urpx:name": "Community Choice Aggregation service",
+              "urpx:description": "Sheet 1 APPLICABILITY: \"This schedule and the applicable components of the Community Choice Aggregation (CCA) Cost Responsibility Surcharge (CRS) apply to all customers who take CCA service, unless otherwise set forth in the Special Conditions, below.\"",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "pge:cca-crs-2026-01-01-cx-cca",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "pge:cca-crs-2026-01-01-cn-cca",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@id": "pge:cca-crs-2026-01-01-cn-cca-left-operand",
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasProgramEnrollment"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@id": "pge:cca-crs-2026-01-01-cn-cca-right-operand",
+                    "@type": "urpx:ObjectOperandNode",
+                    "urpx:referencesValue": {
+                      "@id": "pge:program-cca"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "pge:cca-crs-2026-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "pge:cca-crs-2026-01-01-mi-energy",
+                "urpx:name": "kWh Energy Consumption",
+                "urpx:metricInputType": {
+                  "@id": "urpx:measuredMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "pge:cca-crs-2026-01-01-ms-energy",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:energy"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kWh"
+                  }
+                }
+              }
+            ],
+            "urpx:hasProfileAlternatives": {
+              "@type": "urpx:ProfileAlternatives",
+              "@id": "pge:cca-crs-2026-01-01-pa-vintage-care",
+              "urpx:name": "PCIA vintage year crossed with CARE enrollment",
+              "urpx:hasAlternativeDimensions": {
+                "@type": "urpx:AlternativeDimensions",
+                "@id": "pge:cca-crs-2026-01-01-pa-vintage-care-alternative-dimensions",
+                "urpx:hasAlternativeDimension": [
+                  {
+                    "@type": "urpx:AlternativeDimension",
+                    "urpx:dimensionDisplayName": "PCIA Vintage Year",
+                    "urpx:customDimensionProperty": "departureVintage",
+                    "urpx:hasPossibleValues": {
+                      "@list": [
+                        {
+                          "@value": "2009",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2010",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2011",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2012",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2013",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2014",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2015",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2016",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2017",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2018",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2019",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2020",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2021",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2022",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2023",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2024",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2025",
+                          "@type": "xsd:gYear"
+                        },
+                        {
+                          "@value": "2026",
+                          "@type": "xsd:gYear"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "@type": "urpx:AlternativeDimension",
+                    "urpx:dimensionDisplayName": "Program Enrollment",
+                    "urpx:dimensionProperty": "https://urpx.org/ns/ontology/hasProgramEnrollment",
+                    "urpx:hasPossibleValues": {
+                      "@list": [
+                        {
+                          "@id": "pge:program-care"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "urpx:hasProfileAlternative": [
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2009",
+                  "urpx:name": "PCIA vintage 2009, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2009-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2009-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2009-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2009"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2009-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2009-care",
+                  "urpx:name": "PCIA vintage 2009, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2009"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2009-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2010",
+                  "urpx:name": "PCIA vintage 2010, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2010-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2010-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2010-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2010"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2010-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2010-care",
+                  "urpx:name": "PCIA vintage 2010, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2010"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2010-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2011",
+                  "urpx:name": "PCIA vintage 2011, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2011-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2011-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2011-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2011"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2011-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2011-care",
+                  "urpx:name": "PCIA vintage 2011, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2011"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2011-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2012",
+                  "urpx:name": "PCIA vintage 2012, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2012-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2012-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2012-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2012"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2012-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2012-care",
+                  "urpx:name": "PCIA vintage 2012, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2012"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2012-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2013",
+                  "urpx:name": "PCIA vintage 2013, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2013-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2013-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2013-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2013"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2013-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2013-care",
+                  "urpx:name": "PCIA vintage 2013, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2013"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2013-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2014",
+                  "urpx:name": "PCIA vintage 2014, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2014-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2014-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2014-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2014"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2014-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2014-care",
+                  "urpx:name": "PCIA vintage 2014, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2014"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2014-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2015",
+                  "urpx:name": "PCIA vintage 2015, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2015-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2015-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2015-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2015"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2015-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2015-care",
+                  "urpx:name": "PCIA vintage 2015, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2015"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2015-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2016",
+                  "urpx:name": "PCIA vintage 2016, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2016-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2016-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2016-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2016"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2016-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2016-care",
+                  "urpx:name": "PCIA vintage 2016, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2016"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2016-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2017",
+                  "urpx:name": "PCIA vintage 2017, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2017-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2017-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2017-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2017"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2017-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2017-care",
+                  "urpx:name": "PCIA vintage 2017, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2017"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2017-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2018",
+                  "urpx:name": "PCIA vintage 2018, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2018-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2018-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2018-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2018"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2018-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2018-care",
+                  "urpx:name": "PCIA vintage 2018, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2018"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2018-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2019",
+                  "urpx:name": "PCIA vintage 2019, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2019-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2019-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2019-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2019"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2019-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2019-care",
+                  "urpx:name": "PCIA vintage 2019, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2019"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2019-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2020",
+                  "urpx:name": "PCIA vintage 2020, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2020-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2020-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2020-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2020"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2020-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2020-care",
+                  "urpx:name": "PCIA vintage 2020, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2020"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2020-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2021",
+                  "urpx:name": "PCIA vintage 2021, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2021-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2021-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2021-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2021"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2021-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2021-care",
+                  "urpx:name": "PCIA vintage 2021, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2021"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2021-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2022",
+                  "urpx:name": "PCIA vintage 2022, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2022-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2022-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2022-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2022"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2022-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2022-care",
+                  "urpx:name": "PCIA vintage 2022, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2022"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2022-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2023",
+                  "urpx:name": "PCIA vintage 2023, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2023-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2023-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2023-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2023"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2023-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2023-care",
+                  "urpx:name": "PCIA vintage 2023, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2023"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2023-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2024",
+                  "urpx:name": "PCIA vintage 2024, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2024-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2024-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2024-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2024"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2024-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2024-care",
+                  "urpx:name": "PCIA vintage 2024, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2024"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2024-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2025",
+                  "urpx:name": "PCIA vintage 2025, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2025-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2025-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2025-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2025"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2025-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2025-care",
+                  "urpx:name": "PCIA vintage 2025, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2025"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2025-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2026",
+                  "urpx:name": "PCIA vintage 2026, not CARE",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2026-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2026-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2026-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2026"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2026-not-care",
+                          "urpx:operator": {
+                            "@id": "urpx:notEqualsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-not-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-not-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "pge:cca-crs-2026-01-01-pa-v2026-care",
+                  "urpx:name": "PCIA vintage 2026, CARE (exempt from the Vintage PCIA, Sheet 2 row 2)",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-condition-expression",
+                    "urpx:rootNode": {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-root-node",
+                      "urpx:operator": {
+                        "@id": "urpx:andOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-vintage",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-vintage-left-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:customConditionProperty": "departureVintage"
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-vintage-right-operand",
+                            "@type": "urpx:CustomOperandNode",
+                            "urpx:gYearValue": "2026"
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-care",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-care-left-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:hasProgramEnrollment"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@id": "pge:cca-crs-2026-01-01-pa-v2026-care-care-right-operand",
+                            "@type": "urpx:ObjectOperandNode",
+                            "urpx:referencesValue": {
+                              "@id": "pge:program-care"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "pge:cca-crs-2026-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:cca-crs-2026-01-01-ledger-pcia",
+                  "urpx:name": "CCA-CRS Vintage Power Charge Indifference Adjustment",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:cca-crs-2026-01-01-mi-energy"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "pge:cca-crs-2026-01-01-ledger-oat-generation",
+                  "urpx:name": "CCA-CRS offset of the base plan's PG&E generation and Bundled PCIA",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:supplyLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "pge:cca-crs-2026-01-01-mi-energy"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:cca-crs-2026-01-01-pd-pcia",
+                  "urpx:name": "Vintage PCIA",
+                  "urpx:chargeType": {
+                    "@id": "urpx:strandedCosts"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:adjustment"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:deliveryPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:cca-crs-2026-01-01-ledger-pcia"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "pge:cca-crs-2026-01-01-pd-oat-generation-offset",
+                  "urpx:name": "Offset of the base plan's PG&E generation and Bundled PCIA, which a CCA customer does not pay PG&E",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditEnergy"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:supplyPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "pge:cca-crs-2026-01-01-ledger-oat-generation"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "pge:cca-crs-2026-01-01-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "pge:cca-crs-2026-01-01-price-oat-generation-offset",
+                "urpx:name": "Offset of the generation subtotal of whichever PG&E residential base plan the customer is on. Each base's Billing condition: CCA Generation Service Customers \"shall pay all charges shown in the Unbundling of Total Rates except for the Bundled Power Charge Indifference Adjustment and the generation charge\" (Schedule E-1 Sheet 6, E-ELEC Special Condition 4, E-TOU-C Sheet 8, E-TOU-D Special Condition 5, EV2 Special Condition 4).",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "pge:cca-crs-2026-01-01-pd-oat-generation-offset"
+                },
+                "urpx:startDate": "2026-01-01",
+                "urpx:multiplier": "-1",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "pge:e-1-2026-03-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-1-2026-06-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-elec-2026-01-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-elec-2026-03-27-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-elec-2026-06-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-elec-2026-08-28-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-tou-c-2026-03-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-tou-c-2026-03-27-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-tou-c-2026-06-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-tou-d-2026-03-27-summary-generation"
+                  },
+                  {
+                    "@id": "pge:e-tou-d-2026-06-01-summary-generation"
+                  },
+                  {
+                    "@id": "pge:ev2-2026-03-27-summary-generation"
+                  },
+                  {
+                    "@id": "pge:ev2-2026-06-01-summary-generation"
+                  }
+                ]
+              }
+            ],
+            "urpx:hasPriceSetAlternatives": [
+              {
+                "@type": "urpx:PriceSetAlternatives",
+                "@id": "pge:cca-crs-2026-01-01-psa-pcia-by-vintage",
+                "urpx:name": "Vintage PCIA, varies by PCIA vintage year; CARE customers exempt",
+                "urpx:referencesProfileAlternatives": {
+                  "@id": "pge:cca-crs-2026-01-01-pa-vintage-care"
+                },
+                "urpx:hasPriceSetAlternative": [
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2009",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2009"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2009",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2009 vintage, Residential: Schedule CCA-CRS Sheet 3 (Cal. P.U.C. Sheet 60676-E)",
+                        "urpx:unitPrice": "0.02973"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2010",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2010"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2010",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2010 vintage, Residential: Schedule CCA-CRS Sheet 3 (Cal. P.U.C. Sheet 60676-E)",
+                        "urpx:unitPrice": "0.03366"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2011",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2011"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2011",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2011 vintage, Residential: Schedule CCA-CRS Sheet 3 (Cal. P.U.C. Sheet 60676-E)",
+                        "urpx:unitPrice": "0.03492"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2012",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2012"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2012",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2012 vintage, Residential: Schedule CCA-CRS Sheet 3 (Cal. P.U.C. Sheet 60676-E)",
+                        "urpx:unitPrice": "0.03676"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2013",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2013"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2013",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2013 vintage, Residential: Schedule CCA-CRS Sheet 3 (Cal. P.U.C. Sheet 60676-E)",
+                        "urpx:unitPrice": "0.03708"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2014",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2014"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2014",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2014 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03686"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2015",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2015"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2015",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2015 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03680"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2016",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2016"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2016",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2016 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03687"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2017",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2017"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2017",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2017 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03661"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2018",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2018"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2018",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2018 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03679"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2019",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2019"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2019",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2019 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03725"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2020",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2020"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2020",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2020 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.03632"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2021",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2021"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2021",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2021 vintage, Residential: Schedule CCA-CRS Sheet 4 (Cal. P.U.C. Sheet 60677-E)",
+                        "urpx:unitPrice": "0.05264"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2022",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2022"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2022",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2022 vintage, Residential: Schedule CCA-CRS Sheet 5 (Cal. P.U.C. Sheet 60678-E)",
+                        "urpx:unitPrice": "0.05272"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2023",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2023"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2023",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2023 vintage, Residential: Schedule CCA-CRS Sheet 5 (Cal. P.U.C. Sheet 60678-E)",
+                        "urpx:unitPrice": "0.05380"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2024",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2024"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2024",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2024 vintage, Residential: Schedule CCA-CRS Sheet 5 (Cal. P.U.C. Sheet 60678-E)",
+                        "urpx:unitPrice": "0.05066"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2025",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2025"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2025",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2025 vintage, Residential: Schedule CCA-CRS Sheet 5 (Cal. P.U.C. Sheet 60678-E)",
+                        "urpx:unitPrice": "-0.01011"
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "urpx:PriceSetAlternative",
+                    "@id": "pge:cca-crs-2026-01-01-psa-pcia-v2026",
+                    "urpx:referencesProfileAlternative": {
+                      "@id": "pge:cca-crs-2026-01-01-pa-v2026"
+                    },
+                    "urpx:hasPrice": [
+                      {
+                        "@type": "urpx:Price",
+                        "@id": "pge:cca-crs-2026-01-01-price-pcia-v2026",
+                        "urpx:referencesPriceDefinition": {
+                          "@id": "pge:cca-crs-2026-01-01-pd-pcia"
+                        },
+                        "urpx:startDate": "2026-01-01",
+                        "urpx:name": "Vintage PCIA, 2026 vintage, Residential: Schedule CCA-CRS Sheet 5 (Cal. P.U.C. Sheet 60678-E)",
+                        "urpx:unitPrice": "-0.01011"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-pge",
+            "urpx:legalName": "Pacific Gas and Electric Company",
+            "urpx:organizationType": {
+              "@id": "urpx:utilityOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-pge-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-pge-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Pacific Gas and Electric Company"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-pge-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "14328"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "pge:cca-crs"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "pge:cc-cca-crs-2026-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "pge:cc-cca-crs-2026-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Sheet 2 Applicability and Exemption table rows 3 and 4 and Special Conditions 2 and 3 (Sheet 6): CCA customers who are former Continuous DA customers (row 3) are exempt from the ECRA, the DWR Bond Charge and the Vintage PCIA, and former Returning Continuous DA customers (row 4) from the ECRA and the DWR Bond Charge; Special Condition 2 states \"Customers that have taken Direct Access (DA) or CCA service continually since February 1, 2001, are exempt from the Wildfire Fund Charge and PCIA portions of the CCA CRS.\" Not modeled: the eligibility rule tests CCA enrollment only, the ECRA and Wildfire Fund Charge Prices these customers are exempt from are in the base plan, and the Vintage PCIA Prices here carry no continuous-service condition. Expressible as a further dimension of the vintage container, as CARE is, for the PCIA half; the base-side half needs offsets of the base's ECRA and Wildfire Fund Charge Prices. (2) Wildfire Fund Charge exemption for CARE and Medical Baseline CCA customers, Special Condition 1 (Sheet 6): \"California Alternate Rates for Energy (CARE) and medical baseline customers that take CCA service are exempt from paying the Wildfire Fund Charge.\" The charge is a base-plan Price. pge:d-care offsets it for CARE customers and pge:e-1-medical-baseline and pge:e-tou-c-medical-baseline for Medical Baseline customers on those schedules, so a CARE or Medical Baseline CCA customer composes the base with two modifiers, this one and that one. (3) Medical Baseline Vintage PCIA, Sheet 2 row 2 against Special Condition 1 (Sheet 6). Sheet 2 row 2 (Cal. P.U.C. Sheet 47286-E, effective May 6, 2021) marks \"CCA Medical Baseline or CARE\" Exempt from the Vintage PCIA. Special Condition 1 (Cal. P.U.C. Sheet 58892-E, effective January 24, 2025) governs Medical Baseline: \"Prior to January 1, 2022 Medical Baseline customers were exempt from the PCIA portion of the CCA CRS. For any CCA that begins serving residential customers on or after January 1, 2022, Medical Baseline customers of that CCA will not receive the PCIA exemption. For CCAs that are serving residential customers as of the date PG&E begins charging the PCIA to medical baseline customers, the full PCIA amount will be phased-in over a period of 4 years. The applicable PCIA obligation expressed as a percentage of the full otherwise applicable PCIA obligation will be 25% in the first year, 50% in the second year, 75% in the third year, and 100% in the fourth year.\" This filing charges a Medical Baseline customer the full Vintage PCIA. The phase-in percentages are not modeled: the sheet does not state the date PG&E began charging the PCIA to Medical Baseline customers, and the percentage depends on it and on when the customer's CCA began serving residential customers, which URPX carries no attribute for. Special Condition 1 is silent on CARE, so the Sheet 2 row 2 CARE exemption stands and is modeled. (4) PCIA vintage determination, Sheet 1: \"If any of these occur in the first six months of the calendar year (e.g. 2010), the CCA customers are assigned the CRS for the prior year (i.e. 2009 vintage). If the commitment by the CCA occurs July 1 or later, the CCA customers are assigned the CRS for the current year (2010 vintage in this example).\" Special Condition 5 (Sheet 6) keeps a continuously served customer's vintage across changes of commodity service provider. This filing takes departureVintage as a supplied customer attribute; the rules that set and retain it define the attribute rather than gate a Price, and v0.5.1 has no vocabulary that derives an operand. (5) Sheets 3 to 5 price twelve customer classes (Residential, Small, Medium and Large Commercial, Streetlights, Standby, Agriculture, E-20T/B-20T, E-20P/B-20P, E-20S/B-20S, BEV1, BEV2); this filing carries the Residential row, the class of every base plan urpx:applicableToRatePlan names.",
+              "urpx:evaluatedOn": "2026-10-11T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-care",
+      "urpx:programName": "California Alternate Rates for Energy (CARE)",
+      "urpx:programType": {
+        "@id": "urpx:lowIncomeProgram"
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "pge:program-cca",
+      "urpx:programName": "Community Choice Aggregation (CCA)",
+      "urpx:programType": {
+        "@id": "urpx:communityChoiceAggregation"
+      }
+    },
+    {
+      "@type": "urpx:SourcePublication",
+      "@id": "pge:al-7797-e",
+      "urpx:name": "PG&E Advice Letter 7797-E",
+      "urpx:filingNumber": "7797-E",
+      "urpx:issuingAuthority": "California Public Utilities Commission",
+      "urpx:publicationType": {
+        "@id": "urpx:tariffSupplement"
+      },
+      "urpx:effectiveDate": "2026-01-01",
+      "urpx:dateReceived": "2025-12-30"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ The `@graph` contains:
 2. `pge:rc-d-26-03-013` — `urpx:RateCase` for CPUC Decision D.26-03-013
 3. `pge:al-7869-e` — `urpx:TariffPublication` for PG&E Advice Letter 7869-E
 4. `pge:e-tou-d` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates and base services charge
-5. `pge:e-tou-d-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked to (4) via `urpx:applicableToRatePlan`
+5. `pge:e-tou-d-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for DA/TBS customers (CCA customers: pge:cca-crs), linked to (4) via `urpx:applicableToRatePlan`
 
 ### How E-TOU-D differs from E-TOU-C
 

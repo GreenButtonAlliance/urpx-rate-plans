@@ -87,6 +87,15 @@ THE RULES, each traceable to a sentence in the source schedule:
     to Bundled Service Customers. A discount naming one such subtotal must name
     every one of its utility.
 
+  PG&E GENERATION, each residential base's Billing condition (Schedule E-1
+    Sheet 6, E-ELEC Special Condition 4, E-TOU-C Sheet 8, E-TOU-D Special
+    Condition 5, EV2 Special Condition 4): Direct Access and CCA Generation
+    Service Customers "shall pay all charges shown in the Unbundling of Total
+    Rates except for the Bundled Power Charge Indifference Adjustment and the
+    generation charge". pge:cca-crs cancels both with multiplier -1 over a
+    per-base "-summary-generation" subtotal, held to the same supplyPortion
+    rule: the generation Prices and the Bundled PCIA.
+
   SCL, SMC 21.49.030.A as amended by Ordinance 127473: "All charges in Schedule
     RSS shall be increased by the following percentages respective of the
     location of service", applied to Schedule RTS by 21.49.030.B. Not a

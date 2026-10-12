@@ -17,7 +17,7 @@ The `@graph` contains:
 1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
 2. `pge:al-7846-e` — `urpx:TariffPublication` for PG&E Advice Letter 7846-E
 3. `pge:e-tou-c` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates, the Conservation Incentive Adjustment on the baseline tiers, base services charge, and climate credit
-4. `pge:e-tou-c-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked to (3) via `urpx:applicableToRatePlan`
+4. `pge:e-tou-c-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) carrying the 18 vintage-conditional PCIA prices for DA/TBS customers (CCA customers: pge:cca-crs), linked to (3) via `urpx:applicableToRatePlan`
 
 ### Patterns applied
 

@@ -1173,6 +1173,30 @@
                     "urpx:name": "Bundled Power Charge Indifference Adjustment",
                     "urpx:unitPrice": "-0.01011"
                   }
+                ],
+                "urpx:hasPriceSummary": [
+                  {
+                    "@type": "urpx:PriceSummary",
+                    "@id": "pge:e-tou-d-2026-03-27-summary-generation",
+                    "urpx:name": "Generation subtotal for E-TOU-D: its generation Prices and its Bundled Power Charge Indifference Adjustment. Schedule E-TOU-D Sheet 5 (Cal. P.U.C. Sheet 61138-E) Special Condition 5: Direct Access and Community Choice Aggregation Generation Service Customers \"shall pay all charges shown in the Unbundling of Total Rates except for the Bundled Power Charge Indifference Adjustment and the generation charge\". pge:cca-crs offsets this subtotal for Community Choice Aggregation customers.",
+                    "urpx:includesPrice": [
+                      {
+                        "@id": "pge:e-tou-d-2026-03-27-price-gen-summer-peak"
+                      },
+                      {
+                        "@id": "pge:e-tou-d-2026-03-27-price-gen-summer-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-tou-d-2026-03-27-price-gen-winter-peak"
+                      },
+                      {
+                        "@id": "pge:e-tou-d-2026-03-27-price-gen-winter-off-peak"
+                      },
+                      {
+                        "@id": "pge:e-tou-d-2026-03-27-price-bundled-pcia"
+                      }
+                    ]
+                  }
                 ]
               },
               {
@@ -1560,7 +1584,7 @@
               "urpx:evaluationKind": {
                 "@id": "urpx:coverageEvaluation"
               },
-              "urpx:description": "This filing does not carry everything its source document states. 6 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) PG&E's TOU schedules take holiday dates as \"those on which the holidays are legally observed\", read here as California Government Code section 6701: \"(a) If January 1, February 12, March 31, July 4, September 9, November 11, or December 25 falls upon a Sunday, the Monday following is a holiday. (b) If November 11 falls upon a Saturday, the preceding Friday is a holiday.\" In pge:holidays-e-tou-d a weekday holiday is Off-Peak from 5 to 8 p.m. Veterans Day carries urpx:nearestWeekdayObservance, which is exactly 6701 for November 11. New Year's Day, Independence Day and Christmas Day carry urpx:actualDateObservance, so a Saturday one stays on Saturday, and the Monday after a Sunday one is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26 and 2040-01-02. After 2040 each Sunday New Year's Day, Independence Day or Christmas Day needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out. (2) Special Condition 5 (Sheet 5, Cal. P.U.C. Sheet No. 61138-E): DA, CCA and TBS customers 'shall pay all charges shown in the Unbundling of Total Rates except for the Bundled Power Charge Indifference Adjustment and the generation charge', paying their Vintaged PCIA instead. The e-tou-d-vintage-pcia modifier adds the vintage price but removes neither base component, so composing base + modifier double-counts: the composition resolves to 0.51340 $/kWh for a summer-peak 2020-vintage customer where the schedule gives 0.31725. Expressible under v0.5.1: Prices in the modifier with urpx:multiplier -1 and urpx:basedOnPrice naming the four generation Prices and the bundled-PCIA Price, the pattern sce/care and sdge/care already ship. Work, not a blocker. The same shape is present in pge e-1, e-tou-c and ev2. (3) Special Condition 8 (Sheet 7, Cal. P.U.C. Sheet No. 61140-E): the Wildfire Fund Charge of $0.00591/kWh (Sheet 3, Cal. P.U.C. Sheet No. 61136-E) 'applies to all retail sales, excluding CARE and Medical Baseline sales.' The model carries that Price unconditionally. The CARE half is carried by pge:d-care, whose exemption Price is urpx:multiplier -1 over this Price. The Medical Baseline half is not modeled, and no PG&E Medical Baseline schedule is modeled. (4) Sheet 3 (Cal. P.U.C. Sheet No. 61136-E) prices New System Generation Charge (all usage) at $0.00000 per kWh. No urpx:Price exists for it. Zero today, so no resolved number moves, but the 16-component sum that reconciles to the Sheet 2 bundled totals would go silently short the first time the charge is set nonzero. Add the Price at 0.00000. (5) Sheet 3 (Cal. P.U.C. Sheet No. 61136-E) prices the Base Services Charge by component, 12 values in $ per customer per day: Distribution ($0.10751) / ($0.02710) / $0.36945, Public Purpose Program $0.19131 / $0.31065 / $0.31065, Nuclear Decommissioning $0.00000 x3, New System Generation Charge $0.11333 x3 for Income Tiers 1/2/3. The model carries only the three per-tier totals ($0.19713 / $0.39688 / $0.79343), while unbundling the energy side fully into 16 components. Expressible as per-tier PriceSets under the existing income-tier PriceSetAlternatives; not built. Note the PDF offsets the NSGC sub-table's label and value rows by one; $0.11333 for all three tiers is confirmed by each tier's four components summing exactly to its Sheet 2 total. (6) Sheet 1 (Cal. P.U.C. Sheet No. 61134-E) defines Income Tier 2 as customers either (a) above 200 and below 250 percent of the Federal Poverty Guideline levels for FERA, or (b) living in an affordable rental unit in the California Housing Partnership's database restricted to residents at or below 80 percent of Area Median Income. The Tier 2 ProfileAlternative tests FERA enrollment only and the Tier 3 alternative is 'not CARE and not FERA', so a consumer evaluating these conditions places a branch (b) customer in Tier 3 at $0.79343 per day instead of $0.39688. Expressible under v0.5.1 as an orOperator BooleanOperationNode with a CustomOperandNode carrying urpx:customConditionProperty for the affordable-housing predicate; not built.",
+              "urpx:description": "This filing does not carry everything its source document states. 6 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) PG&E's TOU schedules take holiday dates as \"those on which the holidays are legally observed\", read here as California Government Code section 6701: \"(a) If January 1, February 12, March 31, July 4, September 9, November 11, or December 25 falls upon a Sunday, the Monday following is a holiday. (b) If November 11 falls upon a Saturday, the preceding Friday is a holiday.\" In pge:holidays-e-tou-d a weekday holiday is Off-Peak from 5 to 8 p.m. Veterans Day carries urpx:nearestWeekdayObservance, which is exactly 6701 for November 11. New Year's Day, Independence Day and Christmas Day carry urpx:actualDateObservance, so a Saturday one stays on Saturday, and the Monday after a Sunday one is carried as a dated urpx:Holiday with urpx:holidayDate: 2027-07-05, 2032-07-05, 2033-12-26, 2034-01-02, 2038-07-05, 2039-12-26 and 2040-01-02. After 2040 each Sunday New Year's Day, Independence Day or Christmas Day needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out. (2) Schedule E-TOU-D Sheet 5 (Cal. P.U.C. Sheet 61138-E) Special Condition 5: Direct Access and Transitional Bundled Service customers 'shall pay all charges shown in the Unbundling of Total Rates except for the Bundled Power Charge Indifference Adjustment and the generation charge', paying their Vintaged PCIA instead. pge:e-tou-d-vintage-pcia is gated on DA and TBS and adds the vintaged rate, but nothing removes this version's generation Prices or its Bundled PCIA Price, so base plus pge:e-tou-d-vintage-pcia still charges a DA or TBS customer PG&E generation and both the bundled and the vintaged PCIA. The DA and TBS offset waits on Schedule DA-CRS. Community Choice Aggregation customers are priced by base plus pge:cca-crs, whose multiplier -1 Price offsets pge:e-tou-d-2026-03-27-summary-generation. (3) Special Condition 8 (Sheet 7, Cal. P.U.C. Sheet No. 61140-E): the Wildfire Fund Charge of $0.00591/kWh (Sheet 3, Cal. P.U.C. Sheet No. 61136-E) 'applies to all retail sales, excluding CARE and Medical Baseline sales.' The model carries that Price unconditionally. The CARE half is carried by pge:d-care, whose exemption Price is urpx:multiplier -1 over this Price. The Medical Baseline half is not modeled, and no PG&E Medical Baseline schedule is modeled. (4) Sheet 3 (Cal. P.U.C. Sheet No. 61136-E) prices New System Generation Charge (all usage) at $0.00000 per kWh. No urpx:Price exists for it. Zero today, so no resolved number moves, but the 16-component sum that reconciles to the Sheet 2 bundled totals would go silently short the first time the charge is set nonzero. Add the Price at 0.00000. (5) Sheet 3 (Cal. P.U.C. Sheet No. 61136-E) prices the Base Services Charge by component, 12 values in $ per customer per day: Distribution ($0.10751) / ($0.02710) / $0.36945, Public Purpose Program $0.19131 / $0.31065 / $0.31065, Nuclear Decommissioning $0.00000 x3, New System Generation Charge $0.11333 x3 for Income Tiers 1/2/3. The model carries only the three per-tier totals ($0.19713 / $0.39688 / $0.79343), while unbundling the energy side fully into 16 components. Expressible as per-tier PriceSets under the existing income-tier PriceSetAlternatives; not built. Note the PDF offsets the NSGC sub-table's label and value rows by one; $0.11333 for all three tiers is confirmed by each tier's four components summing exactly to its Sheet 2 total. (6) Sheet 1 (Cal. P.U.C. Sheet No. 61134-E) defines Income Tier 2 as customers either (a) above 200 and below 250 percent of the Federal Poverty Guideline levels for FERA, or (b) living in an affordable rental unit in the California Housing Partnership's database restricted to residents at or below 80 percent of Area Median Income. The Tier 2 ProfileAlternative tests FERA enrollment only and the Tier 3 alternative is 'not CARE and not FERA', so a consumer evaluating these conditions places a branch (b) customer in Tier 3 at $0.79343 per day instead of $0.39688. Expressible under v0.5.1 as an orOperator BooleanOperationNode with a CustomOperandNode carrying urpx:customConditionProperty for the affordable-housing predicate; not built.",
               "urpx:evaluatedOn": "2026-09-22T00:00:00"
             }
           }
@@ -1583,7 +1607,7 @@
           "urpx:changeReason": {
             "@id": "urpx:rateCase"
           },
-          "urpx:description": "Vintaged Power Charge Indifference Adjustment (per kWh) applied to Transitional Bundled Service (TBS), Community Choice Aggregation (CCA), and Direct Access (DA) customers on Schedule E-TOU-D. Replaces the Bundled PCIA for these customers; the applicable rate is determined by the customer's bundled-service departure vintage year.",
+          "urpx:description": "Vintaged Power Charge Indifference Adjustment (per kWh) applied to Transitional Bundled Service (TBS) and Direct Access (DA) customers on Schedule E-TOU-D. Replaces the Bundled PCIA for these customers; the applicable rate is determined by the customer's bundled-service departure vintage year. Community Choice Aggregation (CCA) customers take the same rates from pge:cca-crs.",
           "urpx:effectiveDateTime": "2026-03-27T00:00:00",
           "urpx:priceCurrency": "USD",
           "urpx:commodity": {
@@ -1645,40 +1669,19 @@
             },
             {
               "@type": "urpx:EligibilityRule",
-              "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-er-cca-da-tbs",
-              "urpx:name": "Generation service: CCA, DA, or TBS",
-              "urpx:description": "Vintaged PCIA applies to customers receiving generation service from a non-utility provider (CCA, DA) or in transitional bundled service (TBS).",
+              "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-er-da-tbs",
+              "urpx:name": "Generation service: DA or TBS",
+              "urpx:description": "Vintaged PCIA under this modifier applies to customers taking Direct Access service or Transitional Bundled Service. Community Choice Aggregation customers take it from pge:cca-crs.",
               "urpx:hasConditionExpression": {
                 "@type": "urpx:ConditionExpression",
-                "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-cx-cca-da-tbs",
+                "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-cx-da-tbs",
                 "urpx:rootNode": {
                   "@type": "urpx:BooleanOperationNode",
-                  "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-bn-cca-da-tbs-or",
+                  "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-bn-da-tbs-or",
                   "urpx:operator": {
                     "@id": "urpx:orOperator"
                   },
                   "urpx:operandNodes": [
-                    {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-cn-program-cca",
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-cn-program-cca-left-operand",
-                        "urpx:conditionProperty": {
-                          "@id": "urpx:hasProgramEnrollment"
-                        }
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-cn-program-cca-right-operand",
-                        "urpx:referencesValue": {
-                          "@id": "pge:program-cca"
-                        }
-                      }
-                    },
                     {
                       "@type": "urpx:ComparisonNode",
                       "@id": "pge:e-tou-d-vintage-pcia-2026-03-27-cn-program-da",

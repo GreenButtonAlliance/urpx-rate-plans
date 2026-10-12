@@ -16,7 +16,7 @@
 1. Five `urpx:ProgramEnrollment` instances (`pge:program-care`, `pge:program-fera`, `pge:program-cca`, `pge:program-da`, `pge:program-tbs`) referenced by the eligibility / applicability ConditionExpressions
 2. `pge:al-7846-e` — `urpx:TariffPublication` for PG&E Advice Letter 7846-E
 3. `pge:e-1` — `urpx:RatePlan` (with nested `urpx:RatePlanVersion`) covering the unbundled energy rates, the conservation incentive adjustment by tier, and the baseline allowance matrix
-4. `pge:e-1-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) for the 18 vintage-conditional PCIA prices for CCA/DA/TBS customers, linked via `urpx:applicableToRatePlan`
+4. `pge:e-1-vintage-pcia` — `urpx:RatePlanModifier` (with nested `urpx:RatePlanModifierVersion`) for the 18 vintage-conditional PCIA prices for DA/TBS customers (CCA customers: pge:cca-crs), linked via `urpx:applicableToRatePlan`
 
 `rate-plan-modifier_pge_e-1-income-tier_2026-03-01.jsonld` carries `pge:e-1-income-tier`, a second `urpx:RatePlanModifier`: the daily Base Services Charge at Income Tier 1 (CARE, $0.19713), Tier 2 (FERA, $0.39688) and Tier 3 ($0.79343). It is a separate document because `urpx:PlanElements` allows one `urpx:hasProfileAlternatives` container per version and the base plan spends its container on the baseline matrix below, and because `urpx.core/load-rate-plan-modifier` takes one `urpx:RatePlanModifier` per document.
 
