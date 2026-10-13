@@ -13,7 +13,7 @@ sources = [
   "src/rate_plans/us/wa/scl/rts.clj",
   "src/rate_plans/us/wa/scl/common.clj",
 ]
-entry = "rate-plans.us.wa.scl.rts/document-2026-01-01"
+entry = "rate-plans.us.wa.scl.rts/rts"
 command = "python3 dev/check_generated.py --write"
 ```
 
@@ -21,7 +21,7 @@ command = "python3 dev/check_generated.py --write"
 | --- | --- |
 | `generator` | `urpx.dsl` for Clojure source; `python` for a filing still built by a script |
 | `sources` | Repository paths of every source file the document is generated from |
-| `entry` | The `defurpx` var that names the document |
+| `entry` | The `:document` var of each document in the filing: a string, or an array when the filing holds more than one |
 | `command` | The command that writes it |
 
 A filing with no `[generation]` table is authored as JSON-LD. The table carries no hash, commit or generator version: the gate regenerates every generated document on every commit with the clj-urpx release pinned in `deps.edn` and fails on any difference, so the claim is checked rather than recorded, and the version is the one `deps.edn` names at that commit.

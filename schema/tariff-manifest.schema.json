@@ -111,6 +111,37 @@
       }
     },
 
+    "generation": {
+      "type": "object",
+      "description": "How the filing's committed JSON-LD is made, when it is generated rather than authored (doc/dsl-corpus-generation.md). dev/check_generated.py regenerates every document of a urpx.dsl filing and requires the bytes to match, and requires every generated document to sit in a filing whose [generation] names its entry.",
+      "additionalProperties": false,
+      "required": ["generator", "sources", "entry", "command"],
+      "properties": {
+        "generator": {
+          "type": "string",
+          "enum": ["urpx.dsl", "python"],
+          "description": "urpx.dsl for Clojure source; python for a filing still built by a script."
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"},
+          "description": "Repository paths of every source file the filing's documents are generated from."
+        },
+        "entry": {
+          "description": "The var naming each document the filing holds: one, or one per document.",
+          "oneOf": [
+            {"type": "string"},
+            {"type": "array", "minItems": 1, "items": {"type": "string"}}
+          ]
+        },
+        "command": {
+          "type": "string",
+          "description": "The command that writes the documents."
+        }
+      }
+    },
+
     "validation": {
       "type": "object",
       "additionalProperties": false,

@@ -312,6 +312,22 @@ merge_commit  = "..."                                       # added by hand once
 
 `rdf_sha256` holds the canonical RDF hash (`dev/rdf_hash.py`) of each of the filing's documents as exported. It hashes triples, not bytes: rdflib parses the JSON-LD against a fixed base IRI, `rdflib.compare.to_canonical_graph` relabels blank nodes, and the sha256 is taken over the sorted N-Triples lines. Reformatting or reordering the JSON keeps the hash; changing any IRI or literal moves it. Re-exporting to the same path replaces the record, keeping `pr` and dropping `merge_commit`.
 
+### 4.6. Generation (`[generation]`)
+
+A filing whose JSON-LD is generated from Clojure source records it in `[generation]`, under a `# Generation` banner before `[validation]`: the generator, the source files, the `:document` var of each document, and the command that writes them. `dev/check_generated.py` regenerates every such document and requires its committed bytes, and requires every generated document to sit in a filing whose `[generation]` names it. [doc/dsl-corpus-generation.md](doc/dsl-corpus-generation.md#provenance) defines the keys.
+
+```toml
+# Generation ------------------------------------------------------------------
+[generation]
+generator = "urpx.dsl"
+sources = [
+  "src/rate_plans/us/wa/scl/rts.clj",
+  "src/rate_plans/us/wa/scl/common.clj",
+]
+entry = "rate-plans.us.wa.scl.rts/rts"
+command = "python3 dev/check_generated.py --write"
+```
+
 ## 5. Per-utility discovery manifest: `utility.toml`
 
 Each `us/<subdivision>/<utility>/` directory contains a `utility.toml` recording who the utility is and where it publishes its tariffs. Distinct from the per-filing `tariff.toml` (§4): `tariff.toml` pins a specific snapshot, `utility.toml` points at the discovery surface where future snapshots can be found. The schema is at `schema/utility-manifest.schema.json`.

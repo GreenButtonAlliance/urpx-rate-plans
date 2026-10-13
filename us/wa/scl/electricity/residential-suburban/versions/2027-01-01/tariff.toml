@@ -117,6 +117,17 @@ RTS with the sentence applying the RSS multipliers and undergrounding charges
 to it.
 """
 
+# Generation ------------------------------------------------------------------
+[generation]
+generator = "urpx.dsl"
+sources = [
+  "src/rate_plans/us/wa/scl/residential_suburban.clj",
+  "src/rate_plans/us/wa/scl/rts.clj",
+  "src/rate_plans/us/wa/scl/common.clj",
+]
+entry = "rate-plans.us.wa.scl.residential-suburban/residential-suburban"
+command = "python3 dev/check_generated.py --write"
+
 # Validation ------------------------------------------------------------------
 [validation]
 shacl_passed = true

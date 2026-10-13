@@ -39,6 +39,20 @@ effective_date = "2026-03-27"
 tool = "manual-diff"
 extracted_on = "2026-04-28"
 
+# Generation ------------------------------------------------------------------
+[generation]
+generator = "urpx.dsl"
+sources = [
+  "src/rate_plans/us/ca/pge/e_tou_c.clj",
+  "src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj",
+  "src/rate_plans/us/ca/pge/common.clj",
+]
+entry = [
+  "rate-plans.us.ca.pge.e-tou-c/e-tou-c",
+  "rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline",
+]
+command = "python3 dev/check_generated.py --write"
+
 # Validation ------------------------------------------------------------------
 [validation]
 shacl_passed = true

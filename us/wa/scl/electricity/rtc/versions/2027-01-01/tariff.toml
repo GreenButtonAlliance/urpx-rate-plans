@@ -96,6 +96,16 @@ with a single column headed "Effective January 1, 2024"; Ordinance 127122
 renamed them "Time-of-Use".
 """
 
+# Generation ------------------------------------------------------------------
+[generation]
+generator = "urpx.dsl"
+sources = [
+  "src/rate_plans/us/wa/scl/rtc.clj",
+  "src/rate_plans/us/wa/scl/common.clj",
+]
+entry = "rate-plans.us.wa.scl.rtc/rtc"
+command = "python3 dev/check_generated.py --write"
+
 # Validation ------------------------------------------------------------------
 # Against the v0.5.1 shapes alone, every bracket carrying urpx:daysOfWeek fails
 # TimeBracketShape's sh:closed (urpx-org/urpx#71). dev/shacl.sh excepts those

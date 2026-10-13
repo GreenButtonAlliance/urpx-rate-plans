@@ -3,7 +3,8 @@
 (ns rate-plans.gen
   "The generator. Loads every namespace corpus.json lists as clojure-source,
    then writes each version of each :rate-plans.kind/document defined in them
-   to <out>/<corpus path>, printing each path relative to <out>.
+   to <out>/<corpus path>, printing each path relative to <out> and the
+   document's var.
 
      clojure -M:generate [out]
 
@@ -56,7 +57,8 @@
 
 (defn generate
   "Write every version of every document defined in `nses` under `out`;
-   return the paths written, relative to `out`."
+   return [path var] for each document written, the path relative to
+   `out`."
   [nses out]
   (doall
    (for [doc-var (defs/defs-of-kind :rate-plans.kind/document nses)
@@ -67,7 +69,7 @@
                  (u/context (:prefix utility)
                             (:context utility))
                  (io/file out rel))
-       rel))))
+       [rel (symbol doc-var)]))))
 
 (defn -main [& [out]]
   (let [out (or out
@@ -76,7 +78,7 @@
                   (binding [*out* *err*]
                     (println "writing to" d))
                   d))]
-    (run! println
-          (sort (generate (load-source! ".")
-                          out)))
+    (doseq [[rel v] (sort (generate (load-source! ".")
+                                    out))]
+      (println rel v))
     (shutdown-agents)))
