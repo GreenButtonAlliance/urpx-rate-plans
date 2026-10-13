@@ -58,10 +58,6 @@
            w
            (map str/capitalize ws))))
 
-(defn- hhmm [s]
-  (str (if (= s "24:00") "00:00" s)
-       ":00"))
-
 (def days
   {:all     nil
    :mon-sat [:urpx/monday :urpx/tuesday :urpx/wednesday :urpx/thursday :urpx/friday :urpx/saturday]
@@ -74,8 +70,8 @@
   (let [ds (days day-set)]
     (dsl/time-bracket
      {:as (id "time-bracket" period slug)
-      :start-time (hhmm start)
-      :end-time (hhmm end)
+      :start-time (u/xsd-time start)
+      :end-time (u/xsd-time end)
       :day-type (if ds :urpx/customDays :urpx/allDays)
       :days-of-week ds
       :include-holidays (case holidays

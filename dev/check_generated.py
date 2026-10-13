@@ -10,8 +10,8 @@ reason: DIFF when the RDF differs, FORMAT when only the bytes do. The tree is th
 staged tree when the pre-commit hook runs dev/check_all.py in its checkout of
 the index.
 
-The comparison covers every utility the generator writes a document for: each
-corpus document under such a utility's directory must be generated, and each
+The comparison covers every schedule directory the generator writes a document
+into: each corpus document under such a directory must be generated, and each
 generated document must be committed. A committed document the generator did
 not write is MISSING, a generated one with no committed file is EXTRA, a hash
 that cannot be computed is NOHASH, differing hashes are DIFF, and equal hashes
@@ -50,6 +50,12 @@ def generate(out: Path) -> list[str] | None:
     return sorted(p.relative_to(out).as_posix() for p in out.rglob("*.jsonld"))
 
 
+def schedule_dir(rel: str) -> str:
+    """us/ca/pge/electricity/e-tou-c for any path in one of its filings."""
+    parts = Path(rel).parts
+    return "/".join(parts[:parts.index("versions")])
+
+
 def same_bytes(a: Path, b: Path) -> bool:
     return a.read_bytes() == b.read_bytes()
 
@@ -76,8 +82,7 @@ def main(argv: list[str]) -> int:
             print("refused: the generator wrote no document")
             return 3
 
-        scope = sorted({corpus.utility_dir(REPO / g).relative_to(REPO).as_posix()
-                        for g in generated})
+        scope = sorted({schedule_dir(g) for g in generated})
         committed = sorted(p.relative_to(REPO).as_posix() for p in corpus.paths()
                            if any(p.relative_to(REPO).as_posix().startswith(s + "/")
                                   for s in scope))

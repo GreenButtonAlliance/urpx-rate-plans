@@ -1,6 +1,6 @@
 # Filings authored as Clojure source
 
-The Seattle City Light documents are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus; [dsl-corpus-generation.md](./dsl-corpus-generation.md) is the plan for converting it. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
+The Seattle City Light documents and PG&E Schedule E-TOU-C with its medical baseline modifier are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus; [dsl-corpus-generation.md](./dsl-corpus-generation.md) is the plan for converting it. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
 
 ## Evidence
 
@@ -53,8 +53,21 @@ Invalid :rates bad-rates/rtc-rates (bad/bad_rates.clj:4)
 | `:jurisdictions` | jurisdiction keys and names |
 | `:description` | prose templates and dated notes |
 | `:document` | one plan or modifier: identity, versions table, references to the kinds above |
+| `:filings` | per version: retrieval date, sheets spanned, advice letter, decision, change reason |
+| `:dollars` | figures as the tariff prints them, keyed by charge, tier or year, per effective date |
+| `:seasons` | season keys, names, months |
+| `:tou-tiers` | time-of-use tiers with their standard names and brackets |
+| `:charges` | rows of charge, name, charge type, category, bill portion, ledger, price set, period |
+| `:ledgers` | ledger keys, names, types, metric inputs |
+| `:income-tiers` | income tiers and the programs that select each |
+| `:baseline-quantities` | baseline quantities per territory, code and season, per effective date |
+| `:climate-credit` | a per-household credit and its bill months, per effective date |
+| `:discountable` | the subtotals a discount program applies to, per effective date |
+| `:coverage` | a coverage evaluation per effective date: free text, or the filing's deferrals |
+| `:programs` | program keys, names, program types |
+| `:advice-letters`, `:decisions` | the filings and decisions a schedule cites, by number |
 
-These are the kinds SCL needed. Seasons, tiers and demand charges add kinds when the first utility that has them is ported.
+SCL needed the kinds through `:document`; PG&E E-TOU-C added the rest. Demand charges add kinds when the first utility that has them is ported.
 
 ## Layout
 
@@ -63,12 +76,15 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 | Namespace | Holds |
 |---|---|
 | `rate-plans.defs` | the corpus's kinds, `:rate-plans.kind/*`, and `as-of` |
-| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, and writing a package |
+| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, and writing a package or an @graph |
 | `rate-plans.tou` | a time-of-use rate plan expanded from its tables |
 | `rate-plans.alternatives` | a modifier whose customer chooses one alternative along one dimension |
 | `rate-plans.gen` | the generator |
 | `rate-plans.us.wa.scl.common` | what every SCL schedule shares |
 | `rate-plans.us.wa.scl.rtc`, `.rts`, `.residential-suburban` | one schedule each |
+| `rate-plans.us.ca.pge.common` | what PG&E's schedules share: identity, programs, advice letters, decisions, the Rule 19 medical quantity |
+| `rate-plans.us.ca.pge.e-tou-c` | Schedule E-TOU-C, with the Vintaged PCIA modifier its documents carry |
+| `rate-plans.us.ca.pge.e-tou-c-medical-baseline` | the Rule 19 modifier over each E-TOU-C version |
 
 `corpus.json` lists these files as the kind `clojure-source`, under its own root `src`, and the generator loads every namespace of that kind.
 
@@ -111,7 +127,7 @@ Each has a working workaround in the SCL source.
 
 ## Acceptance
 
-The SCL documents are generated from `src/rate_plans/us/wa/scl/`, and `dev/check_generated.py` requires each to equal its committed file byte for byte. Its scope is every utility the generator writes a document for: a committed document of such a utility that is not generated fails as MISSING, a generated one with no committed file as EXTRA, a hash that cannot be computed as NOHASH, and a byte mismatch as DIFF or FORMAT by RDF hash. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
+The SCL documents are generated from `src/rate_plans/us/wa/scl/` and the E-TOU-C documents from `src/rate_plans/us/ca/pge/`, and `dev/check_generated.py` requires each to equal its committed file byte for byte. Its scope is every schedule directory the generator writes a document into: a committed document in such a directory that is not generated fails as MISSING, a generated one with no committed file as EXTRA, a hash that cannot be computed as NOHASH, and a byte mismatch as DIFF or FORMAT by RDF hash. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
 
 Next, PSE Schedules 307 and 327, which share riders and Summary-Sheet versions: the first test of the helpers on a second utility.
 

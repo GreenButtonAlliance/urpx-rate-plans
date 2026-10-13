@@ -26,6 +26,13 @@
    #(and (decimal? %)
          (= 2 (.scale ^BigDecimal %)))])
 
+(def Decimal
+  "A figure as the tariff prints it: a BigDecimal, whose scale is the number
+   of places printed, e.g. 0.05354M."
+  [:fn
+   {:error/message "should be a BigDecimal, e.g. 0.05354M"}
+   decimal?])
+
 (def HHMM
   [:re
    {:error/message "should be an hh:mm string from 00:00 to 24:00"}
@@ -44,7 +51,8 @@
    [:legal-name :string]
    [:eia-id :string]
    [:timezone :string]
-   [:path [:vector :string]]])
+   [:path [:vector :string]]
+   [:context {:optional true} [:map-of :string :any]]])
 
 (defmethod defs/kind-schema :rate-plans.kind/holidays [_]
   (dated [:map
@@ -81,6 +89,74 @@
 (defmethod defs/kind-schema :rate-plans.kind/jurisdictions [_]
   [:vector [:tuple :keyword :string :string]])
 
+(defmethod defs/kind-schema :rate-plans.kind/dollars [_]
+  (dated [:map-of [:or :keyword :int] Decimal]))
+
+(defmethod defs/kind-schema :rate-plans.kind/seasons [_]
+  (dated [:vector
+          [:tuple :keyword :string [:vector [:int {:min 1 :max 12}]]]]))
+
+(defmethod defs/kind-schema :rate-plans.kind/tou-tiers [_]
+  (dated [:vector
+          [:tuple :keyword :string :keyword
+           [:vector [:tuple [:maybe :string] HHMM HHMM]]]]))
+
+(defmethod defs/kind-schema :rate-plans.kind/baseline-quantities [_]
+  (dated [:vector
+          [:tuple :string Decimal Decimal Decimal Decimal]]))
+
+(defmethod defs/kind-schema :rate-plans.kind/income-tiers [_]
+  [:vector [:tuple :keyword :string [:vector :keyword] [:vector :keyword]]])
+
+(defmethod defs/kind-schema :rate-plans.kind/ledgers [_]
+  [:vector [:tuple :keyword :string :keyword :keyword]])
+
+(defmethod defs/kind-schema :rate-plans.kind/charges [_]
+  [:vector
+   [:tuple :keyword :string :keyword :keyword :keyword :keyword :keyword
+    [:maybe :keyword]]])
+
+(defmethod defs/kind-schema :rate-plans.kind/climate-credit [_]
+  (dated [:map {:closed true}
+          [:amount {:optional true} Decimal]
+          [:months {:optional true} [:vector [:int {:min 1 :max 12}]]]]))
+
+(defmethod defs/kind-schema :rate-plans.kind/discountable [_]
+  (dated [:map-of :keyword
+          [:map {:closed true}
+           [:excludes [:vector :keyword]]
+           [:name :string]]]))
+
+(defmethod defs/kind-schema :rate-plans.kind/coverage [_]
+  (dated [:map {:closed true}
+          [:text {:optional true} :string]
+          [:deferrals {:optional true} [:vector :string]]]))
+
+(defmethod defs/kind-schema :rate-plans.kind/programs [_]
+  [:vector [:tuple :keyword :string [:maybe :keyword]]])
+
+(defmethod defs/kind-schema :rate-plans.kind/advice-letters [_]
+  [:map-of :string
+   [:map
+    [:effective Date]
+    [:received Date]
+    [:description {:optional true} :string]]])
+
+(defmethod defs/kind-schema :rate-plans.kind/decisions [_]
+  [:map-of :string
+   [:map
+    [:url :string]
+    [:description {:optional true} :string]]])
+
+(defmethod defs/kind-schema :rate-plans.kind/filings [_]
+  (dated [:map
+          [:retrieved Date]
+          [:leaves [:tuple :string :string]]
+          [:advice-letter :string]
+          [:decision {:optional true} :string]
+          [:change-reason :keyword]
+          [:evaluated-on Date]]))
+
 (defmethod defs/kind-schema :rate-plans.kind/source [_]
   (dated [:map
           [:file :string]
@@ -102,6 +178,7 @@
    [:identifier :string]
    [:name :string]
    [:initial-effective-date Date]
+   [:filing {:optional true} :string]
    [:where {:optional true} :string]
    [:customer-choice {:optional true} :keyword]
    [:default? {:optional true} :boolean]

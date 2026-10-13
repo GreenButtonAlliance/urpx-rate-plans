@@ -41,14 +41,15 @@
 
 (defn document-path
   "The corpus path, relative to the repository root, of the version of
-   document `doc` effective on `date`."
-  [{:keys [kind schedule utility]} date]
+   document `doc` effective on `date`. The document sits in the directory of
+   its `:filing`, by default its own schedule."
+  [{:keys [kind schedule filing utility]} date]
   (let [stem (case kind
                :rate-plan "rate-plan"
                :rate-plan-modifier "rate-plan-modifier")]
     (str/join "/"
               (concat (:path utility)
-                      [schedule
+                      [(or filing schedule)
                        "versions"
                        date
                        (str stem "_" (:key utility) "_" schedule "_" date ".jsonld")]))))
@@ -63,7 +64,8 @@
          [date next] (u/version-dates versions)]
      (let [rel (document-path doc date)]
        (u/write! (expand doc date next)
-                 (u/context (:prefix utility))
+                 (u/context (:prefix utility)
+                            (:context utility))
                  (io/file out rel))
        rel))))
 

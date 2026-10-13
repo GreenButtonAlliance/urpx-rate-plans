@@ -54,27 +54,54 @@
     :left-operand left
     :right-operand right}))
 
+(defn object-comparison
+  "A ComparisonNode `id` testing the URPX property `property` against the
+   entity `value` with `op`; its operands are `<id>-left-operand` and
+   `<id>-right-operand`."
+  [id op property value]
+  (let [operand (ider id)]
+    (comparison id
+                op
+                (dsl/object-operand-node
+                 {:as (operand "left-operand")
+                  :condition-property property})
+                (dsl/object-operand-node
+                 {:as (operand "right-operand")
+                  :references-value value}))))
+
+(defn custom-comparison
+  "A ComparisonNode `id` testing the custom property `property` for equality
+   with `value`, given under the operand key `value-key` (:string-value,
+   :g-year-value, ...)."
+  [id property value-key value]
+  (let [operand (ider id)]
+    (comparison id
+                :urpx/equalsOperator
+                (dsl/custom-operand-node
+                 {:as (operand "left-operand")
+                  :custom-condition-property property})
+                (dsl/custom-operand-node
+                 {:as (operand "right-operand")
+                  value-key value}))))
+
 (defn customer-kind-rule
-  "An EligibilityRule whose condition is hasCustomerKind = `kind`."
-  [id {:keys [name description customer-kind]}]
-  (let [rn (id "condition-expression-root-node")
-        operand (ider rn)]
+  "An EligibilityRule whose condition is hasCustomerKind = `kind`. The
+   condition expression and its root node are named by `:cx` and `:cn`
+   (default `<id>-condition-expression` and
+   `<id>-condition-expression-root-node`)."
+  [id {:keys [name description customer-kind cx cn]}]
+  (let [cx (or cx (id "condition-expression"))]
     (dsl/eligibility-rule
      {:as (id)
       :name name
       :description description
       :has-condition-expression
       (dsl/condition-expression
-       {:as (id "condition-expression")
-        :root-node
-        (comparison rn
-                    :urpx/equalsOperator
-                    (dsl/object-operand-node
-                     {:as (operand "left-operand")
-                      :condition-property :urpx/hasCustomerKind})
-                    (dsl/object-operand-node
-                     {:as (operand "right-operand")
-                      :references-value customer-kind}))})})))
+       {:as cx
+        :root-node (object-comparison (or cn ((ider cx) "root-node"))
+                                      :urpx/equalsOperator
+                                      :urpx/hasCustomerKind
+                                      customer-kind)})})))
 
 (defn utility-operator [{:keys [key legal-name eia-id]}]
   (let [o (keyword "org" (str "utility-" key))
@@ -94,21 +121,31 @@
                           :scheme :urpx/eiaScheme
                           :skos/notation eia-id})})})))
 
-(defn data-source [{:keys [file url retrieved]} [page-start page-end]]
-  (dsl/data-source-reference
-   {:file-name file
-    :media-type :urpx/applicationPdf
-    :access-url url
-    :date-retrieved retrieved
-    :data-source-type :urpx/regulatoryWebsiteSource
-    :page-start page-start
-    :page-end page-end}))
+(defn data-source
+  "A DataSourceReference to pages `page-start` to `page-end` of `source`.
+   `more` adds builder keys (leaves, a source publication, an `:as`)."
+  ([source pages]
+   (data-source source pages nil))
+  ([{:keys [file url retrieved type]} [page-start page-end] more]
+   (dsl/data-source-reference
+    (merge {:file-name file
+            :media-type :urpx/applicationPdf
+            :access-url url
+            :date-retrieved retrieved
+            :data-source-type (or type :urpx/regulatoryWebsiteSource)
+            :page-start page-start
+            :page-end page-end}
+           more))))
 
-(defn coverage-claim [cc result {:keys [evaluated-on description]}]
+(defn coverage-claim
+  "A CoverageClaim `cc` with result `result`, self-contained unless
+   `:self-contained` is false, explained by `description` when given."
+  [cc result {:keys [evaluated-on description self-contained]
+              :or {self-contained true}}]
   (dsl/coverage-claim
    {:as cc
     :completeness-result result
-    :self-contained true
+    :self-contained self-contained
     :explained-by (when description
                     [(dsl/evaluation
                       {:as ((ider cc) "evaluation")
@@ -143,6 +180,13 @@
   (dsl/calculation-method
    {:as id
     :interval-duration "P1D"}))
+
+(defn xsd-time
+  "\"17:00\" -> \"17:00:00\"; the end of the day, \"24:00\", is
+   \"00:00:00\", since urpx.dsl refuses \"24:00:00\"."
+  [hhmm]
+  (str (if (= hhmm "24:00") "00:00" hhmm)
+       ":00"))
 
 (defn hundredths
   "16.10M (cents, or percent) to 0.1610M, scale kept."
