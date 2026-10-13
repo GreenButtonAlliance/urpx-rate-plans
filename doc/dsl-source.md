@@ -1,6 +1,6 @@
 # Filings authored as Clojure source
 
-The Seattle City Light documents are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
+The Seattle City Light documents are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus; [dsl-corpus-generation.md](./dsl-corpus-generation.md) is the plan for converting it. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
 
 ## Evidence
 
