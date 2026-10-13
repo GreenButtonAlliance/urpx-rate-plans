@@ -43,9 +43,9 @@ This filing was derived from the 2026-01-01 sibling by `scripts/derive-e-elec-20
 4. Drops the California Climate Credit (Ledger, PriceDefinition, Price, household-count MetricInput)
 5. Replaces the flat $0.49281 base-charge `Price` with the income-tier base services charge structure: `pge:pa-income-tier` `urpx:ProfileAlternatives` (3 ProfileAlternatives: CARE, FERA, Standard — Standard's ConditionExpression uses a `BooleanOperationNode` of two `notEquals`) and 3 BSC `Price`s wrapped in `pge:psa-bsc-by-income-tier` `urpx:PriceSetAlternatives`, each `PriceSetAlternative` referencing the matching ProfileAlternative
 
-## Vintage PCIA — still not modeled
+## Vintage PCIA
 
-The 2026-01-01 sibling didn't model the Sheet 4 vintage-PCIA table (carried over from the URPX-team-authored v0.1.x fixture); that omission persists here. Adding a vintage-PCIA `RatePlanModifier` to both E-ELEC versions is tracked at [#12](https://github.com/grid-coordination/urpx-rate-plans/issues/12).
+A Community Choice Aggregation customer's vintage PCIA comes from Schedule CCA-CRS, modeled as `pge:cca-crs`, which also offsets this version's generation Prices and Bundled PCIA. The Direct Access and Transitional Bundled Service treatment waits on Schedule DA-CRS and is recorded as a deferral in `tariff.toml`.
 
 ## Validation
 

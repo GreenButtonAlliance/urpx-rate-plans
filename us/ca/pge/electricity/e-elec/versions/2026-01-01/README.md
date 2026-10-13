@@ -40,9 +40,9 @@ Two `urpx:EligibilityRule`s (both must hold for service under E-ELEC):
 
 The four qualifying-technology predicates are joined by `urpx:orOperator` in a `urpx:BooleanOperationNode`.
 
-### Vintage PCIA — not modeled
+### Vintage PCIA
 
-The Sheet 4 vintage-PCIA table (2009–2026) from the source PDF is NOT yet in this rate plan. The URPX-team-authored fixture didn't include a vintage-PCIA `RatePlanModifier`; we carry that omission for now. Follow-up to add a vintage PCIA modifier (matching the pattern in our other PG&E rate plans) is tracked at [#12](https://github.com/grid-coordination/urpx-rate-plans/issues/12).
+A Community Choice Aggregation customer's vintage PCIA comes from Schedule CCA-CRS, modeled as `pge:cca-crs`, which also offsets this version's generation Prices and Bundled PCIA. The Direct Access and Transitional Bundled Service treatment waits on Schedule DA-CRS and is recorded as a deferral in `tariff.toml`.
 
 ## Provenance
 
