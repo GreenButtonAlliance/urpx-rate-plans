@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """One-off: offset SCE Generation for Direct Access and CCA Service customers.
 
 Each SCE residential base filing dated 2026-03-20 gains a generation

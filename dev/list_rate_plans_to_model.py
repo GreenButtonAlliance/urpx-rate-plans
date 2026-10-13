@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Generate reports/rate-plans-to-model.md: the backlog, from inventory minus corpus.
 
 Answers one question per row: this schedule is known to exist, is it modeled

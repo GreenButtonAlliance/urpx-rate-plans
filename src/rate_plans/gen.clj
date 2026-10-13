@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.gen
   "The generator. Loads every namespace corpus.json lists as clojure-source,
    then writes each version of each :rate-plans.kind/document defined in them

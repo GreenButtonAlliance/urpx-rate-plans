@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 ;;
 ;; The clj-urpx half of dev/cross_check_scenario_cost_models.py. Run by that script,
 ;; never on its own:

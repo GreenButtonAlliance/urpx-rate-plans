@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Every version named in prose must be the one actually in force.
 
 Two authorities, because there are two versioned things and each has its own

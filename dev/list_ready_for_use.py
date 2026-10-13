@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Generate reports/ready-for-use.{md,edn}: can a price server use this filing?
 
 The headline answers SERVABILITY, rolled up from reports/scenario-cost-models.md

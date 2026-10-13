@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Fail a filing that states a holiday rule and carries no urpx:HolidayCalendar.
 
 Without a calendar a holiday resolves to whatever its weekday or weekend day type

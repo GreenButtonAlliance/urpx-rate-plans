@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 #
 # The full gate on a pushed commit, the safety net behind --fast and --changed:
 # a trigger missing from dev/gate-steps.toml lets a branch merge green, and this

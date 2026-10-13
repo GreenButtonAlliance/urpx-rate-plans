@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.us.wa.scl.residential-suburban
   "Seattle City Light's suburban franchise and tax multipliers and suburban
    undergrounding charges on Schedule RTS: a RatePlanModifier on scl:rts."

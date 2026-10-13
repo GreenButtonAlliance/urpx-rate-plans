@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Fail when one node's copies disagree about anything unexplained.
 
 dev/normalize_copies.py compares a FIXED LIST of properties across copies and

@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.us.wa.scl.common
   "Seattle City Light: what its schedules share. Every table is keyed by the
    date it takes effect; a later filing adds a key."

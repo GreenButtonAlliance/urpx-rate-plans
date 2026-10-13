@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Move PG&E Schedule E-TOU-C's baseline ladder into each base version.
 
 The ladder was a sibling RatePlanModifier, pge:e-tou-c-baseline-tier, so every

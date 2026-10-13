@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 #
 # The gate's SHACL step: dev/shacl.sh [options]. The options, modes and exit
 # codes are in the namespace docstring of dev/shacl_gate.clj.

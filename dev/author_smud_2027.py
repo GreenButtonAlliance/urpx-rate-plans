@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Add the SMUD versions effective 2027-01-01.
 
 Board Resolution No. 25-06-15 (adopted June 19, 2025) prints three columns on

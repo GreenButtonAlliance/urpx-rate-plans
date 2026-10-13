@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Generate reports/scenario-cost-models.{md,edn,jsonld}.
 
 Pure tabulation. Every number comes from the corpus, from

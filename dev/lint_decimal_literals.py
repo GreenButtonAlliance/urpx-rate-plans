@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Fail a literal typed with an XSD numeric datatype whose lexical form is not
 in that datatype's lexical space (XML Schema 1.1 Part 2, section 3.3).
 

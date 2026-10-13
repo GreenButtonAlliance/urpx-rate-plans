@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Replace dangling `file://` DataSourceReference URLs with the canonical source.
 
 Eleven urpx:url values across five filings pointed at `file://./assets/<NAME>.pdf`.

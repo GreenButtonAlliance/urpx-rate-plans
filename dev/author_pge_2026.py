@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Add the PG&E versions effective 2026-06-01 and 2026-08-28.
 
 Two advice letters moved the modeled residential schedules after the newest

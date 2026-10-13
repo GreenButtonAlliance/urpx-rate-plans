@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns shacl-gate
   "SHACL-validate the corpus against a pinned URPX revision, with
    com.dcj/clj-shacl (Apache Jena SHACL).

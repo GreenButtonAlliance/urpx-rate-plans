@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Require every walker corpus.json lists to see the same corpus.
 
 Each walker's CLI is run twice, with no arguments (the documents) and with

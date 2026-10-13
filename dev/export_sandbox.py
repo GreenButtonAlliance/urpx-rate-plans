@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Export filings to a urpx-org/urpx-data-sandbox submission directory.
 
 This repository stays the source of truth; a sandbox submission is an export of

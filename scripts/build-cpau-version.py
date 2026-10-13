@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Add a CPAU edition: one new version per schedule CPAU reissued on one date.
 
     python3 scripts/build-cpau-version.py --effective 2026-07-01 --pdfs <dir>

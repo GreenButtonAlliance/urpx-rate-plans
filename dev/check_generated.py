@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Require every document generated from Clojure source to equal its committed file.
 
 Runs the generator (`clojure -M:generate`, src/rate_plans/gen.clj) into a

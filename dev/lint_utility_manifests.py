@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Check every utility.toml against schema/utility-manifest.schema.json.
 
 The schema existed with no runner. `corpus.utility_tomls()` had no callers, no

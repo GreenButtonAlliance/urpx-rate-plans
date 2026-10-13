@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Check MODELING-GAPS.md against the per-filing deferrals it summarises.
 
 The same fact is written down twice in this corpus. A filing records what it

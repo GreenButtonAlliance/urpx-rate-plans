@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Generate reports/version-continuity.{md,edn}: what periods can this corpus price?
 
 Every urpx:RatePlanVersion states when it takes effect. A superseded one also

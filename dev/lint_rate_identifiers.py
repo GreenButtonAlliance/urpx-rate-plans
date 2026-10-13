@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Refuse a MIDAS rate identifier whose party segment occurs in no MIDAS record.
 
 The corpus cites CEC MIDAS Rate Identification Numbers as provenance notes on

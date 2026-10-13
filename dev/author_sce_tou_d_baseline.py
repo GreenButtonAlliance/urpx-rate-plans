@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the SCE Schedule TOU-D baseline ladder and the HPWH baseline modifier.
 
 Part 1 edits the four TOU-D base filings (Option 4-9 PM and Option 5-8 PM,

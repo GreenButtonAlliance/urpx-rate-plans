@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.defs
   "The corpus's kinds for urpx.defs/defurpx, qualified :rate-plans.kind/*,
    and the date-keyed lookups."

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the SCE filings effective 2026-10-01 (Advice 5897-E, Decision 26-04-033).
 
 Each 2026-10-01 version is derived from the filing's 2026-03-20 version: every

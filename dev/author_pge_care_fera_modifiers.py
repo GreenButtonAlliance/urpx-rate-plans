@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """One-off: write the pge:d-care (2026-03-01) and pge:e-fera (2026-06-01)
 RatePlanModifier filings. Takes the repository root. Each CoverageClaim
 Evaluation it writes lists no deferrals; dev/resync_coverage_evaluations.py then

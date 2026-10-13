@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the CARE and FERA discountable subtotals and their discount Prices.
 
 The headline percentage discount is the largest single thing this corpus did not

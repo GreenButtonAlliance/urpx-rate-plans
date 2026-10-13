@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.tou
   "Expand a time-of-use rate plan written as tables into a urpx:URPXPackage.
    IRIs follow <prefix>:<schedule>-<version>-<part>. Knows nothing about any

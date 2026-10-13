@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.us.wa.scl.rtc
   "Seattle City Light Schedule RTC, Residential: City Time-of-Use."
   (:require [rate-plans.defs]

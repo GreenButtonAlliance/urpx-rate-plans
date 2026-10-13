@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the PG&E Medical Baseline modifiers for Schedules E-1 and E-TOU-C.
 
 PG&E Electric Rule 19, Part A: "The Standard Medical Baseline Quantity is 16.438

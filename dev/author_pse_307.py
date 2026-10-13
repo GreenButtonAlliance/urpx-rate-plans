@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """One-off: author the JSON-LD of us/wa/pse/electricity/307/versions/{2026-05-01,2026-10-01}/.
 
 Takes the repository root. Run once, then dev/resync_coverage_evaluations.py,

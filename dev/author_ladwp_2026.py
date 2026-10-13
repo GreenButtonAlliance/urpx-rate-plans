@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the LADWP R-1A and R-1B versions effective 2026-07-01 and 2026-10-01.
 
 LADWP's base rates have not moved since the 2019-07-01 Electric Rate Summary;

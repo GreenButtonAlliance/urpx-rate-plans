@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Tests for dev/gate-steps.toml: it names every gate step and nothing else.
 
 Every `note` step in dev/gate.sh appears as a [[gate]] entry whose modes are

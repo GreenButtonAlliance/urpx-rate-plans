@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Generate reports/midas-catalog.{md,edn}: what California publishes, and what we model.
 
 Reads the mined MIDAS metadata in `data/midas/` and answers three questions a

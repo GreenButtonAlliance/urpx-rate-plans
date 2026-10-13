@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Mine MIDAS rate metadata. Per-record durability, deterministic export.
 
 MIDAS is California's price server, not a tariff source. Its value series are

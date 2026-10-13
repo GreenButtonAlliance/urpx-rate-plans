@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Build a per-utility schedule inventory: what schedules exist, from any source.
 
 A schedule inventory answers "what is there to model", which is a different

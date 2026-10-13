@@ -2,8 +2,8 @@ version = 1
 
 # REUSE.toml — declarative license/copyright annotations for urpx-rate-plans.
 #
-# Most files (JSON-LD rate-plan serializations, manifests, schemas, prose
-# documentation, code) are CDLA-Permissive-2.0 with copyright held by
+# Data and prose (JSON-LD rate-plan serializations, manifests, schemas, reports,
+# documentation) are CDLA-Permissive-2.0; code is MIT. Both are copyright
 # Clark Communications Corporation.
 #
 # Two exceptions:
@@ -15,20 +15,29 @@ version = 1
 #      repo. Both copyrights asserted; license is CDLA-Permissive-2.0,
 #      matching the upstream urpx-org/urpx datasets.
 #
-# Annotation order: catch-all (aggregate) first, then PDF + e-elec
+# Annotation order: catch-all (aggregate) first, then the code, PDF and e-elec
 # overrides. Per the REUSE 3.3 spec, `override` annotations replace
 # any prior aggregates for matching files.
 
 # ---------------------------------------------------------------------------
 # Catch-all — Clark Communications Corporation, CDLA-Permissive-2.0.
 # Covers: rate-plan JSON-LDs, tariff.toml + utility.toml manifests,
-# JSON Schema files, Markdown docs, Clojure code, deps.edn, .gitignore.
+# JSON Schema files, Markdown docs, reports, baselines and fixtures.
 # ---------------------------------------------------------------------------
 [[annotations]]
-path = ["**/*.jsonld", "**/*.toml", "**/*.json", "**/*.md", "**/*.clj", "**/*.edn", "**/*.py", "**/*.csv", "**/*.sh", "**/.gitignore", "dev/git-hooks/pre-commit", "dev/requirements.txt"]
+path = ["**/*.jsonld", "**/*.toml", "**/*.json", "**/*.md", "**/*.edn", "**/*.csv"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Clark Communications Corporation"
 SPDX-License-Identifier = "CDLA-Permissive-2.0"
+
+# ---------------------------------------------------------------------------
+# Code — Clark Communications Corporation, MIT.
+# ---------------------------------------------------------------------------
+[[annotations]]
+path = ["**/*.clj", "**/*.py", "**/*.sh", "**/.gitignore", "deps.edn", "dev/gate-steps.toml", "dev/git-hooks/pre-commit", "dev/git-hooks/pre-push", "dev/requirements.txt"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Clark Communications Corporation"
+SPDX-License-Identifier = "MIT"
 
 # ---------------------------------------------------------------------------
 # PG&E-published regulatory PDFs — public record; this repository claims no copyright.

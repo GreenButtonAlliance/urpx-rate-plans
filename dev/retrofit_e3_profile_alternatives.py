@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """One-off: restate cpau:e-3's interval-meter and power-type gates as one
 ProfileAlternatives (2 dimensions, 4 cells) plus one PriceSetAlternatives."""
 import copy

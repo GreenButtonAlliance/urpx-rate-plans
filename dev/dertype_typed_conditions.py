@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """One-off: state DER-type discriminators with the typed urpx:conditionProperty
 urpx:derType where URPX's DERTypeValue enumeration names the type."""
 import json

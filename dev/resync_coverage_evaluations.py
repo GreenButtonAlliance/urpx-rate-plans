@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Regenerate each CoverageClaim Evaluation from the filing's own deferrals.
 
 WHY THIS EXISTS. The Evaluations say, in their own first sentence, that the parts

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """A sha256 of a JSON-LD document's RDF content, not of its bytes.
 
 Two documents that state the same triples hash the same, however their JSON is

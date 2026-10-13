@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Mint a stable @id for every blank node that needs identity across filings.
 
 LAYOUT.md section 2 justifies re-serializing one subtree in several filings with

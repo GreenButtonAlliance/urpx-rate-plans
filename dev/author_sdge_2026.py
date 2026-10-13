@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the SDG&E versions effective 2026-06-01, 2026-08-01 and 2026-09-30.
 
 Four advice letters moved SDG&E's residential schedules after the 2026-04-01

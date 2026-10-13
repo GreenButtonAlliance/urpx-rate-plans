@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Tests for dev/rdf_hash.py: what keeps the canonical RDF hash and what moves it.
 
 Run: python3 dev/test_rdf_hash.py

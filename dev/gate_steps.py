@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Which gate steps a set of changed paths selects, from dev/gate-steps.toml.
 
   python3 dev/gate_steps.py skipped < paths

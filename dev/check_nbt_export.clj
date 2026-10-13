@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns check-nbt-export
   "Every NBT export ledger resolves to exactly the one Price the tariff names,
    at every instant of a year, for every vintage.

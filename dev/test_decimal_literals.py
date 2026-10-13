@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Tests for the XSD numeric literal lint.
 
 Each case writes a small JSON-LD fixture, or an altered copy of a real filing,

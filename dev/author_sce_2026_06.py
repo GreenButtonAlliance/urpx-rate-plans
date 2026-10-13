@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author the SCE versions in force from June 2026 until October 1, 2026.
 
 Advice 5829-E cancelled the 2026-03-20 rate sheets of Schedules TOU-D and D

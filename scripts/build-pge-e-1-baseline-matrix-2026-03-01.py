@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Write PG&E E-1's full baseline-allowance matrix, and move the income tier out.
 
 Schedule E-1 Special Condition 2, Sheet 4 (Cal. P.U.C. Sheet 61099-E) prices a

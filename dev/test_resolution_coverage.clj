@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns test-resolution-coverage
   "How dev/lint_resolution_coverage.clj treats an exception from
    urpx.price/resolve-prices: a clj-urpx refusal (an ex-info with a :reason)

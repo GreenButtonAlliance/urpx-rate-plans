@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Tests for the SharePoint envelope unwrapping in dev/fetch_tariff_documents.py.
 
 Twelve SCE source documents were committed as the envelope itself, because the

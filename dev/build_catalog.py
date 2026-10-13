@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Build the DCAT catalog of the corpus under catalog/.
 
 Writes catalog/corpus.jsonld (DCAT 3 JSON-LD) and catalog/corpus.csv (one row

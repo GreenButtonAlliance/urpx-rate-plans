@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """One-off: copy the source PDFs into us/wa/pse/electricity/327/versions/<date>/ and
 write each directory's tariff.toml.
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Fetch the tariff documents our sources link to, and record what happened to each.
 
 Two kinds of source name a document. A utility's own tariff book names one per

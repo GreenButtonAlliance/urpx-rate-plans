@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns rate-plans.alternatives
   "Expand a rate plan modifier whose customer chooses one alternative along a
    single string dimension (e.g. a jurisdiction). Each alternative carries

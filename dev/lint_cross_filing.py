@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Two checks that look across filings, which per-filing SHACL and clj-urpx
 cannot. dev/lint_consistency.py is the third, for RatePlan-level fields.
 

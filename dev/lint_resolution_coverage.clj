@@ -1,5 +1,5 @@
 ;; SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-;; SPDX-License-Identifier: CDLA-Permissive-2.0
+;; SPDX-License-Identifier: MIT
 (ns lint-resolution-coverage
   "Require that every ledger a base plan declares actually comes back from
    resolution, or is absent for a reason this file recognises.

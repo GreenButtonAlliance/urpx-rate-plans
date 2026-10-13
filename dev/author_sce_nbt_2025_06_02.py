@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Add the SCE NBT version effective 2025-06-02 (Advice 5497-E).
 
 Advice 5497-E reissues Sheet 6 (89868-E, cancelling 87507-E: the EEC Vintage

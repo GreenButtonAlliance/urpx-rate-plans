@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Author PG&E Schedule CCA-CRS 2026-01-01 and the base-plan changes it needs.
 
 A PG&E Community Choice Aggregation customer's PG&E bill is its base plan plus

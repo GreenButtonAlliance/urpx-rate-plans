@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
-# SPDX-License-Identifier: CDLA-Permissive-2.0
+# SPDX-License-Identifier: MIT
 """Scenario cost models: the enumeration, in one place.
 
 A scenario cost model is URPX's urpx:ScenarioCostModel, read as a
