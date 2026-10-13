@@ -24,14 +24,14 @@ command = "python3 dev/check_generated.py --write"
 | `entry` | The `defurpx` var that names the document |
 | `command` | The command that writes it |
 
-A filing with no `[generation]` table is authored as JSON-LD. The table carries no hash or commit: the gate regenerates every generated document on every commit and fails on any difference, so the claim is checked rather than recorded.
+A filing with no `[generation]` table is authored as JSON-LD. The table carries no hash, commit or generator version: the gate regenerates every generated document on every commit with the clj-urpx release pinned in `deps.edn` and fails on any difference, so the claim is checked rather than recorded, and the version is the one `deps.edn` names at that commit.
 
 `schema/tariff-manifest.schema.json` gains the table, since the manifest schema is closed.
 
 ## Navigation
 
-- `catalog/corpus.jsonld` gives each generated document `prov:wasDerivedFrom` links to its source files, so a client walking the DCAT catalog reaches the source without reading TOML.
-- A generated report lists every generated document with its source files and entry, and every source file with the documents it emits.
+- `catalog/corpus.jsonld` gives each generated document `prov:wasDerivedFrom` links to its source files and a `prov:wasGeneratedBy` activity naming the clj-urpx release that emitted it, read from `deps.edn` when the catalog is built. A client walking the DCAT catalog reaches the source and the generator without reading TOML, and a copy of the catalog published outside the repository keeps both.
+- A generated report lists every generated document with its source files, entry and clj-urpx release, and every source file with the documents it emits.
 
 ## Checks
 
