@@ -11,8 +11,9 @@ Output:
 
 Source values: ELECTRIC_SCHEDULES_DA-CRS.pdf and ELECTRIC_SCHEDULES_CCA-CRS.pdf
 in the live SCE tariff-book Other Rates folder, AL 5725-E equivalents
-effective 2026-01-01. PDFs staged at scripts/sce-live-tariff-book-2026-05-04/
-other-rates/. PCIA vintage values are identical between the two schedules.
+effective 2026-01-01. The PDFs are committed in the filing directories as
+sce_da-crs_2026-03-20.pdf and sce_cca-crs_2026-03-20.pdf. PCIA vintage
+values are identical between the two schedules.
 """
 from __future__ import annotations
 

@@ -42,9 +42,11 @@ Those are the filings. The same strings are also written down outside the corpus
 | `us/ca/pge/electricity/nbt/versions/2026-08-28/rate-plan-modifier_pge_nbt_2026-08-28.jsonld` | 2,880 | 4 |
 | `dev/test_rate_identifiers.py` | 31 | 7 |
 | `doc/midas-rins-and-scenario-cost-models.md` | 21 | 19 |
+| `scripts/extract-sce-nbt-eec-values.py` | 10 | 5 |
 | `scripts/tag-pge-nbt-prices-with-midas-rins.py` | 10 | 5 |
 | `us/ca/sdge/electricity/nbt/versions/2025-01-27/README.md` | 10 | 10 |
 | `us/ca/sce/electricity/nbt/versions/2025-06-02/tariff.toml` | 7 | 6 |
+| `scripts/augment-sce-nbt-with-generation-eec.py` | 5 | 5 |
 | `dev/author_pge_2026.py` | 4 | 4 |
 | `us/ca/pge/electricity/nbt/versions/2026-08-28/tariff.toml` | 4 | 4 |
 | `dev/list_rate_identifiers.py` | 2 | 2 |
