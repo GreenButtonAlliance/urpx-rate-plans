@@ -355,7 +355,7 @@ The schema is intentionally minimal. Richer fields (per-schedule URL templates, 
 
 Subjects are minted in per-utility CURIE prefixes bound in each filing's `@context`, never in `urpx:`. The `urpx:` prefix names URPX vocabulary terms and enumeration members only. Every prefix resolves under the identity base `https://rate-plans.grid-coordination.energy/`.
 
-Every filing's `@context` is an inline object, the `urpx:` terms included, so a filing parses with no network fetch. The URPX namespace does not dereference: on 2026-10-11 `https://urpx.org/ns/ontology/` and the published v0.5.1 context URL both returned 404.
+Every filing's `@context` is an inline object, the `urpx:` terms included, so a filing parses with no network fetch. The URPX namespace dereferences: `https://urpx.org/ns/ontology/` and each term IRI under it serve HTML documentation, and each release publishes its ontology as Turtle and its context as JSON-LD, for v0.5.1 at `https://urpx.org/ns/ontology/releases/v0.5.1/ttl/urpx-ontology.ttl` and `https://urpx.org/ns/context/releases/v0.5.1/jsonld/urpx-context.jsonld`.
 
 | Resource | IRI shape | Example |
 | --- | --- | --- |
