@@ -7,19 +7,28 @@
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.string :as str]
+            [urpx.coerce :as coerce]
+            [urpx.core :as core]
             [urpx.dsl :as dsl]
-            [urpx.emit :as emit]))
+            [urpx.emit :as emit]
+            [urpx.schema :as schema]))
 
 (def urpx-version
   "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl")
 
 (def org-ns "https://rate-plans.grid-coordination.energy/organizations/")
 
-(defn context [[p iri]]
-  (merge emit/default-context
-         {p iri
-          "org" org-ns
-          "skos" "http://www.w3.org/2004/02/skos/core#"}))
+(defn context
+  "The @context of a utility's documents: `urpx.emit/default-context`, the
+   utility's prefix, and `extra` term definitions."
+  ([prefix]
+   (context prefix nil))
+  ([[p iri] extra]
+   (merge emit/default-context
+          {p iri
+           "org" org-ns
+           "skos" "http://www.w3.org/2004/02/skos/core#"}
+          extra)))
 
 ;; A package is built in one dsl-scope: an entity is named by `:as` with a
 ;; keyword from `ider`, and the same keyword is a reference to it.
@@ -148,14 +157,62 @@
          ds
          (concat (rest ds) [nil]))))
 
+(def ^:private node-schemas
+  "The schemas of the nodes besides a package that a document's @graph
+   holds. urpx.emit writes one root entity and has no writer for a
+   SourcePublication or a RateCase, so these are encoded with its parts."
+  {"urpx:ProgramEnrollment" schema/ProgramEnrollment
+   "urpx:SourcePublication" schema/SourcePublication
+   "urpx:RateCase" schema/RateCase})
+
+(defn- emit-node
+  "One top-level node as JSON data, with no @context."
+  [node]
+  (json/read-str
+   (if (= "urpx:URPXPackage" (:jsonld/type node))
+     (emit/write-urpx-package node {:context nil})
+     (let [sch (or (node-schemas (:jsonld/type node))
+                   (throw (ex-info (str "No schema to emit a " (:jsonld/type node))
+                                   {:node (:jsonld/id node)})))]
+       (json/write-str (core/keys->jsonld (coerce/encode sch node)))))))
+
+(defn- key-order
+  "@context, @id and @type first, then other keywords, then properties, each
+   group in string order."
+  [k]
+  [(case k
+     "@context" 0
+     "@id" 1
+     "@type" 2
+     (if (str/starts-with? k "@") 3 4))
+   k])
+
+(defn- sort-keys
+  "`x` with every map's keys in `key-order`, so the bytes written depend on
+   the graph's content and not on the order its maps were built in."
+  [x]
+  (cond
+    (map? x) (into (sorted-map-by #(compare (key-order %1) (key-order %2)))
+                   (map (fn [[k v]]
+                          [k (sort-keys v)]))
+                   x)
+    (sequential? x) (mapv sort-keys x)
+    :else x))
+
 (defn write!
-  "Emit `package` with @context `ctx` and write it to `path`, indented by two
-   spaces, with slashes and non-ASCII characters unescaped."
-  [package ctx path]
-  (let [s (emit/write-urpx-package package {:context ctx})]
+  "Emit `doc` with @context `ctx` and write it to `path`, indented by two
+   spaces, with every object's keys in `key-order` and slashes and non-ASCII
+   characters unescaped. `doc` is one package, or a vector of top-level
+   nodes written as an @graph."
+  [doc ctx path]
+  (let [data (sort-keys
+              (if (sequential? doc)
+                {"@context" ctx
+                 "@graph" (mapv emit-node doc)}
+                (json/read-str (emit/write-urpx-package doc {:context ctx}))))]
     (io/make-parents path)
     (spit path
-          (str (json/write-str (json/read-str s)
+          (str (json/write-str data
                                :indent true
                                :escape-slash false
                                :escape-unicode false)

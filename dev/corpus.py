@@ -228,6 +228,24 @@ def filing_path(utility: str, schedule: str, date: str, kind: str = "rate-plan",
         f"{kind}_{utility}_{schedule}_{date}.jsonld"
 
 
+def canonical_value(value):
+    """`value` with every one-element property array replaced by its element.
+
+    JSON-LD states the same triple either way, and the clj-urpx emitter writes
+    the array where an authored file wrote the bare value, so copies of a node
+    are compared in this form. An @list is ordered values, not a property
+    array, so a one-member @list keeps its array."""
+    if isinstance(value, dict):
+        return {k: ([canonical_value(m) for m in v] if k == "@list" and isinstance(v, list)
+                    else canonical_value(v))
+                for k, v in value.items()}
+    if isinstance(value, list):
+        if len(value) == 1:
+            return canonical_value(value[0])
+        return [canonical_value(v) for v in value]
+    return value
+
+
 def require_nonempty(items, what: str) -> None:
     """Refuse to report a verdict over an empty corpus.
 

@@ -1,1197 +1,1197 @@
 {
-  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
-  "urpx:hasRatePlanModifier": [
-    {
-      "urpx:name": "Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges",
-      "urpx:modifierUniqueIdentifier": "RSS-RTS-SUBURBAN",
-      "urpx:initialEffectiveDate": "2024-01-01",
-      "urpx:timezoneIdentifier": "America/Los_Angeles",
-      "urpx:hasRatePlanModifierVersion": {
-        "urpx:commodity": [
-          {
-            "@id": "urpx:electricity"
-          }
-        ],
-        "urpx:serviceRole": {
-          "@id": "urpx:bundledServiceRole"
-        },
-        "urpx:effectiveDateTime": "2026-01-01T00:00:00",
-        "@id": "scl:residential-suburban-2026-01-01",
-        "urpx:hasPlanElements": {
-          "urpx:hasMetricInput": [
-            {
-              "urpx:name": "kWh Energy Consumption Prices",
-              "urpx:metricInputType": {
-                "@id": "urpx:measuredMetricInput"
-              },
-              "urpx:hasMetricSpecification": {
-                "urpx:measurementKind": {
-                  "@id": "urpx:energy"
-                },
-                "urpx:unitOfMeasure": {
-                  "@id": "urpx:kWh"
-                },
-                "@type": "urpx:MetricSpecification",
-                "@id": "scl:ms-energy"
-              },
-              "@type": "urpx:MetricInput",
-              "@id": "scl:residential-suburban-2026-01-01-mi-energy"
-            },
-            {
-              "urpx:name": "Per Meter Prices",
-              "urpx:metricInputType": {
-                "@id": "urpx:profileMetricInput"
-              },
-              "urpx:profileMetricProperty": {
-                "@id": "urpx:meterCount"
-              },
-              "@type": "urpx:MetricInput",
-              "@id": "scl:residential-suburban-2026-01-01-mi-meter-count"
-            }
-          ],
-          "urpx:hasProfileAlternatives": [
-            {
-              "urpx:name": "Location of service: the suburban jurisdiction the customer is served in",
-              "urpx:hasAlternativeDimensions": {
-                "urpx:hasAlternativeDimension": [
-                  {
-                    "urpx:dimensionDisplayName": "Suburban jurisdiction",
-                    "urpx:customDimensionProperty": "serviceJurisdiction",
-                    "urpx:hasPossibleValues": [
-                      {
-                        "@list": [
-                          {
-                            "@value": "Burien",
-                            "@type": "xsd:string"
-                          },
-                          {
-                            "@value": "Unincorporated King County",
-                            "@type": "xsd:string"
-                          },
-                          {
-                            "@value": "Lake Forest Park",
-                            "@type": "xsd:string"
-                          },
-                          {
-                            "@value": "Normandy Park",
-                            "@type": "xsd:string"
-                          },
-                          {
-                            "@value": "SeaTac",
-                            "@type": "xsd:string"
-                          },
-                          {
-                            "@value": "Shoreline",
-                            "@type": "xsd:string"
-                          },
-                          {
-                            "@value": "Tukwila",
-                            "@type": "xsd:string"
-                          }
-                        ]
-                      }
-                    ],
-                    "@type": "urpx:AlternativeDimension",
-                    "@id": "scl:residential-suburban-2026-01-01-ad-jurisdiction"
-                  }
-                ],
-                "@type": "urpx:AlternativeDimensions",
-                "@id": "scl:residential-suburban-2026-01-01-pa-jurisdiction-alternative-dimensions"
-              },
-              "urpx:hasProfileAlternative": [
-                {
-                  "urpx:name": "Service location in Burien",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-burien-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "Burien",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-burien-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-burien"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-burien"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-burien"
-                },
-                {
-                  "urpx:name": "Service location in Unincorporated King County",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-king-county-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "Unincorporated King County",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-king-county-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-king-county"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-king-county"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-king-county"
-                },
-                {
-                  "urpx:name": "Service location in Lake Forest Park",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-lake-forest-park-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "Lake Forest Park",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-lake-forest-park-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-lake-forest-park"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-lake-forest-park"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-lake-forest-park"
-                },
-                {
-                  "urpx:name": "Service location in Normandy Park",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-normandy-park-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "Normandy Park",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-normandy-park-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-normandy-park"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-normandy-park"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-normandy-park"
-                },
-                {
-                  "urpx:name": "Service location in SeaTac",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-seatac-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "SeaTac",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-seatac-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-seatac"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-seatac"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-seatac"
-                },
-                {
-                  "urpx:name": "Service location in Shoreline",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-shoreline-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "Shoreline",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-shoreline-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-shoreline"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-shoreline"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-shoreline"
-                },
-                {
-                  "urpx:name": "Service location in Tukwila",
-                  "urpx:hasConditionExpression": {
-                    "urpx:rootNode": {
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "urpx:customConditionProperty": "serviceJurisdiction",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-tukwila-left-operand"
-                      },
-                      "urpx:rightOperand": {
-                        "urpx:stringValue": "Tukwila",
-                        "@type": "urpx:CustomOperandNode",
-                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-tukwila-right-operand"
-                      },
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-tukwila"
-                    },
-                    "@type": "urpx:ConditionExpression",
-                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-tukwila"
-                  },
-                  "@type": "urpx:ProfileAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-pa-tukwila"
-                }
-              ],
-              "@type": "urpx:ProfileAlternatives",
-              "@id": "scl:residential-suburban-2026-01-01-pa-jurisdiction"
-            }
-          ],
-          "urpx:hasBillingModel": {
-            "urpx:hasLedger": [
-              {
-                "urpx:name": "Franchise and Tax Multiplier, Energy Charge",
-                "urpx:ledgerType": {
-                  "@id": "urpx:bundledLedger"
-                },
-                "urpx:referencesMetricInput": [
-                  {
-                    "@id": "scl:residential-suburban-2026-01-01-mi-energy"
-                  }
-                ],
-                "@type": "urpx:Ledger",
-                "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-energy"
-              },
-              {
-                "urpx:name": "Franchise and Tax Multiplier, Base Service Charge",
-                "urpx:ledgerType": {
-                  "@id": "urpx:bundledLedger"
-                },
-                "urpx:referencesMetricInput": [
-                  {
-                    "@id": "scl:residential-suburban-2026-01-01-mi-meter-count"
-                  }
-                ],
-                "@type": "urpx:Ledger",
-                "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-base-service-charge"
-              },
-              {
-                "urpx:name": "Suburban Undergrounding Charges",
-                "urpx:ledgerType": {
-                  "@id": "urpx:bundledLedger"
-                },
-                "urpx:referencesMetricInput": [
-                  {
-                    "@id": "scl:residential-suburban-2026-01-01-mi-energy"
-                  }
-                ],
-                "@type": "urpx:Ledger",
-                "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-              }
-            ],
-            "urpx:hasPriceDefinition": [
-              {
-                "urpx:name": "Suburban franchise and tax multiplier on the Schedule RTS energy charge",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:taxMunicipal"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:taxes"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-energy"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-              },
-              {
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:taxMunicipal"
-                  }
-                ],
-                "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge",
-                "urpx:chargeCategory": {
-                  "@id": "urpx:taxes"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:baseQuantity": "1",
-                "urpx:name": "Suburban franchise and tax multiplier on the Schedule RTS Base Service Charge, per meter per day",
-                "urpx:hasCalculationMethod": {
-                  "urpx:intervalDuration": "P1D",
-                  "@type": "urpx:CalculationMethod",
-                  "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge-calculation-method"
-                },
-                "@type": "urpx:PriceDefinition",
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-base-service-charge"
-                }
-              },
-              {
-                "urpx:name": "North City Undergrounding Charge (Shoreline)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-north-city"
-              },
-              {
-                "urpx:name": "Aurora 1 Undergrounding Charge (Shoreline)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-1"
-              },
-              {
-                "urpx:name": "Aurora 2 Undergrounding Charge (Shoreline)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-2"
-              },
-              {
-                "urpx:name": "Aurora 3A Undergrounding Charge (Shoreline)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3a"
-              },
-              {
-                "urpx:name": "Aurora 3B Undergrounding Charge (Shoreline)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3b"
-              },
-              {
-                "urpx:name": "First Avenue South 1 Undergrounding Charge (Burien)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-1"
-              },
-              {
-                "urpx:name": "First Avenue South 2 Undergrounding Charge (Burien)",
-                "urpx:chargeType": [
-                  {
-                    "@id": "urpx:recoverySurcharge"
-                  }
-                ],
-                "urpx:chargeCategory": {
-                  "@id": "urpx:adjustment"
-                },
-                "urpx:billPortion": {
-                  "@id": "urpx:bundledPortion"
-                },
-                "urpx:referencesLedger": {
-                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
-                },
-                "@type": "urpx:PriceDefinition",
-                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-2"
-              }
-            ],
-            "@type": "urpx:BillingModel",
-            "@id": "scl:residential-suburban-2026-01-01-plan-elements-billing-model"
-          },
-          "@type": "urpx:PlanElements",
-          "@id": "scl:residential-suburban-2026-01-01-plan-elements"
-        },
-        "urpx:priceCurrency": "USD",
-        "urpx:hasPrices": {
-          "urpx:hasPriceSetAlternatives": [
-            {
-              "urpx:name": "Franchise and tax multiplier and undergrounding charges, by location of service",
-              "urpx:referencesProfileAlternatives": {
-                "@id": "scl:residential-suburban-2026-01-01-pa-jurisdiction"
-              },
-              "urpx:hasPriceSetAlternative": [
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-burien"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Burien franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-burien-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Burien franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-burien-franchise-tax-base-service-charge"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-1"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "First Avenue South 1 Undergrounding Charge",
-                      "urpx:unitPrice": "0.0037",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-first-avenue-south-1"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-2"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "First Avenue South 2 Undergrounding Charge",
-                      "urpx:unitPrice": "0.0013",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-first-avenue-south-2"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-burien"
-                },
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-king-county"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Unincorporated King County franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-king-county-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Unincorporated King County franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-king-county-franchise-tax-base-service-charge"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-king-county"
-                },
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-lake-forest-park"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Lake Forest Park franchise and tax multiplier, 8.04 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0804",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-lake-forest-park-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Lake Forest Park franchise and tax multiplier, 8.04 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0804",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-lake-forest-park-franchise-tax-base-service-charge"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-lake-forest-park"
-                },
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-normandy-park"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Normandy Park franchise and tax multiplier, 6.38 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0638",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-normandy-park-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Normandy Park franchise and tax multiplier, 6.38 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0638",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-normandy-park-franchise-tax-base-service-charge"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-normandy-park"
-                },
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-seatac"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "SeaTac franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-seatac-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "SeaTac franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-seatac-franchise-tax-base-service-charge"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-seatac"
-                },
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-shoreline"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Shoreline franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-shoreline-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Shoreline franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0800",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-shoreline-franchise-tax-base-service-charge"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-north-city"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "North City Undergrounding Charge",
-                      "urpx:unitPrice": "0.0007",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-north-city"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-1"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "Aurora 1 Undergrounding Charge",
-                      "urpx:unitPrice": "0.0017",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-1"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-2"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "Aurora 2 Undergrounding Charge",
-                      "urpx:unitPrice": "0.0018",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-2"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3a"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "Aurora 3A Undergrounding Charge",
-                      "urpx:unitPrice": "0.0005",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-3a"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3b"
-                      },
-                      "urpx:startDate": "2025-01-01",
-                      "urpx:name": "Aurora 3B Undergrounding Charge",
-                      "urpx:unitPrice": "0.0022",
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-3b"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-shoreline"
-                },
-                {
-                  "urpx:referencesProfileAlternative": {
-                    "@id": "scl:residential-suburban-2026-01-01-pa-tukwila"
-                  },
-                  "urpx:hasPrice": [
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Tukwila franchise and tax multiplier, 7.19 percent of the Schedule RTS energy charge",
-                      "urpx:multiplier": "0.0719",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-summary-energy"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-tukwila-franchise-tax-energy"
-                    },
-                    {
-                      "urpx:referencesPriceDefinition": {
-                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
-                      },
-                      "urpx:startDate": "2026-01-01",
-                      "urpx:name": "Tukwila franchise and tax multiplier, 7.19 percent of the Schedule RTS Base Service Charge",
-                      "urpx:multiplier": "0.0719",
-                      "urpx:basedOnPrice": [
-                        {
-                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
-                        }
-                      ],
-                      "@type": "urpx:Price",
-                      "@id": "scl:residential-suburban-2026-01-01-price-tukwila-franchise-tax-base-service-charge"
-                    }
-                  ],
-                  "@type": "urpx:PriceSetAlternative",
-                  "@id": "scl:residential-suburban-2026-01-01-psa-tukwila"
-                }
-              ],
-              "@type": "urpx:PriceSetAlternatives",
-              "@id": "scl:residential-suburban-2026-01-01-psa-by-jurisdiction"
-            }
-          ],
-          "@type": "urpx:Prices",
-          "@id": "scl:residential-suburban-2026-01-01-prices"
-        },
-        "urpx:version": "2026-01-01",
-        "urpx:description": "Seattle City Light's suburban franchise and tax multipliers and suburban undergrounding charges on Schedule RTS (Residential: Suburban Time-of-Use). SMC 21.49.030.A, as amended by Ordinance 127473, states for Schedule RSS that 'All charges in Schedule RSS shall be increased by the following percentages respective of the location of service' and that 'Additional undergrounding charges will apply to all customers in Shoreline and Burien'; 21.49.030.B applies 'The same franchise and tax multipliers and suburban undergrounding charges ... to Schedule RTS as Schedule RSS.' This version carries the multiplier column headed 'Effective January 1, 2026': Burien, unincorporated King County, SeaTac and Shoreline 8.00 percent; Lake Forest Park 8.04 percent; Normandy Park 6.38 percent; Tukwila 7.19 percent. The undergrounding charges, unchanged since January 1, 2023, total 0.69 cents per kWh in Shoreline (North City 0.07, Aurora 1 0.17, Aurora 2 0.18, Aurora 3A 0.05, Aurora 3B 0.22) and 0.50 cents per kWh in Burien (First Avenue South 1 0.37, First Avenue South 2 0.13). The customer's jurisdiction is a urpx:ProfileAlternatives dimension. Each alternative applies its percentage twice, as a multiplier over the RTS version's energy subtotal, which holds its Peak, Mid-Peak and Off-Peak energy charges, and as a multiplier over its Base Service Charge. A customer in Renton takes Schedule RTS with no multiplier and no undergrounding charge, so takes it without this modifier. Superseded on 2027-01-01 by the ordinance's next multiplier column.",
-        "urpx:changeReason": {
-          "@id": "urpx:rateCase"
-        },
-        "urpx:modifierVersionNumber": "2026-01-01",
-        "urpx:expirationDateTime": "2027-01-01T00:00:00",
-        "urpx:hasEligibilityRule": [
-          {
-            "urpx:name": "Residential customer on Schedule RTS in a suburban jurisdiction",
-            "urpx:description": "SMC 21.49.030.B: the franchise and tax multipliers and suburban undergrounding charges of Schedule RSS apply to Schedule RTS. Which multiplier and which undergrounding charges apply is set by the location of service and is the urpx:ProfileAlternative selected. The condition expression tests only that the customer is residential.",
-            "urpx:hasConditionExpression": {
-              "urpx:rootNode": {
-                "urpx:operator": {
-                  "@id": "urpx:equalsOperator"
-                },
-                "urpx:leftOperand": {
-                  "urpx:conditionProperty": {
-                    "@id": "urpx:hasCustomerKind"
-                  },
-                  "@type": "urpx:ObjectOperandNode",
-                  "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression-root-node-left-operand"
-                },
-                "urpx:rightOperand": {
-                  "urpx:referencesValue": {
-                    "@id": "urpx:residentialKind"
-                  },
-                  "@type": "urpx:ObjectOperandNode",
-                  "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression-root-node-right-operand"
-                },
-                "@type": "urpx:ComparisonNode",
-                "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression-root-node"
-              },
-              "@type": "urpx:ConditionExpression",
-              "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression"
-            },
-            "@type": "urpx:EligibilityRule",
-            "@id": "scl:residential-suburban-2026-01-01-er-residential"
-          }
-        ],
-        "urpx:applicableToRatePlan": [
-          {
-            "@id": "scl:rts"
-          }
-        ],
-        "urpx:forRatePlanModifier": {
-          "@id": "scl:residential-suburban"
-        },
-        "urpx:hasDataSourceReference": [
-          {
-            "urpx:fileName": "Ord_127473.pdf",
-            "urpx:mediaType": {
-              "@id": "urpx:applicationPdf"
-            },
-            "urpx:accessURL": "https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf",
-            "urpx:dateRetrieved": "2026-10-05",
-            "urpx:dataSourceType": {
-              "@id": "urpx:regulatoryWebsiteSource"
-            },
-            "urpx:pageStart": 9,
-            "urpx:pageEnd": 11,
-            "@type": "urpx:DataSourceReference"
-          }
-        ],
-        "urpx:hasCoverageClaim": {
-          "urpx:completenessResult": {
-            "@id": "urpx:complete"
-          },
-          "urpx:selfContained": true,
-          "@type": "urpx:CoverageClaim",
-          "@id": "scl:cc-residential-suburban-2026-01-01"
-        },
-        "urpx:offeredBy": {
-          "urpx:legalName": "Seattle City Light",
-          "urpx:organizationType": {
-            "@id": "urpx:utilityOrganization"
-          },
-          "urpx:hasIdentity": [
-            {
-              "urpx:hasName": {
-                "urpx:name": "Seattle City Light",
-                "@type": "urpx:OrganizationName",
-                "@id": "org:utility-scl-name"
-              },
-              "urpx:hasIdentifier": [
-                {
-                  "urpx:scheme": {
-                    "@id": "urpx:eiaScheme"
-                  },
-                  "skos:notation": "16868",
-                  "@type": "urpx:OrganizationIdentifier",
-                  "@id": "org:utility-scl-eia"
-                }
-              ],
-              "@type": "urpx:OrganizationIdentity",
-              "@id": "org:utility-scl-identity"
-            }
-          ],
-          "@type": "urpx:UtilityOperator",
-          "@id": "org:utility-scl"
-        },
-        "@type": "urpx:RatePlanModifierVersion"
-      },
-      "@type": "urpx:RatePlanModifier",
-      "@id": "scl:residential-suburban"
-    }
-  ],
-  "@type": "urpx:URPXPackage",
-  "@id": "scl:doc-residential-suburban-2026-01-01",
   "@context": {
-    "urpx:expectedEndDateTime": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:dateTimeApproved": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:endDateTime": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:timeValue": {
-      "@type": "xsd:time"
-    },
     "org": "https://rate-plans.grid-coordination.energy/organizations/",
-    "urpx:expirationDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:dateTimePublished": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:dateModified": {
-      "@type": "xsd:date"
-    },
-    "urpx:touPeriodNumber": {
-      "@type": "xsd:integer"
-    },
-    "urpx:effectiveDateTime": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:settlementInterval": {
-      "@type": "xsd:duration"
-    },
-    "urpx:gMonthValue": {
-      "@type": "xsd:gMonth"
-    },
-    "urpx:dateCreated": {
-      "@type": "xsd:date"
-    },
-    "urpx:targetURPXVersion": {
-      "@type": "xsd:anyURI"
-    },
-    "urpx:amount": {
-      "@type": "xsd:decimal"
-    },
-    "urpx:pageEnd": {
-      "@type": "xsd:integer"
-    },
-    "urpx:yearlyRecurrence": {
-      "@type": "xsd:boolean"
-    },
-    "urpx:expectedEndDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:endDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:lowerBoundOffset": {
-      "@type": "xsd:decimal"
-    },
-    "urpx:endTime": {
-      "@type": "xsd:time"
-    },
-    "urpx:dateRetrieved": {
-      "@type": "xsd:date"
-    },
-    "urpx:integerValue": {
-      "@type": "xsd:integer"
-    },
-    "urpx:holidayDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:basePrice": {
-      "@type": "xsd:decimal"
-    },
     "schema": "http://schema.org/",
-    "urpx:initialEffectiveDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:effectiveDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:enrollmentEndDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:evaluatedOn": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:multiplier": {
-      "@type": "xsd:decimal"
-    },
-    "urpx:identityValidFrom": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:pageStart": {
-      "@type": "xsd:integer"
-    },
-    "urpx:includeHolidays": {
-      "@type": "xsd:boolean"
-    },
-    "urpx:touTierNumber": {
-      "@type": "xsd:integer"
-    },
-    "urpx:datePublished": {
-      "@type": "xsd:date"
-    },
-    "urpx:baseQuantity": {
-      "@type": "xsd:decimal"
+    "scl": "https://rate-plans.grid-coordination.energy/scl/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx": "https://urpx.org/ns/ontology/",
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
     },
     "urpx:adder": {
       "@type": "xsd:decimal"
     },
-    "urpx:includeNonHolidays": {
-      "@type": "xsd:boolean"
-    },
-    "urpx:dateApproved": {
-      "@type": "xsd:date"
-    },
-    "urpx:unitPrice": {
+    "urpx:amount": {
       "@type": "xsd:decimal"
     },
-    "urpx:accessURL": {
-      "@type": "xsd:anyURI"
-    },
-    "urpx:constraintProperty": {
-      "@type": "xsd:anyURI"
-    },
-    "urpx:intervalDuration": {
-      "@type": "xsd:duration"
-    },
-    "scl": "https://rate-plans.grid-coordination.energy/scl/",
-    "urpx:startTime": {
-      "@type": "xsd:time"
-    },
-    "urpx:startDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:currentPrice": {
+    "urpx:basePrice": {
       "@type": "xsd:decimal"
     },
-    "urpx:expirationDateTime": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:minimumTenure": {
-      "@type": "xsd:duration"
-    },
-    "urpx:dateTimeValue": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:cancelledOn": {
-      "@type": "xsd:date"
-    },
-    "urpx:identityValidTo": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:isDefault": {
-      "@type": "xsd:boolean"
-    },
-    "urpx:dateValue": {
-      "@type": "xsd:date"
-    },
-    "urpx:month": {
-      "@type": "xsd:gMonth"
-    },
-    "urpx:cancelledOnDateTime": {
-      "@type": "xsd:dateTime"
-    },
-    "urpx:enrollmentStartDate": {
-      "@type": "xsd:date"
-    },
-    "urpx:serviceTierNumber": {
-      "@type": "xsd:integer"
-    },
-    "urpx:upperBoundOffset": {
+    "urpx:baseQuantity": {
       "@type": "xsd:decimal"
-    },
-    "urpx:upperBound": {
-      "@type": "xsd:decimal"
-    },
-    "urpx:decimalValue": {
-      "@type": "xsd:decimal"
-    },
-    "urpx:url": {
-      "@type": "xsd:anyURI"
     },
     "urpx:booleanValue": {
       "@type": "xsd:boolean"
     },
-    "urpx:dateTimeReceived": {
+    "urpx:cancelledOn": {
+      "@type": "xsd:date"
+    },
+    "urpx:cancelledOnDateTime": {
       "@type": "xsd:dateTime"
     },
-    "urpx:lowerBound": {
+    "urpx:constraintProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:currentPrice": {
       "@type": "xsd:decimal"
     },
-    "urpx:durationValue": {
-      "@type": "xsd:duration"
+    "urpx:dateApproved": {
+      "@type": "xsd:date"
     },
-    "urpx": "https://urpx.org/ns/ontology/",
+    "urpx:dateCreated": {
+      "@type": "xsd:date"
+    },
+    "urpx:dateModified": {
+      "@type": "xsd:date"
+    },
+    "urpx:datePublished": {
+      "@type": "xsd:date"
+    },
     "urpx:dateReceived": {
       "@type": "xsd:date"
     },
-    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:dateTimeApproved": {
+      "@type": "xsd:dateTime"
+    },
     "urpx:dateTimeCreated": {
       "@type": "xsd:dateTime"
     },
     "urpx:dateTimeModified": {
       "@type": "xsd:dateTime"
     },
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "urpx:dateTimePublished": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:dateTimeReceived": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:dateTimeValue": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:dateValue": {
+      "@type": "xsd:date"
+    },
+    "urpx:decimalValue": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:durationValue": {
+      "@type": "xsd:duration"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:endDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:endDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:enrollmentEndDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:enrollmentStartDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expectedEndDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:expectedEndDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:gMonthValue": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:holidayDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:identityValidFrom": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:identityValidTo": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:integerValue": {
+      "@type": "xsd:integer"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:isDefault": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBoundOffset": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:minimumTenure": {
+      "@type": "xsd:duration"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:settlementInterval": {
+      "@type": "xsd:duration"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
     "urpx:startDateTime": {
       "@type": "xsd:dateTime"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:timeValue": {
+      "@type": "xsd:time"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBoundOffset": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:yearlyRecurrence": {
+      "@type": "xsd:boolean"
+    },
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "scl:doc-residential-suburban-2026-01-01",
+  "@type": "urpx:URPXPackage",
+  "urpx:hasRatePlanModifier": [
+    {
+      "@id": "scl:residential-suburban",
+      "@type": "urpx:RatePlanModifier",
+      "urpx:hasRatePlanModifierVersion": {
+        "@id": "scl:residential-suburban-2026-01-01",
+        "@type": "urpx:RatePlanModifierVersion",
+        "urpx:applicableToRatePlan": [
+          {
+            "@id": "scl:rts"
+          }
+        ],
+        "urpx:changeReason": {
+          "@id": "urpx:rateCase"
+        },
+        "urpx:commodity": [
+          {
+            "@id": "urpx:electricity"
+          }
+        ],
+        "urpx:description": "Seattle City Light's suburban franchise and tax multipliers and suburban undergrounding charges on Schedule RTS (Residential: Suburban Time-of-Use). SMC 21.49.030.A, as amended by Ordinance 127473, states for Schedule RSS that 'All charges in Schedule RSS shall be increased by the following percentages respective of the location of service' and that 'Additional undergrounding charges will apply to all customers in Shoreline and Burien'; 21.49.030.B applies 'The same franchise and tax multipliers and suburban undergrounding charges ... to Schedule RTS as Schedule RSS.' This version carries the multiplier column headed 'Effective January 1, 2026': Burien, unincorporated King County, SeaTac and Shoreline 8.00 percent; Lake Forest Park 8.04 percent; Normandy Park 6.38 percent; Tukwila 7.19 percent. The undergrounding charges, unchanged since January 1, 2023, total 0.69 cents per kWh in Shoreline (North City 0.07, Aurora 1 0.17, Aurora 2 0.18, Aurora 3A 0.05, Aurora 3B 0.22) and 0.50 cents per kWh in Burien (First Avenue South 1 0.37, First Avenue South 2 0.13). The customer's jurisdiction is a urpx:ProfileAlternatives dimension. Each alternative applies its percentage twice, as a multiplier over the RTS version's energy subtotal, which holds its Peak, Mid-Peak and Off-Peak energy charges, and as a multiplier over its Base Service Charge. A customer in Renton takes Schedule RTS with no multiplier and no undergrounding charge, so takes it without this modifier. Superseded on 2027-01-01 by the ordinance's next multiplier column.",
+        "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+        "urpx:expirationDateTime": "2027-01-01T00:00:00",
+        "urpx:forRatePlanModifier": {
+          "@id": "scl:residential-suburban"
+        },
+        "urpx:hasCoverageClaim": {
+          "@id": "scl:cc-residential-suburban-2026-01-01",
+          "@type": "urpx:CoverageClaim",
+          "urpx:completenessResult": {
+            "@id": "urpx:complete"
+          },
+          "urpx:selfContained": true
+        },
+        "urpx:hasDataSourceReference": [
+          {
+            "@type": "urpx:DataSourceReference",
+            "urpx:accessURL": "https://clerk.seattle.gov/~archives/Ordinances/Ord_127473.pdf",
+            "urpx:dataSourceType": {
+              "@id": "urpx:regulatoryWebsiteSource"
+            },
+            "urpx:dateRetrieved": "2026-10-05",
+            "urpx:fileName": "Ord_127473.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:pageEnd": 11,
+            "urpx:pageStart": 9
+          }
+        ],
+        "urpx:hasEligibilityRule": [
+          {
+            "@id": "scl:residential-suburban-2026-01-01-er-residential",
+            "@type": "urpx:EligibilityRule",
+            "urpx:description": "SMC 21.49.030.B: the franchise and tax multipliers and suburban undergrounding charges of Schedule RSS apply to Schedule RTS. Which multiplier and which undergrounding charges apply is set by the location of service and is the urpx:ProfileAlternative selected. The condition expression tests only that the customer is residential.",
+            "urpx:hasConditionExpression": {
+              "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression",
+              "@type": "urpx:ConditionExpression",
+              "urpx:rootNode": {
+                "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression-root-node",
+                "@type": "urpx:ComparisonNode",
+                "urpx:leftOperand": {
+                  "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression-root-node-left-operand",
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:conditionProperty": {
+                    "@id": "urpx:hasCustomerKind"
+                  }
+                },
+                "urpx:operator": {
+                  "@id": "urpx:equalsOperator"
+                },
+                "urpx:rightOperand": {
+                  "@id": "scl:residential-suburban-2026-01-01-er-residential-condition-expression-root-node-right-operand",
+                  "@type": "urpx:ObjectOperandNode",
+                  "urpx:referencesValue": {
+                    "@id": "urpx:residentialKind"
+                  }
+                }
+              }
+            },
+            "urpx:name": "Residential customer on Schedule RTS in a suburban jurisdiction"
+          }
+        ],
+        "urpx:hasPlanElements": {
+          "@id": "scl:residential-suburban-2026-01-01-plan-elements",
+          "@type": "urpx:PlanElements",
+          "urpx:hasBillingModel": {
+            "@id": "scl:residential-suburban-2026-01-01-plan-elements-billing-model",
+            "@type": "urpx:BillingModel",
+            "urpx:hasLedger": [
+              {
+                "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-energy",
+                "@type": "urpx:Ledger",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:name": "Franchise and Tax Multiplier, Energy Charge",
+                "urpx:referencesMetricInput": [
+                  {
+                    "@id": "scl:residential-suburban-2026-01-01-mi-energy"
+                  }
+                ]
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-base-service-charge",
+                "@type": "urpx:Ledger",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:name": "Franchise and Tax Multiplier, Base Service Charge",
+                "urpx:referencesMetricInput": [
+                  {
+                    "@id": "scl:residential-suburban-2026-01-01-mi-meter-count"
+                  }
+                ]
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding",
+                "@type": "urpx:Ledger",
+                "urpx:ledgerType": {
+                  "@id": "urpx:bundledLedger"
+                },
+                "urpx:name": "Suburban Undergrounding Charges",
+                "urpx:referencesMetricInput": [
+                  {
+                    "@id": "scl:residential-suburban-2026-01-01-mi-energy"
+                  }
+                ]
+              }
+            ],
+            "urpx:hasPriceDefinition": [
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:taxes"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:taxMunicipal"
+                  }
+                ],
+                "urpx:name": "Suburban franchise and tax multiplier on the Schedule RTS energy charge",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-energy"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge",
+                "@type": "urpx:PriceDefinition",
+                "urpx:baseQuantity": "1",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:taxes"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:taxMunicipal"
+                  }
+                ],
+                "urpx:hasCalculationMethod": {
+                  "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge-calculation-method",
+                  "@type": "urpx:CalculationMethod",
+                  "urpx:intervalDuration": "P1D"
+                },
+                "urpx:name": "Suburban franchise and tax multiplier on the Schedule RTS Base Service Charge, per meter per day",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-franchise-tax-base-service-charge"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-north-city",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "North City Undergrounding Charge (Shoreline)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-1",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "Aurora 1 Undergrounding Charge (Shoreline)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-2",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "Aurora 2 Undergrounding Charge (Shoreline)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3a",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "Aurora 3A Undergrounding Charge (Shoreline)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3b",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "Aurora 3B Undergrounding Charge (Shoreline)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-1",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "First Avenue South 1 Undergrounding Charge (Burien)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              },
+              {
+                "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-2",
+                "@type": "urpx:PriceDefinition",
+                "urpx:billPortion": {
+                  "@id": "urpx:bundledPortion"
+                },
+                "urpx:chargeCategory": {
+                  "@id": "urpx:adjustment"
+                },
+                "urpx:chargeType": [
+                  {
+                    "@id": "urpx:recoverySurcharge"
+                  }
+                ],
+                "urpx:name": "First Avenue South 2 Undergrounding Charge (Burien)",
+                "urpx:referencesLedger": {
+                  "@id": "scl:residential-suburban-2026-01-01-ledger-undergrounding"
+                }
+              }
+            ]
+          },
+          "urpx:hasMetricInput": [
+            {
+              "@id": "scl:residential-suburban-2026-01-01-mi-energy",
+              "@type": "urpx:MetricInput",
+              "urpx:hasMetricSpecification": {
+                "@id": "scl:ms-energy",
+                "@type": "urpx:MetricSpecification",
+                "urpx:measurementKind": {
+                  "@id": "urpx:energy"
+                },
+                "urpx:unitOfMeasure": {
+                  "@id": "urpx:kWh"
+                }
+              },
+              "urpx:metricInputType": {
+                "@id": "urpx:measuredMetricInput"
+              },
+              "urpx:name": "kWh Energy Consumption Prices"
+            },
+            {
+              "@id": "scl:residential-suburban-2026-01-01-mi-meter-count",
+              "@type": "urpx:MetricInput",
+              "urpx:metricInputType": {
+                "@id": "urpx:profileMetricInput"
+              },
+              "urpx:name": "Per Meter Prices",
+              "urpx:profileMetricProperty": {
+                "@id": "urpx:meterCount"
+              }
+            }
+          ],
+          "urpx:hasProfileAlternatives": [
+            {
+              "@id": "scl:residential-suburban-2026-01-01-pa-jurisdiction",
+              "@type": "urpx:ProfileAlternatives",
+              "urpx:hasAlternativeDimensions": {
+                "@id": "scl:residential-suburban-2026-01-01-pa-jurisdiction-alternative-dimensions",
+                "@type": "urpx:AlternativeDimensions",
+                "urpx:hasAlternativeDimension": [
+                  {
+                    "@id": "scl:residential-suburban-2026-01-01-ad-jurisdiction",
+                    "@type": "urpx:AlternativeDimension",
+                    "urpx:customDimensionProperty": "serviceJurisdiction",
+                    "urpx:dimensionDisplayName": "Suburban jurisdiction",
+                    "urpx:hasPossibleValues": [
+                      {
+                        "@list": [
+                          {
+                            "@type": "xsd:string",
+                            "@value": "Burien"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "Unincorporated King County"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "Lake Forest Park"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "Normandy Park"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "SeaTac"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "Shoreline"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "Tukwila"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "urpx:hasProfileAlternative": [
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-burien",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-burien",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-burien",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-burien-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-burien-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Burien"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in Burien"
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-king-county",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-king-county",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-king-county",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-king-county-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-king-county-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Unincorporated King County"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in Unincorporated King County"
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-lake-forest-park",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-lake-forest-park",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-lake-forest-park",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-lake-forest-park-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-lake-forest-park-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Lake Forest Park"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in Lake Forest Park"
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-normandy-park",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-normandy-park",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-normandy-park",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-normandy-park-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-normandy-park-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Normandy Park"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in Normandy Park"
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-seatac",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-seatac",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-seatac",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-seatac-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-seatac-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "SeaTac"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in SeaTac"
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-shoreline",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-shoreline",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-shoreline",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-shoreline-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-shoreline-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Shoreline"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in Shoreline"
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-pa-tukwila",
+                  "@type": "urpx:ProfileAlternative",
+                  "urpx:hasConditionExpression": {
+                    "@id": "scl:residential-suburban-2026-01-01-cx-pa-tukwila",
+                    "@type": "urpx:ConditionExpression",
+                    "urpx:rootNode": {
+                      "@id": "scl:residential-suburban-2026-01-01-cn-pa-tukwila",
+                      "@type": "urpx:ComparisonNode",
+                      "urpx:leftOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-tukwila-left-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:customConditionProperty": "serviceJurisdiction"
+                      },
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:rightOperand": {
+                        "@id": "scl:residential-suburban-2026-01-01-cn-pa-tukwila-right-operand",
+                        "@type": "urpx:CustomOperandNode",
+                        "urpx:stringValue": "Tukwila"
+                      }
+                    }
+                  },
+                  "urpx:name": "Service location in Tukwila"
+                }
+              ],
+              "urpx:name": "Location of service: the suburban jurisdiction the customer is served in"
+            }
+          ]
+        },
+        "urpx:hasPrices": {
+          "@id": "scl:residential-suburban-2026-01-01-prices",
+          "@type": "urpx:Prices",
+          "urpx:hasPriceSetAlternatives": [
+            {
+              "@id": "scl:residential-suburban-2026-01-01-psa-by-jurisdiction",
+              "@type": "urpx:PriceSetAlternatives",
+              "urpx:hasPriceSetAlternative": [
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-burien",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-burien-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "Burien franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-burien-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "Burien franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-first-avenue-south-1",
+                      "@type": "urpx:Price",
+                      "urpx:name": "First Avenue South 1 Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-1"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0037"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-first-avenue-south-2",
+                      "@type": "urpx:Price",
+                      "urpx:name": "First Avenue South 2 Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-first-avenue-south-2"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0013"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-burien"
+                  }
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-king-county",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-king-county-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "Unincorporated King County franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-king-county-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "Unincorporated King County franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-king-county"
+                  }
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-lake-forest-park",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-lake-forest-park-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0804",
+                      "urpx:name": "Lake Forest Park franchise and tax multiplier, 8.04 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-lake-forest-park-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0804",
+                      "urpx:name": "Lake Forest Park franchise and tax multiplier, 8.04 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-lake-forest-park"
+                  }
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-normandy-park",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-normandy-park-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0638",
+                      "urpx:name": "Normandy Park franchise and tax multiplier, 6.38 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-normandy-park-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0638",
+                      "urpx:name": "Normandy Park franchise and tax multiplier, 6.38 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-normandy-park"
+                  }
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-seatac",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-seatac-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "SeaTac franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-seatac-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "SeaTac franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-seatac"
+                  }
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-shoreline",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-shoreline-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "Shoreline franchise and tax multiplier, 8.00 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-shoreline-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0800",
+                      "urpx:name": "Shoreline franchise and tax multiplier, 8.00 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-north-city",
+                      "@type": "urpx:Price",
+                      "urpx:name": "North City Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-north-city"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0007"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-1",
+                      "@type": "urpx:Price",
+                      "urpx:name": "Aurora 1 Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-1"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0017"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-2",
+                      "@type": "urpx:Price",
+                      "urpx:name": "Aurora 2 Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-2"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0018"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-3a",
+                      "@type": "urpx:Price",
+                      "urpx:name": "Aurora 3A Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3a"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0005"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-undergrounding-aurora-3b",
+                      "@type": "urpx:Price",
+                      "urpx:name": "Aurora 3B Undergrounding Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-undergrounding-aurora-3b"
+                      },
+                      "urpx:startDate": "2025-01-01",
+                      "urpx:unitPrice": "0.0022"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-shoreline"
+                  }
+                },
+                {
+                  "@id": "scl:residential-suburban-2026-01-01-psa-tukwila",
+                  "@type": "urpx:PriceSetAlternative",
+                  "urpx:hasPrice": [
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-tukwila-franchise-tax-energy",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-summary-energy"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0719",
+                      "urpx:name": "Tukwila franchise and tax multiplier, 7.19 percent of the Schedule RTS energy charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-energy"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    },
+                    {
+                      "@id": "scl:residential-suburban-2026-01-01-price-tukwila-franchise-tax-base-service-charge",
+                      "@type": "urpx:Price",
+                      "urpx:basedOnPrice": [
+                        {
+                          "@id": "scl:rts-2026-01-01-price-base-service-charge"
+                        }
+                      ],
+                      "urpx:multiplier": "0.0719",
+                      "urpx:name": "Tukwila franchise and tax multiplier, 7.19 percent of the Schedule RTS Base Service Charge",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "scl:residential-suburban-2026-01-01-pd-franchise-tax-base-service-charge"
+                      },
+                      "urpx:startDate": "2026-01-01"
+                    }
+                  ],
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "scl:residential-suburban-2026-01-01-pa-tukwila"
+                  }
+                }
+              ],
+              "urpx:name": "Franchise and tax multiplier and undergrounding charges, by location of service",
+              "urpx:referencesProfileAlternatives": {
+                "@id": "scl:residential-suburban-2026-01-01-pa-jurisdiction"
+              }
+            }
+          ]
+        },
+        "urpx:modifierVersionNumber": "2026-01-01",
+        "urpx:offeredBy": {
+          "@id": "org:utility-scl",
+          "@type": "urpx:UtilityOperator",
+          "urpx:hasIdentity": [
+            {
+              "@id": "org:utility-scl-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasIdentifier": [
+                {
+                  "@id": "org:utility-scl-eia",
+                  "@type": "urpx:OrganizationIdentifier",
+                  "skos:notation": "16868",
+                  "urpx:scheme": {
+                    "@id": "urpx:eiaScheme"
+                  }
+                }
+              ],
+              "urpx:hasName": {
+                "@id": "org:utility-scl-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Seattle City Light"
+              }
+            }
+          ],
+          "urpx:legalName": "Seattle City Light",
+          "urpx:organizationType": {
+            "@id": "urpx:utilityOrganization"
+          }
+        },
+        "urpx:priceCurrency": "USD",
+        "urpx:serviceRole": {
+          "@id": "urpx:bundledServiceRole"
+        },
+        "urpx:version": "2026-01-01"
+      },
+      "urpx:initialEffectiveDate": "2024-01-01",
+      "urpx:modifierUniqueIdentifier": "RSS-RTS-SUBURBAN",
+      "urpx:name": "Residential Suburban Franchise and Tax Multipliers and Undergrounding Charges",
+      "urpx:timezoneIdentifier": "America/Los_Angeles"
     }
-  }
+  ],
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl"
 }

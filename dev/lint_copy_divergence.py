@@ -101,7 +101,8 @@ def main() -> int:
         for _rel, node in entries:
             keys |= set(node)
         for key in sorted(keys):
-            values = {json.dumps(node.get(key), sort_keys=True) for _rel, node in entries}
+            values = {json.dumps(corpus.canonical_value(node.get(key)), sort_keys=True)
+                      for _rel, node in entries}
             if len(values) == 1:
                 continue
             if key in VERSION_CONTAINERS and all(

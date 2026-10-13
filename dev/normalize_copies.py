@@ -186,7 +186,7 @@ def main() -> int:
             # carry is the same contradiction as two copies disagreeing about
             # it, and it is the easier one to miss: the merged graph silently
             # takes the union, so the omission never surfaces anywhere.
-            values = {p: json.dumps(n.get(prop), sort_keys=True)
+            values = {p: json.dumps(corpus.canonical_value(n.get(prop)), sort_keys=True)
                       for p, n in copies.items()}
             present = dict(copies)
             if len(set(values.values())) <= 1:
@@ -213,7 +213,8 @@ def main() -> int:
                 continue
 
             for p, n in present.items():
-                if json.dumps(n.get(prop), sort_keys=True) == json.dumps(canonical, sort_keys=True):
+                if json.dumps(corpus.canonical_value(n.get(prop)), sort_keys=True) == \
+                        json.dumps(corpus.canonical_value(canonical), sort_keys=True):
                     continue
                 n[prop] = json.loads(json.dumps(canonical))
                 edits[p].append(f"{iri}.{prop.split(':')[-1]}")
