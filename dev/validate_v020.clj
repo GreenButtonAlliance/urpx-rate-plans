@@ -387,14 +387,36 @@
 ;; margin (a full corpus sweep runs in 0.03s per instant once validated, against
 ;; 0.6s when every instant re-validates), which is why widening the probe set
 ;; costs almost nothing here.
+;;
+;; The parsed graph is cached too, and the plan or modifier is taken from it the
+;; way core/load-rate-plan and core/load-rate-plan-modifier take it, so the
+;; corpus-wide reference check in `mistyped-hits` reads the same parse rather
+;; than parsing every filing a second time.
+(def ^:private load-graph! (memoize core/load-graph))
+
+(defn- the-entity
+  "The one entity of `type-literal` in the document at `path`, as
+   core/load-rate-plan finds it: zero or several is an error."
+  [path type-literal]
+  (let [found (->> (load-graph! path)
+                   (mapcat core/expand-document-entities)
+                   (filterv #(= type-literal (:jsonld/type %))))]
+    (if (= 1 (count found))
+      (first found)
+      (throw (ex-info (format "%d %s entities in document, expected one" (count found) type-literal)
+                      {:src path :ids (mapv :jsonld/id found)})))))
+
 (def ^:private load-plan!
-  (memoize (fn [path] (-> path core/load-rate-plan coerce/coerce-rate-plan))))
+  (memoize (fn [path] (-> path
+                          (the-entity "urpx:RatePlan")
+                          coerce/coerce-rate-plan))))
 
 (def ^:private plan-valid?
   (memoize (fn [path] (coerce/validate schema/RatePlan (load-plan! path)))))
 
 (def ^:private load-modifier!
-  (memoize (fn [path] (-> path core/load-rate-plan-modifier
+  (memoize (fn [path] (-> path
+                          (the-entity "urpx:RatePlanModifier")
                           coerce/coerce-rate-plan-modifier))))
 
 (def ^:private modifier-valid?
@@ -511,30 +533,30 @@
     (let [base (load-plan! (:path base-info))]
       (if (expired-modifier? modifier instant)
         {:status :refused :reason :outside-version-window :base-version (:date base-info)}
-      (try
-        (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant
-                                                            {:profile-alternatives (nominations-for base modifier)})]
-          {:status       :ok
-           :base-version (:date base-info)
-           :ledgers      (count (:urpx.resolved/ledgers resolved))
-           :rate         (price/marginal-unit-rate resolved)})
-        (catch Exception e
-          (let [data     (ex-data e)
-                reason   (:reason data)
-                mod-iri  (:jsonld/id modifier)
-                expected (get condition-gated-expected mod-iri)
-                unstarted (and (= reason :unresolvable-adjusted-tier)
-                               (unstarted-modifier? modifier instant))
-                ok?      (or (legitimate-refusals reason)
-                             (expired-before? data instant)
-                             (not-yet-effective? data instant)
-                             unstarted
-                             (and (= reason :condition-gated-tier) (some? expected)))]
-            (if ok?
-              {:status :refused
-               :reason (if unstarted :not-yet-effective (refusal-reason data instant))
-               :base-version (:date base-info)}
-              {:status :error :error (.getMessage e) :base-version (:date base-info)}))))))
+        (try
+          (let [resolved (price/resolve-prices-with-modifiers base [modifier] instant
+                                                              {:profile-alternatives (nominations-for base modifier)})]
+            {:status       :ok
+             :base-version (:date base-info)
+             :ledgers      (count (:urpx.resolved/ledgers resolved))
+             :rate         (price/marginal-unit-rate resolved)})
+          (catch Exception e
+            (let [data     (ex-data e)
+                  reason   (:reason data)
+                  mod-iri  (:jsonld/id modifier)
+                  expected (get condition-gated-expected mod-iri)
+                  unstarted (and (= reason :unresolvable-adjusted-tier)
+                                 (unstarted-modifier? modifier instant))
+                  ok?      (or (legitimate-refusals reason)
+                               (expired-before? data instant)
+                               (not-yet-effective? data instant)
+                               unstarted
+                               (and (= reason :condition-gated-tier) (some? expected)))]
+              (if ok?
+                {:status :refused
+                 :reason (if unstarted :not-yet-effective (refusal-reason data instant))
+                 :base-version (:date base-info)}
+                {:status :error :error (.getMessage e) :base-version (:date base-info)}))))))
     {:status :no-corpus-base}))
 
 (defn- validate-rate-plan-modifier [path pairings base-iri-lookup]
@@ -959,6 +981,43 @@
 
       :else (System/exit 0))))
 
+;; --- references across documents --------------------------------------------
+;;
+;; urpx.index/mistyped-references judges a reference by the @type of the node it
+;; names, and only nodes in the documents it is given can be named. The corpus is
+;; loaded here as one set, so a reference into another filing, such as a
+;; modifier's to its base, is judged against the node it lands on there.
+
+(defn- subject-of
+  "The @id of the node holding the reference at path `in` within `doc`: the
+   deepest node on the path that carries one, so a reference held by a blank
+   node is reported against its nearest named ancestor."
+  [doc in]
+  (->> (range (count in))
+       (map #(get-in doc (subvec in 0 %)))
+       (keep #(when (map? %) (:jsonld/id %)))
+       last))
+
+(defn- mistyped-hits
+  "urpx.index/mistyped-references over every top-level node of every filing at
+   `paths`, judged as one set, as [{:path :subject :property :target :types
+   :range}]. A filing that does not load is skipped: it has already failed the
+   run."
+  [paths]
+  (let [owned (vec (for [path paths
+                         node (try (load-graph! path) (catch Exception _ nil))]
+                     [path node]))]
+    (vec (for [{:keys [document in property id types] class :range}
+               (index/mistyped-references (mapv second owned))
+               :let [[path node] (nth owned document)
+                     in          (vec in)]]
+           {:path     path
+            :subject  (subject-of node in)
+            :property property
+            :target   (or id "inline node")
+            :types    types
+            :range    class}))))
+
 (defn- validate-corpus []
   (let [w               (inc (name-width filings))
         pairings        (read-pairings)
@@ -1004,6 +1063,19 @@
             (System/exit 1))
         (println (format "zone invariance: %d plan(s) x %d instant(s) x %d zone(s) agree"
                          (count plans) (count probe-instants) (count zones)))))
+
+    (let [paths (map #(nth % 2) filings)
+          hits  (mistyped-hits paths)]
+      (if (seq hits)
+        (do (println)
+            (println (format "MISTYPED: %d reference(s) or inline node(s) of the wrong class, judged across %d filing(s):"
+                             (count hits) (count paths)))
+            (doseq [{:keys [path subject property target types] class :range} hits]
+              (println (format "    ✗ %s  %s %s -> %s is %s, takes %s"
+                               path subject (kw->iri property) target (str/join "/" types) class)))
+            (System/exit 1))
+        (println (format "mistyped references: none across %d filing(s) loaded as one set"
+                         (count paths)))))
 
     ;; The one way accepting refusals could go vacuous: a change that makes
     ;; EVERYTHING refuse would otherwise report green.
