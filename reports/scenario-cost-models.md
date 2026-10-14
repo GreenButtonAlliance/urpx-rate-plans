@@ -257,7 +257,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Provenance
 
-Servability is read from `dev/baseline/marginal-rates.edn`, not re-resolved here. The figures are as of that baseline: 22 probe instants per key, resolved by clj-urpx 0.57.0. A composition counts as servable only when every one of its baseline rows resolved at every one of those instants. Re-record the baseline deliberately (`clojure -M:validate --record-baseline`) and this report moves with it.
+Servability is read from `dev/baseline/marginal-rates.edn`, not re-resolved here. The figures are as of that baseline: 22 probe instants per key, resolved by clj-urpx 0.58.0. A composition counts as servable only when every one of its baseline rows resolved at every one of those instants. Re-record the baseline deliberately (`clojure -M:validate --record-baseline`) and this report moves with it.
 
 Every baseline row is accounted for: each is either reached by a composition here or belongs to a superseded or not-yet-effective version. A row that is neither makes this generator refuse rather than report.
 
