@@ -4,14 +4,10 @@
   "Generic URPX building blocks over urpx.dsl. Knows nothing about any
    utility."
   (:refer-clojure :exclude [ref])
-  (:require [clojure.data.json :as json]
-            [clojure.java.io :as io]
+  (:require [clojure.java.io :as io]
             [clojure.string :as str]
-            [urpx.coerce :as coerce]
-            [urpx.core :as core]
             [urpx.dsl :as dsl]
-            [urpx.emit :as emit]
-            [urpx.schema :as schema]))
+            [urpx.emit :as emit]))
 
 (def urpx-version
   "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl")
@@ -201,65 +197,21 @@
          ds
          (concat (rest ds) [nil]))))
 
-(def ^:private node-schemas
-  "The schemas of the nodes besides a package that a document's @graph
-   holds. urpx.emit writes one root entity and has no writer for a
-   SourcePublication or a RateCase, so these are encoded with its parts."
-  {"urpx:ProgramEnrollment" schema/ProgramEnrollment
-   "urpx:SourcePublication" schema/SourcePublication
-   "urpx:RateCase" schema/RateCase})
-
-(defn- emit-node
-  "One top-level node as JSON data, with no @context."
-  [node]
-  (json/read-str
-   (if (= "urpx:URPXPackage" (:jsonld/type node))
-     (emit/write-urpx-package node {:context nil})
-     (let [sch (or (node-schemas (:jsonld/type node))
-                   (throw (ex-info (str "No schema to emit a " (:jsonld/type node))
-                                   {:node (:jsonld/id node)})))]
-       (json/write-str (core/keys->jsonld (coerce/encode sch node)))))))
-
-(defn- key-order
-  "@context, @id and @type first, then other keywords, then properties, each
-   group in string order."
-  [k]
-  [(case k
-     "@context" 0
-     "@id" 1
-     "@type" 2
-     (if (str/starts-with? k "@") 3 4))
-   k])
-
-(defn- sort-keys
-  "`x` with every map's keys in `key-order`, so the bytes written depend on
-   the graph's content and not on the order its maps were built in."
-  [x]
-  (cond
-    (map? x) (into (sorted-map-by #(compare (key-order %1) (key-order %2)))
-                   (map (fn [[k v]]
-                          [k (sort-keys v)]))
-                   x)
-    (sequential? x) (mapv sort-keys x)
-    :else x))
-
 (defn write!
   "Emit `doc` with @context `ctx` and write it to `path`, indented by two
-   spaces, with every object's keys in `key-order` and slashes and non-ASCII
-   characters unescaped. `doc` is one package, or a vector of top-level
-   nodes written as an @graph."
+   spaces, with slashes and non-ASCII characters unescaped and a trailing
+   newline. `doc` is one entity, or a vector of top-level nodes written as
+   an @graph."
   [doc ctx path]
-  (let [data (sort-keys
-              (if (sequential? doc)
-                {"@context" ctx
-                 "@graph" (mapv emit-node doc)}
-                (json/read-str (emit/write-urpx-package doc {:context ctx}))))]
+  (let [opts {:context ctx
+              :json {:indent true
+                     :escape-slash false
+                     :escape-unicode false}}]
     (io/make-parents path)
     (spit path
-          (str (json/write-str data
-                               :indent true
-                               :escape-slash false
-                               :escape-unicode false)
+          (str (if (sequential? doc)
+                 (emit/write-graph doc opts)
+                 (emit/write-entity doc opts))
                "\n"))
     path))
 
