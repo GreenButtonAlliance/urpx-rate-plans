@@ -29,9 +29,9 @@ EV-TOU-5 is SDG&E's residential EV-friendly TOU rate; mandating it for NBT custo
 | Base RatePlan binding | `sdge:ev-tou-5` | `sce:tou-d-prime` | `pge:e-elec` |
 | MetricSpecification flowDirection | `urpx:reverse` | `urpx:reverse` | `urpx:reverse` |
 | NBC count | **5** (PPP, ND, CTC, DWR-BC, WF-NBC) | 4 (PPPC, NDC, CTC, WFC) | 4 (PPPC, NDC, CTC, WFC) |
-| ACC Plus tier names | Residential / Low Income Customer | Non-Equity / Equity Customer | Residential / Low Income |
-| ACC Plus values in tariff | **NOT in this PDF** (no sheet names it) | In tariff Sheet 7 | In tariff Sheet 11 |
-| 2025-vintage ACC Plus values | pending discovery | $0.024 / $0.056 | $0.01320 / $0.05400 |
+| ACC Plus tier names | none: the schedule has no ACC Plus credit | Non-Equity / Equity Customer | Residential / Low Income |
+| ACC Plus values in tariff | none: the schedule has no ACC Plus credit | In tariff Sheet 7 | In tariff Sheet 11 |
+| 2025-vintage ACC Plus values | none | $0.024 / $0.056 | $0.01320 / $0.05400 |
 
 The **DWR-BC (Department of Water Resources Bond Charge)** is the SDG&E-specific NBC — reflects San Diego's particular exposure to DWR's California Water Project. PG&E and SCE don't have DWR-BC.
 
@@ -47,11 +47,9 @@ Same eligibility basis across all three CA IOUs; only the terminology differs (L
 
 ## What's modeled
 
-- 4 `urpx:Ledger` + 4 `urpx:PriceDefinition` declaring the structural surface (same as PG&E and SCE NBT):
+- 2 `urpx:Ledger` + 2 `urpx:PriceDefinition` declaring the structural surface:
  - Export Compensation Rate — Generation Component (system-wide ACC: energy, cap-and-trade, generation capacity)
  - Export Compensation Rate — Delivery Component (ACC: transmission, distribution, greenhouse adder, methane leakage)
- - ACC Plus Residential adder (Prices pending discovery)
- - ACC Plus Low Income Customer adder (Prices pending discovery)
 - 2 `urpx:EligibilityRule`s — REGF requirement (Sheet 5 §1.b) + post-2023-04-15 interconnection-application date (Sheet 1)
 - Vintage as a `urpx:ProfileAlternatives` (`sdge:nbt-2025-01-27-pa-vintage`) with one `urpx:ProfileAlternative` per label, NBT00, NBT23, NBT24, NBT25 and NBT26, each stating `"NBT Vintage Label"`; the Prices sit in one `urpx:PriceSetAlternative` per label, on the pattern of `us/ca/sce/electricity/cca-crs/versions/2026-03-20/`, so a consumer selects the vintage with `:profile-alternatives` and one export Price applies per ledger at any instant
 - Month, hour and day type as time of use: a single `urpx:TOUSchedule` on the export MetricInput and 576 TOUPeriods, every period bracketed within a single-month `urpx:Season`. The export Prices name their period by `urpx:touPeriodNumber`, which is (month - 1) × 48 + 24 for a weekend + hour + 1. A weekday holiday prices at that hour's weekend value, as Sheet 5 SC 1.f's weekdays and weekends/holidays split directs: every weekday bracket carries `urpx:includeHolidays` false, and every weekend period carries a second bracket, day type `urpx:weekdayDays` with `urpx:includeNonHolidays` false, so a weekday holiday lands on it. The modifier declares no `urpx:HolidayCalendar`; which days are holidays comes from the calendar on `sdge:ev-tou-5`. `dev/remodel_nbt.py` added these brackets and flags and aborts unless every Price, value and period number is unchanged. SDG&E's published export-rate CSVs carry holidays as their own rows (DayStart 8), and every one of their 40,080 holiday hours across the five vintage files equals that month and hour's weekend value.
@@ -77,7 +75,6 @@ This is the first RIN-tagged filing in the corpus. The pattern is extensible to 
 
 | Deferral | Why |
 |---|---|
-| **ACC Plus Adder values** | No sheet of this composite PDF names ACC Plus, and the values are NOT in the SDG&E EEC ZIPs (RateType=TOU only). The earlier PDF's Sheet 8 exclusion of "the ACC Plus credit" from the true-up was removed by Advice 4377-E-A. PriceDefinition surface kept for parity with PG&E/SCE; values pending discovery. |
 | Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement, with excess credits carried forward to the next Relevant Period while on NBT (Sheet 8 SC 3.f); doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
 | Discontinuance of NSC Double Compensation (Sheet 17 §6.c) | Consumer-side true-up reconciliation |

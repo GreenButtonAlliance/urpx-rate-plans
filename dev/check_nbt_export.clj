@@ -160,11 +160,7 @@
     :months all-months :reason acc-plus-2025-only}
    {:alternative "sce:nbt-2025-06-02-pa-vintage-non-vintaged"
     :ledgers #{"sce:nbt-2025-06-02-ledger-acc-plus-non-equity" "sce:nbt-2025-06-02-ledger-acc-plus-equity"}
-    :months all-months :reason acc-plus-2025-only}
-   {:alternative :all-of :all-of "sdge:nbt-2025-01-27-pa-vintage"
-    :ledgers #{"sdge:nbt-ledger-acc-plus-residential" "sdge:nbt-ledger-acc-plus-low-income"}
-    :months all-months
-    :reason "source gap: no ACC Plus rate appears on any sheet of the SDG&E schedule (tariff.toml [modeling]); the two ledgers are structure only"}])
+    :months all-months :reason acc-plus-2025-only}])
 
 (def tariff-holidays-2026
   "The 2026 holidays of each plan whose calendar an NBT modifier reads, from the
