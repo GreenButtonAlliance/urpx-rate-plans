@@ -87,6 +87,10 @@ REPO = Path(__file__).resolve().parent.parent
 # build_catalog writes catalog/, the DCAT catalog of the corpus, and refuses
 # rather than writes when any filing cannot be summarized. The pre-commit hook
 # stages catalog/ beside reports/.
+#
+# list_generated_documents runs the same generator as check_generated and
+# tabulates which documents it writes, from which entry and sources, with which
+# clj-urpx release.
 STEPS: list[tuple[str, list[str]]] = [
     ("coverage",                    ["python3", "dev/coverage.py", "--write-report"]),
     ("list_modifier_base_pairings", ["python3", "dev/list_modifier_base_pairings.py"]),
@@ -96,6 +100,7 @@ STEPS: list[tuple[str, list[str]]] = [
     ("list_rate_identifiers",       ["python3", "dev/list_rate_identifiers.py"]),
     ("list_rate_plans_to_model",    ["python3", "dev/list_rate_plans_to_model.py"]),
     ("build_catalog",               ["python3", "dev/build_catalog.py"]),
+    ("list_generated_documents",    ["python3", "dev/list_generated_documents.py"]),
     ("lint_modifier_coverage",      ["python3", "dev/lint_modifier_coverage.py"]),
     ("lint_consistency",            ["python3", "dev/lint_consistency.py"]),
     ("lint_cross_filing",           ["python3", "dev/lint_cross_filing.py"]),
