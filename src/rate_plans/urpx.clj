@@ -192,10 +192,12 @@
 (defn write!
   "Emit `doc` with @context `ctx` and write it to `path`, indented by two
    spaces, with slashes and non-ASCII characters unescaped and a trailing
-   newline. `doc` is one entity, or a vector of top-level nodes written as
-   an @graph."
+   newline. The written @context keeps only the term definitions the
+   document uses, and every prefix. `doc` is one entity, or a vector of
+   top-level nodes written as an @graph."
   [doc ctx path]
   (let [opts {:context ctx
+              :minimal-context true
               :json {:indent true
                      :escape-slash false
                      :escape-unicode false}}]
