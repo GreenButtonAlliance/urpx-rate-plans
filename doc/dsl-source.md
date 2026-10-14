@@ -1,10 +1,10 @@
 # Filings authored as Clojure source
 
-The Seattle City Light documents and PG&E Schedule E-TOU-C with its medical baseline modifier are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus; [dsl-corpus-generation.md](./dsl-corpus-generation.md) is the plan for converting it. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to equal its committed file byte for byte.
+The Seattle City Light documents and PG&E Schedule E-TOU-C with its medical baseline modifier are generated from Clojure source under `src/rate_plans/`, written with `urpx.dsl`; every other document in the corpus is committed JSON-LD. The design below is the direction for the rest of the corpus; [dsl-corpus-generation.md](./dsl-corpus-generation.md) is the plan for converting it. The source states a filing the way its tariff does: rate tables keyed by effective date, a table of time-of-use brackets, a holiday list. The generated JSON-LD is committed and remains what the corpus publishes; the gate regenerates it and requires every generated document to state the same RDF as its committed file. The same RDF in different bytes is drift, which `python3 dev/check_generated.py --write` fixes.
 
 ## Evidence
 
-The Seattle City Light documents (RTC and RTS for each year, and the residential-suburban modifier) generate from one source tree and equal their committed files byte for byte; the gate checks this on every commit. The source is mostly tables copied from the ordinance's year columns.
+The Seattle City Light documents (RTC and RTS for each year, and the residential-suburban modifier) generate from one source tree, and the gate checks them against their committed files on every commit. The source is mostly tables copied from the ordinance's year columns.
 
 Every corpus document round-trips through clj-urpx RDF-identically when emitted with its own @context over `urpx.emit/default-context`. With its own @context alone, a document whose @context does not declare `urpx:holidayDate` loses that datatype on values typed inline.
 
@@ -91,7 +91,7 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 | Command | Does |
 |---|---|
 | `clojure -M:generate [out]` | writes every version of every `:document` to `<out>/<corpus path>`; `<out>` defaults to a new temporary directory |
-| `python3 dev/check_generated.py` | the gate's check: each generated document equals its committed file byte for byte; on a mismatch `dev/rdf_hash.py` reports DIFF when the RDF differs and FORMAT when only the bytes do |
+| `python3 dev/check_generated.py` | the gate's check: each generated document states the same RDF as its committed file; on a byte mismatch `dev/rdf_hash.py` reports DIFF when the RDF differs, a regression (exit 1), and FORMAT when only the bytes do, drift (exit 2) that `--write` fixes |
 | `python3 dev/check_generated.py --write` | writes into the tree each generated document whose bytes differ, then checks |
 | `clojure -M -m test-dsl-validation` | each invalid fixture under `dev/fixtures/dsl/` fails to load with an error naming its file, line and bad values |
 
@@ -125,7 +125,7 @@ Each has a working workaround in the SCL source.
 
 ## Acceptance
 
-The SCL documents are generated from `src/rate_plans/us/wa/scl/` and the E-TOU-C documents from `src/rate_plans/us/ca/pge/`, and `dev/check_generated.py` requires each to equal its committed file byte for byte. Its scope is every filing whose `tariff.toml` records `[generation]` with `generator = "urpx.dsl"` ([dsl-corpus-generation.md](./dsl-corpus-generation.md#provenance)): a committed document in such a filing that is not generated fails as MISSING, a generated one with no committed file as EXTRA, one whose filing's `[generation]` does not name its `:document` var as UNRECORDED, an entry that writes nothing in its filing as STALE, a source path that does not exist or omits an entry's namespace as NOSOURCE, a hash that cannot be computed as NOHASH, and a byte mismatch as DIFF or FORMAT by RDF hash. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
+The SCL documents are generated from `src/rate_plans/us/wa/scl/` and the E-TOU-C documents from `src/rate_plans/us/ca/pge/`, and `dev/check_generated.py` requires each to state the same RDF as its committed file. Its scope is every filing whose `tariff.toml` records `[generation]` with `generator = "urpx.dsl"` ([dsl-corpus-generation.md](./dsl-corpus-generation.md#provenance)): a committed document in such a filing that is not generated fails as MISSING, a generated one with no committed file as EXTRA, one whose filing's `[generation]` does not name its `:document` var as UNRECORDED, an entry that writes nothing in its filing as STALE, a source path that does not exist or omits an entry's namespace as NOSOURCE, a hash that cannot be computed as NOHASH, and differing RDF as DIFF. The same RDF in different bytes is FORMAT, which is drift (exit 2): the pre-commit hook prints it without blocking, and `dev/gate.sh` reports it as drift. It runs in `dev/gate.sh --fast` against the working tree and in `dev/check_all.py`, which `dev/gate.sh --full` runs and the pre-commit hook runs against the staged tree.
 
 Next, PSE Schedules 307 and 327, which share riders and Summary-Sheet versions: the first test of the helpers on a second utility.
 

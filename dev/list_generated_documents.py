@@ -48,7 +48,7 @@ def render(by_path: dict[str, str], tables: dict[str, dict], release: str) -> st
         f"from the `:document` var named as its entry, with clj-urpx {release}, the release "
         "`deps.edn` pins. Its sources are its filing's `[generation]` sources in `tariff.toml` "
         "([doc/dsl-corpus-generation.md](../doc/dsl-corpus-generation.md)). "
-        "`dev/check_generated.py` requires every one to equal its committed file byte for byte.",
+        "`dev/check_generated.py` requires every one to state the same RDF as its committed file.",
         "",
         "## Documents",
         "",

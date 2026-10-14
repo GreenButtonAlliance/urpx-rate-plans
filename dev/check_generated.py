@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 # SPDX-License-Identifier: MIT
-"""Require every document generated from Clojure source to equal its committed file.
+"""Require every document generated from Clojure source to state the same RDF as its committed file.
 
 Runs the generator (`clojure -M:generate`, src/rate_plans/gen.clj) into a
 temporary directory and compares each generated document with the file at the
-same path in this tree, byte for byte. On a mismatch dev/rdf_hash.py names the
-reason: DIFF when the RDF differs, FORMAT when only the bytes do. The tree is the working tree, or the
+same path in this tree. On a byte mismatch dev/rdf_hash.py names the reason:
+DIFF when the RDF differs, a regression; FORMAT when only the bytes do, which is
+drift that `--write` fixes. The tree is the working tree, or the
 staged tree when the pre-commit hook runs dev/check_all.py in its checkout of
 the index.
 
@@ -21,15 +22,16 @@ a generated one with no committed file is EXTRA, one whose filing records no
 [generation] or not its entry is UNRECORDED, an entry that wrote nothing in its
 filing is STALE, a source path that does not exist is NOSOURCE, a hash that
 cannot be computed is NOHASH, differing hashes are DIFF, and equal hashes over
-differing bytes are FORMAT. Each fails.
+differing bytes are FORMAT. FORMAT is drift; each of the others fails.
 
     python3 dev/check_generated.py           check
     python3 dev/check_generated.py --write   write into the working tree each
                                              generated document whose bytes
                                              differ, then check
 
-Exit codes: 0 all byte-identical, 1 a document differs, is missing or extra, or the
-generator failed, 3 refused (the generator wrote nothing).
+Exit codes: 0 all byte-identical, 1 a document's RDF differs, a document is missing
+or extra, or the generator failed, 2 drift (every difference is FORMAT), 3 refused
+(the generator wrote nothing).
 """
 from __future__ import annotations
 
@@ -142,6 +144,7 @@ def main(argv: list[str]) -> int:
             print(f"MISSING {path}")
             fail = 1
         same = 0
+        drift = 0
         for path in generated:
             mine, theirs = out / path, REPO / path
             if write and not (theirs.exists() and same_bytes(mine, theirs)):
@@ -157,16 +160,18 @@ def main(argv: list[str]) -> int:
                 want, got = hash_or_none(theirs), hash_or_none(mine)
                 if want is None or got is None:
                     print(f"NOHASH  {path}")
+                    fail = 1
                 elif want != got:
                     print(f"DIFF    {path}")
+                    fail = 1
                 else:
                     print(f"FORMAT  {path}")
-                fail = 1
+                    drift = 2
 
     print(f"{same} of {len(generated)} generated documents equal their committed "
           f"files byte for byte; {len(committed)} committed in the {len(tables)} "
           f"filings that record [generation]")
-    return fail
+    return fail or drift
 
 
 if __name__ == "__main__":

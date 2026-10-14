@@ -35,7 +35,7 @@ A filing with no `[generation]` table is authored as JSON-LD. The table carries 
 
 ## Checks
 
-- Every path in `sources` exists, and regenerating `entry` writes the committed document byte for byte.
+- Every path in `sources` exists, and regenerating `entry` writes a document with the same RDF as the committed one. Equal RDF in different bytes is drift, fixed by rewriting the committed file.
 - Every document the source tree emits sits in a filing whose `[generation]` names it. Together with the first check, this makes the mapping hold in both directions.
 
 ## Conversion

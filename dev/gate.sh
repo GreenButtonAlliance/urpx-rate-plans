@@ -228,9 +228,11 @@ run_scm_shacl() {
 }
 
 # Every document with Clojure source under src/ (doc/dsl-source.md), regenerated
-# and compared with its committed file byte for byte, in the working tree.
+# and compared with its committed file, in the working tree.
 # --full runs the same check inside dev/check_all.py.
-# Exit 1 a document differs, is missing or extra, 3 refused.
+# Exit 1 a document's RDF differs, or it is missing or extra, 2 the same RDF in
+# different bytes (drift), 3 refused. --fast prints that drift without recording
+# it, so a commit is blocked only by a semantic difference.
 run_generated() {
     note "Generated from source"
     if skipped; then
@@ -240,7 +242,11 @@ run_generated() {
     else
         rc=$?
         cat "$LOGDIR"/generated.log
-        record $rc
+        if [ "$rc" -eq 2 ] && [ "$MODE" = --fast ]; then
+            echo "  drift only, not blocking in --fast: run python3 dev/check_generated.py --write"
+        else
+            record $rc
+        fi
     fi
 }
 

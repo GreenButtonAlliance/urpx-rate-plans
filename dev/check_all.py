@@ -15,7 +15,9 @@ Steps:
 Exit codes:
   0 — every step passed, no drift.
   1 — at least one step failed (generator/lint/schema error).
-  2 — every step passed but tracked files drifted (run the generators).
+  2 — every step passed but tracked files drifted (run the generators), or
+      a step exited 2 to report drift of its own (check_generated: a generated
+      document states the same RDF as its committed file in different bytes).
   3 — --only names a step that is not in STEPS.
 
   --generators-only  run step 1-2 only and stop. This is what the pre-commit
@@ -79,8 +81,10 @@ REPO = Path(__file__).resolve().parent.parent
 # test_rate_identifiers fires every one of those guards against broken input.
 #
 # check_generated regenerates every document that has Clojure source under src/
-# and requires each to equal its committed file byte for byte. In the pre-commit
-# hook it runs in the checkout of the index, so it judges the staged tree.
+# and requires each to state the same RDF as its committed file; equal RDF in
+# different bytes is drift (exit 2), which the pre-commit hook reports without
+# blocking. In the hook it runs in the checkout of the index, so it judges the
+# staged tree.
 # test_dsl_validation requires each invalid fixture under dev/fixtures/dsl/ to
 # fail to load with an error naming its file, line and bad values.
 #
@@ -135,10 +139,10 @@ STEPS: list[tuple[str, list[str]]] = [
 ]
 
 
-def run_step(name: str, cmd: list[str]) -> tuple[bool, str, str]:
-    """Returns (ok, stdout, stderr)."""
+def run_step(name: str, cmd: list[str]) -> tuple[int, str, str]:
+    """Returns (returncode, stdout, stderr)."""
     result = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
-    return result.returncode == 0, result.stdout, result.stderr
+    return result.returncode, result.stdout, result.stderr
 
 
 def validate_schema() -> tuple[bool, str]:
@@ -212,6 +216,14 @@ def report_midas_staleness() -> None:
         print(f"  {age:4d} days  {f.relative_to(REPO)}{flag}")
 
 
+def print_step_drift(step_drift: list[tuple[str, str]]) -> None:
+    """Each step that exited 2: its output, under a heading naming it as drift."""
+    for name, out in step_drift:
+        print(f"  ~ {name} reports drift:")
+        for line in out.splitlines():
+            print(f"    {line}")
+
+
 def only_steps(argv: list[str]) -> list[str] | None:
     """The names following --only, up to the next option; None without --only."""
     if "--only" not in argv:
@@ -234,14 +246,17 @@ def main() -> int:
 
     print("=== Generators + lints ===")
     failures: list[tuple[str, str, str]] = []
+    step_drift: list[tuple[str, str]] = []
     for name, cmd in STEPS:
         if only is not None and name not in only:
             continue
         started = time.monotonic()
-        ok, out, err = run_step(name, cmd)
-        marker = "✓" if ok else "✗"
+        rc, out, err = run_step(name, cmd)
+        marker = {0: "✓", 2: "~"}.get(rc, "✗")
         print(f"  {marker} {name} ({time.monotonic() - started:.1f} s)")
-        if not ok:
+        if rc == 2:
+            step_drift.append((name, out))
+        elif rc != 0:
             failures.append((name, out, err))
 
     if not generators_only:
@@ -261,6 +276,7 @@ def main() -> int:
                 if err:
                     print(err, file=sys.stderr)
             return 1
+        print_step_drift(step_drift)
         return 0
 
     print()
@@ -284,7 +300,10 @@ def main() -> int:
 
     print()
     print("=== Drift check ===")
+    print_step_drift(step_drift)
     drifted = detect_drift()
+    if step_drift and not drifted:
+        return 2
     if drifted:
         print(f"  ✗ {len(drifted)} tracked file(s) changed since HEAD:")
         for f in drifted:
