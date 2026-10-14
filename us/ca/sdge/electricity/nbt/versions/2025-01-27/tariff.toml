@@ -6,8 +6,8 @@ effective_date = "2025-01-27"
 # Source ----------------------------------------------------------------------
 [source]
 url = "https://tariffsprd.sdge.com/view/tariff/?utilId=SDGE&bookId=ELEC&tarfKey=1064"
-sha256 = "436682b4248bf1ae68a936a5db08ced3ac4168eb2ff927dd3e75e5f2927be420"
-retrieved_on = "2026-05-29"
+sha256 = "8104a54ce77b51aafa01f37a6e14440fb41e6eb5f0fd34a6085991e23ad6c7ff"
+retrieved_on = "2026-10-14"
 media_type = "application/pdf"
 filing_type = "advice-letter"
 filing_id = "SDGE-AL-4596-E"
@@ -15,12 +15,12 @@ filing_id = "SDGE-AL-4596-E"
 # Regulatory ------------------------------------------------------------------
 [regulator]
 authority = "puc"
-docket = "D.22-12-056 (NBT adoption) / D.23-11-068 (NBT Aggregation SC 12, prevailing-wage updates) / Advice 4596-E (most recent reissue — Sheets 23, 24, 25) — prior Advice Letters layered into composite PDF: 4155-E / 4155-E-A (original D.22-12-056 implementation, Sheets 1, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19), 4389-E (D.23-11-068 NBT Aggregation integration on Sheets 2, 3, 5, 6, 18, 20, 26, 27, 28, 29, 30, 31, 32, 33). Composite PDF skips Sheets 21-22 (canceled-without-replacement, or sub-condition restructuring artifacts)."
+docket = "D.22-12-056 (NBT adoption) / D.23-11-068 (NBT Aggregation SC 12, prevailing-wage updates) / Advice 4596-E (most recent per-sheet effective date, 2025-01-27: Sheets 23, 24, 25). Other Advice Letters in the composite PDF: 4155-E / 4155-E-A (original D.22-12-056 implementation, Sheets 1, 6, 7); 4389-E (D.23-11-068 NBT Aggregation integration, Sheets 2, 3, 5, 18, 20, 26-33); 4377-E, 4377-E-A and 4377-E-B under Resolution E-5301, effective Jul 1, 2024 (4377-E: Sheets 4, 10, 13-17, 19, 21, 22; 4377-E-A: Sheet 8; 4377-E-B: Sheets 9, 11, 12)."
 
 # Extraction ------------------------------------------------------------------
 [extraction]
 tool = "manual"
-extracted_on = "2026-05-29"
+extracted_on = "2026-10-14"
 notes = """
 First SDG&E NBT filing in this corpus. Sibling of PG&E NBT
 (us/ca/pge/electricity/nbt/versions/2025-10-17/) and SCE NBT (us/ca/sce/electricity/nbt/
@@ -31,11 +31,13 @@ SDG&E Schedule designation is "Schedule NBT" (same as PG&E and SCE).
 Customer-facing names include "Solar Billing Plan" (SBP) and the vintage
 labels used in pricing communications.
 
-Composite PDF is 31 pages spanning Sheets 1-20 and 23-33 (Sheets 21-22
-absent from this PDF; per the composite-PDF convention, sheets canceled
-without replacement may not appear). Most recent per-sheet effective
-date is 2025-01-27 (Advice 4596-E) on Sheets 23, 24, 25 — Prevailing
-Wage updates. Most rate-bearing sheets carry 2023-2024 advice letters.
+Composite PDF is 33 pages, Sheets 1-33, retrieved 2026-10-14. It
+carries the Advice 4377-E, 4377-E-A and 4377-E-B sheets (Resolution
+E-5301, effective Jul 1, 2024) and replaces the 31-page PDF retrieved
+2026-05-29, which lacked Sheets 21-22 and printed the pre-4377-E text
+of the sheets that series revises. Most recent per-sheet effective date
+is still 2025-01-27 (Advice 4596-E) on Sheets 23, 24, 25: Prevailing
+Wage updates. No rate value changed between the two PDFs.
 
 ## Modifier shape
 
@@ -50,8 +52,8 @@ customers are also EV-adopting / electrification-leaning households.
 
 Non-Residential NBT customers may take any applicable TOU rate (Sheet 3);
 this filing scopes to canonical residential NBT (EV-TOU-5-required).
-NBT Aggregation (NBT-A, Sheet 26 SC 12) and NBT Paired Storage (Sheet 16
-SC 8) sub-cases deferred.
+NBT Aggregation (NBT-A, Sheet 26 SC 12) and NBT Paired Storage (Sheets
+19-22 SC 8) sub-cases deferred.
 
 NBT-V (Virtual NBT, separate filed schedule at tarfKey=1130) is a
 sibling tariff for multi-tenant properties, modeled separately.
@@ -75,18 +77,16 @@ export-side direction natively.
  3. CARE/FERA discount NOT applied to retail export compensation rate
  (Sheet 4) — same pattern as PG&E and SCE.
 
- 4. **ACC Plus Adder values not in this filing** — the tariff text on
- Sheet 8 explicitly references "ACC Plus credit" semantics in the
- annual true-up provisions ("if the export credits (not including
- the ACC Plus credit) are larger than the import charges..."), but
- the ACC Plus values table (analogous to PG&E Sheet 11 and SCE
- Sheet 7) is NOT present in this composite PDF. Sheets 21-22 are
- absent from this PDF — could be where ACC Plus values are filed
- in a separate advice letter, or canceled-without-replacement
- sheets. The 4-PriceDefinition structural surface includes ACC Plus
+ 4. **ACC Plus not in this schedule**: no sheet of this PDF names
+ ACC Plus or prices it; there is no values table analogous to PG&E
+ Sheet 11 and SCE Sheet 7. The only mention in the earlier PDF, an
+ exclusion in the Sheet 8 SC 3.f true-up text ("not including the
+ ACC Plus credit"), was removed by Advice 4377-E-A. Sheets 21-22
+ hold Paired Storage and consumer-protection text, not ACC Plus.
+ The 4-PriceDefinition structural surface includes ACC Plus
  Residential and ACC Plus Low-Income for parity with PG&E and SCE;
- when SDG&E's ACC Plus values are located (separate advice letter
- or future reissuance), they populate via the established pattern.
+ if SDG&E's ACC Plus values are located in another source, they
+ populate via the established pattern.
 
  5. SDG&E low-income definition (Sheet 5 §1.c — "Low Income Customers"):
  (i) CARE/FERA enrolled, OR (ii) resident-owners of single-family
@@ -110,9 +110,11 @@ the tariff text — clean entry point for the price-data load.
 ## ACC methodology + 9-year lock-in
 
 Same as PG&E and SCE:
- - Customers applying 2023-04-15 to 2027-12-31 (5-year glide path)
- receive 9-year locked-in EEC schedule based on ACC vintage of their
- interconnection year
+ - Customers submitting a complete interconnection application
+ 2023-04-15 to 2027-12-31 (5-year glide path) receive a 9-year
+ locked-in EEC schedule from the ACC adopted as of January 1 of
+ their interconnection application year (Sheet 4); the nine-year
+ lock-in is measured from the PTO date
  - After 5-year glide path end: no locked-in schedule; current-year ACC
  - Customers may opt for 1-year EEC during glide path (no opt-back-in)
 
@@ -149,14 +151,16 @@ EligibilityRule entities.
 ## Settlement deferrals (per PG&E + SCE NBT precedent)
 
  - Annual true-up at end of customer's Relevant Period (12 cycles from
- PTO anniversary). Year-long calculation, doesn't fit per-bill
+ PTO anniversary). Excess generation and delivery credits carry
+ forward to the next Relevant Period while the customer stays on
+ NBT (Sheet 8 SC 3.f). Year-long calculation, doesn't fit per-bill
  modifier shape.
  - Net Surplus Compensation (NSC) — end-of-year DLAP-based settlement.
  NSCR = simple rolling 12-month avg of SDG&E hourly DLAP prices 7am-
  5pm. Separate from per-hour Export Credit; computed at true-up.
  - NSC Renewable Attribute Adder (RAA) — WECC-based renewable premium
  if customer transfers WREGIS Certificates to SDG&E.
- - Discontinuance of NSC Double Compensation (Sheet 14 §6.c) — adjusts
+ - Discontinuance of NSC Double Compensation (Sheet 17 §6.c) — adjusts
  customer credit at true-up for net surplus exports.
  - PEV Submetering exclusion (Sheet 33 §13) — per D.22-08-024, PEV
  Submetering customers ineligible for NBT.
@@ -189,17 +193,17 @@ complete = false
 deferrals = [
  "Sheet 7 SC 3.c confines each EEC component to its own side of the bill: \"EEC for generation avoided costs will only offset volumetric generation charges accrued per the customers' OAS, and EEC for delivery avoided costs will only offset volumetric delivery charges associated with the customer's OAS.\" The model splits the components into two Ledgers and two PriceDefinitions but tags all four urpx:bundledLedger / urpx:bundledPortion, so each credit lands on the bundled bill rather than on its own side and the distinction the sheet draws is absent from the data. v0.5.1 supplies urpx:supplyLedger / urpx:deliveryLedger and urpx:supplyPortion / urpx:deliveryPortion, and the base plan sdge:ev-tou-5 already uses them (EECC supplyPortion, UDC deliveryPortion). Work, not a blocker.",
  "NBT Aggregation billing charges are priced in this PDF, not in a sibling filing. Sheet 31 SC 12.d.1: \"A one-time service establishment fee of $25 per Aggregated Account (capped at $500 per Aggregated Arrangement) and a monthly billing fee of $5 per Aggregated Account will be assessed to NBT Aggregation Customers receiving service under this SC.\" Neither amount is modeled. The $25 and the $5 at intervalDuration P1M are expressible as Prices over a urpx:count metric input; SHACL conforms against the v0.5.1 shapes. The $500-per-Arrangement cap is not expressible: urpx:unitOfMeasure has no currency member and PriceShape is sh:closed with no cap slot. urpx-org/urpx PR #76, open, proposes urpx:currencyUnit and urpx:minOperator.",
- "NBT Paired Storage metering, Sheet 19 SC 8.e: \"The fee for installation of standard metering equipment is capped at $600.00\", with complex metering billed at SDG&E's actual cost. Not modeled. A currency-denominated cap has no slot under v0.5.1, the same reason as the $500 aggregation cap, so the honest record here is the citation rather than a shape.",
- "Small NBT Paired Storage credit cap, Sheet 17 and Sheet 20 SC 8.d.i: \"Small NBT Paired Storage billing uses an estimation methodology that caps NBT bill credits based on monthly solar renewable electrical generating facility production estimates.\" The sheet then says the approach \"is described below:\" and ends. Sheets 21-22, where the method continues, are absent from this composite PDF and the next sheet present is Sheet 23. The cap cannot be sourced from the filed document.",
- "ACC Plus credit: this schedule names it exactly once, on Sheet 8 SC 3.f, and only to exclude it from the true-up comparison (\"if the export credits (not including the ACC Plus credit) are larger than the import charges\"). No rate for it appears on any of the 31 sheets. This is a source gap, not a vocabulary gap. The model nonetheless ships two valueless PriceDefinitions and two valueless Ledgers, ACC Plus Residential and ACC Plus Low Income, kept for parity with pge:nbt and sce:nbt, declaring a price surface this filing never prices. Either populate them from a source outside this PDF or remove them.",
- "Relevant Period settlement, Sheet 8 SC 3.d through 3.f: twelve monthly billing cycles running from Permission To Operate and each anniversary, unused generation and delivery credits carried forward within the period, and excess export credits (ACC Plus excluded) set to zero at true-up. v0.5.1 can now declare the window, urpx:Ledger urpx:settlementInterval (xsd:duration) and urpx:hasBillingCycle, and \"P12M\" conforms under SHACL validation. It cannot express the carry-forward or the zero-out arithmetic, and SMUD NEM1 uses settlementInterval only for the length of its 12-month settlement period.",
- "Net Surplus Compensation, Sheet 12 SC 6.b.i: net surplus kWh times SDG&E's Default Load Aggregation Point price, \"the simple rolling average of SDG&E's DLAP price from 7 a.m. to 5 p.m. corresponding to the customer's 12-month relevant period\". The tariff gives the formula and sends the reader elsewhere for the number: \"This rate will be updated monthly and is available at: http://www.sdge.com/nem/.\" No value is in this PDF, so it is a source gap as well as a settlement-window one.",
- "NSC Renewable Attribute Adder, Sheet 13 SC 6.b.ii: net surplus kWh times the WECC average renewable premium, \"updated annually and is available at http://www.sdge.com/nem\", paid only where the customer certifies REC ownership, holds CEC RPS certification and transfers the certificates through WREGIS. No value in this PDF. Source gap plus a year-end contingency.",
- "Discontinuance of NSC Double Compensation, Sheet 14 SC 6.c: at the twelve-month true-up, positive net exports are debited \"at a rate equal to the utility's average real-world retail export compensation rates for all net billing tariff customers in their service territory over the past 12 months\", then credited at the NSC rate. That debit rate is derived from SDG&E's own book of business and is published nowhere in this filing. Source gap.",
- "NBT Aggregation credit allocation, Sheet 32 SC 12.e.3 and Sheet 33 SC 12.e.4: the monthly export dollar amount is allocated across the Aggregated Account meters \"based on the proportion of cumulative usage at each aggregated account, and the cumulative generation from the generating account from the start of the Relevant Period\". Not expressible: URPX carries no account identity, so there is no per-account channel for an allocation to land in.",
+ "NBT Paired Storage metering, Sheet 22 SC 8.e: \"The fee for installation of standard metering equipment is capped at $600.00\", with complex metering billed at SDG&E's actual cost. Not modeled. A currency-denominated cap has no slot under v0.5.1, the same reason as the $500 aggregation cap, so the honest record here is the citation rather than a shape.",
+ "Small NBT Paired Storage credit cap, Sheet 20 SC 8.d.i and Sheet 21 SC 8.d.i(A)-(C): \"Small NBT Paired Storage billing uses an estimation methodology that caps NBT bill credits based on monthly solar renewable electrical generating facility production estimates.\" Sheet 21 gives the method: a cap on NBT-eligible exports for each calendar month and climate zone, the customer's installed PV kW times a kWh/kW production factor that SDG&E derived with the CSI EPBB calculator for each month and each of the four climate zones in its service area. Exports above the cap \"shall be assumed to have occurred during the highest price billing period during the billing cycle\" and earn no NBT credit. The production factor table is not printed in this PDF, so the cap's values cannot be sourced from the filed document, and applying it needs the customer's climate zone and installed PV capacity. Not modeled.",
+ "ACC Plus credit: no sheet of this schedule names ACC Plus or states a rate for it. The earlier PDF's only mention, an exclusion in Sheet 8 SC 3.f (\"if the export credits (not including the ACC Plus credit) are larger than the import charges\"), is gone from Sheet 8 as revised by Advice 4377-E-A, and Sheets 21-22, absent from that PDF, hold the Paired Storage and consumer-protection provisions (SC 8.d through 8.f and SC 9). This is a source gap, not a vocabulary gap. The model nonetheless ships two valueless PriceDefinitions and two valueless Ledgers, ACC Plus Residential and ACC Plus Low Income, kept for parity with pge:nbt and sce:nbt, declaring a price surface this filing never prices. Either populate them from a source outside this PDF or remove them.",
+ "Relevant Period settlement, Sheet 8 SC 3.d through 3.f: twelve monthly billing cycles running from Permission To Operate and each anniversary, unused generation and delivery credits carried forward within the period, and at true-up \"Any excess generation credits or excess delivery credits remaining at the end of a customer's relevant period (true-up period) be carried forward to the customer's next relevant period.\" The carry-forward holds only while the customer stays on NBT: leaving NBT forfeits the excess credits at the last NBT true-up, and a switch between bundled and unbundled service forfeits the generation credits. v0.5.1 can now declare the window, urpx:Ledger urpx:settlementInterval (xsd:duration) and urpx:hasBillingCycle, and \"P12M\" conforms under SHACL validation. It cannot express the carry-forward across periods or the forfeiture rules, and SMUD NEM1 uses settlementInterval only for the length of its 12-month settlement period.",
+ "Net Surplus Compensation, Sheet 15 SC 6.b.i: net surplus kWh times SDG&E's Default Load Aggregation Point price, \"the simple rolling average of SDG&E's DLAP price from 7 a.m. to 5 p.m. corresponding to the customer's 12-month relevant period\". The tariff gives the formula and sends the reader elsewhere for the number: \"This rate will be updated monthly and is available at: http://www.sdge.com/nem/.\" No value is in this PDF, so it is a source gap as well as a settlement-window one.",
+ "NSC Renewable Attribute Adder, Sheet 16 SC 6.b.ii: net surplus kWh times the WECC average renewable premium, \"updated annually and is available at http://www.sdge.com/nem\", paid only where the customer certifies REC ownership, holds CEC RPS certification and transfers the certificates through WREGIS. No value in this PDF. Source gap plus a year-end contingency.",
+ "Discontinuance of NSC Double Compensation, Sheet 17 SC 6.c: at the twelve-month true-up, positive net exports are debited \"at a rate equal to the utility's average real-world retail export compensation rates for all net billing tariff customers in their service territory over the past 12 months\", then credited at the NSC rate. That debit rate is derived from SDG&E's own book of business and is published nowhere in this filing. Source gap.",
+ "NBT Aggregation credit allocation, Sheet 32 SC 12.e.3 and Sheet 33 SC 12.e.5.b: the monthly export dollar amount is allocated across the Aggregated Account meters \"based on the proportion of cumulative usage at each aggregated account, and the cumulative generation from the generating account from the start of the Relevant Period\". Not expressible: URPX carries no account identity, so there is no per-account channel for an allocation to land in.",
 ]
 
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "first SDG&E NBT filing in corpus, third export-direction modifier (PG&E NBT was first, SCE NBT was second). RatePlanModifier overlaying sdge:ev-tou-5 (mandatory residential EV-TOU-5-as-OAS per Sheet 3). MetricSpecification carries urpx:flowDirection urpx:reverse — same vocabulary as siblings. The per-cell export compensation values come from the URL SDG&E publishes directly on Sheet 4, sdge.com/solar/solar-billing-plan/export-pricing. ACC Plus values are pending discovery (referenced on Sheet 8 but values not in composite PDF; may be in separate filing or absent Sheets 21-22). Closes shell milestone; tracks the per-cell + ACC Plus value loads."
+notes = "first SDG&E NBT filing in corpus, third export-direction modifier (PG&E NBT was first, SCE NBT was second). RatePlanModifier overlaying sdge:ev-tou-5 (mandatory residential EV-TOU-5-as-OAS per Sheet 3). MetricSpecification carries urpx:flowDirection urpx:reverse — same vocabulary as siblings. The per-cell export compensation values come from the URL SDG&E publishes directly on Sheet 4, sdge.com/solar/solar-billing-plan/export-pricing. ACC Plus values are pending discovery (no sheet of this PDF names or prices ACC Plus). Closes shell milestone; tracks the per-cell + ACC Plus value loads."

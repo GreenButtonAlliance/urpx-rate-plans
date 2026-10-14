@@ -169,7 +169,7 @@ before the schedule existed.
 | `sdge:drah` | `sdge:drah-2026-09-30` | 2026-09-30 | open | 2026-10-06 | 0 |
 | `sdge:fera` | `sdge:fera-2026-04-01` | 2026-04-01 | 2026-06-01 | 2026-05-04 | 155 |
 | `sdge:fera` | `sdge:fera-2026-06-01` | 2026-06-01 | open | 2026-10-06 | 0 |
-| `sdge:nbt` | `sdge:nbt-2025-01-27` | 2025-01-27 | open | 2026-05-29 | 130 |
+| `sdge:nbt` | `sdge:nbt-2025-01-27` | 2025-01-27 | open | 2026-10-14 | 0 |
 | `smud:cpp` | `smud:cpp-2026-01-01` | 2026-01-01 | open | 2026-05-04 | 155 |
 | `smud:eapr` | `smud:eapr-2023-09-22` | 2023-09-22 | open | 2026-05-04 | 155 |
 | `smud:med` | `smud:med-2017-07-01` | 2017-07-01 | open | 2026-05-04 | 155 |

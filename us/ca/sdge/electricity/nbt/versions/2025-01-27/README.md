@@ -30,7 +30,7 @@ EV-TOU-5 is SDG&E's residential EV-friendly TOU rate; mandating it for NBT custo
 | MetricSpecification flowDirection | `urpx:reverse` | `urpx:reverse` | `urpx:reverse` |
 | NBC count | **5** (PPP, ND, CTC, DWR-BC, WF-NBC) | 4 (PPPC, NDC, CTC, WFC) | 4 (PPPC, NDC, CTC, WFC) |
 | ACC Plus tier names | Residential / Low Income Customer | Non-Equity / Equity Customer | Residential / Low Income |
-| ACC Plus values in tariff | **NOT in this PDF** (referenced on Sheet 8 but values absent) | In tariff Sheet 7 | In tariff Sheet 11 |
+| ACC Plus values in tariff | **NOT in this PDF** (no sheet names it) | In tariff Sheet 7 | In tariff Sheet 11 |
 | 2025-vintage ACC Plus values | pending discovery | $0.024 / $0.056 | $0.01320 / $0.05400 |
 
 The **DWR-BC (Department of Water Resources Bond Charge)** is the SDG&E-specific NBC — reflects San Diego's particular exposure to DWR's California Water Project. PG&E and SCE don't have DWR-BC.
@@ -77,10 +77,10 @@ This is the first RIN-tagged filing in the corpus. The pattern is extensible to 
 
 | Deferral | Why |
 |---|---|
-| **ACC Plus Adder values** | Sheet 8 references "ACC Plus credit" semantics but the values are NOT in this composite PDF AND NOT in the SDG&E EEC ZIPs (RateType=TOU only). Sheets 21-22 absent from PDF (could be where ACC Plus lived, or canceled). PriceDefinition surface kept for parity with PG&E/SCE; values pending discovery. |
-| Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement doesn't fit per-bill modifier shape |
+| **ACC Plus Adder values** | No sheet of this composite PDF names ACC Plus, and the values are NOT in the SDG&E EEC ZIPs (RateType=TOU only). The earlier PDF's Sheet 8 exclusion of "the ACC Plus credit" from the true-up was removed by Advice 4377-E-A. PriceDefinition surface kept for parity with PG&E/SCE; values pending discovery. |
+| Annual true-up / Net Surplus Compensation (NSC) | Year-long-window settlement, with excess credits carried forward to the next Relevant Period while on NBT (Sheet 8 SC 3.f); doesn't fit per-bill modifier shape |
 | NSC Renewable Attribute Adder (RAA) | WREGIS-transfer-contingent year-end concern |
-| Discontinuance of NSC Double Compensation (Sheet 14 §6.c) | Consumer-side true-up reconciliation |
+| Discontinuance of NSC Double Compensation (Sheet 17 §6.c) | Consumer-side true-up reconciliation |
 | Sub-schedule variants (NBT Aggregation SC 12, NBT Paired Storage SC 8, Multiple Tariff Facilities SC 5) | Sibling filings |
 | **Schedule NBT-V** (Virtual NBT, separately filed at SDG&E tarfKey 1130) | Sibling tariff for multi-tenant properties; separate filing |
 | PEV Submetering exclusion (Sheet 33 §13, per D.22-08-024) | Customer-class exclusion noted in prose |
@@ -106,7 +106,7 @@ Sheet 4 cites `https://www.sdge.com/solar/solar-billing-plan/export-pricing` as 
 - **Sibling utility filings**: `us/ca/pge/electricity/nbt/versions/2025-10-17/` and `us/ca/sce/electricity/nbt/versions/2025-04-23/`
 - **Base RatePlan**: SDG&E Schedule EV-TOU-5 — the mandatory residential OAS for NBT per Sheet 3
 - **Foundational regulatory**: CPUC Decision D.22-12-056 (NBT adoption), D.23-11-068 (NBT Aggregation SC 12)
-- **Most-recent reissue**: Advice 4596-E (Sheets 23, 24, 25 — Prevailing Wage updates; effective 2025-01-27); most rate-bearing sheets carry 2023-2024 advice letters
+- **Most-recent reissue**: Advice 4596-E (Sheets 23, 24, 25: Prevailing Wage updates; effective 2025-01-27). Advice 4377-E, 4377-E-A and 4377-E-B (Resolution E-5301, effective Jul 1, 2024) revise Sheets 4, 8-17, 19, 21 and 22.
 
 ## Validation
 
