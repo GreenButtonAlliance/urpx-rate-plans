@@ -16,12 +16,16 @@ covers:
   filing     dcat:Dataset         subject: each document's own version node
 A filing is dcat:inSeries (and dcterms:isPartOf) its schedule, a schedule its
 utility. Each JSON-LD document and each vendored source PDF is a
-dcat:Distribution of its filing.
+dcat:Distribution of its filing. A document in a filing whose tariff.toml
+records [generation] (doc/dsl-corpus-generation.md) is prov:wasDerivedFrom each
+of the filing's source files and prov:wasGeneratedBy an activity naming its
+generator and, for urpx.dsl, the clj-urpx release deps.edn pins.
 
 Every filing must summarize. One that cannot (a manifest field missing, a
 document that does not parse, a document with no version node of its own, a
 vendored PDF whose sha256 no [source] entry declares, a [source] entry with no
-file unless it says vendored = false) fails the build, which
+file unless it says vendored = false, a [generation] source that does not
+exist) fails the build, which
 then writes nothing. The output is validated against catalog/corpus.schema.json
 and parsed back with rdflib before it is written: the dataset and distribution
 counts read from it by SPARQL must equal what dev/corpus.py walks, and every
@@ -61,6 +65,9 @@ URPX = "https://urpx.org/ns/ontology/"
 IANA = "https://www.iana.org/assignments/media-types/"
 ADMS_STATUS = "http://purl.org/adms/status/"
 TARGET_RELEASE = re.compile(r"/v(\d+\.\d+\.\d+)/")
+DEPS = REPO / "deps.edn"
+CLJ_URPX = "energy.grid-coordination/clj-urpx"
+CLJ_URPX_PIN = re.compile(re.escape(CLJ_URPX) + r'\s*\{\s*:mvn/version\s+"([^"]+)"')
 DOC_NAME = re.compile(
     r"^(?P<kind>rate-plan|rate-plan-modifier)_(?P<utility>[a-z0-9-]+)_"
     r"(?P<slug>[a-z0-9-]+)_(?P<date>\d{4}-\d{2}-\d{2})\.jsonld$")
@@ -75,6 +82,7 @@ CONTEXT = {
     "spdx": "http://spdx.org/rdf/terms#",
     "adms": "http://www.w3.org/ns/adms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "prov": "http://www.w3.org/ns/prov#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "urpx": URPX,
     "title": "dcterms:title",
@@ -110,6 +118,9 @@ CONTEXT = {
     "hasIdentifier": "urpx:hasIdentifier",
     "scheme": {"@id": "urpx:scheme", "@type": "@id"},
     "notation": "skos:notation",
+    "wasDerivedFrom": {"@id": "prov:wasDerivedFrom", "@type": "@id", "@container": "@set"},
+    "wasGeneratedBy": "prov:wasGeneratedBy",
+    "wasAssociatedWith": "prov:wasAssociatedWith",
 }
 
 CSV_COLUMNS = [
@@ -183,6 +194,25 @@ def sources_of(manifest: dict, where: str) -> list[dict]:
             if field not in e:
                 raise Unsummarizable(f"{where}: a [source] entry lacks {field}")
     return entries
+
+
+def clj_urpx_release() -> str:
+    """The clj-urpx release deps.edn pins: the one that emits every urpx.dsl document."""
+    m = CLJ_URPX_PIN.search(DEPS.read_text()) if DEPS.is_file() else None
+    if not m:
+        raise Unsummarizable(f"{rel(DEPS) if DEPS.is_file() else 'deps.edn'}: pins no {CLJ_URPX} release")
+    return m.group(1)
+
+
+def generation_of(manifest: dict, where: str) -> dict | None:
+    """The filing's [generation] table, its sources checked to exist, or None."""
+    g = manifest.get("generation")
+    if g is None:
+        return None
+    for src in g.get("sources", []):
+        if not (REPO / src).is_file():
+            raise Unsummarizable(f"{where}: [generation] source {src} does not exist")
+    return g
 
 
 def read_document(path: Path) -> dict:
@@ -269,6 +299,7 @@ def summarize_filing(d: Path, documents: list[Path], pdfs: list[Path]) -> dict:
     if not isinstance(complete, bool):
         raise Unsummarizable(f"{where}: lacks [modeling].complete")
     sources = sources_of(manifest, where)
+    generation = generation_of(manifest, where)
 
     if not documents:
         raise Unsummarizable(f"{rel(d)}: holds no JSON-LD document")
@@ -297,12 +328,27 @@ def summarize_filing(d: Path, documents: list[Path], pdfs: list[Path]) -> dict:
 
     return {"dir": d, "utility": utility, "schedule": schedule, "date": date,
             "manifest": manifest, "complete": complete, "sources": sources,
-            "docs": docs, "primary": primary, "pdfs": vendored}
+            "docs": docs, "primary": primary, "pdfs": vendored, "generation": generation}
 
 
-def distribution_of_document(doc: dict) -> dict:
+def generated_by(generation: dict) -> dict:
+    """The activity that wrote a generated document: its generator and, for
+    urpx.dsl, the clj-urpx release as a software agent."""
+    activity = {"@type": "prov:Activity", "title": generation["generator"]}
+    if generation["generator"] == "urpx.dsl":
+        release = clj_urpx_release()
+        activity["wasAssociatedWith"] = {
+            "@id": f"https://clojars.org/{CLJ_URPX}/versions/{release}",
+            "@type": "prov:SoftwareAgent",
+            "title": CLJ_URPX,
+            "version": release,
+        }
+    return activity
+
+
+def distribution_of_document(doc: dict, generation: dict | None) -> dict:
     p = doc["path"]
-    return {
+    dist = {
         "@type": "dcat:Distribution",
         "title": p.name,
         "downloadURL": link(p),
@@ -311,6 +357,10 @@ def distribution_of_document(doc: dict) -> dict:
         "checksum": checksum(sha256(p)),
         "conformsTo": {"@id": doc["target"], "@type": "dcterms:Standard", "version": doc["release"]},
     }
+    if generation is not None:
+        dist["wasDerivedFrom"] = [link(REPO / src) for src in generation["sources"]]
+        dist["wasGeneratedBy"] = generated_by(generation)
+    return dist
 
 
 def distribution_of_pdf(p: Path, digest: str, source: dict) -> dict:
@@ -344,6 +394,11 @@ def build() -> tuple[dict, str]:
     for d in dirs:
         try:
             filings.append(summarize_filing(d, documents[d], pdfs[d]))
+        except Unsummarizable as e:
+            errors.append(str(e))
+    if any(f["generation"] and f["generation"]["generator"] == "urpx.dsl" for f in filings):
+        try:
+            clj_urpx_release()
         except Unsummarizable as e:
             errors.append(str(e))
     idents = utilities.BY_SLUG
@@ -425,7 +480,7 @@ def build() -> tuple[dict, str]:
                     "theme": [p["commodity"]],
                     "temporal": temporal,
                     "status": ADMS_STATUS + ("Completed" if f["complete"] else "UnderDevelopment"),
-                    "distribution": [distribution_of_document(doc) for doc in f["docs"]]
+                    "distribution": [distribution_of_document(doc, f["generation"]) for doc in f["docs"]]
                                     + [distribution_of_pdf(*v) for v in sorted(f["pdfs"], key=lambda v: v[0].name)],
                 })
                 prev = ds["@id"]
@@ -464,7 +519,9 @@ def build() -> tuple[dict, str]:
             "Generated by dev/build_catalog.py from each filing's tariff.toml, its utility's "
             "utility.toml, and the values its JSON-LD documents declare. One dcat:Dataset per "
             "filing directory, in a dcat:DatasetSeries per schedule, in one per utility; one "
-            "dcat:Distribution per JSON-LD document and per vendored source document. Do not "
+            "dcat:Distribution per JSON-LD document and per vendored source document; a "
+            "generated document's distribution is prov:wasDerivedFrom its source files and "
+            "prov:wasGeneratedBy the generator and clj-urpx release that wrote it. Do not "
             "hand-edit."),
         "dataset": [ds for _k, ds in datasets],
     }
@@ -508,6 +565,10 @@ def graph_problems(text: str) -> list[str]:
         parsed = urlparse(u)
         if parsed.scheme != "file" or not Path(unquote(parsed.path)).is_file():
             problems.append(f"downloadURL {u} does not resolve to a file")
+    for r in g.query("PREFIX prov: <http://www.w3.org/ns/prov#> SELECT DISTINCT ?s WHERE { ?d prov:wasDerivedFrom ?s }"):
+        parsed = urlparse(str(r.s))
+        if parsed.scheme != "file" or not Path(unquote(parsed.path)).is_file():
+            problems.append(f"prov:wasDerivedFrom {r.s} does not resolve to a file")
     return problems
 
 

@@ -30,7 +30,7 @@ A filing with no `[generation]` table is authored as JSON-LD. The table carries 
 
 ## Navigation
 
-- `catalog/corpus.jsonld` gives each generated document `prov:wasDerivedFrom` links to its source files and a `prov:wasGeneratedBy` activity naming the clj-urpx release that emitted it, read from `deps.edn` when the catalog is built. A client walking the DCAT catalog reaches the source and the generator without reading TOML, and a copy of the catalog published outside the repository keeps both.
+- `catalog/corpus.jsonld` gives each generated document's distribution `prov:wasDerivedFrom` links to its filing's `sources` and a `prov:wasGeneratedBy` activity titled with the filing's `generator` and associated with the clj-urpx release that emitted it, read from `deps.edn` when the catalog is built ([catalog/README.md](../catalog/README.md#model)). A client walking the DCAT catalog reaches the source and the generator without reading TOML, and a copy of the catalog published outside the repository keeps both.
 - A generated report lists every generated document with its source files, entry and clj-urpx release, and every source file with the documents it emits.
 
 ## Checks
