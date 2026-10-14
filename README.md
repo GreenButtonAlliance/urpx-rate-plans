@@ -39,6 +39,22 @@ To enumerate the corpus from code, read [`corpus.json`](./corpus.json) or run on
 
 [`catalog/`](./catalog/) holds a generated DCAT catalog of every filing, as JSON-LD and CSV: utility, jurisdiction, schedule, version dates, declared URPX version, completeness, and each document and source PDF with its size and sha256 ([catalog/README.md](./catalog/README.md)).
 
+### Generated rate plans
+
+Some filings' JSON-LD is generated from Clojure source under [`src/rate_plans/`](./src/rate_plans/), written with the `urpx.dsl` DSL of [clj-urpx](https://github.com/grid-coordination/clj-urpx) ([doc/dsl-source.md](./doc/dsl-source.md)). The generated JSON-LD is committed and is what the corpus publishes; the gate regenerates it and fails when it states different RDF from the committed file.
+
+A filing is generated when its `tariff.toml` has a `[generation]` table:
+
+```toml
+[generation]
+generator = "urpx.dsl"
+sources = [...]   # the Clojure, prose and manifest files its documents are built from
+entry = [...]     # the var that builds each document
+command = "python3 dev/check_generated.py --write"
+```
+
+In such a filing, edit the files in `sources`, not the JSON-LD. A filing without `[generation]` is hand-written JSON-LD. [`reports/generated-documents.md`](./reports/generated-documents.md) lists every generated document.
+
 ### Scenario cost models
 
 A **scenario cost model** is URPX's `urpx:ScenarioCostModel`, read as a fully determined selection over the plan space: one `urpx:RatePlanVersion`, plus the `urpx:RatePlanModifierVersion`s applied to it, plus one `urpx:ProfileAlternative` for each dimension any of them leaves open. *Fully determined* means nothing remains to choose: given an instant inside its window it resolves to prices with no further input. If a choice is still outstanding it is not one scenario cost model but several.
@@ -102,6 +118,7 @@ Issues, Discussions, and pull requests are welcome — see [CONTRIBUTING.md](./C
 - **Modeling questions, ideas, suggestions** → [Discussions](https://github.com/grid-coordination/urpx-rate-plans/discussions)
 - **Confirmed modeling errors, unmodeled rate plans, manifest schema bugs** → [Issues](https://github.com/grid-coordination/urpx-rate-plans/issues)
 - **Patches** → pull requests; please open a Discussion or Issue first for non-trivial changes (new utilities, new modifier shapes, manifest-schema changes)
+- **Rate plans** → submissions as JSON-LD are welcome. We reserve the right to refactor a contributed rate plan into equivalent Clojure DSL source, which then generates its JSON-LD
 
 If you have URPX modeling expertise and would like to review what we have, please get in touch — the [Disclaimer](#disclaimer) above is not aspirational, we genuinely could use the help.
 
@@ -112,7 +129,7 @@ This repository is REUSE-compliant. See [`LICENSE`](./LICENSE), [`LICENSES/`](./
 In summary:
 
 - **Rate-plan JSON-LD serializations, manifests (`tariff.toml`, `utility.toml`), JSON Schemas, generated reports and catalog, test fixtures and baselines, and prose documentation** — [Community Data License Agreement — Permissive — Version 2.0](https://cdla.dev/permissive-2-0/) (`CDLA-Permissive-2.0`), Copyright (c) 2026 Clark Communications Corporation.
-- **Code (Python, Clojure and shell, including the Seattle City Light DSL source under `src/`, plus `deps.edn`, the git hooks and the gate configuration)** — [MIT](./LICENSES/MIT.txt), Copyright (c) 2026 Clark Communications Corporation.
+- **Code (Python, Clojure and shell, including the DSL source under `src/`, plus `deps.edn`, the git hooks and the gate configuration)** — [MIT](./LICENSES/MIT.txt), Copyright (c) 2026 Clark Communications Corporation.
 - **Committed source tariff PDFs** — `LicenseRef-PublicRecord`. These are utility tariff filings and published rate schedules, filed with a public regulator, or adopted by a municipal utility's city council or governing board (CPUC advice letters, municipal-utility rate schedules). They are vendored here as source documents for the serializations extracted from them. **This repository claims no copyright in them.** The `SPDX-FileCopyrightText` names the issuing utility for provenance only. This repository makes no determination about whether copyright subsists in them or about any rights the filer may hold. The identifier follows [`urpx-org/urpx`](https://github.com/urpx-org/urpx/blob/main/LICENSES/LicenseRef-PublicRecord.txt), which uses the same one for the same class of document, so scanners classify mixed checkouts consistently.
 - **`us/ca/pge/electricity/e-elec/versions/2026-01-01/rate-plan_pge_e-elec_2026-01-01.jsonld`** — same `CDLA-Permissive-2.0`, with copyright held jointly by `Flux Tailor LLC`, which originated the upstream fixture in `urpx-org/urpx`, and Clark Communications Corporation, which built on it here.
 
