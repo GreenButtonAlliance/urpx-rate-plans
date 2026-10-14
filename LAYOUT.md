@@ -111,7 +111,8 @@ which is why the corpus is read as one graph (§2).
     "tariff-manifest": { "include": ["**/versions/*/tariff.toml"] },
     "source-document": { "include": ["**/versions/*/*.pdf"] },
     "utility-manifest": { "include": ["*/*/utility.toml"] },
-    "clojure-source": { "roots": ["src"], "include": ["rate_plans/*.clj", "rate_plans/**/*.clj"] }
+    "clojure-source": { "roots": ["src"], "include": ["rate_plans/*.clj", "rate_plans/**/*.clj"] },
+    "clojure-prose": { "roots": ["src"], "include": ["rate_plans/**/prose/*/*.md"] }
   },
   "documents": ["rate-plan", "rate-plan-modifier"],
   "walkers": [ { "language": "python", "path": "dev/corpus.py", "cli": "python3 dev/corpus.py" } ]
@@ -123,7 +124,7 @@ The fields, with descriptions and media types omitted above:
 | Field | Meaning |
 |---|---|
 | `roots` | Top-level directories. Adding a country means adding it here. |
-| `kinds` | Each kind of file, with `include` globs evaluated under every root, or under the kind's own `roots` when it lists them. `*` matches within one path segment; `**` matches across segments. `clojure-source` is the Clojure source documents are generated from ([doc/dsl-source.md](./doc/dsl-source.md)), under its own root `src`. |
+| `kinds` | Each kind of file, with `include` globs evaluated under every root, or under the kind's own `roots` when it lists them. `*` matches within one path segment; `**` matches across segments. `clojure-source` is the Clojure source documents are generated from ([doc/dsl-source.md](./doc/dsl-source.md)), under its own root `src`; `clojure-prose` is the Markdown prose that source loads by key. |
 | `documents` | The kinds a consumer loads as the corpus. Fixtures under `dev/fixtures/` match no kind, so no walker returns them. |
 | `walkers` | Reference implementations: `language`, repo-relative `path`, in-language `api` entry point, and the `cli` command run from the repository root. |
 

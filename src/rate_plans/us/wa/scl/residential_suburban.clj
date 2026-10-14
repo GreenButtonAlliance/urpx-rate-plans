@@ -6,6 +6,7 @@
   (:require [clojure.string :as str]
             [rate-plans.alternatives :as alt]
             [rate-plans.defs :refer [as-of effective-key since]]
+            [rate-plans.prose :as md]
             [rate-plans.tou :as tou]
             [rate-plans.urpx :as u]
             [rate-plans.us.wa.scl.common :as scl]
@@ -14,16 +15,10 @@
             [urpx.defs :refer [defurpx]]))
 
 (defurpx :rate-plans.kind/description prose
-  {:version
-   (str "Seattle City Light's suburban franchise and tax multipliers and suburban undergrounding charges on Schedule {base-identifier} ({base-name}). "
-        "SMC 21.49.030.A, as amended by Ordinance 127473, states for Schedule RSS that 'All charges in Schedule RSS shall be increased by the following percentages respective of the location of service' and that 'Additional undergrounding charges will apply to all customers in Shoreline and Burien'; 21.49.030.B applies 'The same franchise and tax multipliers and suburban undergrounding charges ... to Schedule RTS as Schedule RSS.' "
-        "This version carries the multiplier column headed 'Effective {effective}': {multipliers}. "
-        "The undergrounding charges, unchanged since {per-kwh-since}, total {per-kwh}. "
-        "The customer's jurisdiction is a urpx:ProfileAlternatives dimension. Each alternative applies its percentage twice, as a multiplier over the RTS version's energy subtotal, which holds its Peak, Mid-Peak and Off-Peak energy charges, and as a multiplier over its Base Service Charge. "
-        "A customer in Renton takes Schedule RTS with no multiplier and no undergrounding charge, so takes it without this modifier.")
-   :superseded "Superseded on {next} by the ordinance's next multiplier column."
-   :eligibility-name "Residential customer on Schedule RTS in a suburban jurisdiction"
-   :eligibility "SMC 21.49.030.B: the franchise and tax multipliers and suburban undergrounding charges of Schedule RSS apply to Schedule RTS. Which multiplier and which undergrounding charges apply is set by the location of service and is the urpx:ProfileAlternative selected. The condition expression tests only that the customer is residential."})
+  "Short prose. The version description and the eligibility are in
+   prose/residential-suburban/, loaded by key through rate-plans.prose."
+  {:superseded "Superseded on {next} by the ordinance's next multiplier column."
+   :eligibility-name "Residential customer on Schedule RTS in a suburban jurisdiction"})
 
 (defn- multipliers-sentence [jurisdictions pcts]
   (->> jurisdictions
@@ -68,7 +63,7 @@
                       :multipliers (multipliers-sentence scl/rss-jurisdictions pcts)
                       :per-kwh-since (words/long-date (since scl/rss-undergrounding date))
                       :per-kwh (per-kwh-sentence scl/rss-jurisdictions charges)})
-        {:keys [version superseded eligibility-name eligibility]} prose]
+        {:keys [superseded eligibility-name]} prose]
     (alt/package
      (merge doc
             {:utility scl/scl
@@ -86,10 +81,10 @@
              :percentages pcts
              :per-kwh charges
              :per-kwh-since charges-from
-             :description (cond-> (u/fill version words)
+             :description (cond-> (u/fill (md/text ::version) words)
                             next (str " " (u/fill superseded words)))
              :eligibility {:name eligibility-name
-                           :description eligibility
+                           :description (md/text ::eligibility)
                            :customer-kind :urpx/residentialKind}
              :coverage {:result :urpx/complete}}))))
 

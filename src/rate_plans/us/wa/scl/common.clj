@@ -5,6 +5,7 @@
    date it takes effect; a later filing adds a key."
   (:require [clojure.string :as str]
             [rate-plans.defs :refer [as-of]]
+            [rate-plans.prose :as md]
             [rate-plans.tou :as tou]
             [rate-plans.urpx :as u]
             [rate-plans.words :as words]
@@ -118,20 +119,11 @@
 ;; ---------------------------------------------------------------------------
 
 (defurpx :rate-plans.kind/description tou-prose
-  {:version
-   (str "Seattle City Light Schedule {identifier} ({name}), the optional residential time-of-use schedule for customers {where}, Seattle Municipal Code 21.49.030.B as amended by Ordinance 127473 (Council Bill 121231, passed July 21, 2026, approved July 22, 2026). "
-        "This version carries the column headed 'Effective {effective}': {rates}. {hours}. There are no seasons and no blocks. "
-        "The Monday-through-Saturday and Sunday brackets name their days with urpx:daysOfWeek, proposed in urpx-org/urpx#71 and in no URPX release yet.")
-   :version-note
-   {"2026-01-01" "The 2026 column was enacted by Ordinance 127122 and is restated unchanged by Ordinance 127473; City Light opened enrollment in the schedule on May 4, 2026."}
-   :superseded "Superseded on {next} by the ordinance's next column."
-   :eligibility-name "Eligibility for Schedule {identifier} ({name})"
-   :eligibility
-   "SMC 21.49.030.B as amended by Ordinance 127473: Schedules RTC and RTS are optional rate schedules available to customers who meet eligibility requirements outlined in City Light's Department Policy and Procedure (DPP) 500 P III-434, as amended, or successor rule. Customers may return to their default rate schedule but will not be able to re-enroll in Schedule RTC or RTS until 12 months from the time of unenrollment. City Light's residential Time of Use page requires an advanced meter and a Utility Services Website profile, and does not offer the rate to net metering customers. 21.49.030.C limits normal residential service to single-phase. The condition expression tests only that the customer is residential."
-   :coverage
-   (str "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. "
-        "(1) City Light's residential Time of Use page: a NERC holiday that falls on a Sunday \"is observed on the following Monday\"; one on a Saturday \"remains on that Saturday\". New Year's Day, Independence Day and Christmas Day in {holidays-id} carry no urpx:observanceRule, so each resolves on its actual date and a Saturday one stays on Saturday. "
-        "The Monday after a Sunday New Year's Day, Independence Day or Christmas Day is carried as a dated urpx:Holiday with urpx:holidayDate: {observed}. After {through} each such Sunday holiday needs a further dated entry, until urpx:mondayIfSundayObservance (proposed in urpx-org/urpx#77) can state the rule; the dated entries then come out.")})
+  "Short prose. The version description, its dated notes and the
+   eligibility are in prose/common/, loaded by key through rate-plans.prose;
+   the coverage evaluation is each filing's tariff.toml [modeling].deferrals."
+  {:superseded "Superseded on {next} by the ordinance's next column."
+   :eligibility-name "Eligibility for Schedule {identifier} ({name})"})
 
 (defn- rates-sentence [periods rates]
   (str "Base Service Charge "
@@ -144,16 +136,18 @@
        " cents per kWh"))
 
 (defn- coverage-description
-  [coverage calendar p schedule date]
-  (let [year (parse-long (subs date 0 4))
-        observed (->> (tou/observed-mondays calendar year)
-                      (map last)
-                      (str/join ", "))]
-    (u/fill coverage
-            {:holidays-id (str p ":" schedule "-" date "-holidays")
-             :observed observed
-             :through (get-in calendar
-                              [:observed-monday-after-sunday :through])})))
+  "The filing's deferrals, which must cite the holiday calendar, its dated
+   observed Mondays and the year they run through."
+  [calendar p schedule date]
+  (let [year (parse-long (subs date 0 4))]
+    (md/deferral-coverage
+     [(str p ":" schedule "-" date "-holidays")
+      (->> (tou/observed-mondays calendar year)
+           (map last)
+           (str/join ", "))
+      (str "After "
+           (get-in calendar
+                   [:observed-monday-after-sunday :through]))])))
 
 (defn residential-tou-plan
   "Expand a residential TOU schedule (RTC, RTS) at version `date`."
@@ -175,7 +169,7 @@
                      :hours (str/join "; "
                                       (for [[k label] (reverse periods)]
                                         (str label " is " (sentence k)))))
-        {:keys [version version-note superseded eligibility-name eligibility coverage]} tou-prose]
+        {:keys [superseded eligibility-name]} tou-prose]
     (tou/package
      (merge doc
             {:utility scl
@@ -187,15 +181,16 @@
              :calendar calendar
              :source source
              :pages (get-in source [:pages (keyword schedule)])
-             :description (cond-> (u/fill version words)
-                            (version-note date) (str " " (version-note date))
-                            next (str " " (u/fill superseded words)))
+             :price-summary (some-> (:price-summary doc) md/text)
+             :description (let [note (md/dated ::version-note date)]
+                            (cond-> (u/fill (md/text ::version) words)
+                              note (str " " note)
+                              next (str " " (u/fill superseded words))))
              :eligibility {:name (u/fill eligibility-name words)
-                           :description eligibility
+                           :description (md/text ::eligibility)
                            :customer-kind :urpx/residentialKind}
              :coverage {:result :urpx/partial
-                        :description (coverage-description coverage
-                                                           calendar
+                        :description (coverage-description calendar
                                                            p
                                                            schedule
                                                            date)}}))))

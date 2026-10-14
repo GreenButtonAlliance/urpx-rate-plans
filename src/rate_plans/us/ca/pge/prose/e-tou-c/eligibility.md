@@ -1,0 +1,1 @@
+Voluntary, opt-in. Single-phase or polyphase residential service in single-family dwellings, separately metered flats and apartments, common-area accounts in multifamily complexes, and farm service on residential premises.

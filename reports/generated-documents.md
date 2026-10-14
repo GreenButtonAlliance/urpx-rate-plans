@@ -8,21 +8,21 @@ Each document below is written by `clojure -M:generate` (`src/rate_plans/gen.clj
 
 | Document | Entry | clj-urpx | Sources |
 |---|---|---|---|
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c/e-tou-c` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld` | `rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld` | `rate-plans.us.ca.pge.e-tou-c/e-tou-c` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj` |
-| `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c/e-tou-c` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj` |
-| `us/wa/scl/electricity/residential-suburban/versions/2026-01-01/rate-plan-modifier_scl_residential-suburban_2026-01-01.jsonld` | `rate-plans.us.wa.scl.residential-suburban/residential-suburban` | 0.60.0 | `src/rate_plans/us/wa/scl/residential_suburban.clj`<br>`src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/residential-suburban/versions/2027-01-01/rate-plan-modifier_scl_residential-suburban_2027-01-01.jsonld` | `rate-plans.us.wa.scl.residential-suburban/residential-suburban` | 0.60.0 | `src/rate_plans/us/wa/scl/residential_suburban.clj`<br>`src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/residential-suburban/versions/2028-01-01/rate-plan-modifier_scl_residential-suburban_2028-01-01.jsonld` | `rate-plans.us.wa.scl.residential-suburban/residential-suburban` | 0.60.0 | `src/rate_plans/us/wa/scl/residential_suburban.clj`<br>`src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld` | `rate-plans.us.wa.scl.rtc/rtc` | 0.60.0 | `src/rate_plans/us/wa/scl/rtc.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/rtc/versions/2027-01-01/rate-plan_scl_rtc_2027-01-01.jsonld` | `rate-plans.us.wa.scl.rtc/rtc` | 0.60.0 | `src/rate_plans/us/wa/scl/rtc.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/rtc/versions/2028-01-01/rate-plan_scl_rtc_2028-01-01.jsonld` | `rate-plans.us.wa.scl.rtc/rtc` | 0.60.0 | `src/rate_plans/us/wa/scl/rtc.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld` | `rate-plans.us.wa.scl.rts/rts` | 0.60.0 | `src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld` | `rate-plans.us.wa.scl.rts/rts` | 0.60.0 | `src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
-| `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld` | `rate-plans.us.wa.scl.rts/rts` | 0.60.0 | `src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj` |
+| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/baseline-credit-2026-03-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/coverage-2026-03-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md` |
+| `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c/e-tou-c` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/baseline-credit-2026-03-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/coverage-2026-03-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md` |
+| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld` | `rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/change-2026-03-27.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-care.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-fera.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md`<br>`us/ca/pge/electricity/e-tou-c/versions/2026-03-27/tariff.toml` |
+| `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld` | `rate-plans.us.ca.pge.e-tou-c/e-tou-c` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/change-2026-03-27.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-care.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-fera.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md`<br>`us/ca/pge/electricity/e-tou-c/versions/2026-03-27/tariff.toml` |
+| `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c-medical-baseline/e-tou-c-medical-baseline` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/change-2026-06-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/climate-credit-2026-06-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-care.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-fera.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md`<br>`us/ca/pge/electricity/e-tou-c/versions/2026-06-01/tariff.toml` |
+| `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld` | `rate-plans.us.ca.pge.e-tou-c/e-tou-c` | 0.60.0 | `src/rate_plans/us/ca/pge/e_tou_c.clj`<br>`src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj`<br>`src/rate_plans/us/ca/pge/common.clj`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/change-2026-06-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/climate-credit-2026-06-01.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-care.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-fera.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`<br>`src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md`<br>`us/ca/pge/electricity/e-tou-c/versions/2026-06-01/tariff.toml` |
+| `us/wa/scl/electricity/residential-suburban/versions/2026-01-01/rate-plan-modifier_scl_residential-suburban_2026-01-01.jsonld` | `rate-plans.us.wa.scl.residential-suburban/residential-suburban` | 0.60.0 | `src/rate_plans/us/wa/scl/residential_suburban.clj`<br>`src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/residential-suburban/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/residential-suburban/version.md` |
+| `us/wa/scl/electricity/residential-suburban/versions/2027-01-01/rate-plan-modifier_scl_residential-suburban_2027-01-01.jsonld` | `rate-plans.us.wa.scl.residential-suburban/residential-suburban` | 0.60.0 | `src/rate_plans/us/wa/scl/residential_suburban.clj`<br>`src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/residential-suburban/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/residential-suburban/version.md` |
+| `us/wa/scl/electricity/residential-suburban/versions/2028-01-01/rate-plan-modifier_scl_residential-suburban_2028-01-01.jsonld` | `rate-plans.us.wa.scl.residential-suburban/residential-suburban` | 0.60.0 | `src/rate_plans/us/wa/scl/residential_suburban.clj`<br>`src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/residential-suburban/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/residential-suburban/version.md` |
+| `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld` | `rate-plans.us.wa.scl.rtc/rtc` | 0.60.0 | `src/rate_plans/us/wa/scl/rtc.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/common/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/common/version-note-2026-01-01.md`<br>`src/rate_plans/us/wa/scl/prose/common/version.md`<br>`us/wa/scl/electricity/rtc/versions/2026-01-01/tariff.toml` |
+| `us/wa/scl/electricity/rtc/versions/2027-01-01/rate-plan_scl_rtc_2027-01-01.jsonld` | `rate-plans.us.wa.scl.rtc/rtc` | 0.60.0 | `src/rate_plans/us/wa/scl/rtc.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/common/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/common/version.md`<br>`us/wa/scl/electricity/rtc/versions/2027-01-01/tariff.toml` |
+| `us/wa/scl/electricity/rtc/versions/2028-01-01/rate-plan_scl_rtc_2028-01-01.jsonld` | `rate-plans.us.wa.scl.rtc/rtc` | 0.60.0 | `src/rate_plans/us/wa/scl/rtc.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/common/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/common/version.md`<br>`us/wa/scl/electricity/rtc/versions/2028-01-01/tariff.toml` |
+| `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld` | `rate-plans.us.wa.scl.rts/rts` | 0.60.0 | `src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/common/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/common/version-note-2026-01-01.md`<br>`src/rate_plans/us/wa/scl/prose/common/version.md`<br>`src/rate_plans/us/wa/scl/prose/rts/price-summary.md`<br>`us/wa/scl/electricity/rts/versions/2026-01-01/tariff.toml` |
+| `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld` | `rate-plans.us.wa.scl.rts/rts` | 0.60.0 | `src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/common/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/common/version.md`<br>`src/rate_plans/us/wa/scl/prose/rts/price-summary.md`<br>`us/wa/scl/electricity/rts/versions/2027-01-01/tariff.toml` |
+| `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld` | `rate-plans.us.wa.scl.rts/rts` | 0.60.0 | `src/rate_plans/us/wa/scl/rts.clj`<br>`src/rate_plans/us/wa/scl/common.clj`<br>`src/rate_plans/us/wa/scl/prose/common/eligibility.md`<br>`src/rate_plans/us/wa/scl/prose/common/version.md`<br>`src/rate_plans/us/wa/scl/prose/rts/price-summary.md`<br>`us/wa/scl/electricity/rts/versions/2028-01-01/tariff.toml` |
 
 ## Source files
 
@@ -53,6 +53,117 @@ Each document below is written by `clojure -M:generate` (`src/rate_plans/gen.clj
 - `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
 - `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
 
+### `src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/coverage.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/eligibility.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c-medical-baseline/version.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/baseline-credit-2026-03-01.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/change-2026-03-27.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/change-2026-06-01.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/climate-credit-2026-06-01.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/coverage-2026-03-01.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-care.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/discountable-fera.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/eligibility.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/summary-generation.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/version.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-coverage.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `src/rate_plans/us/ca/pge/prose/e-tou-c/vintage-pcia-description.md`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-01/rate-plan_pge_e-tou-c_2026-03-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
 ### `src/rate_plans/us/wa/scl/common.clj`
 
 - `us/wa/scl/electricity/residential-suburban/versions/2026-01-01/rate-plan-modifier_scl_residential-suburban_2026-01-01.jsonld`
@@ -61,6 +172,47 @@ Each document below is written by `clojure -M:generate` (`src/rate_plans/gen.clj
 - `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld`
 - `us/wa/scl/electricity/rtc/versions/2027-01-01/rate-plan_scl_rtc_2027-01-01.jsonld`
 - `us/wa/scl/electricity/rtc/versions/2028-01-01/rate-plan_scl_rtc_2028-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld`
+
+### `src/rate_plans/us/wa/scl/prose/common/eligibility.md`
+
+- `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld`
+- `us/wa/scl/electricity/rtc/versions/2027-01-01/rate-plan_scl_rtc_2027-01-01.jsonld`
+- `us/wa/scl/electricity/rtc/versions/2028-01-01/rate-plan_scl_rtc_2028-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld`
+
+### `src/rate_plans/us/wa/scl/prose/common/version-note-2026-01-01.md`
+
+- `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
+
+### `src/rate_plans/us/wa/scl/prose/common/version.md`
+
+- `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld`
+- `us/wa/scl/electricity/rtc/versions/2027-01-01/rate-plan_scl_rtc_2027-01-01.jsonld`
+- `us/wa/scl/electricity/rtc/versions/2028-01-01/rate-plan_scl_rtc_2028-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld`
+
+### `src/rate_plans/us/wa/scl/prose/residential-suburban/eligibility.md`
+
+- `us/wa/scl/electricity/residential-suburban/versions/2026-01-01/rate-plan-modifier_scl_residential-suburban_2026-01-01.jsonld`
+- `us/wa/scl/electricity/residential-suburban/versions/2027-01-01/rate-plan-modifier_scl_residential-suburban_2027-01-01.jsonld`
+- `us/wa/scl/electricity/residential-suburban/versions/2028-01-01/rate-plan-modifier_scl_residential-suburban_2028-01-01.jsonld`
+
+### `src/rate_plans/us/wa/scl/prose/residential-suburban/version.md`
+
+- `us/wa/scl/electricity/residential-suburban/versions/2026-01-01/rate-plan-modifier_scl_residential-suburban_2026-01-01.jsonld`
+- `us/wa/scl/electricity/residential-suburban/versions/2027-01-01/rate-plan-modifier_scl_residential-suburban_2027-01-01.jsonld`
+- `us/wa/scl/electricity/residential-suburban/versions/2028-01-01/rate-plan-modifier_scl_residential-suburban_2028-01-01.jsonld`
+
+### `src/rate_plans/us/wa/scl/prose/rts/price-summary.md`
+
 - `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
 - `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld`
 - `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld`
@@ -84,4 +236,38 @@ Each document below is written by `clojure -M:generate` (`src/rate_plans/gen.clj
 - `us/wa/scl/electricity/residential-suburban/versions/2028-01-01/rate-plan-modifier_scl_residential-suburban_2028-01-01.jsonld`
 - `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
 - `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld`
+- `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld`
+
+### `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/tariff.toml`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-03-27.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-03-27/rate-plan_pge_e-tou-c_2026-03-27.jsonld`
+
+### `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/tariff.toml`
+
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan-modifier_pge_e-tou-c-medical-baseline_2026-06-01.jsonld`
+- `us/ca/pge/electricity/e-tou-c/versions/2026-06-01/rate-plan_pge_e-tou-c_2026-06-01.jsonld`
+
+### `us/wa/scl/electricity/rtc/versions/2026-01-01/tariff.toml`
+
+- `us/wa/scl/electricity/rtc/versions/2026-01-01/rate-plan_scl_rtc_2026-01-01.jsonld`
+
+### `us/wa/scl/electricity/rtc/versions/2027-01-01/tariff.toml`
+
+- `us/wa/scl/electricity/rtc/versions/2027-01-01/rate-plan_scl_rtc_2027-01-01.jsonld`
+
+### `us/wa/scl/electricity/rtc/versions/2028-01-01/tariff.toml`
+
+- `us/wa/scl/electricity/rtc/versions/2028-01-01/rate-plan_scl_rtc_2028-01-01.jsonld`
+
+### `us/wa/scl/electricity/rts/versions/2026-01-01/tariff.toml`
+
+- `us/wa/scl/electricity/rts/versions/2026-01-01/rate-plan_scl_rts_2026-01-01.jsonld`
+
+### `us/wa/scl/electricity/rts/versions/2027-01-01/tariff.toml`
+
+- `us/wa/scl/electricity/rts/versions/2027-01-01/rate-plan_scl_rts_2027-01-01.jsonld`
+
+### `us/wa/scl/electricity/rts/versions/2028-01-01/tariff.toml`
+
 - `us/wa/scl/electricity/rts/versions/2028-01-01/rate-plan_scl_rts_2028-01-01.jsonld`

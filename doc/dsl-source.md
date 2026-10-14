@@ -51,7 +51,7 @@ Invalid :rates bad-rates/rtc-rates (bad/bad_rates.clj:4)
 | `:percentages` | multipliers per jurisdiction per effective date |
 | `:undergrounding` | per-kWh charges per jurisdiction per effective date |
 | `:jurisdictions` | jurisdiction keys and names |
-| `:description` | prose templates and dated notes |
+| `:description` | short prose templates and names |
 | `:document` | one plan or modifier: identity, versions table, references to the kinds above |
 | `:filings` | per version: retrieval date, sheets spanned, advice letter, decision, change reason |
 | `:dollars` | figures as the tariff prints them, keyed by charge, tier or year, per effective date |
@@ -63,7 +63,7 @@ Invalid :rates bad-rates/rtc-rates (bad/bad_rates.clj:4)
 | `:baseline-quantities` | baseline quantities per territory, code and season, per effective date |
 | `:climate-credit` | a per-household credit and its bill months, per effective date |
 | `:discountable` | the subtotals a discount program applies to, per effective date |
-| `:coverage` | a coverage evaluation per effective date: free text, or the filing's deferrals |
+| `:coverage` | a coverage evaluation per effective date: a prose key, or the filing's deferrals with the figures they must cite |
 | `:programs` | program keys, names, program types |
 | `:advice-letters`, `:decisions` | the filings and decisions a schedule cites, by number |
 
@@ -76,9 +76,10 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 | Namespace | Holds |
 |---|---|
 | `rate-plans.defs` | the corpus's kinds, `:rate-plans.kind/*`, and the date-keyed lookups (`as-of`, `effective-key`, `since`) |
-| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, literal builders (`xsd-time`, `xsd-date-time`, `xsd-gmonth`, `literal-list`), amount formatters (`plain`, `amount`), templates (`fill`), and writing a package or an @graph |
+| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, literal builders (`xsd-time`, `xsd-date-time`, `xsd-gmonth`, `literal-list`), amount formatters (`plain`, `amount`, `dollars`), templates (`fill`), and writing a package or an @graph |
 | `rate-plans.tou` | a time-of-use rate plan expanded from its tables, and hours in words (`time-range`, `hours-phrases`) |
 | `rate-plans.words` | numbers, lists and dates in words |
+| `rate-plans.prose` | prose loaded by key from Markdown files, and the deferrals of the filing being generated |
 | `rate-plans.alternatives` | a modifier whose customer chooses one alternative along one dimension |
 | `rate-plans.gen` | the generator |
 | `rate-plans.us.wa.scl.common` | what every SCL schedule shares |
@@ -87,7 +88,7 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 | `rate-plans.us.ca.pge.e-tou-c` | Schedule E-TOU-C, with the Vintaged PCIA modifier its documents carry |
 | `rate-plans.us.ca.pge.e-tou-c-medical-baseline` | the Rule 19 modifier over each E-TOU-C version |
 
-General helpers live in the shared namespaces: `rate-plans.defs`, `rate-plans.urpx`, `rate-plans.tou` and `rate-plans.words`. A per-schedule namespace holds only that schedule's tables and builders. Before adding a helper, search the shared namespaces for one that already exists, with `clojure -M:xref` (`init`, then `who-calls`, `who-references`, `unused`) and with `apropos` and `ns-publics` in the nREPL.
+General helpers live in the shared namespaces: `rate-plans.defs`, `rate-plans.urpx`, `rate-plans.tou`, `rate-plans.words` and `rate-plans.prose`. A per-schedule namespace holds only that schedule's tables and builders. Before adding a helper, search the shared namespaces for one that already exists, with `clojure -M:xref` (`init`, then `who-calls`, `who-references`, `unused`) and with `apropos` and `ns-publics` in the nREPL.
 
 `corpus.json` lists these files as the kind `clojure-source`, under its own root `src`, and the generator loads every namespace of that kind.
 
@@ -99,6 +100,14 @@ General helpers live in the shared namespaces: `rate-plans.defs`, `rate-plans.ur
 | `clojure -M -m test-dsl-validation` | each invalid fixture under `dev/fixtures/dsl/` fails to load with an error naming its file, line and bad values |
 
 `clj-kondo --lint src` reads the `defurpx` hook clj-urpx exports, copied into `.clj-kondo/imports` with `clj-kondo --lint "$(clojure -Spath)" --copy-configs --skip-lint`.
+
+## Prose
+
+Prose longer than a name or a sentence is a Markdown file beside the source, not a Clojure string. A prose key is a keyword qualified by the namespace whose prose it is, written `::key` in that namespace, and `rate-plans.prose/path` maps it to `prose/<last namespace segment>/<key>.md` in the namespace's directory: `:rate-plans.us.ca.pge.e-tou-c/coverage-2026-03-01` is `src/rate_plans/us/ca/pge/prose/e-tou-c/coverage-2026-03-01.md`. A file holds one paragraph per line, paragraphs separated by blank lines; `text` joins them with one space, and refuses a missing file or a paragraph broken across lines. A key for one version ends in that version's date, and `dated` reads `<key>-<date>.md` when it exists. A file may hold `{slot}` templates, which the source fills from its tables with `rate-plans.urpx/fill`. `corpus.json` lists these files as the kind `clojure-prose`.
+
+A filing's deferrals are written once, in its `tariff.toml` `[modeling].deferrals`, as filled text. A coverage evaluation that lists them reads them from the manifest of the filing being generated (`deferral-coverage`) and names the figures from its tables they must cite, such as a rate, a baseline quantity or a node's @id; generation refuses when one is missing, so a figure in a deferral stays the one its table gives.
+
+While the generator expands a document it records each file read through `rate-plans.prose`, and prints them after the document's var. The filing's `[generation].sources` lists each of them, the prose files and the filing's own `tariff.toml`, and `dev/check_generated.py` requires that in both directions: a file a document reads and its filing's sources omit is NOSOURCE, a source other than Clojure that no document in the filing reads is STALE, and a prose file no document reads is UNREAD. The catalog's `prov:wasDerivedFrom` follows `sources`, so it names them too.
 
 ## What goes to clj-urpx
 

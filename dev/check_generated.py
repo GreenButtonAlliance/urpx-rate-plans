@@ -17,12 +17,19 @@ the source in both directions. Every committed document in a filing with
 [generation] must be generated, and every generated document must be committed
 in a filing whose [generation] names the `:document` var that wrote it as an
 entry. Every path in its sources must exist, and must include the file of each
-entry's namespace. A committed document the generator did not write is MISSING,
-a generated one with no committed file is EXTRA, one whose filing records no
-[generation] or not its entry is UNRECORDED, an entry that wrote nothing in its
-filing is STALE, a source path that does not exist is NOSOURCE, a hash that
-cannot be computed is NOHASH, differing hashes are DIFF, and equal hashes over
-differing bytes are FORMAT. FORMAT is drift; each of the others fails.
+entry's namespace. The generator also names each file a document read through
+rate-plans.prose (its prose files and its filing's tariff.toml): every such
+file must be in its filing's sources, every source that is not Clojure must be
+read by a document in its filing, and every prose file (the corpus.json kind
+clojure-prose) must be read by some document. A committed document the
+generator did not write is MISSING, a generated one with no committed file is
+EXTRA, one whose filing records no [generation] or not its entry is
+UNRECORDED, an entry that wrote nothing in its filing is STALE, as is a source
+no document there reads, a source path that does not exist or omits an entry's
+namespace or a file a document read is NOSOURCE, a prose file no document reads
+is UNREAD, a hash that cannot be computed is NOHASH, differing hashes are DIFF,
+and equal hashes over differing bytes are FORMAT. FORMAT is drift; each of the
+others fails.
 
     python3 dev/check_generated.py           check
     python3 dev/check_generated.py --write   write into the working tree each
@@ -40,6 +47,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import NamedTuple
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import corpus  # noqa: E402
@@ -48,16 +56,26 @@ from rdf_hash import rdf_sha256  # noqa: E402
 REPO = corpus.REPO
 
 
-def generate(out: Path) -> dict[str, str] | None:
-    """{path relative to `out`: the `:document` var that wrote it}, from the
-    generator's "<path> <var>" lines."""
+class Generated(NamedTuple):
+    var: str
+    reads: tuple[str, ...]
+
+
+def generate(out: Path) -> dict[str, Generated] | None:
+    """{path relative to `out`: the `:document` var that wrote it and the files
+    it read}, from the generator's "<path> <var> <read>..." lines."""
     proc = subprocess.run(["clojure", "-M:generate", str(out)],
                           cwd=REPO, capture_output=True, text=True)
     if proc.returncode != 0:
         print(proc.stdout + proc.stderr)
         print(f"FAIL  the generator exited {proc.returncode}")
         return None
-    return dict(line.split() for line in proc.stdout.splitlines() if line.strip())
+    by_path = {}
+    for line in proc.stdout.splitlines():
+        if line.strip():
+            path, var, *reads = line.split()
+            by_path[path] = Generated(var, tuple(reads))
+    return by_path
 
 
 def generation_tables() -> dict[str, dict]:
@@ -82,7 +100,7 @@ def namespace_file(var: str) -> str:
     return "src/" + ns.replace("-", "_").replace(".", "/") + ".clj"
 
 
-def check_records(generated: dict[str, str], tables: dict[str, dict]) -> int:
+def check_records(generated: dict[str, Generated], tables: dict[str, dict]) -> int:
     """The two directions between [generation] and the source; 1 on a failure."""
     fail = 0
     for filing, table in sorted(tables.items()):
@@ -91,8 +109,16 @@ def check_records(generated: dict[str, str], tables: dict[str, dict]) -> int:
             if not (REPO / src).is_file():
                 print(f"NOSOURCE {filing}: {src}")
                 fail = 1
-        written = {var for path, var in generated.items()
-                   if str(Path(path).parent) == filing}
+        here = [g for path, g in generated.items() if str(Path(path).parent) == filing]
+        written = {g.var for g in here}
+        read = {r for g in here for r in g.reads}
+        for r in sorted(read - set(sources)):
+            print(f"NOSOURCE {filing}: sources omit {r}, which a document here reads")
+            fail = 1
+        for src in sources:
+            if not src.endswith(".clj") and src not in read:
+                print(f"STALE   {filing}: no document here reads {src}")
+                fail = 1
         for var in entries(table):
             if var not in written:
                 print(f"STALE   {filing}: {var} writes no document here")
@@ -100,10 +126,16 @@ def check_records(generated: dict[str, str], tables: dict[str, dict]) -> int:
             if namespace_file(var) not in sources:
                 print(f"NOSOURCE {filing}: sources omit {namespace_file(var)}, the file of {var}")
                 fail = 1
-    for path, var in sorted(generated.items()):
+    for path, g in sorted(generated.items()):
         table = tables.get(str(Path(path).parent))
-        if table is None or var not in entries(table):
-            print(f"UNRECORDED {path}: its filing's [generation] does not name {var}")
+        if table is None or g.var not in entries(table):
+            print(f"UNRECORDED {path}: its filing's [generation] does not name {g.var}")
+            fail = 1
+    read = {r for g in generated.values() for r in g.reads}
+    for p in corpus.paths("clojure-prose"):
+        rel = p.relative_to(REPO).as_posix()
+        if rel not in read:
+            print(f"UNREAD  {rel}: no generated document reads it")
             fail = 1
     return fail
 

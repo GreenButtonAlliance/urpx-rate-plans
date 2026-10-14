@@ -1,0 +1,1 @@
+The California Climate Credit, (${climate-credit}) per household as a semi-annual payment in the August and September bill cycles, is in this version, priced in calendar months {climate-months} on a urpx:householdCount MetricInput.

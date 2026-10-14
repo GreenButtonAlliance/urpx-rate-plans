@@ -38,6 +38,11 @@
    {:error/message "should be an hh:mm string from 00:00 to 24:00"}
    #"^(([01]\d|2[0-3]):[0-5]\d|24:00)$"])
 
+(def ProseKey
+  "A key naming a prose file, qualified by its namespace (rate-plans.prose)."
+  [:qualified-keyword
+   {:error/message "should be a namespace-qualified keyword naming a prose file, e.g. ::coverage"}])
+
 (def DaySet [:enum :all :mon-sat :mon-fri :sat-sun :sat :sun])
 
 ;; ---------------------------------------------------------------------------
@@ -125,12 +130,16 @@
   (dated [:map-of :keyword
           [:map {:closed true}
            [:excludes [:vector :keyword]]
-           [:name :string]]]))
+           [:name ProseKey]]]))
 
 (defmethod defs/kind-schema :rate-plans.kind/coverage [_]
-  (dated [:map {:closed true}
-          [:text {:optional true} :string]
-          [:deferrals {:optional true} [:vector :string]]]))
+  (dated [:or
+          [:map {:closed true}
+           [:text ProseKey]]
+          [:map {:closed true}
+           [:deferrals
+            [:map {:closed true}
+             [:cites [:vector :keyword]]]]]]))
 
 (defmethod defs/kind-schema :rate-plans.kind/programs [_]
   [:vector [:tuple :keyword :string [:maybe :keyword]]])
@@ -182,7 +191,7 @@
    [:where {:optional true} :string]
    [:customer-choice {:optional true} :keyword]
    [:default? {:optional true} :boolean]
-   [:price-summary {:optional true} :string]
+   [:price-summary {:optional true} ProseKey]
    [:dimension {:optional true}
     [:map
      [:slug :string]

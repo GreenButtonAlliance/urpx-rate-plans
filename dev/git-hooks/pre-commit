@@ -46,7 +46,7 @@ set -euo pipefail
 # ACMRD, not ACMR: D is deletion. Removing a filing is a corpus change like any
 # other, and under ACMR a commit that only deleted filings matched nothing here
 # and skipped the gate outright.
-if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld|pdf)|src/.*\.clj|dev/[^/]+\.(py|sh|clj)|dev/shape-exceptions\.json|deps\.edn|dev/baseline/.*\.(edn|json))$'; then
+if ! git diff --cached --name-only --diff-filter=ACMRD | grep -qE '^(us/.*\.(toml|jsonld|pdf)|src/.*\.(clj|md)|dev/[^/]+\.(py|sh|clj)|dev/shape-exceptions\.json|deps\.edn|dev/baseline/.*\.(edn|json))$'; then
     exit 0
 fi
 

@@ -246,3 +246,8 @@
    the caller's."
   [^BigDecimal d]
   (plain (.abs d)))
+
+(defn dollars
+  "-0.05354M -> \"$0.05354\": `amount` after a dollar sign."
+  [d]
+  (str "$" (amount d)))

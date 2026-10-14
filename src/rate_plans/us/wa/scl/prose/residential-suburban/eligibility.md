@@ -1,0 +1,1 @@
+SMC 21.49.030.B: the franchise and tax multipliers and suburban undergrounding charges of Schedule RSS apply to Schedule RTS. Which multiplier and which undergrounding charges apply is set by the location of service and is the urpx:ProfileAlternative selected. The condition expression tests only that the customer is residential.

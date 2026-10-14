@@ -3,8 +3,9 @@
 (ns rate-plans.gen
   "The generator. Loads every namespace corpus.json lists as clojure-source,
    then writes each version of each :rate-plans.kind/document defined in them
-   to <out>/<corpus path>, printing each path relative to <out> and the
-   document's var.
+   to <out>/<corpus path>, printing each path relative to <out>, the
+   document's var, and each file it read through rate-plans.prose (prose
+   files and its filing's tariff.toml), separated by spaces.
 
      clojure -M:generate [out]
 
@@ -14,6 +15,7 @@
    is new or differs."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
+            [rate-plans.prose :as prose]
             [rate-plans.urpx :as u]
             [urpx-rate-plans :as layout]
             [urpx.defs :as defs])
@@ -57,19 +59,23 @@
 
 (defn generate
   "Write every version of every document defined in `nses` under `out`;
-   return [path var] for each document written, the path relative to
-   `out`."
+   return [path var reads] for each document written, the path relative to
+   `out` and reads the sorted repository paths it read through
+   rate-plans.prose."
   [nses out]
   (doall
    (for [doc-var (defs/defs-of-kind :rate-plans.kind/document nses)
          :let [{:keys [versions expand utility] :as doc} @doc-var]
          [date next] (u/version-dates versions)]
-     (let [rel (document-path doc date)]
-       (u/write! (expand doc date next)
-                 (u/context (:prefix utility)
-                            (:context utility))
-                 (io/file out rel))
-       [rel (symbol doc-var)]))))
+     (let [rel (document-path doc date)
+           reads (atom (sorted-set))]
+       (binding [prose/*reads* reads
+                 prose/*filing* (.getParent (io/file rel))]
+         (u/write! (expand doc date next)
+                   (u/context (:prefix utility)
+                              (:context utility))
+                   (io/file out rel)))
+       [rel (symbol doc-var) (vec @reads)]))))
 
 (defn -main [& [out]]
   (let [out (or out
@@ -78,7 +84,8 @@
                   (binding [*out* *err*]
                     (println "writing to" d))
                   d))]
-    (doseq [[rel v] (sort (generate (load-source! ".")
-                                    out))]
-      (println rel v))
+    (doseq [[rel v reads] (sort-by first
+                                   (generate (load-source! ".")
+                                             out))]
+      (println (str/join " " (concat [rel v] reads))))
     (shutdown-agents)))

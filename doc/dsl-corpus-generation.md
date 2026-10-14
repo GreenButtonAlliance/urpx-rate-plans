@@ -12,6 +12,11 @@ generator = "urpx.dsl"
 sources = [
   "src/rate_plans/us/wa/scl/rts.clj",
   "src/rate_plans/us/wa/scl/common.clj",
+  "src/rate_plans/us/wa/scl/prose/common/eligibility.md",
+  "src/rate_plans/us/wa/scl/prose/common/version-note-2026-01-01.md",
+  "src/rate_plans/us/wa/scl/prose/common/version.md",
+  "src/rate_plans/us/wa/scl/prose/rts/price-summary.md",
+  "us/wa/scl/electricity/rts/versions/2026-01-01/tariff.toml",
 ]
 entry = "rate-plans.us.wa.scl.rts/rts"
 command = "python3 dev/check_generated.py --write"
@@ -20,7 +25,7 @@ command = "python3 dev/check_generated.py --write"
 | Key | Meaning |
 | --- | --- |
 | `generator` | `urpx.dsl` for Clojure source; `python` for a filing still built by a script |
-| `sources` | Repository paths of every source file the document is generated from |
+| `sources` | Repository paths of every file the document is generated from: its Clojure source, the prose files it loads and, when it reads its deferrals, the filing's own `tariff.toml` ([dsl-source.md](./dsl-source.md#prose)) |
 | `entry` | The `:document` var of each document in the filing: a string, or an array when the filing holds more than one |
 | `command` | The command that writes it |
 
@@ -35,7 +40,7 @@ A filing with no `[generation]` table is authored as JSON-LD. The table carries 
 
 ## Checks
 
-- Every path in `sources` exists, and regenerating `entry` writes a document with the same RDF as the committed one. Equal RDF in different bytes is drift, fixed by rewriting the committed file.
+- Every path in `sources` exists, every file the generator reads for the filing's documents is in it, every listed file that is not Clojure is read, and regenerating `entry` writes a document with the same RDF as the committed one. Equal RDF in different bytes is drift, fixed by rewriting the committed file.
 - Every document the source tree emits sits in a filing whose `[generation]` names it. Together with the first check, this makes the mapping hold in both directions.
 
 ## Conversion

@@ -1,0 +1,1 @@
+Vintaged Power Charge Indifference Adjustment (per kWh) applied to Transitional Bundled Service (TBS) and Direct Access (DA) customers on Schedule E-TOU-C. Replaces the Bundled PCIA for these customers; the applicable rate is determined by the customer's bundled-service departure vintage year. Community Choice Aggregation (CCA) customers take the same rates from pge:cca-crs.

@@ -23,9 +23,6 @@
    :initial-effective-date "2024-01-01"
    :customer-choice :urpx/voluntaryChoice
    :default? false
-   :price-summary
-   (str "Energy subtotal for RTS: its Peak, Mid-Peak and Off-Peak energy charges. "
-        "SMC 21.49.030.A: \"All charges in Schedule RSS shall be increased by the following percentages respective of the location of service\", applied to RTS by 21.49.030.B. "
-        "scl:residential-suburban takes its percentage of this subtotal, and separately of the Base Service Charge.")
+   :price-summary ::price-summary
    :versions rts-rates
    :expand scl/residential-tou-plan})

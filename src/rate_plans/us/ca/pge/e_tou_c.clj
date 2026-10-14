@@ -7,6 +7,7 @@
    later filing adds a key."
   (:require [clojure.string :as str]
             [rate-plans.defs :refer [as-of effective-key]]
+            [rate-plans.prose :as md]
             [rate-plans.tou :as tou]
             [rate-plans.urpx :as u]
             [rate-plans.us.ca.pge.common :as pge]
@@ -204,27 +205,14 @@
 ;; ---------------------------------------------------------------------------
 
 (defurpx :rate-plans.kind/description prose
-  {:version
-   (str "Voluntary residential TOU schedule with summer/winter peak ({peak-hours} all days) and off-peak periods. "
-        "Customers pay a daily base services charge that varies by income tier (CARE / FERA / standard). "
-        "The Conservation Incentive Adjustment is priced on {version}-tiers-baseline: Tier 1 up to the Special Condition 1 baseline quantity, Tier 2 to four times it and Tier 2 Continued above that, in kWh per day for each of the {territories} baseline territories, Code B (basic) and Code H (all-electric), and both seasons. "
-        "The territory and code share one urpx:ProfileAlternatives with the income tier, {version}-pa-income-territory-code, whose {cells} members are the cells of the three dimensions; each urpx:ServiceBracket names one cell and one season.")
-   :vintage-pcia "Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file."
+  "Short prose. Longer prose is in prose/e-tou-c/, loaded by key through
+   rate-plans.prose."
+  {:vintage-pcia "Vintage PCIA for CCA/DA/TBS customers is modeled as a sibling RatePlanModifier in this file."
    :medical-baseline "The Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) is the modifier pge:e-tou-c-medical-baseline, a second document in this filing's directory."
-   :baseline-credit
-   {"2026-03-01" "Sheet 2\u2019s Baseline Credit of (${baseline-credit}) on baseline usage is the difference between Sheet 3\u2019s two CIA rates, so that pair carries it and it is not priced again."}
-   :change
-   {"2026-03-27" "Compared to the 2026-03-01 version: California Climate Credit removed (Sheet 2 reissued under AL 7869-E / D.26-03-013, sheet 61249-E)."
-    "2026-06-01" "Compared to the 2026-03-27 version: Sheet 2 (61364-E) is reissued under AL 7921-E / D.26-04-036 with the California Climate Credit restored, in the August and September bill cycles; no other price moved."}
-   :climate-credit
-   {"2026-06-01" "The California Climate Credit, (${climate-credit}) per household as a semi-annual payment in the August and September bill cycles, is in this version, priced in calendar months {climate-months} on a urpx:householdCount MetricInput."}
-   :eligibility "Voluntary, opt-in. Single-phase or polyphase residential service in single-family dwellings, separately metered flats and apartments, common-area accounts in multifamily complexes, and farm service on residential premises."
    :ladder-names
    "Income tier (CARE / FERA / standard) by Baseline Territory and Baseline Code (Sheet 1 RATES; Special Condition 1, Sheet 5)"
    :bsc-alternatives
-   "Base Services Charge by income tier (CARE / FERA / standard), one alternative per income tier, Baseline Territory and Baseline Code cell"
-   :summary-generation
-   "Generation subtotal for E-TOU-C: its generation Prices and its Bundled Power Charge Indifference Adjustment. Schedule E-TOU-C Sheet 8 (Cal. P.U.C. Sheet 61131-E): Direct Access and Community Choice Aggregation Generation Service Customers \"shall pay all charges shown in the Unbundling of Total Rates except for the Bundled Power Charge Indifference Adjustment and the generation charge\". pge:cca-crs offsets this subtotal for Community Choice Aggregation customers."})
+   "Base Services Charge by income tier (CARE / FERA / standard), one alternative per income tier, Baseline Territory and Baseline Code cell"})
 
 (defurpx :rate-plans.kind/description tier-names
   {:t1 "Tier 1, baseline usage: kWh per day up to the Special Condition 1 quantity"
@@ -241,31 +229,28 @@
   {"2026-03-01" {}
    "2026-03-27"
    {:care {:excludes [:wildfire-fund :wildfire-hardening :recovery-bond :recovery-bond-credit]
-           :name "CARE-discountable subtotal for E-TOU-C. The {count} volumetric charges, the Conservation Incentive Adjustment counted once across its three baseline tiers, the Schedule D-CARE percentage discount applies to: \"total bundled volumetric charges less charges from which they are exempt\" (Sheet 1). Excludes the Wildfire Fund Charge, the Wildfire Hardening Charge, the Recovery Bond Charge and the Recovery Bond Credit, and the base services charge, which is not volumetric. The Public Purpose Programs charge is included whole: Sheet 1 also exempts its CARE surcharge portion, which the base schedule does not publish."}
+           :name ::discountable-care}
     :fera {:excludes [:wildfire-hardening :recovery-bond :recovery-bond-credit]
-           :name "FERA-discountable subtotal for E-TOU-C. The {count} volumetric charges, the Conservation Incentive Adjustment counted once across its three baseline tiers, the Schedule E-FERA percentage discount applies to: \"total bundled volumetric charges\", generation included, \"after FERA customers are exempted from the Wildfire Hardening Charge, Recovery Bond Charge, and the Recovery Bond Credit\" (Sheet 1). Excludes those three and the base services charge, which is not volumetric. Unlike CARE, the Wildfire Fund Charge is inside this subtotal."}}})
+           :name ::discountable-fera}}})
 
 (defurpx :rate-plans.kind/coverage coverage
-  "Each version's coverage evaluation. From 2026-03-27 it lists the filing's
-   tariff.toml [modeling].deferrals in the same words."
-  {"2026-03-01"
-   {:text "Five parts of the published Schedule E-TOU-C are not represented in this filing. The Special Condition 8 bill protection, which for twelve months after enrollment credits the customer the difference between what it paid on this schedule and what it would have paid on the tiered non-time-of-use Schedule E-1, with its own exclusions (customers on Schedules NEM2, NEM2V or NEM2VMSH who start or transfer service on or after October 1, 2020, customers opting in from another time-of-use plan, and customers requesting enrollment after May 4, 2022) and a parallel twelve-month version on Sheet 9 covering the non-generation charges of community choice aggregation and direct access customers. The CARE half of the Wildfire Fund Charge exemption: Special Condition 11 excludes CARE and medical baseline sales from the charge, and the medical baseline half is pge:e-tou-c-medical-baseline-{date}, but pge:d-care's exemption names the 2026-03-27 version's Price, so a CARE customer under this version is priced ${wildfire-fund} per kWh. The Sheet 4 unbundling of the base services charge into its Distribution, Public Purpose Program, Nuclear Decommissioning and New System Generation components for each income tier; only the three daily totals ({bsc-and}) are modeled. The second qualification path for Income Tier 2, an affordable rental unit in a property listed in the California Housing Partnership's database and restricted to residents at or below 80 percent of Area Median Income; only the FERA path is modeled, so a customer qualifying through affordable housing alone resolves to the Tier 3 charge. And the Sheet 1 instruction that time-of-use period usage be assigned to baseline tiers pro rata, so that a customer with twenty percent of its usage in the peak period has twenty percent of the usage in each tier treated as on-peak: this filing carries both the time-of-use dimension and the baseline tiers, but nothing states how the two combine. Three things are out of scope rather than missing. The standby reservation charges the Applicability section imports from Schedule S Special Conditions 1 through 6 for customers partly supplied from a nonutility source are charges of another schedule, and with them go the Special Condition 9 and 10 exemptions for sub-megawatt non-exporting solar and for distributed energy resources. Special Condition 6's designation of a primary meter and additional meters, and Special Condition 7's one-time option for a separately metered common-area account to move to a general service schedule, are customer-service procedures and not rates."}
-   "2026-03-27"
-   {:deferrals
-    ["Schedule E-TOU-C Sheet 8 (Cal. P.U.C. Sheet 61131-E): Direct Access and Transitional Bundled Service customers 'shall pay all charges shown in the Unbundling of Total Rates except for the Bundled Power Charge Indifference Adjustment and the generation charge', paying their Vintaged PCIA instead. pge:e-tou-c-vintage-pcia is gated on DA and TBS and adds the vintaged rate, but nothing removes this version's generation Prices or its Bundled PCIA Price, so base plus pge:e-tou-c-vintage-pcia still charges a DA or TBS customer PG&E generation and both the bundled and the vintaged PCIA. The DA and TBS offset waits on Schedule DA-CRS. Community Choice Aggregation customers are priced by base plus pge:cca-crs, whose multiplier -1 Price offsets {version}-summary-generation."
-     "Sheet 4 prices the Base Services Charge by component, per income tier, $ per customer per day: Distribution (-$0.10751 / -$0.02710 / $0.36945), Public Purpose Program ($0.19131 / $0.31065 / $0.31065), Nuclear Decommissioning ($0.00000 all tiers), New System Generation Charge ($0.11333 all tiers). The model carries only the three Sheet 2 bundled totals ({bsc-slash}), which the components sum to exactly, so no number is wrong today. What is lost is the delivery-versus-supply split of the fixed charge, which is what Sheet 8's CCA/DA treatment needs, and the model already unbundles the energy side this way. Expressible now: three more PriceDefinitions, each with a three-alternative PriceSetAlternatives mirroring the existing Base Services Charge structure."
-     "Rule 19 Part F: \"If PG&E finds that you need more than the standard {medical-quantity} kWh per day, it will increase your daily Medical Baseline Quantity. In determining how many Additional Quantities you will be assigned, PG&E will round its calculation of your total daily kWh medical needs up to the nearest increment of {medical-quantity} kWh.\" pge:e-tou-c-medical-baseline-{date} carries one Standard Medical Baseline Quantity. An additional quantity is a per-customer multiple PG&E assigns, so it is a customer attribute rather than a tariff figure; it is expressible as further adjusting brackets once a multiple is chosen, and nothing in this corpus chooses one."
-     "Sheet 1 defines Income Tier 2 by two disjuncts: (a) FERA-eligible households, or (b) residents of an affordable rental unit in a property listed in the California Housing Partnership's database and restricted to incomes at or below 80 percent of Area Median Income. The tier-2 ProfileAlternative gates only on hasProgramEnrollment = pge:program-fera, so a qualifying (b) customer resolves to Income Tier 3 and is billed ${standard-bsc} per customer per day where the schedule prices ${fera-bsc}. Expressible now as an orOperator disjunct over a CustomOperandNode, the construct this file's vintage-PCIA alternatives already use for customConditionProperty 'departureVintage'."
-     "Sheet 1, RATES: 'TOU period usage is assigned to tiers on a pro-rated basis. For example, if twenty percent of a customer's usage is in the peak period, then twenty percent of the total usage in each tier will be treated as on-peak usage.' This is the rule composing this version's TOU dimension with its baseline tiers, and neither is stated to depend on the other. Under v0.5.1, CalculationMethodShape is sh:closed and the only slot is the free-text calculationFormula, so the rule can be recorded as prose but not as a computable composition. Standard-level, not a modeling oversight."
-     "Sheet 3's line item New System Generation Charge (all usage), $0.00000 per kWh, has no PriceDefinition and no Price. Zero-valued, so no bill is wrong and the 20 modeled components still reconstruct the Sheet 2 totals, but the unbundled component list is incomplete against the sheet and the omission becomes a wrong number the first time PG&E sets the charge nonzero."
-     "Special Condition 1 (Sheet 5, Cal. P.U.C. Sheet 61128-E) publishes the baseline quantities as kWh PER DAY. {version}-mi-energy-baseline declares unitOfMeasure urpx:kWh with no intervalDuration, so a bracket bound of {p-summer} reads as {p-summer} kWh rather than {p-summer} kWh per day; on a 30-day summer bill in territory P the real Tier 1 ceiling is {p-summer-30} kWh. v0.5.1 MetricSpecificationShape carries urpx:intervalDuration (xsd:duration, maxCount 1), so P1D is expressible. Put the interval there and not on a PriceDefinition's CalculationMethod, where an interval states the window a charge is calculated over rather than the period the baseline quantity is published in."
-     "The schedule draws one usage boundary, baseline versus over baseline: Sheet 2's 'Applied to Baseline Usage Only' and the two Sheet 3 Conservation Incentive Adjustment lines. This version asserts a third tier, {version}-tier-baseline-t2c 'above four times the Special Condition 1 quantity', and caps tier 2 at exactly 4x the Special Condition 1 quantity in every cell. Nothing in the ten sheets states 400 percent, four times, or a second over-baseline tier. Both tiers price at ${cia-t2} so the split is economically inert, but it publishes a boundary this filing does not. Either cite the source for the 4x figure or collapse Tier 2 and Tier 2 Continued."]}})
+  "Each version's coverage evaluation: a prose file, or, from 2026-03-27, the
+   filing's tariff.toml [modeling].deferrals, which must cite each figure
+   under :cites as the rate tables give it."
+  {"2026-03-01" {:text ::coverage-2026-03-01}
+   "2026-03-27" {:deferrals {:cites [:version
+                                     :medical-baseline
+                                     :bsc-slash
+                                     :standard-bsc
+                                     :fera-bsc
+                                     :medical-quantity
+                                     :p-summer
+                                     :p-summer-30
+                                     :cia-t2]}}})
 
 (defurpx :rate-plans.kind/description vintage-pcia-prose
-  {:description "Vintaged Power Charge Indifference Adjustment (per kWh) applied to Transitional Bundled Service (TBS) and Direct Access (DA) customers on Schedule E-TOU-C. Replaces the Bundled PCIA for these customers; the applicable rate is determined by the customer's bundled-service departure vintage year. Community Choice Aggregation (CCA) customers take the same rates from pge:cca-crs."
-   :residential "Vintaged PCIA applies only to residential customers."
-   :da-tbs "Vintaged PCIA under this modifier applies to customers taking Direct Access service or Transitional Bundled Service. Community Choice Aggregation customers take it from pge:cca-crs."
-   :coverage "This modifier carries the {count} vintage Power Charge Indifference Adjustment rates published on Schedule E-TOU-C Sheet 8, from ${first-rate} per kWh for the {first-year} vintage to a credit of ${credit} per kWh for the {credit-years} vintages, gated on a residential customer taking Direct Access or Transitional Bundled Service. Community Choice Aggregation customers take the same {count} rates from pge:cca-crs. Sheet 8 states that Direct Access and Transitional Bundled Service customers pay every charge in the Unbundling of Total Rates except the Bundled Power Charge Indifference Adjustment and the generation charge, and nothing in this modifier removes the base plan's generation Prices or its Bundled PCIA, so a consumer applying the base plan together with this modifier charges a Direct Access or Transitional Bundled Service customer PG&E generation and both the bundled and the vintaged adjustment. Three further charges the same sheet directs these customers to are absent because they live in other schedules: the franchise fee surcharge under Schedule E-FFS for Direct Access customers, the short-term commodity prices under Schedule TBCC for Transitional Bundled Service customers, and the exemptions set out in Schedule DA CRS."})
+  {:residential "Vintaged PCIA applies only to residential customers."
+   :da-tbs "Vintaged PCIA under this modifier applies to customers taking Direct Access service or Transitional Bundled Service. Community Choice Aggregation customers take it from pge:cca-crs."})
 
 ;; ---------------------------------------------------------------------------
 ;; Expansion
@@ -523,7 +508,7 @@
                                    (map first charges))]
                     (dsl/price-summary
                      {:as (id "summary" (str (name program) "-discountable"))
-                      :name (u/fill n {:count (count ks)})
+                      :name (u/fill (md/text n) {:count (count ks)})
                       :includes-price (mapv #(id "price" %)
                                             (volumetric-prices ks))})))
         price-set (fn [slug ks summary-nodes]
@@ -547,7 +532,7 @@
                   (set-of :generation)
                   [(dsl/price-summary
                     {:as (id "summary-generation")
-                     :name (:summary-generation prose)
+                     :name (md/text ::summary-generation)
                      :includes-price (mapv #(id "price" %) (set-of :generation))})])
        (price-set "distribution-charges" (set-of :distribution) nil)
        (price-set "conservation-incentive-adjustment" (volumetric-prices [:cia]) nil)
@@ -575,8 +560,8 @@
                      :unit-price (bsc (:income cell))})]})))})]})))
 
 (defn- description [date {:keys [rate credit quantities tiers]}]
-  (let [{:keys [version vintage-pcia medical-baseline baseline-credit change climate-credit]} prose
-        words {:version (dsl/curie (version-id date))
+  (let [{:keys [vintage-pcia medical-baseline]} prose
+        slots {:version (dsl/curie (version-id date))
                :peak-hours (let [[[_ _ _ [[_ start end]]]] tiers]
                              (tou/time-range start end))
                :territories (count quantities)
@@ -585,37 +570,33 @@
                :climate-credit (some-> (:amount credit) u/amount)
                :climate-months (some->> (:months credit) (map u/xsd-gmonth) words/and-list)}]
     (str/join " "
-              (keep #(some-> % (u/fill words))
-                    [version
-                     (baseline-credit date)
+              (keep #(some-> % (u/fill slots))
+                    [(md/text ::version)
+                     (md/dated ::baseline-credit date)
                      vintage-pcia
-                     (change date)
+                     (md/dated ::change date)
                      medical-baseline
-                     (climate-credit date)]))))
+                     (md/dated ::climate-credit date)]))))
 
 (defn- coverage-description [date {:keys [rate bsc quantities]}]
   (let [{:keys [text deferrals]} (as-of coverage date)
         [[_ p-summer]] quantities
-        words {:version (dsl/curie (version-id date))
+        bscs (map (comp u/dollars bsc) [:care :fera :standard])
+        slots {:version (dsl/curie (version-id date))
+               :medical-baseline (dsl/curie (keyword "pge" (str "e-tou-c-medical-baseline-" date)))
                :date date
                :wildfire-fund (u/amount (rate :wildfire-fund))
-               :bsc-and (words/and-list (map #(str "$" (u/amount (bsc %))) [:care :fera :standard]))
-               :bsc-slash (str/join " / " (map #(str "$" (u/amount (bsc %))) [:care :fera :standard]))
-               :standard-bsc (u/amount (bsc :standard))
-               :fera-bsc (u/amount (bsc :fera))
-               :medical-quantity (u/plain (:quantity (as-of pge/medical-quantity date)))
-               :p-summer p-summer
-               :p-summer-30 (u/plain (.stripTrailingZeros (* 30M p-summer)))
-               :cia-t2 (u/amount (rate :cia-t2))}]
+               :bsc-and (words/and-list bscs)
+               :bsc-slash (str/join " / " bscs)
+               :standard-bsc (u/dollars (bsc :standard))
+               :fera-bsc (u/dollars (bsc :fera))
+               :medical-quantity (str (u/plain (:quantity (as-of pge/medical-quantity date))) " kWh")
+               :p-summer (str (u/plain p-summer) " kWh")
+               :p-summer-30 (str (u/plain (.stripTrailingZeros (* 30M p-summer))) " kWh")
+               :cia-t2 (u/dollars (rate :cia-t2))}]
     (if text
-      (u/fill text words)
-      (str "This filing does not carry everything its source document states. "
-           (count deferrals)
-           " parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. "
-           (str/join " "
-                     (map-indexed (fn [i d]
-                                    (str "(" (inc i) ") " (u/fill d words)))
-                                  deferrals))))))
+      (u/fill (md/text text) slots)
+      (md/deferral-coverage (map slots (:cites deferrals))))))
 
 (defn- vintage-date
   "The date of the Vintaged PCIA table entry in effect on `date`."
@@ -636,7 +617,7 @@
         id (u/ider (vintage-id vdate))
         pa (id "pa-departure-vintage")
         credit-years (filter #(neg? (rates %)) years)
-        {:keys [description residential da-tbs] :as words} vintage-pcia-prose]
+        {:keys [residential da-tbs]} vintage-pcia-prose]
     (dsl/rate-plan-modifier
      {:as :pge/e-tou-c-vintage-pcia
       :name "Vintaged Power Charge Indifference Adjustment (E-TOU-C)"
@@ -648,7 +629,7 @@
        {:as (id)
         :modifier-version-number vdate
         :change-reason (:change-reason filing)
-        :description description
+        :description (md/text ::vintage-pcia-description)
         :effective-date-time (u/xsd-date-time vdate)
         :price-currency "USD"
         :commodity [:urpx/electricity]
@@ -768,7 +749,7 @@
                           :urpx/partial
                           {:evaluated-on (:evaluated-on filing)
                            :description
-                           (u/fill (:coverage words)
+                           (u/fill (md/text ::vintage-pcia-coverage)
                                    {:count (words/number (count years))
                                     :first-rate (u/amount (rates (first years)))
                                     :first-year (first years)
@@ -828,7 +809,7 @@
                    :has-eligibility-rule
                    [(u/customer-kind-rule (u/ider (id "er-residential-tou-c"))
                                           {:name "Eligibility for E-TOU-C Residential Service"
-                                           :description (:eligibility prose)
+                                           :description (md/text ::eligibility)
                                            :customer-kind :urpx/residentialKind
                                            :cx (id "cx-residential")
                                            :cn (id "cn-residential")})]

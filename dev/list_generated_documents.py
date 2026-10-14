@@ -38,7 +38,7 @@ def clj_urpx_release() -> str | None:
     return m.group(1) if m else None
 
 
-def render(by_path: dict[str, str], tables: dict[str, dict], release: str) -> str:
+def render(by_path: dict[str, check_generated.Generated], tables: dict[str, dict], release: str) -> str:
     lines = [
         "# Generated documents",
         "",
@@ -61,7 +61,7 @@ def render(by_path: dict[str, str], tables: dict[str, dict], release: str) -> st
         for src in sources:
             by_source.setdefault(src, []).append(path)
         cells = "<br>".join(f"`{src}`" for src in sources)
-        lines.append(f"| `{path}` | `{by_path[path]}` | {release} | {cells} |")
+        lines.append(f"| `{path}` | `{by_path[path].var}` | {release} | {cells} |")
     lines += ["", "## Source files", ""]
     for src in sorted(by_source):
         lines += [f"### `{src}`", ""]
