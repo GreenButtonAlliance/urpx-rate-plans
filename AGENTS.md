@@ -14,6 +14,8 @@ clojure -M:nrepl
 
 It writes `.nrepl-port`. Run Claude Code from the same root with [clojure-mcp](https://github.com/bhauman/clojure-mcp) configured as an MCP server. Its `list_nrepl_ports` tool finds the server and `clojure_eval` evaluates in it. Use them to answer questions about clj-urpx and clj-shacl by introspection (`doc`, `source`, `dir`, `ns-publics`) before reading jars or grepping.
 
+Before writing a helper in the DSL source, search the shared namespaces for one that already exists: `clojure -M:xref init`, then `who-calls`, `who-references` and `unused` ([clj-xref](https://github.com/danlentz/clj-xref)), and `apropos` and `ns-publics` in the nREPL.
+
 `dev/shacl.sh`, and so the gate's SHACL step, runs inside that nREPL when one answers, and otherwise starts a JVM. Changing a dependency version in `deps.edn` needs a restart of the nREPL.
 
 Stop an nREPL only by its own PID. Never `pkill` or `killall` by pattern: other sessions on the same machine run their own.

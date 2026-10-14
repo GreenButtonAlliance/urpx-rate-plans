@@ -17,6 +17,10 @@
 
   :shacl {:main-opts ["-m" "shacl-gate"]}
 
+  :xref {:extra-deps {com.github.danlentz/clj-xref {:mvn/version "0.1.1"}}
+         :main-opts ["-m" "clj-xref.cli"]
+         :ns-default clj-xref.tool}
+
   :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.6.0"}
                        cider/cider-nrepl {:mvn/version "0.50.3"}}
           :jvm-opts ["-Djdk.attach.allowAttachSelf"]

@@ -6,9 +6,11 @@
    document carries. Every table is keyed by the date it takes effect; a
    later filing adds a key."
   (:require [clojure.string :as str]
-            [rate-plans.defs :refer [as-of]]
+            [rate-plans.defs :refer [as-of effective-key]]
+            [rate-plans.tou :as tou]
             [rate-plans.urpx :as u]
             [rate-plans.us.ca.pge.common :as pge]
+            [rate-plans.words :as words]
             [urpx.defs :refer [defurpx]]
             [urpx.dsl :as dsl]))
 
@@ -266,38 +268,6 @@
    :coverage "This modifier carries the {count} vintage Power Charge Indifference Adjustment rates published on Schedule E-TOU-C Sheet 8, from ${first-rate} per kWh for the {first-year} vintage to a credit of ${credit} per kWh for the {credit-years} vintages, gated on a residential customer taking Direct Access or Transitional Bundled Service. Community Choice Aggregation customers take the same {count} rates from pge:cca-crs. Sheet 8 states that Direct Access and Transitional Bundled Service customers pay every charge in the Unbundling of Total Rates except the Bundled Power Charge Indifference Adjustment and the generation charge, and nothing in this modifier removes the base plan's generation Prices or its Bundled PCIA, so a consumer applying the base plan together with this modifier charges a Direct Access or Transitional Bundled Service customer PG&E generation and both the bundled and the vintaged adjustment. Three further charges the same sheet directs these customers to are absent because they live in other schedules: the franchise fee surcharge under Schedule E-FFS for Direct Access customers, the short-term commodity prices under Schedule TBCC for Transitional Bundled Service customers, and the exemptions set out in Schedule DA CRS."})
 
 ;; ---------------------------------------------------------------------------
-;; Words from the tables
-;; ---------------------------------------------------------------------------
-
-(defn- dollars
-  "0.05354M -> \"0.05354\"; the sign is the caller's."
-  [^BigDecimal d]
-  (u/plain (.abs d)))
-
-(defn- hour
-  "\"16:00\" -> 4, \"21:00\" -> 9."
-  [hhmm]
-  (let [h (mod (parse-long (subs hhmm 0 2)) 12)]
-    (if (zero? h) 12 h)))
-
-(defn- peak-hours
-  "\"4-9 p.m.\" from the peak tier's one bracket."
-  [tiers]
-  (let [[_ _ _ [[_ start end]]] (first tiers)]
-    (str (hour start)
-         "-"
-         (hour end)
-         (if (< (parse-long (subs end 0 2)) 12) " a.m." " p.m."))))
-
-(def ^:private number-words
-  ["zero" "one" "two" "three" "four" "five" "six" "seven" "eight" "nine" "ten"
-   "eleven" "twelve" "thirteen" "fourteen" "fifteen" "sixteen" "seventeen"
-   "eighteen" "nineteen" "twenty"])
-
-(defn- gmonth [m]
-  (format "--%02d" m))
-
-;; ---------------------------------------------------------------------------
 ;; Expansion
 ;; ---------------------------------------------------------------------------
 
@@ -368,10 +338,7 @@
   (str label ", Baseline Territory " territory ", Code " code))
 
 (defn- profile-alternatives [id quantities]
-  (let [c (id "pa-income-territory-code")
-        string-list (fn [xs]
-                      (dsl/rdf-list (for [x xs]
-                                      (dsl/literal x "xsd:string"))))]
+  (let [c (id "pa-income-territory-code")]
     (dsl/profile-alternatives
      {:as c
       :name (:ladder-names prose)
@@ -388,11 +355,11 @@
          (dsl/alternative-dimension
           {:dimension-display-name "Baseline Territory"
            :custom-dimension-property "baselineTerritory"
-           :has-possible-values (string-list (map first quantities))})
+           :has-possible-values (u/literal-list "xsd:string" (map first quantities))})
          (dsl/alternative-dimension
           {:dimension-display-name "Baseline Code"
            :custom-dimension-property "baselineCode"
-           :has-possible-values (string-list codes)})]})
+           :has-possible-values (u/literal-list "xsd:string" codes)})]})
       :has-profile-alternative
       (vec (for [{:keys [in not-in territory code] :as cell} (cells quantities)
                  :let [pa (id "pa" (cell-key cell))
@@ -610,12 +577,13 @@
 (defn- description [date {:keys [rate credit quantities tiers]}]
   (let [{:keys [version vintage-pcia medical-baseline baseline-credit change climate-credit]} prose
         words {:version (dsl/curie (version-id date))
-               :peak-hours (peak-hours tiers)
+               :peak-hours (let [[[_ _ _ [[_ start end]]]] tiers]
+                             (tou/time-range start end))
                :territories (count quantities)
                :cells (* (count income-tiers) (count quantities) (count codes))
                :baseline-credit (u/plain (- (rate :cia-t2) (rate :cia-t1)))
-               :climate-credit (some-> (:amount credit) dollars)
-               :climate-months (some->> (:months credit) (map gmonth) u/and-list)}]
+               :climate-credit (some-> (:amount credit) u/amount)
+               :climate-months (some->> (:months credit) (map u/xsd-gmonth) words/and-list)}]
     (str/join " "
               (keep #(some-> % (u/fill words))
                     [version
@@ -630,15 +598,15 @@
         [[_ p-summer]] quantities
         words {:version (dsl/curie (version-id date))
                :date date
-               :wildfire-fund (dollars (rate :wildfire-fund))
-               :bsc-and (u/and-list (map #(str "$" (dollars (bsc %))) [:care :fera :standard]))
-               :bsc-slash (str/join " / " (map #(str "$" (dollars (bsc %))) [:care :fera :standard]))
-               :standard-bsc (dollars (bsc :standard))
-               :fera-bsc (dollars (bsc :fera))
+               :wildfire-fund (u/amount (rate :wildfire-fund))
+               :bsc-and (words/and-list (map #(str "$" (u/amount (bsc %))) [:care :fera :standard]))
+               :bsc-slash (str/join " / " (map #(str "$" (u/amount (bsc %))) [:care :fera :standard]))
+               :standard-bsc (u/amount (bsc :standard))
+               :fera-bsc (u/amount (bsc :fera))
                :medical-quantity (u/plain (:quantity (as-of pge/medical-quantity date)))
                :p-summer p-summer
                :p-summer-30 (u/plain (.stripTrailingZeros (* 30M p-summer)))
-               :cia-t2 (dollars (rate :cia-t2))}]
+               :cia-t2 (u/amount (rate :cia-t2))}]
     (if text
       (u/fill text words)
       (str "This filing does not carry everything its source document states. "
@@ -652,10 +620,7 @@
 (defn- vintage-date
   "The date of the Vintaged PCIA table entry in effect on `date`."
   [date]
-  (some (fn [d]
-          (when (<= (compare d date) 0)
-            d))
-        (sort #(compare %2 %1) (keys vintage-pcia-rates))))
+  (effective-key vintage-pcia-rates date))
 
 (defn- vintage-id [vdate]
   (keyword "pge" (str "e-tou-c-vintage-pcia-" vdate)))
@@ -684,7 +649,7 @@
         :modifier-version-number vdate
         :change-reason (:change-reason filing)
         :description description
-        :effective-date-time (str vdate "T00:00:00")
+        :effective-date-time (u/xsd-date-time vdate)
         :price-currency "USD"
         :commodity [:urpx/electricity]
         :service-role :urpx/bundledServiceRole
@@ -761,8 +726,7 @@
                [(dsl/alternative-dimension
                  {:dimension-display-name "Departure Vintage Year"
                   :custom-dimension-property "departureVintage"
-                  :has-possible-values (dsl/rdf-list (for [y years]
-                                                       (dsl/literal (str y) "xsd:gYear")))})]})
+                  :has-possible-values (u/literal-list "xsd:gYear" years)})]})
              :has-profile-alternative
              (vec (for [y years
                         :let [k (str "vintage-" y)]]
@@ -805,11 +769,11 @@
                           {:evaluated-on (:evaluated-on filing)
                            :description
                            (u/fill (:coverage words)
-                                   {:count (number-words (count years))
-                                    :first-rate (dollars (rates (first years)))
+                                   {:count (words/number (count years))
+                                    :first-rate (u/amount (rates (first years)))
                                     :first-year (first years)
-                                    :credit (dollars (rates (last years)))
-                                    :credit-years (u/and-list (map str credit-years))})})})})))
+                                    :credit (u/amount (rates (last years)))
+                                    :credit-years (words/and-list (map str credit-years))})})})})))
 
 (defn package
   "The @graph of version `date` of E-TOU-C: the package holding the plan and
@@ -847,8 +811,8 @@
                  (dsl/rate-plan-version
                   {:as (id)
                    :description (description date ctx)
-                   :effective-date-time (str date "T00:00:00")
-                   :expiration-date-time (some-> next (str "T00:00:00"))
+                   :effective-date-time (u/xsd-date-time date)
+                   :expiration-date-time (some-> next u/xsd-date-time)
                    :change-reason (:change-reason filing)
                    :price-currency "USD"
                    :commodity [:urpx/electricity]

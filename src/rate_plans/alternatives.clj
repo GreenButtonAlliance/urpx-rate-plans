@@ -41,8 +41,7 @@
            :dimension-display-name (:display-name dimension)
            :custom-dimension-property (:property dimension)
            :has-possible-values
-           (dsl/rdf-list (for [[_ n] alternatives]
-                           (dsl/literal n "xsd:string")))})]})
+           (u/literal-list "xsd:string" (map second alternatives))})]})
       :has-profile-alternative (mapv #(alternative id dimension %)
                                      alternatives)})))
 
@@ -172,9 +171,8 @@
            :modifier-version-number version
            :change-reason :urpx/rateCase
            :description (:description plan)
-           :effective-date-time (str version "T00:00:00")
-           :expiration-date-time (some-> next
-                                         (str "T00:00:00"))
+           :effective-date-time (u/xsd-date-time version)
+           :expiration-date-time (some-> next u/xsd-date-time)
            :price-currency "USD"
            :commodity [:urpx/electricity]
            :service-role :urpx/bundledServiceRole

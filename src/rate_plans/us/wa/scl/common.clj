@@ -7,6 +7,7 @@
             [rate-plans.defs :refer [as-of]]
             [rate-plans.tou :as tou]
             [rate-plans.urpx :as u]
+            [rate-plans.words :as words]
             [urpx.defs :refer [defurpx]]))
 
 (defurpx :rate-plans.kind/utility scl
@@ -136,7 +137,7 @@
   (str "Base Service Charge "
        (u/plain (:base-service-charge rates))
        " cents per meter per day; Energy "
-       (u/and-list (for [[k label] (reverse periods)]
+       (words/and-list (for [[k label] (reverse periods)]
                      (str label
                           " "
                           (u/plain (rates k)))))
@@ -168,7 +169,7 @@
         source (as-of ordinance date)
         [p] (:prefix scl)
         words (assoc doc
-                     :effective (u/long-date date)
+                     :effective (words/long-date date)
                      :next next
                      :rates (rates-sentence periods rates)
                      :hours (str/join "; "

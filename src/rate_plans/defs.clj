@@ -216,3 +216,23 @@
           (when (<= (compare k date) 0)
             v))
         (sort-by key #(compare %2 %1) m)))
+
+(defn effective-key
+  "The key of date-keyed map `m` in effect on `date`."
+  [m date]
+  (some (fn [k]
+          (when (<= (compare k date) 0)
+            k))
+        (sort #(compare %2 %1) (keys m))))
+
+(defn since
+  "The earliest key of date-keyed map `m` from which its value at `date`
+   holds unchanged."
+  [m date]
+  (let [v (as-of m date)]
+    (->> (keys m)
+         sort
+         (filter #(<= (compare % date) 0))
+         reverse
+         (take-while #(= v (m %)))
+         last)))

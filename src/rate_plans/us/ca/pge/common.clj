@@ -6,6 +6,7 @@
    key."
   (:require [clojure.string :as str]
             [rate-plans.defs]
+            [rate-plans.urpx :as u]
             [urpx.defs :refer [defurpx]]
             [urpx.dsl :as dsl]))
 
@@ -86,7 +87,7 @@
       :issuing-authority "California Public Utilities Commission"
       :publication-type :urpx/tariffSupplement
       :description (some-> description
-                           (str/replace "{effective}" effective))
+                           (u/fill {:effective effective}))
       :effective-date effective
       :date-received received})))
 

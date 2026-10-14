@@ -208,9 +208,8 @@
           (dsl/rate-plan-version
            {:as (id)
             :description (:description plan)
-            :effective-date-time (str version "T00:00:00")
-            :expiration-date-time (some-> next
-                                          (str "T00:00:00"))
+            :effective-date-time (u/xsd-date-time version)
+            :expiration-date-time (some-> next u/xsd-date-time)
             :change-reason :urpx/rateCase
             :price-currency "USD"
             :commodity [:urpx/electricity]
@@ -269,6 +268,20 @@
       :compact (str h12
                     mm
                     (if (< h 12) "am" "pm")))))
+
+(defn time-range
+  "\"16:00\" \"21:00\" -> \"4-9 p.m.\"; \"10:00\" \"14:00\" ->
+   \"10 a.m.-2 p.m.\". The meridiem is written once when both ends share it."
+  [start end]
+  (let [s (clock :long start)
+        e (clock :long end)
+        split (fn [t]
+                (str/split t #" " 2))
+        [s-hours s-meridiem] (split s)
+        [_ e-meridiem] (split e)]
+    (if (= s-meridiem e-meridiem)
+      (str s-hours "-" e)
+      (str s "-" e))))
 
 (defn hours-phrases
   "{period-key phrase}: each period's hours in words, from the bracket table.

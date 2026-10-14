@@ -127,6 +127,11 @@
             :page-end page-end}
            more))))
 
+(defn xsd-date-time
+  "\"2026-03-01\" -> \"2026-03-01T00:00:00\", the start of the day."
+  [date]
+  (str date "T00:00:00"))
+
 (defn coverage-claim
   "A CoverageClaim `cc` with result `result`, self-contained unless
    `:self-contained` is false, explained by `description` when given."
@@ -141,7 +146,7 @@
                       {:as ((ider cc) "evaluation")
                        :evaluation-kind :urpx/coverageEvaluation
                        :description description
-                       :evaluated-on (str evaluated-on "T00:00:00")})])}))
+                       :evaluated-on (xsd-date-time evaluated-on)})])}))
 
 (defn metric-inputs [id prefix]
   [(dsl/metric-input
@@ -175,6 +180,18 @@
   "\"17:00\" -> \"17:00:00\"."
   [hhmm]
   (str hhmm ":00"))
+
+(defn literal-list
+  "An rdf:List of `xs`, each a literal typed `datatype` with lexical form
+   (str x)."
+  [datatype xs]
+  (dsl/rdf-list (for [x xs]
+                  (dsl/literal (str x) datatype))))
+
+(defn xsd-gmonth
+  "4 -> \"--04\", the lexical form of an xsd:gMonth."
+  [m]
+  (format "--%02d" m))
 
 (defn hundredths
   "16.10M (cents, or percent) to 0.1610M, scale kept."
@@ -221,28 +238,11 @@
                                      {:template s})))
                    (str v)))))
 
-(defn and-list
-  "[\"a\" \"b\" \"c\"] -> \"a, b and c\"."
-  [xs]
-  (if (next xs)
-    (str (str/join ", " (butlast xs))
-         " and "
-         (last xs))
-    (first xs)))
-
 (defn plain [^BigDecimal d]
   (.toPlainString d))
 
-(def ^:private months
-  ["January" "February" "March" "April" "May" "June" "July" "August"
-   "September" "October" "November" "December"])
-
-(defn long-date
-  "\"2026-01-01\" -> \"January 1, 2026\"."
-  [d]
-  (let [[y m dd] (map parse-long (str/split d #"-"))]
-    (str (months (dec m))
-         " "
-         dd
-         ", "
-         y)))
+(defn amount
+  "-0.05354M -> \"0.05354\": the magnitude in plain notation; the sign is
+   the caller's."
+  [^BigDecimal d]
+  (plain (.abs d)))

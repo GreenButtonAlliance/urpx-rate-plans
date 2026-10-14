@@ -75,9 +75,10 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 
 | Namespace | Holds |
 |---|---|
-| `rate-plans.defs` | the corpus's kinds, `:rate-plans.kind/*`, and `as-of` |
-| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, and writing a package or an @graph |
-| `rate-plans.tou` | a time-of-use rate plan expanded from its tables |
+| `rate-plans.defs` | the corpus's kinds, `:rate-plans.kind/*`, and the date-keyed lookups (`as-of`, `effective-key`, `since`) |
+| `rate-plans.urpx` | URPX building blocks over `urpx.dsl`, literal builders (`xsd-time`, `xsd-date-time`, `xsd-gmonth`, `literal-list`), amount formatters (`plain`, `amount`), templates (`fill`), and writing a package or an @graph |
+| `rate-plans.tou` | a time-of-use rate plan expanded from its tables, and hours in words (`time-range`, `hours-phrases`) |
+| `rate-plans.words` | numbers, lists and dates in words |
 | `rate-plans.alternatives` | a modifier whose customer chooses one alternative along one dimension |
 | `rate-plans.gen` | the generator |
 | `rate-plans.us.wa.scl.common` | what every SCL schedule shares |
@@ -85,6 +86,8 @@ Source lives under `src/rate_plans/`, following the namespace-to-path rule and m
 | `rate-plans.us.ca.pge.common` | what PG&E's schedules share: identity, programs, advice letters, decisions, the Rule 19 medical quantity |
 | `rate-plans.us.ca.pge.e-tou-c` | Schedule E-TOU-C, with the Vintaged PCIA modifier its documents carry |
 | `rate-plans.us.ca.pge.e-tou-c-medical-baseline` | the Rule 19 modifier over each E-TOU-C version |
+
+General helpers live in the shared namespaces: `rate-plans.defs`, `rate-plans.urpx`, `rate-plans.tou` and `rate-plans.words`. A per-schedule namespace holds only that schedule's tables and builders. Before adding a helper, search the shared namespaces for one that already exists, with `clojure -M:xref` (`init`, then `who-calls`, `who-references`, `unused`) and with `apropos` and `ns-publics` in the nREPL.
 
 `corpus.json` lists these files as the kind `clojure-source`, under its own root `src`, and the generator loads every namespace of that kind.
 

@@ -80,8 +80,8 @@
             :modifier-version-number date
             :change-reason :urpx/rateCase
             :description (u/fill (:version prose) words)
-            :effective-date-time (str date "T00:00:00")
-            :expiration-date-time (some-> next (str "T00:00:00"))
+            :effective-date-time (u/xsd-date-time date)
+            :expiration-date-time (some-> next u/xsd-date-time)
             :price-currency "USD"
             :commodity [:urpx/electricity]
             :service-role :urpx/bundledServiceRole

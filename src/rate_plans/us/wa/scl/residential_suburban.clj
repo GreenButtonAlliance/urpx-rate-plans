@@ -5,11 +5,12 @@
    undergrounding charges on Schedule RTS: a RatePlanModifier on scl:rts."
   (:require [clojure.string :as str]
             [rate-plans.alternatives :as alt]
-            [rate-plans.defs :refer [as-of]]
+            [rate-plans.defs :refer [as-of effective-key since]]
             [rate-plans.tou :as tou]
             [rate-plans.urpx :as u]
             [rate-plans.us.wa.scl.common :as scl]
             [rate-plans.us.wa.scl.rts :as rts]
+            [rate-plans.words :as words]
             [urpx.defs :refer [defurpx]]))
 
 (defurpx :rate-plans.kind/description prose
@@ -30,7 +31,7 @@
        (sort-by (fn [[_ js]]
                   (.indexOf ^java.util.List jurisdictions (first js))))
        (map (fn [[pct js]]
-              (str (u/and-list (map #(nth % 2) js))
+              (str (words/and-list (map #(nth % 2) js))
                    " "
                    (u/plain pct)
                    " percent")))
@@ -40,7 +41,7 @@
   (let [names (into {}
                     (map (juxt first second))
                     jurisdictions)]
-    (u/and-list
+    (words/and-list
      (for [[j rows] charges]
        (str (u/plain (reduce +
                              (map last rows)))
@@ -52,37 +53,20 @@
                         (str label " " (u/plain c))))
             ")")))))
 
-(defn- since
-  "The earliest key of date-keyed `m` from which its value at `date` holds unchanged."
-  [m date]
-  (let [v (as-of m date)]
-    (->> (keys m)
-         sort
-         (filter #(<= (compare % date) 0))
-         reverse
-         (take-while #(= v (m %)))
-         last)))
-
 (defn modifier
   [{:keys [schedule versions] :as doc} date next]
   (let [pcts (versions date)
         source (as-of scl/ordinance date)
         charges (as-of scl/rss-undergrounding date)
-        charges-from (some #(when (= charges (scl/rss-undergrounding %))
-                              %)
-                           (reverse (sort (filter #(<= (compare % date) 0)
-                                                  (keys scl/rss-undergrounding)))))
-        base-date (as-of (into {}
-                               (map (juxt key key))
-                               rts/rts-rates)
-                         date)
+        charges-from (effective-key scl/rss-undergrounding date)
+        base-date (effective-key rts/rts-rates date)
         words (merge doc
-                     {:effective (u/long-date date)
+                     {:effective (words/long-date date)
                       :next next
                       :base-identifier (:identifier rts/rts)
                       :base-name (:name rts/rts)
                       :multipliers (multipliers-sentence scl/rss-jurisdictions pcts)
-                      :per-kwh-since (u/long-date (since scl/rss-undergrounding date))
+                      :per-kwh-since (words/long-date (since scl/rss-undergrounding date))
                       :per-kwh (per-kwh-sentence scl/rss-jurisdictions charges)})
         {:keys [version superseded eligibility-name eligibility]} prose]
     (alt/package
