@@ -1,6 +1,6 @@
 # Generators and extractors
 
-The scripts that produced data in this corpus. They are published so the data is reproducible: a filing whose prices were emitted by a script should ship the script that emitted them.
+The scripts that produced data in this corpus. They are published so the data is reproducible: a filing whose prices were emitted by a script should ship the script that emitted them. A filing whose `tariff.toml` records `[generation]` is generated from Clojure source under `src/` ([doc/dsl-corpus-generation.md](../doc/dsl-corpus-generation.md)), and the scripts that wrote its earlier bytes are in git history.
 
 They are working tools, not a supported library. Each was written for one filing or one batch, they are not idempotent in general, and several are superseded by later ones. Read the script before running it.
 

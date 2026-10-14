@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Clark Communications Corporation
 # SPDX-License-Identifier: MIT
-"""Author the PG&E Medical Baseline modifiers for Schedules E-1 and E-TOU-C.
+"""Author the PG&E Medical Baseline modifier for Schedule E-1.
 
 PG&E Electric Rule 19, Part A: "The Standard Medical Baseline Quantity is 16.438
-kWh per day (approximately) year-round." E-1 Special Condition 7 and E-TOU-C
-Special Condition 5 add it to the baseline quantity (Code B plus it is Code M,
+kWh per day (approximately) year-round." E-1 Special Condition 7 adds it to the
+baseline quantity (Code B plus it is Code M,
 Code H plus it is Code S) "to increase the maximum level of usage subject to
 baseline (Tier 1) rates". Each base version whose ladder it moves gains, as a
 second document in its directory, one version of a modifier whose adjusting
@@ -17,8 +17,8 @@ brackets (urpx-org/urpx#80) add:
     the medical quantity is part of it.
 
 The quantity is the same in every territory, code and season, so the brackets
-name a tier and nothing else: four on E-TOU-C, whose three tiers carry season on
-their brackets, and eight on E-1, whose six tiers are season-specific. Rule 19
+name a tier and nothing else: eight, because E-1's six tiers are
+season-specific. Rule 19
 gives 16.438 as the hand-calculation figure and says automated billing uses the
 unrounded quotient 6,000 / 365; the modifiers carry 16.438, the figure printed.
 
@@ -31,6 +31,9 @@ its manifest. The manifests' deferrals on the medical quantities and the medical
 half of the Wildfire Fund exemption are replaced.
 
 Re-running is safe: the modifiers are rewritten from the tables below each time.
+
+The E-TOU-C modifier, pge:e-tou-c-medical-baseline, is generated from
+src/rate_plans/us/ca/pge/e_tou_c_medical_baseline.clj (doc/dsl-source.md).
 
 Run from the repo root: python3 dev/author_pge_medical_baseline.py
 """
@@ -83,14 +86,6 @@ class Target:
         return f"{self.m}-{self.date}"
 
 
-def etou_c_adjust(bv: str) -> list[tuple[str, str, str]]:
-    """(tier @id, offset property, offset) for E-TOU-C's three-tier ladder."""
-    return [(f"{bv}-tier-baseline-t1", "urpx:upperBoundOffset", STANDARD),
-            (f"{bv}-tier-baseline-t2", "urpx:lowerBoundOffset", STANDARD),
-            (f"{bv}-tier-baseline-t2", "urpx:upperBoundOffset", FOUR_TIMES),
-            (f"{bv}-tier-baseline-t2c", "urpx:lowerBoundOffset", FOUR_TIMES)]
-
-
 def e1_adjust(bv: str) -> list[tuple[str, str, str]]:
     # The 2026-03-01 version's six tiers predate version scoping (pge:tier-summer-t1);
     # later versions scope them to the version.
@@ -112,15 +107,6 @@ E1_SHEETS = {
     "ladder": ("Sheet 1 prints Tier 2 as \"Tier 2 Usage (101% - 400% of Baseline)\" and Tier 2 Continued as "
                "\"Over 400% of Baseline\"."),
 }
-ETOUC_SHEETS = {
-    "name": "E-TOU-C",
-    "sc": "Special Condition 5 (Sheet 6, Cal. P.U.C. Sheet 61129-E)",
-    "sc_baseline": "Special Condition 1",
-    "wfc": "Sheet 1, Cal. P.U.C. Sheet 61124-E, and Special Condition 11, Sheet 10, Cal. P.U.C. Sheet 61133-E",
-    "ladder": ("The base version's ladder ends Tier 2 at four times the Special Condition 1 quantity, the Tier 2 "
-               "that Schedule E-1 prints as \"Tier 2 Usage (101% - 400% of Baseline)\"; no E-TOU-C sheet states "
-               "the 400 percent figure, which the base version's manifest records as a deferral."),
-}
 
 # Sheet 1 of E-1 was reissued 2026-06-01 (Advice 7921-E) as 61362-E.
 E1_SHEETS_0601 = dict(E1_SHEETS, wfc=E1_SHEETS["wfc"].replace("61247-E", "61362-E"))
@@ -128,9 +114,6 @@ E1_SHEETS_0601 = dict(E1_SHEETS, wfc=E1_SHEETS["wfc"].replace("61247-E", "61362-
 TARGETS = [
     Target("e-1", "2026-03-01", e1_adjust, E1_SHEETS),
     Target("e-1", "2026-06-01", e1_adjust, E1_SHEETS_0601),
-    Target("e-tou-c", "2026-03-01", etou_c_adjust, ETOUC_SHEETS),
-    Target("e-tou-c", "2026-03-27", etou_c_adjust, ETOUC_SHEETS),
-    Target("e-tou-c", "2026-06-01", etou_c_adjust, ETOUC_SHEETS),
 ]
 
 
@@ -157,9 +140,7 @@ def find(x, i):
 def description(t: Target) -> str:
     s = t.sheets
     n = len(t.adjust(t.bv))
-    shape = ("one per season for each of the four bounds, because each of the six base tiers is season-specific"
-             if t.sched == "e-1" else
-             "one for each of the four bounds, because the base tiers carry season on their own brackets")
+    shape = "one per season for each of the four bounds, because each of the six base tiers is season-specific"
     return (
         "PG&E Electric Rule 19, Part A: \"The Standard Medical Baseline Quantity is 16.438 kWh per day "
         f"(approximately) year-round.\" Schedule {s['name']} {s['sc']}: \"Standard medical quantities are added "
@@ -360,25 +341,6 @@ ADDITIONAL = (
     "assigns, so it is a customer attribute rather than a tariff figure; it is expressible as further adjusting "
     "brackets once a multiple is chosen, and nothing in this corpus chooses one.")
 
-WFC_0301 = (
-    "Sheet 1 and Special Condition 11 (Sheet 10, Cal. P.U.C. Sheet 61133-E) exempt CARE and Medical Baseline sales "
-    "from the Wildfire Fund Charge. The Medical Baseline half is pge:e-tou-c-medical-baseline-2026-03-01, whose "
-    "exemption Price is urpx:multiplier -1 over this version's Wildfire Fund Charge Price. The CARE half is not "
-    "carried for this version: pge:d-care's exemption names the 2026-03-27 version's Price, not this one's, so a "
-    "CARE customer under this version is priced $0.00591 per kWh.")
-
-
-WFC_EVAL_OLD = (
-    "The Wildfire Fund Charge exemption: Sheet 1 states that customers receiving a medical baseline allowance do not "
-    "pay this charge and Special Condition 11 excludes CARE and medical baseline sales from it, but the filing carries "
-    "the $0.00591 per kWh charge with no applicability condition, so it is priced for every customer.")
-WFC_EVAL_NEW = (
-    "The CARE half of the Wildfire Fund Charge exemption: Special Condition 11 excludes CARE and medical baseline "
-    "sales from the charge, and the medical baseline half is pge:e-tou-c-medical-baseline-2026-03-01, but "
-    "pge:d-care's exemption names the 2026-03-27 version's Price, so a CARE customer under this version is priced "
-    "$0.00591 per kWh.")
-
-
 def review_note(t: Target) -> str:
     return (f" The Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) and the Medical "
             f"Baseline Wildfire Fund Charge exemption are {t.m}, a second document in this directory, whose "
@@ -416,16 +378,9 @@ def manifest(t: Target) -> None:
                 '  authority = "puc"\n'
                 '  docket = "D.22-11-033"' + text[r1:])
     add = ADDITIONAL.format(m=t.v)
-    if (t.sched, t.date) == ("e-1", "2026-03-01"):
+    if t.date == "2026-03-01":
         text = replace_deferral(text, "Wildfire Fund Charge exemption not modeled.", [])
-        text = replace_deferral(text, "Standard medical quantities are not modeled.", [add])
-    elif t.date == "2026-03-01":
-        text = replace_deferral(text, "Sheet 1 and Special Condition 11 (Sheet 10, Cal. P.U.C. Sheet 61133-E) exempt "
-                                      "CARE and Medical Baseline sales", [WFC_0301])
-        text = replace_deferral(text, "Special Condition 5 (Sheet 6, Cal. P.U.C. Sheet 61129-E) adds Code M", [add])
-    else:
-        text = replace_deferral(text, "Sheet 1 and Special Condition 11 (Sheet 10) exempt CARE and Medical Baseline "
-                                      "customers", [add])
+    text = replace_deferral(text, "Standard medical quantities are not modeled.", [add])
     text = text.replace(' "medical-baseline",\n', f' "{t.sched}-medical-baseline",\n')
     marker = '\nnotes = "'
     i = text.index(marker, text.index("[review]"))
@@ -443,9 +398,6 @@ def base_prose(t: Target) -> None:
                 f"{t.m}, a second document in this filing's directory.")
     if sentence not in version["urpx:description"]:
         version["urpx:description"] += sentence
-    if (t.sched, t.date) == ("e-tou-c", "2026-03-01"):
-        ev = version["urpx:hasCoverageClaim"]["urpx:explainedBy"]
-        ev["urpx:description"] = ev["urpx:description"].replace(WFC_EVAL_OLD, WFC_EVAL_NEW)
     t.base.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 

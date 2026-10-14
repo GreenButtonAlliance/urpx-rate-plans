@@ -25,16 +25,16 @@ sheets in force on its date (components to the published totals) before
 anything is written. Each predecessor ends at the effective date of the sheet
 that cancels it.
 
-The second documents in the E-1 and E-TOU-C directories follow: the E-1
-income-tier modifier gains a 2026-06-01 version here, and the Medical Baseline
-modifiers are written by dev/author_pge_medical_baseline.py, which is run
-after this script. D-CARE and E-FERA name the new base versions' subtotals and
-exempted Prices.
+The second documents in the E-1 directory follow: the E-1 income-tier
+modifier gains a 2026-06-01 version here, and the Medical Baseline modifier is
+written by dev/author_pge_medical_baseline.py, which is run after this script.
+D-CARE and E-FERA name the new base versions' subtotals and exempted Prices.
 
-Run from the repo root with the fetched documents directory, then the ladder,
-Medical Baseline and coverage-evaluation generators:
+E-TOU-C 2026-06-01 is generated from src/rate_plans/us/ca/pge/ (doc/dsl-source.md).
+
+Run from the repo root with the fetched documents directory, then the Medical
+Baseline and coverage-evaluation generators:
     python3 dev/author_pge_2026.py <dir holding the ELEC_SCHEDS_*.pdf fetched 2026-10-07>
-    python3 dev/author_pge_e_tou_c_baseline.py
     python3 dev/author_pge_medical_baseline.py
     python3 dev/resync_coverage_evaluations.py
 """
@@ -65,18 +65,17 @@ BOOK = "https://www.pge.com/tariffs/assets/pdf/tariffbook/"
 # (schedule, source version, new version, file name in the fetched directory)
 STEPS = [
     ("e-1", "2026-03-01", JUN, "ELEC_SCHEDS_E-1.pdf"),
-    ("e-tou-c", "2026-03-27", JUN, "ELEC_SCHEDS_E-TOU-C.pdf"),
     ("e-tou-d", "2026-03-27", JUN, "ELEC_SCHEDS_E-TOU-D.pdf"),
     ("ev2", "2026-03-27", JUN, "ELEC_SCHEDS_EV2__Sch_.pdf"),
     ("e-elec", "2026-03-27", JUN, "ELEC_SCHEDS_E-ELEC.pdf"),
     ("e-elec", JUN, AUG, "ELEC_SCHEDS_E-ELEC.pdf"),
     ("nbt", "2025-10-17", AUG, "ELEC_SCHEDS_NBT.pdf"),
 ]
-BASES = ["e-1", "e-elec", "e-tou-c", "e-tou-d", "ev2"]
-URL = {"e-1": "ELEC_SCHEDS_E-1.pdf", "e-tou-c": "ELEC_SCHEDS_E-TOU-C.pdf",
+BASES = ["e-1", "e-elec", "e-tou-d", "ev2"]
+URL = {"e-1": "ELEC_SCHEDS_E-1.pdf",
        "e-tou-d": "ELEC_SCHEDS_E-TOU-D.pdf", "ev2": "ELEC_SCHEDS_EV2 (Sch).pdf",
        "e-elec": "ELEC_SCHEDS_E-ELEC.pdf", "nbt": "ELEC_SCHEDS_NBT.pdf"}
-NAME = {"e-1": "E-1", "e-tou-c": "E-TOU-C", "e-tou-d": "E-TOU-D", "ev2": "EV2", "e-elec": "E-ELEC",
+NAME = {"e-1": "E-1", "e-tou-d": "E-TOU-D", "ev2": "EV2", "e-elec": "E-ELEC",
         "nbt": "NBT"}
 # Bytes first seen: data/documents.json records every one of these on 2026-09-23
 # except E-1, which PG&E reassembled on 2026-09-28 (same text, new bytes).
@@ -85,7 +84,6 @@ RETRIEVED = {"e-1": TODAY}
 # The rate sheet each version's predecessor is ended by: (sheet, leaf, cancels).
 CANCEL = {
     ("e-1", JUN): (1, "61362-E", "61247-E"),
-    ("e-tou-c", JUN): (2, "61364-E", "61249-E"),
     ("e-tou-d", JUN): (2, "61365-E", "61250-E"),
     ("ev2", JUN): (2, "61374-E", "61256-E"),
     ("e-elec", JUN): (2, "61363-E", "61248-E"),
@@ -128,8 +126,6 @@ CC_MONTHS = ["--08", "--09"]
 # Published totals on the sheets in force on 2026-06-01, $ per kWh; checked
 # against the sheet text and against the sum of the modeled components.
 PUBLISHED = {
-    "e-tou-c": {"summer-peak": "0.52240", "summer-off-peak": "0.39940",
-                "winter-peak": "0.39757", "winter-off-peak": "0.36757", "baseline-credit": "0.08140"},
     "e-tou-d": {"summer-peak": "0.47708", "summer-off-peak": "0.34212",
                 "winter-peak": "0.38747", "winter-off-peak": "0.34886"},
     "ev2": {"summer-peak": "0.53809", "summer-part-peak": "0.42760", "summer-off-peak": "0.22558",
@@ -268,14 +264,7 @@ def reconcile(slug: str, date: str, doc, sh: list[dict]) -> list[str]:
                     errs.append(f"e-1 {date} {season} {t}: components {got} != published {pub[t]}")
     else:
         for cell, total in pub.items():
-            if cell == "baseline-credit":
-                continue
             got = Decimal(p[f"price-gen-{cell}"]) + Decimal(p[f"price-dist-{cell}"]) + common
-            if slug == "e-tou-c":
-                got += Decimal(p["price-cia-t2"])
-                t1 = got - Decimal(p["price-cia-t2"]) + Decimal(p["price-cia-t1"])
-                if t1 != Decimal(total) - Decimal(pub["baseline-credit"]):
-                    errs.append(f"e-tou-c {date} {cell}: baseline usage {t1} != {total} - {pub['baseline-credit']}")
             if got != Decimal(total):
                 errs.append(f"{slug} {date} {cell}: components {got} != published {total}")
     for k, val in p.items():
@@ -291,15 +280,29 @@ def reconcile(slug: str, date: str, doc, sh: list[dict]) -> list[str]:
     return errs
 
 
+# E-1 Special Condition 2 (Sheet 4, 61099-E), Baseline Quantities in kWh per day.
+#   territory: (Code B summer, Code B winter, Code H summer, Code H winter)
+QUANTITY = {
+    "P": ("13.5", "11.0", "15.2", "26.0"),
+    "Q": ("9.8", "11.0", "8.5", "26.0"),
+    "R": ("17.7", "10.4", "19.9", "26.7"),
+    "S": ("15.0", "10.2", "17.8", "23.7"),
+    "T": ("6.5", "7.5", "7.1", "12.9"),
+    "V": ("7.1", "8.1", "10.4", "19.1"),
+    "W": ("19.2", "9.8", "22.4", "19.0"),
+    "X": ("9.8", "9.7", "8.5", "14.6"),
+    "Y": ("10.5", "11.1", "12.0", "24.0"),
+    "Z": ("5.9", "7.8", "6.7", "15.7"),
+}
+
+
 def ladder_check(cache: dict[str, list[dict]]) -> list[str]:
-    """The baseline quantities in force on 2026-06-01 (E-TOU-C Special Condition 1,
-    Sheet 5 61128-E; E-1 Special Condition 2, Sheet 4 61099-E) equal the table the
-    E-TOU-C ladder is built from, and the E-1 ladder's brackets carry them."""
-    import author_pge_e_tou_c_baseline as etouc  # noqa: E402
+    """The baseline quantities in force on 2026-06-01 (E-1 Special Condition 2,
+    Sheet 4 61099-E) equal QUANTITY, and the E-1 ladder's brackets carry them."""
     errs = []
-    for f, leaf in (("ELEC_SCHEDS_E-TOU-C.pdf", "61128-E"), ("ELEC_SCHEDS_E-1.pdf", "61099-E")):
+    for f, leaf in (("ELEC_SCHEDS_E-1.pdf", "61099-E"),):
         text = re.sub(r"\((?:R|I|T|L)\)|\|", " ", next(s for s in cache[f] if s["leaf"] == leaf)["text"])
-        for t, q in etouc.QUANTITY.items():
+        for t, q in QUANTITY.items():
             row = re.search(rf"^\s*{t}\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*$", text, re.M)
             if not row or row.groups() != q:
                 errs.append(f"{f} {leaf} territory {t}: sheet {row and row.groups()} != ladder {q}")
@@ -307,7 +310,7 @@ def ladder_check(cache: dict[str, list[dict]]) -> list[str]:
     bounds = set()
     walk(e1, lambda d: bounds.add(d["urpx:upperBound"]) if d.get("@type") == "urpx:ServiceBracket"
          and d.get("urpx:upperBound") and "t1" in d.get("@id", "") else None)
-    want = {x for q in etouc.QUANTITY.values() for x in q}
+    want = {x for q in QUANTITY.values() for x in q}
     if {str(Decimal(b)) for b in bounds} != {str(Decimal(w)) for w in want}:
         errs.append(f"E-1 Tier 1 upper bounds {sorted(bounds)} != Special Condition 2 {sorted(want)}")
     return errs
@@ -445,11 +448,6 @@ def drop_unreferenced_publications(doc) -> None:
 # Version descriptions: (old fragment, new fragment), each required to match once.
 DESCRIPTION = {
     ("e-1", JUN): [("", None)],
-    ("e-tou-c", JUN): [(" Compared to the 2026-03-01 version: California Climate Credit removed (Sheet 2 reissued "
-                        "under AL 7869-E / D.26-03-013, sheet 61249-E).",
-                        " Compared to the 2026-03-27 version: Sheet 2 (61364-E) is reissued under AL 7921-E / "
-                        "D.26-04-036 with the California Climate Credit restored, in the August and September bill "
-                        "cycles; no other price moved.")],
     ("e-tou-d", JUN): [],
     ("ev2", JUN): [("No baseline credit, no Conservation Incentive Adjustment, no climate credit.",
                     "No baseline credit and no Conservation Incentive Adjustment.")],
@@ -886,11 +884,6 @@ def recon_text(slug: str, date: str) -> str:
     if slug == "e-1":
         body = (f"Generation, Distribution, the all-usage components and the Conservation Incentive Adjustment "
                 f"of each tier sum to the Sheet 1 totals {pub['t1']}, {pub['t2']} and {pub['t2c']}")
-    elif slug == "e-tou-c":
-        body = ("in each of the four season and period cells, generation, distribution, the all-usage "
-                "components and the Tier 2 Conservation Incentive Adjustment sum to the Sheet 2 Total Usage rate ("
-                + ", ".join(v for k, v in pub.items() if k != "baseline-credit")
-                + "), and the Tier 1 adjustment gives that rate less the Baseline Credit of $0.08140")
     else:
         body = ("in each season and period cell, generation, distribution and the all-usage components sum to the "
                 "Sheet 2 total (" + ", ".join(dict.fromkeys(pub.values())) + ")")
@@ -1024,7 +1017,7 @@ def main(argv: list[str]) -> int:
         dump(doc_path(slug, date), doc)
         pdf = PGE / slug / "versions" / date / f"pge_{slug}_{date}.pdf"
         pdf.write_bytes((fetched / f).read_bytes())
-        if slug in ("e-1", "e-tou-c"):
+        if slug == "e-1":
             r19 = PGE / slug / "versions" / src / "pge_rule-19_2023-03-23.pdf"
             (pdf.parent / r19.name).write_bytes(r19.read_bytes())
         old = tomllib.loads((PGE / slug / "versions" / src / "tariff.toml").read_text(encoding="utf-8"))
@@ -1037,11 +1030,14 @@ def main(argv: list[str]) -> int:
     it, _ = income_tier(staged[("e-1", JUN)][2])
     dump(doc_path("e-1", JUN, "e-1-income-tier"), it)
     expire(doc_path("e-1", "2026-03-01", "e-1-income-tier"), JUN)
-    for b in ("e-1", "e-tou-c", "e-tou-d", "ev2"):
+    for b in ("e-1", "e-tou-d", "ev2"):
         sync_pcia(b)
     candidates([f"pge:{b}-{JUN}" for b in BASES] + [f"pge:e-elec-{AUG}"])
-    # The D.26-03-013 RateCase url, wherever the node is carried.
+    # The D.26-03-013 RateCase url, wherever the node is carried, except in
+    # E-TOU-C, whose documents are generated.
     for p in sorted(PGE.glob("*/versions/*/*.jsonld")):
+        if p.parts[-4] == "e-tou-c":
+            continue
         d = load(p)
         hit = False
         for n in d.get("@graph", []):

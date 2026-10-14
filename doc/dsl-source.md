@@ -132,5 +132,5 @@ Next, PSE Schedules 307 and 327, which share riders and Summary-Sheet versions: 
 ## Open questions
 
 1. Whether `tariff.toml` deferrals, READMEs and coverage evaluations are generated from the same source, which would retire the lints that check they agree with the JSON-LD.
-2. The order of porting the rest of the corpus, and whether the Python generators (`dev/author_*.py`, `scripts/build-*.py`) are retired as each family is ported.
+2. The order of porting the rest of the corpus.
 3. Where the expansion helpers live once stable: clj-urpx, or a separate library.

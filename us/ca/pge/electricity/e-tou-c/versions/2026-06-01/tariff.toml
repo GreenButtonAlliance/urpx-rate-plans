@@ -35,6 +35,9 @@ effective_date = "2026-06-01"
   docket = "D.22-11-033"
 
 # Extraction ------------------------------------------------------------------
+# The JSON-LD beside this manifest is generated from the Clojure source in
+# src/rate_plans/us/ca/pge/; [extraction] records how that source's values were
+# read from the tariff.
 [extraction]
 tool = "manual-diff"
 extracted_on = "2026-10-07"
@@ -74,8 +77,6 @@ Climate Credit.
 
 Supersession. Sheet 2 (61364-E) cancels 61249-E, the sheet of the 2026-03-27
 version it replaces, effective 2026-06-01; the 2026-03-27 version ends there.
-
-Derived from the 2026-03-27 version by dev/author_pge_2026.py.
 """
 
 # Generation ------------------------------------------------------------------
@@ -123,4 +124,4 @@ applicable_modifiers = [
 # Review ----------------------------------------------------------------------
 [review]
 status = "draft"
-notes = "Derived from the 2026-03-27 version by dev/author_pge_2026.py; see [extraction] notes for the sheets in force, what moved and the reconciliation. The Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) and the Medical Baseline Wildfire Fund Charge exemption are pge:e-tou-c-medical-baseline, a second document in this directory, whose adjusting brackets (urpx-org/urpx#80) move this version's tier bounds; Rule 19 is vendored here as pge_rule-19_2023-03-23.pdf."
+notes = "Generated from src/rate_plans/us/ca/pge/; see [extraction] notes for the sheets in force, what moved and the reconciliation. The Standard Medical Baseline Quantity of Electric Rule 19 (Code M and Code S) and the Medical Baseline Wildfire Fund Charge exemption are pge:e-tou-c-medical-baseline, a second document in this directory, whose adjusting brackets (urpx-org/urpx#80) move this version's tier bounds; Rule 19 is vendored here as pge_rule-19_2023-03-23.pdf."
