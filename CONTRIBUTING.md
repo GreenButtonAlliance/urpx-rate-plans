@@ -74,7 +74,13 @@ The Clojure libraries, [clj-urpx](https://github.com/grid-coordination/clj-urpx)
 clojure -Sdeps '{:deps {energy.grid-coordination/clj-urpx {:local/root "../clj-urpx"}}}' -M:nrepl
 ```
 
-Optionally, keep an nREPL running from the repository root with `clojure -M:nrepl`. `dev/shacl.sh` runs inside it when it answers on the port in `.nrepl-port`, which saves a JVM start on every SHACL run; `URPX_NREPL_PORT=none` turns that off. [CLAUDE.md](./CLAUDE.md) describes working in this repository with Claude Code.
+Optionally, keep an nREPL running from the repository root with `clojure -M:nrepl`. `dev/shacl.sh` runs inside it when it answers on the port in `.nrepl-port`, which saves a JVM start on every SHACL run; `URPX_NREPL_PORT=none` turns that off.
+
+## LLM coding assistants
+
+[`AGENTS.md`](./AGENTS.md) holds the shared instructions for LLM coding assistants (Codex, Cursor, GitHub Copilot and others read it; [`CLAUDE.md`](./CLAUDE.md) imports it for Claude Code). Change it by pull request when the project's conventions change.
+
+Keep your personal configuration out of the repo: `CLAUDE.local.md` (which Claude Code loads alongside `CLAUDE.md`), `.claude/`, `.cursor/` and the like are gitignored. To version them anyway, keep them in a separate private "shadow" repository and symlink them into your working tree; for a file you don't need to version, `.git/info/exclude` works too.
 
 ## Adding a new rate plan
 
