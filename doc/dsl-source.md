@@ -118,7 +118,6 @@ Each has a working workaround in the SCL source.
 | `urpx:offeredBy` is in no version schema | passed through unvalidated |
 | no builder for `ComparisonNode`, `UtilityOperator`, `OrganizationIdentity`, `OrganizationName` | raw maps |
 | `{:jsonld/list [...]}` emits `@list`, but no helper builds it and no schema checks it (`hasPossibleValues`) | literal `@list` maps |
-| `"24:00:00"` throws `DateTimeException`, though xsd:time allows it | mapped to `"00:00:00"`; a bare `"24:00"` is the authoring layer's to convert |
 | a double such as `0.1610` emits `"0.161"` | BigDecimals with explicit scale; builders will refuse doubles in xsd:decimal fields |
 
 ## Scope references

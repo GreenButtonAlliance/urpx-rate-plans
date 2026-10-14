@@ -178,11 +178,9 @@
     :interval-duration "P1D"}))
 
 (defn xsd-time
-  "\"17:00\" -> \"17:00:00\"; the end of the day, \"24:00\", is
-   \"00:00:00\", since urpx.dsl refuses \"24:00:00\"."
+  "\"17:00\" -> \"17:00:00\"."
   [hhmm]
-  (str (if (= hhmm "24:00") "00:00" hhmm)
-       ":00"))
+  (str hhmm ":00"))
 
 (defn hundredths
   "16.10M (cents, or percent) to 0.1610M, scale kept."
