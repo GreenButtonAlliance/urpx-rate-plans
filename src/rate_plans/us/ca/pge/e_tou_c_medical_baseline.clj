@@ -49,16 +49,20 @@
   "Version `date` of the modifier, over version `date` of E-TOU-C."
   [doc date next]
   (dsl/dsl-scope
+   {:outside (into {:pge/e-tou-c "urpx:RatePlan"
+                    (e-tou-c/price-id date "wildfire-fund") "urpx:Price"}
+                   (for [[rung] adjustments]
+                     [(e-tou-c/tier-id date rung) "urpx:ServiceTier"]))}
    (let [id (u/ider (keyword "pge" (str "e-tou-c-medical-baseline-" date)))
          q (:quantity (as-of pge/medical-quantity date))
          offsets {:quantity q
                   :multiple (e-tou-c/over-baseline-multiple q)}
-         wildfire-fund (e-tou-c/price-iri date "wildfire-fund")
+         wildfire-fund (e-tou-c/price-id date "wildfire-fund")
          words {:quantity (u/plain q)
                 :multiple (u/plain (:multiple offsets))
                 :base (dsl/curie (e-tou-c/version-id date))
                 :brackets (count adjustments)
-                :wildfire-fund wildfire-fund}]
+                :wildfire-fund (dsl/curie wildfire-fund)}]
      (dsl/urpx-package
       {:as (keyword "pge" (str "doc-e-tou-c-medical-baseline-" date))
        :target-urpx-version u/urpx-version
@@ -81,7 +85,7 @@
             :price-currency "USD"
             :commodity [:urpx/electricity]
             :service-role :urpx/bundledServiceRole
-            :applicable-to-rate-plan [(u/ref "pge:e-tou-c")]
+            :applicable-to-rate-plan [:pge/e-tou-c]
             :has-data-source-reference
             [(u/data-source rule-19
                             [1 3]
@@ -128,7 +132,7 @@
                       (vec (for [[rung bound offset] adjustments]
                              (dsl/service-bracket
                               (merge {:as (id "bracket-tier-baseline" rung (name bound))
-                                      :adjusts-service-tier (u/ref (e-tou-c/tier-iri date rung))}
+                                      :adjusts-service-tier (e-tou-c/tier-id date rung)}
                                      (case bound
                                        :lower {:lower-bound-offset (offsets offset)}
                                        :upper {:upper-bound-offset (offsets offset)})))))})]})]
@@ -150,10 +154,10 @@
               :has-price
               [(dsl/price
                 {:as (id "price-wildfire-fund-exemption")
-                 :name (str "Medical Baseline Wildfire Fund Charge exemption: the negative of " wildfire-fund)
+                 :name (str "Medical Baseline Wildfire Fund Charge exemption: the negative of " (dsl/curie wildfire-fund))
                  :references-price-definition (id "pd-wildfire-fund-exemption")
                  :multiplier -1M
-                 :based-on-price [(u/ref wildfire-fund)]
+                 :based-on-price [wildfire-fund]
                  :start-date date})]})
             :offered-by (u/utility-operator pge/pge)
             :for-rate-plan-modifier :pge/e-tou-c-medical-baseline

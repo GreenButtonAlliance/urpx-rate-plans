@@ -14,7 +14,7 @@ Every corpus document round-trips through clj-urpx RDF-identically when emitted 
 2. Typed definitions. Every definition is made with one macro, `defurpx`, naming its kind with a keyword. The value is validated against that kind's Malli schema when the namespace loads; a failure names the file, the line of the form, and the path to the bad value inside it.
 3. Generation by kind. Each definition's kind is in its var metadata; `(defs-of-kind kind nses)` returns the definitions of a kind in the namespaces given, and the generator writes every `:document` among them. There is no manifest of documents and no global registry.
 4. Shared data is keyed by the date it takes effect and read as of each version's date. It is never edited in place, so an older version regenerates unchanged after a newer one is added.
-5. References across documents are full IRIs, forward or back. A modifier names its base plan's Prices and tiers through the same function the base uses to mint them.
+5. A reference to a node in another document is its keyword, declared under `dsl-scope`'s `:outside` with its `@type`, so the scope checks it against its slot's range. A modifier names its base plan's Prices and tiers through the same function the base uses to mint them.
 6. A sentence that restates table facts (rates, hours, multipliers) is generated from the tables. Other prose is a template filled from the definitions.
 7. Unknown keys refuse. A misspelled key is an error, not a silently kept property.
 8. Pretty-printed source, one form per line unless a form is short; `clj-kondo` clean.
@@ -111,7 +111,6 @@ Each has a working workaround in the SCL source.
 |---|---|
 | `dsl-scope` local ids drop their prefix | build every `@id` as a full CURIE |
 | two keywords in one scope (`:scl/summer`, `:pge/summer`) yield the same `@id` with no error | full CURIEs |
-| references must be declared before use, so a version cannot name its enclosing plan | references are CURIE strings, forward or back |
 | a qualified keyword value inside a scope is read as a local reference, so `:urpx/allDays` throws | vocabulary values as plain keywords converted to references |
 | `condition-expression` rejects short keys (`:root-node`): `alias-map` reads the wrapped schema without dereferencing it | dereference before deriving aliases |
 | unknown keys are kept silently | refuse any key that is neither a schema key nor its alias |

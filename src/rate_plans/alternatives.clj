@@ -42,8 +42,7 @@
            :custom-dimension-property (:property dimension)
            :has-possible-values
            (dsl/rdf-list (for [[_ n] alternatives]
-                           {:jsonld/value n
-                            :jsonld/type "xsd:string"}))})]})
+                           (dsl/literal n "xsd:string")))})]})
       :has-profile-alternative (mapv #(alternative id dimension %)
                                      alternatives)})))
 
@@ -53,6 +52,8 @@
   [{:keys [utility schedule version next source pages base base-ids alternatives
            percentages per-kwh per-kwh-since multipliers dimension names] :as plan}]
   (dsl/dsl-scope
+   {:outside (into {(keyword (first (:prefix utility)) base) "urpx:RatePlan"}
+                   (vals base-ids))}
    (let [[p] (:prefix utility)
          id (u/ider (keyword p (str schedule "-" version)))
          per-kwh-rows (for [[j rows] per-kwh
@@ -129,7 +130,7 @@
                         " percent of "
                         of-what)
              :multiplier (u/hundredths pct)
-             :based-on-price [(u/ref (base-ids based-on))]}))
+             :based-on-price [(first (base-ids based-on))]}))
 
          per-kwh-price
          (fn [[s label c]]
@@ -177,7 +178,7 @@
            :price-currency "USD"
            :commodity [:urpx/electricity]
            :service-role :urpx/bundledServiceRole
-           :applicable-to-rate-plan [(u/ref (str p ":" base))]
+           :applicable-to-rate-plan [(keyword p base)]
            :has-data-source-reference [(u/data-source source pages)]
            :has-eligibility-rule
            [(u/customer-kind-rule (u/ider (id "er-residential"))

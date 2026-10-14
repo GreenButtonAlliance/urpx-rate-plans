@@ -3,7 +3,6 @@
 (ns rate-plans.urpx
   "Generic URPX building blocks over urpx.dsl. Knows nothing about any
    utility."
-  (:refer-clojure :exclude [ref])
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [urpx.dsl :as dsl]
@@ -28,11 +27,6 @@
 
 ;; A package is built in one dsl-scope: an entity is named by `:as` with a
 ;; keyword from `ider`, and the same keyword is a reference to it.
-(defn ref
-  "A reference to an entity in another document, by its CURIE."
-  [curie]
-  {:jsonld/id curie})
-
 (defn ider
   "(ider :scl/rtc-2026-01-01) returns f where (f \"a\" :b) is
    :scl/rtc-2026-01-01-a-b and (f) is the base."

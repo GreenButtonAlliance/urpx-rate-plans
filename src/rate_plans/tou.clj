@@ -109,12 +109,12 @@
 ;; ---------------------------------------------------------------------------
 
 (defn ids
-  "The IRIs another document may reference in this plan's version `date`."
+  "The keywords naming what another document may reference in this plan's
+   version `date`, with their @types."
   [prefix schedule date fixed]
-  (let [id (comp dsl/curie
-                 (u/ider (keyword prefix (str schedule "-" date))))]
-    {:summary-energy (id "summary-energy")
-     :price-fixed (id "price" fixed)}))
+  (let [id (u/ider (keyword prefix (str schedule "-" date)))]
+    {:summary-energy [(id "summary-energy") "urpx:PriceSummary"]
+     :price-fixed [(id "price" fixed) "urpx:Price"]}))
 
 (defn- charges [id {:keys [identifier version rates tou-periods price-summary]}]
   (let [sched (str "(Schedule " identifier ")")

@@ -187,15 +187,15 @@
   [date]
   (keyword "pge" (str "e-tou-c-" date)))
 
-(defn tier-iri
-  "The IRI of baseline tier `rung` (t1, t2, t2c) of version `date`."
+(defn tier-id
+  "The keyword naming baseline tier `rung` (t1, t2, t2c) of version `date`."
   [date rung]
-  (dsl/curie ((u/ider (version-id date)) "tier-baseline" rung)))
+  ((u/ider (version-id date)) "tier-baseline" rung))
 
-(defn price-iri
-  "The IRI of the Price of charge `k` in version `date`."
+(defn price-id
+  "The keyword naming the Price of charge `k` in version `date`."
   [date k]
-  (dsl/curie ((u/ider (version-id date)) "price" k)))
+  ((u/ider (version-id date)) "price" k))
 
 ;; ---------------------------------------------------------------------------
 ;; Prose
@@ -371,8 +371,7 @@
   (let [c (id "pa-income-territory-code")
         string-list (fn [xs]
                       (dsl/rdf-list (for [x xs]
-                                      {:jsonld/value x
-                                       :jsonld/type "xsd:string"})))]
+                                      (dsl/literal x "xsd:string"))))]
     (dsl/profile-alternatives
      {:as c
       :name (:ladder-names prose)
@@ -664,7 +663,7 @@
 (defn- vintage-pcia
   "The Vintaged PCIA modifier version in effect on `date`, which applies to
    every base version that reads the same vintage table entry."
-  [date operator]
+  [date]
   (let [vdate (vintage-date date)
         rates (vintage-pcia-rates vdate)
         years (sort (keys rates))
@@ -693,7 +692,7 @@
         :applicable-to-rate-plan-version
         (vec (for [d (sort (keys filings))
                    :when (= vdate (vintage-date d))]
-               (u/ref (dsl/curie (version-id d)))))
+               (version-id d)))
         :has-data-source-reference
         [(u/data-source (assoc tariff :retrieved (:retrieved filing))
                         [8 8]
@@ -763,8 +762,7 @@
                  {:dimension-display-name "Departure Vintage Year"
                   :custom-dimension-property "departureVintage"
                   :has-possible-values (dsl/rdf-list (for [y years]
-                                                       {:jsonld/value (str y)
-                                                        :jsonld/type "xsd:gYear"}))})]})
+                                                       (dsl/literal (str y) "xsd:gYear")))})]})
              :has-profile-alternative
              (vec (for [y years
                         :let [k (str "vintage-" y)]]
@@ -799,7 +797,7 @@
                          :name (str "Vintage PCIA \u2014 " y
                                     (when (neg? (rates y)) " (credit)"))
                          :unit-price (rates y)})]})))})]})
-        :offered-by operator
+        :offered-by (u/utility-operator pge/pge)
         :for-rate-plan-modifier :pge/e-tou-c-vintage-pcia
         :has-coverage-claim
         (u/coverage-claim (keyword "pge" (str "cc-e-tou-c-vintage-pcia-" vdate))
@@ -819,6 +817,10 @@
    letters and decision it cites."
   [{:keys [initial-effective-date] :as doc} date next]
   (dsl/dsl-scope
+   {:outside (into {}
+                   (for [d (keys filings)
+                         :when (not= d date)]
+                     [(version-id d) "urpx:RatePlanVersion"]))}
    (let [id (u/ider (version-id date))
          filing (filings date)
          ctx {:rate (as-of rates date)
@@ -828,10 +830,9 @@
               :tiers (as-of tou-tiers date)}
          {:keys [rate bsc credit quantities tiers]} ctx
          ss (as-of seasons date)
-         operator (u/utility-operator pge/pge)
          letters (distinct [(:advice-letter (filings (first (sort (keys filings)))))
                             (:advice-letter filing)])
-         vpcia (vintage-pcia date operator)]
+         vpcia (vintage-pcia date)]
      (into [(dsl/urpx-package
              {:as (keyword "pge" (str "doc-e-tou-c-" date))
               :target-urpx-version u/urpx-version
@@ -896,7 +897,7 @@
                    :has-modifier-options [:pge/e-tou-c-vintage-pcia]
                    :has-modifier-version-options
                    [(vintage-id (vintage-date date))]
-                   :offered-by operator
+                   :offered-by (u/utility-operator pge/pge)
                    :for-rate-plan :pge/e-tou-c
                    :has-rate-case (some-> (:decision filing) pge/decision-id)
                    :has-coverage-claim
