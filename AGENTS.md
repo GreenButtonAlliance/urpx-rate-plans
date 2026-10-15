@@ -49,10 +49,10 @@ mineru -p <schedule>.pdf -o extracted/ -b pipeline
 
 The Markdown lands at `extracted/<schedule>/auto/<schedule>.md`, with its images in `images/` beside it. `extracted/` is gitignored ([LAYOUT.md](./LAYOUT.md)); record the tool, its version and the date in the manifest's `[extraction]` table.
 
-Install MinerU in its own environment, because its dependencies pin versions that conflict with other Python tooling:
+Install MinerU 3.x in its own environment, because its dependencies pin versions that conflict with other Python tooling. MinerU 4.0 replaced the `mineru -p ... -b pipeline` command line and the `pipeline` extra. MinerU 3.x needs Python 3.10 to 3.13; if pipx's default Python is newer, add `--python python3.12`.
 
 ```bash
-pipx install 'mineru[pipeline]'
+pipx install 'mineru[pipeline]<4'
 ```
 
 If it then fails to import `six`, add it with `pipx inject mineru six`. The first run downloads several GB of models.
