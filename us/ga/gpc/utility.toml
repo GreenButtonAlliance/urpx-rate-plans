@@ -1,0 +1,125 @@
+# Georgia Power Company (GPC) utility-level discovery manifest.
+# See schema/utility-manifest.schema.json and LAYOUT.md §5.
+
+utility = "gpc"
+
+# Identity. Read through dev/utilities.py; see
+# schema/utility-manifest.schema.json for what each field means.
+#
+# legal_name: as the company names itself on the title page of its "Georgia
+# Power Company Rules, Regulations and Rate Schedules for Electric Service"
+# (https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/rules-regs.pdf,
+# retrieved 2026-10-15) and in its filings with the Georgia PSC. The first
+# filing's urpx:legalName must agree with it; dev/lint_utility_manifests.py
+# enforces that.
+#
+# eia_id: EIA-861 2024, Utility_Data_2024.xlsx, Utility Number 7140, Utility
+# Name "Georgia Power Co", State GA, Ownership Type Investor Owned, NERC Region
+# SERC. Sales_Ult_Cust_2024.xlsx gives BA Code SOCO.
+# https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip, retrieved
+# 2026-10-15.
+short_name = "Georgia Power"
+legal_name = "Georgia Power Company"
+utility_class = "iou"
+eia_id = "7140"
+
+# Where Georgia Power publishes electric tariffs.
+tariff_index_urls = [
+ # PRIMARY (tariff library): residential rate plans. Each plan page links its
+ # current tariff sheet and the riders that apply to it. Per-schedule PDFs are
+ # served from
+ # https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/<slug>.pdf
+ # (r.pdf, tou-reo.pdf, tou-oa.pdf, tou-rd.pdf, pps.pdf, flat.pdf, pbd.pdf,
+ # fcr.pdf, tou-fcr.pdf, tou-fcr-tp.pdf, eccr.pdf, dsm-r.pdf, mff.pdf, iqd.pdf,
+ # opt.pdf, lt.pdf, rules-regs.pdf). The pages are static HTML; a plain fetch
+ # returns the links.
+ "https://www.georgiapower.com/residential/rate-plans.html",
+ "https://www.georgiapower.com/residential/rate-plans/residential-service.html",
+
+ # Business tariff library: the commercial schedules and the riders shared
+ # with residential plans.
+ "https://www.georgiapower.com/business/rate-plans-tariffs.html",
+
+ # Advice-letter and docket listing: the Georgia PSC FACTS docket search.
+ # A docket page sits at https://psc.ga.gov/search/facts-docket/?docketId=<N>.
+ "https://psc.ga.gov/search/facts-advanced-search/",
+]
+
+scrape_notes = """
+## Regulatory
+
+Georgia Power is an investor-owned utility regulated by the Georgia Public
+Service Commission (PSC). Every tariff sheet reads "Service hereunder is
+subject to the Rules and Regulations for Electric Service on file with the
+Georgia Public Service Commission". tariff.toml [regulator] uses
+authority = "puc", which the tariff manifest schema defines to cover
+state-commission equivalents, with the PSC docket as docket.
+
+Dockets behind the sheets current at 2026-10-15:
+
+- Docket 44280, "Georgia Power Company's 2022 Rate Case", still open. The 2025
+  base-rate freeze and the 2026 storm damage recovery were decided in it. Its
+  2026-06-30 "Storm Damage Recovery Tariff Update" (FACTS document 227071)
+  filed R-31, TOU-REO-19, TOU-OA-15, TOU-RD-12, PPS-11, ECCR-15, DSM-R-16 and
+  OPT-8, replacing R-30, TOU-REO-18, TOU-OA-14, TOU-RD-11, PPS-10, ECCR-14,
+  DSM-R-15 and OPT-7, with a redline of each. Its cover letter "proposes
+  implementation of this compliance filing beginning July 1, 2026".
+- Docket 56765, "Georgia Power Company's Fuel Cost Recovery (FCR-27)". Short
+  Order Adopting Stipulation 2026-05-28 (document 226750); Order Adopting
+  Stipulation 2026-08-04 (document 227445). FCR-27, TOU-FCR-7 and
+  TOU-FCR-TP-5 replaced FCR-26, TOU-FCR-6 and TOU-FCR-TP-4 in the 2026-05-29
+  filing (document 226753).
+
+From 2026-06-01 until the compliance tariffs were implemented, the approved
+base-rate change was billed through Temporary Base Rate Adjustment Riders: a
+percentage of the base bill per rate (R and R-M 1.6554%, Pre-Pay 1.6652%,
+OPT 1.6780%), listed in "June 2026 Temp Adj and Calc.xlsx" inside document
+226753. The same workbook states the bill calculation order: base bill;
+temporary adjustment; ECCR and DSM as percentages of that total base bill;
+fuel per kWh; Income Qualified Discount credits; MFF as a percentage of the
+bill before MFF; taxes.
+
+FACTS docket and document pages build their tables with JavaScript, so a plain
+fetch returns no filings; spel reads them. A document page links its files at
+https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/<documentId>/<fileId>,
+which curl downloads without a session. The PSC's orders are scanned PDFs with
+no text layer. spel 0.9.46 on Windows rejects a URL given to `spel open`
+(java.nio InvalidPathException on the ":" of "https:"); open the bare host,
+then navigate with `spel eval-js "location.href='<url>'"`.
+
+## Tariff sheet recordkeeping
+
+Each sheet's header gives its schedule code with a revision suffix (R-31), a
+page "PAGE NO." in the tariff book (2.10 for R), a revision ("Original",
+"First", ...) and an effective date stated as a billing month, not a calendar
+date: "With Bills Rendered for the Billing Month of June, 2026". LT-1 is the
+exception, "With Service Rendered on or After June 17, 1975". The June 2026
+billing month on the compliance sheets predates their proposed July 1, 2026
+implementation (above).
+
+The schedule code changes with every revision (R-30 to R-31), so a corpus
+<schedule> slug drops the suffix: r, tou-reo, tou-oa, tou-rd.
+
+Georgia Power keeps superseded copies of some sheets under
+.../pdfs/residential-pdfs/tariffs/<year>/ (2025/tou-reo-18.pdf,
+2025/tou-rd-11.pdf, January 2025 billing month). The Pay by Day page links
+.../pdfs/residential-pdfs/pay-by-day-tariff.pdf, which is PBD-1's January 2020
+first revision; the current one is .../pdfs/tariffs/pbd.pdf.
+
+## Holidays
+
+The time-of-use schedules (TOU-REO, TOU-OA, TOU-RD, and the TOU-FCR and
+TOU-FCR-TP fuel riders) treat the on-peak hours as off-peak "on days in which
+the following holidays are observed: Independence Day and Labor Day", and
+state no weekend observance rule. Labor Day is always a Monday, so only
+Independence Day needs one.
+
+Georgia's holiday statute, O.C.G.A. § 1-4-1(a), recognizes "All days which
+have been designated as of January 1, 2022, as public and legal holidays by
+the federal government" and days the Governor proclaims, and states no rule
+for a holiday falling on a weekend (codes.findlaw.com/ga/title-1-general-provisions/ga-code-sect-1-4-1/,
+text current as of 2024-03-28, retrieved 2026-10-15). Per LAYOUT.md §4.4, with
+neither the tariff nor the state stating one, federal law governs: 5 U.S.C.
+6103(b), Saturday observed on the preceding Friday and Sunday on the following
+Monday.
+"""
