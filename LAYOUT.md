@@ -649,7 +649,7 @@ source names things it happened to see, at whatever granularity it uses. Only an
 inventory source creates a schedule; an observed name attaches to one it matches,
 and the match rule is recorded so the attachment can be checked.
 
-Three inventory sources exist, one per investor-owned utility, and they are of
+Four inventory sources exist, one per investor-owned utility, and they are of
 very different quality. The counts below are as of 2026-09-23. A utility adds and
 withdraws schedules, and neither `data/inventories/*.json` nor
 `reports/rate-plans-to-model.md` stamps an as-of of its own yet, so this date is
@@ -661,6 +661,8 @@ listing is virtualized and pages at 30 rows, so scraping the rendered page
 returned 30 of Other Rates' 72 files and looked complete. Every SCE count is
 checked against the folder's own `ItemCount` for that reason, and the adapter
 refuses on a mismatch rather than writing a short inventory.
+
+Georgia Power's, added 2026-10-16, is like PG&E's a regex over href attributes, but over pages that were never meant as an index. It publishes no list of its schedules: each sheet is served from one folder (`/content/dam/georgia-power/pdfs/tariffs/<slug>.pdf`) and linked from the rate-plan pages that use it, the riders from the residential and business hub pages and the schedules from the pages one level below them. The adapter reads both levels and refuses if the hubs link no pages below, because the hubs alone name only the riders. A schedule no rate-plan page links is not seen.
 
 **An inventory names documents; the corpus models rate plans, and they are not
 the same grain.** One SCE PDF is the source for several directories here:
