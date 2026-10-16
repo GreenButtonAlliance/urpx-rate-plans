@@ -289,6 +289,67 @@ def sdge_tariff_portal(offline: bool):
 
 sdge_tariff_portal.kind = "inventory"
 
+GPC_SITE = "https://www.georgiapower.com"
+GPC_HUBS = ("/residential/rate-plans.html", "/business/rate-plans-tariffs.html")
+
+
+def gpc_tariff_library(offline: bool):
+    """Georgia Power's tariff library, read from its residential and business rate pages.
+
+    Georgia Power publishes no page listing its schedules. Each tariff sheet is
+    served from one folder, /content/dam/georgia-power/pdfs/tariffs/<slug>.pdf,
+    and linked from the rate-plan pages that use it: the two hub pages carry the
+    riders, and the pages one level below them carry the schedules (r.pdf only
+    from residential-service.html). So the inventory is every link into that
+    folder from the hubs and the pages they link under the same paths. The pages
+    are static HTML; no browser is needed.
+
+    Links elsewhere are not schedules and are not recorded: terms-and-conditions
+    PDFs, and superseded sheets kept under residential-pdfs/ (tariffs/2025/
+    tou-reo-18.pdf, and pay-by-day-tariff.pdf, which is PBD-1's 2020 revision
+    where tariffs/pbd.pdf is current). The store holds the current document per
+    schedule, as it does for every other publisher.
+
+    The code is the file's stem upper-cased, which is the schedule code without
+    its revision suffix: the sheet in r.pdf is headed R-31, and the suffix
+    changes with every revision (us/ga/gpc/utility.toml).
+    """
+    if offline:
+        return
+
+    def get(path):
+        return urllib.request.urlopen(urllib.request.Request(
+            GPC_SITE + path, headers=dict(UA)), timeout=60).read().decode("utf-8", "replace")
+
+    pages = {hub: get(hub) for hub in GPC_HUBS}
+    below = sorted({p for body in pages.values() for p in re.findall(
+        r'href="(?:https://www\.georgiapower\.com)?'
+        r'(/(?:residential/rate-plans|business/rate-plans-tariffs)/[^"#?]+\.html)"', body)})
+    if not below:
+        print(f"REFUSING: {', '.join(GPC_SITE + h for h in GPC_HUBS)} linked no rate-plan "
+              f"pages. The pages loaded, so the link shape changed; reading only the hubs "
+              f"would miss every schedule and keep only the riders.", file=sys.stderr)
+        raise SystemExit(3)
+    for path in below:
+        pages[path] = get(path)
+    stems = sorted({m for body in pages.values() for m in re.findall(
+        r'href="(?:https://www\.georgiapower\.com)?'
+        r'/content/dam/georgia-power/pdfs/tariffs/([A-Za-z0-9_-]+)\.pdf"', body)})
+    if not stems:
+        print("REFUSING: the Georgia Power rate pages linked no tariff sheets. Writing an "
+              "empty inventory would read as 'Georgia Power publishes nothing'.",
+              file=sys.stderr)
+        raise SystemExit(3)
+    for stem in stems:
+        yield "gpc", slug(stem), {
+            "code": stem.upper(),
+            "document_url": f"{GPC_SITE}/content/dam/georgia-power/pdfs/tariffs/{stem}.pdf",
+            "source": "gpc-tariff-library",
+        }
+
+
+gpc_tariff_library.kind = "inventory"
+
 
 def midas(offline: bool):
     """Schedule names the CEC MIDAS feed carries, for the parties that name one.
@@ -338,6 +399,7 @@ midas.kind = "observed"
 SOURCES = {"pge-tariff-book": pge_tariff_book,
            "sce-tariff-book": sce_tariff_book,
            "sdge-tariff-portal": sdge_tariff_portal,
+           "gpc-tariff-library": gpc_tariff_library,
            "midas": midas}
 
 
@@ -406,6 +468,11 @@ def main() -> int:
     # observed names would be written as if they were the inventory: PG&E went
     # from its 104 published schedules to 216 observed names on one --offline
     # run. Carry the stored inventory forward and attach against that instead.
+    # Its sources_run and slug collisions are carried too: no source of this run
+    # read it, and dropping or restamping them would rewrite every other
+    # utility's file on a one-source run, losing the record of why a schedule
+    # carries also_named.
+    carried_sources: dict[str, list[str]] = {}
     for f in sorted(OUT.glob("*.json")) if OUT.exists() else []:
         prior_doc = json.loads(f.read_text())
         util = prior_doc["utility"]
@@ -415,6 +482,9 @@ def main() -> int:
             rec.pop("observed", None)   # re-attached below from this run
             inventory[util][sch] = rec
         have_inventory.add(util)
+        carried_sources[util] = prior_doc.get("sources_run", sorted(ran))
+        if prior_doc.get("slug_collisions"):
+            collisions[util] = prior_doc["slug_collisions"]
         print(f"  {util}: carried forward {len(prior_doc['schedules'])} stored schedule(s); "
               f"no inventory source ran")
     for util, names in observed.items():
@@ -464,7 +534,7 @@ def main() -> int:
                 out[sch] = p_
         has_inv = util in have_inventory
         doc = {"utility": util, "generator": "dev/build_inventory.py",
-               "sources_run": sorted(ran),
+               "sources_run": carried_sources.get(util, sorted(ran)),
                "has_inventory_source": has_inv,
                "note": ("What schedules this utility is known to publish, and which source "
                         "said so. first_seen is never restamped, so a run that finds nothing "

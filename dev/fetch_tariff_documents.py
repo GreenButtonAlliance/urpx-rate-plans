@@ -34,6 +34,7 @@ mine itself (LAYOUT.md section 10b).
 
     python3 dev/fetch_tariff_documents.py            # fetch what is new or changed
     python3 dev/fetch_tariff_documents.py --recheck  # ignore stored validators
+    python3 dev/fetch_tariff_documents.py --utility gpc  # one utility; other rows kept as they are
     python3 dev/fetch_tariff_documents.py --status   # what is known, no network
     python3 dev/fetch_tariff_documents.py --unwrap F # unwrap a hand-fetched file
 """
@@ -482,6 +483,9 @@ def main() -> int:
     ap.add_argument("--unwrap", nargs="+", metavar="FILE",
                     help="unwrap SharePoint multipart envelopes in these files in place, "
                          "no network; for documents fetched by hand")
+    ap.add_argument("--utility", action="append", metavar="UTILITY",
+                    help="fetch only this utility's documents (repeatable); every other "
+                         "row is carried forward unchanged, without a request")
     ap.add_argument("--workers", type=int, default=4)
     args = ap.parse_args()
     if args.unwrap:
@@ -500,7 +504,10 @@ def main() -> int:
         print(f"{len(prior)} URL(s) recorded: " + ", ".join(f"{k} {v}" for k, v in by.most_common()))
         return 0
 
-    canonical = [u for u, d in targets.items() if d["canonical"] == u]
+    def selected(t: dict) -> bool:
+        return not args.utility or owner(t["segments"]) in args.utility
+
+    canonical = [u for u, d in targets.items() if d["canonical"] == u and selected(d)]
     print(f"{len(targets)} document URL(s), {len(canonical)} distinct after normalizing; "
           f"fetching with {args.workers} workers", flush=True)
 
@@ -593,10 +600,20 @@ def main() -> int:
             results[url] = row
 
     for url, t in targets.items():
-        if url not in results:
-            results[url] = {"url": url, "identifiers": t["identifiers"],
-                            "named_by": t["segments"], "state": "alias",
-                            "alias_of": t["canonical"]}
+        if url in results:
+            continue
+        if not selected(t):
+            continue
+        results[url] = {"url": url, "identifiers": t["identifiers"],
+                        "named_by": t["segments"], "state": "alias",
+                        "alias_of": t["canonical"]}
+    # Another utility's rows are not this run's to judge, so they are kept as
+    # the last run recorded them, including rows whose source cannot be read
+    # here: without the mined MIDAS store, nothing names MIDAS's links at all.
+    if args.utility:
+        for url, p in prior.items():
+            if url not in results and owner(p["named_by"]) not in args.utility:
+                results[url] = p
 
     clashes = file_path_clashes(results.values())
     if clashes:
