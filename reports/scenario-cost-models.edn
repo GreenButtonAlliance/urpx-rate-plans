@@ -29,9 +29,9 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 168
-   :scenario-cost-models 7334
-   :servable 149
+  {:compositions 169
+   :scenario-cost-models 7336
+   :servable 150
    :not-priced-per-kwh 9
    :blocked 6
    :not-measured 4}
@@ -269,6 +269,12 @@
    :selections 2
    :outcome :servable
    :baseline-keys ["plan|us/ga/gpc/electricity/r/versions/2026-06-01/rate-plan_gpc_r_2026-06-01.jsonld"]}
+  {:base "gpc:r-2026-06-01"
+   :modifiers ["gpc:iqd-2024-05-01"]
+   :open-dimensions ["gpc:r-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:r"]}
   {:base "ladwp:r-1a-2026-10-01"
    :modifiers []
    :open-dimensions []
@@ -1797,6 +1803,12 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-r-2026-06-01--87baa316e802"
   {:name "Schedule R Residential Service [gpc:r-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-r-2026-06-01--iqd-2024-05-01--0a56a140eb01"
+  {:name "Schedule R Residential Service [gpc:r-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-r-2026-06-01--iqd-2024-05-01--e7c4ac873199"
+  {:name "Schedule R Residential Service [gpc:r-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/ladwp/scm-r-1a-2026-10-01"
   {:name "Schedule R-1(A) Residential Service — Standard [ladwp:r-1a-2026-10-01]"

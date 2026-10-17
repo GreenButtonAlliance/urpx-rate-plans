@@ -127,6 +127,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | cpau | e-eec-1 | modifier | 2025-09-01, 2026-07-01 |
 | CA | cpau | e-hra | modifier | 2023-01-01 |
 | CA | cpau | e-nse-1 | modifier | 2025-09-01, 2026-07-01 |
+| GA | gpc | iqd | modifier | 2024-05-01 |
 | GA | gpc | r | rate-plan | 2026-06-01 |
 | CA | ladwp | ez-save | modifier | 2008-09-01 |
 | CA | ladwp | lifeline | modifier | 2008-09-01 |
