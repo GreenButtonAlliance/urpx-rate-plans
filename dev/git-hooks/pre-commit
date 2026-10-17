@@ -108,8 +108,15 @@ changes="$gen_root/.git/hook-changes"
 in_gen_root git status --porcelain -z --untracked-files=all -- reports/ catalog/ > "$changes"
 staged_any=0
 while IFS= read -r -d '' entry; do
-    st=${entry:0:2}
+    # Read only the second status column, the work tree against the index. The
+    # throwaway repository has no commit, so the first column compares the index
+    # with an empty HEAD and reads A for every file. Taking both columns staged
+    # every report on every commit, reported "staged regenerated files" when
+    # nothing had changed, and never matched " D", so a report a generator
+    # removed reached cp as a missing file and failed the hook.
+    st=${entry:1:1}
     path=${entry:3}
+    [ "$st" = " " ] && continue
     if git ls-files --error-unmatch -- "$path" > /dev/null 2>&1; then
         git diff --quiet -- "$path" && in_sync=1 || in_sync=0
     elif [ ! -e "$path" ] || cmp -s "$gen_root/$path" "$path"; then
@@ -117,7 +124,7 @@ while IFS= read -r -d '' entry; do
     else
         in_sync=0
     fi
-    if [ "$st" = " D" ]; then
+    if [ "$st" = "D" ]; then
         git rm -q --cached -- "$path"
         [ "$in_sync" -eq 1 ] && rm -f "$path"
     elif [ "$in_sync" -eq 1 ]; then
