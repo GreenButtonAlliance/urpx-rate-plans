@@ -107,6 +107,17 @@ THE RULES, each traceable to a sentence in the source schedule:
     second multiplier over that Price alone. The percentages differ by year, so
     each SCL multiplier names only the RTS version of its own effective date.
 
+  GPC, riders every Schedule R customer pays, carried on the base filing itself
+    rather than in a modifier. ECCR-15 and DSM-R-16 increase "their base bill
+    calculations", so the subtotal whose @id ends "-summary-base-bill" holds the
+    Schedule R energy charges, the Prices whose PriceDefinition is a
+    urpx:usageCharge. MFF-11 applies "to the total revenues of each bill", so
+    the one ending "-summary-mff-bill" holds those and the FCR fuel charges
+    (urpx:fuelCharge) as well. Each rider takes the same percentage of the
+    per-day Basic Service Charge through a second multiplier over that Price
+    alone, which names the filing's own plan: a base filing that inlines no
+    modifier version is applicable to its own plan.
+
 Both utilities say TOTAL BILL. A bill carries each charge once, at the rate
 applicable to the usage being billed, so a charge that varies by TOU period or
 by service tier belongs in the subtotal once and not once per band. URPX says the
@@ -159,6 +170,11 @@ EXCLUDE_PGE = {
 }
 EXCLUDE_SCL = re.compile(r"-price-base-service-charge$")
 GENERATION = "-summary-generation"
+# GPC subtotal suffix -> the charge types its members are billed as.
+GPC_SUMMARIES = {
+    "-summary-base-bill": {"urpx:usageCharge"},
+    "-summary-mff-bill": {"urpx:usageCharge", "urpx:fuelCharge"},
+}
 
 
 class Refused(Exception):
@@ -276,6 +292,28 @@ def expected_generation(path: Path) -> list[str]:
     return [p["@id"] for p in prices
             if ref_id((pds.get(ref_id(p.get("urpx:referencesPriceDefinition"))) or {})
                       .get("urpx:billPortion")) == "urpx:supplyPortion"]
+
+
+def expected_by_charge_type(path: Path, charge_types: set[str]) -> list[str]:
+    """Prices whose PriceDefinition is billed as one of `charge_types`."""
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    pds: dict[str, dict] = {}
+    prices: list[dict] = []
+
+    def visit(d):
+        t = node_type(d)
+        if t == "urpx:PriceDefinition" and d.get("@id"):
+            pds[d["@id"]] = d
+        elif t == "urpx:Price" and d.get("@id"):
+            prices.append(d)
+
+    walk(doc, visit)
+    out = []
+    for p in prices:
+        pd = pds.get(ref_id(p.get("urpx:referencesPriceDefinition"))) or {}
+        if {ref_id(x) for x in as_list(pd.get("urpx:chargeType"))} & charge_types:
+            out.append(p["@id"])
+    return out
 
 
 class Filing:
@@ -633,7 +671,10 @@ def check(files) -> tuple[list[dict], dict]:
         utility = utility_of(path)
         program = ("care" if "-care-" in sid else
                    "fera" if "-fera-" in sid else "shared")
+        gpc_types = next((types for suffix, types in GPC_SUMMARIES.items()
+                          if sid.endswith(suffix)), None) if utility == "gpc" else None
         want = (expected_generation(path) if sid.endswith(GENERATION) else
+                expected_by_charge_type(path, gpc_types) if gpc_types else
                 expected(path, utility, "care" if program == "shared" else program))
         missing = sorted(set(want) - set(members))
         extra = sorted(set(members) - set(want))
@@ -648,7 +689,9 @@ def check(files) -> tuple[list[dict], dict]:
         for c in cands:
             for plan in plans_of_price.get(c, ()):
                 per_plan.setdefault(plan, []).append(c)
-        applicable = owner[did].applicable
+        # A base filing inlining no modifier version prices its own plan's
+        # riders (GPC), so its own plan is the one it applies to.
+        applicable = owner[did].applicable or owner[did].plans
         # A candidate set spanning one plan is a Price scoped to that plan by
         # naming only its line item (smud:nem1's per-plan credits); one spanning
         # several is a set of alternatives and has to cover every plan.
