@@ -46,6 +46,9 @@ name = "California"
 [state.wa]
 name = "Washington"
 
+[state.ga]
+name = "Georgia"
+
 # ---------------------------------------------------------------------------
 # IOUs — CPUC-regulated investor-owned utilities. Tariff governs delivery
 # for all customers; generation only for bundled (non-CCA) customers.
@@ -536,4 +539,20 @@ bundled_residential = 459964
 source_url = "https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip"
 source_notes = "EIA-861 2024 Sales_Ult_Cust, Utility Number 16868 (City of Seattle - (WA)), Part A Bundled, residential customers 459,964. 2025 early release (https://www.eia.gov/electricity/data/eia861/zip/f8612025er.zip, released August 2026): 472,309."
 tariff_index_url = "https://www.seattle.gov/city-light/residential-services/billing-information/rates"
+as_of = "2024"
+
+# ---------------------------------------------------------------------------
+# Georgia. Georgia Power has no CCA distinction; bundled = total. No per-tariff
+# estimate for Schedule R: Georgia Power publishes no enrollment by schedule.
+# ---------------------------------------------------------------------------
+
+[utility.gpc]
+name = "Georgia Power Company"
+state = "ga"
+class = "iou"
+total_residential = 2452488
+bundled_residential = 2452488
+source_url = "https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip"
+source_notes = "EIA-861 2024 Sales_Ult_Cust, Utility Number 7140 (Georgia Power Co), Part A Bundled, BA Code SOCO, residential customers 2,452,488."
+tariff_index_url = "https://www.georgiapower.com/residential/rate-plans.html"
 as_of = "2024"

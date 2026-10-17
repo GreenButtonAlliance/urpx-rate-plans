@@ -1,0 +1,129 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "r"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule R customer pays are
+# carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/residential-service.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/r.pdf"
+  sha256 = "11e2352cfbbf1460969eaffea0c42bc3fe49240b4e195009b56a3bd71efe1133"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "R-31"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_r]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-r.pdf"
+  sha256 = "cba219daa41bad3be31298a5694c0b1a511ac7bce1641d928f8d2830a0debb90"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-R-16"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_r]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-17"
+notes = """
+R-31 read with mineru-kit parse --tier standard. It dropped the page-1 title
+block and ran the rate lines together as text rather than a table; every value
+was checked against the PDF text. The four rider sheets are one page of prose
+each and were read from the PDF text directly.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025), and the 2026-06-30 compliance filing
+in docket 44280 (PSC document 227071) proposed implementing the base-rate
+sheets from July 1, 2026. Fifteen 2026 residential bills from three customers
+fix what that meant: every bill rendered in the June billing month split the
+base rates, ECCR and DSM-R at June 1 by days (R-30 before, R-30 plus the 1.6554
+percent Temporary Base Rate Adjustment Rider after, with ECCR-15 and DSM-R-16),
+and every later bill was R-31 for its whole period. Nothing changes at July 1.
+So the version begins 2026-06-01. FCR-27 applied to every kWh from the June
+billing month on and FCR-26 to the May one, with no proration.
+
+The same bills reproduce, to the cent on every rate line, from this filing's
+prices once each part is rounded to the cent before the next is computed: the
+Basic Service Charge and the energy charge separately, then fuel, DSM-R and
+ECCR on the rounded base, then MFF on everything before it. One prorated June
+bill is a cent off on its Residential line.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as pge:d-care does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-17"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Seasons by billing month. R-31 and FCR-27 choose summer or winter by the billing month a bill is rendered in, June through September summer and October through May winter. The JSON-LD gates the energy and fuel PriceDefinitions on calendar months instead, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices: a bill read in early June bills its May usage at summer prices, and one read in early October bills its September usage at winter prices, where these prices give the opposite.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.",
+  "Multiple Service (R-31-M). Where two or more dwelling units share one meter, the sheet multiplies the Basic Service Charge and each kWh block by the number of units. The JSON-LD carries the single-unit charge and blocks.",
+  "Budget Billing Option and Term of Contract. The sheet offers a levelized budget bill whose details are on file with the Commission, and sets a one-year term. Neither is priced on the sheet and neither is carried.",
+  "Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.",
+]
+applicable_modifiers = ["iqd"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First Georgia Power filing."

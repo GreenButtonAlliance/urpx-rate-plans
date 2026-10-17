@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **106**
+- Base RatePlan filings: **107**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **433**
+- Applicable-modifier slots across all bases: **434**
   - present and complete: 22
   - present but incomplete: 371
-  - missing: 40
+  - missing: 41
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -40,6 +40,7 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
 | `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
+| `gpc:iqd` | 1 | `electricity/r/versions/2026-06-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
@@ -293,6 +294,22 @@ Base deferrals:
 |---|---|---|
 | `e-7-g` | ~ present-incomplete | `us/ca/cpau/electricity/e-7-g/versions/2026-07-01` |
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
+
+### GPC
+
+#### `r` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Seasons by billing month. R-31 and FCR-27 choose summer or winter by the billing month a bill is rendered in, June through September summer and October through May winter. The JSON-LD gates the energy and fuel PriceDefinitions on calendar months instead, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices: a bill read in early June bills its May usage at summer prices, and one read in early October bills its September usage at winter prices, where these prices give the opposite.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.
+- Multiple Service (R-31-M). Where two or more dwelling units share one meter, the sheet multiplies the Basic Service Charge and each kWh block by the number of units. The JSON-LD carries the single-unit charge and blocks.
+- Budget Billing Option and Term of Contract. The sheet offers a levelized budget bill whose details are on file with the Commission, and sets a one-year term. Neither is priced on the sheet and neither is carried.
+- Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ✗ missing | — |
 
 ### LADWP
 
