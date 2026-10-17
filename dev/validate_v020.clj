@@ -315,7 +315,8 @@
    "scl:residential-suburban-2027-01-01-pa-jurisdiction" "scl:residential-suburban-2027-01-01-pa-shoreline"
    "scl:residential-suburban-2028-01-01-pa-jurisdiction" "scl:residential-suburban-2028-01-01-pa-shoreline"
    ;; Inside city limits carries the higher Municipal Franchise Fee rate.
-   "gpc:r-2026-06-01-pa-franchise-fee-location" "gpc:r-2026-06-01-pa-inside-city-limits"})
+   "gpc:r-2026-06-01-pa-franchise-fee-location" "gpc:r-2026-06-01-pa-inside-city-limits"
+   "gpc:tou-reo-2026-06-01-pa-franchise-fee-location" "gpc:tou-reo-2026-06-01-pa-inside-city-limits"})
 
 (defn- nominations-for
   "The entries of `profile-alternative-nominations` whose container is in

@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **107**
+- Base RatePlan filings: **108**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **434**
+- Applicable-modifier slots across all bases: **435**
   - present and complete: 22
-  - present but incomplete: 372
+  - present but incomplete: 373
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -305,6 +305,18 @@ Base deferrals:
 - Multiple Service (R-31-M). Where two or more dwelling units share one meter, the sheet multiplies the Basic Service Charge and each kWh block by the number of units. The JSON-LD carries the single-unit charge and blocks.
 - Budget Billing Option and Term of Contract. The sheet offers a levelized budget bill whose details are on file with the Commission, and sets a one-year term. Neither is priced on the sheet and neither is carried.
 - Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+#### `tou-reo` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. The sheet requires a customer to remain on TOU-REO for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+- Fuel Cost Recovery voltage levels. TOU-FCR-7 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
 
 | Modifier | Status | Filing |
 |---|---|---|
