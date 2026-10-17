@@ -41,7 +41,7 @@ Pull requests are welcome.
 
 ## Setup
 
-You need Java 21 or later, the [Clojure CLI](https://clojure.org/guides/install_clojure), Python 3.10 or later, and git.
+You need Java 21 or later, the [Clojure CLI](https://clojure.org/guides/install_clojure), Python 3.10 or later, and git. On Windows, set these up inside WSL first ([doc/wsl-setup.md](./doc/wsl-setup.md)).
 
 1. Clone this repository and [urpx-org/urpx](https://github.com/urpx-org/urpx) side by side:
 

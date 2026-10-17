@@ -44,18 +44,17 @@ Download the PDF with `curl` once spel has its URL, passing a cookie when the ho
 Extract the PDF to Markdown with [MinerU](https://github.com/opendatalab/MinerU) before modeling it. Its layout analysis keeps rate tables as tables, which a plain text dump does not.
 
 ```bash
-mineru -p <schedule>.pdf -o extracted/ -b pipeline
+mineru-kit parse <schedule>.pdf -o extracted/<schedule>.md --tier standard
 ```
 
-The Markdown lands at `extracted/<schedule>/auto/<schedule>.md`, with its images in `images/` beside it. `extracted/` is gitignored ([LAYOUT.md](./LAYOUT.md)); record the tool, its version and the date in the manifest's `[extraction]` table.
+The `standard` tier reads each page with MinerU's vision-language model, which places rate-table cells in the right rows where the `basic` tier and MinerU 3.x misplace some. `extracted/` is gitignored ([LAYOUT.md](./LAYOUT.md)); record the tool, its version and the date in the manifest's `[extraction]` table.
 
-Install MinerU in its own environment, because its dependencies pin versions that conflict with other Python tooling:
+Install MinerU 4.x in its own environment, because its dependencies pin versions that conflict with other Python tooling, then download the `standard` tier's models once:
 
 ```bash
-pipx install 'mineru[pipeline]'
+pipx install 'mineru>=4.0,<5'
+mineru-kit models download --tier standard
 ```
-
-If it then fails to import `six`, add it with `pipx inject mineru six`. The first run downloads several GB of models.
 
 ## The gate
 

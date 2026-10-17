@@ -491,7 +491,7 @@ If a particular extraction needs to be preserved (e.g. as evidence of how a tric
 1. Identify a new tariff PDF (utility website, CPUC e-filing, regulator portal).
 2. Create the directory: `<country>/<subdivision>/<utility>/<carrier>/<schedule>/versions/<effective-date>/`, e.g. `us/ca/...` or `us/wa/...`.
 3. Write `tariff.toml` with `utility`, `schedule` and `effective_date` at the top level, and a `[source]` table carrying `url`, `sha256` (compute locally) and `retrieved_on`. `schema/tariff-manifest.schema.json` is the authority on what is required.
-4. Run extraction (e.g. `mineru -p source.pdf -o extracted/ -b pipeline`).
+4. Run extraction (e.g. `mineru-kit parse source.pdf -o extracted/source.md --tier standard`).
 5. Convert to URPX JSON-LD as `rate-plan_<utility>_<schedule>_<date>.jsonld`. A utility with Clojure source under `src/rate_plans/` (Seattle City Light) has its JSON-LD generated from it: add the version to the source and write it with `python3 dev/check_generated.py --write` ([doc/dsl-source.md](./doc/dsl-source.md)).
 6. Validate with `dev/shacl.sh --utility <slug>` (SHACL) and `clojure -M:validate` (clj-urpx); record the outcome in `[validation]`.
 7. Record modeling-completeness state in `[modeling]` (§4.4): set `complete = true` and `deferrals = []` if the source PDF is fully captured; otherwise list the deferred parts. On base RatePlan filings, also populate `applicable_modifiers` with every RatePlanModifier the source tariff names — *including modifiers not yet modeled in the corpus*, since this list is what drives the modifier-coverage gap report.
