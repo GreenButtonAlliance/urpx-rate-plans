@@ -1,0 +1,337 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "gpc:doc-iqd-2024-05-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "gpc:iqd",
+        "urpx:name": "Income Qualified Discount Service Rider",
+        "urpx:modifierUniqueIdentifier": "IQD",
+        "urpx:initialEffectiveDate": "2024-05-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "gpc:iqd-2024-05-01",
+          "urpx:version": "2024-05-01",
+          "urpx:modifierVersionNumber": "2024-05-01",
+          "urpx:changeReason": {
+            "@id": "urpx:initial"
+          },
+          "urpx:description": "Georgia Power's Income Qualified Discount service rider, IQD-1, a monthly bill discount for customers the Company certifies: a Non-fuel Discount of $24.00 and a Fuel Discount of $9.50, each \"up to the amounts listed\", at the customer's primary residence where the account is individually metered and in the customer's name. \"Monthly credits shall not result in a negative balance, nor shall any unused credits be carried over to future billing.\" Eligible customers are at least 65 years of age in a household with combined income at or below 200 percent of the federal poverty level adjusted for household size, or receive Social Security Disability Income or Supplemental Security Income, or participate in the federal Housing Choice Voucher Program (HUD Section 8). The sheet makes it available on Schedules R, FLAT, TOU-REO, TOU-OA, TOU-RD, PPS and PBD; of those this corpus holds Schedule R, which urpx:applicableToRatePlan names. Each discount is carried as a flat monthly credit of its full amount. Dating: the sheet, page 10.35, Original, is effective \"With Bills Rendered for the Billing Month of May, 2024\", so this version begins 2024-05-01, and as the original sheet it is also the rider's first introduction.",
+          "urpx:effectiveDateTime": "2024-05-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "gpc:r"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "urpx:fileName": "iqd.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/iqd.pdf",
+            "urpx:dateRetrieved": "2026-10-16",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1,
+            "urpx:leafStart": "10.35",
+            "urpx:leafEnd": "10.35"
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "gpc:iqd-2024-05-01-er-eligible",
+              "urpx:name": "IQD-certified residential customer",
+              "urpx:description": "Residential customer the Company has certified for the Income Qualified Discount. APPLICABILITY: \"Qualifying customers certified by the Company will be eligible for a monthly bill discount up to the amounts listed below at their primary residence provided that the electric service account is individually metered and in said customer's name.\" \"Eligible customers must meet at least one of the following qualifications: (a) at least 65 years of age and live in a household with a combined income that is less than or equal to 200% of the federal poverty level, adjusted for household size; (b) receive Social Security Disability Income assistance or Supplemental Security Income; or (c) participate in the federal Housing Choice Voucher Program (HUD Section 8).\"",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:iqd-2024-05-01-cx-eligible",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:iqd-2024-05-01-bn-residential-and-enrolled",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:iqd-2024-05-01-cn-residential",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:iqd-2024-05-01-cn-residential-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:iqd-2024-05-01-cn-residential-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:residentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:iqd-2024-05-01-cn-program-enrollment",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:iqd-2024-05-01-cn-program-enrollment-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:iqd-2024-05-01-cn-program-enrollment-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "gpc:program-iqd"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "gpc:iqd-2024-05-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "gpc:iqd-2024-05-01-mi-meter-count",
+                "urpx:name": "Per Meter Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:meterCount"
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "gpc:iqd-2024-05-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "gpc:iqd-2024-05-01-ledger-non-fuel-discount",
+                  "urpx:name": "Income Qualified Discount, Non-fuel Discount",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "gpc:iqd-2024-05-01-mi-meter-count"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "gpc:iqd-2024-05-01-ledger-fuel-discount",
+                  "urpx:name": "Income Qualified Discount, Fuel Discount",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "gpc:iqd-2024-05-01-mi-meter-count"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "gpc:iqd-2024-05-01-pd-non-fuel-discount",
+                  "urpx:name": "IQD-1 Non-fuel Discount, per month",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditTariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "gpc:iqd-2024-05-01-pd-non-fuel-discount-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "gpc:iqd-2024-05-01-ledger-non-fuel-discount"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "gpc:iqd-2024-05-01-pd-fuel-discount",
+                  "urpx:name": "IQD-1 Fuel Discount, per month",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditTariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "gpc:iqd-2024-05-01-pd-fuel-discount-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "gpc:iqd-2024-05-01-ledger-fuel-discount"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "gpc:iqd-2024-05-01-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:iqd-2024-05-01-price-non-fuel-discount",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:iqd-2024-05-01-pd-non-fuel-discount"
+                },
+                "urpx:name": "Non-fuel Discount",
+                "urpx:startDate": "2024-05-01",
+                "urpx:unitPrice": "-24.00"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:iqd-2024-05-01-price-fuel-discount",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:iqd-2024-05-01-pd-fuel-discount"
+                },
+                "urpx:name": "Fuel Discount",
+                "urpx:startDate": "2024-05-01",
+                "urpx:unitPrice": "-9.50"
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-gpc",
+            "urpx:legalName": "Georgia Power Company",
+            "urpx:organizationType": {
+              "@id": "urpx:utilityOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-gpc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-gpc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Georgia Power Company"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-gpc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "7140"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "gpc:iqd"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "gpc:cc-iqd-2024-05-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "gpc:cc-iqd-2024-05-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 4 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Each discount is a maximum. The sheet grants \"a monthly bill discount up to the amounts listed\" and states \"Monthly credits shall not result in a negative balance\", and the bills show the Fuel Discount equal to the month's fuel charge whenever that is under $9.50. The JSON-LD carries the Non-fuel Discount as a flat $24.00 credit and the Fuel Discount as a flat $9.50 credit, since no Price states the lesser of an amount and the charge it offsets. A modeled bill whose fuel charge is under $9.50 is credited the difference too much, and one whose charges are under the credits goes negative where the sheet stops at zero. Unused credits do not carry over, which a flat monthly credit already respects. (2) Municipal Franchise Fee after the credits. MFF-11 is charged on the bill after both discounts. Schedule R's franchise fee multiplier Prices are based on its energy-and-fuel subtotal and its Basic Service Charge Price, which hold neither credit, so a modeled IQD customer's franchise fee is not reduced by them: it is high by 3.0843 percent of the credits inside city limits, up to $1.03 a month, and 1.1995 percent outside them, up to $0.40. (3) Certification and qualifications. The sheet limits the discount to customers the Company certifies, at their primary residence, on an individually metered account in the customer's name, who are at least 65 with household income at or below 200 percent of the federal poverty level, or receive Social Security Disability Income or Supplemental Security Income, or participate in the HUD Section 8 Housing Choice Voucher Program. The EligibilityRule carries residential customer kind and enrollment in gpc:program-iqd; the qualifications are in its description only. (4) Other schedules. The sheet makes the discount available on Schedules FLAT, TOU-REO, TOU-OA, TOU-RD, PPS and PBD as well as R. This corpus holds only Schedule R, so urpx:applicableToRatePlan names gpc:r alone.",
+              "urpx:evaluatedOn": "2026-10-17T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "gpc:program-iqd",
+      "urpx:programName": "Income Qualified Discount (IQD)",
+      "urpx:programType": {
+        "@id": "urpx:lowIncomeProgram"
+      }
+    }
+  ]
+}

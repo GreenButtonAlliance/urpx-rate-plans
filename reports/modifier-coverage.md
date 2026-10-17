@@ -17,8 +17,8 @@ Status glyphs:
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **434**
   - present and complete: 22
-  - present but incomplete: 371
-  - missing: 41
+  - present but incomplete: 372
+  - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -40,7 +40,6 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
 | `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
-| `gpc:iqd` | 1 | `electricity/r/versions/2026-06-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
@@ -309,7 +308,7 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `iqd` | ✗ missing | — |
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
 
 ### LADWP
 
