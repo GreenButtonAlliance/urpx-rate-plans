@@ -29,9 +29,9 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 171
-   :scenario-cost-models 7340
-   :servable 152
+  {:compositions 173
+   :scenario-cost-models 7344
+   :servable 154
    :not-priced-per-kwh 9
    :blocked 6
    :not-measured 4}
@@ -275,6 +275,18 @@
    :selections 2
    :outcome :servable
    :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:r"]}
+  {:base "gpc:tou-oa-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:tou-oa-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/tou-oa/versions/2026-06-01/rate-plan_gpc_tou-oa_2026-06-01.jsonld"]}
+  {:base "gpc:tou-oa-2026-06-01"
+   :modifiers ["gpc:iqd-2024-05-01"]
+   :open-dimensions ["gpc:tou-oa-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:tou-oa"]}
   {:base "gpc:tou-reo-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:tou-reo-2026-06-01-pa-franchise-fee-location"]
@@ -1821,6 +1833,18 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-r-2026-06-01--iqd-2024-05-01--e7c4ac873199"
   {:name "Schedule R Residential Service [gpc:r-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-tou-oa-2026-06-01--8aead90f2a9e"
+  {:name "Schedule TOU-OA Time of Use - Overnight Advantage [gpc:tou-oa-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-tou-oa-2026-06-01--bd733808e45b"
+  {:name "Schedule TOU-OA Time of Use - Overnight Advantage [gpc:tou-oa-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-tou-oa-2026-06-01--iqd-2024-05-01--94112338cf54"
+  {:name "Schedule TOU-OA Time of Use - Overnight Advantage [gpc:tou-oa-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-tou-oa-2026-06-01--iqd-2024-05-01--ecc30b6e9a62"
+  {:name "Schedule TOU-OA Time of Use - Overnight Advantage [gpc:tou-oa-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-tou-reo-2026-06-01--1c3fe554d287"
   {:name "Schedule TOU-REO Time of Use - Residential Energy Only [gpc:tou-reo-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"

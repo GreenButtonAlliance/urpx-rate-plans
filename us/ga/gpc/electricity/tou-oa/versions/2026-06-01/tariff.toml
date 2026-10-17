@@ -1,0 +1,136 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "tou-oa"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule TOU-OA customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/overnight-advantage.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-oa.pdf"
+  sha256 = "d244b9cdef3769a4d5b017ccfbec7928099218f6d89cba4400410bbc2702584c"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-OA-15"
+
+  [source.tou_fcr_tp]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr-tp.pdf"
+  sha256 = "7478a2726cc13ac3151bc3b510fcd227cf4d6c4eba4b3c5a23f3b7e51512eb81"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-FCR-TP-5"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_r]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-r.pdf"
+  sha256 = "cba219daa41bad3be31298a5694c0b1a511ac7bce1641d928f8d2830a0debb90"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-R-16"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.tou_fcr_tp]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_r]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-17"
+notes = """
+TOU-OA-15 read with mineru-kit parse --tier standard. It ran the three energy
+rate lines together as one line of text rather than a table; every value was
+checked against the PDF text. TOU-FCR-TP-5 and the three other rider sheets
+were read from the PDF text directly.
+
+Periods. The sheet and TOU-FCR-TP-5 define the same three periods by calendar
+month, "for the calendar months of June through September (Summer Months)",
+so the Seasons here are calendar months and need no billing-month deferral,
+unlike Schedule R's energy seasons. Super Off-Peak is 11:00 p.m. to 7:00 a.m.
+"Monday through Sunday for all calendar months"; Off-Peak is 7:00 a.m. to
+11:00 p.m. "for weekends, holidays, and the calendar months of October through
+May", and on summer weekdays 7:00 a.m. to 2:00 p.m. and 7:00 p.m. to 11:00
+p.m. The holidays that make a summer weekday's 2:00 p.m. to 7:00 p.m.
+Off-Peak are the two the On-Peak definition names; the other hours of those
+days are priced the same on a holiday as on any weekday.
+
+Holidays. On-Peak hours "on days in which the following holidays are
+observed shall be considered Off-Peak: Independence Day and Labor Day". The
+sheet states no weekend rule, and us/ga/gpc/utility.toml records that Georgia
+law adopts the federal one, 5 U.S.C. 6103(b): Saturday observed on the Friday
+before and Sunday on the Monday after, which urpx:nearestWeekdayObservance
+states. Labor Day is always a Monday.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). TOU-OA-15 replaced TOU-OA-14 in
+the same 2026-06-30 compliance filing in docket 44280 (PSC document 227071)
+that replaced R-30 with R-31, and the version begins 2026-06-01 on the reading
+fifteen Schedule R bills fixed for that filing (see Schedule R's tariff.toml).
+No TOU-OA bill was available to check it. TOU-FCR-TP-5 replaced TOU-FCR-TP-4
+in docket 56765 with FCR-27.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r and gpc:tou-reo do.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-17"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.",
+  "Term of Contract. The sheet requires a customer to remain on TOU-OA for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.",
+  "Fuel Cost Recovery voltage levels. TOU-FCR-TP-5 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.",
+]
+applicable_modifiers = ["iqd"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First Georgia Power three-period time-of-use filing."

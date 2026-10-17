@@ -75,7 +75,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Class | Residential | Covered | % | Modeled tariffs |
 |---|---|---:|---:|---:|---|
-| Georgia Power Company | iou | 2,452,488 | 0 | 0.0% | r (no estimate), tou-reo (no estimate) |
+| Georgia Power Company | iou | 2,452,488 | 0 | 0.0% | r (no estimate), tou-oa (no estimate), tou-reo (no estimate) |
 
 ### Largest unmodeled customer pools
 
@@ -83,7 +83,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Uncovered customers | Existing modeled | Notes |
 |---|---:|---|---|
-| Georgia Power Company | 2,452,488 | r (no estimate), tou-reo (no estimate) | |
+| Georgia Power Company | 2,452,488 | r (no estimate), tou-oa (no estimate), tou-reo (no estimate) | |
 
 ## Washington
 
@@ -129,6 +129,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | cpau | e-nse-1 | modifier | 2025-09-01, 2026-07-01 |
 | GA | gpc | iqd | modifier | 2024-05-01 |
 | GA | gpc | r | rate-plan | 2026-06-01 |
+| GA | gpc | tou-oa | rate-plan | 2026-06-01 |
 | GA | gpc | tou-reo | rate-plan | 2026-06-01 |
 | CA | ladwp | ez-save | modifier | 2008-09-01 |
 | CA | ladwp | lifeline | modifier | 2008-09-01 |
