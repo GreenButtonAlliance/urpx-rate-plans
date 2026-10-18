@@ -83,7 +83,7 @@
           "urpx:changeReason": {
             "@id": "urpx:changeReasonOther"
           },
-          "urpx:description": "Jackson EMC's Rider NM, Net Metering Rider, for customers with solar photovoltaic, fuel cell or wind generation of not more than 10 kW (residential) connected after January 1, 2016 and eligible under the Georgia Cogeneration and Distributed Generation Act of 2001; of the Cooperative's schedules, this corpus holds the six residential ones, which urpx:applicableToRatePlan names. The customer pays Incremental Service Costs of $10.00 per month. Electricity the Cooperative supplies is billed under the customer's tariff; whenever the customer's generation exceeds its consumption, the excess is credited at the Avoided Energy Cost, the base charge at the generator plus transmission line loss avoided costs at the substation plus distribution line loss at the customer. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The Incremental Service Costs are carried as a monthly charge, and the excess-generation credit as a per-kWh PriceDefinition with no Price, since the rider states a formula and no value. Dating: the rider is effective January 1, 2022, so this version begins 2022-01-01; it states no date of first introduction.",
+          "urpx:description": "Jackson EMC's Rider NM, Net Metering Rider, for customers with solar photovoltaic, fuel cell or wind generation of not more than 10 kW (residential) or 100 kW (commercial) connected after January 1, 2016 and eligible under the Georgia Cogeneration and Distributed Generation Act of 2001; urpx:applicableToRatePlan names the six residential schedules and the commercial ones GS-26, GSAE-26, GSTOU-26, LMS-26, SLMS-26, TS-26, CEV-26 and QF-22. MBS-22 customers' incremental service costs are determined case by case, so MBS is not named. The customer pays Incremental Service Costs of $10.00 per month. Electricity the Cooperative supplies is billed under the customer's tariff; whenever the customer's generation exceeds its consumption, the excess is credited at the Avoided Energy Cost, the base charge at the generator plus transmission line loss avoided costs at the substation plus distribution line loss at the customer. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The Incremental Service Costs are carried as a monthly charge, and the excess-generation credit as a per-kWh PriceDefinition with no Price, since the rider states a formula and no value. Dating: the rider is effective January 1, 2022, so this version begins 2022-01-01; it states no date of first introduction.",
           "urpx:effectiveDateTime": "2022-01-01T00:00:00",
           "urpx:priceCurrency": "USD",
           "urpx:commodity": {
@@ -110,6 +110,30 @@
             },
             {
               "@id": "jemc:apev"
+            },
+            {
+              "@id": "jemc:gs"
+            },
+            {
+              "@id": "jemc:gsae"
+            },
+            {
+              "@id": "jemc:gstou"
+            },
+            {
+              "@id": "jemc:lms"
+            },
+            {
+              "@id": "jemc:slms"
+            },
+            {
+              "@id": "jemc:ts"
+            },
+            {
+              "@id": "jemc:cev"
+            },
+            {
+              "@id": "jemc:qf"
             }
           ],
           "urpx:hasDataSourceReference": {
@@ -131,89 +155,59 @@
             {
               "@type": "urpx:EligibilityRule",
               "@id": "jemc:nm-2022-01-01-er-eligible",
-              "urpx:name": "Residential customer with qualifying distributed generation",
-              "urpx:description": "Residential customer with solar photovoltaic, fuel cell or wind generation connected after January 1, 2016 and eligible under O.C.G.A. 46-3-50 et seq. (Georgia Cogeneration and Distributed Generation Act of 2001). The facility must \"1. Be owned and operated by a Customer of the Cooperative for production of electrical energy, and 2. Be located on the Customer's premises, and 3. Be connected to and operate in parallel with the Cooperative's distribution facilities, and 4. Be intended primarily to offset part or all of the Customer's requirement for electricity, and 5. Have peak generating capacity of not more than 10 kW for residential applications ... Larger applications are at the sole discretion of the Cooperative. 6. Use solar photovoltaic system, fuel cell or wind generation\".",
+              "urpx:name": "Customer with qualifying distributed generation",
+              "urpx:description": "Customer with solar photovoltaic, fuel cell or wind generation connected after January 1, 2016 and eligible under O.C.G.A. 46-3-50 et seq. (Georgia Cogeneration and Distributed Generation Act of 2001). The facility must \"1. Be owned and operated by a Customer of the Cooperative for production of electrical energy, and 2. Be located on the Customer's premises, and 3. Be connected to and operate in parallel with the Cooperative's distribution facilities, and 4. Be intended primarily to offset part or all of the Customer's requirement for electricity, and 5. Have peak generating capacity of not more than 10 kW for residential applications and not more than 100 kW for commercial applications. Larger applications are at the sole discretion of the Cooperative. 6. Use solar photovoltaic system, fuel cell or wind generation\".",
               "urpx:hasConditionExpression": {
                 "@type": "urpx:ConditionExpression",
                 "@id": "jemc:nm-2022-01-01-cx-eligible",
                 "urpx:rootNode": {
                   "@type": "urpx:BooleanOperationNode",
-                  "@id": "jemc:nm-2022-01-01-bn-residential-and-generator",
+                  "@id": "jemc:nm-2022-01-01-bn-solar-or-wind",
                   "urpx:operator": {
-                    "@id": "urpx:andOperator"
+                    "@id": "urpx:orOperator"
                   },
                   "urpx:operandNodes": [
                     {
                       "@type": "urpx:ComparisonNode",
-                      "@id": "jemc:nm-2022-01-01-cn-residential",
+                      "@id": "jemc:nm-2022-01-01-cn-der-solar",
                       "urpx:operator": {
                         "@id": "urpx:equalsOperator"
                       },
                       "urpx:leftOperand": {
                         "@type": "urpx:ObjectOperandNode",
-                        "@id": "jemc:nm-2022-01-01-cn-residential-left-operand",
+                        "@id": "jemc:nm-2022-01-01-cn-der-solar-left-operand",
                         "urpx:conditionProperty": {
-                          "@id": "urpx:hasCustomerKind"
+                          "@id": "urpx:derType"
                         }
                       },
                       "urpx:rightOperand": {
                         "@type": "urpx:ObjectOperandNode",
-                        "@id": "jemc:nm-2022-01-01-cn-residential-right-operand",
+                        "@id": "jemc:nm-2022-01-01-cn-der-solar-right-operand",
                         "urpx:referencesValue": {
-                          "@id": "urpx:residentialKind"
+                          "@id": "urpx:solarDER"
                         }
                       }
                     },
                     {
-                      "@type": "urpx:BooleanOperationNode",
-                      "@id": "jemc:nm-2022-01-01-bn-solar-or-wind",
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:nm-2022-01-01-cn-der-wind",
                       "urpx:operator": {
-                        "@id": "urpx:orOperator"
+                        "@id": "urpx:equalsOperator"
                       },
-                      "urpx:operandNodes": [
-                        {
-                          "@type": "urpx:ComparisonNode",
-                          "@id": "jemc:nm-2022-01-01-cn-der-solar",
-                          "urpx:operator": {
-                            "@id": "urpx:equalsOperator"
-                          },
-                          "urpx:leftOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "jemc:nm-2022-01-01-cn-der-solar-left-operand",
-                            "urpx:conditionProperty": {
-                              "@id": "urpx:derType"
-                            }
-                          },
-                          "urpx:rightOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "jemc:nm-2022-01-01-cn-der-solar-right-operand",
-                            "urpx:referencesValue": {
-                              "@id": "urpx:solarDER"
-                            }
-                          }
-                        },
-                        {
-                          "@type": "urpx:ComparisonNode",
-                          "@id": "jemc:nm-2022-01-01-cn-der-wind",
-                          "urpx:operator": {
-                            "@id": "urpx:equalsOperator"
-                          },
-                          "urpx:leftOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "jemc:nm-2022-01-01-cn-der-wind-left-operand",
-                            "urpx:conditionProperty": {
-                              "@id": "urpx:derType"
-                            }
-                          },
-                          "urpx:rightOperand": {
-                            "@type": "urpx:ObjectOperandNode",
-                            "@id": "jemc:nm-2022-01-01-cn-der-wind-right-operand",
-                            "urpx:referencesValue": {
-                              "@id": "urpx:windDER"
-                            }
-                          }
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:nm-2022-01-01-cn-der-wind-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:derType"
                         }
-                      ]
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:nm-2022-01-01-cn-der-wind-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:windDER"
+                        }
+                      }
                     }
                   ]
                 }
@@ -385,7 +379,7 @@
               "urpx:evaluationKind": {
                 "@id": "urpx:coverageEvaluation"
               },
-              "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Avoided Energy Cost. Excess generation is credited at the Avoided Energy Cost, a formula of the base charge at the generator and transmission and distribution line losses for which the Cooperative publishes no value. The JSON-LD defines the credit as a per-kWh PriceDefinition with no Price, so a modeled bill credits nothing for excess generation. (2) Netting over the billing period. The rider compares the customer's generation with its consumption and credits only the excess; the JSON-LD carries the credit on exported kWh as metered, without stating over what interval generation and consumption are netted. (3) Credit balance and December payout. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The JSON-LD carries no balance across bills. (4) Qualifying facilities. The facility must be solar photovoltaic, fuel cell or wind generation, owned and operated by the customer on its premises, operating in parallel with the Cooperative's system, intended primarily to offset the customer's own requirement, connected after January 1, 2016 and of not more than 10 kW for residential applications. URPX v0.5.1 has no fuel cell urpx:DERTypeValue, so the EligibilityRule carries residential customer kind and a solar or wind distributed energy resource; a fuel cell and the other conditions are in its description only. (5) Interconnection and additional purchases. The customer bears the costs of a safe interconnection under the Cooperative's Bulletin, and the Cooperative may purchase additional energy at a cost agreed with the customer. Neither is priced on the rider and neither is carried.",
+              "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Avoided Energy Cost. Excess generation is credited at the Avoided Energy Cost, a formula of the base charge at the generator and transmission and distribution line losses for which the Cooperative publishes no value. The JSON-LD defines the credit as a per-kWh PriceDefinition with no Price, so a modeled bill credits nothing for excess generation. (2) Netting over the billing period. The rider compares the customer's generation with its consumption and credits only the excess; the JSON-LD carries the credit on exported kWh as metered, without stating over what interval generation and consumption are netted. (3) Credit balance and December payout. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The JSON-LD carries no balance across bills. (4) Qualifying facilities. The facility must be solar photovoltaic, fuel cell or wind generation, owned and operated by the customer on its premises, operating in parallel with the Cooperative's system, intended primarily to offset the customer's own requirement, connected after January 1, 2016 and of not more than 10 kW for residential applications or 100 kW for commercial applications. URPX v0.5.1 has no fuel cell urpx:DERTypeValue, so the EligibilityRule carries a solar or wind distributed energy resource; a fuel cell and the other conditions are in its description only. (5) Interconnection and additional purchases. The customer bears the costs of a safe interconnection under the Cooperative's Bulletin, and the Cooperative may purchase additional energy at a cost agreed with the customer. Neither is priced on the rider and neither is carried.",
               "urpx:evaluatedOn": "2026-10-18T00:00:00"
             }
           }

@@ -1,0 +1,722 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "jemc:doc-cev-2026-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "jemc:cev",
+    "urpx:name": "Schedule CEV Commercial Plug-in Electric Vehicle Service",
+    "urpx:ratePlanUniqueIdentifier": "CEV",
+    "urpx:initialEffectiveDate": "2026-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "jemc:cev-2026-01-01",
+      "urpx:description": "Jackson EMC's commercial electric vehicle charging schedule, CEV-26, for service exclusively serving the customer's electric vehicle chargers. A Service Charge of $53.00 per month for single-phase or $81.00 for three-phase customers, chosen by a ProfileAlternative, and energy at 34.35 cents per kWh On-Peak, 12:00 p.m. to 8:00 p.m. Monday through Friday in every month, and 15.00 cents per kWh Off-Peak at all other hours. The sheet names no holidays, so the On-Peak period carries none. The minimum monthly charge is the Service Charge. Every bill is also increased or decreased by Schedule P-22's Wholesale Power Cost Adjustment, a per-kWh factor the Cooperative computes each month and does not publish, defined here as a per-kWh PriceDefinition with no Price. The schedule is experimental. Rates are set by the Cooperative's board, not the Georgia Public Service Commission; the sheet is effective January 1, 2026.",
+      "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:changeReasonOther"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "jemc:cev-2026-01-01-data-source-reference",
+        "urpx:fileName": "CEV-26.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CEV-26.pdf",
+        "urpx:dateRetrieved": "2026-10-18",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 2
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "jemc:cev-2026-01-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule CEV Commercial Plug-in Electric Vehicle Service",
+          "urpx:description": "Service exclusively serving electric vehicle chargers owned by the customer, for permanent year-round service, available upon request and case by case at the Cooperative's sole discretion to customers who document possession of qualified plug-in electric vehicle chargers (a qualified plug-in electric vehicle is manufactured primarily for use on public streets, roads and highways; electric scooters, electric bicycles, golf carts and motorized electric wheelchairs do not qualify). Charging stations must be on a dedicated circuit breaker, follow all applicable codes and regulations, and be no more than 1 MW of connected load (beyond 1 MW at the Cooperative's discretion). Service is provided for a minimum of twelve consecutive months. The schedule is experimental and may be modified or discontinued by the Cooperative after sixty days' written notice.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "jemc:cev-2026-01-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:BooleanOperationNode",
+              "@id": "jemc:cev-2026-01-01-bn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:andOperator"
+              },
+              "urpx:operandNodes": [
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:cev-2026-01-01-cn-non-residential",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-non-residential-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasCustomerKind"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-non-residential-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:nonResidentialKind"
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:cev-2026-01-01-cn-ev-charging",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-ev-charging-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:derType"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-ev-charging-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "urpx:evChargingDER"
+                    }
+                  }
+                }
+              ],
+              "urpx:logicExpression": "hasCustomerKind = nonResidentialKind AND derType = evChargingDER"
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "jemc:cev-2026-01-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "jemc:cev-2026-01-01-season-all-year",
+            "urpx:seasonName": "All Year",
+            "urpx:month": [
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05",
+              "--06",
+              "--07",
+              "--08",
+              "--09",
+              "--10",
+              "--11",
+              "--12"
+            ]
+          }
+        ],
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:cev-2026-01-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:cev-2026-01-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:cev-2026-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "jemc:cev-2026-01-01-pa-service-phase",
+          "urpx:name": "Service phase: single-phase or three-phase",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "jemc:cev-2026-01-01-pa-service-phase-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "jemc:cev-2026-01-01-ad-service-phase",
+                "urpx:customDimensionProperty": "servicePhase",
+                "urpx:dimensionDisplayName": "Service phase",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Single Phase"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Three Phase"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "jemc:cev-2026-01-01-pa-single-phase",
+              "urpx:name": "Single-phase customers",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:cev-2026-01-01-cx-pa-single-phase",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:cev-2026-01-01-cn-pa-single-phase",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-pa-single-phase-left-operand",
+                    "urpx:customConditionProperty": "servicePhase"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-pa-single-phase-right-operand",
+                    "urpx:stringValue": "Single Phase"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "jemc:cev-2026-01-01-pa-three-phase",
+              "urpx:name": "Three-phase customers",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:cev-2026-01-01-cx-pa-three-phase",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:cev-2026-01-01-cn-pa-three-phase",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-pa-three-phase-left-operand",
+                    "urpx:customConditionProperty": "servicePhase"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:cev-2026-01-01-cn-pa-three-phase-right-operand",
+                    "urpx:stringValue": "Three Phase"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "jemc:cev-2026-01-01-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "jemc:cev-2026-01-01-tou",
+            "urpx:referencesMetricInput": {
+              "@id": "jemc:cev-2026-01-01-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "jemc:cev-2026-01-01-tou-tier-on-peak",
+                "urpx:tierSourceName": "On-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "jemc:cev-2026-01-01-tou-period-on-peak",
+                    "urpx:name": "On-Peak (12:00 p.m. to 8:00 p.m. Monday through Friday)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:cev-2026-01-01-time-bracket-on-peak",
+                        "urpx:startTime": "12:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:cev-2026-01-01-season-all-year"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "jemc:cev-2026-01-01-tou-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "jemc:cev-2026-01-01-tou-period-off-peak",
+                    "urpx:name": "Off-Peak (all hours other than On-Peak)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:cev-2026-01-01-time-bracket-off-peak-weekday-morning",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "12:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:cev-2026-01-01-season-all-year"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:cev-2026-01-01-time-bracket-off-peak-weekday-evening",
+                        "urpx:startTime": "20:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:cev-2026-01-01-season-all-year"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:cev-2026-01-01-time-bracket-off-peak-weekend",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:cev-2026-01-01-season-all-year"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:cev-2026-01-01-ledger-service-charge",
+              "urpx:name": "Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:cev-2026-01-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:cev-2026-01-01-ledger-energy",
+              "urpx:name": "Energy Charges (On-Peak, Off-Peak)",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:cev-2026-01-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:cev-2026-01-01-ledger-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:cev-2026-01-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:cev-2026-01-01-pd-service-charge",
+              "urpx:name": "Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:cev-2026-01-01-pd-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:cev-2026-01-01-ledger-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:cev-2026-01-01-pd-energy-on-peak",
+              "urpx:name": "Energy Charge, On-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "jemc:cev-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:cev-2026-01-01-pd-energy-off-peak",
+              "urpx:name": "Energy Charge, Off-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "jemc:cev-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:cev-2026-01-01-pd-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment Schedule P-22, per kWh, computed monthly by the Cooperative",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:cev-2026-01-01-ledger-wpca"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "jemc:cev-2026-01-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "jemc:cev-2026-01-01-ps",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:cev-2026-01-01-price-energy-on-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:cev-2026-01-01-pd-energy-on-peak"
+                },
+                "urpx:name": "Energy Charge, On-Peak",
+                "urpx:unitPrice": "0.3435",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:cev-2026-01-01-price-energy-on-peak-data-source-reference",
+                  "urpx:fileName": "CEV-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CEV-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:cev-2026-01-01-price-energy-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:cev-2026-01-01-pd-energy-off-peak"
+                },
+                "urpx:name": "Energy Charge, Off-Peak",
+                "urpx:unitPrice": "0.1500",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:cev-2026-01-01-price-energy-off-peak-data-source-reference",
+                  "urpx:fileName": "CEV-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CEV-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "jemc:cev-2026-01-01-psa-service-phase",
+          "urpx:name": "Service Charge, by service phase",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "jemc:cev-2026-01-01-pa-service-phase"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "jemc:cev-2026-01-01-psa-single-phase",
+              "urpx:referencesProfileAlternative": {
+                "@id": "jemc:cev-2026-01-01-pa-single-phase"
+              },
+              "urpx:startDate": "2026-01-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:cev-2026-01-01-price-service-charge-single-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:cev-2026-01-01-pd-service-charge"
+                  },
+                  "urpx:name": "Service Charge, single-phase customers",
+                  "urpx:unitPrice": "53.00",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:cev-2026-01-01-price-service-charge-single-phase-data-source-reference",
+                    "urpx:fileName": "CEV-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CEV-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "jemc:cev-2026-01-01-psa-three-phase",
+              "urpx:referencesProfileAlternative": {
+                "@id": "jemc:cev-2026-01-01-pa-three-phase"
+              },
+              "urpx:startDate": "2026-01-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:cev-2026-01-01-price-service-charge-three-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:cev-2026-01-01-pd-service-charge"
+                  },
+                  "urpx:name": "Service Charge, three-phase customers",
+                  "urpx:unitPrice": "81.00",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:cev-2026-01-01-price-service-charge-three-phase-data-source-reference",
+                    "urpx:fileName": "CEV-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CEV-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-jemc",
+        "urpx:legalName": "Jackson Electric Membership Corporation",
+        "urpx:organizationType": {
+          "@id": "urpx:cooperativeOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-jemc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-jemc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Jackson Electric Membership Corporation"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-jemc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "9601"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "jemc:cev"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "jemc:cc-cev-2026-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "jemc:cc-cev-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 4 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh. (2) Qualified chargers and experimental terms. The schedule serves only the customer's own electric vehicle chargers, for permanent year-round service, and requires documentation of qualified chargers, a dedicated circuit breaker and no more than 1 MW of connected load; availability is case by case, service runs at least twelve consecutive months, and the experimental schedule may be changed or ended on sixty days' notice. The EligibilityRule carries non-residential customer kind and an EV charging distributed energy resource; the other conditions are in its description only. (3) Contribution in aid to construction. Where the Cooperative furnishes additional facilities, the customer pays an upfront non-refundable contribution in aid to construction, which does not count toward any minimum charge. It is not a monthly rate and is not carried. (4) Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+          "urpx:evaluatedOn": "2026-10-18T00:00:00"
+        }
+      }
+    }
+  }
+}

@@ -10,11 +10,11 @@ A scenario cost model is URPX's `urpx:ScenarioCostModel`, read as a fully-determ
 
 A scenario cost model is identified by its own components: the base version IRI, the sorted modifier version IRIs, and the sorted alternative selections. Its IRI is derived from those alone, as [`doc/scenario-cost-models.md`](../doc/scenario-cost-models.md) specifies. A MIDAS RIN is an optional external attestation, attached only where it is confidently derivable. It is never the identity, and this report neither reads nor assigns one.
 
-[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 7424 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
+[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 7511 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
 
 ## What this report counts
 
-**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 1436 compositions, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
+**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 1478 compositions, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
 
 **Superseded versions are excluded.** Nobody takes service under a superseded version. Supersession is derived from the data, never from directory names, because a directory count is not a version count. Two filing directories can hold one version node: CPAU E-1 is filed at 2025-07-01 and again at 2025-09-01, and both carry `cpau:e-1-2025-07-01`, because the base rates did not change and only the modifiers operative at the snapshot did.
 
@@ -24,18 +24,18 @@ A scenario cost model is identified by its own components: the base version IRI,
 
 | | Count |
 |---|---:|
-| Compositions enumerated (base + at most one modifier) | 221 |
-| of which base alone | 51 |
-| of which base + one modifier | 170 |
-| Scenario cost models, open dimensions expanded | 7424 |
+| Compositions enumerated (base + at most one modifier) | 249 |
+| of which base alone | 60 |
+| of which base + one modifier | 189 |
+| Scenario cost models, open dimensions expanded | 7511 |
 
 | Outcome | Compositions | Scenario cost models |
 |---|---:|---:|
-| **servable** | 198 | 5674 |
-| **not priced per kWh** | 13 | 112 |
+| **servable** | 223 | 5758 |
+| **not priced per kWh** | 16 | 115 |
 | **blocked** | 6 | 90 |
 | **not measured** | 4 | 1548 |
-| **total** | 221 | 7424 |
+| **total** | 249 | 7511 |
 
 - **servable** resolves to a number at every probe instant inside the window of each version it composes; an instant outside that window is not applicable.
 - **not priced per kWh** resolves, and legitimately prices nothing per kWh. CPAU E-14 and E-16 are street lighting: they price per lamp, per fixture and per month. This is not a defect.
@@ -55,9 +55,9 @@ A scenario cost model is identified by its own components: the base version IRI,
 | CPAU (POU) | 26 | 9 | 0 | 0 | 35 |
 | SMUD (POU) | 17 | 0 | 0 | 0 | 17 |
 | LADWP (POU) | 8 | 0 | 0 | 0 | 8 |
-| Jackson EMC (Co-op) | 40 | 0 | 0 | 0 | 40 |
+| Jackson EMC (Co-op) | 65 | 3 | 0 | 0 | 68 |
 
-## Not priced per kWh (13)
+## Not priced per kWh (16)
 
 | Composition | Reason |
 |---|---|
@@ -74,6 +74,9 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `gpc:flat-2024-05-01` + `gpc:iqd-2024-05-01` | :no-energy-ledger |
 | `gpc:pbd-2024-05-01` | :no-energy-ledger |
 | `gpc:pbd-2024-05-01` + `gpc:iqd-2024-05-01` | :no-energy-ledger |
+| `jemc:mbs-2022-01-01` | :no-energy-ledger |
+| `jemc:qf-2022-01-01` | :no-energy-ledger |
+| `jemc:qf-2022-01-01` + `jemc:nm-2022-01-01` | :no-energy-ledger |
 
 ## Blocked (6)
 
@@ -108,9 +111,14 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `gpc:tou-oa-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:tou-oa-2026-06-01-psa-` | `gpc:tou-oa-2026-06-01-pa-inside-city-limits` |
 | `gpc:tou-rd-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:tou-rd-2026-06-01-psa-` | `gpc:tou-rd-2026-06-01-pa-inside-city-limits` |
 | `gpc:tou-reo-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:tou-reo-2026-06-01-psa-` | `gpc:tou-reo-2026-06-01-pa-inside-city-limits` |
+| `jemc:cev-2026-01-01-pa-service-phase`<br>Service phase: single-phase or three-phase | 2 | 3 | `urpx:PriceSetAlternative`<br>`jemc:cev-2026-01-01-psa-` | `jemc:cev-2026-01-01-pa-single-phase` |
 | `jemc:cs-2022-06-01-pa-solar-blocks`<br>Cooperative Solar blocks purchased | 3 | 4 | `urpx:PriceSetAlternative`<br>`jemc:cs-2022-06-01-psa-` | `jemc:cs-2022-06-01-pa-1-block` |
-| `jemc:gp-2023-01-01-pa-green-power-share`<br>Share of monthly energy use nominated as Green Power | 4 | 6 | `urpx:PriceSetAlternative`<br>`jemc:gp-2023-01-01-psa-` | `jemc:gp-2023-01-01-pa-100-percent` |
+| `jemc:gp-2023-01-01-pa-green-power-share`<br>Share of monthly energy use nominated as Green Power | 4 | 15 | `urpx:PriceSetAlternative`<br>`jemc:gp-2023-01-01-psa-` | `jemc:gp-2023-01-01-pa-100-percent` |
+| `jemc:gs-2026-01-01-pa-service-phase`<br>Service phase: single-phase or three-phase | 2 | 4 | `urpx:PriceSetAlternative`<br>`jemc:gs-2026-01-01-psa-` | `jemc:gs-2026-01-01-pa-single-phase` |
+| `jemc:gsae-2026-01-01-pa-service-phase`<br>Service phase: single-phase or three-phase | 2 | 4 | `urpx:PriceSetAlternative`<br>`jemc:gsae-2026-01-01-psa-` | `jemc:gsae-2026-01-01-pa-single-phase` |
+| `jemc:gstou-2026-01-01-pa-service-phase`<br>Service phase: single-phase or three-phase | 2 | 3 | `urpx:PriceSetAlternative`<br>`jemc:gstou-2026-01-01-psa-` | `jemc:gstou-2026-01-01-pa-single-phase` |
 | `jemc:s-2026-01-01-pa-lighting-system`<br>Lighting system: Cooperative-owned lights, or a customer-owned photocell-controlled or 24-hour system | 3 | 1 | `urpx:PriceSetAlternative`<br>`jemc:s-2026-01-01-psa-c` | `jemc:s-2026-01-01-pa-customer-owned-photocell` |
+| `jemc:ts-2026-01-01-pa-service-phase`<br>Service phase: single-phase or three-phase | 2 | 3 | `urpx:PriceSetAlternative`<br>`jemc:ts-2026-01-01-psa-` | `jemc:ts-2026-01-01-pa-single-phase` |
 | `pge:cca-crs-2026-01-01-pa-vintage-care`<br>PCIA vintage year crossed with CARE enrollment | 36 | 5 | `urpx:PriceSetAlternative`<br>`pge:cca-crs-2026-01-01-psa-pcia-v20` | `pge:cca-crs-2026-01-01-pa-v2009` |
 | `pge:e-1-2026-06-01-pa-baseline-territory-code`<br>Baseline Territory and Baseline Code (Special Condition 2, Sheet 4) | 20 | 8 | `urpx:ServiceBracket`<br>`pge:e-1-2026-06-01-bracket-` | no |
 | `pge:e-1-income-tier-2026-06-01-pa-income-tier`<br>Income tier (CARE / FERA / standard) | 3 | 1 | `urpx:PriceSetAlternative`<br>`pge:e-1-income-tier-2026-06-01-psa-bsc-tier-` | no |
@@ -131,7 +139,7 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `scl:residential-suburban-2026-01-01-pa-jurisdiction`<br>Location of service: the suburban jurisdiction the customer is served in | 7 | 1 | `urpx:PriceSetAlternative`<br>`scl:residential-suburban-2026-01-01-psa-` | `scl:residential-suburban-2026-01-01-pa-shoreline` |
 | `sdge:nbt-2025-01-27-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period | 5 | 1 | `urpx:PriceSetAlternative`<br>`sdge:nbt-2025-01-27-psa-export-nbt` | no |
 
-The baseline exercised a specific selection in 158 of the 7424 scenario cost models: 132 leave no dimension open, and 26 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
+The baseline exercised a specific selection in 186 of the 7511 scenario cost models: 139 leave no dimension open, and 47 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
 
 ## What a fuller enumeration would need
 

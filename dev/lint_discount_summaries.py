@@ -118,6 +118,13 @@ THE RULES, each traceable to a sentence in the source schedule:
     alone, which names the filing's own plan: a base filing that inlines no
     modifier version is applicable to its own plan.
 
+  JEMC, Schedule TS-26: "PLUS: A surcharge of twenty-five percent (25%) of the
+    total amount calculated above", the Service Charge and the energy blocks.
+    Not a discount: the subtotal whose @id ends "-summary-energy" holds the
+    Prices whose PriceDefinition is a urpx:usageCharge, and the surcharge takes
+    the same percentage of each phase's Service Charge through a second
+    multiplier over that Price alone, as GPC's riders do.
+
 Both utilities say TOTAL BILL. A bill carries each charge once, at the rate
 applicable to the usage being billed, so a charge that varies by TOU period or
 by service tier belongs in the subtotal once and not once per band. URPX says the
@@ -170,10 +177,15 @@ EXCLUDE_PGE = {
 }
 EXCLUDE_SCL = re.compile(r"-price-base-service-charge$")
 GENERATION = "-summary-generation"
-# GPC subtotal suffix -> the charge types its members are billed as.
-GPC_SUMMARIES = {
-    "-summary-base-bill": {"urpx:usageCharge"},
-    "-summary-mff-bill": {"urpx:usageCharge", "urpx:fuelCharge"},
+# Utility -> subtotal suffix -> the charge types its members are billed as.
+CHARGE_TYPE_SUMMARIES = {
+    "gpc": {
+        "-summary-base-bill": {"urpx:usageCharge"},
+        "-summary-mff-bill": {"urpx:usageCharge", "urpx:fuelCharge"},
+    },
+    "jemc": {
+        "-summary-energy": {"urpx:usageCharge"},
+    },
 }
 
 
@@ -671,10 +683,10 @@ def check(files) -> tuple[list[dict], dict]:
         utility = utility_of(path)
         program = ("care" if "-care-" in sid else
                    "fera" if "-fera-" in sid else "shared")
-        gpc_types = next((types for suffix, types in GPC_SUMMARIES.items()
-                          if sid.endswith(suffix)), None) if utility == "gpc" else None
+        typed = next((types for suffix, types in CHARGE_TYPE_SUMMARIES.get(utility, {}).items()
+                      if sid.endswith(suffix)), None)
         want = (expected_generation(path) if sid.endswith(GENERATION) else
-                expected_by_charge_type(path, gpc_types) if gpc_types else
+                expected_by_charge_type(path, typed) if typed else
                 expected(path, utility, "care" if program == "shared" else program))
         missing = sorted(set(want) - set(members))
         extra = sorted(set(members) - set(want))

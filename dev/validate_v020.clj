@@ -326,7 +326,13 @@
    "jemc:gp-2023-01-01-pa-green-power-share" "jemc:gp-2023-01-01-pa-100-percent"
    ;; Photocell-controlled is the alternative with a per-kWh price; the
    ;; Cooperative-owned alternative prices lamps only.
-   "jemc:s-2026-01-01-pa-lighting-system" "jemc:s-2026-01-01-pa-customer-owned-photocell"})
+   "jemc:s-2026-01-01-pa-lighting-system" "jemc:s-2026-01-01-pa-customer-owned-photocell"
+   ;; Single phase, the lower Service Charge; phase moves no per-kWh price.
+   "jemc:gs-2026-01-01-pa-service-phase" "jemc:gs-2026-01-01-pa-single-phase"
+   "jemc:gsae-2026-01-01-pa-service-phase" "jemc:gsae-2026-01-01-pa-single-phase"
+   "jemc:ts-2026-01-01-pa-service-phase" "jemc:ts-2026-01-01-pa-single-phase"
+   "jemc:gstou-2026-01-01-pa-service-phase" "jemc:gstou-2026-01-01-pa-single-phase"
+   "jemc:cev-2026-01-01-pa-service-phase" "jemc:cev-2026-01-01-pa-single-phase"})
 
 (defn- nominations-for
   "The entries of `profile-alternative-nominations` whose container is in

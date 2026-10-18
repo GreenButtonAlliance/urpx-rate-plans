@@ -1,0 +1,655 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "jemc:doc-slms-2026-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "jemc:slms",
+    "urpx:name": "Schedule SLMS School Load Management Service",
+    "urpx:ratePlanUniqueIdentifier": "SLMS",
+    "urpx:initialEffectiveDate": "2026-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "jemc:slms-2026-01-01",
+      "urpx:description": "Jackson EMC's school load management service schedule, SLMS-26, for state, county, city and private schools. A Service Charge of $299.00 per month; a Demand Charge of $3.00 per kW of Non-Coincident Billing Demand, the customer's highest 60-minute kW in the current month, and $13.40 per kW of Coincident Peak Billing Demand, the customer's average demand at Georgia Transmission Corporation's 5 highest peak-notification-hour demands in the 12 months ending September 30 of the previous year, a calculated MetricInput whose rule is stated in its CalculationMethod; and energy at 4.81 cents per kWh. Excess reactive demand, kVAR above one-third of the measured kW where the Cooperative meters it, is billed at $0.30 per kVAR. Every bill is also increased or decreased by Schedule P-22's Wholesale Power Cost Adjustment, a per-kWh factor the Cooperative computes each month and does not publish, defined here as a per-kWh PriceDefinition with no Price. Rates are set by the Cooperative's board, not the Georgia Public Service Commission; the sheet is effective January 1, 2026.",
+      "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:changeReasonOther"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "jemc:slms-2026-01-01-data-source-reference",
+        "urpx:fileName": "SLMS-26.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/SLMS-26.pdf",
+        "urpx:dateRetrieved": "2026-10-18",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 2
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "jemc:slms-2026-01-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule SLMS School Load Management Service",
+          "urpx:description": "Applicable to all electric service for state, county, city and private schools which offer regular elementary, middle, high school or college courses, of one standard voltage required on the customer's premises at one point and metered at or compensated to that voltage. No service may be resold or transmitted to other premises without the Cooperative's express consent. Available to all qualified customers in the area served by the Cooperative.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "jemc:slms-2026-01-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "jemc:slms-2026-01-01-cn-non-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:slms-2026-01-01-cn-non-residential-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:slms-2026-01-01-cn-non-residential-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "jemc:slms-2026-01-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:slms-2026-01-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:slms-2026-01-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:slms-2026-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:slms-2026-01-01-mi-demand",
+            "urpx:name": "kW Demand (60-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:slms-2026-01-01-ms-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              },
+              "urpx:intervalDuration": "PT1H",
+              "urpx:intervalType": {
+                "@id": "urpx:hourlyInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:slms-2026-01-01-mi-cp-billing-demand",
+            "urpx:name": "Coincident Peak Billing Demand (kW)",
+            "urpx:description": "Coincident Peak Billing Demand, for monthly billings from January through the following December, the average of the customer's sixty-minute demands measured coincident with Georgia Transmission Corporation's 5 highest demands during peak period notification hours occurring during the 12 months ending September 30 of the previous year. For existing customers not previously metered on an hourly basis, based on estimates developed by the Cooperative.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:slms-2026-01-01-ms-cp-billing-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:slms-2026-01-01-mi-cp-billing-demand-calculation-method",
+              "urpx:calculationFormula": "mean(D at GTC's 5 highest peak-notification-hour demands, Oct 1-Sep 30 of the previous year)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:slms-2026-01-01-mi-demand"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:slms-2026-01-01-mi-reactive-demand",
+            "urpx:name": "kVAR Reactive Demand (60-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:slms-2026-01-01-ms-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              },
+              "urpx:intervalDuration": "PT1H",
+              "urpx:intervalType": {
+                "@id": "urpx:hourlyInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:slms-2026-01-01-mi-excess-reactive-demand",
+            "urpx:name": "Excess Reactive Demand (kVAR)",
+            "urpx:description": "Excess Reactive Demand: the highest 60-minute kVAR measured during the month in excess of one-third of the measured actual kW in the current month. Measured only where there is an indication of a power factor of less than 95 percent lagging and the Cooperative, at its option, installs metering equipment.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:slms-2026-01-01-ms-excess-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:slms-2026-01-01-mi-excess-reactive-demand-calculation-method",
+              "urpx:calculationFormula": "max(max kVAR - max kW / 3, 0)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:slms-2026-01-01-mi-reactive-demand"
+                },
+                {
+                  "@id": "jemc:slms-2026-01-01-mi-demand"
+                }
+              ]
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "jemc:slms-2026-01-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:slms-2026-01-01-ledger-service-charge",
+              "urpx:name": "Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:slms-2026-01-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:slms-2026-01-01-ledger-ncp-demand",
+              "urpx:name": "Demand Charge, Non-Coincident Billing Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:slms-2026-01-01-mi-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:slms-2026-01-01-ledger-cp-billing-demand",
+              "urpx:name": "Demand Charge, Coincident Peak Billing Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:slms-2026-01-01-mi-cp-billing-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:slms-2026-01-01-ledger-energy",
+              "urpx:name": "Energy Charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:slms-2026-01-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:slms-2026-01-01-ledger-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:slms-2026-01-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:slms-2026-01-01-ledger-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:slms-2026-01-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:slms-2026-01-01-pd-service-charge",
+              "urpx:name": "Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:slms-2026-01-01-pd-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:slms-2026-01-01-ledger-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:slms-2026-01-01-pd-ncp-demand",
+              "urpx:name": "Demand Charge, Non-Coincident Billing Demand, per kW",
+              "urpx:chargeType": {
+                "@id": "urpx:demandDirect"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:slms-2026-01-01-pd-ncp-demand-calculation-method",
+                "urpx:aggregationMethod": {
+                  "@id": "urpx:maximum"
+                },
+                "urpx:intervalDuration": "P1M",
+                "urpx:intervalType": {
+                  "@id": "urpx:monthlyInterval"
+                },
+                "urpx:description": "Non-Coincident Billing Demand: the customer's highest 60-minute kW measurement during the current month."
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:slms-2026-01-01-ledger-ncp-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:slms-2026-01-01-pd-cp-billing-demand",
+              "urpx:name": "Demand Charge, Coincident Peak Billing Demand, per kW",
+              "urpx:chargeType": {
+                "@id": "urpx:demandDirect"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:slms-2026-01-01-pd-cp-billing-demand-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:slms-2026-01-01-ledger-cp-billing-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:slms-2026-01-01-pd-energy",
+              "urpx:name": "Energy Charge, per kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:slms-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:slms-2026-01-01-pd-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand, per excess kVAR",
+              "urpx:chargeType": {
+                "@id": "urpx:reactiveDemand"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:slms-2026-01-01-pd-excess-reactive-demand-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:slms-2026-01-01-ledger-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:slms-2026-01-01-pd-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment Schedule P-22, per kWh, computed monthly by the Cooperative",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:slms-2026-01-01-ledger-wpca"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "jemc:slms-2026-01-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "jemc:slms-2026-01-01-ps",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:slms-2026-01-01-price-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:slms-2026-01-01-pd-service-charge"
+                },
+                "urpx:name": "Service Charge",
+                "urpx:unitPrice": "299.00",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:slms-2026-01-01-price-service-charge-data-source-reference",
+                  "urpx:fileName": "SLMS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/SLMS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:slms-2026-01-01-price-ncp-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:slms-2026-01-01-pd-ncp-demand"
+                },
+                "urpx:name": "Demand Charge, Non-Coincident Billing Demand",
+                "urpx:unitPrice": "3.00",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:slms-2026-01-01-price-ncp-demand-data-source-reference",
+                  "urpx:fileName": "SLMS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/SLMS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:slms-2026-01-01-price-cp-billing-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:slms-2026-01-01-pd-cp-billing-demand"
+                },
+                "urpx:name": "Demand Charge, Coincident Peak Billing Demand",
+                "urpx:unitPrice": "13.40",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:slms-2026-01-01-price-cp-billing-demand-data-source-reference",
+                  "urpx:fileName": "SLMS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/SLMS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:slms-2026-01-01-price-energy",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:slms-2026-01-01-pd-energy"
+                },
+                "urpx:name": "Energy Charge",
+                "urpx:unitPrice": "0.0481",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:slms-2026-01-01-price-energy-data-source-reference",
+                  "urpx:fileName": "SLMS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/SLMS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:slms-2026-01-01-price-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:slms-2026-01-01-pd-excess-reactive-demand"
+                },
+                "urpx:name": "Excess Reactive Demand, per excess kVAR",
+                "urpx:unitPrice": "0.30",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:slms-2026-01-01-price-excess-reactive-demand-data-source-reference",
+                  "urpx:fileName": "SLMS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/SLMS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 2,
+                  "urpx:pageEnd": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-jemc",
+        "urpx:legalName": "Jackson Electric Membership Corporation",
+        "urpx:organizationType": {
+          "@id": "urpx:cooperativeOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-jemc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-jemc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Jackson Electric Membership Corporation"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-jemc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "9601"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "jemc:slms"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "jemc:cc-slms-2026-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "jemc:cc-slms-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 6 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Coincident Peak Billing Demand. For each calendar year's bills the Coincident Peak Billing Demand is the customer's average 60-minute demand at Georgia Transmission Corporation's 5 highest demands during peak period notification hours in the 12 months ending September 30 of the previous year, which the Cooperative estimates for customers not previously metered hourly. It is a calculated MetricInput whose rule is text in its CalculationMethod; Georgia Transmission's peak hours are published by neither the sheet nor the Cooperative, so a consumer has to obtain them to compute it. (2) Schools. The schedule is for state, county, city and private schools offering regular elementary, middle, high school or college courses. URPX v0.5.1 has no customer kind or sub-kind for a school, so the EligibilityRule carries non-residential customer kind and the condition is in its description only. (3) Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh. (4) Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it. (5) Minimum Monthly Charge. The minimum monthly charge is the greater of two options: (1) the greater of $12.00 per kW of (a) the highest on-peak demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May or the summer off-peak demand, never less than the Service Charge plus excess kVAR charges; or (2) a charge specified in a supplemental contract. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference. (6) Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+          "urpx:evaluatedOn": "2026-10-18T00:00:00"
+        }
+      }
+    }
+  }
+}

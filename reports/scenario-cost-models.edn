@@ -29,10 +29,10 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 221
-   :scenario-cost-models 7424
-   :servable 198
-   :not-priced-per-kwh 13
+  {:compositions 249
+   :scenario-cost-models 7511
+   :servable 223
+   :not-priced-per-kwh 16
    :blocked 6
    :not-measured 4}
 
@@ -585,12 +585,183 @@
    :selections 1
    :outcome :servable
    :baseline-keys ["compose|us/ga/jemc/electricity/senior-low-income/versions/2026-01-01/rate-plan-modifier_jemc_senior-low-income_2026-01-01.jsonld|jemc:atou"]}
+  {:base "jemc:cev-2026-01-01"
+   :modifiers []
+   :open-dimensions ["jemc:cev-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/cev/versions/2026-01-01/rate-plan_jemc_cev_2026-01-01.jsonld"]}
+  {:base "jemc:cev-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:cev-2026-01-01-pa-service-phase" "jemc:gp-2023-01-01-pa-green-power-share"]
+   :selections 8
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:cev"]}
+  {:base "jemc:cev-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions ["jemc:cev-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:cev"]}
+  {:base "jemc:gs-2026-01-01"
+   :modifiers []
+   :open-dimensions ["jemc:gs-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/gs/versions/2026-01-01/rate-plan_jemc_gs_2026-01-01.jsonld"]}
+  {:base "jemc:gs-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share" "jemc:gs-2026-01-01-pa-service-phase"]
+   :selections 8
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:gs"]}
+  {:base "jemc:gs-2026-01-01"
+   :modifiers ["jemc:lm-2022-01-01"]
+   :open-dimensions ["jemc:gs-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/lm/versions/2022-01-01/rate-plan-modifier_jemc_lm_2022-01-01.jsonld|jemc:gs"]}
+  {:base "jemc:gs-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions ["jemc:gs-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:gs"]}
+  {:base "jemc:gsae-2026-01-01"
+   :modifiers []
+   :open-dimensions ["jemc:gsae-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/gsae/versions/2026-01-01/rate-plan_jemc_gsae_2026-01-01.jsonld"]}
+  {:base "jemc:gsae-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share" "jemc:gsae-2026-01-01-pa-service-phase"]
+   :selections 8
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:gsae"]}
+  {:base "jemc:gsae-2026-01-01"
+   :modifiers ["jemc:lm-2022-01-01"]
+   :open-dimensions ["jemc:gsae-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/lm/versions/2022-01-01/rate-plan-modifier_jemc_lm_2022-01-01.jsonld|jemc:gsae"]}
+  {:base "jemc:gsae-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions ["jemc:gsae-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:gsae"]}
+  {:base "jemc:gstou-2026-01-01"
+   :modifiers []
+   :open-dimensions ["jemc:gstou-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/gstou/versions/2026-01-01/rate-plan_jemc_gstou_2026-01-01.jsonld"]}
+  {:base "jemc:gstou-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share" "jemc:gstou-2026-01-01-pa-service-phase"]
+   :selections 8
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:gstou"]}
+  {:base "jemc:gstou-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions ["jemc:gstou-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:gstou"]}
+  {:base "jemc:lms-2026-01-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/lms/versions/2026-01-01/rate-plan_jemc_lms_2026-01-01.jsonld"]}
+  {:base "jemc:lms-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share"]
+   :selections 4
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:lms"]}
+  {:base "jemc:lms-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions []
+   :selections 1
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:lms"]}
+  {:base "jemc:mbs-2022-01-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/jemc/electricity/mbs/versions/2022-01-01/rate-plan_jemc_mbs_2022-01-01.jsonld"]}
+  {:base "jemc:mbs-2022-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share"]
+   :selections 4
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:mbs"]}
+  {:base "jemc:qf-2022-01-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/jemc/electricity/qf/versions/2022-01-01/rate-plan_jemc_qf_2022-01-01.jsonld"]}
+  {:base "jemc:qf-2022-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share"]
+   :selections 4
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:qf"]}
+  {:base "jemc:qf-2022-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:qf"]}
   {:base "jemc:s-2026-01-01"
    :modifiers []
    :open-dimensions ["jemc:s-2026-01-01-pa-lighting-system"]
    :selections 3
    :outcome :servable
    :baseline-keys ["plan|us/ga/jemc/electricity/s/versions/2026-01-01/rate-plan_jemc_s_2026-01-01.jsonld"]}
+  {:base "jemc:slms-2026-01-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/slms/versions/2026-01-01/rate-plan_jemc_slms_2026-01-01.jsonld"]}
+  {:base "jemc:slms-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share"]
+   :selections 4
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:slms"]}
+  {:base "jemc:slms-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions []
+   :selections 1
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:slms"]}
+  {:base "jemc:ts-2026-01-01"
+   :modifiers []
+   :open-dimensions ["jemc:ts-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/jemc/electricity/ts/versions/2026-01-01/rate-plan_jemc_ts_2026-01-01.jsonld"]}
+  {:base "jemc:ts-2026-01-01"
+   :modifiers ["jemc:gp-2023-01-01"]
+   :open-dimensions ["jemc:gp-2023-01-01-pa-green-power-share" "jemc:ts-2026-01-01-pa-service-phase"]
+   :selections 8
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/gp/versions/2023-01-01/rate-plan-modifier_jemc_gp_2023-01-01.jsonld|jemc:ts"]}
+  {:base "jemc:ts-2026-01-01"
+   :modifiers ["jemc:nm-2022-01-01"]
+   :open-dimensions ["jemc:ts-2026-01-01-pa-service-phase"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/jemc/electricity/nm/versions/2022-01-01/rate-plan-modifier_jemc_nm_2022-01-01.jsonld|jemc:ts"]}
   {:base "ladwp:r-1a-2026-10-01"
    :modifiers []
    :open-dimensions []
@@ -2381,6 +2552,213 @@
   "https://rate-plans.grid-coordination.energy/jemc/scm-atou-2026-01-01--senior-low-income-2026-01-01"
   {:name "Schedule ATOU Residential Time-Of-Use Service [jemc:atou-2026-01-01] + Senior Citizen - Low Income Assistance [jemc:senior-low-income-2026-01-01]"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--e3b83d23491c"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--eec9166b90b4"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--0cce0464f2d7"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Single-phase customers; 100 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--10332712f009"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Three-phase customers; 75 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--32800fd28586"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Three-phase customers; 50 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--3b8c22dc77a2"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Three-phase customers; 25 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--5c9b6c5be2c7"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Single-phase customers; 75 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--7b517963b7ee"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Three-phase customers; 100 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--7e38d0930823"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Single-phase customers; 25 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--gp-2023-01-01--ba1a357aff24"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; Single-phase customers; 50 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--nm-2022-01-01--44fd37c650f3"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-cev-2026-01-01--nm-2022-01-01--65140bfb18e8"
+  {:name "Schedule CEV Commercial Plug-in Electric Vehicle Service [jemc:cev-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--0e7882d1f948"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--a9b866f13b84"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--0c0eee38e548"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--2ad8d3bdff44"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--4a09f1ae68d8"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--6ddef1e6cfb7"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--8657fcfc62e2"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--8d74b81e7af5"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--9bc5d8cf6d89"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--gp-2023-01-01--efa333321e2c"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--lm-2022-01-01--48da1d76d358"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Load Management Adjustment Rider [jemc:lm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--lm-2022-01-01--c17a879b0211"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Load Management Adjustment Rider [jemc:lm-2022-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--nm-2022-01-01--2a5f2b81a5ce"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gs-2026-01-01--nm-2022-01-01--f982c9706f1b"
+  {:name "Schedule GS General Service [jemc:gs-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--6af0e440c6e3"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--d78a89cf10b9"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--557bdfec3197"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--6c35b3c2bab5"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--7616742408f8"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--83d1016530a0"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--cb4e2e812a3d"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--f17656788de2"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--f83b1673c95f"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--gp-2023-01-01--f86aef447677"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--lm-2022-01-01--aa30a582c351"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Load Management Adjustment Rider [jemc:lm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--lm-2022-01-01--be5f75862194"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Load Management Adjustment Rider [jemc:lm-2022-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--nm-2022-01-01--b22ccd7ac0de"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gsae-2026-01-01--nm-2022-01-01--ed533e3b4448"
+  {:name "Schedule GSAE General Service - All Electric [jemc:gsae-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--5b36942bb797"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--cc52e05df715"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--1ab1b5f88908"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--66fb2091ec50"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--9f108e839008"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--c9bb7a83bbac"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--e0758fdaf452"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--f210a04e96e6"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--f765ba4209a1"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--gp-2023-01-01--fecc6f12535f"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--nm-2022-01-01--004488c9fa18"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-gstou-2026-01-01--nm-2022-01-01--7b95b42e5139"
+  {:name "Schedule GSTOU General Service Time-of-Use [jemc:gstou-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-lms-2026-01-01"
+  {:name "Schedule LMS Load Management Service [jemc:lms-2026-01-01]"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-lms-2026-01-01--gp-2023-01-01--78941cb32e45"
+  {:name "Schedule LMS Load Management Service [jemc:lms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-lms-2026-01-01--gp-2023-01-01--b2a14dc65a0e"
+  {:name "Schedule LMS Load Management Service [jemc:lms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-lms-2026-01-01--gp-2023-01-01--d4be3ddef294"
+  {:name "Schedule LMS Load Management Service [jemc:lms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-lms-2026-01-01--gp-2023-01-01--e9e802974397"
+  {:name "Schedule LMS Load Management Service [jemc:lms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-lms-2026-01-01--nm-2022-01-01"
+  {:name "Schedule LMS Load Management Service [jemc:lms-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-mbs-2022-01-01"
+  {:name "Schedule MBS Market Based Service [jemc:mbs-2022-01-01]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-mbs-2022-01-01--gp-2023-01-01--0c07b7ebb21d"
+  {:name "Schedule MBS Market Based Service [jemc:mbs-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-mbs-2022-01-01--gp-2023-01-01--4ffe000252d5"
+  {:name "Schedule MBS Market Based Service [jemc:mbs-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-mbs-2022-01-01--gp-2023-01-01--b6d0a2d5ccd8"
+  {:name "Schedule MBS Market Based Service [jemc:mbs-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-mbs-2022-01-01--gp-2023-01-01--f11e0afe311d"
+  {:name "Schedule MBS Market Based Service [jemc:mbs-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-qf-2022-01-01"
+  {:name "Schedule QF Qualifying Facilities Service [jemc:qf-2022-01-01]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-qf-2022-01-01--gp-2023-01-01--4c6e6c692b02"
+  {:name "Schedule QF Qualifying Facilities Service [jemc:qf-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-qf-2022-01-01--gp-2023-01-01--739713937eb6"
+  {:name "Schedule QF Qualifying Facilities Service [jemc:qf-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-qf-2022-01-01--gp-2023-01-01--9aa15754fa9a"
+  {:name "Schedule QF Qualifying Facilities Service [jemc:qf-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-qf-2022-01-01--gp-2023-01-01--ac1a6db16f61"
+  {:name "Schedule QF Qualifying Facilities Service [jemc:qf-2022-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-qf-2022-01-01--nm-2022-01-01"
+  {:name "Schedule QF Qualifying Facilities Service [jemc:qf-2022-01-01] + Net Metering Rider [jemc:nm-2022-01-01]"
+   :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/jemc/scm-s-2026-01-01--89c96b92ea7b"
   {:name "Schedule S Outdoor Lighting Service [jemc:s-2026-01-01]; Cooperative-owned and maintained lights, billed per lamp"
    :outcome :servable}
@@ -2389,6 +2767,60 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/jemc/scm-s-2026-01-01--d764f81313fd"
   {:name "Schedule S Outdoor Lighting Service [jemc:s-2026-01-01]; Customer-owned and maintained signboard, CATV amplifier or traffic signal, photocell-controlled"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-slms-2026-01-01"
+  {:name "Schedule SLMS School Load Management Service [jemc:slms-2026-01-01]"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-slms-2026-01-01--gp-2023-01-01--0d41891c0860"
+  {:name "Schedule SLMS School Load Management Service [jemc:slms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-slms-2026-01-01--gp-2023-01-01--515b5b80ed54"
+  {:name "Schedule SLMS School Load Management Service [jemc:slms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-slms-2026-01-01--gp-2023-01-01--821271521662"
+  {:name "Schedule SLMS School Load Management Service [jemc:slms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-slms-2026-01-01--gp-2023-01-01--dd4303ffb878"
+  {:name "Schedule SLMS School Load Management Service [jemc:slms-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-slms-2026-01-01--nm-2022-01-01"
+  {:name "Schedule SLMS School Load Management Service [jemc:slms-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--dd726cf46b0b"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01]; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--e275313ba73e"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--18c81fc7a8df"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--33d21ec88592"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--4de2290d5b9f"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--74b98e939063"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--d0ed3c3f5f47"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 50 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--d55638fda1ca"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 100 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--dbad37fc1bbd"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 75 percent of monthly energy use as Green Power; Three-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--gp-2023-01-01--ffe459627c24"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Green Power Rider [jemc:gp-2023-01-01]; 25 percent of monthly energy use as Green Power; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--nm-2022-01-01--a1c1304df937"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Single-phase customers"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/jemc/scm-ts-2026-01-01--nm-2022-01-01--cdcc88738498"
+  {:name "Schedule TS Temporary Service [jemc:ts-2026-01-01] + Net Metering Rider [jemc:nm-2022-01-01]; Three-phase customers"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/ladwp/scm-r-1a-2026-10-01"
   {:name "Schedule R-1(A) Residential Service — Standard [ladwp:r-1a-2026-10-01]"

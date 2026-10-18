@@ -1,0 +1,84 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "cev"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+# The Cooperative's URL slug for this page still reads "cev-23"; the page links CEV-26.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates/cev-23-commercial-plug-in-electric-vehicle-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CEV-26.pdf"
+  sha256 = "614d297019e3bee127701b66300cfa211ee0e64683695034523a2bdcba97a6c1"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "CEV-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheet names no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+CEV-26 read with mineru-kit parse --tier standard; every rate was
+checked against the PDF text. P-22 is the sheet A-26 carries, unchanged;
+see Schedule A's tariff.toml for the Wholesale Power Cost Adjustment.
+
+Periods. On-Peak energy is "all kilowatt-hours used by the customer beginning
+at 12:00 p.m. and ending at 8:00 p.m., Monday through Friday", in every
+month; Off-Peak is all other hours. The sheet names no holidays, so the TOU
+schedule carries none, and one Season covers the year.
+
+Service Charge. $53.00 for single-phase and $81.00 for three-phase customers,
+chosen by a ProfileAlternatives dimension, servicePhase. The minimum monthly
+charge is the Service Charge, so it is not modeled separately.
+
+Eligibility is carried as urpx:nonResidentialKind and a distributed energy
+resource of urpx:evChargingDER; the other conditions are in the
+EligibilityRule's description.
+
+Dating. The sheet is effective "January 1, 2026", a calendar date, so the
+version begins 2026-01-01. It states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's rate change
+is not a formal rate case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.",
+  "Qualified chargers and experimental terms. The schedule serves only the customer's own electric vehicle chargers, for permanent year-round service, and requires documentation of qualified chargers, a dedicated circuit breaker and no more than 1 MW of connected load; availability is case by case, service runs at least twelve consecutive months, and the experimental schedule may be changed or ended on sixty days' notice. The EligibilityRule carries non-residential customer kind and an EV charging distributed energy resource; the other conditions are in its description only.",
+  "Contribution in aid to construction. Where the Cooperative furnishes additional facilities, the customer pays an upfront non-refundable contribution in aid to construction, which does not count toward any minimum charge. It is not a monthly rate and is not carried.",
+  "Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+]
+applicable_modifiers = ["gp", "nm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's commercial EV charging service: a Service Charge by phase and two energy prices, 12:00 to 8:00 p.m. weekdays and all other hours."

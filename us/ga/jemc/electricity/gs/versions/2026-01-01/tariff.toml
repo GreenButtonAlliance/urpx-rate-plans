@@ -1,0 +1,90 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "gs"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates/general-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GS-26.pdf"
+  sha256 = "f774b3b3fd5bd499e4918cc3d543bd76b6ec541694f5c5ce143e017756baf409"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "GS-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheet names no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+GS-26 read with mineru-kit parse --tier standard; every rate was
+checked against the PDF text. P-22 is the sheet A-26 carries, unchanged;
+see Schedule A's tariff.toml for the Wholesale Power Cost Adjustment.
+
+Hours-use blocks. The rate table prices "All consumption (kWh) up to 200
+hours times the Billing Demand" in three blocks of kWh, and kWh in excess of
+200, 400 and 600 hours times the Billing Demand at three further prices. Each
+band is a calculated MetricInput of kWh on the measured kWh and the Billing
+Demand, with its formula in its CalculationMethod; the first band's three
+blocks are a ServiceTiers ladder on that band's kWh.
+
+Billing Demand is a calculated MetricInput on the 30-minute kW demand, with
+the sheet's summer and winter ratchets and its 5 kW floor stated in its
+description and formula. Section B's school service rule (June through August
+Billing Demand the higher of current demand or 5 kW) is in its description.
+
+Service Charge. $50.00 for single-phase and $78.00 for three-phase customers,
+chosen by a ProfileAlternatives dimension, servicePhase.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet names no
+customer kind, and it is listed on the Cooperative's commercial rates page.
+
+Dating. The sheet is effective "January 1, 2026", a calendar date, so the
+version begins 2026-01-01. It states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's rate change
+is not a formal rate case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Hours-use blocks. The sheet prices kWh in bands bounded by hours times the Billing Demand: up to 200 hours (in blocks of 15,000 and 185,000 kWh), 200 to 400, 400 to 600 and over 600 hours. A urpx:ServiceBracket bound is a fixed number, so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, so this filing's recorded marginal rate is 28.67 cents per kWh, the four bands' first prices added together, where the sheet prices a month's first kWh at 13.61 cents.",
+  "Billing Demand ratchets. Billing Demand is a calculated MetricInput, the highest 30-minute kW demand of the current month and the preceding eleven, at least 90 percent of the highest summer demand and 65 percent of the highest winter demand, and a floor of the contract minimum or 5 kW (for school service, June through August, the current demand or 5 kW); its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May.",
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.",
+  "Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.",
+  "Minimum Monthly Charge. The minimum monthly charge is the greater of $12.00 per kW of (a) the highest demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May, and is never less than the Service Charge plus excess kVAR charges. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference. For athletic facilities lighting the minimum is the Service Charge per meter, and a customer disconnecting for less than 14 months pays the minimum for the period of disconnection.",
+  "Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+]
+applicable_modifiers = ["lm", "gp", "nm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's general service: a Service Charge by phase and energy in hours-use blocks of a ratcheted Billing Demand."
