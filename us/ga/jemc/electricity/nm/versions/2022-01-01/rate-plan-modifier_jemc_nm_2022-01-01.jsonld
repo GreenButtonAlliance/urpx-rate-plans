@@ -1,0 +1,396 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "jemc:doc-nm-2022-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "jemc:nm",
+        "urpx:name": "Net Metering Rider",
+        "urpx:modifierUniqueIdentifier": "NM",
+        "urpx:initialEffectiveDate": "2022-01-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "jemc:nm-2022-01-01",
+          "urpx:version": "2022-01-01",
+          "urpx:modifierVersionNumber": "2022-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:changeReasonOther"
+          },
+          "urpx:description": "Jackson EMC's Rider NM, Net Metering Rider, for customers with solar photovoltaic, fuel cell or wind generation of not more than 10 kW (residential) connected after January 1, 2016 and eligible under the Georgia Cogeneration and Distributed Generation Act of 2001; of the Cooperative's schedules, this corpus holds the six residential ones, which urpx:applicableToRatePlan names. The customer pays Incremental Service Costs of $10.00 per month. Electricity the Cooperative supplies is billed under the customer's tariff; whenever the customer's generation exceeds its consumption, the excess is credited at the Avoided Energy Cost, the base charge at the generator plus transmission line loss avoided costs at the substation plus distribution line loss at the customer. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The Incremental Service Costs are carried as a monthly charge, and the excess-generation credit as a per-kWh PriceDefinition with no Price, since the rider states a formula and no value. Dating: the rider is effective January 1, 2022, so this version begins 2022-01-01; it states no date of first introduction.",
+          "urpx:effectiveDateTime": "2022-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "jemc:a"
+            },
+            {
+              "@id": "jemc:aea"
+            },
+            {
+              "@id": "jemc:am"
+            },
+            {
+              "@id": "jemc:aphf"
+            },
+            {
+              "@id": "jemc:atou"
+            },
+            {
+              "@id": "jemc:apev"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "jemc:nm-2022-01-01-data-source-reference",
+            "urpx:fileName": "NM.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/NM.pdf",
+            "urpx:dateRetrieved": "2026-10-18",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 2
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "jemc:nm-2022-01-01-er-eligible",
+              "urpx:name": "Residential customer with qualifying distributed generation",
+              "urpx:description": "Residential customer with solar photovoltaic, fuel cell or wind generation connected after January 1, 2016 and eligible under O.C.G.A. 46-3-50 et seq. (Georgia Cogeneration and Distributed Generation Act of 2001). The facility must \"1. Be owned and operated by a Customer of the Cooperative for production of electrical energy, and 2. Be located on the Customer's premises, and 3. Be connected to and operate in parallel with the Cooperative's distribution facilities, and 4. Be intended primarily to offset part or all of the Customer's requirement for electricity, and 5. Have peak generating capacity of not more than 10 kW for residential applications ... Larger applications are at the sole discretion of the Cooperative. 6. Use solar photovoltaic system, fuel cell or wind generation\".",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:nm-2022-01-01-cx-eligible",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "jemc:nm-2022-01-01-bn-residential-and-generator",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:nm-2022-01-01-cn-residential",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:nm-2022-01-01-cn-residential-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:nm-2022-01-01-cn-residential-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:residentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:BooleanOperationNode",
+                      "@id": "jemc:nm-2022-01-01-bn-solar-or-wind",
+                      "urpx:operator": {
+                        "@id": "urpx:orOperator"
+                      },
+                      "urpx:operandNodes": [
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "jemc:nm-2022-01-01-cn-der-solar",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "jemc:nm-2022-01-01-cn-der-solar-left-operand",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:derType"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "jemc:nm-2022-01-01-cn-der-solar-right-operand",
+                            "urpx:referencesValue": {
+                              "@id": "urpx:solarDER"
+                            }
+                          }
+                        },
+                        {
+                          "@type": "urpx:ComparisonNode",
+                          "@id": "jemc:nm-2022-01-01-cn-der-wind",
+                          "urpx:operator": {
+                            "@id": "urpx:equalsOperator"
+                          },
+                          "urpx:leftOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "jemc:nm-2022-01-01-cn-der-wind-left-operand",
+                            "urpx:conditionProperty": {
+                              "@id": "urpx:derType"
+                            }
+                          },
+                          "urpx:rightOperand": {
+                            "@type": "urpx:ObjectOperandNode",
+                            "@id": "jemc:nm-2022-01-01-cn-der-wind-right-operand",
+                            "urpx:referencesValue": {
+                              "@id": "urpx:windDER"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "jemc:nm-2022-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:nm-2022-01-01-mi-meter-count",
+                "urpx:name": "Per Meter Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:meterCount"
+                }
+              },
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:nm-2022-01-01-mi-energy-export",
+                "urpx:name": "Energy Exported to Grid (kWh, reverse flow)",
+                "urpx:metricInputType": {
+                  "@id": "urpx:measuredMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "jemc:nm-2022-01-01-ms-energy-export",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:energy"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kWh"
+                  },
+                  "urpx:flowDirection": {
+                    "@id": "urpx:reverse"
+                  }
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "jemc:nm-2022-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:nm-2022-01-01-ledger-incremental-service-cost",
+                  "urpx:name": "Incremental Service Costs",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:nm-2022-01-01-mi-meter-count"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:nm-2022-01-01-ledger-avoided-energy-cost-credit",
+                  "urpx:name": "Excess generation credited at Avoided Energy Cost",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:nm-2022-01-01-mi-energy-export"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:nm-2022-01-01-pd-incremental-service-cost",
+                  "urpx:name": "Incremental Service Costs, per month",
+                  "urpx:chargeType": {
+                    "@id": "urpx:distributedGeneration"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:serviceCharge"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "jemc:nm-2022-01-01-pd-incremental-service-cost-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:nm-2022-01-01-ledger-incremental-service-cost"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:nm-2022-01-01-pd-avoided-energy-cost-credit",
+                  "urpx:name": "Avoided Energy Cost credit for excess generation, per kWh, unpriced: see the filing's tariff.toml",
+                  "urpx:chargeType": {
+                    "@id": "urpx:exportCredit"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:nm-2022-01-01-ledger-avoided-energy-cost-credit"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "jemc:nm-2022-01-01-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:nm-2022-01-01-price-incremental-service-cost",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:nm-2022-01-01-pd-incremental-service-cost"
+                },
+                "urpx:name": "Incremental Service Costs",
+                "urpx:startDate": "2022-01-01",
+                "urpx:unitPrice": "10.00"
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-jemc",
+            "urpx:legalName": "Jackson Electric Membership Corporation",
+            "urpx:organizationType": {
+              "@id": "urpx:cooperativeOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-jemc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-jemc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Jackson Electric Membership Corporation"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-jemc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "9601"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "jemc:nm"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "jemc:cc-nm-2022-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "jemc:cc-nm-2022-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Avoided Energy Cost. Excess generation is credited at the Avoided Energy Cost, a formula of the base charge at the generator and transmission and distribution line losses for which the Cooperative publishes no value. The JSON-LD defines the credit as a per-kWh PriceDefinition with no Price, so a modeled bill credits nothing for excess generation. (2) Netting over the billing period. The rider compares the customer's generation with its consumption and credits only the excess; the JSON-LD carries the credit on exported kWh as metered, without stating over what interval generation and consumption are netted. (3) Credit balance and December payout. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The JSON-LD carries no balance across bills. (4) Qualifying facilities. The facility must be solar photovoltaic, fuel cell or wind generation, owned and operated by the customer on its premises, operating in parallel with the Cooperative's system, intended primarily to offset the customer's own requirement, connected after January 1, 2016 and of not more than 10 kW for residential applications. URPX v0.5.1 has no fuel cell urpx:DERTypeValue, so the EligibilityRule carries residential customer kind and a solar or wind distributed energy resource; a fuel cell and the other conditions are in its description only. (5) Interconnection and additional purchases. The customer bears the costs of a safe interconnection under the Cooperative's Bulletin, and the Cooperative may purchase additional energy at a cost agreed with the customer. Neither is priced on the rider and neither is carried.",
+              "urpx:evaluatedOn": "2026-10-18T00:00:00"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

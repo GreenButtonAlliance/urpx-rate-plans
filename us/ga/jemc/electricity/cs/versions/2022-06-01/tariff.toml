@@ -1,0 +1,70 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "cs"
+effective_date = "2022-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/rider-cs-cooperative-solar"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/CS.pdf"
+sha256 = "c83ea63c0ce7ec3d30782d90aed3e7ec28ca50c31bed82d5c76a2600f7d3ea8f"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "CS"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates (us/ga/jemc/utility.toml).
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-18"
+notes = """
+Rider CS is two pages of prose, read from the PDF text.
+
+Applicability. The rider applies to the Cooperative's residential rate
+schedules "excluding customers on the Time-of-Use rate, Plug-In Electric
+Vehicle rate, or Net Metering Rider", so urpx:applicableToRatePlan names
+A-26, AEA-26, AM-26 and APHF-26 and leaves out ATOU-26 and APEV-26.
+
+Block charge. Blocks are one kW at $23.00 per block per month. URPX v0.5.1
+names no profile property for a count of subscribed blocks (the same gap as
+the controlled kW in Rider LM, https://github.com/urpx-org/urpx/issues/86),
+so the number of blocks is a ProfileAlternatives dimension with one
+alternative each for one, two and three blocks, the three the Cooperative
+may limit a customer to, priced $23.00, $46.00 and $69.00 a month on a
+per-meter monthly PriceDefinition.
+
+Eligibility is carried as residential customer kind and enrollment in
+jemc:program-cs, a urpx:ProgramEnrollment this filing defines.
+
+Dating. The rider is effective "June 1, 2022", a calendar date, though the
+PDF was created on 2025-12-05 and is served from the 2026 rates folder. A
+board's rate change is not a formal rate case, so urpx:changeReason is
+urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Generation offset. Each month the Cooperative divides its solar units' total generation by the total blocks in the program, and the customer's consumption for billing is offset by its blocks' pro rata share. The share varies month to month and is not published, so the JSON-LD carries no offset: a modeled bill charges the base schedule's energy charges on the customer's whole consumption, high by the energy charges on the blocks' share.",
+  "Excess generation credit. When the blocks' share exceeds the month's consumption, the excess is credited at the Avoided Energy Cost defined in Rider NM, a formula the Cooperative publishes no value for, and a credit balance is applied to the next month's bill. The JSON-LD carries neither the credit nor the carryover.",
+  "More than three blocks. The Cooperative \"reserves the right to limit the number of solar blocks for a customer to no more than three\" and considers more case by case. The ProfileAlternatives offer one, two and three blocks only.",
+  "Exclusions and program terms. The rider excludes customers on Rider NM and members on the PrePay or Budget Billing programs, limits blocks to availability on a first-come basis, imposes a twelve-month wait to re-enroll after exiting, and allows a subscription to transfer to a new premises. The EligibilityRule carries residential customer kind and enrollment in jemc:program-cs; the rest is in its description, and the exclusion of Rider NM is not expressed between the two modifiers.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's community solar subscription: $23.00 per 1 kW block per month, one to three blocks by profile alternative, applicable to jemc:a, jemc:aea, jemc:am and jemc:aphf."

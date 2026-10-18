@@ -1,0 +1,515 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "jemc:doc-gp-2023-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "jemc:gp",
+        "urpx:name": "Green Power Rider",
+        "urpx:modifierUniqueIdentifier": "GP",
+        "urpx:initialEffectiveDate": "2023-01-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "jemc:gp-2023-01-01",
+          "urpx:version": "2023-01-01",
+          "urpx:modifierVersionNumber": "2023-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:changeReasonOther"
+          },
+          "urpx:description": "Jackson EMC's Rider GP, Green Power Rider, for customers on the Cooperative's residential and commercial rate schedules; of those, this corpus holds the six residential schedules, which urpx:applicableToRatePlan names. Customers nominate 25, 50, 75 or 100 percent of their monthly energy use to be provided by Green Power, and are charged a premium of $0.01 per kWh of Green Power purchased, in addition to all costs under their tariff, for a one-year, self-renewing term. The premium is carried as a price per kWh of total monthly use, chosen by a profile alternative for the nominated percentage: $0.0025, $0.0050, $0.0075 or $0.0100. Dating: the rider is effective January 1, 2023, so this version begins 2023-01-01; it states no date of first introduction.",
+          "urpx:effectiveDateTime": "2023-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "jemc:a"
+            },
+            {
+              "@id": "jemc:aea"
+            },
+            {
+              "@id": "jemc:am"
+            },
+            {
+              "@id": "jemc:aphf"
+            },
+            {
+              "@id": "jemc:atou"
+            },
+            {
+              "@id": "jemc:apev"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "jemc:gp-2023-01-01-data-source-reference",
+            "urpx:fileName": "GP.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GP.pdf",
+            "urpx:dateRetrieved": "2026-10-18",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "jemc:gp-2023-01-01-er-eligible",
+              "urpx:name": "Green Power subscriber",
+              "urpx:description": "Customer subscribed to Green Power, on any of the Cooperative's residential or commercial rate schedules. \"Customers may select the percentage of Green Power to purchase on an annual basis for a one-year, self-renewing term.\" ELIGIBILITY: \"A limited amount of Green Power is available for retail distribution. Customers will be added on a first come - first serve basis. The beginning and ending of the sign-up period is at the sole discretion of the Cooperative and purchased quantities are subject to availability.\"",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:gp-2023-01-01-cx-eligible",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:gp-2023-01-01-cn-program-enrollment",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:gp-2023-01-01-cn-program-enrollment-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasProgramEnrollment"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:gp-2023-01-01-cn-program-enrollment-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "jemc:program-gp"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "jemc:gp-2023-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:gp-2023-01-01-mi-energy",
+                "urpx:name": "kWh Energy Consumption Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:measuredMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "jemc:gp-2023-01-01-ms-energy",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:energy"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kWh"
+                  }
+                }
+              }
+            ],
+            "urpx:hasProfileAlternatives": {
+              "@type": "urpx:ProfileAlternatives",
+              "@id": "jemc:gp-2023-01-01-pa-green-power-share",
+              "urpx:name": "Share of monthly energy use nominated as Green Power",
+              "urpx:hasAlternativeDimensions": {
+                "@type": "urpx:AlternativeDimensions",
+                "@id": "jemc:gp-2023-01-01-pa-green-power-share-alternative-dimensions",
+                "urpx:hasAlternativeDimension": [
+                  {
+                    "@type": "urpx:AlternativeDimension",
+                    "@id": "jemc:gp-2023-01-01-ad-green-power-share",
+                    "urpx:customDimensionProperty": "greenPowerPercentage",
+                    "urpx:dimensionDisplayName": "Green Power percentage",
+                    "urpx:hasPossibleValues": [
+                      {
+                        "@list": [
+                          {
+                            "@type": "xsd:string",
+                            "@value": "25%"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "50%"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "75%"
+                          },
+                          {
+                            "@type": "xsd:string",
+                            "@value": "100%"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "urpx:hasProfileAlternative": [
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "jemc:gp-2023-01-01-pa-25-percent",
+                  "urpx:name": "25 percent of monthly energy use as Green Power",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "jemc:gp-2023-01-01-cx-pa-25-percent",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:gp-2023-01-01-cn-pa-25-percent",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-25-percent-left-operand",
+                        "urpx:customConditionProperty": "greenPowerPercentage"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-25-percent-right-operand",
+                        "urpx:stringValue": "25%"
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "jemc:gp-2023-01-01-pa-50-percent",
+                  "urpx:name": "50 percent of monthly energy use as Green Power",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "jemc:gp-2023-01-01-cx-pa-50-percent",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:gp-2023-01-01-cn-pa-50-percent",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-50-percent-left-operand",
+                        "urpx:customConditionProperty": "greenPowerPercentage"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-50-percent-right-operand",
+                        "urpx:stringValue": "50%"
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "jemc:gp-2023-01-01-pa-75-percent",
+                  "urpx:name": "75 percent of monthly energy use as Green Power",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "jemc:gp-2023-01-01-cx-pa-75-percent",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:gp-2023-01-01-cn-pa-75-percent",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-75-percent-left-operand",
+                        "urpx:customConditionProperty": "greenPowerPercentage"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-75-percent-right-operand",
+                        "urpx:stringValue": "75%"
+                      }
+                    }
+                  }
+                },
+                {
+                  "@type": "urpx:ProfileAlternative",
+                  "@id": "jemc:gp-2023-01-01-pa-100-percent",
+                  "urpx:name": "100 percent of monthly energy use as Green Power",
+                  "urpx:hasConditionExpression": {
+                    "@type": "urpx:ConditionExpression",
+                    "@id": "jemc:gp-2023-01-01-cx-pa-100-percent",
+                    "urpx:rootNode": {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:gp-2023-01-01-cn-pa-100-percent",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-100-percent-left-operand",
+                        "urpx:customConditionProperty": "greenPowerPercentage"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "jemc:gp-2023-01-01-cn-pa-100-percent-right-operand",
+                        "urpx:stringValue": "100%"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "jemc:gp-2023-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:gp-2023-01-01-ledger-green-power",
+                  "urpx:name": "Green Power Adder",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:gp-2023-01-01-mi-energy"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:gp-2023-01-01-pd-green-power",
+                  "urpx:name": "Green Power Adder, $0.01 per kWh of Green Power, as a price per kWh of total monthly use at the nominated percentage",
+                  "urpx:chargeType": {
+                    "@id": "urpx:tariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:environmental"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:gp-2023-01-01-ledger-green-power"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "jemc:gp-2023-01-01-prices",
+            "urpx:hasPriceSetAlternatives": {
+              "@type": "urpx:PriceSetAlternatives",
+              "@id": "jemc:gp-2023-01-01-psa-green-power-share",
+              "urpx:name": "Share of monthly energy use nominated as Green Power",
+              "urpx:referencesProfileAlternatives": {
+                "@id": "jemc:gp-2023-01-01-pa-green-power-share"
+              },
+              "urpx:hasPriceSetAlternative": [
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "jemc:gp-2023-01-01-psa-25-percent",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "jemc:gp-2023-01-01-pa-25-percent"
+                  },
+                  "urpx:startDate": "2023-01-01",
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "jemc:gp-2023-01-01-price-green-power-25-percent",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "jemc:gp-2023-01-01-pd-green-power"
+                      },
+                      "urpx:name": "Green Power Adder, 25%",
+                      "urpx:unitPrice": "0.0025"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "jemc:gp-2023-01-01-psa-50-percent",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "jemc:gp-2023-01-01-pa-50-percent"
+                  },
+                  "urpx:startDate": "2023-01-01",
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "jemc:gp-2023-01-01-price-green-power-50-percent",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "jemc:gp-2023-01-01-pd-green-power"
+                      },
+                      "urpx:name": "Green Power Adder, 50%",
+                      "urpx:unitPrice": "0.0050"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "jemc:gp-2023-01-01-psa-75-percent",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "jemc:gp-2023-01-01-pa-75-percent"
+                  },
+                  "urpx:startDate": "2023-01-01",
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "jemc:gp-2023-01-01-price-green-power-75-percent",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "jemc:gp-2023-01-01-pd-green-power"
+                      },
+                      "urpx:name": "Green Power Adder, 75%",
+                      "urpx:unitPrice": "0.0075"
+                    }
+                  ]
+                },
+                {
+                  "@type": "urpx:PriceSetAlternative",
+                  "@id": "jemc:gp-2023-01-01-psa-100-percent",
+                  "urpx:referencesProfileAlternative": {
+                    "@id": "jemc:gp-2023-01-01-pa-100-percent"
+                  },
+                  "urpx:startDate": "2023-01-01",
+                  "urpx:hasPrice": [
+                    {
+                      "@type": "urpx:Price",
+                      "@id": "jemc:gp-2023-01-01-price-green-power-100-percent",
+                      "urpx:referencesPriceDefinition": {
+                        "@id": "jemc:gp-2023-01-01-pd-green-power"
+                      },
+                      "urpx:name": "Green Power Adder, 100%",
+                      "urpx:unitPrice": "0.0100"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-jemc",
+            "urpx:legalName": "Jackson Electric Membership Corporation",
+            "urpx:organizationType": {
+              "@id": "urpx:cooperativeOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-jemc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-jemc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Jackson Electric Membership Corporation"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-jemc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "9601"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "jemc:gp"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "jemc:cc-gp-2023-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "jemc:cc-gp-2023-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Term, availability and sign-up. The percentage is selected annually for a one-year, self-renewing term; Green Power is limited, customers are added first come, first served, and the sign-up period and purchased quantities are at the Cooperative's discretion. The EligibilityRule carries enrollment in jemc:program-gp; these terms are in its description only.",
+              "urpx:evaluatedOn": "2026-10-18T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "jemc:program-gp",
+      "urpx:programName": "Green Power",
+      "urpx:programType": {
+        "@id": "urpx:greenEnergyProgram"
+      }
+    }
+  ]
+}

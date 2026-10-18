@@ -1,0 +1,74 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "nm"
+effective_date = "2022-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/net-metering-rider"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/NM.pdf"
+sha256 = "fa2ca5fb401ae88460e26422ad416641c8de7c2c618234e9979c15dc90dff8a8"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "NM"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates (us/ga/jemc/utility.toml).
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-18"
+notes = """
+Rider NM is two pages of prose and a formula, read from the PDF text.
+
+Applicability. The rider is available to "All qualified customers in the
+area served by the Cooperative", with a residential capacity limit of 10 kW
+and a commercial one of 100 kW. This corpus holds the six residential
+schedules, which urpx:applicableToRatePlan names.
+
+Charges. Incremental Service Costs are $10.00 per month, carried on a
+per-meter monthly PriceDefinition. (MBS commercial customers' costs are set
+case by case; MBS is not modeled.) Excess generation is credited at the
+Avoided Energy Cost, which the rider defines as the base charge at the
+generator plus transmission line loss avoided costs at the substation plus
+distribution line loss at the customer, and for which neither the rider nor
+the Cooperative's net metering page states a value on 2026-10-18. The JSON-LD
+defines the credit as a per-kWh PriceDefinition on exported energy with no
+Price, as ladwp/nem does for its unpriced credit.
+
+Eligibility is carried as residential customer kind and a distributed energy
+resource of urpx:solarDER or urpx:windDER, as ladwp/nem carries its
+customer-generators.
+
+Dating. The rider is effective "January 1, 2022", a calendar date, though the
+PDF was created on 2025-12-05 and is served from the 2026 rates folder. A
+board's rate change is not a formal rate case, so urpx:changeReason is
+urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Avoided Energy Cost. Excess generation is credited at the Avoided Energy Cost, a formula of the base charge at the generator and transmission and distribution line losses for which the Cooperative publishes no value. The JSON-LD defines the credit as a per-kWh PriceDefinition with no Price, so a modeled bill credits nothing for excess generation.",
+  "Netting over the billing period. The rider compares the customer's generation with its consumption and credits only the excess; the JSON-LD carries the credit on exported kWh as metered, without stating over what interval generation and consumption are netted.",
+  "Credit balance and December payout. A credit balance is applied to the next month's bill, and each December any credit balance is paid to the customer by check. The JSON-LD carries no balance across bills.",
+  "Qualifying facilities. The facility must be solar photovoltaic, fuel cell or wind generation, owned and operated by the customer on its premises, operating in parallel with the Cooperative's system, intended primarily to offset the customer's own requirement, connected after January 1, 2016 and of not more than 10 kW for residential applications. URPX v0.5.1 has no fuel cell urpx:DERTypeValue, so the EligibilityRule carries residential customer kind and a solar or wind distributed energy resource; a fuel cell and the other conditions are in its description only.",
+  "Interconnection and additional purchases. The customer bears the costs of a safe interconnection under the Cooperative's Bulletin, and the Cooperative may purchase additional energy at a cost agreed with the customer. Neither is priced on the rider and neither is carried.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's net metering: $10.00 a month in Incremental Service Costs and an unpriced Avoided Energy Cost credit for excess generation, applicable to all six residential schedules."

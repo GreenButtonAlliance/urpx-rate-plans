@@ -1,0 +1,332 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "jemc:doc-dr-2025-06-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "jemc:dr",
+        "urpx:name": "Demand Response Rider",
+        "urpx:modifierUniqueIdentifier": "DR",
+        "urpx:initialEffectiveDate": "2025-06-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "jemc:dr-2025-06-01",
+          "urpx:version": "2025-06-01",
+          "urpx:modifierVersionNumber": "2025-06-01",
+          "urpx:changeReason": {
+            "@id": "urpx:changeReasonOther"
+          },
+          "urpx:description": "Jackson EMC's Rider DR, Demand Response Rider, an experimental rider \"evaluated on an annual basis\" for customers on the Cooperative's residential rate schedules, all six of which urpx:applicableToRatePlan names. Members who participate in the Sync to Save program with a connected smart thermostat receive a $25 credit on their November bill, if the thermostat is enrolled and connected by July 1 and the account is active July 1 through September 30 of that year; the credit is forfeited if control or connection is disrupted by tampering. The credit is carried as a $25.00 monthly credit gated to November. Dating: the rider is effective June 1, 2025, so this version begins 2025-06-01; it states no date of first introduction.",
+          "urpx:effectiveDateTime": "2025-06-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "jemc:a"
+            },
+            {
+              "@id": "jemc:aea"
+            },
+            {
+              "@id": "jemc:am"
+            },
+            {
+              "@id": "jemc:aphf"
+            },
+            {
+              "@id": "jemc:atou"
+            },
+            {
+              "@id": "jemc:apev"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "jemc:dr-2025-06-01-data-source-reference",
+            "urpx:fileName": "jemc-demanresponserider.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/jemc-demanresponserider.pdf",
+            "urpx:dateRetrieved": "2026-10-18",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "jemc:dr-2025-06-01-er-eligible",
+              "urpx:name": "Sync to Save participant with a connected smart thermostat",
+              "urpx:description": "Residential customer participating in the Cooperative's Sync to Save program with a connected, eligible smart thermostat. \"The smart thermostat must be enrolled in the Sync To Save program and connected by July 1 of the calendar year to be eligible for that year's credit. Credit will be given only to those customers whose accounts are active July 1 - September 30 of the credit year. Credit will be forfeited if control or connection of thermostat is disrupted due to tampering during the applicable period.\" ELIGIBLE DEVICES: \"Eligible devices will be determined at the sole discretion of the Cooperative.\"",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:dr-2025-06-01-cx-eligible",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "jemc:dr-2025-06-01-bn-residential-and-enrolled",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:dr-2025-06-01-cn-residential",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:dr-2025-06-01-cn-residential-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:dr-2025-06-01-cn-residential-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:residentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:dr-2025-06-01-cn-program-enrollment",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:dr-2025-06-01-cn-program-enrollment-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:dr-2025-06-01-cn-program-enrollment-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "jemc:program-sync-to-save"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "jemc:dr-2025-06-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:dr-2025-06-01-mi-meter-count",
+                "urpx:name": "Per Meter Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:meterCount"
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "jemc:dr-2025-06-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:dr-2025-06-01-ledger-smart-thermostat-credit",
+                  "urpx:name": "Sync to Save smart thermostat credit",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:dr-2025-06-01-mi-meter-count"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:dr-2025-06-01-pd-smart-thermostat-credit",
+                  "urpx:name": "Sync to Save smart thermostat credit, on the November bill",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditTariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "jemc:dr-2025-06-01-pd-smart-thermostat-credit-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "@id": "jemc:dr-2025-06-01-pd-smart-thermostat-credit-applicability-rule",
+                    "urpx:month": [
+                      "--11"
+                    ]
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:dr-2025-06-01-ledger-smart-thermostat-credit"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "jemc:dr-2025-06-01-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:dr-2025-06-01-price-smart-thermostat-credit",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:dr-2025-06-01-pd-smart-thermostat-credit"
+                },
+                "urpx:name": "Smart thermostat credit",
+                "urpx:startDate": "2025-06-01",
+                "urpx:unitPrice": "-25.00"
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-jemc",
+            "urpx:legalName": "Jackson Electric Membership Corporation",
+            "urpx:organizationType": {
+              "@id": "urpx:cooperativeOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-jemc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-jemc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Jackson Electric Membership Corporation"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-jemc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "9601"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "jemc:dr"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "jemc:cc-dr-2025-06-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "jemc:cc-dr-2025-06-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) November bill. The rider grants the credit \"on their November bill\". The JSON-LD gates it on the calendar month of November; if the Cooperative grants it by billing month, the modeled credit falls on a different set of days than the bill that carries it. (2) Enrollment window, account activity and tampering. The thermostat must be enrolled and connected by July 1, the account active July 1 through September 30 of the credit year, and the credit is forfeited if control or connection is disrupted by tampering; eligible devices are at the Cooperative's discretion. The EligibilityRule carries residential customer kind and enrollment in jemc:program-sync-to-save; these conditions are in its description only.",
+              "urpx:evaluatedOn": "2026-10-18T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "jemc:program-sync-to-save",
+      "urpx:programName": "Sync to Save",
+      "urpx:programType": {
+        "@id": "urpx:demandResponseProgram"
+      }
+    }
+  ]
+}

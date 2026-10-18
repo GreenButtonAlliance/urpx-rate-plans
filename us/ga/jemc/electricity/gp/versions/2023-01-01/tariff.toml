@@ -1,0 +1,66 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "gp"
+effective_date = "2023-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/residential-green-power-rider"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GP.pdf"
+sha256 = "a1f1ddab6843ad5b205cae94eb61465d07caaf6d4c9a44c0a9d8a04128654021"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "GP"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates (us/ga/jemc/utility.toml).
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-18"
+notes = """
+Rider GP is one page of prose, read from the PDF text.
+
+Applicability. The rider applies to the Cooperative's residential and
+commercial rate schedules. This corpus holds the six residential ones, which
+urpx:applicableToRatePlan names; the commercial schedules are not modeled.
+
+Premium. The customer nominates 25, 50, 75 or 100 percent of monthly energy
+use as Green Power and pays $0.01 per kWh of Green Power purchased, the
+nominated percentage of "the total energy usage for that month per
+location". The JSON-LD carries that as a per-kWh price on all of the
+month's use, $0.01 times the percentage, chosen by a ProfileAlternatives
+dimension with one alternative per percentage. The result is exact for a
+whole month's kWh; the rider states no rounding of the Green Power quantity.
+
+Eligibility is carried as enrollment in jemc:program-gp, a
+urpx:ProgramEnrollment this filing defines, with no customer kind, since the
+rider covers residential and commercial customers alike.
+
+Dating. The rider is effective "January 1, 2023", a calendar date. A
+board's rate change is not a formal rate case, so urpx:changeReason is
+urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Term, availability and sign-up. The percentage is selected annually for a one-year, self-renewing term; Green Power is limited, customers are added first come, first served, and the sign-up period and purchased quantities are at the Cooperative's discretion. The EligibilityRule carries enrollment in jemc:program-gp; these terms are in its description only.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's green power premium: $0.01 per kWh of Green Power at 25, 50, 75 or 100 percent of monthly use, by profile alternative, applicable to all six residential schedules."

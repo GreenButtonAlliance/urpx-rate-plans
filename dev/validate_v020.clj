@@ -319,7 +319,11 @@
    "gpc:tou-reo-2026-06-01-pa-franchise-fee-location" "gpc:tou-reo-2026-06-01-pa-inside-city-limits"
    "gpc:tou-oa-2026-06-01-pa-franchise-fee-location" "gpc:tou-oa-2026-06-01-pa-inside-city-limits"
    "gpc:tou-rd-2026-06-01-pa-franchise-fee-location" "gpc:tou-rd-2026-06-01-pa-inside-city-limits"
-   "gpc:pps-2026-06-01-pa-franchise-fee-location" "gpc:pps-2026-06-01-pa-inside-city-limits"})
+   "gpc:pps-2026-06-01-pa-franchise-fee-location" "gpc:pps-2026-06-01-pa-inside-city-limits"
+   ;; One block, the smallest subscription Rider CS sells.
+   "jemc:cs-2022-06-01-pa-solar-blocks" "jemc:cs-2022-06-01-pa-1-block"
+   ;; 100 percent carries Rider GP's full $0.01/kWh premium.
+   "jemc:gp-2023-01-01-pa-green-power-share" "jemc:gp-2023-01-01-pa-100-percent"})
 
 (defn- nominations-for
   "The entries of `profile-alternative-nominations` whose container is in
