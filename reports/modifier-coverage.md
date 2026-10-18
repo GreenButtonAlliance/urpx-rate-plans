@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **113**
+- Base RatePlan filings: **114**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **440**
+- Applicable-modifier slots across all bases: **442**
   - present and complete: 22
   - present but incomplete: 378
-  - missing: 40
+  - missing: 42
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -40,6 +40,8 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
 | `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
+| `jemc:lm` | 1 | `electricity/a/versions/2026-01-01` |
+| `jemc:senior-low-income` | 1 | `electricity/a/versions/2026-01-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
@@ -383,6 +385,21 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+### JEMC
+
+#### `a` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.
+- Seasons by usage month or billing month. The rate table names "Usage Months" and a later heading "Billing Months" for the same seasons, Summer May through September and Winter October through April. The JSON-LD gates the energy PriceDefinitions on the calendar month of usage; if the Cooperative prices a bill by its billing month, usage in the weeks a billing period runs ahead of its billing month takes the other season's blocks.
+- Church facilities. The sheet also makes the schedule available to existing church facilities and to church facilities with a transformer under 100 kVA connected after January 1, 2016. The EligibilityRule carries residential customer kind; the church provision is in its description only.
+- Budget Billing, Terms of Payment and Contract Period. The sheet offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `senior-low-income` | ✗ missing | — |
+| `lm` | ✗ missing | — |
 
 ### LADWP
 

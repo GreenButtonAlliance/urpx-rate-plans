@@ -1,0 +1,67 @@
+# Jackson Electric Membership Corporation (Jackson EMC) utility-level discovery
+# manifest. See schema/utility-manifest.schema.json and LAYOUT.md §5.
+
+utility = "jemc"
+
+# Identity. Read through dev/utilities.py; see
+# schema/utility-manifest.schema.json for what each field means.
+#
+# The slug is the cooperative's own abbreviation, used in its file names
+# (jemc-demanresponserider.pdf) and channels (JEMCTV1, JEMCO News).
+#
+# legal_name: as the cooperative names itself in the heading of every rate
+# schedule, "JACKSON ELECTRIC MEMBERSHIP CORPORATION"
+# (https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/A-26.pdf,
+# retrieved 2026-10-18), and in its site footer, "Jackson Electric Membership
+# Corporation".
+#
+# eia_id: EIA-861 2024, Utility_Data_2024.xlsx, Utility Number 9601, Utility
+# Name "Jackson Electric Member Corp - (GA)", State GA, Ownership Cooperative,
+# NERC Region SERC. Sales_Ult_Cust_2024.xlsx gives BA Code SOCO and 239,558
+# residential customers.
+# https://www.eia.gov/electricity/data/eia861/zip/f8612024.zip, retrieved
+# 2026-10-15.
+short_name = "Jackson EMC"
+legal_name = "Jackson Electric Membership Corporation"
+utility_class = "coop"
+eia_id = "9601"
+
+# Where Jackson EMC publishes its rate schedules.
+tariff_index_urls = [
+  # PRIMARY (schedule inventory and library): the rates index, with one page
+  # per residential and commercial schedule and rider. Each page restates the
+  # schedule in HTML and links its PDF.
+  "https://www.jacksonemc.com/my-cooperative/rates",
+  "https://www.jacksonemc.com/my-cooperative/rates/residential-rates",
+  "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates",
+]
+
+scrape_notes = """
+The site is behind a Cloudflare bot check. A plain curl gets HTTP 403, and a
+headless browser stays on "Just a moment..."; a headed browser (spel open
+<url> --interactive) passes it. The PDFs are then fetched from inside the page
+with spel eval-js and fetch(), since the cf_clearance cookie is tied to that
+browser.
+
+Per-schedule PDFs are served from
+https://www.jacksonemc.com/assets/uploads/pdfs/rates/<year>/<SCHEDULE>.pdf,
+named with the schedule code and its two-digit year suffix (A-26.pdf,
+ATOU-26.pdf, P-22.pdf); riders without a suffix are CS.pdf, GP.pdf, NM.pdf,
+LM.pdf. A few live outside that folder: the Demand Response Rider at
+.../pdfs/jemc-demanresponserider.pdf and Schedule S at
+.../pdfs/Schedule-S-25-Outdoor-Lighting-Service.pdf. The <schedule> slug drops
+the year suffix: a, aphf, aea, am, atou, apev.
+
+Schedule P (Wholesale Power Cost Adjustment) and Rider LM (Load Management
+Adjustment) apply to every residential schedule but are linked only from the
+commercial rates page (P) or not at all (LM, found at .../rates/2026/LM.pdf).
+
+Schedule P states a formula, not a factor: each month's per-kWh adjustment is
+computed from the cooperative's estimated purchased-power costs and sales. No
+page on the site or its news site found on 2026-10-18 publishes the monthly
+factor.
+
+Rates are set by the cooperative's board, not the Georgia Public Service
+Commission; tariff.toml [regulator] uses authority = "board". Each sheet is
+effective on a calendar date ("Effective: January 1, 2026").
+"""

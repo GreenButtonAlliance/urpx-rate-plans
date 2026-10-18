@@ -97,7 +97,7 @@ BY_SLUG = ALL
 # Presentation order for per-utility report sections. Declared rather than
 # derived: it is largest-first by customers served, which no manifest states.
 # Only utilities with filings appear in those sections.
-ORDER = ["pge", "sce", "gpc", "sdge", "pse", "scl", "cpau", "smud", "ladwp"]
+ORDER = ["pge", "sce", "gpc", "sdge", "pse", "scl", "cpau", "smud", "ladwp", "jemc"]
 
 
 def _check() -> None:
