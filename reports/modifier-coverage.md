@@ -17,8 +17,8 @@ Status glyphs:
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **451**
   - present and complete: 22
-  - present but incomplete: 378
-  - missing: 51
+  - present but incomplete: 389
+  - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -34,12 +34,10 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | Modifier (utility:slug) | Claimed by # bases | Bases |
 |---|---:|---|
 | `pge:medical-baseline` | 8 | `electricity/e-elec/versions/2026-01-01`, `electricity/e-elec/versions/2026-03-27`, `electricity/e-elec/versions/2026-06-01`, `electricity/e-elec/versions/2026-08-28`, `electricity/e-tou-d/versions/2026-03-27`, `electricity/e-tou-d/versions/2026-06-01`, `electricity/ev2/versions/2026-03-27`, `electricity/ev2/versions/2026-06-01` |
-| `jemc:senior-low-income` | 6 | `electricity/a/versions/2026-01-01`, `electricity/aea/versions/2026-01-01`, `electricity/am/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/aphf/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
 | `smud:hga` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:reo` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:standby` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
-| `jemc:lm` | 5 | `electricity/a/versions/2026-01-01`, `electricity/aea/versions/2026-01-01`, `electricity/am/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
 | `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
@@ -398,8 +396,8 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `senior-low-income` | ✗ missing | — |
-| `lm` | ✗ missing | — |
+| `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
 
 #### `aea` @ 2026-01-01  &nbsp; base: ~
 
@@ -411,8 +409,8 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `senior-low-income` | ✗ missing | — |
-| `lm` | ✗ missing | — |
+| `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
 
 #### `am` @ 2026-01-01  &nbsp; base: ~
 
@@ -424,8 +422,8 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `senior-low-income` | ✗ missing | — |
-| `lm` | ✗ missing | — |
+| `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
 
 #### `apev` @ 2026-01-01  &nbsp; base: ~
 
@@ -438,8 +436,8 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `senior-low-income` | ✗ missing | — |
-| `lm` | ✗ missing | — |
+| `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
 
 #### `aphf` @ 2026-01-01  &nbsp; base: ~
 
@@ -450,7 +448,7 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `senior-low-income` | ✗ missing | — |
+| `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
 
 #### `atou` @ 2026-01-01  &nbsp; base: ~
 
@@ -462,8 +460,8 @@ Base deferrals:
 
 | Modifier | Status | Filing |
 |---|---|---|
-| `senior-low-income` | ✗ missing | — |
-| `lm` | ✗ missing | — |
+| `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
 
 ### LADWP
 

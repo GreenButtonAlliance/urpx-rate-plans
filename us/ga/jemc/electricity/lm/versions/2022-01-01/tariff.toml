@@ -1,0 +1,72 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "lm"
+effective_date = "2022-01-01"
+
+# Source ----------------------------------------------------------------------
+# Linked from no rates page found on 2026-10-18; found at the rates folder's
+# URL pattern (us/ga/jemc/utility.toml).
+[source]
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/LM.pdf"
+sha256 = "6a5dad9a31a25ecc392186654d0bd74492b3b9712475e247e58fec758d391b90"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "LM"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates (us/ga/jemc/utility.toml).
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-18"
+notes = """
+Rider LM is one page of prose, read from the PDF text.
+
+Applicability. The rider "becomes part of each retail rate schedule of the
+Cooperative in which reference to Rider LM is made". Of the residential
+schedules, A-26, AEA-26, AM-26, ATOU-26 and APEV-26 refer to it under "Load
+Management Adjustment"; APHF-26 does not, so urpx:applicableToRatePlan names
+the other five.
+
+Credits. The credit is "the kW controlled times $0.875 on air conditioning
+units and $0.20 on electric water heating", on each June through September
+bill. The JSON-LD carries one per-kW credit for each kind of equipment, each
+PriceDefinition gated to months June through September by an
+ApplicabilityRule. Schedule P-22 adds the Load Management credits back into
+its Wholesale Power Cost Adjustment (its LM term), which the base filings
+already carry as a PriceDefinition with no Price.
+
+Eligibility is carried as residential customer kind and enrollment in
+jemc:program-lm, a urpx:ProgramEnrollment this filing defines.
+
+Dating. The rider is effective "January 1, 2022", a calendar date, though
+the PDF was created on 2025-12-05 and is served from the 2026 rates folder.
+It states no date of first introduction, so urpx:initialEffectiveDate
+carries this version's date. A board's rate change is not a formal rate
+case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Controlled kW. Each credit is priced per kW of the customer's air conditioning or water heating under load management control, a property of the installed equipment rather than a measured demand. URPX v0.5.1 names no profile property for it (its ServicePointProfile properties include urpx:ratedPowerCapacity for the service point and urpx:hasHVAC for the kind of equipment, neither a controlled load in kW), so each credit's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the quantity in its name only. A consumer has to supply the controlled kW of each kind of equipment from outside the JSON-LD.",
+  "June through September bill. The rider grants the credit \"on the June through September bill\". The JSON-LD gates each credit on the calendar months June through September; if the Cooperative grants it by billing month, a billing period that runs ahead of or behind its billing month is credited for a different set of days.",
+  "Switch tenure, active account and eligible installations. The credit requires the switch to have been in place for the full usage period it is given for and the account to be active when the bill is rendered, and switches are installed only where the Cooperative judges the location accessible and appropriate. The EligibilityRule carries residential customer kind and enrollment in jemc:program-lm; these conditions are in its description only.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's load management credit: two per-kW monthly credits, June through September, $0.875 per kW of controlled air conditioning and $0.20 per kW of controlled water heating, applicable to jemc:a, jemc:aea, jemc:am, jemc:atou and jemc:apev."

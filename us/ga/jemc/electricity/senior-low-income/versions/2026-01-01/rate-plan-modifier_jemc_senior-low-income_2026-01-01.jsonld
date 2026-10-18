@@ -1,0 +1,325 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "jemc:doc-senior-low-income-2026-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "jemc:senior-low-income",
+        "urpx:name": "Senior Citizen - Low Income Assistance",
+        "urpx:modifierUniqueIdentifier": "SENIOR-LOW-INCOME",
+        "urpx:initialEffectiveDate": "2026-01-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "jemc:senior-low-income-2026-01-01",
+          "urpx:version": "2026-01-01",
+          "urpx:modifierVersionNumber": "2026-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:changeReasonOther"
+          },
+          "urpx:description": "Jackson EMC's Senior Citizen - Low Income Assistance, a $12.50 monthly credit \"to be applied to the service charge or minimum monthly charge\" for customers the Cooperative certifies who are 62 years of age or older with total household income at or below 100 percent of the current year's Federal Poverty Guidelines for a family size of two, at their principal place of residence, individually metered and in the customer's name. The Cooperative publishes no separate sheet for it: the same provision is printed on each of its residential schedules, A-26, AEA-26, AM-26, APHF-26, ATOU-26 and APEV-26, which urpx:applicableToRatePlan names, and this filing reads it from Schedule A-26, page 2. Every one of those schedules has a Service Charge above $12.50 ($31.00, or $34.00 on ATOU and APEV), so the credit is carried as a flat monthly credit of its full amount. Dating: the sheets are effective January 1, 2026, so this version begins 2026-01-01; they state no date of first introduction.",
+          "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "jemc:a"
+            },
+            {
+              "@id": "jemc:aea"
+            },
+            {
+              "@id": "jemc:am"
+            },
+            {
+              "@id": "jemc:aphf"
+            },
+            {
+              "@id": "jemc:atou"
+            },
+            {
+              "@id": "jemc:apev"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "jemc:senior-low-income-2026-01-01-data-source-reference",
+            "urpx:fileName": "A-26.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/A-26.pdf",
+            "urpx:dateRetrieved": "2026-10-18",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 2,
+            "urpx:pageEnd": 2
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "jemc:senior-low-income-2026-01-01-er-eligible",
+              "urpx:name": "Certified senior low-income residential customer",
+              "urpx:description": "Residential customer the Cooperative has certified for Senior Citizen - Low Income Assistance. \"Qualifying customers certified by the Cooperative will be eligible for a $12.50 credit, to be applied to the service charge or minimum monthly charge. To qualify, the customer must be 62 years of age or older, with total household income at or below 100% of the current year's Federal Poverty Guidelines (FPG) annual income level for a family size of two (2), provided that the electric service is in the customer's principal place of residence, is individually metered, and in said customer's name.\"",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:senior-low-income-2026-01-01-cx-eligible",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "jemc:senior-low-income-2026-01-01-bn-residential-and-enrolled",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:senior-low-income-2026-01-01-cn-residential",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:senior-low-income-2026-01-01-cn-residential-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:senior-low-income-2026-01-01-cn-residential-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:residentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:senior-low-income-2026-01-01-cn-program-enrollment",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:senior-low-income-2026-01-01-cn-program-enrollment-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:senior-low-income-2026-01-01-cn-program-enrollment-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "jemc:program-senior-low-income"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "jemc:senior-low-income-2026-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:senior-low-income-2026-01-01-mi-meter-count",
+                "urpx:name": "Per Meter Prices",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                },
+                "urpx:profileMetricProperty": {
+                  "@id": "urpx:meterCount"
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "jemc:senior-low-income-2026-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:senior-low-income-2026-01-01-ledger-senior-low-income-credit",
+                  "urpx:name": "Senior Citizen - Low Income credit, per month",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:senior-low-income-2026-01-01-mi-meter-count"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:senior-low-income-2026-01-01-pd-senior-low-income-credit",
+                  "urpx:name": "Senior Citizen - Low Income credit, per month",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditTariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "jemc:senior-low-income-2026-01-01-pd-senior-low-income-credit-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:senior-low-income-2026-01-01-ledger-senior-low-income-credit"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "jemc:senior-low-income-2026-01-01-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:senior-low-income-2026-01-01-price-senior-low-income-credit",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:senior-low-income-2026-01-01-pd-senior-low-income-credit"
+                },
+                "urpx:name": "Senior Citizen - Low Income credit",
+                "urpx:startDate": "2026-01-01",
+                "urpx:unitPrice": "-12.50"
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-jemc",
+            "urpx:legalName": "Jackson Electric Membership Corporation",
+            "urpx:organizationType": {
+              "@id": "urpx:cooperativeOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-jemc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-jemc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Jackson Electric Membership Corporation"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-jemc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "9601"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "jemc:senior-low-income"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "jemc:cc-senior-low-income-2026-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "jemc:cc-senior-low-income-2026-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 1 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Certification and qualifications. The sheets limit the credit to customers the Cooperative certifies who are 62 years of age or older with total household income at or below 100 percent of the current year's Federal Poverty Guidelines for a family size of two, at their principal place of residence, individually metered and in the customer's name. The EligibilityRule carries residential customer kind and enrollment in jemc:program-senior-low-income; the qualifications are in its description only.",
+              "urpx:evaluatedOn": "2026-10-18T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "jemc:program-senior-low-income",
+      "urpx:programName": "Senior Citizen - Low Income Assistance",
+      "urpx:programType": {
+        "@id": "urpx:lowIncomeProgram"
+      }
+    }
+  ]
+}
