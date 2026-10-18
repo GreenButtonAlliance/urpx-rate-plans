@@ -13,7 +13,7 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **119**
+- Base RatePlan filings: **120**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **473**
   - present and complete: 22
@@ -484,6 +484,19 @@ Base deferrals:
 | `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
 | `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
 | `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
+
+#### `s` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the lamp, energy and Service Charges only, high or low by the month's factor times its kWh.
+- Assumed usage of Cooperative-owned lights. For the Wholesale Power Cost Adjustment the sheet assumes a monthly usage for each Cooperative-owned light by installed watts: non-LED 100 W 50 kWh, 150 W 70 kWh, 175 W 80 kWh, 250 W 115 kWh, 400 W 180 kWh and 1,000 W 450 kWh; LED 100 W equivalent 16 kWh, 250 W equivalent 52 kWh, 400 W equivalent 71 kWh and 1,000 W equivalent 105 kWh. The adjustment's PriceDefinition is on the kWh MetricInput, and the JSON-LD does not derive that kWh from the lamp counts, so a consumer has to sum the assumed usage of the lights to supply it.
+- Lamp counts. Each lamp charge is priced per lamp of one lamp, wattage and fixture combination. URPX v0.5.1 names no profile property for a count of lamps of a kind, so each lamp's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the combination in its name only; a consumer has to supply the count of each from outside the JSON-LD.
+- Computed kWh of customer-owned systems. The sheet bills a customer-owned system on a monthly kWh of the connected watts times 0.35 (photocell-controlled) or 0.75 (24-hour service), the connected watts found by load count (lamp wattage, times 1.2 for lamps with ballasts, times the number of lamps), by direct measurement at connection, by nameplate for CATV amplifiers, or by meter reading, and the Cooperative may install a meter or a load-limiting device to verify it. The JSON-LD prices energy on a measured kWh MetricInput; the computation is in prose only.
+- Lights not on the schedule. The Cooperative may agree to install outdoor lighting the sheet does not list, with a monthly rate it calculates from energy, capital, operation and maintenance, taxes and other costs. No such rate is published, so the lamp charges here are not every charge a Schedule S bill can carry.
+- One-time charges. A contribution in aid to construction of $325.00 for each wood pole beyond one per luminaire, a payment of $50.00 per fixture the customer may be required to make when the Cooperative replaces an existing Cooperative-owned system with another type, contributions in aid to construction for underground service, non-wood poles, greater mounting heights and customer-owned systems costing more than three and one-half times their estimated annual revenue, and reimbursement of maintenance made necessary by vandalism. None is a monthly rate and none is carried.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a contract of at least one year that the Cooperative may extend to five years with an advance payment of up to half the estimated revenue for the term. None is carried.
+
+_No applicable modifiers declared._
 
 ### LADWP
 
