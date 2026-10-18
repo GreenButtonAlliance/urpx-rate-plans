@@ -1,0 +1,81 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "aphf"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/residential-poultry-and-farm-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/APHF-26.pdf"
+  sha256 = "a5c9111263a155289c24fd95864bd59e2d839b84e0bc5a9a5cf9f168cb9bb92d"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "APHF-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheets name no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+APHF-26 read with mineru-kit parse --tier standard, which kept the rate table
+as one table; every cell was checked against the PDF text. P-22 is
+one page of prose and a formula, read from the PDF text directly.
+
+Wholesale Power Cost Adjustment. P-22 sets the adjustment as
+WPCA = (PC - BC + LM + R) / Ks per kWh, from the Cooperative's estimated
+purchased-power cost for the next twelve months, a base power cost of $0.0781
+per kWh of purchases, the Load Management credits it adds back, and a
+true-up of past periods, recomputed for each calendar year and adjusted
+monthly. Neither sheet nor any page of the Cooperative's site found on
+2026-10-18 states a factor, so the JSON-LD defines the adjustment as a per-kWh
+PriceDefinition and carries no Price for it.
+
+
+Dating. The sheet is effective "January 1, 2026", a calendar date, so the
+version begins 2026-01-01. P-22 is effective January 1, 2022 and unchanged
+since. The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's annual rate
+change is not a formal rate case, so urpx:changeReason is
+urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.",
+  "Poultry houses and farm facilities. The sheet serves individually owned poultry houses and farm facilities, not hatcheries, poultry processing or entities selling goods or services to the ultimate customer, and its application is at the Cooperative's discretion. The Cooperative lists it among its residential schedules, and the EligibilityRule carries residential customer kind, which URPX defines as domestic household service; URPX states no agricultural customer kind. The conditions are in the rule's description only.",
+  "Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Cooperative's Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+]
+applicable_modifiers = ["senior-low-income"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC poultry and farm schedule: two blocks, no seasons."
