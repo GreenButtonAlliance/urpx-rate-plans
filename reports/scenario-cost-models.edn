@@ -29,10 +29,10 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 177
-   :scenario-cost-models 7352
+  {:compositions 181
+   :scenario-cost-models 7356
    :servable 158
-   :not-priced-per-kwh 9
+   :not-priced-per-kwh 13
    :blocked 6
    :not-measured 4}
 
@@ -263,6 +263,34 @@
    :selections 16
    :outcome :servable
    :baseline-keys ["compose|us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld|cpau:e-7-tou"]}
+  {:base "gpc:flat-2024-05-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/flat/versions/2024-05-01/rate-plan_gpc_flat_2024-05-01.jsonld"]}
+  {:base "gpc:flat-2024-05-01"
+   :modifiers ["gpc:iqd-2024-05-01"]
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:flat"]}
+  {:base "gpc:pbd-2024-05-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/pbd/versions/2024-05-01/rate-plan_gpc_pbd_2024-05-01.jsonld"]}
+  {:base "gpc:pbd-2024-05-01"
+   :modifiers ["gpc:iqd-2024-05-01"]
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:pbd"]}
   {:base "gpc:pps-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:pps-2026-06-01-pa-franchise-fee-location"]
@@ -1846,6 +1874,18 @@
   "https://rate-plans.grid-coordination.energy/cpau/scm-e-7-tou-2026-07-01--e-hra-2023-01-01--fa3cfd326d37"
   {:name "Large Non-Residential Electric Time of Use Service [cpau:e-7-tou-2026-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-2024-05-01"
+  {:name "Schedule FLAT FlatBill [gpc:flat-2024-05-01]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-2024-05-01--iqd-2024-05-01"
+  {:name "Schedule FLAT FlatBill [gpc:flat-2024-05-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-pbd-2024-05-01"
+  {:name "Schedule PBD Pay by Day Service [gpc:pbd-2024-05-01]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-pbd-2024-05-01--iqd-2024-05-01"
+  {:name "Schedule PBD Pay by Day Service [gpc:pbd-2024-05-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]"
+   :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/gpc/scm-pps-2026-06-01--1b0d1e2d018f"
   {:name "Schedule PPS Pre-Pay Service [gpc:pps-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
    :outcome :servable}
