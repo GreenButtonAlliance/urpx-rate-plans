@@ -1,0 +1,136 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "tou-rd"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule TOU-RD customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/smart-usage.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-rd.pdf"
+  sha256 = "2e1f5823268f250d641f0f952bcb9044155b0fce673dbab8910530235f8e7c5d"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-RD-12"
+
+  [source.tou_fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf"
+  sha256 = "f215413027090ae9716848f57de3092c03586ea0625f05a73d82d53c76fa49fd"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-FCR-7"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_r]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-r.pdf"
+  sha256 = "cba219daa41bad3be31298a5694c0b1a511ac7bce1641d928f8d2830a0debb90"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-R-16"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.tou_fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_r]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-17"
+notes = """
+TOU-RD-12 read with mineru-kit parse --tier standard. It ran the two energy
+rate lines together as one line of text rather than a table; every value,
+including the $12.44 per kW Demand Charge, was checked against the PDF text. TOU-FCR-7 and the three other rider sheets were
+read from the PDF text directly.
+
+Periods. The sheet and TOU-FCR-7 define On-Peak and Off-Peak by calendar
+month, "for the calendar months of June through September (Summer Months)",
+so the Seasons here are calendar months and need no billing-month deferral,
+unlike Schedule R's energy seasons.
+
+Holidays. On-Peak hours "on days in which the following holidays are
+observed shall be considered Off-Peak: Independence Day and Labor Day". The
+sheet states no weekend rule, and us/ga/gpc/utility.toml records that Georgia
+law adopts the federal one, 5 U.S.C. 6103(b): Saturday observed on the Friday
+before and Sunday on the Monday after, which urpx:nearestWeekdayObservance
+states. Labor Day is always a Monday.
+
+Demand. "Maximum kW shall be the highest 60-minute kW measurement during the
+current month", at any hour, so the Demand Charge has no TOU period: a
+maximum over the month of a 60-minute (PT1H) kW measurement. ECCR-15, DSM-R-16
+and MFF-11 each take their percentage of it through a multiplier over its
+Price, as they do of the Basic Service Charge.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). TOU-RD-12 replaced TOU-RD-11 in
+the same 2026-06-30 compliance filing in docket 44280 (PSC document 227071)
+that replaced R-30 with R-31, and the version begins 2026-06-01 on the reading
+fifteen Schedule R bills fixed for that filing (see Schedule R's tariff.toml).
+No TOU-RD bill was available to check it. TOU-FCR-7 replaced TOU-FCR-6 in
+docket 56765 with FCR-27.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-17"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge and Demand Charge Prices, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy, demand and fuel price here is positive, so a bill on these prices alone is never below it.",
+  "Term of Contract. The sheet requires a customer to remain on TOU-RD for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.",
+  "Fuel Cost Recovery voltage levels. TOU-FCR-7 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.",
+]
+applicable_modifiers = ["iqd"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First Georgia Power filing with a demand charge."
