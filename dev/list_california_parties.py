@@ -171,7 +171,7 @@ def main() -> int:
                      "identifiers": a["n"], "rate_links": len(a["urls"]),
                      "site": a["site"], "filings_modeled": slug in modeled})
     rows.extend(signal_rows)
-    order = {"iou": 0, "pou": 1, "cca": 2, "alert": 3, "ghg": 4}
+    order = {"iou": 0, "pou": 1, "cca": 2, "coop": 3, "alert": 4, "ghg": 5}
     rows.sort(key=lambda r: (order.get(r["kind"], 9), -r["identifiers"]))
 
     # MIDAS is a live feed, so every count here is point-in-time. The as-of
@@ -188,7 +188,7 @@ def main() -> int:
          "appear, rename and withdraw, and identifier counts move daily.", ""]
     tot = sum(r["identifiers"] for r in rows)
     nm = sum(1 for r in rows if r["filings_modeled"])
-    sellers = [r for r in rows if r["kind"] in ("iou", "pou", "cca")]
+    sellers = [r for r in rows if r["kind"] in ("iou", "pou", "cca", "coop")]
     signals = len(rows) - len(sellers)
     o += [f"{len(sellers)} organizations sell electricity here: {nm} have filings in this corpus "
           f"and {len(sellers) - nm} have a directory and a discovery manifest only. "

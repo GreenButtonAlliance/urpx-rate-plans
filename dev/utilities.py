@@ -40,7 +40,7 @@ import corpus  # noqa: E402
 class Utility(NamedTuple):
     slug: str
     short_name: str           # "" where no established abbreviation is recorded
-    utility_class: str        # iou | pou | cca
+    utility_class: str        # iou | pou | cca | coop
     bundled_segment: str      # MIDAS party segment for its own bundled service
     delivery_segment: str     # the CCA-served, delivery-only segment; "" if none
     legal_name: str           # as the corpus states it in urpx:legalName; "" if unknown
@@ -49,7 +49,7 @@ class Utility(NamedTuple):
     delivered_by: str         # utility slug whose wires carry it; "" if its own
 
 
-CLASS_LABEL = {"iou": "IOU", "pou": "POU", "cca": "CCA"}
+CLASS_LABEL = {"iou": "IOU", "pou": "POU", "cca": "CCA", "coop": "Co-op"}
 
 
 def _load() -> dict[str, Utility]:
