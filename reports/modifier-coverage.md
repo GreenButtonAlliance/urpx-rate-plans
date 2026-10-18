@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **109**
+- Base RatePlan filings: **110**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **436**
+- Applicable-modifier slots across all bases: **437**
   - present and complete: 22
-  - present but incomplete: 374
+  - present but incomplete: 375
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -317,6 +317,18 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. The sheet requires a customer to remain on TOU-OA for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
 - Fuel Cost Recovery voltage levels. TOU-FCR-TP-5 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+#### `tou-rd` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge and Demand Charge Prices, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy, demand and fuel price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. The sheet requires a customer to remain on TOU-RD for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+- Fuel Cost Recovery voltage levels. TOU-FCR-7 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
 
 | Modifier | Status | Filing |
 |---|---|---|

@@ -317,7 +317,8 @@
    ;; Inside city limits carries the higher Municipal Franchise Fee rate.
    "gpc:r-2026-06-01-pa-franchise-fee-location" "gpc:r-2026-06-01-pa-inside-city-limits"
    "gpc:tou-reo-2026-06-01-pa-franchise-fee-location" "gpc:tou-reo-2026-06-01-pa-inside-city-limits"
-   "gpc:tou-oa-2026-06-01-pa-franchise-fee-location" "gpc:tou-oa-2026-06-01-pa-inside-city-limits"})
+   "gpc:tou-oa-2026-06-01-pa-franchise-fee-location" "gpc:tou-oa-2026-06-01-pa-inside-city-limits"
+   "gpc:tou-rd-2026-06-01-pa-franchise-fee-location" "gpc:tou-rd-2026-06-01-pa-inside-city-limits"})
 
 (defn- nominations-for
   "The entries of `profile-alternative-nominations` whose container is in
