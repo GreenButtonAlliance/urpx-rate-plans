@@ -29,6 +29,12 @@
   :gpc/iqd
   {:applicable-to [:gpc/flat :gpc/pbd :gpc/pps :gpc/r :gpc/tou-oa :gpc/tou-rd :gpc/tou-reo]
    :filing "us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld"}
+  :jemc/lm
+  {:applicable-to [:jemc/a :jemc/aea :jemc/am :jemc/apev :jemc/atou]
+   :filing "us/ga/jemc/electricity/lm/versions/2022-01-01/rate-plan-modifier_jemc_lm_2022-01-01.jsonld"}
+  :jemc/senior-low-income
+  {:applicable-to [:jemc/a :jemc/aea :jemc/am :jemc/apev :jemc/aphf :jemc/atou]
+   :filing "us/ga/jemc/electricity/senior-low-income/versions/2026-01-01/rate-plan-modifier_jemc_senior-low-income_2026-01-01.jsonld"}
   :ladwp/ez-save
   {:applicable-to [:ladwp/r-1a :ladwp/r-1b]
    :filing "us/ca/ladwp/electricity/ez-save/versions/2008-09-01/rate-plan-modifier_ladwp_ez-save_2008-09-01.jsonld"}
@@ -175,6 +181,18 @@
   {:modifiers [:gpc/iqd]}
   :gpc/tou-reo
   {:modifiers [:gpc/iqd]}
+  :jemc/a
+  {:modifiers [:jemc/lm :jemc/senior-low-income]}
+  :jemc/aea
+  {:modifiers [:jemc/lm :jemc/senior-low-income]}
+  :jemc/am
+  {:modifiers [:jemc/lm :jemc/senior-low-income]}
+  :jemc/apev
+  {:modifiers [:jemc/lm :jemc/senior-low-income]}
+  :jemc/aphf
+  {:modifiers [:jemc/senior-low-income]}
+  :jemc/atou
+  {:modifiers [:jemc/lm :jemc/senior-low-income]}
   :ladwp/r-1a
   {:modifiers [:ladwp/ez-save :ladwp/lifeline :ladwp/nem]}
   :ladwp/r-1b

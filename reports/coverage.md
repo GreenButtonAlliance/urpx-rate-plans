@@ -141,6 +141,8 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | jemc | apev | rate-plan | 2026-01-01 |
 | GA | jemc | aphf | rate-plan | 2026-01-01 |
 | GA | jemc | atou | rate-plan | 2026-01-01 |
+| GA | jemc | lm | modifier | 2022-01-01 |
+| GA | jemc | senior-low-income | modifier | 2026-01-01 |
 | CA | ladwp | ez-save | modifier | 2008-09-01 |
 | CA | ladwp | lifeline | modifier | 2008-09-01 |
 | CA | ladwp | nem | modifier | 2008-09-01 |

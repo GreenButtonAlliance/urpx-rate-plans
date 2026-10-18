@@ -1,0 +1,63 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "senior-low-income"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# The Cooperative publishes no sheet of its own for this credit; the provision
+# is printed on every residential schedule, and this filing reads it from
+# Schedule A-26, the same PDF the base filing jemc/a commits.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/residential-service"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/A-26.pdf"
+sha256 = "78a9b60e7a05d9f24c709bcac37a8cdc6458e8f9ca2b69059e8a202673ea87dd"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "A-26"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates (us/ga/jemc/utility.toml).
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-18"
+notes = """
+One paragraph of prose on page 2 of Schedule A-26, read from the PDF text.
+The same provision, with the same amount and qualifications, is printed on
+AEA-26, AM-26, APHF-26, ATOU-26 and APEV-26; the text of each was compared
+on 2026-10-18, and they differ only in punctuation and in whether they add
+the sentence pointing to the Georgia Department of Community Health for the
+Federal Poverty Guidelines.
+
+The credit is "applied to the service charge or minimum monthly charge".
+Every schedule it applies to has a Service Charge above $12.50, so the cap
+never binds and the JSON-LD carries a flat $12.50 monthly credit.
+
+Eligibility is carried as residential customer kind and enrollment in
+jemc:program-senior-low-income, a urpx:ProgramEnrollment this filing defines.
+A board's annual rate change is not a formal rate case, so
+urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Certification and qualifications. The sheets limit the credit to customers the Cooperative certifies who are 62 years of age or older with total household income at or below 100 percent of the current year's Federal Poverty Guidelines for a family size of two, at their principal place of residence, individually metered and in the customer's name. The EligibilityRule carries residential customer kind and enrollment in jemc:program-senior-low-income; the qualifications are in its description only.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First Jackson EMC modifier. A flat $12.50 monthly credit, applicable to every residential schedule: jemc:a, jemc:aea, jemc:am, jemc:aphf, jemc:atou and jemc:apev."

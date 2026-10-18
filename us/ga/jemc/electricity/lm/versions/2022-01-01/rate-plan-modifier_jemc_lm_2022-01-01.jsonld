@@ -1,0 +1,391 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "jemc:doc-lm-2022-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "jemc:lm",
+        "urpx:name": "Load Management Adjustment Rider",
+        "urpx:modifierUniqueIdentifier": "LM",
+        "urpx:initialEffectiveDate": "2022-01-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "jemc:lm-2022-01-01",
+          "urpx:version": "2022-01-01",
+          "urpx:modifierVersionNumber": "2022-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:changeReasonOther"
+          },
+          "urpx:description": "Jackson EMC's Rider LM, Load Management Adjustment Rider, part of each retail rate schedule that refers to it: of the residential schedules, A-26, AEA-26, AM-26, ATOU-26 and APEV-26, which urpx:applicableToRatePlan names. Active customers in the Cooperative's Load Management Program who have switches on their central air conditioning unit(s) or electric water heater(s) \"may receive a credit on the June through September bill\", the kW controlled times $0.875 on air conditioning units and $0.20 on electric water heating. The switch must have been in place for the full usage period credited, and the account active when the bill is rendered. Each credit is carried as a monthly per-kW credit gated to June through September. Dating: the rider is effective January 1, 2022, so this version begins 2022-01-01; it states no date of first introduction.",
+          "urpx:effectiveDateTime": "2022-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "jemc:a"
+            },
+            {
+              "@id": "jemc:aea"
+            },
+            {
+              "@id": "jemc:am"
+            },
+            {
+              "@id": "jemc:atou"
+            },
+            {
+              "@id": "jemc:apev"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "jemc:lm-2022-01-01-data-source-reference",
+            "urpx:fileName": "LM.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/LM.pdf",
+            "urpx:dateRetrieved": "2026-10-18",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "jemc:lm-2022-01-01-er-eligible",
+              "urpx:name": "Active Load Management Program participant",
+              "urpx:description": "Residential customer participating in the Cooperative's Load Management Program. \"All active customers participating in the Cooperative's Load Management Program who have switches on their central air conditioning unit(s) and/or electric water heater(s) may receive a credit on the June through September bill.\" \"The load management switch must have been in place during the full usage period for which the load management credit is given. Credit will be given only to those customers whose accounts are active at the time the bill is rendered.\" ELIGIBLE INSTALLATIONS: \"Load management switches will be provided at locations which solely in the opinion of the Cooperative are accessible for installation and maintenance and are appropriate for load management purposes.\"",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:lm-2022-01-01-cx-eligible",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "jemc:lm-2022-01-01-bn-residential-and-enrolled",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:lm-2022-01-01-cn-residential",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:lm-2022-01-01-cn-residential-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasCustomerKind"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:lm-2022-01-01-cn-residential-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:residentialKind"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "jemc:lm-2022-01-01-cn-program-enrollment",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:lm-2022-01-01-cn-program-enrollment-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:hasProgramEnrollment"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "jemc:lm-2022-01-01-cn-program-enrollment-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "jemc:program-lm"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "jemc:lm-2022-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:lm-2022-01-01-mi-controlled-ac-kw",
+                "urpx:name": "kW of central air conditioning under load management control",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                }
+              },
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "jemc:lm-2022-01-01-mi-controlled-water-heater-kw",
+                "urpx:name": "kW of electric water heating under load management control",
+                "urpx:metricInputType": {
+                  "@id": "urpx:profileMetricInput"
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "jemc:lm-2022-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:lm-2022-01-01-ledger-air-conditioning-credit",
+                  "urpx:name": "Load Management credit, central air conditioning, per kW controlled, June through September",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:lm-2022-01-01-mi-controlled-ac-kw"
+                  }
+                },
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "jemc:lm-2022-01-01-ledger-water-heater-credit",
+                  "urpx:name": "Load Management credit, electric water heating, per kW controlled, June through September",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "jemc:lm-2022-01-01-mi-controlled-water-heater-kw"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:lm-2022-01-01-pd-air-conditioning-credit",
+                  "urpx:name": "Load Management credit, central air conditioning, per kW controlled, June through September",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditTariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "jemc:lm-2022-01-01-pd-air-conditioning-credit-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "@id": "jemc:lm-2022-01-01-pd-air-conditioning-credit-applicability-rule",
+                    "urpx:month": [
+                      "--06",
+                      "--07",
+                      "--08",
+                      "--09"
+                    ]
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:lm-2022-01-01-ledger-air-conditioning-credit"
+                  }
+                },
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "jemc:lm-2022-01-01-pd-water-heater-credit",
+                  "urpx:name": "Load Management credit, electric water heating, per kW controlled, June through September",
+                  "urpx:chargeType": {
+                    "@id": "urpx:creditTariffRider"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:discount"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:baseQuantity": "1",
+                  "urpx:hasCalculationMethod": {
+                    "@type": "urpx:CalculationMethod",
+                    "@id": "jemc:lm-2022-01-01-pd-water-heater-credit-calculation-method",
+                    "urpx:intervalDuration": "P1M"
+                  },
+                  "urpx:hasApplicabilityRule": {
+                    "@type": "urpx:ApplicabilityRule",
+                    "@id": "jemc:lm-2022-01-01-pd-water-heater-credit-applicability-rule",
+                    "urpx:month": [
+                      "--06",
+                      "--07",
+                      "--08",
+                      "--09"
+                    ]
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "jemc:lm-2022-01-01-ledger-water-heater-credit"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "jemc:lm-2022-01-01-prices",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:lm-2022-01-01-price-air-conditioning-credit",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:lm-2022-01-01-pd-air-conditioning-credit"
+                },
+                "urpx:name": "Load Management credit, air conditioning",
+                "urpx:startDate": "2022-01-01",
+                "urpx:unitPrice": "-0.875"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:lm-2022-01-01-price-water-heater-credit",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:lm-2022-01-01-pd-water-heater-credit"
+                },
+                "urpx:name": "Load Management credit, water heating",
+                "urpx:startDate": "2022-01-01",
+                "urpx:unitPrice": "-0.20"
+              }
+            ]
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-jemc",
+            "urpx:legalName": "Jackson Electric Membership Corporation",
+            "urpx:organizationType": {
+              "@id": "urpx:cooperativeOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-jemc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-jemc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Jackson Electric Membership Corporation"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-jemc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "9601"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "jemc:lm"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "jemc:cc-lm-2022-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "jemc:cc-lm-2022-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Controlled kW. Each credit is priced per kW of the customer's air conditioning or water heating under load management control, a property of the installed equipment rather than a measured demand. URPX v0.5.1 names no profile property for it (its ServicePointProfile properties include urpx:ratedPowerCapacity for the service point and urpx:hasHVAC for the kind of equipment, neither a controlled load in kW), so each credit's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the quantity in its name only. A consumer has to supply the controlled kW of each kind of equipment from outside the JSON-LD. (2) June through September bill. The rider grants the credit \"on the June through September bill\". The JSON-LD gates each credit on the calendar months June through September; if the Cooperative grants it by billing month, a billing period that runs ahead of or behind its billing month is credited for a different set of days. (3) Switch tenure, active account and eligible installations. The credit requires the switch to have been in place for the full usage period it is given for and the account to be active when the bill is rendered, and switches are installed only where the Cooperative judges the location accessible and appropriate. The EligibilityRule carries residential customer kind and enrollment in jemc:program-lm; these conditions are in its description only.",
+              "urpx:evaluatedOn": "2026-10-18T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "jemc:program-lm",
+      "urpx:programName": "Load Management Program",
+      "urpx:programType": {
+        "@id": "urpx:demandResponseProgram"
+      }
+    }
+  ]
+}
