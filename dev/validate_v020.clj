@@ -323,7 +323,10 @@
    ;; One block, the smallest subscription Rider CS sells.
    "jemc:cs-2022-06-01-pa-solar-blocks" "jemc:cs-2022-06-01-pa-1-block"
    ;; 100 percent carries Rider GP's full $0.01/kWh premium.
-   "jemc:gp-2023-01-01-pa-green-power-share" "jemc:gp-2023-01-01-pa-100-percent"})
+   "jemc:gp-2023-01-01-pa-green-power-share" "jemc:gp-2023-01-01-pa-100-percent"
+   ;; Photocell-controlled is the alternative with a per-kWh price; the
+   ;; Cooperative-owned alternative prices lamps only.
+   "jemc:s-2026-01-01-pa-lighting-system" "jemc:s-2026-01-01-pa-customer-owned-photocell"})
 
 (defn- nominations-for
   "The entries of `profile-alternative-nominations` whose container is in

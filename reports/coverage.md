@@ -146,6 +146,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | jemc | gp | modifier | 2023-01-01 |
 | GA | jemc | lm | modifier | 2022-01-01 |
 | GA | jemc | nm | modifier | 2022-01-01 |
+| GA | jemc | s | rate-plan | 2026-01-01 |
 | GA | jemc | senior-low-income | modifier | 2026-01-01 |
 | CA | ladwp | ez-save | modifier | 2008-09-01 |
 | CA | ladwp | lifeline | modifier | 2008-09-01 |
