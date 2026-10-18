@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **114**
+- Base RatePlan filings: **116**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **442**
+- Applicable-modifier slots across all bases: **446**
   - present and complete: 22
   - present but incomplete: 378
-  - missing: 42
+  - missing: 46
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -39,9 +39,9 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | `smud:standby` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
+| `jemc:lm` | 3 | `electricity/a/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
+| `jemc:senior-low-income` | 3 | `electricity/a/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
 | `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
-| `jemc:lm` | 1 | `electricity/a/versions/2026-01-01` |
-| `jemc:senior-low-income` | 1 | `electricity/a/versions/2026-01-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
 ## Per-base detail
@@ -395,6 +395,33 @@ Base deferrals:
 - Seasons by usage month or billing month. The rate table names "Usage Months" and a later heading "Billing Months" for the same seasons, Summer May through September and Winter October through April. The JSON-LD gates the energy PriceDefinitions on the calendar month of usage; if the Cooperative prices a bill by its billing month, usage in the weeks a billing period runs ahead of its billing month takes the other season's blocks.
 - Church facilities. The sheet also makes the schedule available to existing church facilities and to church facilities with a transformer under 100 kVA connected after January 1, 2016. The EligibilityRule carries residential customer kind; the church provision is in its description only.
 - Budget Billing, Terms of Payment and Contract Period. The sheet offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `senior-low-income` | ✗ missing | — |
+| `lm` | ✗ missing | — |
+
+#### `apev` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- On-Peak through September 15. The sheet's On-Peak hours, 3:00 to 8:00 p.m. on weekdays, run from June 1 through September 15. The JSON-LD's Summer Season is the calendar months June through September, so weekday afternoons from September 16 through 30 take the On-Peak price, 27.00 cents per kWh above the Off-Peak price the sheet charges for them.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.
+- Qualified plug-in electric vehicle and charging station. The sheet limits the schedule to owner-occupied single-family dwellings whose customer documents possession of a qualified plug-in electric vehicle, with any charging station single-phase, at most 7.8 kW and on a dedicated circuit breaker. The EligibilityRule carries residential customer kind; these conditions are in its description only.
+- Budget Billing, Terms of Payment and Contract Period. The sheet requires twelve consecutive months of service, offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+- Contribution in aid to construction and experimental status. The sheet makes the customer responsible for an upfront non-refundable contribution in aid to construction where the Cooperative must furnish additional facilities, which does not count toward any minimum charge, and lets the Cooperative modify or discontinue the experimental schedule on sixty days' written notice. Neither is a price per unit of service and neither is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `senior-low-income` | ✗ missing | — |
+| `lm` | ✗ missing | — |
+
+#### `atou` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- On-Peak through September 15. The sheet's On-Peak hours, 3:00 to 8:00 p.m. on weekdays, run from June 1 through September 15. The JSON-LD's Summer Season is the calendar months June through September, so weekday afternoons from September 16 through 30 take the On-Peak price, 27.00 cents per kWh above the Off-Peak price the sheet charges for them.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.
+- Owner-occupied single-family dwellings. The sheet limits the schedule to single-family dwelling units owned and occupied by the customer for permanent year-round service. The EligibilityRule carries residential customer kind; this condition is in its description only.
+- Budget Billing, Terms of Payment and Contract Period. The sheet requires twelve consecutive months of service beginning June 1st of each year, offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
 
 | Modifier | Status | Filing |
 |---|---|---|

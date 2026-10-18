@@ -1,0 +1,669 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "jemc:doc-apev-2026-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "jemc:apev",
+    "urpx:name": "Schedule APEV Residential Plug-In Electric Vehicle Service",
+    "urpx:ratePlanUniqueIdentifier": "APEV",
+    "urpx:initialEffectiveDate": "2026-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "jemc:apev-2026-01-01",
+      "urpx:description": "Jackson EMC's residential plug-in electric vehicle schedule, APEV-26, an experimental time-of-use rate for owners of a qualified plug-in electric vehicle. A Service Charge of $34.00 per month, and energy at 34.35 cents per On-Peak kWh, 7.56 cents per Off-Peak kWh and 6.34 cents per Super Off-Peak kWh. On-Peak is 3:00 p.m. to 8:00 p.m. Monday through Friday from June 1 through September 15, excluding the observed Juneteenth, Independence Day and Labor Day holidays. Super Off-Peak is 11:00 p.m. to 7:00 a.m. every day of the year. Off-Peak is every other hour: 7:00 a.m. to 3:00 p.m. and 8:00 p.m. to 11:00 p.m. on On-Peak weekdays, and 7:00 a.m. to 11:00 p.m. on weekends, holidays and from September 16 through May 31. The JSON-LD carries On-Peak for the whole of June through September, because a Season here recurs by calendar month and the sheet's season ends on the fifteenth: weekday afternoons from September 16 through 30 take the On-Peak price where the sheet charges Off-Peak. The holiday calendar observes Juneteenth and Independence Day on the nearest weekday, the federal rule of 5 U.S.C. 6103(b), since the sheet says \"observed\" and states no rule. The minimum monthly charge is the Service Charge. Every bill is also increased or decreased by Schedule P-22's Wholesale Power Cost Adjustment, a per-kWh factor the Cooperative computes each month and does not publish, defined here as a PriceDefinition with no Price. The Senior Citizen - Low Income credit of $12.50 and the Load Management Adjustment Rider (LM) are for qualifying customers and are not carried here. Rates are set by the Cooperative's board; the sheet is effective January 1, 2026.",
+      "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:changeReasonOther"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "jemc:apev-2026-01-01-data-source-reference",
+        "urpx:fileName": "APEV-26.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/APEV-26.pdf",
+        "urpx:dateRetrieved": "2026-10-18",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 2
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "jemc:apev-2026-01-01-er-residential",
+          "urpx:name": "Eligibility for Schedule APEV Residential Plug-In Electric Vehicle Service",
+          "urpx:description": "Single-family dwelling units owned and occupied by the customer for permanent year-round service, available upon request to customers who document possession of a qualified plug-in electric vehicle, one manufactured primarily for use on public streets, roads and highways (electric scooters, electric bicycles, golf carts and motorized electric wheelchairs do not qualify). A charging station, if installed, must be single-phase, not exceed 7.8 kW, and be on a dedicated circuit breaker. Service is provided for a minimum of twelve consecutive months. The schedule is experimental and may be modified or discontinued by the Cooperative after sixty days' written notice.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "jemc:apev-2026-01-01-cx-residential",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "jemc:apev-2026-01-01-cn-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:apev-2026-01-01-cn-residential-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:apev-2026-01-01-cn-residential-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "jemc:apev-2026-01-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "jemc:apev-2026-01-01-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "jemc:apev-2026-01-01-season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "jemc:apev-2026-01-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "jemc:apev-2026-01-01-holiday-juneteenth",
+              "urpx:holidayName": "Juneteenth",
+              "urpx:holidayRule": "June 19",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "jemc:apev-2026-01-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "jemc:apev-2026-01-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            }
+          ]
+        },
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:apev-2026-01-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:apev-2026-01-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:apev-2026-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "jemc:apev-2026-01-01-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "jemc:apev-2026-01-01-tou",
+            "urpx:referencesMetricInput": {
+              "@id": "jemc:apev-2026-01-01-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "jemc:apev-2026-01-01-tou-tier-on-peak",
+                "urpx:tierSourceName": "On-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "jemc:apev-2026-01-01-tou-period-on-peak",
+                    "urpx:name": "On-Peak (3:00 p.m. to 8:00 p.m. Monday through Friday, June 1 through September 15, excluding the observed Juneteenth, Independence Day and Labor Day holidays; carried here for June through September)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-on-peak",
+                        "urpx:startTime": "15:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "jemc:apev-2026-01-01-tou-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "jemc:apev-2026-01-01-tou-period-off-peak",
+                    "urpx:name": "Off-Peak (7:00 a.m. to 3:00 p.m. and 8:00 p.m. to 11:00 p.m. Monday through Friday, June 1 through September 15; 7:00 a.m. to 11:00 p.m. on weekends, holidays and from September 16 through May 31; carried here with September in the summer)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-off-peak-weekday-morning",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "15:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-off-peak-weekday-evening",
+                        "urpx:startTime": "20:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-off-peak-weekday-holiday",
+                        "urpx:startTime": "15:00:00",
+                        "urpx:endTime": "20:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-off-peak-weekend",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-winter-off-peak",
+                        "urpx:startTime": "07:00:00",
+                        "urpx:endTime": "23:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "jemc:apev-2026-01-01-tou-tier-super-off-peak",
+                "urpx:tierSourceName": "Super Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:superOffPeakTier"
+                },
+                "urpx:touTierNumber": 3,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "jemc:apev-2026-01-01-tou-period-super-off-peak",
+                    "urpx:name": "Super Off-Peak (11:00 p.m. to 7:00 a.m. Monday through Sunday, all calendar months)",
+                    "urpx:touPeriodNumber": 3,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-super-off-peak-overnight",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "07:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-summer-super-off-peak-late-evening",
+                        "urpx:startTime": "23:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-winter-super-off-peak-overnight",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "07:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "jemc:apev-2026-01-01-time-bracket-winter-super-off-peak-late-evening",
+                        "urpx:startTime": "23:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "jemc:apev-2026-01-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:apev-2026-01-01-ledger-energy",
+              "urpx:name": "Energy Charges (On-Peak, Off-Peak, Super Off-Peak)",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:apev-2026-01-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:apev-2026-01-01-ledger-service-charge",
+              "urpx:name": "Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:apev-2026-01-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:apev-2026-01-01-ledger-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:apev-2026-01-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:apev-2026-01-01-pd-energy-on-peak",
+              "urpx:name": "Energy Charge, On-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "jemc:apev-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:apev-2026-01-01-pd-energy-off-peak",
+              "urpx:name": "Energy Charge, Off-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "jemc:apev-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:apev-2026-01-01-pd-energy-super-off-peak",
+              "urpx:name": "Energy Charge, Super Off-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 3,
+              "urpx:referencesLedger": {
+                "@id": "jemc:apev-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:apev-2026-01-01-pd-service-charge",
+              "urpx:name": "Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:apev-2026-01-01-pd-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:apev-2026-01-01-ledger-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:apev-2026-01-01-pd-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment Schedule P-22, per kWh, computed monthly by the Cooperative",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:apev-2026-01-01-ledger-wpca"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "jemc:apev-2026-01-01-prices",
+        "urpx:hasPrice": [
+          {
+            "@type": "urpx:Price",
+            "@id": "jemc:apev-2026-01-01-price-service-charge",
+            "urpx:referencesPriceDefinition": {
+              "@id": "jemc:apev-2026-01-01-pd-service-charge"
+            },
+            "urpx:name": "Service Charge",
+            "urpx:startDate": "2026-01-01",
+            "urpx:unitPrice": "34.00"
+          }
+        ],
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "jemc:apev-2026-01-01-ps-energy",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:apev-2026-01-01-price-energy-on-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:apev-2026-01-01-pd-energy-on-peak"
+                },
+                "urpx:name": "Energy Charge, On-Peak",
+                "urpx:unitPrice": "0.3435"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:apev-2026-01-01-price-energy-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:apev-2026-01-01-pd-energy-off-peak"
+                },
+                "urpx:name": "Energy Charge, Off-Peak",
+                "urpx:unitPrice": "0.0756"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:apev-2026-01-01-price-energy-super-off-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:apev-2026-01-01-pd-energy-super-off-peak"
+                },
+                "urpx:name": "Energy Charge, Super Off-Peak",
+                "urpx:unitPrice": "0.0634"
+              }
+            ]
+          }
+        ]
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-jemc",
+        "urpx:legalName": "Jackson Electric Membership Corporation",
+        "urpx:organizationType": {
+          "@id": "urpx:cooperativeOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-jemc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-jemc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Jackson Electric Membership Corporation"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-jemc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "9601"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "jemc:apev"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "jemc:cc-apev-2026-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "jemc:cc-apev-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 5 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) On-Peak through September 15. The sheet's On-Peak hours, 3:00 to 8:00 p.m. on weekdays, run from June 1 through September 15. The JSON-LD's Summer Season is the calendar months June through September, so weekday afternoons from September 16 through 30 take the On-Peak price, 27.00 cents per kWh above the Off-Peak price the sheet charges for them. (2) Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh. (3) Qualified plug-in electric vehicle and charging station. The sheet limits the schedule to owner-occupied single-family dwellings whose customer documents possession of a qualified plug-in electric vehicle, with any charging station single-phase, at most 7.8 kW and on a dedicated circuit breaker. The EligibilityRule carries residential customer kind; these conditions are in its description only. (4) Budget Billing, Terms of Payment and Contract Period. The sheet requires twelve consecutive months of service, offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried. (5) Contribution in aid to construction and experimental status. The sheet makes the customer responsible for an upfront non-refundable contribution in aid to construction where the Cooperative must furnish additional facilities, which does not count toward any minimum charge, and lets the Cooperative modify or discontinue the experimental schedule on sixty days' written notice. Neither is a price per unit of service and neither is carried.",
+          "urpx:evaluatedOn": "2026-10-18T00:00:00"
+        }
+      }
+    }
+  }
+}

@@ -136,6 +136,8 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | gpc | tou-rd | rate-plan | 2026-06-01 |
 | GA | gpc | tou-reo | rate-plan | 2026-06-01 |
 | GA | jemc | a | rate-plan | 2026-01-01 |
+| GA | jemc | apev | rate-plan | 2026-01-01 |
+| GA | jemc | atou | rate-plan | 2026-01-01 |
 | CA | ladwp | ez-save | modifier | 2008-09-01 |
 | CA | ladwp | lifeline | modifier | 2008-09-01 |
 | CA | ladwp | nem | modifier | 2008-09-01 |
