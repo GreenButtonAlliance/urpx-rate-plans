@@ -1,0 +1,69 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "qf"
+effective_date = "2022-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates/qualifying-facilities-service"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/QF-22.pdf"
+sha256 = "1aac360b086796752fbbbb525660c7250d01213aa5fa74b48863972cdba2f1f4"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "QF-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheet names no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+QF-22 read with mineru-kit parse --tier standard; every rate was
+checked against the PDF text.
+
+Structure. The monthly charge is an Energy Charge (EC) equal to total
+wholesale power costs, a Facilities Charge (FC) and a Margin Cost
+MC = (.045 x TC) + $50, where TC = EC + FC. EC and FC are not published, so
+each is a PriceDefinition with no Price, as Georgia Power's FLAT-7 and PBD-1
+carry their customer-specific charges. The Margin Cost's $50 is a monthly
+Price; its 4.5 percent of TC is a PriceDefinition with no Price, since a
+multiplier Price applies to Prices and EC and FC have none. The sheet does
+not refer to Schedule P, so no Wholesale Power Cost Adjustment is carried.
+clj-urpx refuses a marginal rate for the filing, :no-energy-ledger.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet names no
+customer kind, and it is listed on the Cooperative's commercial rates page.
+
+Dating. The sheet is effective "January 1, 2022", a calendar date, so the
+version begins 2022-01-01. It states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's rate change
+is not a formal rate case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Energy Charge and Facilities Charge. The Energy Charge is the customer's total wholesale power costs, including base rate and delivery, and the Facilities Charge is one-twelfth of the annual allocated cost of serving the customer. Neither is published, so each is a PriceDefinition with no Price and a modeled bill carries nothing for them.",
+  "Margin Cost percentage. The Margin Cost is 4.5 percent of TC = EC + FC plus $50. The $50 is a monthly Price; a multiplier Price applies to Prices, and EC and FC have none, so the 4.5 percent is a PriceDefinition with no Price.",
+  "Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets the contract period in the Agreement for Electric Service. None is carried.",
+]
+applicable_modifiers = ["gp", "nm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's qualifying facilities service: structural, with the Margin Cost's $50 a month the only published price."

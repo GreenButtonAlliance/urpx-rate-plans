@@ -1,0 +1,1076 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "jemc:doc-gsae-2026-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "jemc:gsae",
+    "urpx:name": "Schedule GSAE General Service - All Electric",
+    "urpx:ratePlanUniqueIdentifier": "GSAE",
+    "urpx:initialEffectiveDate": "2026-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "jemc:gsae-2026-01-01",
+      "urpx:description": "Jackson EMC's all-electric general service schedule, GS-26's prices on a lower Billing Demand, for commercial customers with qualifying electric cooking, process heating or space heating loads. A Service Charge of $50.00 per month for single-phase or $78.00 for three-phase customers, chosen by a ProfileAlternative. Energy is priced in hours-use blocks of the Billing Demand: kWh up to 200 hours times the Billing Demand at 13.61 cents for the first 15,000 kWh, 11.13 cents for the next 185,000 kWh and 9.80 cents over 200,000 kWh; kWh in excess of 200 and not greater than 400 hours times the Billing Demand at 5.80 cents; in excess of 400 and not greater than 600 hours at 4.74 cents; and in excess of 600 hours at 4.52 cents. Each band's kWh is a calculated MetricInput whose formula is stated in its CalculationMethod, as is the Billing Demand, a 30-minute demand with summer ratchets of 85 and 76 percent and a winter ratchet of 55 percent over the current and preceding eleven months, and a floor of 10 kW. Excess reactive demand, kVAR above one-third of the measured kW where the Cooperative meters it, is billed at $0.30 per kVAR. Every bill is also increased or decreased by Schedule P-22's Wholesale Power Cost Adjustment, a per-kWh factor the Cooperative computes each month and does not publish, defined here as a per-kWh PriceDefinition with no Price. Load Management Adjustment Rider (LM) credits are for participating customers and are not carried here. Rates are set by the Cooperative's board, not the Georgia Public Service Commission; the sheet is effective January 1, 2026.",
+      "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:changeReasonOther"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "jemc:gsae-2026-01-01-data-source-reference",
+        "urpx:fileName": "GSAE-26.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+        "urpx:dateRetrieved": "2026-10-18",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 2
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "jemc:gsae-2026-01-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule GSAE General Service - All Electric",
+          "urpx:description": "To all electric service of one standard voltage required on the customer's premises, delivered at one point and metered at or compensated to that voltage. No service may be resold or transmitted to other premises without the Cooperative's express consent. Available to all qualified customers in the area served by the Cooperative. Available upon request to customers taking all their requirements through one meter, with not less than 10 kW actual demand nor less than 50 percent of total connected load in qualifying loads: active, permanently connected, non-seasonal commercial electric cooking or process heating loads in active use as the major source of energy for cooking or process heating; or seasonal electric space heating loads that are the sole means of space heating, where any air conditioning of the heated area is also electric (the 10 kW and 50 percent minimum may be waived where a high-intensity lighting system limits the space heating load required).",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "jemc:gsae-2026-01-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "jemc:gsae-2026-01-01-cn-non-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:gsae-2026-01-01-cn-non-residential-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:gsae-2026-01-01-cn-non-residential-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "jemc:gsae-2026-01-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-demand",
+            "urpx:name": "kW Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-billing-demand",
+            "urpx:name": "Billing Demand (kW)",
+            "urpx:description": "Billing Demand, from the customer's highest 30-minute kW demand during the current month and the preceding eleven months. For the billing months June through September, the greatest of (1) 85 percent of the current actual demand, (2) 76 percent of the highest actual demand in any previous applicable summer month, or (3) 55 percent of the highest actual demand in any previous applicable winter month (October-May). For the billing months October through May, the greater of (1) 76 percent of the highest summer month (June-September) or (2) 55 percent of the highest winter month, including the current month. In no case less than the greater of the contract minimum or 10 kW.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-billing-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:gsae-2026-01-01-mi-billing-demand-calculation-method",
+              "urpx:calculationFormula": "June-September: max(0.85 * D, 0.76 * max(prior summer D), 0.55 * max(prior winter D)); October-May: max(0.76 * max(summer D), 0.55 * max(winter D including current)); over the current and preceding eleven months; floor max(contract minimum, 10 kW)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-demand"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-energy-first-200-hours",
+            "urpx:name": "kWh up to 200 hours times the Billing Demand",
+            "urpx:description": "The month's kWh up to 200 hours times the Billing Demand, priced in three blocks of kWh.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-energy-first-200-hours",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:gsae-2026-01-01-mi-energy-first-200-hours-calculation-method",
+              "urpx:calculationFormula": "min(kWh, 200 * BillingDemand)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-energy"
+                },
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-billing-demand"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-energy-200-to-400-hours",
+            "urpx:name": "kWh in excess of 200 hours and not greater than 400 hours times the Billing Demand",
+            "urpx:description": "The month's kWh in excess of 200 hours and not greater than 400 hours times the Billing Demand.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-energy-200-to-400-hours",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:gsae-2026-01-01-mi-energy-200-to-400-hours-calculation-method",
+              "urpx:calculationFormula": "min(max(kWh - 200 * BillingDemand, 0), 200 * BillingDemand)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-energy"
+                },
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-billing-demand"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-energy-400-to-600-hours",
+            "urpx:name": "kWh in excess of 400 hours and not greater than 600 hours times the Billing Demand",
+            "urpx:description": "The month's kWh in excess of 400 hours and not greater than 600 hours times the Billing Demand.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-energy-400-to-600-hours",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:gsae-2026-01-01-mi-energy-400-to-600-hours-calculation-method",
+              "urpx:calculationFormula": "min(max(kWh - 400 * BillingDemand, 0), 200 * BillingDemand)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-energy"
+                },
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-billing-demand"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-energy-over-600-hours",
+            "urpx:name": "kWh in excess of 600 hours times the Billing Demand",
+            "urpx:description": "The month's kWh in excess of 600 hours times the Billing Demand.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-energy-over-600-hours",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:gsae-2026-01-01-mi-energy-over-600-hours-calculation-method",
+              "urpx:calculationFormula": "max(kWh - 600 * BillingDemand, 0)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-energy"
+                },
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-billing-demand"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-reactive-demand",
+            "urpx:name": "kVAR Reactive Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:gsae-2026-01-01-mi-excess-reactive-demand",
+            "urpx:name": "Excess Reactive Demand (kVAR)",
+            "urpx:description": "Excess Reactive Demand: the highest 30-minute kVAR measured during the month in excess of one-third of the measured actual kW in the current month. Measured only where there is an indication of a power factor of less than 95 percent lagging and the Cooperative, at its option, installs metering equipment.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:gsae-2026-01-01-ms-excess-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "jemc:gsae-2026-01-01-mi-excess-reactive-demand-calculation-method",
+              "urpx:calculationFormula": "max(max kVAR - max kW / 3, 0)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-reactive-demand"
+                },
+                {
+                  "@id": "jemc:gsae-2026-01-01-mi-demand"
+                }
+              ]
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "jemc:gsae-2026-01-01-pa-service-phase",
+          "urpx:name": "Service phase: single-phase or three-phase",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "jemc:gsae-2026-01-01-pa-service-phase-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "jemc:gsae-2026-01-01-ad-service-phase",
+                "urpx:customDimensionProperty": "servicePhase",
+                "urpx:dimensionDisplayName": "Service phase",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Single Phase"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Three Phase"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "jemc:gsae-2026-01-01-pa-single-phase",
+              "urpx:name": "Single-phase customers",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:gsae-2026-01-01-cx-pa-single-phase",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:gsae-2026-01-01-cn-pa-single-phase",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:gsae-2026-01-01-cn-pa-single-phase-left-operand",
+                    "urpx:customConditionProperty": "servicePhase"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:gsae-2026-01-01-cn-pa-single-phase-right-operand",
+                    "urpx:stringValue": "Single Phase"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "jemc:gsae-2026-01-01-pa-three-phase",
+              "urpx:name": "Three-phase customers",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:gsae-2026-01-01-cx-pa-three-phase",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:gsae-2026-01-01-cn-pa-three-phase",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:gsae-2026-01-01-cn-pa-three-phase-left-operand",
+                    "urpx:customConditionProperty": "servicePhase"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:gsae-2026-01-01-cn-pa-three-phase-right-operand",
+                    "urpx:stringValue": "Three Phase"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "jemc:gsae-2026-01-01-plan-elements-billing-model",
+          "urpx:hasServiceTiers": {
+            "@type": "urpx:ServiceTiers",
+            "@id": "jemc:gsae-2026-01-01-tiers",
+            "urpx:referencesMetricInput": {
+              "@id": "jemc:gsae-2026-01-01-mi-energy-first-200-hours"
+            },
+            "urpx:hasServiceTier": [
+              {
+                "@type": "urpx:ServiceTier",
+                "@id": "jemc:gsae-2026-01-01-tier-1",
+                "urpx:name": "First 15,000 kWh",
+                "urpx:serviceTierNumber": 1,
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "jemc:gsae-2026-01-01-tier-1-bracket",
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "15000",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ServiceTier",
+                "@id": "jemc:gsae-2026-01-01-tier-2",
+                "urpx:name": "Next 185,000 kWh (15,001-200,000 kWh)",
+                "urpx:serviceTierNumber": 2,
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "jemc:gsae-2026-01-01-tier-2-bracket",
+                  "urpx:lowerBound": "15000",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "200000",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ServiceTier",
+                "@id": "jemc:gsae-2026-01-01-tier-3",
+                "urpx:name": "Over 200,000 kWh",
+                "urpx:serviceTierNumber": 3,
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "jemc:gsae-2026-01-01-tier-3-bracket",
+                  "urpx:lowerBound": "200000",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  }
+                }
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-service-charge",
+              "urpx:name": "Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-energy-first-200-hours",
+              "urpx:name": "Energy Charges, kWh up to 200 hours times the Billing Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-energy-first-200-hours"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-energy-200-to-400-hours",
+              "urpx:name": "Energy Charges, kWh in excess of 200 hours and not greater than 400 hours times the Billing Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-energy-200-to-400-hours"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-energy-400-to-600-hours",
+              "urpx:name": "Energy Charges, kWh in excess of 400 hours and not greater than 600 hours times the Billing Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-energy-400-to-600-hours"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-energy-over-600-hours",
+              "urpx:name": "Energy Charges, kWh in excess of 600 hours times the Billing Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-energy-over-600-hours"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:gsae-2026-01-01-ledger-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:gsae-2026-01-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-service-charge",
+              "urpx:name": "Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:gsae-2026-01-01-pd-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-energy-first-200-hours",
+              "urpx:name": "Energy Charge, kWh up to 200 hours times the Billing Demand, in blocks",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-energy-first-200-hours"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-energy-200-to-400-hours",
+              "urpx:name": "Energy Charge, kWh in excess of 200 hours and not greater than 400 hours times the Billing Demand",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-energy-200-to-400-hours"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-energy-400-to-600-hours",
+              "urpx:name": "Energy Charge, kWh in excess of 400 hours and not greater than 600 hours times the Billing Demand",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-energy-400-to-600-hours"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-energy-over-600-hours",
+              "urpx:name": "Energy Charge, kWh in excess of 600 hours times the Billing Demand",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-energy-over-600-hours"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand, per excess kVAR",
+              "urpx:chargeType": {
+                "@id": "urpx:reactiveDemand"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:gsae-2026-01-01-pd-excess-reactive-demand-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:gsae-2026-01-01-pd-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment Schedule P-22, per kWh, computed monthly by the Cooperative",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:gsae-2026-01-01-ledger-wpca"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "jemc:gsae-2026-01-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "jemc:gsae-2026-01-01-ps",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-energy-first-200-hours-t1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-energy-first-200-hours"
+                },
+                "urpx:name": "Energy Charge, up to 200 hours times the Billing Demand, first 15,000 kWh",
+                "urpx:unitPrice": "0.1361",
+                "urpx:serviceTierNumber": 1,
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-energy-first-200-hours-t1-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-energy-first-200-hours-t2",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-energy-first-200-hours"
+                },
+                "urpx:name": "Energy Charge, up to 200 hours times the Billing Demand, next 185,000 kWh",
+                "urpx:unitPrice": "0.1113",
+                "urpx:serviceTierNumber": 2,
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-energy-first-200-hours-t2-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-energy-first-200-hours-t3",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-energy-first-200-hours"
+                },
+                "urpx:name": "Energy Charge, up to 200 hours times the Billing Demand, over 200,000 kWh",
+                "urpx:unitPrice": "0.0980",
+                "urpx:serviceTierNumber": 3,
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-energy-first-200-hours-t3-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-energy-200-to-400-hours",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-energy-200-to-400-hours"
+                },
+                "urpx:name": "Energy Charge, kWh in excess of 200 hours and not greater than 400 hours times the Billing Demand",
+                "urpx:unitPrice": "0.0580",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-energy-200-to-400-hours-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-energy-400-to-600-hours",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-energy-400-to-600-hours"
+                },
+                "urpx:name": "Energy Charge, kWh in excess of 400 hours and not greater than 600 hours times the Billing Demand",
+                "urpx:unitPrice": "0.0474",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-energy-400-to-600-hours-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-energy-over-600-hours",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-energy-over-600-hours"
+                },
+                "urpx:name": "Energy Charge, kWh in excess of 600 hours times the Billing Demand",
+                "urpx:unitPrice": "0.0452",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-energy-over-600-hours-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:gsae-2026-01-01-price-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:gsae-2026-01-01-pd-excess-reactive-demand"
+                },
+                "urpx:name": "Excess Reactive Demand, per excess kVAR",
+                "urpx:unitPrice": "0.30",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:gsae-2026-01-01-price-excess-reactive-demand-data-source-reference",
+                  "urpx:fileName": "GSAE-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 2,
+                  "urpx:pageEnd": 2
+                }
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "jemc:gsae-2026-01-01-psa-service-phase",
+          "urpx:name": "Service Charge, by service phase",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "jemc:gsae-2026-01-01-pa-service-phase"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "jemc:gsae-2026-01-01-psa-single-phase",
+              "urpx:referencesProfileAlternative": {
+                "@id": "jemc:gsae-2026-01-01-pa-single-phase"
+              },
+              "urpx:startDate": "2026-01-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:gsae-2026-01-01-price-service-charge-single-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:gsae-2026-01-01-pd-service-charge"
+                  },
+                  "urpx:name": "Service Charge, single-phase customers",
+                  "urpx:unitPrice": "50.00",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:gsae-2026-01-01-price-service-charge-single-phase-data-source-reference",
+                    "urpx:fileName": "GSAE-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "jemc:gsae-2026-01-01-psa-three-phase",
+              "urpx:referencesProfileAlternative": {
+                "@id": "jemc:gsae-2026-01-01-pa-three-phase"
+              },
+              "urpx:startDate": "2026-01-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:gsae-2026-01-01-price-service-charge-three-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:gsae-2026-01-01-pd-service-charge"
+                  },
+                  "urpx:name": "Service Charge, three-phase customers",
+                  "urpx:unitPrice": "78.00",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:gsae-2026-01-01-price-service-charge-three-phase-data-source-reference",
+                    "urpx:fileName": "GSAE-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/GSAE-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-jemc",
+        "urpx:legalName": "Jackson Electric Membership Corporation",
+        "urpx:organizationType": {
+          "@id": "urpx:cooperativeOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-jemc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-jemc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Jackson Electric Membership Corporation"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-jemc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "9601"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "jemc:gsae"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "jemc:cc-gsae-2026-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "jemc:cc-gsae-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 7 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Hours-use blocks. The sheet prices kWh in bands bounded by hours times the Billing Demand: up to 200 hours (in blocks of 15,000 and 185,000 kWh), 200 to 400, 400 to 600 and over 600 hours. A urpx:ServiceBracket bound is a fixed number, so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, so this filing's recorded marginal rate is 28.67 cents per kWh, the four bands' first prices added together, where the sheet prices a month's first kWh at 13.61 cents. (2) Billing Demand ratchets. Billing Demand is a calculated MetricInput, the highest 30-minute kW demand of the current month and the preceding eleven, in summer months 85 percent of the current demand, and at least 76 percent of the highest summer demand and 55 percent of the highest winter demand, and a floor of the contract minimum or 10 kW; its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May. (3) Qualifying loads. The schedule is for customers with not less than 10 kW actual demand and not less than 50 percent of connected load in qualifying electric cooking, process heating or sole-source space heating loads. The EligibilityRule carries non-residential customer kind; these conditions are in its description only. (4) Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh. (5) Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it. (6) Minimum Monthly Charge. The minimum monthly charge is the greater of $12.00 per kW of (a) the highest demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May, and is never less than the Service Charge plus excess kVAR charges. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference. (7) Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+          "urpx:evaluatedOn": "2026-10-18T00:00:00"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,794 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "jemc": "https://rate-plans.grid-coordination.energy/jemc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:lowerBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:upperBound": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:serviceTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "jemc:doc-ts-2026-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "jemc:ts",
+    "urpx:name": "Schedule TS Temporary Service",
+    "urpx:ratePlanUniqueIdentifier": "TS",
+    "urpx:initialEffectiveDate": "2026-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "jemc:ts-2026-01-01",
+      "urpx:description": "Jackson EMC's temporary service schedule, TS-26, for service that is temporary or seasonal in nature. A Service Charge of $50.00 per month for single-phase or $78.00 for three-phase customers, chosen by a ProfileAlternative, and energy at 13.61 cents for the first 15,000 kWh, 11.13 cents for the next 185,000 kWh and 9.80 cents over 200,000 kWh, plus a surcharge of 25 percent of the total so calculated, carried as one multiplier over the energy subtotal and one over the Service Charge. The minimum monthly charge is the Service Charge. Every bill is also increased or decreased by Schedule P-22's Wholesale Power Cost Adjustment, a per-kWh factor the Cooperative computes each month and does not publish, defined here as a per-kWh PriceDefinition with no Price. Rates are set by the Cooperative's board, not the Georgia Public Service Commission; the sheet is effective January 1, 2026.",
+      "urpx:effectiveDateTime": "2026-01-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:changeReasonOther"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "jemc:ts-2026-01-01-data-source-reference",
+        "urpx:fileName": "TS-26.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+        "urpx:dateRetrieved": "2026-10-18",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 1
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "jemc:ts-2026-01-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule TS Temporary Service",
+          "urpx:description": "Applicable in connection with service for any customer when such service is temporary or seasonal in nature. Available to all qualified customers in the area served by the Cooperative.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "jemc:ts-2026-01-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "jemc:ts-2026-01-01-cn-non-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:ts-2026-01-01-cn-non-residential-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "jemc:ts-2026-01-01-cn-non-residential-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "jemc:ts-2026-01-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:ts-2026-01-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "jemc:ts-2026-01-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "jemc:ts-2026-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "jemc:ts-2026-01-01-pa-service-phase",
+          "urpx:name": "Service phase: single-phase or three-phase",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "jemc:ts-2026-01-01-pa-service-phase-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "jemc:ts-2026-01-01-ad-service-phase",
+                "urpx:customDimensionProperty": "servicePhase",
+                "urpx:dimensionDisplayName": "Service phase",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Single Phase"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Three Phase"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "jemc:ts-2026-01-01-pa-single-phase",
+              "urpx:name": "Single-phase customers",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:ts-2026-01-01-cx-pa-single-phase",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:ts-2026-01-01-cn-pa-single-phase",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:ts-2026-01-01-cn-pa-single-phase-left-operand",
+                    "urpx:customConditionProperty": "servicePhase"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:ts-2026-01-01-cn-pa-single-phase-right-operand",
+                    "urpx:stringValue": "Single Phase"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "jemc:ts-2026-01-01-pa-three-phase",
+              "urpx:name": "Three-phase customers",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "jemc:ts-2026-01-01-cx-pa-three-phase",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:ts-2026-01-01-cn-pa-three-phase",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:ts-2026-01-01-cn-pa-three-phase-left-operand",
+                    "urpx:customConditionProperty": "servicePhase"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "jemc:ts-2026-01-01-cn-pa-three-phase-right-operand",
+                    "urpx:stringValue": "Three Phase"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "jemc:ts-2026-01-01-plan-elements-billing-model",
+          "urpx:hasServiceTiers": {
+            "@type": "urpx:ServiceTiers",
+            "@id": "jemc:ts-2026-01-01-tiers",
+            "urpx:referencesMetricInput": {
+              "@id": "jemc:ts-2026-01-01-mi-energy"
+            },
+            "urpx:hasServiceTier": [
+              {
+                "@type": "urpx:ServiceTier",
+                "@id": "jemc:ts-2026-01-01-tier-1",
+                "urpx:name": "First 15,000 kWh",
+                "urpx:serviceTierNumber": 1,
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "jemc:ts-2026-01-01-tier-1-bracket",
+                  "urpx:lowerBound": "0",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOrEqualOperator"
+                  },
+                  "urpx:upperBound": "15000",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ServiceTier",
+                "@id": "jemc:ts-2026-01-01-tier-2",
+                "urpx:name": "Next 185,000 kWh (15,001-200,000 kWh)",
+                "urpx:serviceTierNumber": 2,
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "jemc:ts-2026-01-01-tier-2-bracket",
+                  "urpx:lowerBound": "15000",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  },
+                  "urpx:upperBound": "200000",
+                  "urpx:upperBoundOperator": {
+                    "@id": "urpx:lessThanOrEqualOperator"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:ServiceTier",
+                "@id": "jemc:ts-2026-01-01-tier-3",
+                "urpx:name": "Over 200,000 kWh",
+                "urpx:serviceTierNumber": 3,
+                "urpx:hasServiceBracket": {
+                  "@type": "urpx:ServiceBracket",
+                  "@id": "jemc:ts-2026-01-01-tier-3-bracket",
+                  "urpx:lowerBound": "200000",
+                  "urpx:lowerBoundOperator": {
+                    "@id": "urpx:greaterThanOperator"
+                  }
+                }
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:ts-2026-01-01-ledger-service-charge",
+              "urpx:name": "Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:ts-2026-01-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:ts-2026-01-01-ledger-energy",
+              "urpx:name": "Energy Charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:ts-2026-01-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:ts-2026-01-01-ledger-surcharge-energy",
+              "urpx:name": "Temporary Service surcharge, on the energy charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:ts-2026-01-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:ts-2026-01-01-ledger-surcharge-service-charge",
+              "urpx:name": "Temporary Service surcharge, on the Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:ts-2026-01-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "jemc:ts-2026-01-01-ledger-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "jemc:ts-2026-01-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:ts-2026-01-01-pd-service-charge",
+              "urpx:name": "Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "jemc:ts-2026-01-01-pd-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:ts-2026-01-01-ledger-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:ts-2026-01-01-pd-energy",
+              "urpx:name": "Energy Charge, in blocks",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:ts-2026-01-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:ts-2026-01-01-pd-surcharge-energy",
+              "urpx:name": "Temporary Service surcharge, 25 percent of the energy charges",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentTariff"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:ts-2026-01-01-ledger-surcharge-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:ts-2026-01-01-pd-surcharge-service-charge",
+              "urpx:name": "Temporary Service surcharge, 25 percent of the Service Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentTariff"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:ts-2026-01-01-ledger-surcharge-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "jemc:ts-2026-01-01-pd-wpca",
+              "urpx:name": "Wholesale Power Cost Adjustment Schedule P-22, per kWh, computed monthly by the Cooperative",
+              "urpx:chargeType": {
+                "@id": "urpx:adjustmentPowerCost"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "jemc:ts-2026-01-01-ledger-wpca"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "jemc:ts-2026-01-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "jemc:ts-2026-01-01-ps",
+            "urpx:startDate": "2026-01-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:ts-2026-01-01-price-energy-t1",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:ts-2026-01-01-pd-energy"
+                },
+                "urpx:name": "Energy Charge, first 15,000 kWh",
+                "urpx:unitPrice": "0.1361",
+                "urpx:serviceTierNumber": 1,
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:ts-2026-01-01-price-energy-t1-data-source-reference",
+                  "urpx:fileName": "TS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:ts-2026-01-01-price-energy-t2",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:ts-2026-01-01-pd-energy"
+                },
+                "urpx:name": "Energy Charge, next 185,000 kWh",
+                "urpx:unitPrice": "0.1113",
+                "urpx:serviceTierNumber": 2,
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:ts-2026-01-01-price-energy-t2-data-source-reference",
+                  "urpx:fileName": "TS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:ts-2026-01-01-price-energy-t3",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:ts-2026-01-01-pd-energy"
+                },
+                "urpx:name": "Energy Charge, over 200,000 kWh",
+                "urpx:unitPrice": "0.0980",
+                "urpx:serviceTierNumber": 3,
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:ts-2026-01-01-price-energy-t3-data-source-reference",
+                  "urpx:fileName": "TS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "jemc:ts-2026-01-01-price-surcharge-energy",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "jemc:ts-2026-01-01-pd-surcharge-energy"
+                },
+                "urpx:name": "Temporary Service surcharge, 25 percent of the energy charges",
+                "urpx:multiplier": "0.25",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "jemc:ts-2026-01-01-summary-energy"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "jemc:ts-2026-01-01-price-surcharge-energy-data-source-reference",
+                  "urpx:fileName": "TS-26.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                  "urpx:dateRetrieved": "2026-10-18",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              }
+            ],
+            "urpx:hasPriceSummary": [
+              {
+                "@type": "urpx:PriceSummary",
+                "@id": "jemc:ts-2026-01-01-summary-energy",
+                "urpx:name": "Energy subtotal: the TS-26 energy blocks. The 25 percent surcharge applies to \"the total amount calculated above\"; the Service Charge takes the same percentage through a second multiplier over its own Price, because a per-month charge cannot be summed with per-kWh ones.",
+                "urpx:includesPrice": [
+                  {
+                    "@id": "jemc:ts-2026-01-01-price-energy-t1"
+                  },
+                  {
+                    "@id": "jemc:ts-2026-01-01-price-energy-t2"
+                  },
+                  {
+                    "@id": "jemc:ts-2026-01-01-price-energy-t3"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "jemc:ts-2026-01-01-psa-service-phase",
+          "urpx:name": "Service Charge, by service phase",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "jemc:ts-2026-01-01-pa-service-phase"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "jemc:ts-2026-01-01-psa-single-phase",
+              "urpx:referencesProfileAlternative": {
+                "@id": "jemc:ts-2026-01-01-pa-single-phase"
+              },
+              "urpx:startDate": "2026-01-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:ts-2026-01-01-price-service-charge-single-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:ts-2026-01-01-pd-service-charge"
+                  },
+                  "urpx:name": "Service Charge, single-phase customers",
+                  "urpx:unitPrice": "50.00",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:ts-2026-01-01-price-service-charge-single-phase-data-source-reference",
+                    "urpx:fileName": "TS-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:ts-2026-01-01-price-surcharge-service-charge-single-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:ts-2026-01-01-pd-surcharge-service-charge"
+                  },
+                  "urpx:name": "Temporary Service surcharge, 25 percent of the single-phase Service Charge",
+                  "urpx:multiplier": "0.25",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "jemc:ts-2026-01-01-price-service-charge-single-phase"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:ts-2026-01-01-price-surcharge-service-charge-single-phase-data-source-reference",
+                    "urpx:fileName": "TS-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "jemc:ts-2026-01-01-psa-three-phase",
+              "urpx:referencesProfileAlternative": {
+                "@id": "jemc:ts-2026-01-01-pa-three-phase"
+              },
+              "urpx:startDate": "2026-01-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:ts-2026-01-01-price-service-charge-three-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:ts-2026-01-01-pd-service-charge"
+                  },
+                  "urpx:name": "Service Charge, three-phase customers",
+                  "urpx:unitPrice": "78.00",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:ts-2026-01-01-price-service-charge-three-phase-data-source-reference",
+                    "urpx:fileName": "TS-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "jemc:ts-2026-01-01-price-surcharge-service-charge-three-phase",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "jemc:ts-2026-01-01-pd-surcharge-service-charge"
+                  },
+                  "urpx:name": "Temporary Service surcharge, 25 percent of the three-phase Service Charge",
+                  "urpx:multiplier": "0.25",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "jemc:ts-2026-01-01-price-service-charge-three-phase"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "jemc:ts-2026-01-01-price-surcharge-service-charge-three-phase-data-source-reference",
+                    "urpx:fileName": "TS-26.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf",
+                    "urpx:dateRetrieved": "2026-10-18",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-jemc",
+        "urpx:legalName": "Jackson Electric Membership Corporation",
+        "urpx:organizationType": {
+          "@id": "urpx:cooperativeOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-jemc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-jemc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Jackson Electric Membership Corporation"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-jemc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "9601"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "jemc:ts"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "jemc:cc-ts-2026-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "jemc:cc-ts-2026-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh. (2) Temporary or seasonal service. The schedule applies to any customer whose service is temporary or seasonal in nature. The EligibilityRule carries non-residential customer kind, as the Cooperative lists the schedule among its commercial rates; the condition is in its description only. (3) Terms of Payment. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations and makes all charges subject to applicable taxes. Neither is priced on the sheet and neither is carried.",
+          "urpx:evaluatedOn": "2026-10-18T00:00:00"
+        }
+      }
+    }
+  }
+}

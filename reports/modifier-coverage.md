@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **120**
+- Base RatePlan filings: **129**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **473**
+- Applicable-modifier slots across all bases: **492**
   - present and complete: 22
-  - present but incomplete: 411
+  - present but incomplete: 430
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -485,6 +485,105 @@ Base deferrals:
 | `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
 | `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
+#### `cev` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Qualified chargers and experimental terms. The schedule serves only the customer's own electric vehicle chargers, for permanent year-round service, and requires documentation of qualified chargers, a dedicated circuit breaker and no more than 1 MW of connected load; availability is case by case, service runs at least twelve consecutive months, and the experimental schedule may be changed or ended on sixty days' notice. The EligibilityRule carries non-residential customer kind and an EV charging distributed energy resource; the other conditions are in its description only.
+- Contribution in aid to construction. Where the Cooperative furnishes additional facilities, the customer pays an upfront non-refundable contribution in aid to construction, which does not count toward any minimum charge. It is not a monthly rate and is not carried.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
+#### `gs` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Hours-use blocks. The sheet prices kWh in bands bounded by hours times the Billing Demand: up to 200 hours (in blocks of 15,000 and 185,000 kWh), 200 to 400, 400 to 600 and over 600 hours. A urpx:ServiceBracket bound is a fixed number, so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, so this filing's recorded marginal rate is 28.67 cents per kWh, the four bands' first prices added together, where the sheet prices a month's first kWh at 13.61 cents.
+- Billing Demand ratchets. Billing Demand is a calculated MetricInput, the highest 30-minute kW demand of the current month and the preceding eleven, at least 90 percent of the highest summer demand and 65 percent of the highest winter demand, and a floor of the contract minimum or 5 kW (for school service, June through August, the current demand or 5 kW); its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.
+- Minimum Monthly Charge. The minimum monthly charge is the greater of $12.00 per kW of (a) the highest demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May, and is never less than the Service Charge plus excess kVAR charges. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference. For athletic facilities lighting the minimum is the Service Charge per meter, and a customer disconnecting for less than 14 months pays the minimum for the period of disconnection.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
+#### `gsae` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Hours-use blocks. The sheet prices kWh in bands bounded by hours times the Billing Demand: up to 200 hours (in blocks of 15,000 and 185,000 kWh), 200 to 400, 400 to 600 and over 600 hours. A urpx:ServiceBracket bound is a fixed number, so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, so this filing's recorded marginal rate is 28.67 cents per kWh, the four bands' first prices added together, where the sheet prices a month's first kWh at 13.61 cents.
+- Billing Demand ratchets. Billing Demand is a calculated MetricInput, the highest 30-minute kW demand of the current month and the preceding eleven, in summer months 85 percent of the current demand, and at least 76 percent of the highest summer demand and 55 percent of the highest winter demand, and a floor of the contract minimum or 10 kW; its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May.
+- Qualifying loads. The schedule is for customers with not less than 10 kW actual demand and not less than 50 percent of connected load in qualifying electric cooking, process heating or sole-source space heating loads. The EligibilityRule carries non-residential customer kind; these conditions are in its description only.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.
+- Minimum Monthly Charge. The minimum monthly charge is the greater of $12.00 per kW of (a) the highest demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May, and is never less than the Service Charge plus excess kVAR charges. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
+#### `gstou` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Billing Demand ratchets. Each billing demand is a calculated MetricInput, the Non-Coincident Billing Demand from the highest 60-minute kW of the current month and the preceding eleven, at least 90 percent of the highest summer demand and 65 percent of the highest winter demand, and the On-Peak Billing Demand from the highest 60-minute kW in On-Peak hours with a 90 percent ratchet on the previous summer months; its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.
+- Minimum Monthly Charge. The minimum monthly charge is the greater of two options: (1) the greater of $12.00 per kW of (a) the highest on-peak demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May or the summer off-peak demand, never less than the Service Charge plus excess kVAR charges; or (2) a charge specified in a supplemental contract. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
+#### `lms` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Billing Demand ratchets. Non-Coincident Billing Demand is a calculated MetricInput, the highest 60-minute kW of the current month and the preceding eleven, at least 90 percent of the highest summer demand and 65 percent of the highest winter demand; its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May.
+- Coincident Peak Billing Demand. For each calendar year's bills the Coincident Peak Billing Demand is the greater of the customer's average 60-minute demand at Georgia Transmission Corporation's 5 highest demands during peak period notification hours in the 12 months ending September 30 of the previous year, or 20 percent of the customer's highest demand in those months, and the Cooperative estimates it for customers not previously metered hourly. It is a calculated MetricInput whose rule is text in its CalculationMethod; Georgia Transmission's peak hours are published by neither the sheet nor the Cooperative, so a consumer has to obtain them to compute it.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.
+- Minimum Monthly Charge. The minimum monthly charge is the greater of two options: (1) the greater of $12.00 per kW of (a) the highest on-peak demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May or the summer off-peak demand, never less than the Service Charge plus excess kVAR charges; or (2) a charge specified in a supplemental contract. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
+#### `mbs` @ 2022-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Energy Charge and Facilities Charge. The Energy Charge's kWh, transmission, fixed cost recovery, substation and line loss charges are determined case by case, subject to market prices, availability, contract terms, load characteristics and type of service, and the Facilities Charge is one-twelfth of the annual allocated cost of serving the customer. Neither is published, so each is a PriceDefinition with no Price and a modeled bill carries nothing for them.
+- Margin Cost. The Margin Cost is 3.0 percent of the first $15,000 of TC = EC + FC, 2.5 percent of the next $35,000 and 2.0 percent over $50,000. A multiplier Price applies to Prices, and EC and FC have none; dollar blocks of a total are not a ServiceTiers ladder either. The JSON-LD defines it as a PriceDefinition with no Price, with its percentages in its name.
+- Availability and connected demand. The schedule is for customers over 900 kW of connected demand at a single point of delivery, available case by case at the Cooperative's sole discretion. The EligibilityRule carries non-residential customer kind; these conditions are in its description only.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets the contract period in the Agreement for Electric Service. None is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+
+#### `qf` @ 2022-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Energy Charge and Facilities Charge. The Energy Charge is the customer's total wholesale power costs, including base rate and delivery, and the Facilities Charge is one-twelfth of the annual allocated cost of serving the customer. Neither is published, so each is a PriceDefinition with no Price and a modeled bill carries nothing for them.
+- Margin Cost percentage. The Margin Cost is 4.5 percent of TC = EC + FC plus $50. The $50 is a monthly Price; a multiplier Price applies to Prices, and EC and FC have none, so the 4.5 percent is a PriceDefinition with no Price.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets the contract period in the Agreement for Electric Service. None is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
 #### `s` @ 2026-01-01  &nbsp; base: ~
 
 Base deferrals:
@@ -497,6 +596,33 @@ Base deferrals:
 - Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a contract of at least one year that the Cooperative may extend to five years with an advance payment of up to half the estimated revenue for the term. None is carried.
 
 _No applicable modifiers declared._
+
+#### `slms` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Coincident Peak Billing Demand. For each calendar year's bills the Coincident Peak Billing Demand is the customer's average 60-minute demand at Georgia Transmission Corporation's 5 highest demands during peak period notification hours in the 12 months ending September 30 of the previous year, which the Cooperative estimates for customers not previously metered hourly. It is a calculated MetricInput whose rule is text in its CalculationMethod; Georgia Transmission's peak hours are published by neither the sheet nor the Cooperative, so a consumer has to obtain them to compute it.
+- Schools. The schedule is for state, county, city and private schools offering regular elementary, middle, high school or college courses. URPX v0.5.1 has no customer kind or sub-kind for a school, so the EligibilityRule carries non-residential customer kind and the condition is in its description only.
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.
+- Minimum Monthly Charge. The minimum monthly charge is the greater of two options: (1) the greater of $12.00 per kW of (a) the highest on-peak demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May or the summer off-peak demand, never less than the Service Charge plus excess kVAR charges; or (2) a charge specified in a supplemental contract. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+
+#### `ts` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.
+- Temporary or seasonal service. The schedule applies to any customer whose service is temporary or seasonal in nature. The EligibilityRule carries non-residential customer kind, as the Cooperative lists the schedule among its commercial rates; the condition is in its description only.
+- Terms of Payment. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations and makes all charges subject to applicable taxes. Neither is priced on the sheet and neither is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
 
 ### LADWP
 

@@ -83,7 +83,7 @@
           "urpx:changeReason": {
             "@id": "urpx:changeReasonOther"
           },
-          "urpx:description": "Jackson EMC's Rider LM, Load Management Adjustment Rider, part of each retail rate schedule that refers to it: of the residential schedules, A-26, AEA-26, AM-26, ATOU-26 and APEV-26, which urpx:applicableToRatePlan names. Active customers in the Cooperative's Load Management Program who have switches on their central air conditioning unit(s) or electric water heater(s) \"may receive a credit on the June through September bill\", the kW controlled times $0.875 on air conditioning units and $0.20 on electric water heating. The switch must have been in place for the full usage period credited, and the account active when the bill is rendered. Each credit is carried as a monthly per-kW credit gated to June through September. Dating: the rider is effective January 1, 2022, so this version begins 2022-01-01; it states no date of first introduction.",
+          "urpx:description": "Jackson EMC's Rider LM, Load Management Adjustment Rider, part of each retail rate schedule that refers to it: the residential schedules A-26, AEA-26, AM-26, ATOU-26 and APEV-26 and the commercial schedules GS-26 and GSAE-26, which urpx:applicableToRatePlan names. Active customers in the Cooperative's Load Management Program who have switches on their central air conditioning unit(s) or electric water heater(s) \"may receive a credit on the June through September bill\", the kW controlled times $0.875 on air conditioning units and $0.20 on electric water heating. The switch must have been in place for the full usage period credited, and the account active when the bill is rendered. Each credit is carried as a monthly per-kW credit gated to June through September. Dating: the rider is effective January 1, 2022, so this version begins 2022-01-01; it states no date of first introduction.",
           "urpx:effectiveDateTime": "2022-01-01T00:00:00",
           "urpx:priceCurrency": "USD",
           "urpx:commodity": {
@@ -107,6 +107,12 @@
             },
             {
               "@id": "jemc:apev"
+            },
+            {
+              "@id": "jemc:gs"
+            },
+            {
+              "@id": "jemc:gsae"
             }
           ],
           "urpx:hasDataSourceReference": {
@@ -129,60 +135,30 @@
               "@type": "urpx:EligibilityRule",
               "@id": "jemc:lm-2022-01-01-er-eligible",
               "urpx:name": "Active Load Management Program participant",
-              "urpx:description": "Residential customer participating in the Cooperative's Load Management Program. \"All active customers participating in the Cooperative's Load Management Program who have switches on their central air conditioning unit(s) and/or electric water heater(s) may receive a credit on the June through September bill.\" \"The load management switch must have been in place during the full usage period for which the load management credit is given. Credit will be given only to those customers whose accounts are active at the time the bill is rendered.\" ELIGIBLE INSTALLATIONS: \"Load management switches will be provided at locations which solely in the opinion of the Cooperative are accessible for installation and maintenance and are appropriate for load management purposes.\"",
+              "urpx:description": "Customer participating in the Cooperative's Load Management Program. \"All active customers participating in the Cooperative's Load Management Program who have switches on their central air conditioning unit(s) and/or electric water heater(s) may receive a credit on the June through September bill.\" \"The load management switch must have been in place during the full usage period for which the load management credit is given. Credit will be given only to those customers whose accounts are active at the time the bill is rendered.\" ELIGIBLE INSTALLATIONS: \"Load management switches will be provided at locations which solely in the opinion of the Cooperative are accessible for installation and maintenance and are appropriate for load management purposes.\"",
               "urpx:hasConditionExpression": {
                 "@type": "urpx:ConditionExpression",
                 "@id": "jemc:lm-2022-01-01-cx-eligible",
                 "urpx:rootNode": {
-                  "@type": "urpx:BooleanOperationNode",
-                  "@id": "jemc:lm-2022-01-01-bn-residential-and-enrolled",
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "jemc:lm-2022-01-01-cn-program-enrollment",
                   "urpx:operator": {
-                    "@id": "urpx:andOperator"
+                    "@id": "urpx:equalsOperator"
                   },
-                  "urpx:operandNodes": [
-                    {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "jemc:lm-2022-01-01-cn-residential",
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "jemc:lm-2022-01-01-cn-residential-left-operand",
-                        "urpx:conditionProperty": {
-                          "@id": "urpx:hasCustomerKind"
-                        }
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "jemc:lm-2022-01-01-cn-residential-right-operand",
-                        "urpx:referencesValue": {
-                          "@id": "urpx:residentialKind"
-                        }
-                      }
-                    },
-                    {
-                      "@type": "urpx:ComparisonNode",
-                      "@id": "jemc:lm-2022-01-01-cn-program-enrollment",
-                      "urpx:operator": {
-                        "@id": "urpx:equalsOperator"
-                      },
-                      "urpx:leftOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "jemc:lm-2022-01-01-cn-program-enrollment-left-operand",
-                        "urpx:conditionProperty": {
-                          "@id": "urpx:hasProgramEnrollment"
-                        }
-                      },
-                      "urpx:rightOperand": {
-                        "@type": "urpx:ObjectOperandNode",
-                        "@id": "jemc:lm-2022-01-01-cn-program-enrollment-right-operand",
-                        "urpx:referencesValue": {
-                          "@id": "jemc:program-lm"
-                        }
-                      }
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:lm-2022-01-01-cn-program-enrollment-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasProgramEnrollment"
                     }
-                  ]
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "jemc:lm-2022-01-01-cn-program-enrollment-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "jemc:program-lm"
+                    }
+                  }
                 }
               }
             }
@@ -372,7 +348,7 @@
               "urpx:evaluationKind": {
                 "@id": "urpx:coverageEvaluation"
               },
-              "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Controlled kW. Each credit is priced per kW of the customer's air conditioning or water heating under load management control, a property of the installed equipment rather than a measured demand. URPX v0.5.1 names no profile property for it (its ServicePointProfile properties include urpx:ratedPowerCapacity for the service point and urpx:hasHVAC for the kind of equipment, neither a controlled load in kW), so each credit's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the quantity in its name only. A consumer has to supply the controlled kW of each kind of equipment from outside the JSON-LD. (2) June through September bill. The rider grants the credit \"on the June through September bill\". The JSON-LD gates each credit on the calendar months June through September; if the Cooperative grants it by billing month, a billing period that runs ahead of or behind its billing month is credited for a different set of days. (3) Switch tenure, active account and eligible installations. The credit requires the switch to have been in place for the full usage period it is given for and the account to be active when the bill is rendered, and switches are installed only where the Cooperative judges the location accessible and appropriate. The EligibilityRule carries residential customer kind and enrollment in jemc:program-lm; these conditions are in its description only.",
+              "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Controlled kW. Each credit is priced per kW of the customer's air conditioning or water heating under load management control, a property of the installed equipment rather than a measured demand. URPX v0.5.1 names no profile property for it (its ServicePointProfile properties include urpx:ratedPowerCapacity for the service point and urpx:hasHVAC for the kind of equipment, neither a controlled load in kW), so each credit's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the quantity in its name only. A consumer has to supply the controlled kW of each kind of equipment from outside the JSON-LD. (2) June through September bill. The rider grants the credit \"on the June through September bill\". The JSON-LD gates each credit on the calendar months June through September; if the Cooperative grants it by billing month, a billing period that runs ahead of or behind its billing month is credited for a different set of days. (3) Switch tenure, active account and eligible installations. The credit requires the switch to have been in place for the full usage period it is given for and the account to be active when the bill is rendered, and switches are installed only where the Cooperative judges the location accessible and appropriate. The EligibilityRule carries enrollment in jemc:program-lm; these conditions are in its description only.",
               "urpx:evaluatedOn": "2026-10-18T00:00:00"
             }
           }

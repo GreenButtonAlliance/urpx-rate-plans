@@ -1,0 +1,84 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "lms"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates/load-management-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/LMS-26.pdf"
+  sha256 = "5dfaa40bade4a292f032116a0e2ef9e1f44f78f121be83817012cf504927d483"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "LMS-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheet names no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+LMS-26 read with mineru-kit parse --tier standard; every rate was
+checked against the PDF text. P-22 is the sheet A-26 carries, unchanged;
+see Schedule A's tariff.toml for the Wholesale Power Cost Adjustment.
+
+Demand. Non-Coincident Billing Demand and Coincident Peak Billing Demand are
+each a calculated MetricInput on the 60-minute kW demand, with the sheet's
+rules in their descriptions and formulas. The Coincident Peak Billing Demand
+depends on Georgia Transmission Corporation's 5 highest demands during peak
+period notification hours, which neither sheet nor site publishes.
+
+The sheet's On-Peak and Off-Peak periods define only its minimum monthly
+charge, which is not carried, so no TOU schedule is carried.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet names no
+customer kind, and it is listed on the Cooperative's commercial rates page.
+
+Dating. The sheet is effective "January 1, 2026", a calendar date, so the
+version begins 2026-01-01. It states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's rate change
+is not a formal rate case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Billing Demand ratchets. Non-Coincident Billing Demand is a calculated MetricInput, the highest 60-minute kW of the current month and the preceding eleven, at least 90 percent of the highest summer demand and 65 percent of the highest winter demand; its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate, so a consumer has to compute it from twelve months of demand history. The sheet's seasons for it are billing months, June through September and October through May.",
+  "Coincident Peak Billing Demand. For each calendar year's bills the Coincident Peak Billing Demand is the greater of the customer's average 60-minute demand at Georgia Transmission Corporation's 5 highest demands during peak period notification hours in the 12 months ending September 30 of the previous year, or 20 percent of the customer's highest demand in those months, and the Cooperative estimates it for customers not previously metered hourly. It is a calculated MetricInput whose rule is text in its CalculationMethod; Georgia Transmission's peak hours are published by neither the sheet nor the Cooperative, so a consumer has to obtain them to compute it.",
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.",
+  "Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Cooperative may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.30 per kVAR. The JSON-LD carries the $0.30 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Cooperative does not meter for it.",
+  "Minimum Monthly Charge. The minimum monthly charge is the greater of two options: (1) the greater of $12.00 per kW of (a) the highest on-peak demand measured during the billing months June through September or (b) 65 percent of the highest demand measured during the billing months October through May or the summer off-peak demand, never less than the Service Charge plus excess kVAR charges; or (2) a charge specified in a supplemental contract. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.",
+  "Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+]
+applicable_modifiers = ["gp", "nm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's load management service: $299.00 a month, a non-coincident and a transmission-coincident demand charge, and one energy price."

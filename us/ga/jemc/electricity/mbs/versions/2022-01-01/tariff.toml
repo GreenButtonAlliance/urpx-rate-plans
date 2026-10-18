@@ -1,0 +1,71 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "mbs"
+effective_date = "2022-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates/market-based-service"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/MBS-22.pdf"
+sha256 = "df7e0a9f85cce59475139872c86fe06ab926fad3db3e1709293231bd4386b9c3"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "MBS-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheet names no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+MBS-22 read with mineru-kit parse --tier standard; every rate was
+checked against the PDF text.
+
+Structure. The monthly charge is an Energy Charge (EC), a Facilities Charge
+(FC) and a Margin Cost (MC) on their sum TC. EC's five components and FC's
+eight are determined case by case or from the Cooperative's allocated costs
+and are not published, so each is a PriceDefinition with no Price, as
+Georgia Power's FLAT-7 and PBD-1 carry their customer-specific charges. The
+Margin Cost is 3.0, 2.5 and 2.0 percent of TC in dollar blocks of $15,000
+and $35,000; a percentage of charges that have no Price cannot be a Price,
+so it is a PriceDefinition with no Price, its percentages in its name. The
+sheet does not refer to Schedule P, so no Wholesale Power Cost Adjustment is
+carried. clj-urpx refuses a marginal rate for the filing, :no-energy-ledger.
+
+Eligibility is carried as urpx:nonResidentialKind; the 900 kW connected
+demand threshold is in the EligibilityRule's description.
+
+Dating. The sheet is effective "January 1, 2022", a calendar date, so the
+version begins 2022-01-01. It states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's rate change
+is not a formal rate case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Energy Charge and Facilities Charge. The Energy Charge's kWh, transmission, fixed cost recovery, substation and line loss charges are determined case by case, subject to market prices, availability, contract terms, load characteristics and type of service, and the Facilities Charge is one-twelfth of the annual allocated cost of serving the customer. Neither is published, so each is a PriceDefinition with no Price and a modeled bill carries nothing for them.",
+  "Margin Cost. The Margin Cost is 3.0 percent of the first $15,000 of TC = EC + FC, 2.5 percent of the next $35,000 and 2.0 percent over $50,000. A multiplier Price applies to Prices, and EC and FC have none; dollar blocks of a total are not a ServiceTiers ladder either. The JSON-LD defines it as a PriceDefinition with no Price, with its percentages in its name.",
+  "Availability and connected demand. The schedule is for customers over 900 kW of connected demand at a single point of delivery, available case by case at the Cooperative's sole discretion. The EligibilityRule carries non-residential customer kind; these conditions are in its description only.",
+  "Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations, makes all charges subject to applicable taxes, and sets the contract period in the Agreement for Electric Service. None is carried.",
+]
+applicable_modifiers = ["gp"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's market based service for customers over 900 kW: structural only, every charge case by case."

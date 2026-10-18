@@ -1,0 +1,84 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "ts"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/commercial-rates/temporary-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/TS-26.pdf"
+  sha256 = "def53fd78c353c353ac93780c97b173ab757e06ab677e9765c70ab23c639ee6e"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TS-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheet names no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+TS-26 read with mineru-kit parse --tier standard; every rate was
+checked against the PDF text. P-22 is the sheet A-26 carries, unchanged;
+see Schedule A's tariff.toml for the Wholesale Power Cost Adjustment.
+
+Surcharge. The sheet adds "a surcharge of twenty-five percent (25%) of the
+total amount calculated above", the Service Charge and the energy blocks.
+The JSON-LD carries it as R-31 carries its percentage riders: one multiplier
+Price over a PriceSummary of the energy block Prices and one over each
+phase's Service Charge Price. The Wholesale Power Cost Adjustment, applied
+to "the bill calculated at the above rates", is not surcharged.
+
+Service Charge. $50.00 for single-phase and $78.00 for three-phase customers,
+chosen by a ProfileAlternatives dimension, servicePhase. The minimum monthly
+charge is the Service Charge, so it is not modeled separately.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet applies to any
+customer whose service is temporary or seasonal, which is in the
+EligibilityRule's description.
+
+Dating. The sheet is effective "January 1, 2026", a calendar date, so the
+version begins 2026-01-01. It states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's rate change
+is not a formal rate case, so urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill is high or low by the month's factor times its kWh.",
+  "Temporary or seasonal service. The schedule applies to any customer whose service is temporary or seasonal in nature. The EligibilityRule carries non-residential customer kind, as the Cooperative lists the schedule among its commercial rates; the condition is in its description only.",
+  "Terms of Payment. The sheet adds a late fee and disconnection charges under the Service Rules and Regulations and makes all charges subject to applicable taxes. Neither is priced on the sheet and neither is carried.",
+]
+applicable_modifiers = ["gp", "nm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's temporary service: GS-26's energy blocks with no hours-use bands, plus a 25 percent surcharge."
