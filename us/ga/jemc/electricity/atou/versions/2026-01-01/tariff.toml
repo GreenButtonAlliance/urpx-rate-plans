@@ -1,0 +1,94 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "atou"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/residential-time-of-use-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/ATOU-26.pdf"
+  sha256 = "15770912db0a3a00038243ac6fb76ee4b2decad5999cbd0bacbcfc70706eb4c7"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ATOU-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheets name no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+ATOU-26 read with mineru-kit parse --tier standard; every rate was checked against
+the PDF text. P-22 is one page of prose and a formula, read from the PDF text
+directly; see Schedule A's tariff.toml for the Wholesale Power Cost
+Adjustment.
+
+On-Peak season. The sheet's On-Peak runs "from June 1 through September 15".
+A urpx:Season recurs by calendar month, so the JSON-LD's Summer is June
+through September and On-Peak covers September 16 through 30 too; that is the
+first deferral. Of the two whole-month choices, ending Summer with September
+keeps the sheet's Labor Day exclusion in force (Labor Day always falls on
+September 1 through 7) and errs toward a higher modeled bill, by 27.00 cents per
+kWh used 3:00 to 8:00 p.m. on the eleven weekdays of September 16-30, 2026.
+The same window, "June 1 through September 15", is on every earlier sheet the
+Internet Archive holds: ATOU-20 (effective January 1, 2020), ATOU-22, ATOU-24
+and ATOU-25, under
+https://web.archive.org/web/<timestamp>id_/https://www.jacksonemc.com/assets/uploads/pdfs/
+(atou-20_final.pdf 20211103172558, ATOU-22_revised.pdf 20230808105503,
+ATOU-24.pdf 20241004234337,
+Schedule-ATOU-25-Residential-Time-of-Us-Service.pdf 20251003043245); only the
+Service Charge and, from ATOU-22, Juneteenth changed.
+
+Holidays. On-Peak excludes "the observed Juneteenth, Independence Day and
+Labor Day holidays". The sheet states no weekend rule; the holiday calendar
+uses the federal one, 5 U.S.C. 6103(b) (Saturday observed on the Friday before,
+Sunday on the Monday after), as urpx:nearestWeekdayObservance. Labor Day is
+always a Monday.
+
+Dating. The sheet is effective "January 1, 2026", so the version begins
+2026-01-01. The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's annual rate
+change is not a formal rate case, so urpx:changeReason is
+urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "On-Peak through September 15. The sheet's On-Peak hours, 3:00 to 8:00 p.m. on weekdays, run from June 1 through September 15. The JSON-LD's Summer Season is the calendar months June through September, so weekday afternoons from September 16 through 30 take the On-Peak price, 27.00 cents per kWh above the Off-Peak price the sheet charges for them.",
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.",
+  "Owner-occupied single-family dwellings. The sheet limits the schedule to single-family dwelling units owned and occupied by the customer for permanent year-round service. The EligibilityRule carries residential customer kind; this condition is in its description only.",
+  "Budget Billing, Terms of Payment and Contract Period. The sheet requires twelve consecutive months of service beginning June 1st of each year, offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+]
+applicable_modifiers = ["senior-low-income", "lm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First Jackson EMC time-of-use filing."
