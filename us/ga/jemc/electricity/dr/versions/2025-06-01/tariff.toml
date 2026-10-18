@@ -1,0 +1,61 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "dr"
+effective_date = "2025-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/demand-response-rider"
+url = "https://www.jacksonemc.com/assets/uploads/pdfs/jemc-demanresponserider.pdf"
+sha256 = "66ab3270041dc45ede7bb0fd2769db1c5ee7a8082c698abc9e41413679000e61"
+retrieved_on = "2026-10-18"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "DR"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates (us/ga/jemc/utility.toml).
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-18"
+notes = """
+Rider DR is one page of prose, read from the PDF text. Unlike the other
+riders it is served outside the per-year rates folder.
+
+Credit. Sync to Save participants with a connected smart thermostat receive
+"a $25 credit on their November bill". The JSON-LD carries a $25.00 monthly
+credit on a per-meter PriceDefinition whose ApplicabilityRule limits it to
+November, so it applies once a year.
+
+Eligibility is carried as residential customer kind and enrollment in
+jemc:program-sync-to-save, a urpx:ProgramEnrollment this filing defines.
+
+Dating. The rider is effective "June 1, 2025", a calendar date. It is
+"experimental and will be evaluated on an annual basis"; it states no
+expiration. A board's rate change is not a formal rate case, so
+urpx:changeReason is urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "November bill. The rider grants the credit \"on their November bill\". The JSON-LD gates it on the calendar month of November; if the Cooperative grants it by billing month, the modeled credit falls on a different set of days than the bill that carries it.",
+  "Enrollment window, account activity and tampering. The thermostat must be enrolled and connected by July 1, the account active July 1 through September 30 of the credit year, and the credit is forfeited if control or connection is disrupted by tampering; eligible devices are at the Cooperative's discretion. The EligibilityRule carries residential customer kind and enrollment in jemc:program-sync-to-save; these conditions are in its description only.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC's Sync to Save smart thermostat credit: $25.00 once a year on the November bill, applicable to all six residential schedules."

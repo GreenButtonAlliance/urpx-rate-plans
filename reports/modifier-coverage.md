@@ -15,9 +15,9 @@ Status glyphs:
 
 - Base RatePlan filings: **119**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **451**
+- Applicable-modifier slots across all bases: **473**
   - present and complete: 22
-  - present but incomplete: 389
+  - present but incomplete: 411
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -398,6 +398,10 @@ Base deferrals:
 |---|---|---|
 | `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
 | `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `cs` | ~ present-incomplete | `us/ga/jemc/electricity/cs/versions/2022-06-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+| `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
 #### `aea` @ 2026-01-01  &nbsp; base: ~
 
@@ -411,6 +415,10 @@ Base deferrals:
 |---|---|---|
 | `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
 | `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `cs` | ~ present-incomplete | `us/ga/jemc/electricity/cs/versions/2022-06-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+| `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
 #### `am` @ 2026-01-01  &nbsp; base: ~
 
@@ -424,6 +432,10 @@ Base deferrals:
 |---|---|---|
 | `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
 | `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `cs` | ~ present-incomplete | `us/ga/jemc/electricity/cs/versions/2022-06-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+| `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
 #### `apev` @ 2026-01-01  &nbsp; base: ~
 
@@ -438,6 +450,9 @@ Base deferrals:
 |---|---|---|
 | `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
 | `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+| `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
 #### `aphf` @ 2026-01-01  &nbsp; base: ~
 
@@ -449,6 +464,10 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
+| `cs` | ~ present-incomplete | `us/ga/jemc/electricity/cs/versions/2022-06-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+| `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
 #### `atou` @ 2026-01-01  &nbsp; base: ~
 
@@ -462,6 +481,9 @@ Base deferrals:
 |---|---|---|
 | `senior-low-income` | ~ present-incomplete | `us/ga/jemc/electricity/senior-low-income/versions/2026-01-01` |
 | `lm` | ~ present-incomplete | `us/ga/jemc/electricity/lm/versions/2022-01-01` |
+| `gp` | ~ present-incomplete | `us/ga/jemc/electricity/gp/versions/2023-01-01` |
+| `nm` | ~ present-incomplete | `us/ga/jemc/electricity/nm/versions/2022-01-01` |
+| `dr` | ~ present-incomplete | `us/ga/jemc/electricity/dr/versions/2025-06-01` |
 
 ### LADWP
 
