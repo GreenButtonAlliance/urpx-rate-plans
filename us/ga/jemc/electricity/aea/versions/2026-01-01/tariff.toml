@@ -1,0 +1,95 @@
+# Identity --------------------------------------------------------------------
+utility = "jemc"
+schedule = "aea"
+effective_date = "2026-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF: the schedule and the Wholesale Power Cost
+# Adjustment it applies.
+[source]
+landing_page = "https://www.jacksonemc.com/my-cooperative/rates/residential-rates/residential-energy-advantage-service"
+
+  [source.base]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/AEA-26.pdf"
+  sha256 = "73d715afdf1403fb5899f8be681d83ef8b3a0de98aef9e1ce61d7a681f127e76"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "AEA-26"
+
+  [source.wpca]
+  url = "https://www.jacksonemc.com/assets/uploads/pdfs/rates/2026/P-22.pdf"
+  sha256 = "600af481283f7c2c83ef7bbfb3c5cb8079458651be43550ae382b5a1dd166ddc"
+  retrieved_on = "2026-10-18"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "P-22"
+
+# Regulatory ------------------------------------------------------------------
+# The Cooperative's board sets its rates; the Georgia Public Service Commission
+# does not (us/ga/jemc/utility.toml). The sheets name no resolution.
+[regulator]
+authority = "board"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+AEA-26 read with mineru-kit parse --tier standard, which kept the rate table
+as one table; every cell was checked against the PDF text. P-22 is
+one page of prose and a formula, read from the PDF text directly.
+
+The Winter blocks fall from 8.37 to 7.33 cents and rise again to 7.63 cents
+over 1,000 kWh. Both extractions read them so, and the same three Winter rates
+are on AEA-20, AEA-22 and AEA-25 in the Internet Archive
+(https://web.archive.org/web/<timestamp>id_/https://www.jacksonemc.com/assets/uploads/pdfs/:
+aea-20_final.pdf 20210619010834, aea-22_final.pdf 20230807062312,
+Schedule-AEA-25-Residential-Energy-Advantage-Service.pdf 20251003043520), so
+they are carried as the sheet states them.
+
+Wholesale Power Cost Adjustment. P-22 sets the adjustment as
+WPCA = (PC - BC + LM + R) / Ks per kWh, from the Cooperative's estimated
+purchased-power cost for the next twelve months, a base power cost of $0.0781
+per kWh of purchases, the Load Management credits it adds back, and a
+true-up of past periods, recomputed for each calendar year and adjusted
+monthly. Neither sheet nor any page of the Cooperative's site found on
+2026-10-18 states a factor, so the JSON-LD defines the adjustment as a per-kWh
+PriceDefinition and carries no Price for it.
+
+Seasons. The rate table heads its columns "Winter Usage Months" and "Summer
+Usage Months", and a later section "SUMMER/WINTER BILLING MONTHS" lists
+Winter October - April and Summer May - September. The JSON-LD gates each
+season's energy PriceDefinition on calendar months; whether a bill is priced
+by the months of its usage or by its billing month is a deferral.
+
+Dating. The sheet is effective "January 1, 2026", a calendar date, so the
+version begins 2026-01-01. P-22 is effective January 1, 2022 and unchanged
+since. The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date. A board's annual rate
+change is not a formal rate case, so urpx:changeReason is
+urpx:changeReasonOther.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-18"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.",
+  "Seasons by usage month or billing month. The rate table names \"Usage Months\" and a later heading \"Billing Months\" for the same seasons, Summer May through September and Winter October through April. The JSON-LD gates the energy PriceDefinitions on the calendar month of usage; if the Cooperative prices a bill by its billing month, usage in the weeks a billing period runs ahead of its billing month takes the other season's blocks.",
+  "Program qualifications. The sheet is available at the customer's request to homes meeting the qualifications of the Cooperative's Right Choice, Comfort Home and Good Cents programs, set forth in its current program specifications. The EligibilityRule carries residential customer kind; the program qualifications are in its description only.",
+  "Budget Billing, Terms of Payment and Contract Period. The sheet offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.",
+]
+applicable_modifiers = ["senior-low-income", "lm"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Jackson EMC energy-advantage schedule, the shape of Schedule A."

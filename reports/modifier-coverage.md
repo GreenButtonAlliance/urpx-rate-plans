@@ -13,12 +13,12 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **116**
+- Base RatePlan filings: **119**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **446**
+- Applicable-modifier slots across all bases: **451**
   - present and complete: 22
   - present but incomplete: 378
-  - missing: 46
+  - missing: 51
 - Asymmetries between modifier-side and base-side declarations: **0**
 
 ## Asymmetries
@@ -34,13 +34,13 @@ Modifier slugs declared in some base's `[modeling].applicable_modifiers` but wit
 | Modifier (utility:slug) | Claimed by # bases | Bases |
 |---|---:|---|
 | `pge:medical-baseline` | 8 | `electricity/e-elec/versions/2026-01-01`, `electricity/e-elec/versions/2026-03-27`, `electricity/e-elec/versions/2026-06-01`, `electricity/e-elec/versions/2026-08-28`, `electricity/e-tou-d/versions/2026-03-27`, `electricity/e-tou-d/versions/2026-06-01`, `electricity/ev2/versions/2026-03-27`, `electricity/ev2/versions/2026-06-01` |
+| `jemc:senior-low-income` | 6 | `electricity/a/versions/2026-01-01`, `electricity/aea/versions/2026-01-01`, `electricity/am/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/aphf/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
 | `smud:hga` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:reo` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:standby` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
 | `smud:three-phase` | 6 | `electricity/fixed/versions/2026-01-01`, `electricity/fixed/versions/2027-01-01`, `electricity/tod-5-8pm/versions/2026-01-01`, `electricity/tod-5-8pm/versions/2027-01-01`, `electricity/tod-low-use/versions/2026-01-01`, `electricity/tod-low-use/versions/2027-01-01` |
+| `jemc:lm` | 5 | `electricity/a/versions/2026-01-01`, `electricity/aea/versions/2026-01-01`, `electricity/am/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
 | `pse:7bdr` | 4 | `electricity/307/versions/2026-05-01`, `electricity/307/versions/2026-10-01`, `electricity/327/versions/2026-05-01`, `electricity/327/versions/2026-10-01` |
-| `jemc:lm` | 3 | `electricity/a/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
-| `jemc:senior-low-income` | 3 | `electricity/a/versions/2026-01-01`, `electricity/apev/versions/2026-01-01`, `electricity/atou/versions/2026-01-01` |
 | `ladwp:ev-discount` | 3 | `electricity/r-1b/versions/2026-04-01`, `electricity/r-1b/versions/2026-07-01`, `electricity/r-1b/versions/2026-10-01` |
 | `sce:medical-line-item-discount` | 1 | `electricity/tou-d-prime/versions/2025-11-15` |
 
@@ -401,6 +401,32 @@ Base deferrals:
 | `senior-low-income` | ✗ missing | — |
 | `lm` | ✗ missing | — |
 
+#### `aea` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.
+- Seasons by usage month or billing month. The rate table names "Usage Months" and a later heading "Billing Months" for the same seasons, Summer May through September and Winter October through April. The JSON-LD gates the energy PriceDefinitions on the calendar month of usage; if the Cooperative prices a bill by its billing month, usage in the weeks a billing period runs ahead of its billing month takes the other season's blocks.
+- Program qualifications. The sheet is available at the customer's request to homes meeting the qualifications of the Cooperative's Right Choice, Comfort Home and Good Cents programs, set forth in its current program specifications. The EligibilityRule carries residential customer kind; the program qualifications are in its description only.
+- Budget Billing, Terms of Payment and Contract Period. The sheet offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `senior-low-income` | ✗ missing | — |
+| `lm` | ✗ missing | — |
+
+#### `am` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.
+- Seasons by usage month or billing month. The rate table names "Usage Months" and a later heading "Billing Months" for the same seasons, Summer May through September and Winter October through April. The JSON-LD gates the energy PriceDefinitions on the calendar month of usage; if the Cooperative prices a bill by its billing month, usage in the weeks a billing period runs ahead of its billing month takes the other season's blocks.
+- Multi-family dwellings. The sheet is limited to apartments, duplexes and condominiums, excluding single-family detached structures and manufactured homes. The EligibilityRule carries residential customer kind; the dwelling type is in its description only.
+- Budget Billing, Terms of Payment and Contract Period. The sheet offers a levelized budget bill with the Cooperative's approval, adds a late fee and disconnection charges under its Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `senior-low-income` | ✗ missing | — |
+| `lm` | ✗ missing | — |
+
 #### `apev` @ 2026-01-01  &nbsp; base: ~
 
 Base deferrals:
@@ -414,6 +440,17 @@ Base deferrals:
 |---|---|---|
 | `senior-low-income` | ✗ missing | — |
 | `lm` | ✗ missing | — |
+
+#### `aphf` @ 2026-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Wholesale Power Cost Adjustment factor. Schedule P-22 increases or decreases every bill by a per-kWh factor the Cooperative computes each month from its estimated purchased-power costs and sales, and publishes no factor. The JSON-LD defines the adjustment as a per-kWh PriceDefinition with no Price, so a modeled bill carries the base energy and Service Charges only, high or low by the month's factor times its kWh.
+- Poultry houses and farm facilities. The sheet serves individually owned poultry houses and farm facilities, not hatcheries, poultry processing or entities selling goods or services to the ultimate customer, and its application is at the Cooperative's discretion. The Cooperative lists it among its residential schedules, and the EligibilityRule carries residential customer kind, which URPX defines as domestic household service; URPX states no agricultural customer kind. The conditions are in the rule's description only.
+- Terms of Payment and Contract Period. The sheet adds a late fee and disconnection charges under the Cooperative's Service Rules and Regulations, makes all charges subject to applicable taxes, and sets a one-year contract. None is priced on the sheet and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `senior-low-income` | ✗ missing | — |
 
 #### `atou` @ 2026-01-01  &nbsp; base: ~
 
