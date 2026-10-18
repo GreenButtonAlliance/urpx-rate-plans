@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **110**
+- Base RatePlan filings: **111**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **437**
+- Applicable-modifier slots across all bases: **438**
   - present and complete: 22
-  - present but incomplete: 375
+  - present but incomplete: 376
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -295,6 +295,19 @@ Base deferrals:
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 ### GPC
+
+#### `pps` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, as PPS-11's own energy seasons are, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price. No PPS bill was available to show how a pre-paid account's billing month is set.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Minimum Bill. The sheet sets it at the Basic Service Charge, while service is connected and for up to ten days after disconnection, plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it while service is connected; the ten days of Basic Service Charge after a disconnection are not carried.
+- Pre-payment terms and Term of Contract. The sheet requires a $40.00 minimum positive balance to connect, disconnects service when the balance reaches $0.00, requires a minimum payment covering usage up to disconnection, any reconnect fees under Rule F3 and a $5.00 minimum pre-payment to reconnect, adds any Account Establishment Charge under Rule E2 before connection, and sets a term that "varies based on pre-paid amount and customer electric consumption". None of these is a price per unit of service and none is carried.
+- Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
 
 #### `r` @ 2026-06-01  &nbsp; base: ~
 

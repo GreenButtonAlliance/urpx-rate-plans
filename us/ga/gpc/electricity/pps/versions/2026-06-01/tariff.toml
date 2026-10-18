@@ -1,0 +1,125 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "pps"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule PPS customer pays are
+# carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/prepay.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/pps.pdf"
+  sha256 = "495d10b60b847cc74e4cceaf520acefd917e75c4ce7375d1bbd05b67b761ad85"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "PPS-11"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_r]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-r.pdf"
+  sha256 = "cba219daa41bad3be31298a5694c0b1a511ac7bce1641d928f8d2830a0debb90"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-R-16"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_r]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-17"
+notes = """
+PPS-11 read with mineru-kit parse --tier standard. It ran the rate lines
+together as text rather than a table; every value was checked against the PDF
+text. FCR-27 and the three other rider sheets are the ones Schedule R's filing
+carries, read from the PDF text directly.
+
+Seasons. PPS-11 sets its energy seasons by calendar month, "SUMMER – Calendar
+Months of June through September" and "WINTER – Calendar Months of October
+through May", unlike R-31's billing months, so the energy PriceDefinitions
+gated on calendar months need no deferral. FCR-27 says only "June through
+September" and "October through May", which Schedule R's bills read by billing
+month; that is a deferral here.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). PPS-11 replaced PPS-10 in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, and the version begins 2026-06-01 on the reading
+fifteen Schedule R bills fixed for that filing (see Schedule R's tariff.toml).
+No PPS bill was available to check it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-17"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, as PPS-11's own energy seasons are, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price. No PPS bill was available to show how a pre-paid account's billing month is set.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-R-16 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Minimum Bill. The sheet sets it at the Basic Service Charge, while service is connected and for up to ten days after disconnection, plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it while service is connected; the ten days of Basic Service Charge after a disconnection are not carried.",
+  "Pre-payment terms and Term of Contract. The sheet requires a $40.00 minimum positive balance to connect, disconnects service when the balance reaches $0.00, requires a minimum payment covering usage up to disconnection, any reconnect fees under Rule F3 and a $5.00 minimum pre-payment to reconnect, adds any Account Establishment Charge under Rule E2 before connection, and sets a term that \"varies based on pre-paid amount and customer electric consumption\". None of these is a price per unit of service and none is carried.",
+  "Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.",
+]
+applicable_modifiers = ["iqd"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "First Georgia Power pre-pay filing."
