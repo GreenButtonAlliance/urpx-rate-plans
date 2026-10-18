@@ -1,0 +1,69 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "pbd"
+effective_date = "2024-05-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/pay-by-day.html"
+url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/pbd.pdf"
+sha256 = "1ea8083aba773f00373b736a54e980af04b0a58eda1f49360859caec6b979616"
+retrieved_on = "2026-10-16"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "PBD-1"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+# The sheet names no docket.
+[regulator]
+authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-17"
+notes = """
+PBD-1 is three pages of prose and formulas with no rate table, read with
+pdftotext -layout rather than MinerU.
+
+Structure. The sheet prices no unit of service: each premises' Pay by Day
+Daily Price is computed from the customer's own metered usage history,
+adjusted for normal weather and behavior, priced at Schedule PPS's charges
+with ECCR, DSM-R, FCR, MFF and applicable taxes, raised by a Risk Adder of at
+most 10 percent, and spread evenly over the days of the contract. The JSON-LD
+carries that price as one usage-independent daily PriceDefinition with no
+Price, and the formula in the version description.
+
+Dating. The sheet, page 2.60, revision Third, is effective "With Bills
+Rendered for the Billing Month of May, 2024". The version begins 2024-05-01,
+the billing-month reading IQD-1 uses. PBD-1's First revision, effective "With
+Bills Rendered for the Billing Month of January, 2020", is still linked from
+the Pay by Day page (us/ga/gpc/utility.toml), so the schedule is older than
+this version; its original date is not known, so urpx:initialEffectiveDate
+carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-17"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Pay by Day Daily Price. The sheet bills each premises a fixed daily price computed from the customer's expected usage, Schedule PPS's charges with ECCR, DSM-R, FCR, the Municipal Franchise Fee and applicable taxes, and a Risk Adder of up to 10 percent, none of which it publishes for any premises. The JSON-LD defines the price as a usage-independent daily PriceDefinition and carries no Price for it, so a bill on this filing alone has no charge; the formula is in the version description only.",
+  "Offer conditions. The sheet limits Pay by Day to customers who have been in their current residence and had their electricity priced on a residential tariff over the previous 12 months, and requires AMI with reconnect/disconnect functionality and acceptable network coverage. The EligibilityRule carries residential customer kind; these conditions are in its description only.",
+  "Pre-payment terms. The sheet requires a $40.00 minimum positive balance to connect, disconnects service when the balance reaches $0.00, requires a minimum payment covering usage up to disconnection, any reconnect fees under Rule F3 and a $5.00 minimum pre-payment to reconnect, and adds any Account Establishment Charge under Rule E2 before connection. None of these is a price per unit of service and none is carried.",
+  "Early withdrawal. A customer who leaves before the end of the 12-month contract may be required to pay the excess of the Pre-Pay Service bill for the electricity actually used over the Pay by Day amounts billed, with no refund where it is less. No Price carries it.",
+  "Return to the traditional tariff. Where a customer's monthly usage, excluding the effects of weather, is 50 percent greater than in the same month of the previous year, the Company may return the customer to the traditional tariff for the rest of the contract, under the same withdrawal terms. Nothing here carries it.",
+]
+applicable_modifiers = ["iqd"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Structural: the Pay by Day price is computed for each premises, so the filing carries its PriceDefinition and formula but no Price."

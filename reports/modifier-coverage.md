@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **111**
+- Base RatePlan filings: **113**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **438**
+- Applicable-modifier slots across all bases: **440**
   - present and complete: 22
-  - present but incomplete: 376
+  - present but incomplete: 378
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -295,6 +295,31 @@ Base deferrals:
 | `e-hra` | ✓ present-complete | `us/ca/cpau/electricity/e-hra/versions/2023-01-01` |
 
 ### GPC
+
+#### `flat` @ 2024-05-01  &nbsp; base: ~
+
+Base deferrals:
+- FlatBill Monthly Amount. The sheet bills each premises a fixed monthly amount computed from that premises' expected usage, Schedule R's charges with ECCR, DSM-R, FCR and the Municipal Franchise Fee, and a Risk Adder of up to 10 percent, none of which it publishes for any premises. The JSON-LD defines the amount as a usage-independent monthly PriceDefinition and carries no Price for it, so a bill on this filing alone has no charge; the formula is in the version description only.
+- Offer conditions. The sheet limits FlatBill to premises with at least 12 months of metered usage history and customers in good financial standing, and makes no offer where the monthly calculated amount is under $50. The EligibilityRule carries residential customer kind; these conditions are in its description only.
+- Early withdrawal. A customer who does not complete the 12-month contract may be required to pay the excess of the Residential Service bill for the electricity actually used over the FlatBill amounts billed, with no refund where it is less. No Price carries it.
+- Return to Residential Service. Where a customer's monthly usage is 50 percent greater than the Expected Monthly kWh adjusted for the current year's actual weather, the Company may return the customer to Residential Service for the rest of the contract, under the same withdrawal terms. Nothing here carries it.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+#### `pbd` @ 2024-05-01  &nbsp; base: ~
+
+Base deferrals:
+- Pay by Day Daily Price. The sheet bills each premises a fixed daily price computed from the customer's expected usage, Schedule PPS's charges with ECCR, DSM-R, FCR, the Municipal Franchise Fee and applicable taxes, and a Risk Adder of up to 10 percent, none of which it publishes for any premises. The JSON-LD defines the price as a usage-independent daily PriceDefinition and carries no Price for it, so a bill on this filing alone has no charge; the formula is in the version description only.
+- Offer conditions. The sheet limits Pay by Day to customers who have been in their current residence and had their electricity priced on a residential tariff over the previous 12 months, and requires AMI with reconnect/disconnect functionality and acceptable network coverage. The EligibilityRule carries residential customer kind; these conditions are in its description only.
+- Pre-payment terms. The sheet requires a $40.00 minimum positive balance to connect, disconnects service when the balance reaches $0.00, requires a minimum payment covering usage up to disconnection, any reconnect fees under Rule F3 and a $5.00 minimum pre-payment to reconnect, and adds any Account Establishment Charge under Rule E2 before connection. None of these is a price per unit of service and none is carried.
+- Early withdrawal. A customer who leaves before the end of the 12-month contract may be required to pay the excess of the Pre-Pay Service bill for the electricity actually used over the Pay by Day amounts billed, with no refund where it is less. No Price carries it.
+- Return to the traditional tariff. Where a customer's monthly usage, excluding the effects of weather, is 50 percent greater than in the same month of the previous year, the Company may return the customer to the traditional tariff for the rest of the contract, under the same withdrawal terms. Nothing here carries it.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
 
 #### `pps` @ 2026-06-01  &nbsp; base: ~
 
