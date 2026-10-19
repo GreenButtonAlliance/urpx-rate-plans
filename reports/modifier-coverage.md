@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **163**
+- Base RatePlan filings: **166**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **581**
+- Applicable-modifier slots across all bases: **590**
   - present and complete: 22
-  - present but incomplete: 519
+  - present but incomplete: 528
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -606,6 +606,22 @@ Base deferrals:
 | `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 | `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
+#### `r` @ 2025-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Seasons by billing month. R-30 and FCR-26 choose summer or winter by the billing month a bill is rendered in, June through September summer and October through May winter. The JSON-LD gates the energy and fuel PriceDefinitions on calendar months instead, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices: a bill read in early June bills its May usage at summer prices, and one read in early October bills its September usage at winter prices, where these prices give the opposite.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-14 and DSM-R-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.45 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.
+- Multiple Service (R-30-M). Where two or more dwelling units share one meter, the sheet multiplies the Basic Service Charge and each kWh block by the number of units. The JSON-LD carries the single-unit charge and blocks.
+- Budget Billing Option and Term of Contract. The sheet offers a levelized budget bill whose details are on file with the Commission, and sets a one-year term. Neither is priced on the sheet and neither is carried.
+- Fuel Cost Recovery voltage levels. FCR-26 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+
 #### `r` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -860,6 +876,20 @@ Base deferrals:
 | `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 | `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
+#### `tou-rd` @ 2025-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-14 and DSM-R-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge and Demand Charge Prices, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.45 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy, demand and fuel price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. The sheet requires a customer to remain on TOU-RD for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+- Fuel Cost Recovery voltage levels. TOU-FCR-6 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+
 #### `tou-rd` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -867,6 +897,20 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy, demand and fuel price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. The sheet requires a customer to remain on TOU-RD for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
 - Fuel Cost Recovery voltage levels. TOU-FCR-7 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+
+#### `tou-reo` @ 2025-01-01  &nbsp; base: ~
+
+Base deferrals:
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-14 and DSM-R-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.45 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. The sheet requires a customer to remain on TOU-REO for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+- Fuel Cost Recovery voltage levels. TOU-FCR-6 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
 
 | Modifier | Status | Filing |
 |---|---|---|

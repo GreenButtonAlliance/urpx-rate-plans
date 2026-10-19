@@ -209,7 +209,7 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 
 ## Superseded versions excluded
 
-101 version nodes, over 54 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
+104 version nodes, over 57 plan identities, superseded at 2026-10-06T17:00:00-07:00 (`dev/currency-instant.json`): a later version of the same plan is in force there, or the version's `urpx:expirationDateTime` has passed.
 
 | Plan | Superseded version | Effective | Current version | Effective |
 |---|---|---|---|---|
@@ -227,6 +227,9 @@ The corpus already models the same exclusivity both ways. PG&E states income tie
 | `cpau:e-7-tou` | `cpau:e-7-tou-2025-07-01` | 2025-07-01 | `cpau:e-7-tou-2026-07-01` | 2026-07-01 |
 | `cpau:e-eec-1` | `cpau:e-eec-1-2025-09-01` | 2025-09-01 | `cpau:e-eec-1-2026-07-01` | 2026-07-01 |
 | `cpau:e-nse-1` | `cpau:e-nse-1-2025-09-01` | 2025-09-01 | `cpau:e-nse-1-2026-07-01` | 2026-07-01 |
+| `gpc:r` | `gpc:r-2025-01-01` | 2025-01-01 | `gpc:r-2026-06-01` | 2026-06-01 |
+| `gpc:tou-rd` | `gpc:tou-rd-2025-01-01` | 2025-01-01 | `gpc:tou-rd-2026-06-01` | 2026-06-01 |
+| `gpc:tou-reo` | `gpc:tou-reo-2025-01-01` | 2025-01-01 | `gpc:tou-reo-2026-06-01` | 2026-06-01 |
 | `ladwp:r-1a` | `ladwp:r-1a-2026-04-01` | 2026-04-01 | `ladwp:r-1a-2026-10-01` | 2026-10-01 |
 | `ladwp:r-1a` | `ladwp:r-1a-2026-07-01` | 2026-07-01 | `ladwp:r-1a-2026-10-01` | 2026-10-01 |
 | `ladwp:r-1b` | `ladwp:r-1b-2026-04-01` | 2026-04-01 | `ladwp:r-1b-2026-10-01` | 2026-10-01 |

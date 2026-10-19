@@ -1,0 +1,127 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "r"
+effective_date = "2025-01-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule R customer pays are
+# carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/residential-service.html"
+
+  [source.base]
+  url = "https://web.archive.org/web/20260105231703id_/https://www.georgiapower.com/content/dam/georgia-power/pdfs/residential-pdfs/tariffs/2025/r-30.pdf"
+  sha256 = "4e26ee43d3e923a7a07354477aa5c08bdc7f2b76578f969a711baf789a544248"
+  retrieved_on = "2026-10-17"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "R-30"
+
+  [source.fcr]
+  url = "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226753/108018"
+  sha256 = "45ef67ed1ac42129678db6fab0eff48fd0f5460ab1ac6968151e480b3c33ad4b"
+  retrieved_on = "2026-10-16"
+  media_type = "application/zip"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-26"
+  vendored = false
+  pages = "2-3"
+
+  [source.eccr]
+  url = "https://web.archive.org/web/20250724192912id_/https://www.georgiapower.com/content/dam/georgia-power/pdfs/business-pdfs/tariffs/2025/eccr-14.pdf"
+  sha256 = "6811991384aff67d8cc17dd86218208776322b7a81ee4b8767e7a542cf20fd42"
+  retrieved_on = "2026-10-17"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-14"
+
+  [source.dsm_r]
+  url = "https://web.archive.org/web/20260326193546id_/https://www.georgiapower.com/content/dam/georgia-power/pdfs/residential-pdfs/tariffs/2025/dsm-r-15.pdf"
+  sha256 = "6de1ac4628c9b15a9eebdae93b3aa168a7bf5303a6a3daf3a2d3f656f1baeac5"
+  retrieved_on = "2026-10-17"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-R-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_r]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-19"
+notes = """
+R-30 read with pdftotext -layout from the Internet Archive copy of the sheet
+Georgia Power has removed; every value was checked against the PDF text and
+against the redline of R-31 in PSC document 227071. ECCR-14 and DSM-R-15 are
+Internet Archive copies too, read from the PDF text. FCR-26 survives only as
+the redline against FCR-27 in PSC document 226753 (docket 56765), a ZIP whose
+filing PDF carries it on pages 2 and 3; its Secondary Distribution rates,
+4.5876 cents June through September and 4.2859 cents October through May, are
+the struck-out values, read from the rendered pages. The ZIP is cited, not
+committed.
+
+Dating. R-30, ECCR-14, DSM-R-15 and MFF-11 are effective "With Bills Rendered
+for the Billing Month of January, 2025" and FCR-26 for May 2024, so the
+version begins 2025-01-01, on the billing-month reading Schedule R's later
+filing uses. It ends at 2026-06-01, where R-31's version begins: an April 2026
+Schedule R bill reproduces to the cent from R-30, FCR-26, ECCR-14 and
+DSM-R-15, and the June 2026 bills split at June 1 (see R-31's tariff.toml).
+FCR-26 applied through the May 2026 billing month.
+
+urpx:initialEffectiveDate carries this version's date, the earliest the corpus
+holds, on both of Schedule R's versions.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Seasons by billing month. R-30 and FCR-26 choose summer or winter by the billing month a bill is rendered in, June through September summer and October through May winter. The JSON-LD gates the energy and fuel PriceDefinitions on calendar months instead, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices: a bill read in early June bills its May usage at summer prices, and one read in early October bills its September usage at winter prices, where these prices give the opposite.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-14 and DSM-R-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the Basic Service Charge Price, not on the ECCR and DSM-R multiplier Prices, so the franchise fee on those two amounts, about 0.45 percent of the base bill inside city limits, is not carried.",
+  "Minimum Monthly Bill. The sheet sets it at the Basic Service Charge plus ECCR, DSM-R and the Municipal Franchise Fee, and no Price carries it. Every energy and fuel price here is positive, so a bill on these prices alone is never below it.",
+  "Multiple Service (R-30-M). Where two or more dwelling units share one meter, the sheet multiplies the Basic Service Charge and each kWh block by the number of units. The JSON-LD carries the single-unit charge and blocks.",
+  "Budget Billing Option and Term of Contract. The sheet offers a levelized budget bill whose details are on file with the Commission, and sets a one-year term. Neither is priced on the sheet and neither is carried.",
+  "Fuel Cost Recovery voltage levels. FCR-26 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.",
+]
+applicable_modifiers = ["iqd", "lt", "opt"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Prior version of the Georgia Power schedule, derived from its successor's filing."
