@@ -320,6 +320,9 @@
    "gpc:tou-oa-2026-06-01-pa-franchise-fee-location" "gpc:tou-oa-2026-06-01-pa-inside-city-limits"
    "gpc:tou-rd-2026-06-01-pa-franchise-fee-location" "gpc:tou-rd-2026-06-01-pa-inside-city-limits"
    "gpc:pps-2026-06-01-pa-franchise-fee-location" "gpc:pps-2026-06-01-pa-inside-city-limits"
+   "gpc:r-2025-01-01-pa-franchise-fee-location" "gpc:r-2025-01-01-pa-inside-city-limits"
+   "gpc:tou-reo-2025-01-01-pa-franchise-fee-location" "gpc:tou-reo-2025-01-01-pa-inside-city-limits"
+   "gpc:tou-rd-2025-01-01-pa-franchise-fee-location" "gpc:tou-rd-2025-01-01-pa-inside-city-limits"
    ;; The business schedules cross FCR-27's voltage level with MFF-11's
    ;; location; Secondary Distribution inside city limits carries the highest
    ;; fuel and franchise fee rates.
