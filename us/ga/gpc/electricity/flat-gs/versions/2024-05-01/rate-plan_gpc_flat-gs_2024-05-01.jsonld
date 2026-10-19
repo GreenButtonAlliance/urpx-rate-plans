@@ -1,0 +1,241 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-flat-gs-2024-05-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "gpc:flat-gs",
+    "urpx:name": "Schedule FLAT-GS FlatBill General Service",
+    "urpx:ratePlanUniqueIdentifier": "FLAT-GS",
+    "urpx:initialEffectiveDate": "2024-05-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "gpc:flat-gs-2024-05-01",
+      "urpx:description": "Georgia Power's FlatBill General Service schedule, FLAT-GS-1, a fixed monthly amount for small general service customers. Monthly Bill = Expected Monthly kWh x Energy Charges x (1 + Risk Adder %) + Basic Service Charge; Annual Bill = the sum of the 12 monthly bills; Monthly Amount = Annual Bill / 12. Expected Monthly kWh is the customer's historical metered usage adjusted for normal weather (Georgia's seasonal heating and cooling degree-days) and for changes in consumption behavior; Energy Charges are the General Service schedule's expected energy charges with ECCR, the appropriate DSM schedule, FCR and other applicable schedules; the Risk Adder, for weather and non-weather risk, does not exceed 10 percent; the Basic Service Charge is the General Service one with ECCR and DSM; and the Municipal Franchise Fee is applied in each month before the annual sum. The bill is determined in eight steps: expected weather-normal usage, adjusted for non-weather changes, priced on General Service with ECCR, DSM and FCR, the risk adder applied, the Basic Service Charge with ECCR and DSM added, the franchise fee applied, the twelve months summed and divided by 12. The Minimum Monthly Bill is the Monthly Amount. The amount is computed for each account from its own history and is not published, so the JSON-LD defines it as one monthly PriceDefinition with no Price. Dating: the sheet, page 3.50, Second revision, is effective \"With Bills Rendered for the Billing Month of May, 2024\", so this version begins 2024-05-01, the billing-month reading FLAT-7 uses.",
+      "urpx:effectiveDateTime": "2024-05-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:flat-gs-2024-05-01-data-source-reference",
+        "urpx:fileName": "flat-gs.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/flat-gs.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 3
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:flat-gs-2024-05-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule FLAT-GS FlatBill General Service",
+          "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity. Applicable to customers who have been in their current facility over the previous 12 months, have had their electricity priced on the General Service or FlatBill General Service tariff over the previous 12 months, use less than 3,000 kWh monthly, have a maximum 30-minute measured demand of less than 30 kW, and are in good financial standing with Georgia Power. No offer is made where the monthly calculated amount is less than $50. All customers must have separately metered premises or facilities, and service shall not be resold or shared. Single or three-phase, 60 hertz, at a standard voltage.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:flat-gs-2024-05-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:flat-gs-2024-05-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:flat-gs-2024-05-01-cn-eligibility-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:flat-gs-2024-05-01-cn-eligibility-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:flat-gs-2024-05-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:flat-gs-2024-05-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:flat-gs-2024-05-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:flat-gs-2024-05-01-ledger-amount",
+              "urpx:name": "FlatBill General Service Monthly Amount",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:flat-gs-2024-05-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:flat-gs-2024-05-01-pd-amount",
+              "urpx:name": "FlatBill General Service Monthly Amount, computed for each account",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:flat-gs-2024-05-01-pd-amount-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:flat-gs-2024-05-01-ledger-amount"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:flat-gs-2024-05-01-prices"
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "gpc:flat-gs"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-flat-gs-2024-05-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-flat-gs-2024-05-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 4 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) FlatBill General Service Monthly Amount. The sheet bills each account a fixed monthly amount computed from that account's expected usage, the General Service schedule's charges with ECCR, DSM, FCR and the Municipal Franchise Fee, and a Risk Adder of up to 10 percent, none of which is published for an account. The JSON-LD defines the amount as a monthly PriceDefinition with no Price, the formula and its eight steps in the version description, so a modeled bill omits it and the validator refuses the filing as :no-energy-ledger. (2) Offer conditions. The sheet limits FlatBill General Service to customers in their facility and on General Service or FlatBill General Service for the previous 12 months, using less than 3,000 kWh a month with a maximum 30-minute demand under 30 kW, in good financial standing, and makes no offer under $50 a month. The EligibilityRule carries non-residential customer kind; the rest is in its description. (3) Early withdrawal. A customer who does not complete the 12-month contract may be required to pay the excess of the General Service bill for the electricity actually used over the FlatBill General Service amounts billed, with no refund where it is less. No Price carries it. (4) Return to General Service. Where a customer's monthly usage is 50 percent greater than the Expected Monthly kWh adjusted for the current year's actual weather, the Company may return the customer to General Service, or the appropriate tariff, for the rest of the contract, under the same withdrawal terms. No Price carries it.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}

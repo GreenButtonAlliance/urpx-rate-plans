@@ -29,10 +29,10 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 355
-   :scenario-cost-models 8459
-   :servable 323
-   :not-priced-per-kwh 22
+  {:compositions 372
+   :scenario-cost-models 8555
+   :servable 326
+   :not-priced-per-kwh 36
    :blocked 6
    :not-measured 4}
 
@@ -281,6 +281,27 @@
    :selections 24
    :outcome :servable
    :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:aps"]}
+  {:base "gpc:eaf-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:eaf-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/eaf/versions/2026-06-01/rate-plan_gpc_eaf_2026-06-01.jsonld"]}
+  {:base "gpc:eaf-2026-06-01"
+   :modifiers ["gpc:lt-1975-06-17"]
+   :open-dimensions ["gpc:eaf-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld|gpc:eaf"]}
+  {:base "gpc:eaf-2026-06-01"
+   :modifiers ["gpc:opt-2026-06-01"]
+   :open-dimensions ["gpc:eaf-2026-06-01-pa-franchise-fee-location" "gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location"]
+   :selections 8
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:eaf"]}
   {:base "gpc:eol-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:eol-2026-06-01-pa-franchise-fee-location"]
@@ -339,6 +360,45 @@
    :outcome :not-priced-per-kwh
    :reason ":no-energy-ledger"
    :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:flat"]}
+  {:base "gpc:flat-gs-2024-05-01"
+   :modifiers []
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/flat-gs/versions/2024-05-01/rate-plan_gpc_flat-gs_2024-05-01.jsonld"]}
+  {:base "gpc:flat-gs-2024-05-01"
+   :modifiers ["gpc:lt-1975-06-17"]
+   :open-dimensions []
+   :selections 1
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld|gpc:flat-gs"]}
+  {:base "gpc:flat-gs-2024-05-01"
+   :modifiers ["gpc:opt-2026-06-01"]
+   :open-dimensions ["gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location"]
+   :selections 4
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:flat-gs"]}
+  {:base "gpc:fpa-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:fpa-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/fpa/versions/2026-06-01/rate-plan_gpc_fpa_2026-06-01.jsonld"]}
+  {:base "gpc:fpa-2026-06-01"
+   :modifiers ["gpc:lt-1975-06-17"]
+   :open-dimensions ["gpc:fpa-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld|gpc:fpa"]}
+  {:base "gpc:fpa-2026-06-01"
+   :modifiers ["gpc:opt-2026-06-01"]
+   :open-dimensions ["gpc:fpa-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location"]
+   :selections 24
+   :outcome :servable
+   :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:fpa"]}
   {:base "gpc:fs-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:fs-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -663,6 +723,62 @@
    :outcome :not-priced-per-kwh
    :reason ":no-energy-ledger"
    :baseline-keys ["compose|us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld|gpc:rlg"]}
+  {:base "gpc:rtp-da-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location"]
+   :selections 4
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/rtp-da/versions/2026-06-01/rate-plan_gpc_rtp-da_2026-06-01.jsonld"]}
+  {:base "gpc:rtp-da-2026-06-01"
+   :modifiers ["gpc:lt-1975-06-17"]
+   :open-dimensions ["gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location"]
+   :selections 4
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld|gpc:rtp-da"]}
+  {:base "gpc:rtp-da-2026-06-01"
+   :modifiers ["gpc:opt-2026-06-01"]
+   :open-dimensions ["gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location" "gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location"]
+   :selections 16
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:rtp-da"]}
+  {:base "gpc:rtp-da-2026-06-01"
+   :modifiers ["gpc:ppp-2024-01-01"]
+   :open-dimensions ["gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location"]
+   :selections 4
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/ppp/versions/2024-01-01/rate-plan-modifier_gpc_ppp_2024-01-01.jsonld|gpc:rtp-da"]}
+  {:base "gpc:rtp-ha-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:rtp-ha-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/rtp-ha/versions/2026-06-01/rate-plan_gpc_rtp-ha_2026-06-01.jsonld"]}
+  {:base "gpc:rtp-ha-2026-06-01"
+   :modifiers ["gpc:lt-1975-06-17"]
+   :open-dimensions ["gpc:rtp-ha-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld|gpc:rtp-ha"]}
+  {:base "gpc:rtp-ha-2026-06-01"
+   :modifiers ["gpc:opt-2026-06-01"]
+   :open-dimensions ["gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location" "gpc:rtp-ha-2026-06-01-pa-franchise-fee-location"]
+   :selections 8
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld|gpc:rtp-ha"]}
+  {:base "gpc:rtp-ha-2026-06-01"
+   :modifiers ["gpc:ppp-2024-01-01"]
+   :open-dimensions ["gpc:rtp-ha-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["compose|us/ga/gpc/electricity/ppp/versions/2024-01-01/rate-plan-modifier_gpc_ppp_2024-01-01.jsonld|gpc:rtp-ha"]}
   {:base "gpc:sas-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:sas-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -3035,6 +3151,42 @@
   "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--opt-2026-06-01--ef002730abf6"
   {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, outside city limits; Non-residential customer, inside city limits"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--9fbb78ccdfee"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--a97b80e55bfb"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--lt-1975-06-17--530fe03ad0d1"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--lt-1975-06-17--cf791ca27aa4"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--68b15c43475f"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement; Residential customer, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--c10bc1a5d6ac"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement; Residential customer, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--d54c87e9b9e7"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement; Residential customer, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--d8f47c4d7680"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement; Non-residential customer, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--da8ef4727e4d"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement; Non-residential customer, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--f3bf40421cee"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement; Non-residential customer, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--f66642f075bb"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement; Non-residential customer, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eaf-2026-06-01--opt-2026-06-01--ff8761934dbe"
+  {:name "Schedule EAF Electric Arc Furnace [gpc:eaf-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement; Residential customer, outside city limits"
+   :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/gpc/scm-eol-2026-06-01--8b564855ac87"
   {:name "Schedule EOL Energy for Outdoor Lighting Service [gpc:eol-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
    :outcome :servable}
@@ -3140,6 +3292,132 @@
   "https://rate-plans.grid-coordination.energy/gpc/scm-flat-2024-05-01--opt-2026-06-01--b891475826ea"
   {:name "Schedule FLAT FlatBill [gpc:flat-2024-05-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits"
    :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-gs-2024-05-01"
+  {:name "Schedule FLAT-GS FlatBill General Service [gpc:flat-gs-2024-05-01]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-gs-2024-05-01--lt-1975-06-17"
+  {:name "Schedule FLAT-GS FlatBill General Service [gpc:flat-gs-2024-05-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-gs-2024-05-01--opt-2026-06-01--07def2f89df4"
+  {:name "Schedule FLAT-GS FlatBill General Service [gpc:flat-gs-2024-05-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-gs-2024-05-01--opt-2026-06-01--c76b995da141"
+  {:name "Schedule FLAT-GS FlatBill General Service [gpc:flat-gs-2024-05-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-gs-2024-05-01--opt-2026-06-01--dd424222b76c"
+  {:name "Schedule FLAT-GS FlatBill General Service [gpc:flat-gs-2024-05-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-flat-gs-2024-05-01--opt-2026-06-01--e637a5a80e62"
+  {:name "Schedule FLAT-GS FlatBill General Service [gpc:flat-gs-2024-05-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--0c3a6bc73cff"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--2511a84747b0"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--592135f18b39"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--9a07f113fb62"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01]; Secondary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--d37744a15e6b"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--fd2c45f4ef46"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--lt-1975-06-17--053aa728f107"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--lt-1975-06-17--57d3a946b2b7"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--lt-1975-06-17--640b7836e0fe"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--lt-1975-06-17--741c4d079682"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Secondary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--lt-1975-06-17--9ac692c6cf1b"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--lt-1975-06-17--efed3313f5a2"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--1ab0983af3e8"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, inside city limits; Residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--20d12bad5e75"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, outside city limits; Non-residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--260347a576c8"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, outside city limits; Residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--39d030681412"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, inside city limits; Residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--434958a00dc7"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, outside city limits; Non-residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--4b92531e4fa7"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, inside city limits; Residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--54b0ca166f64"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, outside city limits; Non-residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--65d0e73bd5bb"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, outside city limits; Residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--6e292d9969a6"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, outside city limits; Non-residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--7182cff85a3c"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, outside city limits; Residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--71d180b212ff"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, inside city limits; Residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--7424975f549e"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, outside city limits; Residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--81fdfcece839"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, outside city limits; Residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--b33e7d9d1304"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, inside city limits; Non-residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--b4846a91094b"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, inside city limits; Non-residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--bba965d89707"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, inside city limits; Non-residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--c264e2e31321"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, inside city limits; Non-residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--c6149503fcb7"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, inside city limits; Residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--cdd3c01cb218"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Secondary Distribution customer, inside city limits; Residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--ceebc6156407"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, inside city limits; Non-residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--d42878eeb92c"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, outside city limits; Residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--e4540af92868"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, outside city limits; Non-residential customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--e805a54a813b"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Primary Distribution customer, inside city limits; Non-residential customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fpa-2026-06-01--opt-2026-06-01--ef8d88b49fe4"
+  {:name "Schedule FPA Fixed Pricing Alternative [gpc:fpa-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Transmission customer, outside city limits; Non-residential customer, outside city limits"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--6e251188339e"
   {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Transmission customer, inside city limits"
    :outcome :servable}
@@ -4342,6 +4620,132 @@
    :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/gpc/scm-rlg-2026-06-01--lt-1975-06-17--bf9647963ff7"
   {:name "Schedule RLG Roadway Lighting Governmental [gpc:rlg-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--111a776ae394"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01]; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--1c2db237d746"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01]; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--584292235633"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01]; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--8117b7286fc0"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01]; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--lt-1975-06-17--1a73169c32a1"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--lt-1975-06-17--81f9bd779965"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--lt-1975-06-17--cd330952139c"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--lt-1975-06-17--f83704771579"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--01558fc25c39"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--08eec58e10af"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--0f1fad593071"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--1364ed7bf896"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--2a6ed2afe7e3"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--2c3cbdf20658"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--35b3b02b3404"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--52f3f929a697"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--a1d8eef27c03"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--b4a777ba2e51"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--b748f1eb36c0"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--b8d069acb1b1"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--c90b5722750f"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--df9d962cfab9"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--e5872432a188"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--opt-2026-06-01--fc30aaab872e"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--ppp-2024-01-01--0c16d9537281"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule PPP Price Protection Products [gpc:ppp-2024-01-01]; Customers over 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--ppp-2024-01-01--562ccc92e93a"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule PPP Price Protection Products [gpc:ppp-2024-01-01]; Customers over 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--ppp-2024-01-01--5975434aaa9e"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule PPP Price Protection Products [gpc:ppp-2024-01-01]; Customers less than 1,000 kW in the month, outside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-da-2026-06-01--ppp-2024-01-01--70870843a0e8"
+  {:name "Schedule RTP-DA Real Time Pricing - Day Ahead [gpc:rtp-da-2026-06-01] + Schedule PPP Price Protection Products [gpc:ppp-2024-01-01]; Customers less than 1,000 kW in the month, inside city limits"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--6b2d37f1a29b"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--94a244412e53"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--lt-1975-06-17--1c74f4dc213e"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--lt-1975-06-17--b0e19501c3cb"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule LT Local Tax Adjustment [gpc:lt-1975-06-17]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--1db71878c505"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--3bf2b434d775"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--4ec5b942ffad"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, outside city limits; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--579957607c32"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--663657a8044c"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--979c2309b864"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Non-residential customer, inside city limits; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--9909d0afef22"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, inside city limits; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--opt-2026-06-01--e882d699fdd5"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule OPT AMI Meter Opt Out [gpc:opt-2026-06-01]; Residential customer, outside city limits; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--ppp-2024-01-01--10c629c71a5c"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule PPP Price Protection Products [gpc:ppp-2024-01-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rtp-ha-2026-06-01--ppp-2024-01-01--9c52d5da16a5"
+  {:name "Schedule RTP-HA Real Time Pricing - Hour Ahead [gpc:rtp-ha-2026-06-01] + Schedule PPP Price Protection Products [gpc:ppp-2024-01-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
    :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--225080fe79cb"
   {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Secondary Distribution customer, outside city limits"

@@ -1,0 +1,1059 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:dimensionProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-eaf-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "gpc:eaf",
+    "urpx:name": "Schedule EAF Electric Arc Furnace",
+    "urpx:ratePlanUniqueIdentifier": "EAF",
+    "urpx:initialEffectiveDate": "2026-06-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "gpc:eaf-2026-06-01",
+      "urpx:description": "Georgia Power's electric arc furnace schedule, EAF-13, for industrial customers on the Fixed Pricing Alternative who run an electric arc furnace of at least 50 MW and hold it near 0 kW in summer on-peak hours. A Basic Service Charge of $245.03 per month; Off-Peak energy at a customer-specific rate; and On-Peak energy at the hourly Real Time Pricing - Day Ahead (RTP-DA) price, made available by 4:00 p.m. the day before. Neither energy rate is published, so the JSON-LD defines each as a PriceDefinition with no Price. On-Peak is 2:00 p.m. to 7:00 p.m. Monday through Friday in the calendar months June through September, except on the days Independence Day and Labor Day are observed; every other hour is Off-Peak, including all weekends and all of October through May. Excess reactive demand, kVAR above one-third of the measured kW where the Company meters it, is billed at $0.43 per kVAR. ECCR-15 applies to 65 percent of EAF's base bill calculations, as its sheet states. The holiday calendar observes Independence Day on the nearest weekday, the federal rule of 5 U.S.C. 6103(b) that Georgia law adopts, since the sheet states none. The riders the sheet applies are carried as Prices here rather than as modifiers, because every customer on the schedule pays them: Environmental Compliance Cost Recovery ECCR-15 (13.0205 percent of 65 percent of the base bill), as a multiplier over the Basic Service Charge and the Excess Reactive Demand charge; and the Municipal Franchise Fee MFF-11, 3.0843 percent inside city limits or 1.1995 percent outside them (also for a city with which the Company has no franchise fee agreement), chosen by a ProfileAlternative, as multipliers over the same charges. The sheet names a Demand Side Management schedule only in its minimum bill, and DSM-C-15 applies to Commercial customers, so none is carried. Fuel is not priced: the On-Peak RTP-DA price recovers fuel at the hourly average marginal fuel cost, and the Off-Peak amount is increased under \"the Company's effective FCR Schedules in the manner ordered by the Georgia Public Service Commission\", which the sheet does not name. Dating: the sheet and its riders are effective \"With Bills Rendered for the Billing Month of June, 2026\" (MFF-11 for January 2025). EAF-13 was filed with Schedule R-31 in the same compliance filing in docket 44280 (PSC document 227071), so this version begins 2026-06-01, the date Schedule R's bills show the new base rates took effect by calendar day.",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:eaf-2026-06-01-data-source-reference",
+        "urpx:fileName": "eaf.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eaf.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 3
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:eaf-2026-06-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule EAF Electric Arc Furnace",
+          "urpx:description": "Throughout the Company's service area from lines of adequate capacity. Applicable to all Industrial customers who operate an Electric Arc Furnace, are currently on a Fixed Pricing Alternative (FPA), control electric arc furnace loads to minimum levels (near 0 kW) during previous summer on-peak periods, meet a monthly minimum actual electric arc furnace demand of at least 50 MW, and take service at one standard voltage required on the customer's premises, delivered at one point and metered at or compensated to that voltage. Firm service, single or three phase, 60 hertz, at a standard voltage.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:eaf-2026-06-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:eaf-2026-06-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:eaf-2026-06-01-cn-eligibility-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:eaf-2026-06-01-cn-eligibility-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:eaf-2026-06-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "gpc:eaf-2026-06-01-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "gpc:eaf-2026-06-01-season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "gpc:eaf-2026-06-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "gpc:eaf-2026-06-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "gpc:eaf-2026-06-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            }
+          ]
+        },
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:eaf-2026-06-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:eaf-2026-06-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:eaf-2026-06-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:eaf-2026-06-01-mi-demand",
+            "urpx:name": "kW Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:eaf-2026-06-01-ms-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:eaf-2026-06-01-mi-reactive-demand",
+            "urpx:name": "kVAR Reactive Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:eaf-2026-06-01-ms-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:eaf-2026-06-01-mi-excess-reactive-demand",
+            "urpx:name": "Excess Reactive Demand (kVAR)",
+            "urpx:description": "Excess Reactive Demand: the highest 30-minute kVAR measured during the month in excess of one-third of the measured actual kW in the current month. Measured only where there is an indication of a power factor of less than 95 percent lagging and the Company, at its option, installs metering equipment.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:eaf-2026-06-01-ms-excess-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "gpc:eaf-2026-06-01-mi-excess-reactive-demand-calculation-method",
+              "urpx:calculationFormula": "max(max kVAR - max kW / 3, 0)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "gpc:eaf-2026-06-01-mi-reactive-demand"
+                },
+                {
+                  "@id": "gpc:eaf-2026-06-01-mi-demand"
+                }
+              ]
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "gpc:eaf-2026-06-01-pa-franchise-fee-location",
+          "urpx:name": "Municipal Franchise Fee location: inside or outside city limits",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "gpc:eaf-2026-06-01-pa-franchise-fee-location-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "gpc:eaf-2026-06-01-ad-franchise-fee-location",
+                "urpx:customDimensionProperty": "franchiseFeeLocation",
+                "urpx:dimensionDisplayName": "Municipal Franchise Fee location",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Inside City Limits"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Outside City Limits"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:eaf-2026-06-01-pa-inside-city-limits",
+              "urpx:name": "Service inside the limits of a city with which the Company has a franchise fee agreement",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:eaf-2026-06-01-cx-pa-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "gpc:eaf-2026-06-01-cn-pa-inside-city-limits-franchise-fee-location",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:eaf-2026-06-01-cn-pa-inside-city-limits-franchise-fee-location-left-operand",
+                    "urpx:customConditionProperty": "franchiseFeeLocation"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:eaf-2026-06-01-cn-pa-inside-city-limits-franchise-fee-location-right-operand",
+                    "urpx:stringValue": "Inside City Limits"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:eaf-2026-06-01-pa-outside-city-limits",
+              "urpx:name": "Service outside city limits, or inside a city with which the Company has no franchise fee agreement",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:eaf-2026-06-01-cx-pa-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "gpc:eaf-2026-06-01-cn-pa-outside-city-limits-franchise-fee-location",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:eaf-2026-06-01-cn-pa-outside-city-limits-franchise-fee-location-left-operand",
+                    "urpx:customConditionProperty": "franchiseFeeLocation"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:eaf-2026-06-01-cn-pa-outside-city-limits-franchise-fee-location-right-operand",
+                    "urpx:stringValue": "Outside City Limits"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:eaf-2026-06-01-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "gpc:eaf-2026-06-01-tou",
+            "urpx:referencesMetricInput": {
+              "@id": "gpc:eaf-2026-06-01-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "gpc:eaf-2026-06-01-tou-tier-on-peak",
+                "urpx:tierSourceName": "On-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "gpc:eaf-2026-06-01-tou-period-on-peak",
+                    "urpx:name": "On-Peak (2:00 p.m. to 7:00 p.m. Monday through Friday, June through September, except Independence Day and Labor Day)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:eaf-2026-06-01-time-bracket-summer-on-peak",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "19:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:eaf-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "gpc:eaf-2026-06-01-tou-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "gpc:eaf-2026-06-01-tou-period-off-peak",
+                    "urpx:name": "Off-Peak (all hours not On-Peak, including all weekends, Independence Day and Labor Day and October through May)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:eaf-2026-06-01-time-bracket-summer-off-peak-weekday-morning",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "14:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:eaf-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:eaf-2026-06-01-time-bracket-summer-off-peak-weekday-evening",
+                        "urpx:startTime": "19:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:eaf-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:eaf-2026-06-01-time-bracket-summer-off-peak-weekday-holiday",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "19:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:eaf-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:eaf-2026-06-01-time-bracket-summer-off-peak-weekend",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:eaf-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:eaf-2026-06-01-time-bracket-winter-off-peak",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:eaf-2026-06-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-basic-service-charge",
+              "urpx:name": "Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-energy",
+              "urpx:name": "Energy Charges, by period",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-eccr-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery, on the Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-eccr-excess-reactive-demand",
+              "urpx:name": "Environmental Compliance Cost Recovery, on the Excess Reactive Demand charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-mff-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee, on the Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:eaf-2026-06-01-ledger-mff-excess-reactive-demand",
+              "urpx:name": "Municipal Franchise Fee, on the Excess Reactive Demand charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:eaf-2026-06-01-mi-excess-reactive-demand"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-basic-service-charge",
+              "urpx:name": "Basic Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:eaf-2026-06-01-pd-basic-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-energy-on-peak",
+              "urpx:name": "Energy Charge, On-Peak kWh, at the hourly Real Time Pricing - Day Ahead price",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "@id": "gpc:eaf-2026-06-01-pd-energy-on-peak-applicability-rule",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-energy-off-peak",
+              "urpx:name": "Energy Charge, Off-Peak kWh, customer-specific",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand, per excess kVAR",
+              "urpx:chargeType": {
+                "@id": "urpx:reactiveDemand"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:eaf-2026-06-01-pd-excess-reactive-demand-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-eccr-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the Basic Service Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-eccr-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-eccr-excess-reactive-demand",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the Excess Reactive Demand charge",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-eccr-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-mff-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the Basic Service Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-mff-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:eaf-2026-06-01-pd-mff-excess-reactive-demand",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the Excess Reactive Demand charge",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:eaf-2026-06-01-ledger-mff-excess-reactive-demand"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:eaf-2026-06-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:eaf-2026-06-01-ps-base",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:eaf-2026-06-01-price-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:eaf-2026-06-01-pd-basic-service-charge"
+                },
+                "urpx:name": "Basic Service Charge",
+                "urpx:unitPrice": "245.03"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:eaf-2026-06-01-price-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:eaf-2026-06-01-pd-excess-reactive-demand"
+                },
+                "urpx:name": "Excess Reactive Demand, per excess kVAR",
+                "urpx:unitPrice": "0.43"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:eaf-2026-06-01-ps-eccr",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:eaf-2026-06-01-price-eccr-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:eaf-2026-06-01-pd-eccr-basic-service-charge"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of 65 percent of the Basic Service Charge",
+                "urpx:multiplier": "0.08463325",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:eaf-2026-06-01-price-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:eaf-2026-06-01-price-eccr-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:eaf-2026-06-01-price-eccr-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:eaf-2026-06-01-pd-eccr-excess-reactive-demand"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of 65 percent of the Excess Reactive Demand charge",
+                "urpx:multiplier": "0.08463325",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:eaf-2026-06-01-price-excess-reactive-demand"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:eaf-2026-06-01-price-eccr-excess-reactive-demand-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "gpc:eaf-2026-06-01-psa-franchise-fee-location",
+          "urpx:name": "Municipal Franchise Fee MFF-11, by location of service",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "gpc:eaf-2026-06-01-pa-franchise-fee-location"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:eaf-2026-06-01-psa-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:eaf-2026-06-01-pa-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:eaf-2026-06-01-price-mff-basic-service-charge-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:eaf-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:eaf-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:eaf-2026-06-01-price-mff-basic-service-charge-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:eaf-2026-06-01-price-mff-excess-reactive-demand-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:eaf-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:eaf-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:eaf-2026-06-01-price-mff-excess-reactive-demand-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:eaf-2026-06-01-psa-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:eaf-2026-06-01-pa-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:eaf-2026-06-01-price-mff-basic-service-charge-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:eaf-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:eaf-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:eaf-2026-06-01-price-mff-basic-service-charge-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:eaf-2026-06-01-price-mff-excess-reactive-demand-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:eaf-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:eaf-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:eaf-2026-06-01-price-mff-excess-reactive-demand-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "gpc:eaf"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-eaf-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-eaf-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 7 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 amount. Its multiplier Prices here are based on the Basic Service Charge and Excess Reactive Demand Prices, not on the ECCR multiplier Prices, so the franchise fee on that amount, about 0.26 percent of those charges inside city limits, is not carried; nor is the franchise fee on the unpriced energy. (2) Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it. (3) Unpublished energy rates. On-Peak kWh take the hourly Real Time Pricing - Day Ahead price, which the Company makes available by 4:00 p.m. the day before (Saturday and Sunday prices on Friday), and Off-Peak kWh a customer-specific rate. The JSON-LD defines each as a PriceDefinition with no Price, so a modeled bill carries the Basic Service Charge, excess kVAR and their riders only, and the validator refuses it as :no-energy-ledger. (4) Fuel Cost Recovery. The On-Peak RTP-DA price recovers fuel on hourly incremental kWh at the hourly average marginal fuel cost, and \"the amount calculated at the off-peak rate will be increased under the provisions of the Company's effective FCR Schedules in the manner ordered by the Georgia Public Service Commission\", without naming one; neither TOU-FCR-7 nor TOU-FCR-TP-5 lists EAF. No fuel is priced. (5) Demand Side Management. The sheet names \"applicable Demand Side Management Schedule\" only in its Minimum Monthly Bill and has no DSM section, and DSM-C-15 applies to Commercial customers while EAF is for Industrial customers, so no DSM charge is carried. (6) Minimum Monthly Bill. The sheet sets it at the $245.03 Basic Service Charge plus ECCR, the applicable DSM schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it. (7) Qualifications and Term of Contract. The customer must be an Industrial customer on FPA operating an electric arc furnace of at least 50 MW monthly demand that it controls to near 0 kW in summer on-peak periods, stated in the eligibility rule's description; the term is the greater of the time remaining on its RTP contract or one year, renewed yearly unless terminated with 30 days' written notice. The Company is not responsible for a customer's failure to receive and act on the hourly prices. None is priced and none is carried.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}

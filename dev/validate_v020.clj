@@ -356,6 +356,11 @@
    ;; OPT-8 crosses customer kind (its DSM schedule) with the franchise fee
    ;; location; residential inside city limits, as on Schedule R.
    "gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location" "gpc:opt-2026-06-01-pa-residential-inside-city-limits"
+   "gpc:fpa-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:fpa-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:eaf-2026-06-01-pa-franchise-fee-location" "gpc:eaf-2026-06-01-pa-inside-city-limits"
+   ;; RTP-DA's Administrative Charge is $155 over 1,000 kW and $175 under it.
+   "gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location" "gpc:rtp-da-2026-06-01-pa-over-1000-kw-inside-city-limits"
+   "gpc:rtp-ha-2026-06-01-pa-franchise-fee-location" "gpc:rtp-ha-2026-06-01-pa-inside-city-limits"
    ;; One block, the smallest subscription Rider CS sells.
    "jemc:cs-2022-06-01-pa-solar-blocks" "jemc:cs-2022-06-01-pa-1-block"
    ;; 100 percent carries Rider GP's full $0.01/kWh premium.

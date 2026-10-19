@@ -10,11 +10,11 @@ A scenario cost model is URPX's `urpx:ScenarioCostModel`, read as a fully-determ
 
 A scenario cost model is identified by its own components: the base version IRI, the sorted modifier version IRIs, and the sorted alternative selections. Its IRI is derived from those alone, as [`doc/scenario-cost-models.md`](../doc/scenario-cost-models.md) specifies. A MIDAS RIN is an optional external attestation, attached only where it is confidently derivable. It is never the identity, and this report neither reads nor assigns one.
 
-[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 8459 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
+[`scenario-cost-models.jsonld`](./scenario-cost-models.jsonld) carries one `urpx:ScenarioCostModel` node per model counted below, 8555 in all. [`scenario-cost-models.edn`](./scenario-cost-models.edn) carries each one's name, keyed by IRI.
 
 ## What this report counts
 
-**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 1722 compositions, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
+**Enumerated at the grain of one base version plus at most one modifier version.** That grain is what the corpus can defend. Taking every subset of each base's applicable modifiers instead would give 1750 compositions, and most of those combinations are not real: CARE and FERA are mutually exclusive by their own source text, and URPX v0.5.1 has no vocabulary for stating exclusivity between two `urpx:RatePlanModifier`s, so nothing in the corpus can rule the combination out. Enumerating combinations the tariffs forbid would be worse than under-enumerating. What a fuller enumeration would need is set out below.
 
 **Superseded versions are excluded.** Nobody takes service under a superseded version. Supersession is derived from the data, never from directory names, because a directory count is not a version count. Two filing directories can hold one version node: CPAU E-1 is filed at 2025-07-01 and again at 2025-09-01, and both carry `cpau:e-1-2025-07-01`, because the base rates did not change and only the modifiers operative at the snapshot did.
 
@@ -24,18 +24,18 @@ A scenario cost model is identified by its own components: the base version IRI,
 
 | | Count |
 |---|---:|
-| Compositions enumerated (base + at most one modifier) | 355 |
-| of which base alone | 89 |
-| of which base + one modifier | 266 |
-| Scenario cost models, open dimensions expanded | 8459 |
+| Compositions enumerated (base + at most one modifier) | 372 |
+| of which base alone | 94 |
+| of which base + one modifier | 278 |
+| Scenario cost models, open dimensions expanded | 8555 |
 
 | Outcome | Compositions | Scenario cost models |
 |---|---:|---:|
-| **servable** | 323 | 6692 |
-| **not priced per kWh** | 22 | 129 |
+| **servable** | 326 | 6728 |
+| **not priced per kWh** | 36 | 189 |
 | **blocked** | 6 | 90 |
 | **not measured** | 4 | 1548 |
-| **total** | 355 | 8459 |
+| **total** | 372 | 8555 |
 
 - **servable** resolves to a number at every probe instant inside the window of each version it composes; an instant outside that window is not applicable.
 - **not priced per kWh** resolves, and legitimately prices nothing per kWh. CPAU E-14 and E-16 are street lighting: they price per lamp, per fixture and per month. This is not a defect.
@@ -48,7 +48,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 |---|---:|---:|---:|---:|---:|
 | PG&E (IOU) | 24 | 0 | 5 | 4 | 33 |
 | SCE (IOU) | 31 | 0 | 1 | 0 | 32 |
-| Georgia Power (IOU) | 110 | 10 | 0 | 0 | 120 |
+| Georgia Power (IOU) | 113 | 24 | 0 | 0 | 137 |
 | SDG&E (IOU) | 37 | 0 | 0 | 0 | 37 |
 | PSE (IOU) | 2 | 0 | 0 | 0 | 2 |
 | SCL (POU) | 3 | 0 | 0 | 0 | 3 |
@@ -57,7 +57,7 @@ A scenario cost model is identified by its own components: the base version IRI,
 | LADWP (POU) | 8 | 0 | 0 | 0 | 8 |
 | Jackson EMC (Co-op) | 65 | 3 | 0 | 0 | 68 |
 
-## Not priced per kWh (22)
+## Not priced per kWh (36)
 
 | Composition | Reason |
 |---|---|
@@ -70,16 +70,30 @@ A scenario cost model is identified by its own components: the base version IRI,
 | `cpau:e-3-2007-07-01` | :no-energy-ledger |
 | `cpau:e-3-2007-07-01` + `cpau:e-eec-1-2026-07-01` | :no-energy-ledger |
 | `cpau:e-3-2007-07-01` + `cpau:e-hra-2023-01-01` | :all-energy-tiers-excluded |
+| `gpc:eaf-2026-06-01` | :no-energy-ledger |
+| `gpc:eaf-2026-06-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
+| `gpc:eaf-2026-06-01` + `gpc:opt-2026-06-01` | :no-energy-ledger |
 | `gpc:flat-2024-05-01` | :no-energy-ledger |
 | `gpc:flat-2024-05-01` + `gpc:iqd-2024-05-01` | :no-energy-ledger |
 | `gpc:flat-2024-05-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
 | `gpc:flat-2024-05-01` + `gpc:opt-2026-06-01` | :no-energy-ledger |
+| `gpc:flat-gs-2024-05-01` | :no-energy-ledger |
+| `gpc:flat-gs-2024-05-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
+| `gpc:flat-gs-2024-05-01` + `gpc:opt-2026-06-01` | :no-energy-ledger |
 | `gpc:pbd-2024-05-01` | :no-energy-ledger |
 | `gpc:pbd-2024-05-01` + `gpc:iqd-2024-05-01` | :no-energy-ledger |
 | `gpc:pbd-2024-05-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
 | `gpc:pbd-2024-05-01` + `gpc:opt-2026-06-01` | :no-energy-ledger |
 | `gpc:rlg-2026-06-01` | :no-energy-ledger |
 | `gpc:rlg-2026-06-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
+| `gpc:rtp-da-2026-06-01` | :no-energy-ledger |
+| `gpc:rtp-da-2026-06-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
+| `gpc:rtp-da-2026-06-01` + `gpc:opt-2026-06-01` | :no-energy-ledger |
+| `gpc:rtp-da-2026-06-01` + `gpc:ppp-2024-01-01` | :no-energy-ledger |
+| `gpc:rtp-ha-2026-06-01` | :no-energy-ledger |
+| `gpc:rtp-ha-2026-06-01` + `gpc:lt-1975-06-17` | :no-energy-ledger |
+| `gpc:rtp-ha-2026-06-01` + `gpc:opt-2026-06-01` | :no-energy-ledger |
+| `gpc:rtp-ha-2026-06-01` + `gpc:ppp-2024-01-01` | :no-energy-ledger |
 | `jemc:mbs-2022-01-01` | :no-energy-ledger |
 | `jemc:qf-2022-01-01` | :no-energy-ledger |
 | `jemc:qf-2022-01-01` + `jemc:nm-2022-01-01` | :no-energy-ledger |
@@ -113,8 +127,10 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `cpau:e-hra-2023-01-01-pa-hydro`<br>Hydro Stabilization Reserve level and projected hydro generation | 16 | 10 | `urpx:PriceDefinition`<br>`cpau:e-hra-2023-01-01-pd-` | no |
 | `cpau:e3-pa-buyback-configuration`<br>Buyback table (Section C.1 without, C.2 with an interval meter) and type of power (Firm or Non-Firm, Special Note 1) | 4 | 3 | `urpx:PriceSetAlternative`<br>`cpau:e3-psa-buyback-` | no |
 | `gpc:aps-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:aps-2026-06-01-psa-` | `gpc:aps-2026-06-01-pa-secondary-inside-city-limits` |
+| `gpc:eaf-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 3 | `urpx:PriceSetAlternative`<br>`gpc:eaf-2026-06-01-psa-` | `gpc:eaf-2026-06-01-pa-inside-city-limits` |
 | `gpc:eol-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:eol-2026-06-01-psa-` | `gpc:eol-2026-06-01-pa-inside-city-limits` |
 | `gpc:et-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 4 | 3 | `urpx:PriceSetAlternative`<br>`gpc:et-2026-06-01-psa-` | `gpc:et-2026-06-01-pa-primary-inside-city-limits` |
+| `gpc:fpa-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:fpa-2026-06-01-psa-` | `gpc:fpa-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:fs-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:fs-2026-06-01-psa-` | `gpc:fs-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:g-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 5 | `urpx:PriceSetAlternative`<br>`gpc:g-2026-06-01-psa-` | `gpc:g-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:gs-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:gs-2026-06-01-psa-` | `gpc:gs-2026-06-01-pa-secondary-inside-city-limits` |
@@ -122,13 +138,15 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `gpc:ogs-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:ogs-2026-06-01-psa-` | `gpc:ogs-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:olg-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:olg-2026-06-01-psa-` | `gpc:olg-2026-06-01-pa-inside-city-limits` |
 | `gpc:olng-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:olng-2026-06-01-psa-` | `gpc:olng-2026-06-01-pa-inside-city-limits` |
-| `gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location`<br>Customer kind (DSM-R or DSM-C) and Municipal Franchise Fee location | 4 | 29 | `urpx:PriceSetAlternative`<br>`gpc:opt-2026-06-01-psa-` | `gpc:opt-2026-06-01-pa-residential-inside-city-limits` |
+| `gpc:opt-2026-06-01-pa-customer-kind-franchise-fee-location`<br>Customer kind (DSM-R or DSM-C) and Municipal Franchise Fee location | 4 | 34 | `urpx:PriceSetAlternative`<br>`gpc:opt-2026-06-01-psa-` | `gpc:opt-2026-06-01-pa-residential-inside-city-limits` |
 | `gpc:pll-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 6 | `urpx:PriceSetAlternative`<br>`gpc:pll-2026-06-01-psa-` | `gpc:pll-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:plm-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 6 | `urpx:PriceSetAlternative`<br>`gpc:plm-2026-06-01-psa-` | `gpc:plm-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:pls-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 6 | `urpx:PriceSetAlternative`<br>`gpc:pls-2026-06-01-psa-` | `gpc:pls-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:pps-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 4 | `urpx:PriceSetAlternative`<br>`gpc:pps-2026-06-01-psa-` | `gpc:pps-2026-06-01-pa-inside-city-limits` |
 | `gpc:r-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 4 | `urpx:PriceSetAlternative`<br>`gpc:r-2026-06-01-psa-` | `gpc:r-2026-06-01-pa-inside-city-limits` |
 | `gpc:rlg-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location: inside or outside city limits | 2 | 2 | `urpx:PriceSetAlternative`<br>`gpc:rlg-2026-06-01-psa-` | `gpc:rlg-2026-06-01-pa-inside-city-limits` |
+| `gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location`<br>Administrative Charge size and Municipal Franchise Fee location | 4 | 4 | `urpx:PriceSetAlternative`<br>`gpc:rtp-da-2026-06-01-psa-` | `gpc:rtp-da-2026-06-01-pa-over-1000-kw-inside-city-limits` |
+| `gpc:rtp-ha-2026-06-01-pa-franchise-fee-location`<br>Municipal Franchise Fee location | 2 | 4 | `urpx:PriceSetAlternative`<br>`gpc:rtp-ha-2026-06-01-psa-` | `gpc:rtp-ha-2026-06-01-pa-inside-city-limits` |
 | `gpc:sas-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:sas-2026-06-01-psa-` | `gpc:sas-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:sas-nd-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 3 | `urpx:PriceSetAlternative`<br>`gpc:sas-nd-2026-06-01-psa-` | `gpc:sas-nd-2026-06-01-pa-secondary-inside-city-limits` |
 | `gpc:sch-2026-06-01-pa-voltage-level-franchise-fee-location`<br>Fuel Cost Recovery voltage level and Municipal Franchise Fee location | 6 | 4 | `urpx:PriceSetAlternative`<br>`gpc:sch-2026-06-01-psa-` | `gpc:sch-2026-06-01-pa-secondary-inside-city-limits` |
@@ -175,7 +193,7 @@ A dimension a composition's components leave open. The corpus states the alterna
 | `scl:residential-suburban-2026-01-01-pa-jurisdiction`<br>Location of service: the suburban jurisdiction the customer is served in | 7 | 1 | `urpx:PriceSetAlternative`<br>`scl:residential-suburban-2026-01-01-psa-` | `scl:residential-suburban-2026-01-01-pa-shoreline` |
 | `sdge:nbt-2025-01-27-pa-vintage`<br>NBT export compensation vintage (NBT Vintage Label), fixed for the customer's lock-in period | 5 | 1 | `urpx:PriceSetAlternative`<br>`sdge:nbt-2025-01-27-psa-export-nbt` | no |
 
-The baseline exercised a specific selection in 292 of the 8459 scenario cost models: 141 leave no dimension open, and 151 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
+The baseline exercised a specific selection in 309 of the 8555 scenario cost models: 143 leave no dimension open, and 166 leave open only a dimension `dev/validate_v020.clj` nominates a cell in. Everywhere else the baseline resolved without making a selection, which establishes that the dimension does not gate the per-kWh energy rate at the probe instants. It does not establish which alternative the recorded rate belongs to, and it says nothing about the rest of the bill. The Selected-over column is where to look: PG&E's income tier is selected over `psa-bsc-tier-`, the Basic Service Charge price set, so CARE, FERA and standard share a marginal energy rate in this model and part company on a charge the baseline does not probe.
 
 ## What a fuller enumeration would need
 

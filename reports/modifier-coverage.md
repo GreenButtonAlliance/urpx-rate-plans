@@ -13,11 +13,11 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **158**
+- Base RatePlan filings: **163**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **569**
+- Applicable-modifier slots across all bases: **581**
   - present and complete: 22
-  - present but incomplete: 507
+  - present but incomplete: 519
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -311,6 +311,22 @@ Base deferrals:
 | `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 | `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
+#### `eaf` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 amount. Its multiplier Prices here are based on the Basic Service Charge and Excess Reactive Demand Prices, not on the ECCR multiplier Prices, so the franchise fee on that amount, about 0.26 percent of those charges inside city limits, is not carried; nor is the franchise fee on the unpriced energy.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Unpublished energy rates. On-Peak kWh take the hourly Real Time Pricing - Day Ahead price, which the Company makes available by 4:00 p.m. the day before (Saturday and Sunday prices on Friday), and Off-Peak kWh a customer-specific rate. The JSON-LD defines each as a PriceDefinition with no Price, so a modeled bill carries the Basic Service Charge, excess kVAR and their riders only, and the validator refuses it as :no-energy-ledger.
+- Fuel Cost Recovery. The On-Peak RTP-DA price recovers fuel on hourly incremental kWh at the hourly average marginal fuel cost, and "the amount calculated at the off-peak rate will be increased under the provisions of the Company's effective FCR Schedules in the manner ordered by the Georgia Public Service Commission", without naming one; neither TOU-FCR-7 nor TOU-FCR-TP-5 lists EAF. No fuel is priced.
+- Demand Side Management. The sheet names "applicable Demand Side Management Schedule" only in its Minimum Monthly Bill and has no DSM section, and DSM-C-15 applies to Commercial customers while EAF is for Industrial customers, so no DSM charge is carried.
+- Minimum Monthly Bill. The sheet sets it at the $245.03 Basic Service Charge plus ECCR, the applicable DSM schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Qualifications and Term of Contract. The customer must be an Industrial customer on FPA operating an electric arc furnace of at least 50 MW monthly demand that it controls to near 0 kW in summer on-peak periods, stated in the eligibility rule's description; the term is the greater of the time remaining on its RTP contract or one year, renewed yearly unless terminated with 30 days' written notice. The Company is not responsible for a customer's failure to receive and act on the hourly prices. None is priced and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+
 #### `eol` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -352,6 +368,35 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+
+#### `flat-gs` @ 2024-05-01  &nbsp; base: ~
+
+Base deferrals:
+- FlatBill General Service Monthly Amount. The sheet bills each account a fixed monthly amount computed from that account's expected usage, the General Service schedule's charges with ECCR, DSM, FCR and the Municipal Franchise Fee, and a Risk Adder of up to 10 percent, none of which is published for an account. The JSON-LD defines the amount as a monthly PriceDefinition with no Price, the formula and its eight steps in the version description, so a modeled bill omits it and the validator refuses the filing as :no-energy-ledger.
+- Offer conditions. The sheet limits FlatBill General Service to customers in their facility and on General Service or FlatBill General Service for the previous 12 months, using less than 3,000 kWh a month with a maximum 30-minute demand under 30 kW, in good financial standing, and makes no offer under $50 a month. The EligibilityRule carries non-residential customer kind; the rest is in its description.
+- Early withdrawal. A customer who does not complete the 12-month contract may be required to pay the excess of the General Service bill for the electricity actually used over the FlatBill General Service amounts billed, with no refund where it is less. No Price carries it.
+- Return to General Service. Where a customer's monthly usage is 50 percent greater than the Expected Monthly kWh adjusted for the current year's actual weather, the Company may return the customer to General Service, or the appropriate tariff, for the rest of the contract, under the same withdrawal terms. No Price carries it.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+
+#### `fpa` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.29 percent of the base bill inside city limits at FPA's 65 percent rider base, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Customer-specific Off-Peak rate. The Off-Peak rate is (Off-Peak Charges - Basic Service Charge x 12) / Off-Peak kWh, where Off-Peak Charges are Total Charges less the On-Peak kWh at the On-Peak rate, and Total Charges are the firm tariff and riders applied to the customer's Customer Baseline Load plus forecasted RTP prices on its expected incremental consumption, less the forecasted hourly average marginal fuel cost. The JSON-LD defines Off-Peak energy as a PriceDefinition with no Price, so a modeled bill carries no Off-Peak energy charge, and the ECCR, DSM and franchise fee on it are missing too.
+- Offer and eligibility conditions. FPA is offered periodically, as the Company determines, to customers on FPA-3 Part 1 since 2010 or on Real Time Pricing for three consecutive years, and the Demand Plus Energy Credit tariff does not apply to them. They are stated in the eligibility rule's description.
+- Minimum Monthly Bill. The sheet sets it at the $245.03 Basic Service Charge plus ECCR, the applicable DSM schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. The greater of the time remaining on the customer's RTP service contract or one year, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
 | `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 | `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
@@ -589,6 +634,38 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+
+#### `rtp-da` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Standard Bill. The Standard Bill applies the appropriate firm non-RTP tariff, ECCR, the appropriate DSM schedule and FCR to the customer's Customer Baseline Load (CBL), a load shape agreed with the customer, and is revised when any of them changes. It is computed for each customer and not published, so the JSON-LD defines it as a monthly PriceDefinition with no Price, and a modeled bill omits it.
+- Hourly prices. Each hour's price times the difference between actual load and the CBL is charged or credited. The prices are set each day from projected marginal costs and are not part of the sheet, so the JSON-LD defines the hourly charge as a PriceDefinition with no Price on a calculated MetricInput of incremental kWh, its formula text in its CalculationMethod; the validator refuses the filing as :no-energy-ledger.
+- Customer Baseline Load rules. The sheet's rules for developing a CBL for existing and new load (from interval data, a Template, a Footprint or a Demonstration), its minimum CBL level by location, revisions for load added or removed, and the twenty-four months a customer must stay off RTP to reset a CBL are not prices and are not carried.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill. Its multiplier Prices here are based on the Administrative Charge and the Excess Reactive Demand Prices only, so the franchise fee on the Standard Bill and the hourly charges is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Price notification, Demand Plus Energy Credit and Term of Contract. The Company is not responsible for a customer's failure to receive and act upon the hourly prices; the customer may elect to be interruptible under the DPEC rider, which this corpus does not model; the term is five years. None is priced here and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `ppp` | ~ present-incomplete | `us/ga/gpc/electricity/ppp/versions/2024-01-01` |
+
+#### `rtp-ha` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Standard Bill. The Standard Bill applies the appropriate firm non-RTP tariff, ECCR, the appropriate DSM schedule and FCR to the customer's Customer Baseline Load (CBL), a load shape agreed with the customer, and is revised when any of them changes. It is computed for each customer and not published, so the JSON-LD defines it as a monthly PriceDefinition with no Price, and a modeled bill omits it.
+- Hourly prices. Each hour's price times the difference between actual load and the CBL is charged or credited. The prices are set each day from projected marginal costs and are not part of the sheet, so the JSON-LD defines the hourly charge as a PriceDefinition with no Price on a calculated MetricInput of incremental kWh, its formula text in its CalculationMethod; the validator refuses the filing as :no-energy-ledger.
+- Customer Baseline Load rules. The sheet's rules for developing a CBL for existing and new load (from interval data, a Template, a Footprint or a Demonstration), its minimum CBL level by location, revisions for load added or removed, and the twenty-four months a customer must stay off RTP to reset a CBL are not prices and are not carried.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill. Its multiplier Prices here are based on the Administrative Charge and the Excess Reactive Demand Prices only, so the franchise fee on the Standard Bill and the hourly charges is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Price notification, Demand Plus Energy Credit and Term of Contract. The Company is not responsible for a customer's failure to receive and act upon the hourly prices; the customer may elect to be interruptible under the DPEC rider, which this corpus does not model; the term is five years. None is priced here and none is carried.
+
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `ppp` | ~ present-incomplete | `us/ga/gpc/electricity/ppp/versions/2024-01-01` |
 
 #### `sas` @ 2026-06-01  &nbsp; base: ~
 
