@@ -128,6 +128,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | cpau | e-hra | modifier | 2023-01-01 |
 | CA | cpau | e-nse-1 | modifier | 2025-09-01, 2026-07-01 |
 | GA | gpc | aps | rate-plan | 2026-06-01 |
+| GA | gpc | ciev | modifier | 2023-01-01 |
 | GA | gpc | eol | rate-plan | 2026-06-01 |
 | GA | gpc | et | rate-plan | 2026-06-01 |
 | GA | gpc | flat | rate-plan | 2024-05-01 |
@@ -136,9 +137,12 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | gpc | gs | rate-plan | 2026-06-01 |
 | GA | gpc | iop | rate-plan | 2026-06-01 |
 | GA | gpc | iqd | modifier | 2024-05-01 |
+| GA | gpc | lt | modifier | 1975-06-17 |
 | GA | gpc | ogs | rate-plan | 2026-06-01 |
 | GA | gpc | olg | rate-plan | 2026-06-01 |
 | GA | gpc | olng | rate-plan | 2026-06-01 |
+| GA | gpc | op | modifier | 2023-01-01 |
+| GA | gpc | opt | modifier | 2026-06-01 |
 | GA | gpc | pbd | rate-plan | 2024-05-01 |
 | GA | gpc | pll | rate-plan | 2026-06-01 |
 | GA | gpc | plm | rate-plan | 2026-06-01 |
@@ -164,6 +168,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | gpc | tou-rn | rate-plan | 2026-06-01 |
 | GA | gpc | tou-sc | rate-plan | 2026-06-01 |
 | GA | gpc | ud | rate-plan | 2026-06-01 |
+| GA | gpc | vop | modifier | 2014-01-01 |
 | GA | jemc | a | rate-plan | 2026-01-01 |
 | GA | jemc | aea | rate-plan | 2026-01-01 |
 | GA | jemc | am | rate-plan | 2026-01-01 |

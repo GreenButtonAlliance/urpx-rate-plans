@@ -1,0 +1,275 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-ciev-2023-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "gpc:ciev",
+    "urpx:name": "Schedule CIEV Charge It - Electric Vehicle Rider",
+    "urpx:modifierUniqueIdentifier": "CIEV",
+    "urpx:initialEffectiveDate": "2023-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "gpc:ciev-2023-01-01",
+      "urpx:version": "2023-01-01",
+      "urpx:modifierVersionNumber": "2023-01-01",
+      "urpx:changeReason": {
+        "@id": "urpx:initial"
+      },
+      "urpx:description": "Georgia Power's Charge It electric vehicle rider, CIEV-1, for Power and Light (PLS, PLM, PLL) premises dedicated to electric vehicle charging behind a dedicated meter. It prices nothing itself: it multiplies the Power and Light schedule's billing demand by a Billing Demand Adjustment Factor of 0.20 in the first twelve bills, 0.40 in the next twelve, 0.60 in the next twelve and 0.80 in the next twelve, or until the customer's rolling 12-month load factor reaches 15 percent, whichever comes first, so the hours-use bands of a low load factor charging site are computed on a smaller billing demand. The JSON-LD carries the adjusted Billing Demand as a calculated MetricInput whose rule is stated in its CalculationMethod, and one PriceDefinition with no Price. Dating: the sheet, page 12.40, Original, is effective \"With Service Rendered on and after January 1, 2023\", so this version begins 2023-01-01, and as the original sheet it is also the rider's first introduction.",
+      "urpx:effectiveDateTime": "2023-01-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "gpc:pls"
+        },
+        {
+          "@id": "gpc:plm"
+        },
+        {
+          "@id": "gpc:pll"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:ciev-2023-01-01-data-source-reference",
+        "urpx:fileName": "ciev.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/ciev.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 1
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:ciev-2023-01-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule CIEV Charge It - Electric Vehicle Rider",
+          "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity. Applicable upon request as a modification of the Power and Light (PL) tariff schedules (PLS, PLM, and PLL), to premises dedicated to electric vehicle charging served behind a dedicated meter. The CIEV rider may not be used with the Real Time Pricing tariffs (RTP-DA, RTP-HA). The customer may be responsible for any additional cost of installing and removing any equipment required to meter or deliver this service.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:ciev-2023-01-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:ciev-2023-01-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:ciev-2023-01-01-cn-eligibility-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:derType"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:ciev-2023-01-01-cn-eligibility-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:evChargingDER"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:ciev-2023-01-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:ciev-2023-01-01-mi-demand",
+            "urpx:name": "kW Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:ciev-2023-01-01-ms-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:ciev-2023-01-01-mi-billing-demand",
+            "urpx:name": "Billing Demand as modified by CIEV-1 (kW)",
+            "urpx:description": "Billing Demand as modified by CIEV-1: the billing demand the applicable Power and Light schedule determines, times the Billing Demand Adjustment Factor (BDAF), 0.20 for bills 1 to 12, 0.40 for bills 13 to 24, 0.60 for bills 25 to 36 and 0.80 for bills 37 to 48 on the rider, or until the customer's Rolling 12-month Load Factor reaches 15 percent or greater, whichever comes first. The Rolling 12-month Load Factor is the average of the current and preceding eleven months' load factors, each month's energy divided by its peak demand divided by the hours in the billing month.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:ciev-2023-01-01-ms-billing-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "gpc:ciev-2023-01-01-mi-billing-demand-calculation-method",
+              "urpx:calculationFormula": "BDAF * (the Power and Light schedule's Billing Demand); BDAF = 0.20, 0.40, 0.60, 0.80 for bills 1-12, 13-24, 25-36, 37-48, and 1 from bill 49 or once mean(kWh / (kW_peak * hours), current and preceding eleven months) >= 0.15",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "gpc:ciev-2023-01-01-mi-demand"
+                }
+              ]
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:ciev-2023-01-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:ciev-2023-01-01-ledger-billing-demand",
+              "urpx:name": "Billing Demand as modified by CIEV-1",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:ciev-2023-01-01-mi-billing-demand"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:ciev-2023-01-01-pd-billing-demand",
+              "urpx:name": "Billing Demand as modified by CIEV-1 (no price of its own: the Power and Light schedule's hours-use bands and minimum bill are computed on it)",
+              "urpx:chargeType": {
+                "@id": "urpx:demandIndirect"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:ciev-2023-01-01-ledger-billing-demand"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:ciev-2023-01-01-prices"
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "gpc:ciev"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-ciev-2023-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-ciev-2023-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Modified Billing Demand. CIEV-1 prices nothing: it changes how the base schedule determines its Billing Demand. URPX v0.5.1 has no way for a modifier to replace a base schedule's calculated MetricInput, so the rider carries its Billing Demand as its own calculated MetricInput, its rule text in its CalculationMethod, and one PriceDefinition with no Price. Composing it with a base changes no price; a consumer has to compute the base schedule's hours-use bands and minimum bill on this Billing Demand instead of the base's. (2) Rider history. The factor depends on how many bills the customer has had on the rider and on its rolling 12-month load factor, neither of which the JSON-LD records; both are in the formula text. The rider may not be used with RTP-DA or RTP-HA. (3) Metering. The customer may be responsible for any additional cost of the equipment needed to meter or deliver the service. Nothing is priced by it and it is not carried.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}

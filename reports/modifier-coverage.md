@@ -15,9 +15,9 @@ Status glyphs:
 
 - Base RatePlan filings: **158**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
-- Applicable-modifier slots across all bases: **492**
+- Applicable-modifier slots across all bases: **569**
   - present and complete: 22
-  - present but incomplete: 430
+  - present but incomplete: 507
   - missing: 40
 - Asymmetries between modifier-side and base-side declarations: **0**
 
@@ -306,7 +306,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. Five years. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `eol` @ 2026-06-01  &nbsp; base: ~
 
@@ -320,7 +323,9 @@ Base deferrals:
 - Wattages not in the table. The Company may bill energy for Company-owned luminaires of wattages the table does not list by the sheet's formulas, Fixture Input Wattage / 1000 x 360 hours x 7.5150 cents (photo controlled) or x 720 hours x 8.6122 cents (continuous burn). Only the 46 rates the table lists are carried.
 - Construction charges and Term of Contract. Where the Company spends more than five times the estimated annual base revenue, it may collect a Contribution In Aid of Construction for the excess; a customer-owned system must provide mounting, wiring and any weatherproof enclosure for Company-supplied controls. The term is at least two years, up to five at the Company's option, with an advance payment of up to half the estimated annual revenue. None is priced per month and none is carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 #### `et` @ 2026-06-01  &nbsp; base: ~
 
@@ -331,7 +336,10 @@ Base deferrals:
 - Hour after midnight at a season change. The hour after midnight takes the period of the day before, which the JSON-LD gates on the calendar month of that hour, so the first hour of October 1 and of June 1 takes the new season's after-midnight period, for example Period 6 at 5.2485 cents in the first hour of an October 1 that falls Tuesday through Saturday, where the sheet's Period 2 from September 30 is 5.6367 cents.
 - Term of Contract. Twenty years with automatic renewal for successive periods of five years. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `flat` @ 2024-05-01  &nbsp; base: ~
 
@@ -344,6 +352,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `fs` @ 2026-06-01  &nbsp; base: ~
 
@@ -353,7 +363,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $25.42 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `g` @ 2026-06-01  &nbsp; base: ~
 
@@ -367,7 +380,12 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $140.31 Basic Service Charge plus $15.27 per kW of Billing Demand, but not less than $6,555.79 per month, plus excess kVAR charges, ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `op` | ~ present-incomplete | `us/ga/gpc/electricity/op/versions/2023-01-01` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `vop` | ~ present-incomplete | `us/ga/gpc/electricity/vop/versions/2014-01-01` |
 
 #### `gs` @ 2026-06-01  &nbsp; base: ~
 
@@ -380,7 +398,10 @@ Base deferrals:
 - General Service - Unmetered (GS-U). Where the Company finds metering impractical or uneconomical, monthly kWh may be estimated and billed at this rate, for customers continuously served on the unmetered option since December 31, 2019. Estimating the kWh is not carried; the prices apply to whatever kWh a consumer supplies.
 - Construction Service and Term of Contract. Construction power is part of permanent service, with a payment in advance per metering point in the amount on file with the Commission; the term is one year unless the customer elects to return to the FlatBill-GS tariff. Neither is priced on the sheet and neither is carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `iop` @ 2026-06-01  &nbsp; base: ~
 
@@ -395,7 +416,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus $12.66 per kW of actual On-Peak demand in excess of 30 kW, plus excess kVAR charges, ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Term of Contract. Five years. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `ogs` @ 2026-06-01  &nbsp; base: ~
 
@@ -408,7 +432,10 @@ Base deferrals:
 - Unmetered service (OGS-23-U). Where the Company determines metering is impractical or uneconomical, monthly kWh may be estimated by the Company and billed at this rate. Estimating the kWh is not carried; the prices apply to whatever kWh a consumer supplies.
 - Term of Contract. One month, or one year for full year operation. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `olg` @ 2026-06-01  &nbsp; base: ~
 
@@ -421,7 +448,9 @@ Base deferrals:
 - Pole and construction charges. Section B prices standard poles from $418.16 to $1,936.93 as a non-refundable Contribution In Aid of Construction paid before construction; a customer may pay $50.00 for each luminaire removed when the Company replaces a Company-owned system, $2.49 per foot of excess underground trench over 80 feet per pole, a CIAC for taller poles or relocation, and a CIAC for spending above five times the estimated annual base revenue, and may reimburse maintenance from vandalism; tree trimming is the customer's. None is a monthly charge and none is carried.
 - Customer-owned systems and Term of Contract. Part II bills customer-owned systems on EOL-19, which has its own filing. The term is at least five years and thereafter until terminated on 30 days' written notice, and may require an advance payment of up to half the estimated annual revenue. Neither is priced here and neither is carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 #### `olng` @ 2026-06-01  &nbsp; base: ~
 
@@ -435,7 +464,9 @@ Base deferrals:
 - Pole and construction charges. The Company may provide one wood pole per luminaire from the overhead system; extending the overhead system, non-standard poles, taller mounting, relocation, or conversion of a Company-owned system may require a non-refundable Contribution In Aid of Construction or a 5-to-1 annual base revenue ratio, and the customer may reimburse maintenance from vandalism; tree trimming is the customer's. None is a monthly charge and none is carried.
 - Customer-owned systems and Term of Contract. Part II bills customer-owned systems on EOL-19, which has its own filing. The term is at least two years, up to five at the Company's option, with an advance payment of up to half the estimated annual revenue. Neither is priced here and neither is carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 #### `pbd` @ 2024-05-01  &nbsp; base: ~
 
@@ -449,6 +480,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `pll` @ 2026-06-01  &nbsp; base: ~
 
@@ -463,7 +496,13 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $260.28 Basic Service Charge plus $13.86 per kW of Billing Demand, plus excess kVAR charges, ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee; for metered outdoor lighting, the lesser of that or the Basic Service Charge plus those riders. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Limitation of Service, Construction Service and Term of Contract. Service is limited to customers whose calculated demand is 500 kW or greater (for customers on the Off-Peak and Variable Off-Peak riders, by the riders' percentages), and to customers with an expected total peak demand of 100 MW or greater only under contracts made before February 1, 2025; construction power is part of permanent service, with a payment in advance per metering point; the term is five years. The limitations are stated in the eligibility rule's description, and none of these is priced or carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `ciev` | ~ present-incomplete | `us/ga/gpc/electricity/ciev/versions/2023-01-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `op` | ~ present-incomplete | `us/ga/gpc/electricity/op/versions/2023-01-01` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `vop` | ~ present-incomplete | `us/ga/gpc/electricity/vop/versions/2014-01-01` |
 
 #### `plm` @ 2026-06-01  &nbsp; base: ~
 
@@ -478,7 +517,13 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $154.54 Basic Service Charge plus $11.40 per kW of Billing Demand in excess of 30 kW, plus excess kVAR charges, ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee; for metered outdoor lighting, the lesser of that or the Basic Service Charge plus those riders. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Limitation of Service, Construction Service and Term of Contract. Service is limited to customers whose calculated demand is at least 30 kW and under 500 kW (for customers on the Off-Peak and Variable Off-Peak riders, by the riders' percentages); construction power is part of permanent service, with a payment in advance per metering point; the term is one year. The limitation is stated in the eligibility rule's description, and none of these is priced or carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `ciev` | ~ present-incomplete | `us/ga/gpc/electricity/ciev/versions/2023-01-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `op` | ~ present-incomplete | `us/ga/gpc/electricity/op/versions/2023-01-01` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `vop` | ~ present-incomplete | `us/ga/gpc/electricity/vop/versions/2014-01-01` |
 
 #### `pls` @ 2026-06-01  &nbsp; base: ~
 
@@ -493,7 +538,13 @@ Base deferrals:
 - Power and Light Small - Unmetered (PLS-U). Where the Company determined metering impractical or uneconomical, monthly kW and kWh were estimated and billed at this rate, for customers continuously served on the unmetered option since December 31, 2019. Estimating them is not carried.
 - Limitation of Service, Construction Service and Term of Contract. Service is limited to customers whose calculated demand is under 30 kW (for customers on the Off-Peak and Variable Off-Peak riders, by the riders' percentages); construction power is part of permanent service, with a payment in advance per metering point; the term is one year. The limitation is stated in the eligibility rule's description, and none of these is priced or carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `ciev` | ~ present-incomplete | `us/ga/gpc/electricity/ciev/versions/2023-01-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `op` | ~ present-incomplete | `us/ga/gpc/electricity/op/versions/2023-01-01` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `vop` | ~ present-incomplete | `us/ga/gpc/electricity/vop/versions/2014-01-01` |
 
 #### `pps` @ 2026-06-01  &nbsp; base: ~
 
@@ -507,6 +558,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `r` @ 2026-06-01  &nbsp; base: ~
 
@@ -521,6 +574,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `rlg` @ 2026-06-01  &nbsp; base: ~
 
@@ -531,7 +586,9 @@ Base deferrals:
 - Pole and construction charges. The sheet prices standard poles from $418.16 to $1,936.93 as a non-refundable Contribution In Aid of Construction paid before construction; a customer may pay $50.00 for each luminaire removed when the Company replaces a Company-owned system, $2.49 per foot of excess underground trench over 80 feet per pole, a CIAC for taller poles or relocation, and a CIAC for spending above five times the estimated annual base revenue, and may reimburse maintenance from vandalism; tree trimming is the customer's. None is a monthly charge and none is carried.
 - Term of Contract. At least five years and thereafter until terminated on six months' written notice, with an advance payment of up to half the estimated annual revenue. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 #### `sas` @ 2026-06-01  &nbsp; base: ~
 
@@ -543,7 +600,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. Five years. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `sas-nd` @ 2026-06-01  &nbsp; base: ~
 
@@ -554,7 +614,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $66.09 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `sch` @ 2026-06-01  &nbsp; base: ~
 
@@ -568,7 +631,11 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus $13.08 per kW of Billing Demand in excess of 30 kW, plus excess kVAR charges, ECCR, the Demand Side Management Commercial Schedule, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Term of Contract. One year up to and including 500 kW maximum anticipated 30-minute kW, or five years over 500 kW. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
+| `vop` | ~ present-incomplete | `us/ga/gpc/electricity/vop/versions/2014-01-01` |
 
 #### `slm` @ 2026-06-01  &nbsp; base: ~
 
@@ -582,7 +649,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $119.97 Basic Service Charge plus $15.07 per kW of Billing Demand in excess of 30 kW, plus excess kVAR charges, ECCR, the Demand Side Management Commercial Schedule, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Metering and Term of Contract. The customer may be responsible for any additional cost of installing and removing equipment required to meter or deliver the service, and the term is five years. Neither is priced on the sheet and neither is carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tc-m` @ 2026-06-01  &nbsp; base: ~
 
@@ -593,7 +663,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $21.35 Basic Service Charge plus ECCR, the Demand Side Management Commercial Schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tc-u` @ 2026-06-01  &nbsp; base: ~
 
@@ -606,7 +679,9 @@ Base deferrals:
 - Device and increment counts. The Basic Service Charge is per device, including its first 60 watts of demand, and each further 60 watts is priced per increment, so a consumer counts each device's watts above 60 in whole increments; how a part increment is counted is not stated.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 #### `tou-eo` @ 2026-06-01  &nbsp; base: ~
 
@@ -616,7 +691,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $96.00 Basic Service Charge plus $7.42 per kW for the first 10 kW above 30 kW, $14.57 per kW for the next 10 kW and $44.07 per kW for all demand above 50 kW, the highest 30-minute kW of the month, plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-eol` @ 2026-06-01  &nbsp; base: ~
 
@@ -628,7 +706,9 @@ Base deferrals:
 - Fuel Cost Recovery schedule. The sheet applies "the Company's effective Fuel Cost Recovery Schedules in the manner ordered by the Georgia Public Service Commission" without naming one, and neither TOU-FCR-7 nor TOU-FCR-TP-5 lists TOU-EOL. The JSON-LD carries FCR-27's seasonal rates; if the Commission ordered a time of use fuel rate for the pilot, a modeled bill's fuel is off by the difference.
 - Pilot limits and Term of Contract. The pilot is limited to 100 accounts selected at the Company's discretion; the term is one year, renewed automatically unless terminated with 30 days' notice before the anniversary, and the customer may change tariffs after the first twelve months on 30 days' written notice. The limits are stated in the eligibility rule's description; nothing is priced by them and they are not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 #### `tou-evc` @ 2026-06-01  &nbsp; base: ~
 
@@ -639,7 +719,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $154.48 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-fd` @ 2026-06-01  &nbsp; base: ~
 
@@ -651,7 +734,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $123.02 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-gsd` @ 2026-06-01  &nbsp; base: ~
 
@@ -663,7 +749,10 @@ Base deferrals:
 - On-Peak kW and Economy kW. Both are calculated MetricInputs whose rules are text in their CalculationMethods, which URPX v0.5.1 does not evaluate; a consumer has to compute the highest 30-minute kW in the On-Peak hours and subtract it from the month's highest.
 - Term of Contract. Three years, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-hlf` @ 2026-06-01  &nbsp; base: ~
 
@@ -675,7 +764,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $230.79 Basic Service Charge plus ECCR, the Demand Side Management Commercial Schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-oa` @ 2026-06-01  &nbsp; base: ~
 
@@ -688,6 +780,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-rd` @ 2026-06-01  &nbsp; base: ~
 
@@ -700,6 +794,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-reo` @ 2026-06-01  &nbsp; base: ~
 
@@ -712,6 +808,8 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-rn` @ 2026-06-01  &nbsp; base: ~
 
@@ -723,7 +821,10 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $314.17 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. One year, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `tou-sc` @ 2026-06-01  &nbsp; base: ~
 
@@ -736,7 +837,10 @@ Base deferrals:
 - Minimum Monthly Bill. Under the Standard Price Option the sheet sets it at the $174.88 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. Three years, or as specified in the customer's Contract for Electric Service. Nothing is priced by it and it is not carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
+| `opt` | ~ present-incomplete | `us/ga/gpc/electricity/opt/versions/2026-06-01` |
 
 #### `ud` @ 2026-06-01  &nbsp; base: ~
 
@@ -748,7 +852,9 @@ Base deferrals:
 - Minimum Bill. The sheet sets it at the $18.00 Basic Service Charge plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee, and no Price carries it. Every price here is zero or positive, so a bill on these prices alone is never below it.
 - Additional facilities and Term of Contract. Where facilities must be installed to serve the customer, the customer may be required to pay for them and their perpetual maintenance; the term is one year. Neither is priced on the sheet and neither is carried.
 
-_No applicable modifiers declared._
+| Modifier | Status | Filing |
+|---|---|---|
+| `lt` | ~ present-incomplete | `us/ga/gpc/electricity/lt/versions/1975-06-17` |
 
 ### JEMC
 
