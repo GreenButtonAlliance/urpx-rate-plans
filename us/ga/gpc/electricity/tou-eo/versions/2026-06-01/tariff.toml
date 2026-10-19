@@ -1,0 +1,141 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "tou-eo"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule TOU-EO customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-eo.pdf"
+  sha256 = "9ba481371788d6cff35c6a1c8ead0db14004ea4ecd6a33b3db76f2519705d7d0"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-EO-18"
+
+  [source.tou_fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf"
+  sha256 = "f215413027090ae9716848f57de3092c03586ea0625f05a73d82d53c76fa49fd"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-FCR-7"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_c]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf"
+  sha256 = "32ee2bd9ea4be4f2bcb8a6920c9138bafede89b71e221f47f88c7fbb2b440025"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-C-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.tou_fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_c]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+TOU-EO-18 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. TOU-FCR-7, ECCR-15, DSM-C-15 and MFF-11 were read from
+the PDF text directly.
+
+Periods. The sheet and TOU-FCR-7 define On-Peak and Off-Peak by calendar
+month, "for the calendar months of June through September (Summer Months)", so
+the Seasons here are calendar months and need no billing-month deferral,
+unlike FCR-27's. On-Peak hours "on days in which the following holidays are
+observed shall be considered Off-Peak: Independence Day and Labor Day"; the
+sheet states no weekend rule, and us/ga/gpc/utility.toml records that Georgia
+law adopts the federal one, 5 U.S.C. 6103(b), which
+urpx:nearestWeekdayObservance states. The On-Peak energy PriceDefinition is
+also gated on June through September, the only months it has hours in. October
+through May energy is priced in two blocks, carried as a ServiceTiers ladder
+on the winter PriceDefinition, in the pattern of FS-18.
+
+Riders. TOU-FCR-7, ECCR-15, DSM-C-15 and MFF-11 are Prices on the base, as on
+Schedule R. TOU-FCR-7's Secondary Distribution, Primary Distribution and
+Transmission rates and MFF-11's inside and outside city limits rates are
+crossed in one ProfileAlternatives set; its voltage dimension is
+urpx:voltageLevel, whose values are urpx:secondaryVoltage, urpx:primaryVoltage
+and urpx:transmissionVoltage. Each alternative's PriceSetAlternative carries
+its own franchise fee energy subtotal, the base energy prices plus its voltage
+level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). TOU-EO-18 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No TOU-EO bill was available to
+check it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Minimum Monthly Bill. The sheet sets it at the $96.00 Basic Service Charge plus $7.42 per kW for the first 10 kW above 30 kW, $14.57 per kW for the next 10 kW and $44.07 per kW for all demand above 50 kW, the highest 30-minute kW of the month, plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.",
+  "Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."

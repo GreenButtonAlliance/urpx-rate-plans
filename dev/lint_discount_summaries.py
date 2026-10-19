@@ -392,6 +392,22 @@ class Filing:
 
         walk(self.doc, visit)
 
+    def unpriced_in_band(self, summary_id: str, band: int) -> int:
+        """PriceDefinitions in `band` that no Price prices, on a member's ledger.
+
+        A filing leaves a charge it cannot price, such as GPC TOU-RN's
+        customer-specific Off-Peak rate, as a PriceDefinition with no Price and a
+        deferral. Its band then has one definition fewer in the subtotal, by
+        declaration rather than by error, so the band count takes it back.
+        """
+        priced = {ref_id(p.get("urpx:referencesPriceDefinition")) for p in self.prices.values()}
+        ledgers = {ref_id((self.pds.get(self.pd_of(m)) or {}).get("urpx:referencesLedger"))
+                   for m in self.members(summary_id)}
+        return sum(1 for i, d in self.pds.items()
+                   if i not in priced
+                   and d.get("urpx:touPeriodNumber") is not None and int(d["urpx:touPeriodNumber"]) == band
+                   and ref_id(d.get("urpx:referencesLedger")) in ledgers)
+
     def pd_of(self, price_id: str):
         """The PriceDefinition a Price references, or None."""
         p = self.prices.get(price_id)
@@ -629,7 +645,8 @@ def check_arithmetic(filings: list[Filing]) -> tuple[list[dict], int]:
                     repeated = {pd: v for pd, v in buckets.items() if len(v) > 1}
 
                     per_band[(did, sid)] = per_band.get((did, sid), {})
-                    per_band[(did, sid)][band] = (len(buckets), str(named), base)
+                    unpriced = base.unpriced_in_band(sid, band) if band is not None else 0
+                    per_band[(did, sid)][band] = (len(buckets) + unpriced, str(named), base)
 
                     if not repeated:
                         continue
