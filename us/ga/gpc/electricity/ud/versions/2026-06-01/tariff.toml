@@ -1,0 +1,132 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "ud"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule UD customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/ud.pdf"
+  sha256 = "bbe0ef1f9fb34a9490b0a5205c873749785f2d3de9cd77aa17e7932793ecdac3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "UD-18"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_c]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf"
+  sha256 = "32ee2bd9ea4be4f2bcb8a6920c9138bafede89b71e221f47f88c7fbb2b440025"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-C-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_c]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+UD-18 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. FCR-27, ECCR-15, DSM-C-15 and MFF-11 were read from the
+PDF text directly.
+
+The rate table's first 25 kWh are "Included in Basic Service Charge", carried
+as a first block of 25 kWh at 0.000000 per kWh.
+
+Riders. FCR-27, ECCR-15, DSM-C-15 and MFF-11 are Prices on the base, as on
+Schedule R. FCR-27's Secondary Distribution rates and MFF-11's inside and
+outside city limits rates are crossed in one ProfileAlternatives set; its
+voltage dimension is urpx:voltageLevel, whose values are urpx:secondaryVoltage
+alone. Each alternative's PriceSetAlternative carries its own franchise fee
+energy subtotal, the base energy prices plus its voltage level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). UD-18 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No UD bill was available to check
+it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.",
+  "Franchise fee location. UD-18 serves single phase at 120V and 240V, which FCR-27 classes as Secondary Distribution, so its Secondary Distribution rates are the fuel prices, and the ProfileAlternatives set's voltage dimension has that one value, crossed with MFF-11's two locations in two alternatives. A consumer selects one, for example inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Estimated energy. The monthly energy and demand of an unmetered device are estimated by the Company and charged at the sheet's rate. The estimate is not carried; the prices apply to whatever kWh a consumer supplies.",
+  "Minimum Bill. The sheet sets it at the $18.00 Basic Service Charge plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee, and no Price carries it. Every price here is zero or positive, so a bill on these prices alone is never below it.",
+  "Additional facilities and Term of Contract. Where facilities must be installed to serve the customer, the customer may be required to pay for them and their perpetual maintenance; the term is one year. Neither is priced on the sheet and neither is carried.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."

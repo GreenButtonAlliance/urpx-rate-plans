@@ -1,0 +1,140 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "tou-eol"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule TOU-EOL customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-eol.pdf"
+  sha256 = "f110d1e6e56c917e190d74c7673d8faf393ce7b16317c1bdbeee9e91999126ab"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-EOL-11"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_c]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf"
+  sha256 = "32ee2bd9ea4be4f2bcb8a6920c9138bafede89b71e221f47f88c7fbb2b440025"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-C-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_c]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+TOU-EOL-11 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. FCR-27, ECCR-15, DSM-C-15 and MFF-11 were read from the
+PDF text directly.
+
+TOU-EOL-11's On-Peak, Off-Peak and Super Off-Peak periods are TOU-FD-15's,
+defined by calendar month, so its Seasons are calendar months. Its fuel clause
+names "the Company's effective Fuel Cost Recovery Schedules in the manner
+ordered by the Georgia Public Service Commission"; neither TOU-FCR-7 nor TOU-
+FCR-TP-5 names TOU-EOL in its Applicability, so the fuel is read as FCR-27, as
+for SAS-17, and that reading is a deferral. TOU-EOL prices only the energy of
+Company-owned lighting whose fixtures are billed on the lighting rate
+schedules, and the sheet has no Basic Service Charge.
+
+Riders. FCR-27, ECCR-15, DSM-C-15 and MFF-11 are Prices on the base, as on
+Schedule R. FCR-27's Secondary Distribution, Primary Distribution and
+Transmission rates and MFF-11's inside and outside city limits rates are
+crossed in one ProfileAlternatives set; its voltage dimension is
+urpx:voltageLevel, whose values are urpx:secondaryVoltage, urpx:primaryVoltage
+and urpx:transmissionVoltage. Each alternative's PriceSetAlternative carries
+its own franchise fee energy subtotal, the base energy prices plus its voltage
+level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). TOU-EOL-11 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No TOU-EOL bill was available to
+check it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.",
+  "Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Demand Side Management schedule. The sheet applies \"the Company's effective Demand Side Management Residential or Commercial Schedule\". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.",
+  "Fuel Cost Recovery schedule. The sheet applies \"the Company's effective Fuel Cost Recovery Schedules in the manner ordered by the Georgia Public Service Commission\" without naming one, and neither TOU-FCR-7 nor TOU-FCR-TP-5 lists TOU-EOL. The JSON-LD carries FCR-27's seasonal rates; if the Commission ordered a time of use fuel rate for the pilot, a modeled bill's fuel is off by the difference.",
+  "Pilot limits and Term of Contract. The pilot is limited to 100 accounts selected at the Company's discretion; the term is one year, renewed automatically unless terminated with 30 days' notice before the anniversary, and the customer may change tariffs after the first twelve months on 30 days' written notice. The limits are stated in the eligibility rule's description; nothing is priced by them and they are not carried.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."
