@@ -75,7 +75,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Class | Residential | Covered | % | Modeled tariffs |
 |---|---|---:|---:|---:|---|
-| Georgia Power Company | iou | 2,452,488 | 0 | 0.0% | flat (no estimate), pbd (no estimate), pps (no estimate), r (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate) |
+| Georgia Power Company | iou | 2,452,488 | 0 | 0.0% | flat (no estimate), g (no estimate), gs (no estimate), ogs (no estimate), pbd (no estimate), pll (no estimate), plm (no estimate), pls (no estimate), pps (no estimate), r (no estimate), sch (no estimate), slm (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate) |
 
 ### Largest unmodeled customer pools
 
@@ -83,7 +83,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Uncovered customers | Existing modeled | Notes |
 |---|---:|---|---|
-| Georgia Power Company | 2,452,488 | flat (no estimate), pbd (no estimate), pps (no estimate), r (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate) | |
+| Georgia Power Company | 2,452,488 | flat (no estimate), g (no estimate), gs (no estimate), ogs (no estimate), pbd (no estimate), pll (no estimate), plm (no estimate), pls (no estimate), pps (no estimate), r (no estimate), sch (no estimate), slm (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate) | |
 
 ## Washington
 
@@ -128,10 +128,18 @@ Sorted by number of residential customers without a modeled default. Top of list
 | CA | cpau | e-hra | modifier | 2023-01-01 |
 | CA | cpau | e-nse-1 | modifier | 2025-09-01, 2026-07-01 |
 | GA | gpc | flat | rate-plan | 2024-05-01 |
+| GA | gpc | g | rate-plan | 2026-06-01 |
+| GA | gpc | gs | rate-plan | 2026-06-01 |
 | GA | gpc | iqd | modifier | 2024-05-01 |
+| GA | gpc | ogs | rate-plan | 2026-06-01 |
 | GA | gpc | pbd | rate-plan | 2024-05-01 |
+| GA | gpc | pll | rate-plan | 2026-06-01 |
+| GA | gpc | plm | rate-plan | 2026-06-01 |
+| GA | gpc | pls | rate-plan | 2026-06-01 |
 | GA | gpc | pps | rate-plan | 2026-06-01 |
 | GA | gpc | r | rate-plan | 2026-06-01 |
+| GA | gpc | sch | rate-plan | 2026-06-01 |
+| GA | gpc | slm | rate-plan | 2026-06-01 |
 | GA | gpc | tou-oa | rate-plan | 2026-06-01 |
 | GA | gpc | tou-rd | rate-plan | 2026-06-01 |
 | GA | gpc | tou-reo | rate-plan | 2026-06-01 |

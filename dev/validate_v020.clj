@@ -320,6 +320,17 @@
    "gpc:tou-oa-2026-06-01-pa-franchise-fee-location" "gpc:tou-oa-2026-06-01-pa-inside-city-limits"
    "gpc:tou-rd-2026-06-01-pa-franchise-fee-location" "gpc:tou-rd-2026-06-01-pa-inside-city-limits"
    "gpc:pps-2026-06-01-pa-franchise-fee-location" "gpc:pps-2026-06-01-pa-inside-city-limits"
+   ;; The business schedules cross FCR-27's voltage level with MFF-11's
+   ;; location; Secondary Distribution inside city limits carries the highest
+   ;; fuel and franchise fee rates.
+   "gpc:gs-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:gs-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:ogs-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:ogs-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:pls-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:pls-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:plm-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:plm-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:pll-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:pll-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:sch-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:sch-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:slm-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:slm-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:g-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:g-2026-06-01-pa-secondary-inside-city-limits"
    ;; One block, the smallest subscription Rider CS sells.
    "jemc:cs-2022-06-01-pa-solar-blocks" "jemc:cs-2022-06-01-pa-1-block"
    ;; 100 percent carries Rider GP's full $0.01/kWh premium.
