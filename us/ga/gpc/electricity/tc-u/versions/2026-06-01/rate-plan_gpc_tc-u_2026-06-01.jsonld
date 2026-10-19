@@ -1,0 +1,1995 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-tc-u-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "gpc:tc-u",
+    "urpx:name": "Schedule TC-U Traffic Control Unmetered Service",
+    "urpx:ratePlanUniqueIdentifier": "TC-U",
+    "urpx:initialEffectiveDate": "2026-06-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "gpc:tc-u-2026-06-01",
+      "urpx:description": "Georgia Power's traffic control unmetered service schedule, TC-U-31, closed to new premises after December 31, 2019. A monthly Basic Service Charge per device, which includes its first 60 watts of demand, of $9.29 for a Traffic Device, $6.93 for a Traffic Flasher and $6.55 for a School Flasher, and $0.18, $0.37 and $0.70 for each additional increment of 60 watts of demand; each rate is a Price on a count of devices or of increments. The riders the sheet applies are carried as Prices here rather than as modifiers, because every customer on the schedule pays them: Environmental Compliance Cost Recovery ECCR-15 (13.0205 percent) and Demand Side Management Commercial DSM-C-15 (1.2676 percent) of the base bill, each as a multiplier over every devices charge's Price; Fuel Cost Recovery FCR-27 per kWh at the Secondary Distribution rates, 3.8069 cents June through September and 3.8561 cents October through May, on the kWh the Company estimates; and the Municipal Franchise Fee MFF-11, 3.0843 percent inside city limits or 1.1995 percent outside them (also for a city with which the Company has no franchise fee agreement), chosen by a ProfileAlternative, as a multiplier over every devices charge's Price and over the fuel subtotal. Dating: the sheet and its riders are effective \"With Bills Rendered for the Billing Month of June, 2026\" (MFF-11 for January 2025). TC-U-31 was filed with Schedule R-31 in the same compliance filing in docket 44280 (PSC document 227071), so this version begins 2026-06-01, the date Schedule R's bills show the new base rates took effect by calendar day.",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:tc-u-2026-06-01-data-source-reference",
+        "urpx:fileName": "tc-u.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tc-u.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 2
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:tc-u-2026-06-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule TC-U Traffic Control Unmetered Service",
+          "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity. Applicable to electric service for the operation of traffic control devices owned and operated by a municipality or government agency and located on a public street or highway. After December 31, 2019, TC-U is not available for new premises. A School Flasher is a yellow flashing signal light in a school zone; a Traffic Flasher a red or yellow flashing signal light; a Traffic Device any traffic control related equipment that is neither.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:tc-u-2026-06-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:tc-u-2026-06-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:tc-u-2026-06-01-cn-eligibility-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:endUse"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:tc-u-2026-06-01-cn-eligibility-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:municipalEndUse"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:tc-u-2026-06-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices (estimated by the Company)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:tc-u-2026-06-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge",
+            "urpx:name": "Count of devices: Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts",
+            "urpx:name": "Count of devices: Traffic Device, each additional increment of 60 watts of demand",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge",
+            "urpx:name": "Count of devices: Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts",
+            "urpx:name": "Count of devices: Traffic Flasher, each additional increment of 60 watts of demand",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge",
+            "urpx:name": "Count of devices: School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts",
+            "urpx:name": "Count of devices: School Flasher, each additional increment of 60 watts of demand",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "gpc:tc-u-2026-06-01-pa-franchise-fee-location",
+          "urpx:name": "Municipal Franchise Fee location: inside or outside city limits",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "gpc:tc-u-2026-06-01-pa-franchise-fee-location-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "gpc:tc-u-2026-06-01-ad-franchise-fee-location",
+                "urpx:customDimensionProperty": "franchiseFeeLocation",
+                "urpx:dimensionDisplayName": "Municipal Franchise Fee location",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Inside City Limits"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Outside City Limits"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tc-u-2026-06-01-pa-inside-city-limits",
+              "urpx:name": "Service inside the limits of a city with which the Company has a franchise fee agreement",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tc-u-2026-06-01-cx-pa-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "gpc:tc-u-2026-06-01-cn-pa-inside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:tc-u-2026-06-01-cn-pa-inside-city-limits-left-operand",
+                    "urpx:customConditionProperty": "franchiseFeeLocation"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:tc-u-2026-06-01-cn-pa-inside-city-limits-right-operand",
+                    "urpx:stringValue": "Inside City Limits"
+                  }
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tc-u-2026-06-01-pa-outside-city-limits",
+              "urpx:name": "Service outside city limits, or inside a city with which the Company has no franchise fee agreement",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tc-u-2026-06-01-cx-pa-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "gpc:tc-u-2026-06-01-cn-pa-outside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:tc-u-2026-06-01-cn-pa-outside-city-limits-left-operand",
+                    "urpx:customConditionProperty": "franchiseFeeLocation"
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:CustomOperandNode",
+                    "@id": "gpc:tc-u-2026-06-01-cn-pa-outside-city-limits-right-operand",
+                    "urpx:stringValue": "Outside City Limits"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:tc-u-2026-06-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tc-u-2026-06-01-ledger-fixtures",
+              "urpx:name": "Monthly Rates, per device and per 60 watts",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": [
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tc-u-2026-06-01-ledger-fcr",
+              "urpx:name": "Fuel Cost Recovery",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures",
+              "urpx:name": "Environmental Compliance Cost Recovery, on the devices charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": [
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures",
+              "urpx:name": "Demand Side Management Commercial, on the devices charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": [
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures",
+              "urpx:name": "Municipal Franchise Fee, on the devices charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": [
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+                },
+                {
+                  "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+                }
+              ]
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tc-u-2026-06-01-ledger-mff-energy",
+              "urpx:name": "Municipal Franchise Fee, on the fuel charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-energy"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-traffic-device-basic-service-charge",
+              "urpx:name": "Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceNonMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tc-u-2026-06-01-pd-traffic-device-basic-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-traffic-device-additional-60-watts",
+              "urpx:name": "Traffic Device, each additional increment of 60 watts of demand, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceNonMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tc-u-2026-06-01-pd-traffic-device-additional-60-watts-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-traffic-flasher-basic-service-charge",
+              "urpx:name": "Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceNonMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tc-u-2026-06-01-pd-traffic-flasher-basic-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-traffic-flasher-additional-60-watts",
+              "urpx:name": "Traffic Flasher, each additional increment of 60 watts of demand, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceNonMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tc-u-2026-06-01-pd-traffic-flasher-additional-60-watts-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-school-flasher-basic-service-charge",
+              "urpx:name": "School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceNonMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tc-u-2026-06-01-pd-school-flasher-basic-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-school-flasher-additional-60-watts",
+              "urpx:name": "School Flasher, each additional increment of 60 watts of demand, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:serviceNonMetered"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tc-u-2026-06-01-pd-school-flasher-additional-60-watts-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-fcr-summer",
+              "urpx:name": "Fuel Cost Recovery FCR-27, June through September",
+              "urpx:chargeType": {
+                "@id": "urpx:fuelCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "@id": "gpc:tc-u-2026-06-01-pd-fcr-summer-applicability-rule",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fcr"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-fcr-winter",
+              "urpx:name": "Fuel Cost Recovery FCR-27, October through May",
+              "urpx:chargeType": {
+                "@id": "urpx:fuelCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "@id": "gpc:tc-u-2026-06-01-pd-fcr-winter-applicability-rule",
+                "urpx:month": [
+                  "--10",
+                  "--11",
+                  "--12",
+                  "--01",
+                  "--02",
+                  "--03",
+                  "--04",
+                  "--05"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-fcr"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-device-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-device-additional-60-watts",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the charge for Traffic Device, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-flasher-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-flasher-additional-60-watts",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-eccr-school-flasher-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-eccr-school-flasher-additional-60-watts",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the charge for School Flasher, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-eccr-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-device-basic-service-charge",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-device-additional-60-watts",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the charge for Traffic Device, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-flasher-basic-service-charge",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-flasher-additional-60-watts",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-school-flasher-basic-service-charge",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-school-flasher-additional-60-watts",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the charge for School Flasher, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-dsm-c-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-device-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-device-additional-60-watts",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the charge for Traffic Device, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-device-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-flasher-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-flasher-additional-60-watts",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-traffic-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-school-flasher-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-school-flasher-additional-60-watts",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the charge for School Flasher, each additional increment of 60 watts of demand",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-fixtures"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tc-u-2026-06-01-mi-school-flasher-additional-60-watts"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tc-u-2026-06-01-pd-mff-energy",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the fuel charges",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tc-u-2026-06-01-ledger-mff-energy"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:tc-u-2026-06-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:tc-u-2026-06-01-ps-base",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-traffic-device-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-traffic-device-basic-service-charge"
+                },
+                "urpx:name": "Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:unitPrice": "9.29"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-traffic-device-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-traffic-device-additional-60-watts"
+                },
+                "urpx:name": "Traffic Device, each additional increment of 60 watts of demand",
+                "urpx:unitPrice": "0.18"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-traffic-flasher-basic-service-charge"
+                },
+                "urpx:name": "Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:unitPrice": "6.93"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-traffic-flasher-additional-60-watts"
+                },
+                "urpx:name": "Traffic Flasher, each additional increment of 60 watts of demand",
+                "urpx:unitPrice": "0.37"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-school-flasher-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-school-flasher-basic-service-charge"
+                },
+                "urpx:name": "School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:unitPrice": "6.55"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-school-flasher-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-school-flasher-additional-60-watts"
+                },
+                "urpx:name": "School Flasher, each additional increment of 60 watts of demand",
+                "urpx:unitPrice": "0.70"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-fcr-summer",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-fcr-summer"
+                },
+                "urpx:name": "Fuel Cost Recovery FCR-27, June through September, Secondary Distribution",
+                "urpx:unitPrice": "0.038069",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-fcr-summer-data-source-reference",
+                  "urpx:fileName": "fcr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-fcr-winter",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-fcr-winter"
+                },
+                "urpx:name": "Fuel Cost Recovery FCR-27, October through May, Secondary Distribution",
+                "urpx:unitPrice": "0.038561",
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-fcr-winter-data-source-reference",
+                  "urpx:fileName": "fcr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              }
+            ],
+            "urpx:hasPriceSummary": [
+              {
+                "@type": "urpx:PriceSummary",
+                "@id": "gpc:tc-u-2026-06-01-summary-mff-bill",
+                "urpx:name": "Municipal Franchise Fee fuel subtotal: the FCR-27 fuel charges on the devices' kWh. MFF-11 applies \"to the total revenues of each bill\"; each device charge takes the same percentage through a multiplier over its own Price.",
+                "urpx:includesPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-fcr-summer"
+                  },
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-fcr-winter"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:tc-u-2026-06-01-ps-eccr-dsm-c",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-device-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-device-basic-service-charge"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-device-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-device-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-device-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-device-additional-60-watts"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the charge for Traffic Device, each additional increment of 60 watts of demand",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-device-additional-60-watts"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-device-additional-60-watts-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-flasher-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-flasher-basic-service-charge"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-flasher-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-flasher-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-eccr-traffic-flasher-additional-60-watts"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-additional-60-watts"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-eccr-traffic-flasher-additional-60-watts-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-eccr-school-flasher-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-eccr-school-flasher-basic-service-charge"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-school-flasher-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-eccr-school-flasher-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-eccr-school-flasher-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-eccr-school-flasher-additional-60-watts"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the charge for School Flasher, each additional increment of 60 watts of demand",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-school-flasher-additional-60-watts"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-eccr-school-flasher-additional-60-watts-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-device-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-device-basic-service-charge"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-device-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-device-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-device-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-device-additional-60-watts"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the charge for Traffic Device, each additional increment of 60 watts of demand",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-device-additional-60-watts"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-device-additional-60-watts-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-flasher-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-flasher-basic-service-charge"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-flasher-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-flasher-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-traffic-flasher-additional-60-watts"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-additional-60-watts"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-dsm-c-traffic-flasher-additional-60-watts-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-dsm-c-school-flasher-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-school-flasher-basic-service-charge"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-school-flasher-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-dsm-c-school-flasher-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tc-u-2026-06-01-price-dsm-c-school-flasher-additional-60-watts",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tc-u-2026-06-01-pd-dsm-c-school-flasher-additional-60-watts"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the charge for School Flasher, each additional increment of 60 watts of demand",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tc-u-2026-06-01-price-school-flasher-additional-60-watts"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tc-u-2026-06-01-price-dsm-c-school-flasher-additional-60-watts-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "gpc:tc-u-2026-06-01-psa-franchise-fee-location",
+          "urpx:name": "Municipal Franchise Fee MFF-11, by location of service",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "gpc:tc-u-2026-06-01-pa-franchise-fee-location"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tc-u-2026-06-01-psa-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tc-u-2026-06-01-pa-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-device-basic-service-charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-device-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-device-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-device-basic-service-charge-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-device-additional-60-watts",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-device-additional-60-watts"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the charge for Traffic Device, each additional increment of 60 watts of demand",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-device-additional-60-watts"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-device-additional-60-watts-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-flasher-basic-service-charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-flasher-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-flasher-basic-service-charge-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-flasher-additional-60-watts",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-flasher-additional-60-watts"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-additional-60-watts"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-traffic-flasher-additional-60-watts-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-school-flasher-basic-service-charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-school-flasher-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-school-flasher-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-school-flasher-basic-service-charge-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-school-flasher-additional-60-watts",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-school-flasher-additional-60-watts"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the charge for School Flasher, each additional increment of 60 watts of demand",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-school-flasher-additional-60-watts"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-school-flasher-additional-60-watts-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-energy",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the fuel charges",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-inside-city-limits-energy-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tc-u-2026-06-01-psa-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tc-u-2026-06-01-pa-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-device-basic-service-charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-device-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the charge for Traffic Device, Basic Service Charge (includes the first 60 watts of demand), per device",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-device-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-device-basic-service-charge-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-device-additional-60-watts",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-device-additional-60-watts"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the charge for Traffic Device, each additional increment of 60 watts of demand",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-device-additional-60-watts"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-device-additional-60-watts-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-flasher-basic-service-charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-flasher-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the charge for Traffic Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-flasher-basic-service-charge-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-flasher-additional-60-watts",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-traffic-flasher-additional-60-watts"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the charge for Traffic Flasher, each additional increment of 60 watts of demand",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-traffic-flasher-additional-60-watts"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-traffic-flasher-additional-60-watts-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-school-flasher-basic-service-charge",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-school-flasher-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the charge for School Flasher, Basic Service Charge (includes the first 60 watts of demand), per device",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-school-flasher-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-school-flasher-basic-service-charge-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-school-flasher-additional-60-watts",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-school-flasher-additional-60-watts"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the charge for School Flasher, each additional increment of 60 watts of demand",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-price-school-flasher-additional-60-watts"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-school-flasher-additional-60-watts-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-energy",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tc-u-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the fuel charges",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tc-u-2026-06-01-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tc-u-2026-06-01-price-mff-outside-city-limits-energy-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "gpc:tc-u"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-tc-u-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-tc-u-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 7 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Devices counts. Each device charge is priced per device of one kind. URPX v0.5.1 names no profile property for a count of devices of a kind, so each device's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the kind in its name, in the pattern of Jackson EMC's Schedule S-26; a consumer supplies the counts. (2) Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price. (3) Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule. (4) Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on each device charge's Price and on the fuel subtotal, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried. (5) Unmetered energy. The sheet bills each device by its demand, in 60-watt increments, and applies Fuel Cost Recovery to the bill, but states no monthly kWh for a device. FCR-27 is carried per kWh on a kWh MetricInput the consumer supplies; how the Company estimates an unmetered device's kWh is not stated and not carried. (6) Device and increment counts. The Basic Service Charge is per device, including its first 60 watts of demand, and each further 60 watts is priced per increment, so a consumer counts each device's watts above 60 in whole increments; how a part increment is counted is not stated. (7) Term of Contract. One year. Nothing is priced by it and it is not carried.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}
