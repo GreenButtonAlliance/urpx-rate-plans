@@ -1,0 +1,59 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "ciev"
+effective_date = "2023-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/ciev.pdf"
+  sha256 = "7cab3c4c59694e044e5f85b18f85e057e42bc02a01de4c1e9ec672b1833ab776"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "CIEV-1"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+CIEV-1 read with mineru-kit parse --tier standard; every value was checked
+against the PDF text.
+
+CIEV-1, page 12.40, Original, is effective "With Service Rendered on and after
+January 1, 2023", a calendar date, so the version begins 2023-01-01, and as
+the original sheet it is also the rider's first introduction.
+
+The rider names no docket for this revision, so the base regulator entry names
+none.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Modified Billing Demand. CIEV-1 prices nothing: it changes how the base schedule determines its Billing Demand. URPX v0.5.1 has no way for a modifier to replace a base schedule's calculated MetricInput, so the rider carries its Billing Demand as its own calculated MetricInput, its rule text in its CalculationMethod, and one PriceDefinition with no Price. Composing it with a base changes no price; a consumer has to compute the base schedule's hours-use bands and minimum bill on this Billing Demand instead of the base's.",
+  "Rider history. The factor depends on how many bills the customer has had on the rider and on its rolling 12-month load factor, neither of which the JSON-LD records; both are in the formula text. The rider may not be used with RTP-DA or RTP-HA.",
+  "Metering. The customer may be responsible for any additional cost of the equipment needed to meter or deliver the service. Nothing is priced by it and it is not carried.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power rider CIEV-1 as a RatePlanModifier."

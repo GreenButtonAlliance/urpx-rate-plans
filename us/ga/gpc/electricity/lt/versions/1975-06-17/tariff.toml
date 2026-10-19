@@ -1,0 +1,60 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "lt"
+effective_date = "1975-06-17"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/lt.pdf"
+  sha256 = "a6cb83c9a4c6064a328e829824e75cbd0b271fba4c691e9f327cbf915fdf5746"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "LT-1"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+LT-1 read with mineru-kit parse --tier standard; every value was checked
+against the PDF text.
+
+LT-1, page 10.70, Sixth revision, is effective "With Service Rendered on or
+After June 17, 1975", so the version begins 1975-06-17; the sheet does not say
+why it was revised, so urpx:changeReason is urpx:changeReasonOther.
+urpx:applicableToRatePlan names every Georgia Power schedule in the corpus,
+since it modifies "each filed rate of the Company".
+
+The rider names no docket for this revision, so the base regulator entry names
+none.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Pass-through amount. The adjustment is the customer's revenue-weighted share of the payments its political subdivision or taxing district collects from the Company, which the Company does not publish. The JSON-LD defines it as a monthly PriceDefinition with no Price, so a modeled bill omits it.",
+  "Jurisdiction. Whether a customer is within a subdivision whose payments LT-1 passes through is a custom condition, localTaxJurisdiction, that a consumer supplies; the sheet's exclusions of ad valorem taxes, appliance sales license taxes, special benefit assessments and franchise payments under provisos (a) to (c) are stated in the description.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power rider LT-1 as a RatePlanModifier."

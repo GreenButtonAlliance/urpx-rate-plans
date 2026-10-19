@@ -1,0 +1,290 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "gpc:doc-op-2023-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "gpc:op",
+        "urpx:name": "Schedule OP Off-Peak Service Rider",
+        "urpx:modifierUniqueIdentifier": "OP",
+        "urpx:initialEffectiveDate": "2023-01-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "gpc:op-2023-01-01",
+          "urpx:version": "2023-01-01",
+          "urpx:modifierVersionNumber": "2023-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:rateCase"
+          },
+          "urpx:description": "Georgia Power's off-peak service rider, OP-5, which a Power and Light (PLS, PLM, PLL) or Full Use Service to Governmental Institutions (G) customer may take upon request when it has off-peak usage. It prices nothing itself: it replaces the base schedule's Billing Demand with the greater of 60 percent of the highest off-peak demand in the current or preceding eleven months, or the billing demand the base rate determines from the on-peak demand, so the base schedule's hours-use bands and minimum bill are computed on less of the customer's off-peak load. Off-peak usage is power requirements at all hours during the billing months October through May, all weekends, the observed National Memorial Day, Independence Day and Labor Day, and 10:00 p.m. to 7:00 a.m. daily during the billing months June through September; on-peak usage is all other power requirements. The JSON-LD carries the modified Billing Demand as a calculated MetricInput whose rule is stated in its CalculationMethod, and one PriceDefinition with no Price. Dating: the sheet, page 12.00, Fifth revision, is effective \"With Service Rendered on and after January 1, 2023\", so this version begins 2023-01-01.",
+          "urpx:effectiveDateTime": "2023-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "gpc:pls"
+            },
+            {
+              "@id": "gpc:plm"
+            },
+            {
+              "@id": "gpc:pll"
+            },
+            {
+              "@id": "gpc:g"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "gpc:op-2023-01-01-data-source-reference",
+            "urpx:fileName": "op.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/op.pdf",
+            "urpx:dateRetrieved": "2026-10-16",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "gpc:op-2023-01-01-er-eligibility",
+              "urpx:name": "Eligibility for Schedule OP Off-Peak Service Rider",
+              "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity. Applicable upon request as a modification of the tariff schedules for Power and Light, and Full Use Service to Governmental Institutions, when off-peak usage exists. The customer may be responsible for any additional cost of installing and removing any equipment required to meter or deliver this service.",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:op-2023-01-01-cx-eligibility",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "gpc:op-2023-01-01-cn-eligibility",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "gpc:op-2023-01-01-cn-eligibility-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasProgramEnrollment"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "gpc:op-2023-01-01-cn-eligibility-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "gpc:program-op"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "gpc:op-2023-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "gpc:op-2023-01-01-mi-demand",
+                "urpx:name": "kW Demand (30-minute)",
+                "urpx:metricInputType": {
+                  "@id": "urpx:measuredMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "gpc:op-2023-01-01-ms-demand",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:demand"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kW"
+                  },
+                  "urpx:intervalDuration": "PT30M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:thirtyMinuteInterval"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "gpc:op-2023-01-01-mi-billing-demand",
+                "urpx:name": "Billing Demand as modified by OP-5 (kW)",
+                "urpx:description": "Billing Demand as modified by OP-5, for Schedules PLS, PLM, PLL and G: the greater of (1) 60 percent of the highest off-peak 30-minute demand in the current or preceding eleven months, or (2) the billing demand the applicable rate determines from the on-peak demand. Off-peak usage is power requirements at all hours during the billing months October through May, all weekends, the observed National Memorial Day, Independence Day and Labor Day, and 10:00 p.m. to 7:00 a.m. daily during the billing months June through September; on-peak usage is all other power requirements.",
+                "urpx:metricInputType": {
+                  "@id": "urpx:calculatedMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "gpc:op-2023-01-01-ms-billing-demand",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:demand"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kW"
+                  }
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "gpc:op-2023-01-01-mi-billing-demand-calculation-method",
+                  "urpx:calculationFormula": "max(0.60 * max(Doff, current and preceding eleven months), the base schedule's Billing Demand computed on Don); Doff, Don the 30-minute kW in the off-peak and on-peak periods",
+                  "urpx:calculatedBasedOn": [
+                    {
+                      "@id": "gpc:op-2023-01-01-mi-demand"
+                    }
+                  ]
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "gpc:op-2023-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "gpc:op-2023-01-01-ledger-billing-demand",
+                  "urpx:name": "Billing Demand as modified by OP-5",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "gpc:op-2023-01-01-mi-billing-demand"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "gpc:op-2023-01-01-pd-billing-demand",
+                  "urpx:name": "Billing Demand as modified by OP-5 (no price of its own: the base schedule's demand-based charges and hours-use bands are computed on it)",
+                  "urpx:chargeType": {
+                    "@id": "urpx:demandIndirect"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:infrastructure"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "gpc:op-2023-01-01-ledger-billing-demand"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "gpc:op-2023-01-01-prices"
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-gpc",
+            "urpx:legalName": "Georgia Power Company",
+            "urpx:organizationType": {
+              "@id": "urpx:utilityOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-gpc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-gpc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Georgia Power Company"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-gpc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "7140"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "gpc:op"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "gpc:cc-op-2023-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "gpc:cc-op-2023-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Modified Billing Demand. OP-5 prices nothing: it changes how the base schedule determines its Billing Demand. URPX v0.5.1 has no way for a modifier to replace a base schedule's calculated MetricInput, so the rider carries its Billing Demand as its own calculated MetricInput, its rule text in its CalculationMethod, and one PriceDefinition with no Price. Composing it with a base changes no price; a consumer has to compute the base schedule's hours-use bands and minimum bill on this Billing Demand instead of the base's. (2) Off-peak periods and billing months. The rider's off-peak and on-peak demands are defined by billing months (October through May off-peak at all hours; June through September off-peak 10:00 p.m. to 7:00 a.m., weekends and the observed holidays), stated in the Billing Demand's description, not as a TOU schedule, since no Price is priced in them. The PLS, PLM and PLL sheets also measure their Limitation of Service \"based on the percentages as stated in the riders\" for OP customers, which is not carried. (3) Metering and Term of Contract. The customer may be responsible for any additional cost of the equipment needed to meter or deliver the service, and the term is not less than one year on the selected schedule. Neither is priced on the sheet and neither is carried.",
+              "urpx:evaluatedOn": "2026-10-19T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "gpc:program-op",
+      "urpx:programName": "Off-Peak Service Rider (OP)",
+      "urpx:programType": {
+        "@id": "urpx:timeOfUseProgram"
+      }
+    }
+  ]
+}

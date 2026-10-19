@@ -1,0 +1,293 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@type": "urpx:URPXPackage",
+      "@id": "gpc:doc-vop-2014-01-01",
+      "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+      "urpx:hasRatePlanModifier": {
+        "@type": "urpx:RatePlanModifier",
+        "@id": "gpc:vop",
+        "urpx:name": "Schedule VOP Variable Off-Peak Service Rider",
+        "urpx:modifierUniqueIdentifier": "VOP",
+        "urpx:initialEffectiveDate": "2014-01-01",
+        "urpx:timezoneIdentifier": "America/New_York",
+        "urpx:hasRatePlanModifierVersion": {
+          "@type": "urpx:RatePlanModifierVersion",
+          "@id": "gpc:vop-2014-01-01",
+          "urpx:version": "2014-01-01",
+          "urpx:modifierVersionNumber": "2014-01-01",
+          "urpx:changeReason": {
+            "@id": "urpx:rateCase"
+          },
+          "urpx:description": "Georgia Power's variable off-peak service rider, VOP-3, which a Power and Light (PLS, PLM, PLL), School Service (SCH) or Full Use Service to Governmental Institutions (G) customer may take upon request when it has off-peak usage. It prices nothing itself: it replaces the base schedule's Billing Demand with the greater of a percent of the highest off-peak demand or a percent of the highest on-peak demand in the current and preceding eleven months, by the customer's choice of off-peak hours. Off-peak usage is power requirements at all hours during the billing months October through May, all weekends, the observed Memorial Day, Independence Day and Labor Day, and one of five sixteen hour periods daily during the billing months June through September: VOP-3B 6 p.m. to 10 a.m., VOP-3C 7 p.m. to 11 a.m., VOP-3D 8 p.m. to noon, VOP-3E 9 p.m. to 1 p.m. (each at 65 percent of off-peak and 100 percent of on-peak demand), or VOP-3F 10 p.m. to 2 p.m. (70 percent off-peak, 110 percent on-peak); on-peak usage is all other power requirements. The JSON-LD carries the modified Billing Demand as a calculated MetricInput whose rule is stated in its CalculationMethod, and one PriceDefinition with no Price. Dating: the sheet, page 12.10, Fourth revision, is effective \"With Service Rendered on and after January 1, 2014\", so this version begins 2014-01-01.",
+          "urpx:effectiveDateTime": "2014-01-01T00:00:00",
+          "urpx:priceCurrency": "USD",
+          "urpx:commodity": {
+            "@id": "urpx:electricity"
+          },
+          "urpx:serviceRole": {
+            "@id": "urpx:bundledServiceRole"
+          },
+          "urpx:applicableToRatePlan": [
+            {
+              "@id": "gpc:pls"
+            },
+            {
+              "@id": "gpc:plm"
+            },
+            {
+              "@id": "gpc:pll"
+            },
+            {
+              "@id": "gpc:sch"
+            },
+            {
+              "@id": "gpc:g"
+            }
+          ],
+          "urpx:hasDataSourceReference": {
+            "@type": "urpx:DataSourceReference",
+            "@id": "gpc:vop-2014-01-01-data-source-reference",
+            "urpx:fileName": "vop.pdf",
+            "urpx:mediaType": {
+              "@id": "urpx:applicationPdf"
+            },
+            "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/vop.pdf",
+            "urpx:dateRetrieved": "2026-10-16",
+            "urpx:dataSourceType": {
+              "@id": "urpx:utilityWebsiteSource"
+            },
+            "urpx:pageStart": 1,
+            "urpx:pageEnd": 1
+          },
+          "urpx:hasEligibilityRule": [
+            {
+              "@type": "urpx:EligibilityRule",
+              "@id": "gpc:vop-2014-01-01-er-eligibility",
+              "urpx:name": "Eligibility for Schedule VOP Variable Off-Peak Service Rider",
+              "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity. Applicable upon request as a modification of the tariff schedules for Power and Light, School Service and Full Use Service to Governmental Institutions, when off-peak usage exists. The customer may be responsible for any additional cost of installing and removing any equipment required to meter or deliver this service.",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:vop-2014-01-01-cx-eligibility",
+                "urpx:rootNode": {
+                  "@type": "urpx:ComparisonNode",
+                  "@id": "gpc:vop-2014-01-01-cn-eligibility",
+                  "urpx:operator": {
+                    "@id": "urpx:equalsOperator"
+                  },
+                  "urpx:leftOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "gpc:vop-2014-01-01-cn-eligibility-left-operand",
+                    "urpx:conditionProperty": {
+                      "@id": "urpx:hasProgramEnrollment"
+                    }
+                  },
+                  "urpx:rightOperand": {
+                    "@type": "urpx:ObjectOperandNode",
+                    "@id": "gpc:vop-2014-01-01-cn-eligibility-right-operand",
+                    "urpx:referencesValue": {
+                      "@id": "gpc:program-vop"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "urpx:hasPlanElements": {
+            "@type": "urpx:PlanElements",
+            "@id": "gpc:vop-2014-01-01-plan-elements",
+            "urpx:hasMetricInput": [
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "gpc:vop-2014-01-01-mi-demand",
+                "urpx:name": "kW Demand (30-minute)",
+                "urpx:metricInputType": {
+                  "@id": "urpx:measuredMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "gpc:vop-2014-01-01-ms-demand",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:demand"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kW"
+                  },
+                  "urpx:intervalDuration": "PT30M",
+                  "urpx:intervalType": {
+                    "@id": "urpx:thirtyMinuteInterval"
+                  }
+                }
+              },
+              {
+                "@type": "urpx:MetricInput",
+                "@id": "gpc:vop-2014-01-01-mi-billing-demand",
+                "urpx:name": "Billing Demand as modified by VOP-3 (kW)",
+                "urpx:description": "Billing Demand as modified by VOP-3, for Schedules PLS, PLM, PLL, SCH and G: the greater of the applicable percent of the highest off-peak or on-peak 30-minute kW in the current and preceding eleven months, by the customer's VOP-3B to VOP-3F option, and in no case less than the greatest of the contract minimum, 50 percent of the total contract capacity, or the demand minimums of the base schedule; on School Service, for the billing months June through September, the lesser of the current actual demand or the demand by the applicable percent. Off-peak usage is power requirements at all hours during the billing months October through May, all weekends, the observed Memorial Day, Independence Day and Labor Day, and one of five sixteen hour periods daily during the billing months June through September: VOP-3B 6 p.m. to 10 a.m., VOP-3C 7 p.m. to 11 a.m., VOP-3D 8 p.m. to noon, VOP-3E 9 p.m. to 1 p.m. (each at 65 percent of off-peak and 100 percent of on-peak demand), or VOP-3F 10 p.m. to 2 p.m. (70 percent off-peak, 110 percent on-peak); on-peak usage is all other power requirements.",
+                "urpx:metricInputType": {
+                  "@id": "urpx:calculatedMetricInput"
+                },
+                "urpx:hasMetricSpecification": {
+                  "@type": "urpx:MetricSpecification",
+                  "@id": "gpc:vop-2014-01-01-ms-billing-demand",
+                  "urpx:measurementKind": {
+                    "@id": "urpx:demand"
+                  },
+                  "urpx:unitOfMeasure": {
+                    "@id": "urpx:kW"
+                  }
+                },
+                "urpx:hasCalculationMethod": {
+                  "@type": "urpx:CalculationMethod",
+                  "@id": "gpc:vop-2014-01-01-mi-billing-demand-calculation-method",
+                  "urpx:calculationFormula": "max(pOff * max(Doff), pOn * max(Don)) over the current and preceding eleven months, floor max(contract minimum, 0.50 * contract capacity, base schedule minimum); (pOff, pOn) = (0.65, 1.00) for VOP-3B to 3E, (0.70, 1.10) for VOP-3F; SCH June-September: min(D, that value)",
+                  "urpx:calculatedBasedOn": [
+                    {
+                      "@id": "gpc:vop-2014-01-01-mi-demand"
+                    }
+                  ]
+                }
+              }
+            ],
+            "urpx:hasBillingModel": {
+              "@type": "urpx:BillingModel",
+              "@id": "gpc:vop-2014-01-01-plan-elements-billing-model",
+              "urpx:hasLedger": [
+                {
+                  "@type": "urpx:Ledger",
+                  "@id": "gpc:vop-2014-01-01-ledger-billing-demand",
+                  "urpx:name": "Billing Demand as modified by VOP-3",
+                  "urpx:ledgerType": {
+                    "@id": "urpx:bundledLedger"
+                  },
+                  "urpx:referencesMetricInput": {
+                    "@id": "gpc:vop-2014-01-01-mi-billing-demand"
+                  }
+                }
+              ],
+              "urpx:hasPriceDefinition": [
+                {
+                  "@type": "urpx:PriceDefinition",
+                  "@id": "gpc:vop-2014-01-01-pd-billing-demand",
+                  "urpx:name": "Billing Demand as modified by VOP-3 (no price of its own: the base schedule's demand-based charges and hours-use bands are computed on it)",
+                  "urpx:chargeType": {
+                    "@id": "urpx:demandIndirect"
+                  },
+                  "urpx:chargeCategory": {
+                    "@id": "urpx:infrastructure"
+                  },
+                  "urpx:billPortion": {
+                    "@id": "urpx:bundledPortion"
+                  },
+                  "urpx:referencesLedger": {
+                    "@id": "gpc:vop-2014-01-01-ledger-billing-demand"
+                  }
+                }
+              ]
+            }
+          },
+          "urpx:hasPrices": {
+            "@type": "urpx:Prices",
+            "@id": "gpc:vop-2014-01-01-prices"
+          },
+          "urpx:offeredBy": {
+            "@type": "urpx:UtilityOperator",
+            "@id": "org:utility-gpc",
+            "urpx:legalName": "Georgia Power Company",
+            "urpx:organizationType": {
+              "@id": "urpx:utilityOrganization"
+            },
+            "urpx:hasIdentity": {
+              "@id": "org:utility-gpc-identity",
+              "@type": "urpx:OrganizationIdentity",
+              "urpx:hasName": {
+                "@id": "org:utility-gpc-name",
+                "@type": "urpx:OrganizationName",
+                "urpx:name": "Georgia Power Company"
+              },
+              "urpx:hasIdentifier": {
+                "@id": "org:utility-gpc-eia",
+                "@type": "urpx:OrganizationIdentifier",
+                "urpx:scheme": {
+                  "@id": "urpx:eiaScheme"
+                },
+                "skos:notation": "7140"
+              }
+            }
+          },
+          "urpx:forRatePlanModifier": {
+            "@id": "gpc:vop"
+          },
+          "urpx:hasCoverageClaim": {
+            "@id": "gpc:cc-vop-2014-01-01",
+            "@type": "urpx:CoverageClaim",
+            "urpx:completenessResult": {
+              "@id": "urpx:partial"
+            },
+            "urpx:selfContained": true,
+            "urpx:explainedBy": {
+              "@type": "urpx:Evaluation",
+              "@id": "gpc:cc-vop-2014-01-01-evaluation",
+              "urpx:evaluationKind": {
+                "@id": "urpx:coverageEvaluation"
+              },
+              "urpx:description": "This filing does not carry everything its source document states. 3 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Modified Billing Demand. VOP-3 prices nothing: it changes how the base schedule determines its Billing Demand. URPX v0.5.1 has no way for a modifier to replace a base schedule's calculated MetricInput, so the rider carries its Billing Demand as its own calculated MetricInput, its rule text in its CalculationMethod, and one PriceDefinition with no Price. Composing it with a base changes no price; a consumer has to compute the base schedule's hours-use bands and minimum bill on this Billing Demand instead of the base's. (2) Off-peak options and billing months. The customer chooses one of VOP-3B to VOP-3F, sixteen hour summer off-peak periods starting 6:00 p.m. to 10:00 p.m., each with its off-peak and on-peak percentages; the options price nothing, so they are stated in the Billing Demand's description and formula rather than as ProfileAlternatives, which need a PriceSetAlternative with a Price. The periods are defined by billing months. The PLS, PLM and PLL sheets also measure their Limitation of Service \"based on the percentages as stated in the riders\" for VOP customers, which is not carried. (3) Metering and Term of Contract. The customer may be responsible for any additional cost of the equipment needed to meter or deliver the service, and the term is not less than one year on the selected schedule. Neither is priced on the sheet and neither is carried.",
+              "urpx:evaluatedOn": "2026-10-19T00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "urpx:ProgramEnrollment",
+      "@id": "gpc:program-vop",
+      "urpx:programName": "Variable Off-Peak Service Rider (VOP)",
+      "urpx:programType": {
+        "@id": "urpx:timeOfUseProgram"
+      }
+    }
+  ]
+}

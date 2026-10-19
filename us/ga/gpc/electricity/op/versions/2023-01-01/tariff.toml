@@ -1,0 +1,60 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "op"
+effective_date = "2023-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/op.pdf"
+  sha256 = "3cf71d191c23a72afe78308f695233c44116aed23ace7089fa55c4046bb9f7a4"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "OP-5"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+OP-5 read with mineru-kit parse --tier standard; every value was checked
+against the PDF text.
+
+OP-5, page 12.00, Fifth revision, is effective "With Service Rendered on and
+after January 1, 2023", a calendar date, so the version begins 2023-01-01.
+January 1, 2023 is when the base rates decided in docket 44280 took effect, so
+urpx:changeReason is urpx:rateCase, as for FLAT-7.
+
+The rider names no docket for this revision, so the base regulator entry names
+none.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Modified Billing Demand. OP-5 prices nothing: it changes how the base schedule determines its Billing Demand. URPX v0.5.1 has no way for a modifier to replace a base schedule's calculated MetricInput, so the rider carries its Billing Demand as its own calculated MetricInput, its rule text in its CalculationMethod, and one PriceDefinition with no Price. Composing it with a base changes no price; a consumer has to compute the base schedule's hours-use bands and minimum bill on this Billing Demand instead of the base's.",
+  "Off-peak periods and billing months. The rider's off-peak and on-peak demands are defined by billing months (October through May off-peak at all hours; June through September off-peak 10:00 p.m. to 7:00 a.m., weekends and the observed holidays), stated in the Billing Demand's description, not as a TOU schedule, since no Price is priced in them. The PLS, PLM and PLL sheets also measure their Limitation of Service \"based on the percentages as stated in the riders\" for OP customers, which is not carried.",
+  "Metering and Term of Contract. The customer may be responsible for any additional cost of the equipment needed to meter or deliver the service, and the term is not less than one year on the selected schedule. Neither is priced on the sheet and neither is carried.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power rider OP-5 as a RatePlanModifier."
