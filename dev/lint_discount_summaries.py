@@ -306,8 +306,32 @@ def expected_generation(path: Path) -> list[str]:
                       .get("urpx:billPortion")) == "urpx:supplyPortion"]
 
 
-def expected_by_charge_type(path: Path, charge_types: set[str]) -> list[str]:
-    """Prices whose PriceDefinition is billed as one of `charge_types`."""
+def alternative_scopes(node, scope=None, out=None) -> dict[str, str | None]:
+    """@id -> the urpx:PriceSetAlternative it sits inside, or None."""
+    out = {} if out is None else out
+    if isinstance(node, dict):
+        # A bare {"@id": ...} is a reference, not where the node sits.
+        if node.get("@id") and node_type(node):
+            out[node["@id"]] = scope
+        if node_type(node) == "urpx:PriceSetAlternative":
+            scope = node.get("@id")
+        for k, v in node.items():
+            if k != "@context":
+                alternative_scopes(v, scope, out)
+    elif isinstance(node, list):
+        for v in node:
+            alternative_scopes(v, scope, out)
+    return out
+
+
+def expected_by_charge_type(path: Path, charge_types: set[str], summary_id: str) -> list[str]:
+    """Prices whose PriceDefinition is billed as one of `charge_types`.
+
+    A subtotal inside a PriceSetAlternative sums the Prices every alternative
+    shares and its own alternative's, never another alternative's: GPC's
+    business schedules carry one franchise fee subtotal per voltage level,
+    each over that level's fuel prices.
+    """
     doc = json.loads(path.read_text(encoding="utf-8"))
     pds: dict[str, dict] = {}
     prices: list[dict] = []
@@ -320,8 +344,11 @@ def expected_by_charge_type(path: Path, charge_types: set[str]) -> list[str]:
             prices.append(d)
 
     walk(doc, visit)
+    scopes = alternative_scopes(doc)
     out = []
     for p in prices:
+        if scopes.get(p["@id"]) not in (None, scopes.get(summary_id)):
+            continue
         pd = pds.get(ref_id(p.get("urpx:referencesPriceDefinition"))) or {}
         if {ref_id(x) for x in as_list(pd.get("urpx:chargeType"))} & charge_types:
             out.append(p["@id"])
@@ -686,7 +713,7 @@ def check(files) -> tuple[list[dict], dict]:
         typed = next((types for suffix, types in CHARGE_TYPE_SUMMARIES.get(utility, {}).items()
                       if sid.endswith(suffix)), None)
         want = (expected_generation(path) if sid.endswith(GENERATION) else
-                expected_by_charge_type(path, typed) if typed else
+                expected_by_charge_type(path, typed, sid) if typed else
                 expected(path, utility, "care" if program == "shared" else program))
         missing = sorted(set(want) - set(members))
         extra = sorted(set(members) - set(want))
