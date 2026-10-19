@@ -1,0 +1,74 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "pbd"
+effective_date = "2023-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/residential/rate-plans/pay-by-day.html"
+url = "https://web.archive.org/web/20230617021639id_/https://www.georgiapower.com/content/dam/georgia-power/pdfs/residential-pdfs/tariffs/2023/PBD-1.pdf"
+sha256 = "44fc3c23e0ac76ffe1b1359d0984087aaac3631e172524af706feb7f045c4713"
+retrieved_on = "2026-10-19"
+media_type = "application/pdf"
+filing_type = "tariff-schedule"
+filing_id = "PBD-1"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+# The sheet names no docket.
+[regulator]
+authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "pdftotext"
+tool_version = "26.01.0"
+extracted_on = "2026-10-19"
+notes = """
+PBD-1's Second revision is three pages of prose and formulas with no rate
+table, read with pdftotext -layout rather than MinerU, and compared line by
+line with the Third revision's text. The sheet is the Internet Archive's
+capture of 2023-06-17 of .../pdfs/residential-pdfs/tariffs/2023/PBD-1.pdf,
+which Georgia Power no longer serves.
+
+Differences from the Third revision. The Usage Charges and the Basic Service
+Charge include Nuclear Construction Cost Recovery (NCCR), and the daily amount
+includes the NCCR schedule; and in place of the Income Qualified Discount,
+certified customers receive a senior citizen discount under the heading
+Income-Qualified Senior Citizen Discount. Every other provision reads the
+same.
+
+Dating. The sheet, revision Second, is effective "With Bills Rendered for the
+Billing Month of January, 2023", so this version begins 2023-01-01, the
+billing-month reading IQD-1 uses, and ends at 2024-05-01, where the Third
+revision's begins. January 2023 is when the base rates decided in docket 44280
+took effect, so urpx:changeReason is urpx:rateCase, as for OP-5.
+
+urpx:initialEffectiveDate carries the date of the earliest version the corpus
+holds, the First revision's 2020-01-01, on every version. A First revision
+implies an earlier original sheet, whose date is not known.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Pay by Day Daily Price. The sheet bills each premises a fixed daily price computed from the customer's expected usage, Schedule PPS's charges with ECCR, NCCR, DSM-R, FCR, the Municipal Franchise Fee and applicable taxes, and a Risk Adder of up to 10 percent, none of which it publishes for any premises. The JSON-LD defines the price as a usage-independent daily PriceDefinition and carries no Price for it, so a bill on this filing alone has no charge; the formula is in the version description only.",
+  "Offer conditions. The sheet limits Pay by Day to customers who have been in their current residence and had their electricity priced on a residential tariff over the previous 12 months, and requires AMI with reconnect/disconnect functionality and acceptable network coverage. The EligibilityRule carries residential customer kind; these conditions are in its description only.",
+  "Pre-payment terms. The sheet requires a $40.00 minimum positive balance to connect, disconnects service when the balance reaches $0.00, requires a minimum payment covering usage up to disconnection, any reconnect fees under Rule F3 and a $5.00 minimum pre-payment to reconnect, and adds any Account Establishment Charge under Rule E2 before connection. None of these is a price per unit of service and none is carried.",
+  "Early withdrawal. A customer who leaves before the end of the 12-month contract may be required to pay the excess of the Pre-Pay Service bill for the electricity actually used over the Pay by Day amounts billed, with no refund where it is less. No Price carries it.",
+  "Return to the traditional tariff. Where a customer's monthly usage, excluding the effects of weather, is 50 percent greater than in the same month of the previous year, the Company may return the customer to the traditional tariff for the rest of the contract, under the same withdrawal terms. Nothing here carries it.",
+  "Senior citizen discount. Under the heading Income-Qualified Senior Citizen Discount, the sheet gives customers the Company certifies a senior citizen discount based on the definitions in the Residential Service and Fuel Cost Recovery schedules, applied as a daily credit. Those definitions are not in the corpus and no modifier carries the discount, so a modeled bill omits it.",
+]
+applicable_modifiers = ["iqd", "lt", "opt"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Prior version of the Georgia Power schedule, derived from its successor's filing. Structural: the Pay by Day price is computed for each premises, so the filing carries its PriceDefinition and formula but no Price."

@@ -146,7 +146,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | gpc | olng | rate-plan | 2026-06-01 |
 | GA | gpc | op | modifier | 2023-01-01 |
 | GA | gpc | opt | modifier | 2026-06-01 |
-| GA | gpc | pbd | rate-plan | 2024-05-01 |
+| GA | gpc | pbd | rate-plan | 2020-01-01, 2023-01-01, 2024-05-01 |
 | GA | gpc | pll | rate-plan | 2026-06-01 |
 | GA | gpc | plm | rate-plan | 2026-06-01 |
 | GA | gpc | pls | rate-plan | 2026-06-01 |

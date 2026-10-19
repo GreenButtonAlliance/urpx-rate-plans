@@ -1,0 +1,244 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-pbd-2023-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "gpc:pbd",
+    "urpx:name": "Schedule PBD Pay by Day Service",
+    "urpx:ratePlanUniqueIdentifier": "PBD",
+    "urpx:initialEffectiveDate": "2020-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "gpc:pbd-2023-01-01",
+      "urpx:description": "Georgia Power's Pay by Day schedule, PBD-1: a fixed daily price, paid in advance, for a one-year contract, computed by the Company for each premises from its own metered usage history. The sheet states the formula, not an amount: Monthly Amount = [Expected Monthly Usage × Usage Charges × (1 + Risk Adder %)] + Basic Service Charge + applicable taxes; the Annual Amount is the sum of the 12 monthly amounts; the Pay by Day Daily Price is the Annual Amount divided by the number of days in the contract period, and is also the Minimum Daily Charge. Expected Monthly Usage is the customer's historical metered usage adjusted for normal weather (Georgia's seasonal heating and cooling degree-days) and changes in customer behavior. Usage Charges are the energy charges of the Pre-Pay Service schedule (gpc:pps) including ECCR, Nuclear Construction Cost Recovery (NCCR), DSM-R and Fuel Cost Recovery; the Basic Service Charge is Pre-Pay Service's, including ECCR, NCCR and DSM-R; the Municipal Franchise Fee is included; and the Risk Adder, for weather and non-weather consumption risk, does not exceed 10 percent. The daily price is carried here as one usage-independent daily PriceDefinition with no Price, because it differs for every premises; every rider the sheet names is inside that price, so none is carried separately. A customer who leaves early pays any excess of the Pre-Pay Service bill for the electricity actually used over the Pay by Day amounts paid. Under the heading Income-Qualified Senior Citizen Discount, certified customers receive a senior citizen discount, defined in the Residential Service and Fuel Cost Recovery schedules and applied as a daily credit, which is not carried. Dating: the sheet, revision Second, is effective \"With Bills Rendered for the Billing Month of January, 2023\", so this version begins 2023-01-01, the billing-month reading IQD-1 uses, and ends at 2024-05-01, where the Third revision's begins. January 2023 is when the base rates decided in docket 44280 took effect, so urpx:changeReason is urpx:rateCase, as for OP-5.",
+      "urpx:effectiveDateTime": "2023-01-01T00:00:00",
+      "urpx:expirationDateTime": "2024-05-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "urpx:fileName": "PBD-1.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://web.archive.org/web/20230617021639id_/https://www.georgiapower.com/content/dam/georgia-power/pdfs/residential-pdfs/tariffs/2023/PBD-1.pdf",
+        "urpx:dateRetrieved": "2026-10-19",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 3
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:pbd-2023-01-01-er-residential",
+          "urpx:name": "Eligibility for Schedule PBD Pay by Day Service",
+          "urpx:description": "For all domestic uses of a residential customer in a separately metered dwelling unit, except customers who have health or safety risks associated with the loss of service, who have been in their current residence and had their electricity priced on a residential tariff over the previous 12 months. Every customer must have Automated Metering Infrastructure (AMI) with reconnect/disconnect functionality and acceptable network coverage. Available throughout the Company's service area from existing lines of adequate capacity; single phase, 60 hertz, at a standard voltage.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:pbd-2023-01-01-cx-residential",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:pbd-2023-01-01-cn-residential",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:pbd-2023-01-01-cn-residential-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:pbd-2023-01-01-cn-residential-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:residentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:pbd-2023-01-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:pbd-2023-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:pbd-2023-01-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:pbd-2023-01-01-ledger-amount",
+              "urpx:name": "Pay by Day Daily Price",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:pbd-2023-01-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:pbd-2023-01-01-pd-amount",
+              "urpx:name": "Pay by Day Daily Price, computed for each premises",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:pbd-2023-01-01-pd-amount-calculation-method",
+                "urpx:intervalDuration": "P1D"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:pbd-2023-01-01-ledger-amount"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:pbd-2023-01-01-prices"
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "gpc:pbd"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-pbd-2023-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-pbd-2023-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 6 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Pay by Day Daily Price. The sheet bills each premises a fixed daily price computed from the customer's expected usage, Schedule PPS's charges with ECCR, NCCR, DSM-R, FCR, the Municipal Franchise Fee and applicable taxes, and a Risk Adder of up to 10 percent, none of which it publishes for any premises. The JSON-LD defines the price as a usage-independent daily PriceDefinition and carries no Price for it, so a bill on this filing alone has no charge; the formula is in the version description only. (2) Offer conditions. The sheet limits Pay by Day to customers who have been in their current residence and had their electricity priced on a residential tariff over the previous 12 months, and requires AMI with reconnect/disconnect functionality and acceptable network coverage. The EligibilityRule carries residential customer kind; these conditions are in its description only. (3) Pre-payment terms. The sheet requires a $40.00 minimum positive balance to connect, disconnects service when the balance reaches $0.00, requires a minimum payment covering usage up to disconnection, any reconnect fees under Rule F3 and a $5.00 minimum pre-payment to reconnect, and adds any Account Establishment Charge under Rule E2 before connection. None of these is a price per unit of service and none is carried. (4) Early withdrawal. A customer who leaves before the end of the 12-month contract may be required to pay the excess of the Pre-Pay Service bill for the electricity actually used over the Pay by Day amounts billed, with no refund where it is less. No Price carries it. (5) Return to the traditional tariff. Where a customer's monthly usage, excluding the effects of weather, is 50 percent greater than in the same month of the previous year, the Company may return the customer to the traditional tariff for the rest of the contract, under the same withdrawal terms. Nothing here carries it. (6) Senior citizen discount. Under the heading Income-Qualified Senior Citizen Discount, the sheet gives customers the Company certifies a senior citizen discount based on the definitions in the Residential Service and Fuel Cost Recovery schedules, applied as a daily credit. Those definitions are not in the corpus and no modifier carries the discount, so a modeled bill omits it.",
+          "urpx:evaluatedOn": "2026-10-17T00:00:00"
+        }
+      }
+    }
+  }
+}
