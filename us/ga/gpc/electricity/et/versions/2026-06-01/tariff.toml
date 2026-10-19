@@ -1,0 +1,129 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "et"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule ET customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/et.pdf"
+  sha256 = "4095edebb9d505c62d2576a7585b200252c4f8ecdadba26e0b143b6377e801c9"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ET-23"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+ET-23 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. FCR-27, ECCR-15 and MFF-11 were read from the PDF text
+directly.
+
+ET-23 prices all energy by six periods. Periods 2, 5 and 6 run past midnight
+(8 p.m. to 1 a.m., 5 a.m. to 1 a.m.), and a TimeBracket covers one calendar
+day, so the hour after midnight is carried on the next day, chosen by
+urpx:customDays and urpx:daysOfWeek: Tuesday through Saturday's take Period 2
+in summer and Period 6 in winter, Sunday and Monday's take Period 5. Periods 1
+and 2 have the same price and are kept as two periods, as the sheet numbers
+them. Period 4 is priced at 0.0000 cents. The sheet applies ECCR, Fuel Cost
+Recovery and the Municipal Franchise Fee and names no Demand Side Management
+schedule, so none is carried. Its Type of Service, three phase at 19,800 volts
+or higher, is never FCR-27's Secondary Distribution, so the voltage dimension
+has two values.
+
+Riders. FCR-27, ECCR-15 and MFF-11 are Prices on the base, as on Schedule R.
+FCR-27's Primary Distribution and Transmission rates and MFF-11's inside and
+outside city limits rates are crossed in one ProfileAlternatives set; its
+voltage dimension is urpx:voltageLevel, whose values are urpx:primaryVoltage
+and urpx:transmissionVoltage. Each alternative's PriceSetAlternative carries
+its own franchise fee energy subtotal, the base energy prices plus its voltage
+level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). ET-23 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No ET bill was available to check
+it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Fuel seasons by billing month, and period months. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. ET-23's period table names its months (JUNE-SEP, OCT-MAY) without saying whether they are calendar or billing months. The JSON-LD gates the fuel prices and the periods on calendar months, so usage in the weeks a billing period runs ahead of its billing month may take the other season's prices.",
+  "Voltage level and franchise fee location. ET-23 serves at 19,800 volts or higher, which FCR-27 classes as Primary Distribution or Transmission. Those two voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of four alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Primary Distribution inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 amount. Its multiplier Price here is based on the energy-and-fuel subtotal, not on the ECCR multiplier Price, so the franchise fee on that amount, about 0.40 percent of the base bill inside city limits, is not carried.",
+  "Hour after midnight at a season change. The hour after midnight takes the period of the day before, which the JSON-LD gates on the calendar month of that hour, so the first hour of October 1 and of June 1 takes the new season's after-midnight period, for example Period 6 at 5.2485 cents in the first hour of an October 1 that falls Tuesday through Saturday, where the sheet's Period 2 from September 30 is 5.6367 cents.",
+  "Term of Contract. Twenty years with automatic renewal for successive periods of five years. Nothing is priced by it and it is not carried.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."

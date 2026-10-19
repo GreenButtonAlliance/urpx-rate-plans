@@ -29,9 +29,9 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 257
-   :scenario-cost-models 7559
-   :servable 231
+  {:compositions 263
+   :scenario-cost-models 7593
+   :servable 237
    :not-priced-per-kwh 16
    :blocked 6
    :not-measured 4}
@@ -263,6 +263,18 @@
    :selections 16
    :outcome :servable
    :baseline-keys ["compose|us/ca/cpau/electricity/e-hra/versions/2023-01-01/rate-plan-modifier_cpau_e-hra_2023-01-01.jsonld|cpau:e-7-tou"]}
+  {:base "gpc:aps-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:aps-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/aps/versions/2026-06-01/rate-plan_gpc_aps_2026-06-01.jsonld"]}
+  {:base "gpc:et-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:et-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 4
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/et/versions/2026-06-01/rate-plan_gpc_et_2026-06-01.jsonld"]}
   {:base "gpc:flat-2024-05-01"
    :modifiers []
    :open-dimensions []
@@ -277,6 +289,12 @@
    :outcome :not-priced-per-kwh
    :reason ":no-energy-ledger"
    :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:flat"]}
+  {:base "gpc:fs-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:fs-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/fs/versions/2026-06-01/rate-plan_gpc_fs_2026-06-01.jsonld"]}
   {:base "gpc:g-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:g-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -289,6 +307,12 @@
    :selections 6
    :outcome :servable
    :baseline-keys ["plan|us/ga/gpc/electricity/gs/versions/2026-06-01/rate-plan_gpc_gs_2026-06-01.jsonld"]}
+  {:base "gpc:iop-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:iop-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/iop/versions/2026-06-01/rate-plan_gpc_iop_2026-06-01.jsonld"]}
   {:base "gpc:ogs-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:ogs-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -351,6 +375,18 @@
    :selections 2
    :outcome :servable
    :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:r"]}
+  {:base "gpc:sas-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:sas-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/sas/versions/2026-06-01/rate-plan_gpc_sas_2026-06-01.jsonld"]}
+  {:base "gpc:sas-nd-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:sas-nd-2026-06-01-pa-voltage-level-franchise-fee-location"]
+   :selections 6
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/sas-nd/versions/2026-06-01/rate-plan_gpc_sas-nd_2026-06-01.jsonld"]}
   {:base "gpc:sch-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:sch-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -2333,12 +2369,60 @@
   "https://rate-plans.grid-coordination.energy/cpau/scm-e-7-tou-2026-07-01--e-hra-2023-01-01--fa3cfd326d37"
   {:name "Large Non-Residential Electric Time of Use Service [cpau:e-7-tou-2026-07-01] + Electric Hydro Rate Adjuster [cpau:e-hra-2023-01-01]; Reserve 25%–75% / Generation under 319 GWh/year"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--1d02f20c3f19"
+  {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Secondary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--2ccd25b8c733"
+  {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--4131783d8cf7"
+  {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--65a98cc7e985"
+  {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--d72fe5658d3d"
+  {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--ec28226ab1fe"
+  {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-et-2026-06-01--27e3b15c72d1"
+  {:name "Schedule ET Electric Transportation Service [gpc:et-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-et-2026-06-01--888515ad1776"
+  {:name "Schedule ET Electric Transportation Service [gpc:et-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-et-2026-06-01--c77fbd3fb4a4"
+  {:name "Schedule ET Electric Transportation Service [gpc:et-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-et-2026-06-01--e0658244e741"
+  {:name "Schedule ET Electric Transportation Service [gpc:et-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-flat-2024-05-01"
   {:name "Schedule FLAT FlatBill [gpc:flat-2024-05-01]"
    :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/gpc/scm-flat-2024-05-01--iqd-2024-05-01"
   {:name "Schedule FLAT FlatBill [gpc:flat-2024-05-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]"
    :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--6e251188339e"
+  {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--94980ad3718a"
+  {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--964c7b7e8b94"
+  {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--a76ee1d91270"
+  {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--dd3480e8c420"
+  {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Secondary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-fs-2026-06-01--e4450565ac7d"
+  {:name "Schedule FS Farm Service [gpc:fs-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-g-2026-06-01--023e361708fa"
   {:name "Schedule G Full Use Service to Governmental Institutions [gpc:g-2026-06-01]; Transmission customer, inside city limits"
    :outcome :servable}
@@ -2374,6 +2458,24 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-gs-2026-06-01--fd5258096244"
   {:name "Schedule GS General Service [gpc:gs-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-iop-2026-06-01--1ad444dcfc10"
+  {:name "Schedule IOP Irrigation Off-Peak Service [gpc:iop-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-iop-2026-06-01--6d869587af15"
+  {:name "Schedule IOP Irrigation Off-Peak Service [gpc:iop-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-iop-2026-06-01--7a53f5f9d1e0"
+  {:name "Schedule IOP Irrigation Off-Peak Service [gpc:iop-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-iop-2026-06-01--c6a06a338197"
+  {:name "Schedule IOP Irrigation Off-Peak Service [gpc:iop-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-iop-2026-06-01--d6554ffad19d"
+  {:name "Schedule IOP Irrigation Off-Peak Service [gpc:iop-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-iop-2026-06-01--fd3f3d29bb4f"
+  {:name "Schedule IOP Irrigation Off-Peak Service [gpc:iop-2026-06-01]; Secondary Distribution customer, outside city limits"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-ogs-2026-06-01--10fa20d7a2b7"
   {:name "Schedule OGS Optional General Service [gpc:ogs-2026-06-01]; Primary Distribution customer, outside city limits"
@@ -2476,6 +2578,42 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-r-2026-06-01--iqd-2024-05-01--e7c4ac873199"
   {:name "Schedule R Residential Service [gpc:r-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--225080fe79cb"
+  {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Secondary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--2d891e4a2fa3"
+  {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--874c7c6d3c41"
+  {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--bbfe9cc84a94"
+  {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--f48f6ae9db57"
+  {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--fd086bf06a39"
+  {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-nd-2026-06-01--017f1c03e752"
+  {:name "Schedule SAS-ND Seasonal Agricultural Service - Non-Demand [gpc:sas-nd-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-nd-2026-06-01--17304f07bef6"
+  {:name "Schedule SAS-ND Seasonal Agricultural Service - Non-Demand [gpc:sas-nd-2026-06-01]; Secondary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-nd-2026-06-01--45e4d0a1d0d0"
+  {:name "Schedule SAS-ND Seasonal Agricultural Service - Non-Demand [gpc:sas-nd-2026-06-01]; Primary Distribution customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-nd-2026-06-01--7eae37f4a94a"
+  {:name "Schedule SAS-ND Seasonal Agricultural Service - Non-Demand [gpc:sas-nd-2026-06-01]; Primary Distribution customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-nd-2026-06-01--b0c61710498d"
+  {:name "Schedule SAS-ND Seasonal Agricultural Service - Non-Demand [gpc:sas-nd-2026-06-01]; Transmission customer, outside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-sas-nd-2026-06-01--b54c41f3e1bc"
+  {:name "Schedule SAS-ND Seasonal Agricultural Service - Non-Demand [gpc:sas-nd-2026-06-01]; Secondary Distribution customer, outside city limits"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-sch-2026-06-01--12986edf8832"
   {:name "Schedule SCH School Service [gpc:sch-2026-06-01]; Transmission customer, inside city limits"

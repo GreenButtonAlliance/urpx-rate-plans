@@ -13,7 +13,7 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **137**
+- Base RatePlan filings: **143**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **492**
   - present and complete: 22
@@ -296,6 +296,30 @@ Base deferrals:
 
 ### GPC
 
+#### `aps` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fuel and demand seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in, and APS-18 prices its Demand Charge by Summer (June through September) and Winter (October through May), with an alternative rate "for bills rendered October - May". The JSON-LD gates the fuel and Demand Charge PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices.
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Alternative Monthly Rate. For bills rendered October through May, the bill is the lesser of the bill calculated above or 16.5579 cents per kWh plus the $43.72 Basic Service Charge. A lesser-of is a choice between two bills, which no Price expresses, so it is not carried; a modeled winter bill above the alternative is high by the difference.
+- Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. Five years. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `et` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fuel seasons by billing month, and period months. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. ET-23's period table names its months (JUNE-SEP, OCT-MAY) without saying whether they are calendar or billing months. The JSON-LD gates the fuel prices and the periods on calendar months, so usage in the weeks a billing period runs ahead of its billing month may take the other season's prices.
+- Voltage level and franchise fee location. ET-23 serves at 19,800 volts or higher, which FCR-27 classes as Primary Distribution or Transmission. Those two voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of four alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Primary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 amount. Its multiplier Price here is based on the energy-and-fuel subtotal, not on the ECCR multiplier Price, so the franchise fee on that amount, about 0.40 percent of the base bill inside city limits, is not carried.
+- Hour after midnight at a season change. The hour after midnight takes the period of the day before, which the JSON-LD gates on the calendar month of that hour, so the first hour of October 1 and of June 1 takes the new season's after-midnight period, for example Period 6 at 5.2485 cents in the first hour of an October 1 that falls Tuesday through Saturday, where the sheet's Period 2 from September 30 is 5.6367 cents.
+- Term of Contract. Twenty years with automatic renewal for successive periods of five years. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
 #### `flat` @ 2024-05-01  &nbsp; base: ~
 
 Base deferrals:
@@ -307,6 +331,17 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+#### `fs` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Minimum Monthly Bill. The sheet sets it at the $25.42 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
 
 #### `g` @ 2026-06-01  &nbsp; base: ~
 
@@ -333,6 +368,22 @@ Base deferrals:
 - Minimum Monthly Bill. The sheet sets it at the $36.00 Basic Service Charge plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee, and no Price carries it. Every price here is zero or positive, so a bill on these prices alone is never below it.
 - General Service - Unmetered (GS-U). Where the Company finds metering impractical or uneconomical, monthly kWh may be estimated and billed at this rate, for customers continuously served on the unmetered option since December 31, 2019. Estimating the kWh is not carried; the prices apply to whatever kWh a consumer supplies.
 - Construction Service and Term of Contract. Construction power is part of permanent service, with a payment in advance per metering point in the amount on file with the Commission; the term is one year unless the customer elects to return to the FlatBill-GS tariff. Neither is priced on the sheet and neither is carried.
+
+_No applicable modifiers declared._
+
+#### `iop` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Hours-use bands. The sheet prices kWh in bands bounded by hours times the Billing Demand: not greater than 200 hours (in blocks of kWh) and over 200 hours. A urpx:ServiceBracket bound is a fixed number (https://github.com/urpx-org/urpx/issues/87), so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, and the rider subtotals sum the same prices, so this filing's recorded marginal rate adds each higher band's price to the first block's, where the sheet prices a month's first kWh at the first block's price alone.
+- Billing Demand. Billing Demand is a calculated MetricInput on the 30-minute kW demand, with the sheet's ratchets over the current month and the preceding eleven, its floors and its rule for a customer changing from a time of use tariff stated in its description and formula. URPX v0.5.1 does not evaluate a calculationFormula, so a consumer has to compute it from twelve months of demand history, contract capacity and contract minimum. The sheet's seasons for it are billing months.
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- On-Peak surcharge. Consumption in the On-Peak period, every hour that is not Off-Peak (so noon to 8:00 p.m. on weekdays in the billing months June through September, except the observed Memorial Day, Independence Day and Labor Day), causes a surcharge of 25 percent of the total amount calculated on the tariff, including all adjustments except Fuel Cost Recovery, the Municipal Franchise Fee and taxes. A surcharge on the whole bill triggered by any On-Peak consumption is not a price per unit in a period, and no Price carries it; a modeled bill for a customer who uses energy On-Peak is low by a quarter of its non-fuel charges.
+- Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus $12.66 per kW of actual On-Peak demand in excess of 30 kW, plus excess kVAR charges, ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
+- Term of Contract. Five years. Nothing is priced by it and it is not carried.
 
 _No applicable modifiers declared._
 
@@ -433,6 +484,31 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+#### `sas` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Hours-use bands. The sheet prices kWh in bands bounded by hours times the Billing Demand: not greater than 200 hours (in blocks of kWh) and over 200 hours. A urpx:ServiceBracket bound is a fixed number (https://github.com/urpx-org/urpx/issues/87), so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, and the rider subtotals sum the same prices, so this filing's recorded marginal rate adds each higher band's price to the first block's, where the sheet prices a month's first kWh at the first block's price alone.
+- Fuel and On-Peak seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in, and SAS-17's On-Peak period falls in "the billing months June through September". The JSON-LD gates the fuel PriceDefinitions and the On-Peak period on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices.
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. Five years. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `sas-nd` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in, and SAS-ND-17's applicability measures its seasons in billing months. The JSON-LD gates the energy and fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices.
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Minimum Monthly Bill. The sheet sets it at the $66.09 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
 
 #### `sch` @ 2026-06-01  &nbsp; base: ~
 

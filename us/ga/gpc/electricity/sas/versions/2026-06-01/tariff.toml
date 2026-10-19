@@ -1,0 +1,150 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "sas"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule SAS customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/sas.pdf"
+  sha256 = "7084f9f8bcb14ba0987fe80c81dc0011aadc10aa27f82a60d580ad4c2473d09c"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "SAS-17"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_c]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf"
+  sha256 = "32ee2bd9ea4be4f2bcb8a6920c9138bafede89b71e221f47f88c7fbb2b440025"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-C-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_c]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+SAS-17 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. FCR-27, ECCR-15, DSM-C-15 and MFF-11 were read from the
+PDF text directly.
+
+The rate table prices the first band's "Over 5,000 kWh" block and the band "in
+excess of 200 hours times the billing demand" at the same 1.7360 cents, as
+both are carried. The Billing Demand is "the highest 30-minute kW measurement
+during the current month", with no ratchet, carried as a calculated
+MetricInput because the bands' formulas name it. The On-Peak surcharge of
+25.3761 cents per kWh is a Price on Period 1 of a TOU schedule on the kWh.
+ECCR-15, DSM-C-15 and MFF-11 take their percentage of it through multipliers
+over its Price, gated on Period 1, rather than through the energy subtotals,
+because only On-Peak kWh take it. TOU-FCR-7's Applicability does not name SAS,
+so its "FCR Schedules" are read as FCR-27.
+
+Hours-use bands. Each band of hours times the Billing Demand is a calculated
+MetricInput of kWh on the measured kWh and the Billing Demand, with its
+formula in its CalculationMethod; the first band's blocks of kWh are a
+ServiceTiers ladder on that band's kWh, in the pattern of Jackson EMC's GS-26.
+How a urpx:ServiceBracket bound could be a multiple of the Billing Demand is
+https://github.com/urpx-org/urpx/issues/87.
+
+Riders. FCR-27, ECCR-15, DSM-C-15 and MFF-11 are Prices on the base, as on
+Schedule R. FCR-27's Secondary Distribution, Primary Distribution and
+Transmission rates and MFF-11's inside and outside city limits rates are
+crossed in one ProfileAlternatives set; its voltage dimension is
+urpx:voltageLevel, whose values are urpx:secondaryVoltage, urpx:primaryVoltage
+and urpx:transmissionVoltage. Each alternative's PriceSetAlternative carries
+its own franchise fee energy subtotal, the base energy prices plus its voltage
+level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). SAS-17 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No SAS bill was available to check
+it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Hours-use bands. The sheet prices kWh in bands bounded by hours times the Billing Demand: not greater than 200 hours (in blocks of kWh) and over 200 hours. A urpx:ServiceBracket bound is a fixed number (https://github.com/urpx-org/urpx/issues/87), so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, and the rider subtotals sum the same prices, so this filing's recorded marginal rate adds each higher band's price to the first block's, where the sheet prices a month's first kWh at the first block's price alone.",
+  "Fuel and On-Peak seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in, and SAS-17's On-Peak period falls in \"the billing months June through September\". The JSON-LD gates the fuel PriceDefinitions and the On-Peak period on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's prices.",
+  "Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Demand Side Management schedule. The sheet applies \"the Company's effective Demand Side Management Residential or Commercial Schedule\". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.",
+  "Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.",
+  "Term of Contract. Five years. Nothing is priced by it and it is not carried.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."

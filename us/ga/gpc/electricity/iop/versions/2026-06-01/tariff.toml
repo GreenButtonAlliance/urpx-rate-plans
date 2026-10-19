@@ -1,0 +1,149 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "iop"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule IOP customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/iop.pdf"
+  sha256 = "140fb30809257bc44786c58f90b9a66f62c91e3e5de0aacc50b1aaed7a119098"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "IOP-22"
+
+  [source.fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fcr.pdf"
+  sha256 = "fb6409e3eda156f2dfe40171bf064e3f9e930fec69995b9f725af243545dc096"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FCR-27"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_c]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf"
+  sha256 = "32ee2bd9ea4be4f2bcb8a6920c9138bafede89b71e221f47f88c7fbb2b440025"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-C-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_c]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+IOP-22 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. FCR-27, ECCR-15, DSM-C-15 and MFF-11 were read from the
+PDF text directly.
+
+IOP-22's Off-Peak and On-Peak periods matter to its Billing Demand and its On-
+Peak surcharge, neither of which a TOU Price carries, so they are stated in
+the Billing Demand's description and formula and in the surcharge deferral,
+not as a TOU schedule.  Its observed holidays (Memorial Day, Independence Day
+and Labor Day) are carried as a HolidayCalendar, Independence Day observed on
+the nearest weekday under 5 U.S.C. 6103(b), which Georgia law adopts.
+
+Hours-use bands. Each band of hours times the Billing Demand is a calculated
+MetricInput of kWh on the measured kWh and the Billing Demand, with its
+formula in its CalculationMethod; the first band's blocks of kWh are a
+ServiceTiers ladder on that band's kWh, in the pattern of Jackson EMC's GS-26.
+How a urpx:ServiceBracket bound could be a multiple of the Billing Demand is
+https://github.com/urpx-org/urpx/issues/87.
+
+Riders. FCR-27, ECCR-15, DSM-C-15 and MFF-11 are Prices on the base, as on
+Schedule R. FCR-27's Secondary Distribution, Primary Distribution and
+Transmission rates and MFF-11's inside and outside city limits rates are
+crossed in one ProfileAlternatives set; its voltage dimension is
+urpx:voltageLevel, whose values are urpx:secondaryVoltage, urpx:primaryVoltage
+and urpx:transmissionVoltage. Each alternative's PriceSetAlternative carries
+its own franchise fee energy subtotal, the base energy prices plus its voltage
+level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). IOP-22 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No IOP bill was available to check
+it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Hours-use bands. The sheet prices kWh in bands bounded by hours times the Billing Demand: not greater than 200 hours (in blocks of kWh) and over 200 hours. A urpx:ServiceBracket bound is a fixed number (https://github.com/urpx-org/urpx/issues/87), so each band's kWh is a calculated MetricInput whose formula is text in its CalculationMethod, and the first band carries the kWh blocks; a consumer has to split the month's kWh by the Billing Demand. clj-urpx sums every energy ledger for a marginal rate, and the rider subtotals sum the same prices, so this filing's recorded marginal rate adds each higher band's price to the first block's, where the sheet prices a month's first kWh at the first block's price alone.",
+  "Billing Demand. Billing Demand is a calculated MetricInput on the 30-minute kW demand, with the sheet's ratchets over the current month and the preceding eleven, its floors and its rule for a customer changing from a time of use tariff stated in its description and formula. URPX v0.5.1 does not evaluate a calculationFormula, so a consumer has to compute it from twelve months of demand history, contract capacity and contract minimum. The sheet's seasons for it are billing months.",
+  "Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.",
+  "Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.",
+  "Demand Side Management schedule. The sheet applies \"the Company's effective Demand Side Management Residential or Commercial Schedule\". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.",
+  "Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.",
+  "On-Peak surcharge. Consumption in the On-Peak period, every hour that is not Off-Peak (so noon to 8:00 p.m. on weekdays in the billing months June through September, except the observed Memorial Day, Independence Day and Labor Day), causes a surcharge of 25 percent of the total amount calculated on the tariff, including all adjustments except Fuel Cost Recovery, the Municipal Franchise Fee and taxes. A surcharge on the whole bill triggered by any On-Peak consumption is not a price per unit in a period, and no Price carries it; a modeled bill for a customer who uses energy On-Peak is low by a quarter of its non-fuel charges.",
+  "Minimum Monthly Bill. The sheet sets it at the $43.72 Basic Service Charge plus $12.66 per kW of actual On-Peak demand in excess of 30 kW, plus excess kVAR charges, ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.",
+  "Term of Contract. Five years. Nothing is priced by it and it is not carried.",
+]
+applicable_modifiers = []
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."
