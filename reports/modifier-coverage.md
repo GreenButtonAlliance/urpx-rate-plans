@@ -13,7 +13,7 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **150**
+- Base RatePlan filings: **153**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **492**
   - present and complete: 22
@@ -532,6 +532,17 @@ Base deferrals:
 
 _No applicable modifiers declared._
 
+#### `tc-m` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the $21.35 Basic Service Charge plus ECCR, the Demand Side Management Commercial Schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
 #### `tou-eo` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -539,6 +550,18 @@ Base deferrals:
 - Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
 - Minimum Monthly Bill. The sheet sets it at the $96.00 Basic Service Charge plus $7.42 per kW for the first 10 kW above 30 kW, $14.57 per kW for the next 10 kW and $44.07 per kW for all demand above 50 kW, the highest 30-minute kW of the month, plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
 - Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tou-eol` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Fuel Cost Recovery schedule. The sheet applies "the Company's effective Fuel Cost Recovery Schedules in the manner ordered by the Georgia Public Service Commission" without naming one, and neither TOU-FCR-7 nor TOU-FCR-TP-5 lists TOU-EOL. The JSON-LD carries FCR-27's seasonal rates; if the Commission ordered a time of use fuel rate for the pilot, a modeled bill's fuel is off by the difference.
+- Pilot limits and Term of Contract. The pilot is limited to 100 accounts selected at the Company's discretion; the term is one year, renewed automatically unless terminated with 30 days' notice before the anniversary, and the customer may change tariffs after the first twelve months on 30 days' written notice. The limits are stated in the eligibility rule's description; nothing is priced by them and they are not carried.
 
 _No applicable modifiers declared._
 
@@ -647,6 +670,18 @@ Base deferrals:
 - Flat Price Option and Monthly Access Charge Option. At the Company's option a customer may instead pay a customer-specific flat energy rate for an Initial Period, inclusive of the Basic Service Charge, the riders and a risk adder of up to 10 percent; or, for large loads, a customer-specific Monthly Access Charge plus a $155 per month Administrative Charge, with all energy at the hourly Real Time Pricing - Day Ahead price. Neither is carried.
 - Minimum Monthly Bill. Under the Standard Price Option the sheet sets it at the $174.88 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
 - Term of Contract. Three years, or as specified in the customer's Contract for Electric Service. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `ud` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Franchise fee location. UD-18 serves single phase at 120V and 240V, which FCR-27 classes as Secondary Distribution, so its Secondary Distribution rates are the fuel prices, and the ProfileAlternatives set's voltage dimension has that one value, crossed with MFF-11's two locations in two alternatives. A consumer selects one, for example inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Estimated energy. The monthly energy and demand of an unmetered device are estimated by the Company and charged at the sheet's rate. The estimate is not carried; the prices apply to whatever kWh a consumer supplies.
+- Minimum Bill. The sheet sets it at the $18.00 Basic Service Charge plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee, and no Price carries it. Every price here is zero or positive, so a bill on these prices alone is never below it.
+- Additional facilities and Term of Contract. Where facilities must be installed to serve the customer, the customer may be required to pay for them and their perpetual maintenance; the term is one year. Neither is priced on the sheet and neither is carried.
 
 _No applicable modifiers declared._
 
