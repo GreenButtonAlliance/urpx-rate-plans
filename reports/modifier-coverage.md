@@ -13,7 +13,7 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **153**
+- Base RatePlan filings: **158**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **492**
   - present and complete: 22
@@ -308,6 +308,20 @@ Base deferrals:
 
 _No applicable modifiers declared._
 
+#### `eol` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Fixtures counts. Each fixture charge is priced per fixture of one kind. URPX v0.5.1 names no profile property for a count of fixtures of a kind, so each fixture's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the kind in its name, in the pattern of Jackson EMC's Schedule S-26; a consumer supplies the counts.
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on each fixture charge's Price and on the fuel subtotal, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Fixture kWh. FCR-27 is carried per kWh on a calculated MetricInput that sums each fixture's count times its Fixture Monthly kWh from Section A; its formula is text in its CalculationMethod, which URPX v0.5.1 does not evaluate. The Company may verify kWh by installing a kWh meter or a device to limit connected load, which is not carried.
+- Wattages not in the table. The Company may bill energy for Company-owned luminaires of wattages the table does not list by the sheet's formulas, Fixture Input Wattage / 1000 x 360 hours x 7.5150 cents (photo controlled) or x 720 hours x 8.6122 cents (continuous burn). Only the 46 rates the table lists are carried.
+- Construction charges and Term of Contract. Where the Company spends more than five times the estimated annual base revenue, it may collect a Contribution In Aid of Construction for the excess; a customer-owned system must provide mounting, wiring and any weatherproof enclosure for Company-supplied controls. The term is at least two years, up to five at the Company's option, with an advance payment of up to half the estimated annual revenue. None is priced per month and none is carried.
+
+_No applicable modifiers declared._
+
 #### `et` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -396,6 +410,33 @@ Base deferrals:
 
 _No applicable modifiers declared._
 
+#### `olg` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Lights counts. Each light charge is priced per light of one kind. URPX v0.5.1 names no profile property for a count of lights of a kind, so each light's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the kind in its name, in the pattern of Jackson EMC's Schedule S-26; a consumer supplies the counts.
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on each light charge's Price and on the fuel subtotal, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Fixture kWh. FCR-27 is carried per kWh on a calculated MetricInput that sums each light's count times the Photo Controlled Fixture Monthly kWh EOL-19 gives for its nominal lamp wattage, its formula text in its CalculationMethod. OLG-16 says the energy component of each rate is calculated on EOL-19 but does not state each light's kWh or burn hours, so reading the photo controlled column is an assumption, and a light billed on other hours has its fuel off by the difference.
+- Pole and construction charges. Section B prices standard poles from $418.16 to $1,936.93 as a non-refundable Contribution In Aid of Construction paid before construction; a customer may pay $50.00 for each luminaire removed when the Company replaces a Company-owned system, $2.49 per foot of excess underground trench over 80 feet per pole, a CIAC for taller poles or relocation, and a CIAC for spending above five times the estimated annual base revenue, and may reimburse maintenance from vandalism; tree trimming is the customer's. None is a monthly charge and none is carried.
+- Customer-owned systems and Term of Contract. Part II bills customer-owned systems on EOL-19, which has its own filing. The term is at least five years and thereafter until terminated on 30 days' written notice, and may require an advance payment of up to half the estimated annual revenue. Neither is priced here and neither is carried.
+
+_No applicable modifiers declared._
+
+#### `olng` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Lights counts. Each light charge is priced per light of one kind. URPX v0.5.1 names no profile property for a count of lights of a kind, so each light's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the kind in its name, in the pattern of Jackson EMC's Schedule S-26; a consumer supplies the counts.
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on each light charge's Price and on the fuel subtotal, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Demand Side Management schedule. The sheet applies "the Company's effective Demand Side Management Residential or Commercial Schedule". DSM-C-15 applies to all Commercial Customers as the Company's Rules and Regulations for Electric Service define them, and is carried here as Prices with no condition, so it applies to every customer on the schedule. A Residential Customer served on the schedule would pay DSM-R-16, 1.1969 percent, instead; the sheet names no schedule for an Industrial Customer. Neither case is carried.
+- Fixture kWh. FCR-27 is carried per kWh on a calculated MetricInput that sums each light's count times the Photo Controlled Fixture Monthly kWh EOL-19 gives for its nominal lamp wattage, its formula text in its CalculationMethod. OLNG-19 says the energy component of each rate is calculated on EOL-19 but does not state each light's kWh or burn hours, so reading the photo controlled column is an assumption, and a light billed on other hours has its fuel off by the difference.
+- Pole and construction charges. The Company may provide one wood pole per luminaire from the overhead system; extending the overhead system, non-standard poles, taller mounting, relocation, or conversion of a Company-owned system may require a non-refundable Contribution In Aid of Construction or a 5-to-1 annual base revenue ratio, and the customer may reimburse maintenance from vandalism; tree trimming is the customer's. None is a monthly charge and none is carried.
+- Customer-owned systems and Term of Contract. Part II bills customer-owned systems on EOL-19, which has its own filing. The term is at least two years, up to five at the Company's option, with an advance payment of up to half the estimated annual revenue. Neither is priced here and neither is carried.
+
+_No applicable modifiers declared._
+
 #### `pbd` @ 2024-05-01  &nbsp; base: ~
 
 Base deferrals:
@@ -481,6 +522,17 @@ Base deferrals:
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
 
+#### `rlg` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Lights counts. Each light charge is priced per light of one kind. URPX v0.5.1 names no profile property for a count of lights of a kind, so each light's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the kind in its name, in the pattern of Jackson EMC's Schedule S-26; a consumer supplies the counts.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on each light charge's Price, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Energy and Fuel Cost Recovery. RLG-9's rates do not include energy; the customer contracts for it on EOL-19 or TOU-EOL-11, whose filings carry its price and fuel. The sheet's Fuel Cost Recovery section increases "the amount calculated at the above rate", but RLG-9 prices no kWh, so no fuel is carried here.
+- Pole and construction charges. The sheet prices standard poles from $418.16 to $1,936.93 as a non-refundable Contribution In Aid of Construction paid before construction; a customer may pay $50.00 for each luminaire removed when the Company replaces a Company-owned system, $2.49 per foot of excess underground trench over 80 feet per pole, a CIAC for taller poles or relocation, and a CIAC for spending above five times the estimated annual base revenue, and may reimburse maintenance from vandalism; tree trimming is the customer's. None is a monthly charge and none is carried.
+- Term of Contract. At least five years and thereafter until terminated on six months' written notice, with an advance payment of up to half the estimated annual revenue. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
 #### `sas` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -539,6 +591,19 @@ Base deferrals:
 - Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
 - Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
 - Minimum Monthly Bill. The sheet sets it at the $21.35 Basic Service Charge plus ECCR, the Demand Side Management Commercial Schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tc-u` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Devices counts. Each device charge is priced per device of one kind. URPX v0.5.1 names no profile property for a count of devices of a kind, so each device's MetricInput is a urpx:profileMetricInput that names no urpx:profileMetricProperty and states the kind in its name, in the pattern of Jackson EMC's Schedule S-26; a consumer supplies the counts.
+- Fuel seasons by billing month. FCR-27 prices June through September and October through May, which Schedule R's bills show is read by the billing month a bill is rendered in. The JSON-LD gates the fuel PriceDefinitions on calendar months, so usage in the weeks a billing period runs ahead of its billing month takes the other season's fuel price.
+- Fuel Cost Recovery voltage levels. FCR-27 also prices Primary Distribution and Transmission customers. Only the Secondary Distribution rates are carried, as Prices with no condition, so they apply to every customer on the schedule.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on each device charge's Price and on the fuel subtotal, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Unmetered energy. The sheet bills each device by its demand, in 60-watt increments, and applies Fuel Cost Recovery to the bill, but states no monthly kWh for a device. FCR-27 is carried per kWh on a kWh MetricInput the consumer supplies; how the Company estimates an unmetered device's kWh is not stated and not carried.
+- Device and increment counts. The Basic Service Charge is per device, including its first 60 watts of demand, and each further 60 watts is priced per increment, so a consumer counts each device's watts above 60 in whole increments; how a part increment is counted is not stated.
 - Term of Contract. One year. Nothing is priced by it and it is not carried.
 
 _No applicable modifiers declared._

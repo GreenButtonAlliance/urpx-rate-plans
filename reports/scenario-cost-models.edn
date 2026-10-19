@@ -29,10 +29,10 @@
   :probe-instants 22}
 
  :totals
-  {:compositions 273
-   :scenario-cost-models 7649
-   :servable 247
-   :not-priced-per-kwh 16
+  {:compositions 278
+   :scenario-cost-models 7659
+   :servable 251
+   :not-priced-per-kwh 17
    :blocked 6
    :not-measured 4}
 
@@ -269,6 +269,12 @@
    :selections 6
    :outcome :servable
    :baseline-keys ["plan|us/ga/gpc/electricity/aps/versions/2026-06-01/rate-plan_gpc_aps_2026-06-01.jsonld"]}
+  {:base "gpc:eol-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:eol-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/eol/versions/2026-06-01/rate-plan_gpc_eol_2026-06-01.jsonld"]}
   {:base "gpc:et-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:et-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -319,6 +325,18 @@
    :selections 6
    :outcome :servable
    :baseline-keys ["plan|us/ga/gpc/electricity/ogs/versions/2026-06-01/rate-plan_gpc_ogs_2026-06-01.jsonld"]}
+  {:base "gpc:olg-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:olg-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/olg/versions/2026-06-01/rate-plan_gpc_olg_2026-06-01.jsonld"]}
+  {:base "gpc:olng-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:olng-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/olng/versions/2026-06-01/rate-plan_gpc_olng_2026-06-01.jsonld"]}
   {:base "gpc:pbd-2024-05-01"
    :modifiers []
    :open-dimensions []
@@ -375,6 +393,13 @@
    :selections 2
    :outcome :servable
    :baseline-keys ["compose|us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld|gpc:r"]}
+  {:base "gpc:rlg-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:rlg-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :not-priced-per-kwh
+   :reason ":no-energy-ledger"
+   :baseline-keys ["plan|us/ga/gpc/electricity/rlg/versions/2026-06-01/rate-plan_gpc_rlg_2026-06-01.jsonld"]}
   {:base "gpc:sas-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:sas-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -405,6 +430,12 @@
    :selections 6
    :outcome :servable
    :baseline-keys ["plan|us/ga/gpc/electricity/tc-m/versions/2026-06-01/rate-plan_gpc_tc-m_2026-06-01.jsonld"]}
+  {:base "gpc:tc-u-2026-06-01"
+   :modifiers []
+   :open-dimensions ["gpc:tc-u-2026-06-01-pa-franchise-fee-location"]
+   :selections 2
+   :outcome :servable
+   :baseline-keys ["plan|us/ga/gpc/electricity/tc-u/versions/2026-06-01/rate-plan_gpc_tc-u_2026-06-01.jsonld"]}
   {:base "gpc:tou-eo-2026-06-01"
    :modifiers []
    :open-dimensions ["gpc:tou-eo-2026-06-01-pa-voltage-level-franchise-fee-location"]
@@ -2447,6 +2478,12 @@
   "https://rate-plans.grid-coordination.energy/gpc/scm-aps-2026-06-01--ec28226ab1fe"
   {:name "Schedule APS Agricultural Process Service [gpc:aps-2026-06-01]; Transmission customer, outside city limits"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eol-2026-06-01--8b564855ac87"
+  {:name "Schedule EOL Energy for Outdoor Lighting Service [gpc:eol-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-eol-2026-06-01--b554b1a27791"
+  {:name "Schedule EOL Energy for Outdoor Lighting Service [gpc:eol-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-et-2026-06-01--27e3b15c72d1"
   {:name "Schedule ET Electric Transportation Service [gpc:et-2026-06-01]; Primary Distribution customer, inside city limits"
    :outcome :servable}
@@ -2555,6 +2592,18 @@
   "https://rate-plans.grid-coordination.energy/gpc/scm-ogs-2026-06-01--8fc35c5e7020"
   {:name "Schedule OGS Optional General Service [gpc:ogs-2026-06-01]; Primary Distribution customer, inside city limits"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-olg-2026-06-01--3cce5071654f"
+  {:name "Schedule OLG Outdoor Lighting Service Governmental Customers [gpc:olg-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-olg-2026-06-01--7ca3706c95e4"
+  {:name "Schedule OLG Outdoor Lighting Service Governmental Customers [gpc:olg-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-olng-2026-06-01--4d4ed3f957b2"
+  {:name "Schedule OLNG Outdoor Lighting Service Non-Governmental Customers [gpc:olng-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-olng-2026-06-01--f1a0e8e4751f"
+  {:name "Schedule OLNG Outdoor Lighting Service Non-Governmental Customers [gpc:olng-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-pbd-2024-05-01"
   {:name "Schedule PBD Pay by Day Service [gpc:pbd-2024-05-01]"
    :outcome :not-priced-per-kwh}
@@ -2639,6 +2688,12 @@
   "https://rate-plans.grid-coordination.energy/gpc/scm-r-2026-06-01--iqd-2024-05-01--e7c4ac873199"
   {:name "Schedule R Residential Service [gpc:r-2026-06-01] + Income Qualified Discount Service Rider [gpc:iqd-2024-05-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
    :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rlg-2026-06-01--a1c6df216afa"
+  {:name "Schedule RLG Roadway Lighting Governmental [gpc:rlg-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :not-priced-per-kwh}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-rlg-2026-06-01--ae919ad6eef5"
+  {:name "Schedule RLG Roadway Lighting Governmental [gpc:rlg-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
+   :outcome :not-priced-per-kwh}
   "https://rate-plans.grid-coordination.energy/gpc/scm-sas-2026-06-01--225080fe79cb"
   {:name "Schedule SAS Seasonal Agricultural Service [gpc:sas-2026-06-01]; Secondary Distribution customer, outside city limits"
    :outcome :servable}
@@ -2728,6 +2783,12 @@
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-tc-m-2026-06-01--f5ddd9dc6895"
   {:name "Schedule TC-M Traffic Control Metered Service [gpc:tc-m-2026-06-01]; Transmission customer, inside city limits"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-tc-u-2026-06-01--84721edc34db"
+  {:name "Schedule TC-U Traffic Control Unmetered Service [gpc:tc-u-2026-06-01]; Service outside city limits, or inside a city with which the Company has no franchise fee agreement"
+   :outcome :servable}
+  "https://rate-plans.grid-coordination.energy/gpc/scm-tc-u-2026-06-01--a1ee4500f18b"
+  {:name "Schedule TC-U Traffic Control Unmetered Service [gpc:tc-u-2026-06-01]; Service inside the limits of a city with which the Company has a franchise fee agreement"
    :outcome :servable}
   "https://rate-plans.grid-coordination.energy/gpc/scm-tou-eo-2026-06-01--05891d7fd644"
   {:name "Schedule TOU-EO Time of Use - Energy Only [gpc:tou-eo-2026-06-01]; Primary Distribution customer, inside city limits"
