@@ -33,14 +33,17 @@
   {:applicable-to [:gpc/flat :gpc/pbd :gpc/pps :gpc/r :gpc/tou-oa :gpc/tou-rd :gpc/tou-reo]
    :filing "us/ga/gpc/electricity/iqd/versions/2024-05-01/rate-plan-modifier_gpc_iqd_2024-05-01.jsonld"}
   :gpc/lt
-  {:applicable-to [:gpc/aps :gpc/eol :gpc/et :gpc/flat :gpc/fs :gpc/g :gpc/gs :gpc/iop :gpc/ogs :gpc/olg :gpc/olng :gpc/pbd :gpc/pll :gpc/plm :gpc/pls :gpc/pps :gpc/r :gpc/rlg :gpc/sas :gpc/sas-nd :gpc/sch :gpc/slm :gpc/tc-m :gpc/tc-u :gpc/tou-eo :gpc/tou-eol :gpc/tou-evc :gpc/tou-fd :gpc/tou-gsd :gpc/tou-hlf :gpc/tou-oa :gpc/tou-rd :gpc/tou-reo :gpc/tou-rn :gpc/tou-sc :gpc/ud]
+  {:applicable-to [:gpc/aps :gpc/eaf :gpc/eol :gpc/et :gpc/flat :gpc/flat-gs :gpc/fpa :gpc/fs :gpc/g :gpc/gs :gpc/iop :gpc/ogs :gpc/olg :gpc/olng :gpc/pbd :gpc/pll :gpc/plm :gpc/pls :gpc/pps :gpc/r :gpc/rlg :gpc/rtp-da :gpc/rtp-ha :gpc/sas :gpc/sas-nd :gpc/sch :gpc/slm :gpc/tc-m :gpc/tc-u :gpc/tou-eo :gpc/tou-eol :gpc/tou-evc :gpc/tou-fd :gpc/tou-gsd :gpc/tou-hlf :gpc/tou-oa :gpc/tou-rd :gpc/tou-reo :gpc/tou-rn :gpc/tou-sc :gpc/ud]
    :filing "us/ga/gpc/electricity/lt/versions/1975-06-17/rate-plan-modifier_gpc_lt_1975-06-17.jsonld"}
   :gpc/op
   {:applicable-to [:gpc/g :gpc/pll :gpc/plm :gpc/pls]
    :filing "us/ga/gpc/electricity/op/versions/2023-01-01/rate-plan-modifier_gpc_op_2023-01-01.jsonld"}
   :gpc/opt
-  {:applicable-to [:gpc/aps :gpc/et :gpc/flat :gpc/fs :gpc/g :gpc/gs :gpc/iop :gpc/ogs :gpc/pbd :gpc/pll :gpc/plm :gpc/pls :gpc/pps :gpc/r :gpc/sas :gpc/sas-nd :gpc/sch :gpc/slm :gpc/tc-m :gpc/tou-eo :gpc/tou-evc :gpc/tou-fd :gpc/tou-gsd :gpc/tou-hlf :gpc/tou-oa :gpc/tou-rd :gpc/tou-reo :gpc/tou-rn :gpc/tou-sc]
+  {:applicable-to [:gpc/aps :gpc/eaf :gpc/et :gpc/flat :gpc/flat-gs :gpc/fpa :gpc/fs :gpc/g :gpc/gs :gpc/iop :gpc/ogs :gpc/pbd :gpc/pll :gpc/plm :gpc/pls :gpc/pps :gpc/r :gpc/rtp-da :gpc/rtp-ha :gpc/sas :gpc/sas-nd :gpc/sch :gpc/slm :gpc/tc-m :gpc/tou-eo :gpc/tou-evc :gpc/tou-fd :gpc/tou-gsd :gpc/tou-hlf :gpc/tou-oa :gpc/tou-rd :gpc/tou-reo :gpc/tou-rn :gpc/tou-sc]
    :filing "us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld"}
+  :gpc/ppp
+  {:applicable-to [:gpc/rtp-da :gpc/rtp-ha]
+   :filing "us/ga/gpc/electricity/ppp/versions/2024-01-01/rate-plan-modifier_gpc_ppp_2024-01-01.jsonld"}
   :gpc/vop
   {:applicable-to [:gpc/g :gpc/pll :gpc/plm :gpc/pls :gpc/sch]
    :filing "us/ga/gpc/electricity/vop/versions/2014-01-01/rate-plan-modifier_gpc_vop_2014-01-01.jsonld"}
@@ -196,12 +199,18 @@
   {:modifiers [:cpau/e-7-g :cpau/e-hra]}
   :gpc/aps
   {:modifiers [:gpc/lt :gpc/opt]}
+  :gpc/eaf
+  {:modifiers [:gpc/lt :gpc/opt]}
   :gpc/eol
   {:modifiers [:gpc/lt]}
   :gpc/et
   {:modifiers [:gpc/lt :gpc/opt]}
   :gpc/flat
   {:modifiers [:gpc/iqd :gpc/lt :gpc/opt]}
+  :gpc/flat-gs
+  {:modifiers [:gpc/lt :gpc/opt]}
+  :gpc/fpa
+  {:modifiers [:gpc/lt :gpc/opt]}
   :gpc/fs
   {:modifiers [:gpc/lt :gpc/opt]}
   :gpc/g
@@ -230,6 +239,10 @@
   {:modifiers [:gpc/iqd :gpc/lt :gpc/opt]}
   :gpc/rlg
   {:modifiers [:gpc/lt]}
+  :gpc/rtp-da
+  {:modifiers [:gpc/lt :gpc/opt :gpc/ppp]}
+  :gpc/rtp-ha
+  {:modifiers [:gpc/lt :gpc/opt :gpc/ppp]}
   :gpc/sas
   {:modifiers [:gpc/lt :gpc/opt]}
   :gpc/sas-nd

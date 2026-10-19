@@ -79,9 +79,12 @@
     "gpc:lt": {
       "applicable_to": [
         "gpc:aps",
+        "gpc:eaf",
         "gpc:eol",
         "gpc:et",
         "gpc:flat",
+        "gpc:flat-gs",
+        "gpc:fpa",
         "gpc:fs",
         "gpc:g",
         "gpc:gs",
@@ -96,6 +99,8 @@
         "gpc:pps",
         "gpc:r",
         "gpc:rlg",
+        "gpc:rtp-da",
+        "gpc:rtp-ha",
         "gpc:sas",
         "gpc:sas-nd",
         "gpc:sch",
@@ -129,8 +134,11 @@
     "gpc:opt": {
       "applicable_to": [
         "gpc:aps",
+        "gpc:eaf",
         "gpc:et",
         "gpc:flat",
+        "gpc:flat-gs",
+        "gpc:fpa",
         "gpc:fs",
         "gpc:g",
         "gpc:gs",
@@ -142,6 +150,8 @@
         "gpc:pls",
         "gpc:pps",
         "gpc:r",
+        "gpc:rtp-da",
+        "gpc:rtp-ha",
         "gpc:sas",
         "gpc:sas-nd",
         "gpc:sch",
@@ -159,6 +169,13 @@
         "gpc:tou-sc"
       ],
       "filing": "us/ga/gpc/electricity/opt/versions/2026-06-01/rate-plan-modifier_gpc_opt_2026-06-01.jsonld"
+    },
+    "gpc:ppp": {
+      "applicable_to": [
+        "gpc:rtp-da",
+        "gpc:rtp-ha"
+      ],
+      "filing": "us/ga/gpc/electricity/ppp/versions/2024-01-01/rate-plan-modifier_gpc_ppp_2024-01-01.jsonld"
     },
     "gpc:vop": {
       "applicable_to": [
@@ -610,6 +627,12 @@
         "gpc:opt"
       ]
     },
+    "gpc:eaf": {
+      "modifiers": [
+        "gpc:lt",
+        "gpc:opt"
+      ]
+    },
     "gpc:eol": {
       "modifiers": [
         "gpc:lt"
@@ -624,6 +647,18 @@
     "gpc:flat": {
       "modifiers": [
         "gpc:iqd",
+        "gpc:lt",
+        "gpc:opt"
+      ]
+    },
+    "gpc:flat-gs": {
+      "modifiers": [
+        "gpc:lt",
+        "gpc:opt"
+      ]
+    },
+    "gpc:fpa": {
+      "modifiers": [
         "gpc:lt",
         "gpc:opt"
       ]
@@ -721,6 +756,20 @@
     "gpc:rlg": {
       "modifiers": [
         "gpc:lt"
+      ]
+    },
+    "gpc:rtp-da": {
+      "modifiers": [
+        "gpc:lt",
+        "gpc:opt",
+        "gpc:ppp"
+      ]
+    },
+    "gpc:rtp-ha": {
+      "modifiers": [
+        "gpc:lt",
+        "gpc:opt",
+        "gpc:ppp"
       ]
     },
     "gpc:sas": {

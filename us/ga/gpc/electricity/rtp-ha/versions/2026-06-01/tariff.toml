@@ -1,0 +1,83 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "rtp-ha"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/rtp-ha.pdf"
+  sha256 = "837f1ad9ae5e6c8ceff543f809fbfd59a7a3316ff27fc7be26a4ea1b37843fa4"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "RTP-HA-13"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+RTP-HA-13 read with mineru-kit parse --tier standard; every value was checked
+against the PDF text.
+
+Administrative Charge. $850 per month for every customer.
+
+Dating. The sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). RTP-HA-13 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). The schedule states no date of
+first introduction, so urpx:initialEffectiveDate carries this version's date,
+as gpc:r does.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Standard Bill. The Standard Bill applies the appropriate firm non-RTP tariff, ECCR, the appropriate DSM schedule and FCR to the customer's Customer Baseline Load (CBL), a load shape agreed with the customer, and is revised when any of them changes. It is computed for each customer and not published, so the JSON-LD defines it as a monthly PriceDefinition with no Price, and a modeled bill omits it.",
+  "Hourly prices. Each hour's price times the difference between actual load and the CBL is charged or credited. The prices are set each day from projected marginal costs and are not part of the sheet, so the JSON-LD defines the hourly charge as a PriceDefinition with no Price on a calculated MetricInput of incremental kWh, its formula text in its CalculationMethod; the validator refuses the filing as :no-energy-ledger.",
+  "Customer Baseline Load rules. The sheet's rules for developing a CBL for existing and new load (from interval data, a Template, a Footprint or a Demonstration), its minimum CBL level by location, revisions for load added or removed, and the twenty-four months a customer must stay off RTP to reset a CBL are not prices and are not carried.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill. Its multiplier Prices here are based on the Administrative Charge and the Excess Reactive Demand Prices only, so the franchise fee on the Standard Bill and the hourly charges is not carried.",
+  "Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.",
+  "Price notification, Demand Plus Energy Credit and Term of Contract. The Company is not responsible for a customer's failure to receive and act upon the hourly prices; the customer may elect to be interruptible under the DPEC rider, which this corpus does not model; the term is five years. None is priced here and none is carried.",
+]
+applicable_modifiers = ["lt", "opt", "ppp"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power schedule priced per customer: its computed charges are PriceDefinitions with no Price."

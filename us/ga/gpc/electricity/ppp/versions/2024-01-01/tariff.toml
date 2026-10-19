@@ -1,0 +1,59 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "ppp"
+effective_date = "2024-01-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/ppp.pdf"
+  sha256 = "ebedd59f9e90ba70a69499741b4c1c13ebd4b8f1b34ce91b5d606e9a1af999dc"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "PPP-2"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+PPP-2 read with mineru-kit parse --tier standard; every value was checked
+against the PDF text.
+
+PPP-2, page 6.40, Fifth revision, is effective "January, 2024", read as
+2024-01-01; the sheet does not say why it was revised, so urpx:changeReason is
+urpx:changeReasonOther. urpx:applicableToRatePlan names RTP-DA and RTP-HA, the
+Real Time Pricing schedules whose hourly prices it settles against.
+
+The rider names no docket for this revision, so the base regulator entry names
+none.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Contract settlement. The settlement is the contracted quantity times the difference between the guaranteed price and the average of the hourly RTP prices offered over the contracted period, calculated at the period's end. No guaranteed price, quantity or period is published, so the JSON-LD defines the settlement as a PriceDefinition with no Price, and a modeled bill omits it.",
+  "Products and eligibility. The sheet offers Standard and Limited Contracts for Differences, periodically, with minimum and maximum purchase amounts set from historical usage, on the customer's RTP-priced load. Eligibility is a custom condition, pricingContract, that a consumer supplies; the rest is in the descriptions.",
+]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power rider PPP-2 as a RatePlanModifier."

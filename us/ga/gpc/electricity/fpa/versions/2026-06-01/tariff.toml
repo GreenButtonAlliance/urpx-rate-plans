@@ -1,0 +1,147 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "fpa"
+effective_date = "2026-06-01"
+
+# Source ----------------------------------------------------------------------
+# One sub-table per committed PDF. The riders every Schedule FPA customer
+# pays are carried as Prices on this filing, each from its own sheet.
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/fpa.pdf"
+  sha256 = "a809f0720d1324e12723c06b27eb6127935c4813745784ea4f7e91a1f82d22ff"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FPA-17"
+
+  [source.tou_fcr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf"
+  sha256 = "f215413027090ae9716848f57de3092c03586ea0625f05a73d82d53c76fa49fd"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "TOU-FCR-7"
+
+  [source.eccr]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf"
+  sha256 = "d9fa18b6a255569e487276e3ea19ad5ac5e498f04da148a2e4693c841c2330f3"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "ECCR-15"
+
+  [source.dsm_c]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf"
+  sha256 = "32ee2bd9ea4be4f2bcb8a6920c9138bafede89b71e221f47f88c7fbb2b440025"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "DSM-C-15"
+
+  [source.mff]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf"
+  sha256 = "ce143db73277675046078956505a0ff25890b897e3daf86c69c334c0aef53426"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "MFF-11"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.tou_fcr]
+  authority = "puc"
+  docket = "56765"
+
+  [regulator.eccr]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.dsm_c]
+  authority = "puc"
+  docket = "44280"
+
+  [regulator.mff]
+  authority = "puc"
+  docket = "21112-U; 25060-U"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+FPA-17 read with mineru-kit parse --tier standard; every rate was checked
+against the PDF text. TOU-FCR-7, ECCR-15, DSM-C-15 and MFF-11 were read from
+the PDF text directly.
+
+Periods. The sheet and TOU-FCR-7 define On-Peak and Off-Peak by calendar
+month, "for the calendar months of June through September (Summer Months)", so
+the Seasons here are calendar months and need no billing-month deferral,
+unlike FCR-27's. On-Peak hours "on days in which the following holidays are
+observed shall be considered Off-Peak: Independence Day and Labor Day"; the
+sheet states no weekend rule, and us/ga/gpc/utility.toml records that Georgia
+law adopts the federal one, 5 U.S.C. 6103(b), which
+urpx:nearestWeekdayObservance states. The On-Peak energy PriceDefinition is
+also gated on June through September, the only months it has hours in. TOU-
+FCR-7's Applicability names the Fixed Pricing Alternative (FPA). The Off-Peak
+rate is customer-specific, so Off-Peak energy is a PriceDefinition with no
+Price, and ECCR-15 and DSM-C-15 multiply the On-Peak energy Price directly,
+gated on its period. Both apply to 65 percent of FPA's base bill, as ECCR-15
+and DSM-C-15 state, so each multiplier is 0.65 times its rate.
+
+Riders. TOU-FCR-7, ECCR-15, DSM-C-15 and MFF-11 are Prices on the base, as on
+Schedule R. TOU-FCR-7's Secondary Distribution, Primary Distribution and
+Transmission rates and MFF-11's inside and outside city limits rates are
+crossed in one ProfileAlternatives set; its voltage dimension is
+urpx:voltageLevel, whose values are urpx:secondaryVoltage, urpx:primaryVoltage
+and urpx:transmissionVoltage. Each alternative's PriceSetAlternative carries
+its own franchise fee energy subtotal, the base energy prices plus its voltage
+level's fuel prices.
+
+Eligibility is carried as urpx:nonResidentialKind; the sheet's availability
+and applicability are in the rule's description.
+
+Dating. Every sheet is effective "With Bills Rendered for the Billing Month of
+June, 2026", except MFF-11 (January 2025). FPA-17 was filed in the same
+2026-06-30 compliance filing in docket 44280 (PSC document 227071) that
+replaced R-30 with R-31, with a redline against the sheet it replaced, and the
+version begins 2026-06-01 on the reading fifteen Schedule R bills fixed for
+that filing (see Schedule R's tariff.toml). No FPA bill was available to check
+it.
+
+The schedule states no date of first introduction, so
+urpx:initialEffectiveDate carries this version's date, as gpc:r does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.",
+  "Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.29 percent of the base bill inside city limits at FPA's 65 percent rider base, is not carried.",
+  "Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.",
+  "Customer-specific Off-Peak rate. The Off-Peak rate is (Off-Peak Charges - Basic Service Charge x 12) / Off-Peak kWh, where Off-Peak Charges are Total Charges less the On-Peak kWh at the On-Peak rate, and Total Charges are the firm tariff and riders applied to the customer's Customer Baseline Load plus forecasted RTP prices on its expected incremental consumption, less the forecasted hourly average marginal fuel cost. The JSON-LD defines Off-Peak energy as a PriceDefinition with no Price, so a modeled bill carries no Off-Peak energy charge, and the ECCR, DSM and franchise fee on it are missing too.",
+  "Offer and eligibility conditions. FPA is offered periodically, as the Company determines, to customers on FPA-3 Part 1 since 2010 or on Real Time Pricing for three consecutive years, and the Demand Plus Energy Credit tariff does not apply to them. They are stated in the eligibility rule's description.",
+  "Minimum Monthly Bill. The sheet sets it at the $245.03 Basic Service Charge plus ECCR, the applicable DSM schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.",
+  "Term of Contract. The greater of the time remaining on the customer's RTP service contract or one year, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.",
+]
+applicable_modifiers = ["lt", "opt"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power business schedule with the riders as Prices and one voltage-by-location ProfileAlternatives set."

@@ -1,0 +1,228 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-ppp-2024-01-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlanModifier": {
+    "@type": "urpx:RatePlanModifier",
+    "@id": "gpc:ppp",
+    "urpx:name": "Schedule PPP Price Protection Products",
+    "urpx:modifierUniqueIdentifier": "PPP",
+    "urpx:initialEffectiveDate": "2024-01-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanModifierVersion": {
+      "@type": "urpx:RatePlanModifierVersion",
+      "@id": "gpc:ppp-2024-01-01",
+      "urpx:version": "2024-01-01",
+      "urpx:modifierVersionNumber": "2024-01-01",
+      "urpx:changeReason": {
+        "@id": "urpx:changeReasonOther"
+      },
+      "urpx:description": "Georgia Power's Price Protection Products, PPP-2, price stability alternatives for customers billed on hourly Real-Time Pricing (RTP-DA or RTP-HA) prices. A Standard or Limited Contract for Differences is a fixed price guarantee for the average RTP price over a specific time period: the customer keeps receiving RTP prices hour by hour, billed on its RTP tariff, and at the end of the contracted period the Company calculates the differential between the guaranteed price and the actual price, the average of the hourly RTP prices offered during the period (not the customer's load-weighted average), and settles the agreement if necessary. The customer selects the product, contract period and the amount of its qualified incremental load; offerings are updated to the most current projection of RTP prices, with risk adjustments where the Company finds them appropriate. No guaranteed price is published, so the JSON-LD defines the settlement as a PriceDefinition with no Price. Dating: the sheet, page 6.40, Fifth revision, is effective \"January, 2024\", read as 2024-01-01.",
+      "urpx:effectiveDateTime": "2024-01-01T00:00:00",
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:applicableToRatePlan": [
+        {
+          "@id": "gpc:rtp-da"
+        },
+        {
+          "@id": "gpc:rtp-ha"
+        }
+      ],
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:ppp-2024-01-01-data-source-reference",
+        "urpx:fileName": "ppp.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/ppp.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 1
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:ppp-2024-01-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule PPP Price Protection Products",
+          "urpx:description": "Available to customers who are billed on hourly Real-Time Pricing (RTP) prices for some or all of their energy, and applicable to the customer's load that is priced at RTP. Minimum and maximum individual customer purchase amounts are determined based on historical usage. Price Protection Products are offered periodically, as determined by the Company, to eligible customers.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:ppp-2024-01-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:ppp-2024-01-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "@id": "gpc:ppp-2024-01-01-cn-eligibility-left-operand",
+                "urpx:customConditionProperty": "pricingContract"
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:CustomOperandNode",
+                "@id": "gpc:ppp-2024-01-01-cn-eligibility-right-operand",
+                "urpx:stringValue": "Price Protection Product contract (Contract for Differences)"
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:ppp-2024-01-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:ppp-2024-01-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          }
+        ],
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:ppp-2024-01-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:ppp-2024-01-01-ledger-settlement",
+              "urpx:name": "Price Protection Product settlement",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:ppp-2024-01-01-mi-meter-count"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:ppp-2024-01-01-pd-settlement",
+              "urpx:name": "Price Protection Product settlement: the contracted quantity times the difference between the guaranteed price and the average hourly RTP price over the contracted time period",
+              "urpx:chargeType": {
+                "@id": "urpx:contractMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:ppp-2024-01-01-ledger-settlement"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:ppp-2024-01-01-prices"
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlanModifier": {
+        "@id": "gpc:ppp"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-ppp-2024-01-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-ppp-2024-01-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 2 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Contract settlement. The settlement is the contracted quantity times the difference between the guaranteed price and the average of the hourly RTP prices offered over the contracted period, calculated at the period's end. No guaranteed price, quantity or period is published, so the JSON-LD defines the settlement as a PriceDefinition with no Price, and a modeled bill omits it. (2) Products and eligibility. The sheet offers Standard and Limited Contracts for Differences, periodically, with minimum and maximum purchase amounts set from historical usage, on the customer's RTP-priced load. Eligibility is a custom condition, pricingContract, that a consumer supplies; the rest is in the descriptions.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}

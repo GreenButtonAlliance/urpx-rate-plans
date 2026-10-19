@@ -1,0 +1,60 @@
+# Identity --------------------------------------------------------------------
+utility = "gpc"
+schedule = "flat-gs"
+effective_date = "2024-05-01"
+
+# Source ----------------------------------------------------------------------
+[source]
+landing_page = "https://www.georgiapower.com/business/rate-plans-tariffs.html"
+
+  [source.base]
+  url = "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/flat-gs.pdf"
+  sha256 = "7602f74fd6457f66f55450d7dad4a4848fcfb4648e09c0bad10e768b33762f3c"
+  retrieved_on = "2026-10-16"
+  media_type = "application/pdf"
+  filing_type = "tariff-schedule"
+  filing_id = "FLAT-GS-1"
+
+# Regulatory ------------------------------------------------------------------
+# The Georgia Public Service Commission; utility.toml explains authority = "puc".
+[regulator]
+  [regulator.base]
+  authority = "puc"
+
+# Extraction ------------------------------------------------------------------
+[extraction]
+tool = "mineru"
+tool_version = "4.0.12"
+extracted_on = "2026-10-18"
+notes = """
+FLAT-GS-1 read with mineru-kit parse --tier standard; every value was checked
+against the PDF text.
+
+Dating. The sheet, page 3.50, Second revision, is effective "With Bills
+Rendered for the Billing Month of May, 2024". The version begins 2024-05-01,
+the billing-month reading FLAT-7 and IQD-1 use. The schedule states no date of
+first introduction, so urpx:initialEffectiveDate carries this version's date,
+as gpc:flat does.
+"""
+
+# Validation ------------------------------------------------------------------
+[validation]
+shacl_passed = true
+validator = "clj-shacl + clj-urpx (URPX v0.5.1)"
+validated_on = "2026-10-19"
+
+# Modeling --------------------------------------------------------------------
+[modeling]
+complete = false
+deferrals = [
+  "FlatBill General Service Monthly Amount. The sheet bills each account a fixed monthly amount computed from that account's expected usage, the General Service schedule's charges with ECCR, DSM, FCR and the Municipal Franchise Fee, and a Risk Adder of up to 10 percent, none of which is published for an account. The JSON-LD defines the amount as a monthly PriceDefinition with no Price, the formula and its eight steps in the version description, so a modeled bill omits it and the validator refuses the filing as :no-energy-ledger.",
+  "Offer conditions. The sheet limits FlatBill General Service to customers in their facility and on General Service or FlatBill General Service for the previous 12 months, using less than 3,000 kWh a month with a maximum 30-minute demand under 30 kW, in good financial standing, and makes no offer under $50 a month. The EligibilityRule carries non-residential customer kind; the rest is in its description.",
+  "Early withdrawal. A customer who does not complete the 12-month contract may be required to pay the excess of the General Service bill for the electricity actually used over the FlatBill General Service amounts billed, with no refund where it is less. No Price carries it.",
+  "Return to General Service. Where a customer's monthly usage is 50 percent greater than the Expected Monthly kWh adjusted for the current year's actual weather, the Company may return the customer to General Service, or the appropriate tariff, for the rest of the contract, under the same withdrawal terms. No Price carries it.",
+]
+applicable_modifiers = ["lt", "opt"]
+
+# Review ----------------------------------------------------------------------
+[review]
+status = "draft"
+notes = "Georgia Power schedule priced per customer: its computed charges are PriceDefinitions with no Price."

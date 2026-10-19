@@ -1,0 +1,1123 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-rtp-da-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "gpc:rtp-da",
+    "urpx:name": "Schedule RTP-DA Real Time Pricing - Day Ahead",
+    "urpx:ratePlanUniqueIdentifier": "RTP-DA",
+    "urpx:initialEffectiveDate": "2026-06-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "gpc:rtp-da-2026-06-01",
+      "urpx:description": "Georgia Power's real time pricing schedule with day ahead prices, RTP-DA-13, for commercial and industrial customers with a peak demand of at least 250 kW, who receive each day's hourly prices by 4:00 p.m. the day before. An Administrative Charge of $155 per month for customers over 1,000 kW in the month and $175 for customers less than 1,000 kW, chosen by a ProfileAlternative. The bill is a Standard Bill plus the sum over every hour of the hourly price times the difference between the customer's actual load and its Customer Baseline Load (CBL) in that hour. The Standard Bill applies the appropriate firm non-RTP tariff, ECCR, the appropriate DSM schedule and FCR to the CBL, a load shape agreed with the customer that represents its normal operation on its conventional tariff, so the Standard Bill does not vary with RTP usage and the bill differs from the conventional one only as usage departs from the CBL. Hourly prices are based on projections of the hourly running cost of incremental generation (including approved environmental costs), losses, hourly transmission costs and reliability capacity costs, plus a 3 mill per kWh recovery factor; fuel on incremental kWh is recovered at the hourly average marginal fuel cost. Neither the Standard Bill nor the hourly prices are published, so the JSON-LD defines each as a PriceDefinition with no Price, the incremental kWh a calculated MetricInput. Excess reactive demand, kVAR above one-third of the measured kW where the Company meters it, is billed at $0.43 per kVAR, and the Municipal Franchise Fee MFF-11, 3.0843 percent inside city limits or 1.1995 percent outside them, is a multiplier over the Administrative Charge and the kVAR charge, chosen by a ProfileAlternative. Dating: the sheet is effective \"With Bills Rendered for the Billing Month of June, 2026\" and was filed with Schedule R-31 in the same compliance filing in docket 44280 (PSC document 227071), so this version begins 2026-06-01.",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:rtp-da-2026-06-01-data-source-reference",
+        "urpx:fileName": "rtp-da.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/rtp-da.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 5
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:rtp-da-2026-06-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule RTP-DA Real Time Pricing - Day Ahead",
+          "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity to both new and existing Commercial and Industrial customers, who must be able to benefit from hourly price signals and maintain a peak 30-minute demand not less than 250 kW each month. Customers may elect to be interruptible under the Demand Plus Energy Credit (DPEC) rider, and are responsible for any additional cost of providing service on this tariff. Mutual agreement on the Customer Baseline Load is a precondition. Firm service, single or three phase, 60 hertz, at a standard voltage.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:rtp-da-2026-06-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:rtp-da-2026-06-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:rtp-da-2026-06-01-cn-eligibility-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:rtp-da-2026-06-01-cn-eligibility-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:rtp-da-2026-06-01-plan-elements",
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:rtp-da-2026-06-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:rtp-da-2026-06-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption (hourly)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:rtp-da-2026-06-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              },
+              "urpx:intervalDuration": "PT1H",
+              "urpx:intervalType": {
+                "@id": "urpx:hourlyInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:rtp-da-2026-06-01-mi-demand",
+            "urpx:name": "kW Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:rtp-da-2026-06-01-ms-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:rtp-da-2026-06-01-mi-incremental-energy",
+            "urpx:name": "Incremental kWh: actual load less the Customer Baseline Load, by hour",
+            "urpx:description": "Each hour's actual load less the customer's Customer Baseline Load (CBL) for that hour, positive or negative, which the hourly price applies to.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:rtp-da-2026-06-01-ms-incremental-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "gpc:rtp-da-2026-06-01-mi-incremental-energy-calculation-method",
+              "urpx:calculationFormula": "Load[h] - CBL[h], for each hour h of the billing period",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "gpc:rtp-da-2026-06-01-mi-energy"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:rtp-da-2026-06-01-mi-reactive-demand",
+            "urpx:name": "kVAR Reactive Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:rtp-da-2026-06-01-ms-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:rtp-da-2026-06-01-mi-excess-reactive-demand",
+            "urpx:name": "Excess Reactive Demand (kVAR)",
+            "urpx:description": "Excess Reactive Demand: the highest 30-minute kVAR measured during the month in excess of one-third of the measured actual kW in the current month. Measured only where there is a power factor of less than 95 percent lagging and the Company, at its option, installs metering equipment.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:rtp-da-2026-06-01-ms-excess-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "gpc:rtp-da-2026-06-01-mi-excess-reactive-demand-calculation-method",
+              "urpx:calculationFormula": "max(max kVAR - max kW / 3, 0)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "gpc:rtp-da-2026-06-01-mi-reactive-demand"
+                },
+                {
+                  "@id": "gpc:rtp-da-2026-06-01-mi-demand"
+                }
+              ]
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location",
+          "urpx:name": "Administrative Charge size and Municipal Franchise Fee location",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "gpc:rtp-da-2026-06-01-ad-administrative-size",
+                "urpx:customDimensionProperty": "rtpMonthlyDemandSize",
+                "urpx:dimensionDisplayName": "Monthly demand, for the Administrative Charge",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Over 1,000 kW"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Less than 1,000 kW"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "gpc:rtp-da-2026-06-01-ad-franchise-fee-location",
+                "urpx:customDimensionProperty": "franchiseFeeLocation",
+                "urpx:dimensionDisplayName": "Municipal Franchise Fee location",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Inside City Limits"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Outside City Limits"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-pa-over-1000-kw-inside-city-limits",
+              "urpx:name": "Customers over 1,000 kW in the month, inside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:rtp-da-2026-06-01-cx-pa-over-1000-kw-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:rtp-da-2026-06-01-bn-pa-over-1000-kw-inside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-inside-city-limits-administrative-size",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-inside-city-limits-administrative-size-left-operand",
+                        "urpx:customConditionProperty": "rtpMonthlyDemandSize"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-inside-city-limits-administrative-size-right-operand",
+                        "urpx:stringValue": "Over 1,000 kW"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-inside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-inside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-inside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Inside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "rtpMonthlyDemandSize = 'Over 1,000 kW' AND franchiseFeeLocation = 'Inside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-pa-over-1000-kw-outside-city-limits",
+              "urpx:name": "Customers over 1,000 kW in the month, outside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:rtp-da-2026-06-01-cx-pa-over-1000-kw-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:rtp-da-2026-06-01-bn-pa-over-1000-kw-outside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-outside-city-limits-administrative-size",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-outside-city-limits-administrative-size-left-operand",
+                        "urpx:customConditionProperty": "rtpMonthlyDemandSize"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-outside-city-limits-administrative-size-right-operand",
+                        "urpx:stringValue": "Over 1,000 kW"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-outside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-outside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-over-1000-kw-outside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Outside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "rtpMonthlyDemandSize = 'Over 1,000 kW' AND franchiseFeeLocation = 'Outside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-pa-under-1000-kw-inside-city-limits",
+              "urpx:name": "Customers less than 1,000 kW in the month, inside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:rtp-da-2026-06-01-cx-pa-under-1000-kw-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:rtp-da-2026-06-01-bn-pa-under-1000-kw-inside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-inside-city-limits-administrative-size",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-inside-city-limits-administrative-size-left-operand",
+                        "urpx:customConditionProperty": "rtpMonthlyDemandSize"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-inside-city-limits-administrative-size-right-operand",
+                        "urpx:stringValue": "Less than 1,000 kW"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-inside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-inside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-inside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Inside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "rtpMonthlyDemandSize = 'Less than 1,000 kW' AND franchiseFeeLocation = 'Inside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-pa-under-1000-kw-outside-city-limits",
+              "urpx:name": "Customers less than 1,000 kW in the month, outside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:rtp-da-2026-06-01-cx-pa-under-1000-kw-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:rtp-da-2026-06-01-bn-pa-under-1000-kw-outside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-outside-city-limits-administrative-size",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-outside-city-limits-administrative-size-left-operand",
+                        "urpx:customConditionProperty": "rtpMonthlyDemandSize"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-outside-city-limits-administrative-size-right-operand",
+                        "urpx:stringValue": "Less than 1,000 kW"
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-outside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-outside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:rtp-da-2026-06-01-cn-pa-under-1000-kw-outside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Outside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "rtpMonthlyDemandSize = 'Less than 1,000 kW' AND franchiseFeeLocation = 'Outside City Limits'"
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:rtp-da-2026-06-01-plan-elements-billing-model",
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:rtp-da-2026-06-01-ledger-standard-bill",
+              "urpx:name": "Standard Bill",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:rtp-da-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:rtp-da-2026-06-01-ledger-incremental-energy",
+              "urpx:name": "RTP-DA hourly prices on incremental kWh",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:rtp-da-2026-06-01-mi-incremental-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:rtp-da-2026-06-01-ledger-administrative-charge",
+              "urpx:name": "Administrative Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:rtp-da-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:rtp-da-2026-06-01-ledger-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:rtp-da-2026-06-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:rtp-da-2026-06-01-ledger-mff-administrative-charge",
+              "urpx:name": "Municipal Franchise Fee, on the Administrative Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:rtp-da-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:rtp-da-2026-06-01-ledger-mff-excess-reactive-demand",
+              "urpx:name": "Municipal Franchise Fee, on the Excess Reactive Demand charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:rtp-da-2026-06-01-mi-excess-reactive-demand"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:rtp-da-2026-06-01-pd-standard-bill",
+              "urpx:name": "Standard Bill: the firm non-RTP tariff, ECCR, the appropriate DSM schedule and FCR applied to the customer's Customer Baseline Load, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:contractMisc"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:rtp-da-2026-06-01-pd-standard-bill-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:rtp-da-2026-06-01-ledger-standard-bill"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:rtp-da-2026-06-01-pd-incremental-energy",
+              "urpx:name": "RTP-DA hourly price, per kWh of load above (or credit per kWh below) the Customer Baseline Load",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:rtp-da-2026-06-01-ledger-incremental-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:rtp-da-2026-06-01-pd-administrative-charge",
+              "urpx:name": "Administrative Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:rtp-da-2026-06-01-pd-administrative-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:rtp-da-2026-06-01-ledger-administrative-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:rtp-da-2026-06-01-pd-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand, per excess kVAR",
+              "urpx:chargeType": {
+                "@id": "urpx:reactiveDemand"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:rtp-da-2026-06-01-pd-excess-reactive-demand-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:rtp-da-2026-06-01-ledger-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:rtp-da-2026-06-01-pd-mff-administrative-charge",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the Administrative Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:rtp-da-2026-06-01-ledger-mff-administrative-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:rtp-da-2026-06-01-pd-mff-excess-reactive-demand",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the Excess Reactive Demand charge",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:rtp-da-2026-06-01-ledger-mff-excess-reactive-demand"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:rtp-da-2026-06-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:rtp-da-2026-06-01-ps",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:rtp-da-2026-06-01-price-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:rtp-da-2026-06-01-pd-excess-reactive-demand"
+                },
+                "urpx:name": "Excess Reactive Demand, per excess kVAR",
+                "urpx:unitPrice": "0.43"
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "gpc:rtp-da-2026-06-01-psa-administrative-size-franchise-fee-location",
+          "urpx:name": "Administrative Charge by monthly demand, and Municipal Franchise Fee MFF-11 by location of service",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "gpc:rtp-da-2026-06-01-pa-administrative-size-franchise-fee-location"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-psa-over-1000-kw-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:rtp-da-2026-06-01-pa-over-1000-kw-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-over-1000-kw-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-administrative-charge"
+                  },
+                  "urpx:name": "Administrative Charge, Customers over 1,000 kW in the month",
+                  "urpx:unitPrice": "155.00"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-over-1000-kw-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-administrative-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Administrative Charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-over-1000-kw-inside-city-limits"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-over-1000-kw-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-over-1000-kw-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-over-1000-kw-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-psa-over-1000-kw-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:rtp-da-2026-06-01-pa-over-1000-kw-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-over-1000-kw-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-administrative-charge"
+                  },
+                  "urpx:name": "Administrative Charge, Customers over 1,000 kW in the month",
+                  "urpx:unitPrice": "155.00"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-over-1000-kw-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-administrative-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Administrative Charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-over-1000-kw-outside-city-limits"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-over-1000-kw-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-over-1000-kw-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-over-1000-kw-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-psa-under-1000-kw-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:rtp-da-2026-06-01-pa-under-1000-kw-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-under-1000-kw-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-administrative-charge"
+                  },
+                  "urpx:name": "Administrative Charge, Customers less than 1,000 kW in the month",
+                  "urpx:unitPrice": "175.00"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-under-1000-kw-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-administrative-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Administrative Charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-under-1000-kw-inside-city-limits"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-under-1000-kw-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-under-1000-kw-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-under-1000-kw-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:rtp-da-2026-06-01-psa-under-1000-kw-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:rtp-da-2026-06-01-pa-under-1000-kw-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-under-1000-kw-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-administrative-charge"
+                  },
+                  "urpx:name": "Administrative Charge, Customers less than 1,000 kW in the month",
+                  "urpx:unitPrice": "175.00"
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-under-1000-kw-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-administrative-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Administrative Charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-administrative-charge-under-1000-kw-outside-city-limits"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-administrative-charge-under-1000-kw-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-under-1000-kw-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:rtp-da-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:rtp-da-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:rtp-da-2026-06-01-price-mff-excess-reactive-demand-under-1000-kw-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "gpc:rtp-da"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-rtp-da-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-rtp-da-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 6 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Standard Bill. The Standard Bill applies the appropriate firm non-RTP tariff, ECCR, the appropriate DSM schedule and FCR to the customer's Customer Baseline Load (CBL), a load shape agreed with the customer, and is revised when any of them changes. It is computed for each customer and not published, so the JSON-LD defines it as a monthly PriceDefinition with no Price, and a modeled bill omits it. (2) Hourly prices. Each hour's price times the difference between actual load and the CBL is charged or credited. The prices are set each day from projected marginal costs and are not part of the sheet, so the JSON-LD defines the hourly charge as a PriceDefinition with no Price on a calculated MetricInput of incremental kWh, its formula text in its CalculationMethod; the validator refuses the filing as :no-energy-ledger. (3) Customer Baseline Load rules. The sheet's rules for developing a CBL for existing and new load (from interval data, a Template, a Footprint or a Demonstration), its minimum CBL level by location, revisions for load added or removed, and the twenty-four months a customer must stay off RTP to reset a CBL are not prices and are not carried. (4) Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill. Its multiplier Prices here are based on the Administrative Charge and the Excess Reactive Demand Prices only, so the franchise fee on the Standard Bill and the hourly charges is not carried. (5) Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it. (6) Price notification, Demand Plus Energy Credit and Term of Contract. The Company is not responsible for a customer's failure to receive and act upon the hourly prices; the customer may elect to be interruptible under the DPEC rider, which this corpus does not model; the term is five years. None is priced here and none is carried.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}
