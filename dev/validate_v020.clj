@@ -338,6 +338,13 @@
    "gpc:iop-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:iop-2026-06-01-pa-secondary-inside-city-limits"
    ;; ET-23 serves at 19,800 volts or higher, never Secondary Distribution.
    "gpc:et-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:et-2026-06-01-pa-primary-inside-city-limits"
+   "gpc:tou-eo-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-eo-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:tou-gsd-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-gsd-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:tou-hlf-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-hlf-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:tou-fd-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-fd-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:tou-rn-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-rn-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:tou-sc-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-sc-2026-06-01-pa-secondary-inside-city-limits"
+   "gpc:tou-evc-2026-06-01-pa-voltage-level-franchise-fee-location" "gpc:tou-evc-2026-06-01-pa-secondary-inside-city-limits"
    ;; One block, the smallest subscription Rider CS sells.
    "jemc:cs-2022-06-01-pa-solar-blocks" "jemc:cs-2022-06-01-pa-1-block"
    ;; 100 percent carries Rider GP's full $0.01/kWh premium.

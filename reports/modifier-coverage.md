@@ -13,7 +13,7 @@ Status glyphs:
 
 ## Summary
 
-- Base RatePlan filings: **143**
+- Base RatePlan filings: **150**
 - Fully covered (base complete + every applicable modifier present-and-complete): **0**
 - Applicable-modifier slots across all bases: **492**
   - present and complete: 22
@@ -532,6 +532,63 @@ Base deferrals:
 
 _No applicable modifiers declared._
 
+#### `tou-eo` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Minimum Monthly Bill. The sheet sets it at the $96.00 Basic Service Charge plus $7.42 per kW for the first 10 kW above 30 kW, $14.57 per kW for the next 10 kW and $44.07 per kW for all demand above 50 kW, the highest 30-minute kW of the month, plus ECCR, DSM, Fuel Cost Recovery on the current month's kWh and the Municipal Franchise Fee. A minimum is a floor under the bill, which no Price expresses, so it is not carried; a modeled bill below it is low by the difference.
+- Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tou-evc` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Minimum Monthly Bill. The sheet sets it at the $154.48 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tou-fd` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Business and demand qualifications. The customer must have an annual peak demand of 30 to 250 kW and be a NAICS 722 food service or drinking place, or have been served on TOU-MB-7 at the end of 2019 and on TOU-FD since; accounts were accepted until 6,000 accounts or December 31, 2025. They are stated in the eligibility rule's description, which names only the non-residential customer kind.
+- Minimum Monthly Bill. The sheet sets it at the $123.02 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tou-gsd` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Minimum Monthly Bill. The sheet sets it at the $196.23 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- On-Peak kW and Economy kW. Both are calculated MetricInputs whose rules are text in their CalculationMethods, which URPX v0.5.1 does not evaluate; a consumer has to compute the highest 30-minute kW in the On-Peak hours and subtract it from the month's highest.
+- Term of Contract. Three years, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tou-hlf` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Account and load factor qualifications. The customer must initially place twenty or more accounts on the tariff, each keeping an average monthly load factor of 60 percent or more over the prior twelve months with at least one summer peak of 526 kW or more. They are stated in the eligibility rule's description, which names only the non-residential customer kind.
+- Minimum Monthly Bill. The sheet sets it at the $230.79 Basic Service Charge plus ECCR, the Demand Side Management Commercial Schedule and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year: the customer is required to remain on the tariff for twelve months from the contract date, renewed automatically each year unless terminated with 30 days' notice before the anniversary. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
 #### `tou-oa` @ 2026-06-01  &nbsp; base: ~
 
 Base deferrals:
@@ -567,6 +624,31 @@ Base deferrals:
 | Modifier | Status | Filing |
 |---|---|---|
 | `iqd` | ~ present-incomplete | `us/ga/gpc/electricity/iqd/versions/2024-05-01` |
+
+#### `tou-rn` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Customer-specific Off-Peak rate. The Off-Peak rate is (Off-Peak Charges - Basic Service Charge x 12) / Off-Peak kWh, where Off-Peak Charges are the customer's most recent full calendar year of usage priced on the appropriate firm tariffs and riders, excluding FCR, less its On-Peak kWh at the On-Peak rate. The JSON-LD defines Off-Peak energy as a PriceDefinition with no Price, so a modeled bill carries no Off-Peak energy charge, and the ECCR, DSM and franchise fee on it are missing too.
+- Minimum Monthly Bill. The sheet sets it at the $314.17 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. One year, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
+
+#### `tou-sc` @ 2026-06-01  &nbsp; base: ~
+
+Base deferrals:
+- Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits.
+- Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried.
+- Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it.
+- Customer-specific Off-Peak rate. Under the Standard Price Option the Off-Peak rate is computed by the Company from the cost to serve the customer's load and location, to meet the Company's financial requirements, and is reviewed after three years or the Initial Period if usage moves more than 15 percent from the initial projections. The JSON-LD defines Off-Peak energy as a PriceDefinition with no Price, so a modeled bill carries no Off-Peak energy charge, and the ECCR, DSM and franchise fee on it are missing too.
+- Flat Price Option and Monthly Access Charge Option. At the Company's option a customer may instead pay a customer-specific flat energy rate for an Initial Period, inclusive of the Basic Service Charge, the riders and a risk adder of up to 10 percent; or, for large loads, a customer-specific Monthly Access Charge plus a $155 per month Administrative Charge, with all energy at the hourly Real Time Pricing - Day Ahead price. Neither is carried.
+- Minimum Monthly Bill. Under the Standard Price Option the sheet sets it at the $174.88 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it.
+- Term of Contract. Three years, or as specified in the customer's Contract for Electric Service. Nothing is priced by it and it is not carried.
+
+_No applicable modifiers declared._
 
 ### JEMC
 

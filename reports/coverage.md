@@ -75,7 +75,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Class | Residential | Covered | % | Modeled tariffs |
 |---|---|---:|---:|---:|---|
-| Georgia Power Company | iou | 2,452,488 | 0 | 0.0% | aps (no estimate), et (no estimate), flat (no estimate), fs (no estimate), g (no estimate), gs (no estimate), iop (no estimate), ogs (no estimate), pbd (no estimate), pll (no estimate), plm (no estimate), pls (no estimate), pps (no estimate), r (no estimate), sas (no estimate), sas-nd (no estimate), sch (no estimate), slm (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate) |
+| Georgia Power Company | iou | 2,452,488 | 0 | 0.0% | aps (no estimate), et (no estimate), flat (no estimate), fs (no estimate), g (no estimate), gs (no estimate), iop (no estimate), ogs (no estimate), pbd (no estimate), pll (no estimate), plm (no estimate), pls (no estimate), pps (no estimate), r (no estimate), sas (no estimate), sas-nd (no estimate), sch (no estimate), slm (no estimate), tou-eo (no estimate), tou-evc (no estimate), tou-fd (no estimate), tou-gsd (no estimate), tou-hlf (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate), tou-rn (no estimate), tou-sc (no estimate) |
 
 ### Largest unmodeled customer pools
 
@@ -83,7 +83,7 @@ Sorted by number of residential customers without a modeled default. Top of list
 
 | Utility | Uncovered customers | Existing modeled | Notes |
 |---|---:|---|---|
-| Georgia Power Company | 2,452,488 | aps (no estimate), et (no estimate), flat (no estimate), fs (no estimate), g (no estimate), gs (no estimate), iop (no estimate), ogs (no estimate), pbd (no estimate), pll (no estimate), plm (no estimate), pls (no estimate), pps (no estimate), r (no estimate), sas (no estimate), sas-nd (no estimate), sch (no estimate), slm (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate) | |
+| Georgia Power Company | 2,452,488 | aps (no estimate), et (no estimate), flat (no estimate), fs (no estimate), g (no estimate), gs (no estimate), iop (no estimate), ogs (no estimate), pbd (no estimate), pll (no estimate), plm (no estimate), pls (no estimate), pps (no estimate), r (no estimate), sas (no estimate), sas-nd (no estimate), sch (no estimate), slm (no estimate), tou-eo (no estimate), tou-evc (no estimate), tou-fd (no estimate), tou-gsd (no estimate), tou-hlf (no estimate), tou-oa (no estimate), tou-rd (no estimate), tou-reo (no estimate), tou-rn (no estimate), tou-sc (no estimate) | |
 
 ## Washington
 
@@ -146,9 +146,16 @@ Sorted by number of residential customers without a modeled default. Top of list
 | GA | gpc | sas-nd | rate-plan | 2026-06-01 |
 | GA | gpc | sch | rate-plan | 2026-06-01 |
 | GA | gpc | slm | rate-plan | 2026-06-01 |
+| GA | gpc | tou-eo | rate-plan | 2026-06-01 |
+| GA | gpc | tou-evc | rate-plan | 2026-06-01 |
+| GA | gpc | tou-fd | rate-plan | 2026-06-01 |
+| GA | gpc | tou-gsd | rate-plan | 2026-06-01 |
+| GA | gpc | tou-hlf | rate-plan | 2026-06-01 |
 | GA | gpc | tou-oa | rate-plan | 2026-06-01 |
 | GA | gpc | tou-rd | rate-plan | 2026-06-01 |
 | GA | gpc | tou-reo | rate-plan | 2026-06-01 |
+| GA | gpc | tou-rn | rate-plan | 2026-06-01 |
+| GA | gpc | tou-sc | rate-plan | 2026-06-01 |
 | GA | jemc | a | rate-plan | 2026-01-01 |
 | GA | jemc | aea | rate-plan | 2026-01-01 |
 | GA | jemc | am | rate-plan | 2026-01-01 |

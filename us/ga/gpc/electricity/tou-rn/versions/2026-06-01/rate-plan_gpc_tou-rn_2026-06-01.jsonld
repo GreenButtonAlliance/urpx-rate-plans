@@ -1,0 +1,2546 @@
+{
+  "@context": {
+    "urpx": "https://urpx.org/ns/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "org": "https://rate-plans.grid-coordination.energy/organizations/",
+    "gpc": "https://rate-plans.grid-coordination.energy/gpc/",
+    "urpx:unitPrice": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:effectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:evaluatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:effectiveDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:expirationDateTime": {
+      "@type": "xsd:dateTime"
+    },
+    "urpx:baseQuantity": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:initialEffectiveDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:startDate": {
+      "@type": "xsd:date"
+    },
+    "urpx:url": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:month": {
+      "@type": "xsd:gMonth"
+    },
+    "urpx:intervalDuration": {
+      "@type": "xsd:duration"
+    },
+    "urpx:pageStart": {
+      "@type": "xsd:integer"
+    },
+    "urpx:pageEnd": {
+      "@type": "xsd:integer"
+    },
+    "urpx:accessURL": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:dateRetrieved": {
+      "@type": "xsd:date"
+    },
+    "urpx:targetURPXVersion": {
+      "@type": "xsd:anyURI"
+    },
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "urpx:multiplier": {
+      "@type": "xsd:decimal"
+    },
+    "urpx:dimensionProperty": {
+      "@type": "xsd:anyURI"
+    },
+    "urpx:startTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:endTime": {
+      "@type": "xsd:time"
+    },
+    "urpx:touTierNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:touPeriodNumber": {
+      "@type": "xsd:integer"
+    },
+    "urpx:includeHolidays": {
+      "@type": "xsd:boolean"
+    },
+    "urpx:includeNonHolidays": {
+      "@type": "xsd:boolean"
+    }
+  },
+  "@type": "urpx:URPXPackage",
+  "@id": "gpc:doc-tou-rn-2026-06-01",
+  "urpx:targetURPXVersion": "https://github.com/urpx-org/urpx/raw/v0.5.1/ontology/urpx-ontology.ttl",
+  "urpx:hasRatePlan": {
+    "@type": "urpx:RatePlan",
+    "@id": "gpc:tou-rn",
+    "urpx:name": "Schedule TOU-RN Time of Use - Revenue Neutral",
+    "urpx:ratePlanUniqueIdentifier": "TOU-RN",
+    "urpx:initialEffectiveDate": "2026-06-01",
+    "urpx:timezoneIdentifier": "America/New_York",
+    "urpx:hasRatePlanVersion": {
+      "@type": "urpx:RatePlanVersion",
+      "@id": "gpc:tou-rn-2026-06-01",
+      "urpx:description": "Georgia Power's time of use revenue neutral schedule, TOU-RN-14, for customers moved from discontinued tariffs on a revenue neutral basis. A Basic Service Charge of $314.17 per month and energy at 17.6232 cents per On-Peak kWh. The Off-Peak rate is customer-specific: (Off-Peak Charges - Basic Service Charge x 12) / Off-Peak kWh, where Off-Peak Charges are the customer's most recent full calendar year of usage priced on the appropriate firm tariffs and riders excluding FCR, less the On-Peak kWh at the On-Peak rate. The JSON-LD defines Off-Peak energy as a PriceDefinition with no Price. On-Peak is 2:00 p.m. to 7:00 p.m. Monday through Friday in the calendar months June through September, except on the days Independence Day and Labor Day are observed; every other hour is Off-Peak, including all weekends and all of October through May. Excess reactive demand, kVAR above one-third of the measured kW where the Company meters it, is billed at $0.43 per kVAR. The holiday calendar observes Independence Day on the nearest weekday, the federal rule of 5 U.S.C. 6103(b) that Georgia law adopts, since the sheet states none. The riders the sheet applies are carried as Prices here rather than as modifiers, because every customer on the schedule pays them: Time of Use Fuel Cost Recovery TOU-FCR-7 per kWh, by voltage level and over the same On-Peak and Off-Peak periods (Secondary Distribution 5.2269 cents On-Peak and 3.7441 cents Off-Peak, Primary Distribution 5.1334 and 3.6771 cents, Transmission 5.0975 and 3.6514 cents); Environmental Compliance Cost Recovery ECCR-15 (13.0205 percent) and Demand Side Management Commercial DSM-C-15 (1.2676 percent) of the base bill, each as one multiplier over the energy subtotal and one over each non-energy charge; and the Municipal Franchise Fee MFF-11, 3.0843 percent inside city limits or 1.1995 percent outside them (also for a city with which the Company has no franchise fee agreement), as multipliers over the energy-and-fuel subtotal and each non-energy charge. One ProfileAlternatives set crosses the three voltage levels with the two franchise fee locations, and each of its 6 alternatives carries that voltage level's fuel prices and that location's franchise fee. Dating: the sheet and its riders are effective \"With Bills Rendered for the Billing Month of June, 2026\" (MFF-11 for January 2025). TOU-RN-14 was filed with Schedule R-31 in the same compliance filing in docket 44280 (PSC document 227071), so this version begins 2026-06-01, the date Schedule R's bills show the new base rates took effect by calendar day.",
+      "urpx:effectiveDateTime": "2026-06-01T00:00:00",
+      "urpx:changeReason": {
+        "@id": "urpx:rateCase"
+      },
+      "urpx:priceCurrency": "USD",
+      "urpx:commodity": {
+        "@id": "urpx:electricity"
+      },
+      "urpx:serviceRole": {
+        "@id": "urpx:bundledServiceRole"
+      },
+      "urpx:customerChoice": {
+        "@id": "urpx:voluntaryChoice"
+      },
+      "urpx:isDefault": false,
+      "urpx:hasDataSourceReference": {
+        "@type": "urpx:DataSourceReference",
+        "@id": "gpc:tou-rn-2026-06-01-data-source-reference",
+        "urpx:fileName": "tou-rn.pdf",
+        "urpx:mediaType": {
+          "@id": "urpx:applicationPdf"
+        },
+        "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-rn.pdf",
+        "urpx:dateRetrieved": "2026-10-16",
+        "urpx:dataSourceType": {
+          "@id": "urpx:utilityWebsiteSource"
+        },
+        "urpx:pageStart": 1,
+        "urpx:pageEnd": 3
+      },
+      "urpx:hasEligibilityRule": [
+        {
+          "@type": "urpx:EligibilityRule",
+          "@id": "gpc:tou-rn-2026-06-01-er-eligibility",
+          "urpx:name": "Eligibility for Schedule TOU-RN Time of Use - Revenue Neutral",
+          "urpx:description": "Throughout the Company's service area from existing lines of adequate capacity. Applicable to all electric service for Commercial and Industrial customers, at one standard voltage required on the customer's premises, delivered at one point and metered at or compensated to that voltage, who either (1) were served on the Fixed Pricing Alternative (FPA-3) tariff, Parts 2 through 5 as of December 2010 and have been continuously served on TOU-RN since January 2011, or (2) have accepted a one time TOU-RN offer from the Company as a result of the customer's tariff having been discontinued by order of the Georgia Public Service Commission, calculated on a revenue neutral basis to that tariff. Customers with an expected total peak demand of 100 MW or greater at one or more premises located on one tract or contiguous tracts of land may only take service under this tariff if they contracted for such service prior to February 1, 2025. Firm service, single or three phase, 60 hertz, at a standard voltage.",
+          "urpx:hasConditionExpression": {
+            "@type": "urpx:ConditionExpression",
+            "@id": "gpc:tou-rn-2026-06-01-cx-eligibility",
+            "urpx:rootNode": {
+              "@type": "urpx:ComparisonNode",
+              "@id": "gpc:tou-rn-2026-06-01-cn-eligibility",
+              "urpx:operator": {
+                "@id": "urpx:equalsOperator"
+              },
+              "urpx:leftOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:tou-rn-2026-06-01-cn-eligibility-left-operand",
+                "urpx:conditionProperty": {
+                  "@id": "urpx:hasCustomerKind"
+                }
+              },
+              "urpx:rightOperand": {
+                "@type": "urpx:ObjectOperandNode",
+                "@id": "gpc:tou-rn-2026-06-01-cn-eligibility-right-operand",
+                "urpx:referencesValue": {
+                  "@id": "urpx:nonResidentialKind"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "urpx:hasPlanElements": {
+        "@type": "urpx:PlanElements",
+        "@id": "gpc:tou-rn-2026-06-01-plan-elements",
+        "urpx:hasSeasons": [
+          {
+            "@type": "urpx:Season",
+            "@id": "gpc:tou-rn-2026-06-01-season-summer",
+            "urpx:seasonName": "Summer",
+            "urpx:month": [
+              "--06",
+              "--07",
+              "--08",
+              "--09"
+            ]
+          },
+          {
+            "@type": "urpx:Season",
+            "@id": "gpc:tou-rn-2026-06-01-season-winter",
+            "urpx:seasonName": "Winter",
+            "urpx:month": [
+              "--10",
+              "--11",
+              "--12",
+              "--01",
+              "--02",
+              "--03",
+              "--04",
+              "--05"
+            ]
+          }
+        ],
+        "urpx:hasHolidayCalendar": {
+          "@type": "urpx:HolidayCalendar",
+          "@id": "gpc:tou-rn-2026-06-01-holidays",
+          "urpx:hasHoliday": [
+            {
+              "@type": "urpx:Holiday",
+              "@id": "gpc:tou-rn-2026-06-01-holiday-independence-day",
+              "urpx:holidayName": "Independence Day",
+              "urpx:holidayRule": "July 4",
+              "urpx:observanceRule": {
+                "@id": "urpx:nearestWeekdayObservance"
+              }
+            },
+            {
+              "@type": "urpx:Holiday",
+              "@id": "gpc:tou-rn-2026-06-01-holiday-labor-day",
+              "urpx:holidayName": "Labor Day",
+              "urpx:holidayRule": "First Monday in September"
+            }
+          ]
+        },
+        "urpx:hasMetricInput": [
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tou-rn-2026-06-01-mi-energy",
+            "urpx:name": "kWh Energy Consumption Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:tou-rn-2026-06-01-ms-energy",
+              "urpx:measurementKind": {
+                "@id": "urpx:energy"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kWh"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tou-rn-2026-06-01-mi-meter-count",
+            "urpx:name": "Per Meter Prices",
+            "urpx:metricInputType": {
+              "@id": "urpx:profileMetricInput"
+            },
+            "urpx:profileMetricProperty": {
+              "@id": "urpx:meterCount"
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tou-rn-2026-06-01-mi-demand",
+            "urpx:name": "kW Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:tou-rn-2026-06-01-ms-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:demand"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kW"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tou-rn-2026-06-01-mi-reactive-demand",
+            "urpx:name": "kVAR Reactive Demand (30-minute)",
+            "urpx:metricInputType": {
+              "@id": "urpx:measuredMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:tou-rn-2026-06-01-ms-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              },
+              "urpx:intervalDuration": "PT30M",
+              "urpx:intervalType": {
+                "@id": "urpx:thirtyMinuteInterval"
+              }
+            }
+          },
+          {
+            "@type": "urpx:MetricInput",
+            "@id": "gpc:tou-rn-2026-06-01-mi-excess-reactive-demand",
+            "urpx:name": "Excess Reactive Demand (kVAR)",
+            "urpx:description": "Excess Reactive Demand: the highest 30-minute kVAR measured during the month in excess of one-third of the measured actual kW in the current month. Measured only where there is an indication of a power factor of less than 95 percent lagging and the Company, at its option, installs metering equipment.",
+            "urpx:metricInputType": {
+              "@id": "urpx:calculatedMetricInput"
+            },
+            "urpx:hasMetricSpecification": {
+              "@type": "urpx:MetricSpecification",
+              "@id": "gpc:tou-rn-2026-06-01-ms-excess-reactive-demand",
+              "urpx:measurementKind": {
+                "@id": "urpx:reactivePower"
+              },
+              "urpx:unitOfMeasure": {
+                "@id": "urpx:kVAr"
+              }
+            },
+            "urpx:hasCalculationMethod": {
+              "@type": "urpx:CalculationMethod",
+              "@id": "gpc:tou-rn-2026-06-01-mi-excess-reactive-demand-calculation-method",
+              "urpx:calculationFormula": "max(max kVAR - max kW / 3, 0)",
+              "urpx:calculatedBasedOn": [
+                {
+                  "@id": "gpc:tou-rn-2026-06-01-mi-reactive-demand"
+                },
+                {
+                  "@id": "gpc:tou-rn-2026-06-01-mi-demand"
+                }
+              ]
+            }
+          }
+        ],
+        "urpx:hasProfileAlternatives": {
+          "@type": "urpx:ProfileAlternatives",
+          "@id": "gpc:tou-rn-2026-06-01-pa-voltage-level-franchise-fee-location",
+          "urpx:name": "Fuel Cost Recovery voltage level and Municipal Franchise Fee location",
+          "urpx:hasAlternativeDimensions": {
+            "@type": "urpx:AlternativeDimensions",
+            "@id": "gpc:tou-rn-2026-06-01-pa-voltage-level-franchise-fee-location-alternative-dimensions",
+            "urpx:hasAlternativeDimension": [
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "gpc:tou-rn-2026-06-01-ad-voltage-level",
+                "urpx:dimensionProperty": "https://urpx.org/ns/ontology/voltageLevel",
+                "urpx:dimensionDisplayName": "Service voltage level (TOU-FCR-7)",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@id": "urpx:secondaryVoltage"
+                      },
+                      {
+                        "@id": "urpx:primaryVoltage"
+                      },
+                      {
+                        "@id": "urpx:transmissionVoltage"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:AlternativeDimension",
+                "@id": "gpc:tou-rn-2026-06-01-ad-franchise-fee-location",
+                "urpx:customDimensionProperty": "franchiseFeeLocation",
+                "urpx:dimensionDisplayName": "Municipal Franchise Fee location",
+                "urpx:hasPossibleValues": [
+                  {
+                    "@list": [
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Inside City Limits"
+                      },
+                      {
+                        "@type": "xsd:string",
+                        "@value": "Outside City Limits"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasProfileAlternative": [
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-pa-secondary-inside-city-limits",
+              "urpx:name": "Secondary Distribution customer, inside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tou-rn-2026-06-01-cx-pa-secondary-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:tou-rn-2026-06-01-bn-pa-secondary-inside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-inside-city-limits-voltage-level",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-inside-city-limits-voltage-level-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:voltageLevel"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-inside-city-limits-voltage-level-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:secondaryVoltage"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-inside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-inside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-inside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Inside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "voltageLevel = secondaryVoltage AND franchiseFeeLocation = 'Inside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-pa-secondary-outside-city-limits",
+              "urpx:name": "Secondary Distribution customer, outside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tou-rn-2026-06-01-cx-pa-secondary-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:tou-rn-2026-06-01-bn-pa-secondary-outside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-outside-city-limits-voltage-level",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-outside-city-limits-voltage-level-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:voltageLevel"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-outside-city-limits-voltage-level-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:secondaryVoltage"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-outside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-outside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-secondary-outside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Outside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "voltageLevel = secondaryVoltage AND franchiseFeeLocation = 'Outside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-pa-primary-inside-city-limits",
+              "urpx:name": "Primary Distribution customer, inside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tou-rn-2026-06-01-cx-pa-primary-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:tou-rn-2026-06-01-bn-pa-primary-inside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-inside-city-limits-voltage-level",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-inside-city-limits-voltage-level-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:voltageLevel"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-inside-city-limits-voltage-level-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:primaryVoltage"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-inside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-inside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-inside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Inside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "voltageLevel = primaryVoltage AND franchiseFeeLocation = 'Inside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-pa-primary-outside-city-limits",
+              "urpx:name": "Primary Distribution customer, outside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tou-rn-2026-06-01-cx-pa-primary-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:tou-rn-2026-06-01-bn-pa-primary-outside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-outside-city-limits-voltage-level",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-outside-city-limits-voltage-level-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:voltageLevel"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-outside-city-limits-voltage-level-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:primaryVoltage"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-outside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-outside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-primary-outside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Outside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "voltageLevel = primaryVoltage AND franchiseFeeLocation = 'Outside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-pa-transmission-inside-city-limits",
+              "urpx:name": "Transmission customer, inside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tou-rn-2026-06-01-cx-pa-transmission-inside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:tou-rn-2026-06-01-bn-pa-transmission-inside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-inside-city-limits-voltage-level",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-inside-city-limits-voltage-level-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:voltageLevel"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-inside-city-limits-voltage-level-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:transmissionVoltage"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-inside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-inside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-inside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Inside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "voltageLevel = transmissionVoltage AND franchiseFeeLocation = 'Inside City Limits'"
+                }
+              }
+            },
+            {
+              "@type": "urpx:ProfileAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-pa-transmission-outside-city-limits",
+              "urpx:name": "Transmission customer, outside city limits",
+              "urpx:hasConditionExpression": {
+                "@type": "urpx:ConditionExpression",
+                "@id": "gpc:tou-rn-2026-06-01-cx-pa-transmission-outside-city-limits",
+                "urpx:rootNode": {
+                  "@type": "urpx:BooleanOperationNode",
+                  "@id": "gpc:tou-rn-2026-06-01-bn-pa-transmission-outside-city-limits",
+                  "urpx:operator": {
+                    "@id": "urpx:andOperator"
+                  },
+                  "urpx:operandNodes": [
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-outside-city-limits-voltage-level",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-outside-city-limits-voltage-level-left-operand",
+                        "urpx:conditionProperty": {
+                          "@id": "urpx:voltageLevel"
+                        }
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:ObjectOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-outside-city-limits-voltage-level-right-operand",
+                        "urpx:referencesValue": {
+                          "@id": "urpx:transmissionVoltage"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "urpx:ComparisonNode",
+                      "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-outside-city-limits-franchise-fee-location",
+                      "urpx:operator": {
+                        "@id": "urpx:equalsOperator"
+                      },
+                      "urpx:leftOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-outside-city-limits-franchise-fee-location-left-operand",
+                        "urpx:customConditionProperty": "franchiseFeeLocation"
+                      },
+                      "urpx:rightOperand": {
+                        "@type": "urpx:CustomOperandNode",
+                        "@id": "gpc:tou-rn-2026-06-01-cn-pa-transmission-outside-city-limits-franchise-fee-location-right-operand",
+                        "urpx:stringValue": "Outside City Limits"
+                      }
+                    }
+                  ],
+                  "urpx:logicExpression": "voltageLevel = transmissionVoltage AND franchiseFeeLocation = 'Outside City Limits'"
+                }
+              }
+            }
+          ]
+        },
+        "urpx:hasBillingModel": {
+          "@type": "urpx:BillingModel",
+          "@id": "gpc:tou-rn-2026-06-01-plan-elements-billing-model",
+          "urpx:hasTOUSchedule": {
+            "@type": "urpx:TOUSchedule",
+            "@id": "gpc:tou-rn-2026-06-01-tou",
+            "urpx:referencesMetricInput": {
+              "@id": "gpc:tou-rn-2026-06-01-mi-energy"
+            },
+            "urpx:hasTOUTier": [
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "gpc:tou-rn-2026-06-01-tou-tier-on-peak",
+                "urpx:tierSourceName": "On-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:peakTier"
+                },
+                "urpx:touTierNumber": 1,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "gpc:tou-rn-2026-06-01-tou-period-on-peak",
+                    "urpx:name": "On-Peak (2:00 p.m. to 7:00 p.m. Monday through Friday, June through September, except Independence Day and Labor Day)",
+                    "urpx:touPeriodNumber": 1,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:tou-rn-2026-06-01-time-bracket-summer-on-peak",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "19:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:tou-rn-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": false,
+                        "urpx:includeNonHolidays": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@type": "urpx:TOUTier",
+                "@id": "gpc:tou-rn-2026-06-01-tou-tier-off-peak",
+                "urpx:tierSourceName": "Off-Peak",
+                "urpx:touTierStandardName": {
+                  "@id": "urpx:offPeakTier"
+                },
+                "urpx:touTierNumber": 2,
+                "urpx:hasTOUPeriod": [
+                  {
+                    "@type": "urpx:TOUPeriod",
+                    "@id": "gpc:tou-rn-2026-06-01-tou-period-off-peak",
+                    "urpx:name": "Off-Peak (all hours not On-Peak, including all weekends, Independence Day and Labor Day and October through May)",
+                    "urpx:touPeriodNumber": 2,
+                    "urpx:hasTimeBracket": [
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:tou-rn-2026-06-01-time-bracket-summer-off-peak-weekday-morning",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "14:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:tou-rn-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:tou-rn-2026-06-01-time-bracket-summer-off-peak-weekday-evening",
+                        "urpx:startTime": "19:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:tou-rn-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:tou-rn-2026-06-01-time-bracket-summer-off-peak-weekday-holiday",
+                        "urpx:startTime": "14:00:00",
+                        "urpx:endTime": "19:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:tou-rn-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekdayDays"
+                        },
+                        "urpx:includeHolidays": true,
+                        "urpx:includeNonHolidays": false
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:tou-rn-2026-06-01-time-bracket-summer-off-peak-weekend",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:tou-rn-2026-06-01-season-summer"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:weekendDays"
+                        }
+                      },
+                      {
+                        "@type": "urpx:TimeBracket",
+                        "@id": "gpc:tou-rn-2026-06-01-time-bracket-winter-off-peak",
+                        "urpx:startTime": "00:00:00",
+                        "urpx:endTime": "00:00:00",
+                        "urpx:appliesInSeason": {
+                          "@id": "gpc:tou-rn-2026-06-01-season-winter"
+                        },
+                        "urpx:dayType": {
+                          "@id": "urpx:allDays"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "urpx:hasLedger": [
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-basic-service-charge",
+              "urpx:name": "Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-energy",
+              "urpx:name": "Energy Charges, by period",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-fcr",
+              "urpx:name": "Time of Use Fuel Cost Recovery",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-eccr-energy",
+              "urpx:name": "Environmental Compliance Cost Recovery, on the energy charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-eccr-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery, on the Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-eccr-excess-reactive-demand",
+              "urpx:name": "Environmental Compliance Cost Recovery, on the Excess Reactive Demand charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-dsm-c-energy",
+              "urpx:name": "Demand Side Management Commercial, on the energy charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-dsm-c-basic-service-charge",
+              "urpx:name": "Demand Side Management Commercial, on the Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-dsm-c-excess-reactive-demand",
+              "urpx:name": "Demand Side Management Commercial, on the Excess Reactive Demand charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-mff-energy",
+              "urpx:name": "Municipal Franchise Fee, on the energy and fuel charges",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-energy"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-mff-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee, on the Basic Service Charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-meter-count"
+              }
+            },
+            {
+              "@type": "urpx:Ledger",
+              "@id": "gpc:tou-rn-2026-06-01-ledger-mff-excess-reactive-demand",
+              "urpx:name": "Municipal Franchise Fee, on the Excess Reactive Demand charge",
+              "urpx:ledgerType": {
+                "@id": "urpx:bundledLedger"
+              },
+              "urpx:referencesMetricInput": {
+                "@id": "gpc:tou-rn-2026-06-01-mi-excess-reactive-demand"
+              }
+            }
+          ],
+          "urpx:hasPriceDefinition": [
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-basic-service-charge",
+              "urpx:name": "Basic Service Charge, per month",
+              "urpx:chargeType": {
+                "@id": "urpx:customerCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:serviceCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:baseQuantity": "1",
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tou-rn-2026-06-01-pd-basic-service-charge-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-energy-on-peak",
+              "urpx:name": "Energy Charge, On-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "@id": "gpc:tou-rn-2026-06-01-pd-energy-on-peak-applicability-rule",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-energy-off-peak",
+              "urpx:name": "Energy Charge, Off-Peak kWh, customer-specific",
+              "urpx:chargeType": {
+                "@id": "urpx:usageCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:auxiliaryCharge"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-excess-reactive-demand",
+              "urpx:name": "Excess Reactive Demand, per excess kVAR",
+              "urpx:chargeType": {
+                "@id": "urpx:reactiveDemand"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:infrastructure"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:hasCalculationMethod": {
+                "@type": "urpx:CalculationMethod",
+                "@id": "gpc:tou-rn-2026-06-01-pd-excess-reactive-demand-calculation-method",
+                "urpx:intervalDuration": "P1M"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak",
+              "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:fuelCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-fcr"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak",
+              "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak kWh",
+              "urpx:chargeType": {
+                "@id": "urpx:fuelCharge"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:adjustment"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 2,
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-fcr"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-eccr-energy",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the energy charges",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "@id": "gpc:tou-rn-2026-06-01-pd-eccr-energy-applicability-rule",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-eccr-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-eccr-basic-service-charge",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the Basic Service Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-eccr-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-eccr-excess-reactive-demand",
+              "urpx:name": "Environmental Compliance Cost Recovery ECCR-15, percentage of the Excess Reactive Demand charge",
+              "urpx:chargeType": {
+                "@id": "urpx:environmentalFunding"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:environmental"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-eccr-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-energy",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the energy charges",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:touPeriodNumber": 1,
+              "urpx:hasApplicabilityRule": {
+                "@type": "urpx:ApplicabilityRule",
+                "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-energy-applicability-rule",
+                "urpx:month": [
+                  "--06",
+                  "--07",
+                  "--08",
+                  "--09"
+                ]
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-dsm-c-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-basic-service-charge",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the Basic Service Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-dsm-c-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-excess-reactive-demand",
+              "urpx:name": "Demand Side Management Commercial DSM-C-15, percentage of the Excess Reactive Demand charge",
+              "urpx:chargeType": {
+                "@id": "urpx:demandSideManagement"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:regulatory"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-dsm-c-excess-reactive-demand"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the energy and fuel charges",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-mff-energy"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the Basic Service Charge",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-mff-basic-service-charge"
+              }
+            },
+            {
+              "@type": "urpx:PriceDefinition",
+              "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand",
+              "urpx:name": "Municipal Franchise Fee MFF-11, percentage of the Excess Reactive Demand charge",
+              "urpx:chargeType": {
+                "@id": "urpx:taxMunicipal"
+              },
+              "urpx:chargeCategory": {
+                "@id": "urpx:taxes"
+              },
+              "urpx:billPortion": {
+                "@id": "urpx:bundledPortion"
+              },
+              "urpx:referencesLedger": {
+                "@id": "gpc:tou-rn-2026-06-01-ledger-mff-excess-reactive-demand"
+              }
+            }
+          ]
+        }
+      },
+      "urpx:hasPrices": {
+        "@type": "urpx:Prices",
+        "@id": "gpc:tou-rn-2026-06-01-prices",
+        "urpx:hasPriceSet": [
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:tou-rn-2026-06-01-ps-base",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-basic-service-charge"
+                },
+                "urpx:name": "Basic Service Charge",
+                "urpx:unitPrice": "314.17"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-energy-on-peak"
+                },
+                "urpx:name": "Energy Charge, On-Peak kWh",
+                "urpx:unitPrice": "0.176232"
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-excess-reactive-demand"
+                },
+                "urpx:name": "Excess Reactive Demand, per excess kVAR",
+                "urpx:unitPrice": "0.43"
+              }
+            ]
+          },
+          {
+            "@type": "urpx:PriceSet",
+            "@id": "gpc:tou-rn-2026-06-01-ps-eccr-dsm-c",
+            "urpx:startDate": "2026-06-01",
+            "urpx:hasPrice": [
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-eccr-energy",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-eccr-energy"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the energy charges",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tou-rn-2026-06-01-price-eccr-energy-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-eccr-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-eccr-basic-service-charge"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the Basic Service Charge",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tou-rn-2026-06-01-price-eccr-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-eccr-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-eccr-excess-reactive-demand"
+                },
+                "urpx:name": "ECCR-15, 13.0205 percent of the Excess Reactive Demand charge",
+                "urpx:multiplier": "0.130205",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tou-rn-2026-06-01-price-eccr-excess-reactive-demand-data-source-reference",
+                  "urpx:fileName": "eccr.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/eccr.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-dsm-c-energy",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-energy"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the energy charges",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tou-rn-2026-06-01-price-dsm-c-energy-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-dsm-c-basic-service-charge",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-basic-service-charge"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the Basic Service Charge",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tou-rn-2026-06-01-price-dsm-c-basic-service-charge-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              },
+              {
+                "@type": "urpx:Price",
+                "@id": "gpc:tou-rn-2026-06-01-price-dsm-c-excess-reactive-demand",
+                "urpx:referencesPriceDefinition": {
+                  "@id": "gpc:tou-rn-2026-06-01-pd-dsm-c-excess-reactive-demand"
+                },
+                "urpx:name": "DSM-C-15, 1.2676 percent of the Excess Reactive Demand charge",
+                "urpx:multiplier": "0.012676",
+                "urpx:basedOnPrice": [
+                  {
+                    "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                  }
+                ],
+                "urpx:hasDataSourceReference": {
+                  "@type": "urpx:DataSourceReference",
+                  "@id": "gpc:tou-rn-2026-06-01-price-dsm-c-excess-reactive-demand-data-source-reference",
+                  "urpx:fileName": "dsm-c.pdf",
+                  "urpx:mediaType": {
+                    "@id": "urpx:applicationPdf"
+                  },
+                  "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/dsm-c.pdf",
+                  "urpx:dateRetrieved": "2026-10-16",
+                  "urpx:dataSourceType": {
+                    "@id": "urpx:utilityWebsiteSource"
+                  },
+                  "urpx:pageStart": 1,
+                  "urpx:pageEnd": 1
+                }
+              }
+            ]
+          }
+        ],
+        "urpx:hasPriceSetAlternatives": {
+          "@type": "urpx:PriceSetAlternatives",
+          "@id": "gpc:tou-rn-2026-06-01-psa-voltage-level-franchise-fee-location",
+          "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7 by voltage level, and Municipal Franchise Fee MFF-11 by location of service",
+          "urpx:referencesProfileAlternatives": {
+            "@id": "gpc:tou-rn-2026-06-01-pa-voltage-level-franchise-fee-location"
+          },
+          "urpx:hasPriceSetAlternative": [
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-psa-secondary-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tou-rn-2026-06-01-pa-secondary-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-secondary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak, Secondary Distribution",
+                  "urpx:unitPrice": "0.052269",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-secondary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-secondary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak, Secondary Distribution",
+                  "urpx:unitPrice": "0.037441",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-secondary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-secondary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the energy and fuel charges",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-psa-secondary-inside-city-limits-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-secondary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-secondary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-secondary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-secondary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-secondary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ],
+              "urpx:hasPriceSummary": [
+                {
+                  "@type": "urpx:PriceSummary",
+                  "@id": "gpc:tou-rn-2026-06-01-psa-secondary-inside-city-limits-summary-mff-bill",
+                  "urpx:name": "Municipal Franchise Fee energy subtotal, Secondary Distribution: the Schedule TOU-RN-14 energy charges and the TOU-FCR-7 fuel charges for Secondary Distribution customers. MFF-11 applies \"to the total revenues of each bill\"; each non-energy charge takes the same percentage through a multiplier over its own Price.",
+                  "urpx:includesPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-secondary-inside-city-limits"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-secondary-inside-city-limits"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-psa-secondary-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tou-rn-2026-06-01-pa-secondary-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-secondary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak, Secondary Distribution",
+                  "urpx:unitPrice": "0.052269",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-secondary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-secondary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak, Secondary Distribution",
+                  "urpx:unitPrice": "0.037441",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-secondary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-secondary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the energy and fuel charges",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-psa-secondary-outside-city-limits-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-secondary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-secondary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-secondary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-secondary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-secondary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ],
+              "urpx:hasPriceSummary": [
+                {
+                  "@type": "urpx:PriceSummary",
+                  "@id": "gpc:tou-rn-2026-06-01-psa-secondary-outside-city-limits-summary-mff-bill",
+                  "urpx:name": "Municipal Franchise Fee energy subtotal, Secondary Distribution: the Schedule TOU-RN-14 energy charges and the TOU-FCR-7 fuel charges for Secondary Distribution customers. MFF-11 applies \"to the total revenues of each bill\"; each non-energy charge takes the same percentage through a multiplier over its own Price.",
+                  "urpx:includesPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-secondary-outside-city-limits"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-secondary-outside-city-limits"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-psa-primary-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tou-rn-2026-06-01-pa-primary-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-primary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak, Primary Distribution",
+                  "urpx:unitPrice": "0.051334",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-primary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-primary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak, Primary Distribution",
+                  "urpx:unitPrice": "0.036771",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-primary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-primary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the energy and fuel charges",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-psa-primary-inside-city-limits-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-primary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-primary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-primary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-primary-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-primary-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ],
+              "urpx:hasPriceSummary": [
+                {
+                  "@type": "urpx:PriceSummary",
+                  "@id": "gpc:tou-rn-2026-06-01-psa-primary-inside-city-limits-summary-mff-bill",
+                  "urpx:name": "Municipal Franchise Fee energy subtotal, Primary Distribution: the Schedule TOU-RN-14 energy charges and the TOU-FCR-7 fuel charges for Primary Distribution customers. MFF-11 applies \"to the total revenues of each bill\"; each non-energy charge takes the same percentage through a multiplier over its own Price.",
+                  "urpx:includesPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-primary-inside-city-limits"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-primary-inside-city-limits"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-psa-primary-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tou-rn-2026-06-01-pa-primary-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-primary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak, Primary Distribution",
+                  "urpx:unitPrice": "0.051334",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-primary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-primary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak, Primary Distribution",
+                  "urpx:unitPrice": "0.036771",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-primary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-primary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the energy and fuel charges",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-psa-primary-outside-city-limits-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-primary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-primary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-primary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-primary-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-primary-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ],
+              "urpx:hasPriceSummary": [
+                {
+                  "@type": "urpx:PriceSummary",
+                  "@id": "gpc:tou-rn-2026-06-01-psa-primary-outside-city-limits-summary-mff-bill",
+                  "urpx:name": "Municipal Franchise Fee energy subtotal, Primary Distribution: the Schedule TOU-RN-14 energy charges and the TOU-FCR-7 fuel charges for Primary Distribution customers. MFF-11 applies \"to the total revenues of each bill\"; each non-energy charge takes the same percentage through a multiplier over its own Price.",
+                  "urpx:includesPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-primary-outside-city-limits"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-primary-outside-city-limits"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-psa-transmission-inside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tou-rn-2026-06-01-pa-transmission-inside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-transmission-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak, Transmission",
+                  "urpx:unitPrice": "0.050975",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-transmission-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-transmission-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak, Transmission",
+                  "urpx:unitPrice": "0.036514",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-transmission-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-transmission-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the energy and fuel charges",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-psa-transmission-inside-city-limits-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-transmission-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-transmission-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-transmission-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-transmission-inside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Inside City Limits, 3.0843 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.030843",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-transmission-inside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ],
+              "urpx:hasPriceSummary": [
+                {
+                  "@type": "urpx:PriceSummary",
+                  "@id": "gpc:tou-rn-2026-06-01-psa-transmission-inside-city-limits-summary-mff-bill",
+                  "urpx:name": "Municipal Franchise Fee energy subtotal, Transmission: the Schedule TOU-RN-14 energy charges and the TOU-FCR-7 fuel charges for Transmission customers. MFF-11 applies \"to the total revenues of each bill\"; each non-energy charge takes the same percentage through a multiplier over its own Price.",
+                  "urpx:includesPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-transmission-inside-city-limits"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-transmission-inside-city-limits"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "urpx:PriceSetAlternative",
+              "@id": "gpc:tou-rn-2026-06-01-psa-transmission-outside-city-limits",
+              "urpx:referencesProfileAlternative": {
+                "@id": "gpc:tou-rn-2026-06-01-pa-transmission-outside-city-limits"
+              },
+              "urpx:startDate": "2026-06-01",
+              "urpx:hasPrice": [
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-transmission-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-on-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, On-Peak, Transmission",
+                  "urpx:unitPrice": "0.050975",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-transmission-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-transmission-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-fcr-off-peak"
+                  },
+                  "urpx:name": "Time of Use Fuel Cost Recovery TOU-FCR-7, Off-Peak, Transmission",
+                  "urpx:unitPrice": "0.036514",
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-transmission-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "tou-fcr.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/tou-fcr.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-transmission-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-energy"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the energy and fuel charges",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-psa-transmission-outside-city-limits-summary-mff-bill"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-energy-transmission-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-transmission-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-basic-service-charge"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Basic Service Charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-basic-service-charge"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-basic-service-charge-transmission-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                },
+                {
+                  "@type": "urpx:Price",
+                  "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-transmission-outside-city-limits",
+                  "urpx:referencesPriceDefinition": {
+                    "@id": "gpc:tou-rn-2026-06-01-pd-mff-excess-reactive-demand"
+                  },
+                  "urpx:name": "MFF-11 Outside City Limits, 1.1995 percent of the Excess Reactive Demand charge",
+                  "urpx:multiplier": "0.011995",
+                  "urpx:basedOnPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-excess-reactive-demand"
+                    }
+                  ],
+                  "urpx:hasDataSourceReference": {
+                    "@type": "urpx:DataSourceReference",
+                    "@id": "gpc:tou-rn-2026-06-01-price-mff-excess-reactive-demand-transmission-outside-city-limits-data-source-reference",
+                    "urpx:fileName": "mff.pdf",
+                    "urpx:mediaType": {
+                      "@id": "urpx:applicationPdf"
+                    },
+                    "urpx:accessURL": "https://www.georgiapower.com/content/dam/georgia-power/pdfs/tariffs/mff.pdf",
+                    "urpx:dateRetrieved": "2026-10-16",
+                    "urpx:dataSourceType": {
+                      "@id": "urpx:utilityWebsiteSource"
+                    },
+                    "urpx:pageStart": 1,
+                    "urpx:pageEnd": 1
+                  }
+                }
+              ],
+              "urpx:hasPriceSummary": [
+                {
+                  "@type": "urpx:PriceSummary",
+                  "@id": "gpc:tou-rn-2026-06-01-psa-transmission-outside-city-limits-summary-mff-bill",
+                  "urpx:name": "Municipal Franchise Fee energy subtotal, Transmission: the Schedule TOU-RN-14 energy charges and the TOU-FCR-7 fuel charges for Transmission customers. MFF-11 applies \"to the total revenues of each bill\"; each non-energy charge takes the same percentage through a multiplier over its own Price.",
+                  "urpx:includesPrice": [
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-energy-on-peak"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-on-peak-transmission-outside-city-limits"
+                    },
+                    {
+                      "@id": "gpc:tou-rn-2026-06-01-price-fcr-off-peak-transmission-outside-city-limits"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "urpx:offeredBy": {
+        "@type": "urpx:UtilityOperator",
+        "@id": "org:utility-gpc",
+        "urpx:legalName": "Georgia Power Company",
+        "urpx:organizationType": {
+          "@id": "urpx:utilityOrganization"
+        },
+        "urpx:hasIdentity": {
+          "@id": "org:utility-gpc-identity",
+          "@type": "urpx:OrganizationIdentity",
+          "urpx:hasName": {
+            "@id": "org:utility-gpc-name",
+            "@type": "urpx:OrganizationName",
+            "urpx:name": "Georgia Power Company"
+          },
+          "urpx:hasIdentifier": {
+            "@id": "org:utility-gpc-eia",
+            "@type": "urpx:OrganizationIdentifier",
+            "urpx:scheme": {
+              "@id": "urpx:eiaScheme"
+            },
+            "skos:notation": "7140"
+          }
+        }
+      },
+      "urpx:forRatePlan": {
+        "@id": "gpc:tou-rn"
+      },
+      "urpx:hasCoverageClaim": {
+        "@id": "gpc:cc-tou-rn-2026-06-01",
+        "@type": "urpx:CoverageClaim",
+        "urpx:completenessResult": {
+          "@id": "urpx:partial"
+        },
+        "urpx:selfContained": true,
+        "urpx:explainedBy": {
+          "@type": "urpx:Evaluation",
+          "@id": "gpc:cc-tou-rn-2026-06-01-evaluation",
+          "urpx:evaluationKind": {
+            "@id": "urpx:coverageEvaluation"
+          },
+          "urpx:description": "This filing does not carry everything its source document states. 6 parts are deferred, listed here in the same words as the filing's tariff.toml [modeling].deferrals so the two records cannot drift. (1) Voltage level and franchise fee location. FCR-27's three voltage levels and MFF-11's two locations are crossed in one ProfileAlternatives set of six alternatives, because URPX v0.5.1 allows one set per PlanElements and the franchise fee's energy subtotal must include that voltage level's fuel prices. A consumer selects one alternative, for example Secondary Distribution inside city limits. (2) Municipal Franchise Fee base. MFF-11 applies to the total revenues of each bill, which include the ECCR-15 and DSM-C-15 amounts. Its multiplier Prices here are based on the energy-and-fuel subtotal and on the non-energy charges' Prices, not on the ECCR and DSM-C multiplier Prices, so the franchise fee on those two amounts, about 0.44 percent of the base bill inside city limits, is not carried. (3) Excess Reactive Demand. Where a power factor below 95 percent lagging is indicated, the Company may install metering for reactive demand and bills kVAR above one-third of the measured kW at $0.43 per kVAR. The JSON-LD carries the $0.43 on a calculated MetricInput whose formula is text in its CalculationMethod; a consumer has to compute the excess kVAR, and supplies none for a customer the Company does not meter for it. (4) Customer-specific Off-Peak rate. The Off-Peak rate is (Off-Peak Charges - Basic Service Charge x 12) / Off-Peak kWh, where Off-Peak Charges are the customer's most recent full calendar year of usage priced on the appropriate firm tariffs and riders, excluding FCR, less its On-Peak kWh at the On-Peak rate. The JSON-LD defines Off-Peak energy as a PriceDefinition with no Price, so a modeled bill carries no Off-Peak energy charge, and the ECCR, DSM and franchise fee on it are missing too. (5) Minimum Monthly Bill. The sheet sets it at the $314.17 Basic Service Charge plus ECCR, DSM and the Municipal Franchise Fee, and no Price carries it. Every price here is positive, so a bill on these prices alone is never below it. (6) Term of Contract. One year, renewed automatically each year unless terminated with 30 days' written notice before the anniversary. Nothing is priced by it and it is not carried.",
+          "urpx:evaluatedOn": "2026-10-19T00:00:00"
+        }
+      }
+    }
+  }
+}
