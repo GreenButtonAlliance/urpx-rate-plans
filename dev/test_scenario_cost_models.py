@@ -74,10 +74,11 @@ expect("every composition is classified",
 # 2026-06-01 and 2026-08-01 versions of nine base schedules and drah, care
 # 2025-10-01 and fera 2026-04-01. Four are LADWP: the r-1a and r-1b versions
 # of 2026-04-01 and 2026-07-01, which the next quarter's factors supersede.
-# One is SMUD: ssr 2022-03-01, which the 2026-06-01 sheet supersedes. Three
+# One is SMUD: ssr 2022-03-01, which the 2026-06-01 sheet supersedes. Five
 # are Georgia Power: r, tou-reo and tou-rd 2025-01-01, which the 2026-06-01
-# sheets supersede.
-expect("supersession finds one hundred and four plan identities", len(REAL["superseded"]), 104)
+# sheets supersede, and pbd 2020-01-01 and 2023-01-01, which the 2023-01-01
+# and 2024-05-01 sheets supersede.
+expect("supersession finds one hundred and six plan identities", len(REAL["superseded"]), 106)
 # SCL RTC, RTS and scl:residential-suburban are filed for 2027-01-01 and
 # 2028-01-01 as well as 2026-01-01, and SMUD tod-5-8pm, tod-low-use and fixed
 # for 2027-01-01 as well as 2026-01-01. At the currency instant the later nine
